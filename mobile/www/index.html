@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+		<link rel="stylesheet" href="css/jquery.mobile-1.4.0.css"/>
+		<link rel="stylesheet" href="css/index.css"/>
+		<script src="js/libs/require.js" data-main="js/mobile"></script>
+		<title></title>
+	</head>
+	<body>
+		<div id="loadingDiv">         
+		</div>
+		
+		<div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="a" class="app-header">
+			<a id="main-back-link" href="#" data-rel="back" style="display: none;" class="top-header ui-btn ui-btn-inline ui-corner-all ui-icon-carat-l ui-btn-icon-notext"></a>
+			<div style="float: left;">
+				<div style="float: left">
+					<img src="img/icon.png" class="header-top-img">
+				</div>
+				<div style="float: right">
+					<h1 id="main-head-title" class="ui-title"></h1>
+				</div>
+			</div>
+			
+			<div style="float: right;" data-role="controlgroup" data-type="horizontal">
+				<a id="main-head-city-link" href="#" class="top-header ui-btn ui-btn-inline ui-corner-all">北京</a>			
+				<a id="main-head-search-link" href="#" data-rel="popup" data-position-to="origin" class="top-header header-search-link ui-btn ui-btn-inline ui-corner-all ui-icon-search ui-btn-icon-left">搜索</a>
+			</div>
+			
+		</div><!-- /header -->
+		
+		<!--首页-->
+		<div data-role="page" data-theme="a" id="homepage" class="main-page home-page" data-title="活动" >
+			<div data-role="tabs" id="homepage-tabs">
+				<div data-role="header" data-position="fixed" data-tap-toggle="false" class="tabs-fixed-header">
+					<div data-role="navbar" data-grid="d">
+						<ul>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--
+		<div data-role="page" data-theme="a" data-title="订阅" class="main-page" id="rss">
+			<div role="main" class="ui-content" >
+				this is the page for rss.
+			</div>
+		</div>
+		-->
+		<div data-role="page" data-theme="a" data-title="发现" class="main-page" id="discover">
+			<div role="main" class="ui-content">
+				<ul data-role="listview">
+				</ul>
+			</div><!-- /content -->
+		</div>
+		
+		<div data-role="page" data-theme="a" data-title="我" class="main-page" id="me">
+			<div role="main" class="ui-content">
+				<ul data-role="listview">
+				</ul>
+			</div><!-- /content -->
+		</div>
+		
+		<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="a">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#module?homepage" data-icon="comment" data-transition="fade" class="ui-btn-active">活动</a>
+					</li>
+					<!--
+					<li><a href="#module?rss" data-icon="star" data-transition="fade">订阅</a>
+					</li>
+					-->
+					<li><a href="#module?discover" data-icon="eye" data-transition="fade">发现</a></li>
+					<li><a href="#module?me" data-icon="user" data-transition="fade">我</a></li>
+				</ul>
+			</div><!-- /navbar -->
+		</div><!-- /footer -->
+		
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+        
+        <script id="activityItems" type="text/template">        
+              <% _.each( collection.toJSON(), function( activity, id ) { %>
+        			<li><a href="#activity?<%=activity.uuid%>">
+        					<img src="<%= baseUrl + activity.img %>" class="ui-li-thumb">
+        					<h2><%= activity.title %></h2>      				        					
+        					<div class="item-prices">
+        					   <span class="price"><i>&yen;</i><em><%= activity.discount * activity.price%></em>
+        					   </span>
+        					   <div class="dock">
+        					   		<span class="discount"><em><%= activity.discount %></em>折</span>
+        					    	<del class="orig-price">&yen;<%= activity.price %></del>
+        					    </div>
+        					    <span class="sold-num">
+        					    	<em><%= activity.visit_count %></em> 人关注
+        					     </span>    					    
+        					</div>
+        					</a>
+        			</li>
+              <% }); %>
+        
+        </script>
+        
+        <script id="channelItems" type="text/template">
+        	<% _.each( collection.toJSON(), function( channel, id ) { %>
+        			<li><a href="#<%= channel.code%>" data-ajax="false">
+        				<%= channel.name%>
+        				</a>
+        			</li>
+        	<% }); %>
+        </script>
+                
+        <script id="channelTabDivItems" type="text/template">
+        	<% _.each( collection.toJSON(), function( channel, id ) { %>
+        			<div role="main" class="ui-content" id="<%=channel.code%>">
+        			<% if(_.isEqual('other', channel.code)){%>			
+        				<ul data-role="listview" data-inset="true" class="channel-list">
+        				</ul>
+        			<%}else{%>
+        				<ul data-role="listview" data-inset="true" class="list-grid-view">
+        				</ul>
+        			<%}%>
+        			</div>
+        	<% }); %>
+        </script>
+        
+        <script id="moduleItems" type="text/template">
+        	<% _.each( collection.toJSON(), function( module, id ) { %>
+        			<li id="module_<%=module.uuid%>" data-code="<%=module.code%>" data-title="<%= module.name%>" class="module-li">
+						<img src="<%= module.icon %>" width="48px" height="48px"/>
+						<label><%= module.name%></label>
+        			</li>
+        	<% }); %>
+        </script>
+	</body>
+</html>

@@ -1,0 +1,1 @@
+define(["jquery","backbone","views/BackModelView","utils"],function(b,e,c,a){var d=c.extend({constructor:function(f){d.__super__.constructor.call(this,f)},initialize:function(){d.__super__.initialize.call(this)},render:function(){d.__super__.render.call(this);a.setDomVisibleExcept(b('[data-role="header"].app-header div a'),[]);return this}});return d});

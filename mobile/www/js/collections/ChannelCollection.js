@@ -1,0 +1,1 @@
+define(["jquery","backbone","models/CommonModel","config"],function(d,e,c,a){var b=e.Collection.extend({initialize:function(g,f){},model:c,url:function(){return a.getBaseUrl()+"/getActiveChannels"}});return b});

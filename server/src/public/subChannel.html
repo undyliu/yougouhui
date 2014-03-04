@@ -1,0 +1,16 @@
+<!-- 子栏目页-->
+<div data-role="page" data-theme="a" class="home-page submain-page" id="subChannel" data-dom-cache=true>
+	<div role="main" class="ui-content">
+		<ul data-role="listview" data-inset="true" class="list-grid-view">
+		</ul>
+	</div>
+	
+	<script id="subChannelItems" type="text/template">
+		<% _.each( collection.toJSON(), function( channel, id ) { %>
+				<li><a href="#subChannel?<%= channel.uuid%>" data-ajax="false">
+					<%= channel.name%>
+					</a>
+				</li>
+		<% }); %>
+	</script>
+</div>

@@ -1,0 +1,37 @@
+<html>  
+<head>  
+<title>App应用下载</title>  
+<meta http-equiv="Content-Type" content="text/HTML; charset=utf-8">  
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />  
+<script type="text/javascript">  
+function doLocation(url)  
+{  
+  var a = document.createElement("a");  
+  if(!a.click) {  
+    window.location = url;  
+    return;  
+  }  
+  a.setAttribute("href", url);  
+  a.style.display = "none";  
+  document.body.appendChild(a);  
+  a.click();  
+}  
+</script>  
+</head>  
+<body                >  
+<script type="text/javascript">
+  var version =  navigator.appVersion; 
+	var isMac = version.toLowerCase().indexOf("mac") >= 0;
+	var appName = 'YouGouHui';
+	var baseUrl = 'http://223.203.193.239:7072/demo'; 
+	//var baseUrl = 'http://192.168.1.103:3000'; 
+	var url='';
+  if(isMac){
+   	url ='itms-services://?action=download-manifest&url=' + baseUrl + '/app/' + appName + '.plist';
+  }else{
+   	url = baseUrl + '/app/' + appName + '.apk';
+  }
+  doLocation(url);
+</script>  
+</body>  
+</html>
