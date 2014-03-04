@@ -1,0 +1,1 @@
+define(["jquery","backbone","models/BackSupportModel","config"],function(c,e,b,a){var d=b.extend({defaults:{},constructor:function(f){d.__super__.constructor.call(this,f)},initialize:function(f){f.backHref="#discover?friends";f.title="晒单";d.__super__.initialize.call(this,f)},url:function(){return a.getBaseUrl()+"/settings/"}});return d});
