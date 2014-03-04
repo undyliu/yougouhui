@@ -1,6 +1,7 @@
 *.class
 *.db
 
+/platforms/*/bin/
 # Package Files #
 *.war
 *.ear
