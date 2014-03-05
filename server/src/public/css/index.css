@@ -23,14 +23,18 @@
 	margin-top: 3em;
 }
 
+.ui-page.main-page{
+	margin-top: 3em;
+}
+
 .ui-page.home-page{
-	margin-top: 0.5em;
+	margin-top: 1.5em;
 }
-/*
-.home-page.submain-page{
-	margin-top: 0em;
+
+.ui-page.submain-page{
+	margin-top: 1.2em;
 }
-*/
+
 .ui-listview > .module-li.ui-li-static.ui-li-has-thumb {
 	padding-top: 2em;
 	min-height: 2.7em;
@@ -324,9 +328,16 @@ html .ui-bar-a .top-header.ui-btn{
     .ui-header.ui-header-fixed.tabs-fixed-header{
     	margin-top: 5.15em;
     }
-    .ui-page.home-page{
-    	margin-top: 2.8em;
+    .ui-page.submain-page{
+    	margin-top: 3.2em;
     }
+    .ui-page.main-page{
+    	margin-top: 4.9em;
+    }
+    .ui-page.home-page{
+    	margin-top: 4.1em;
+    }
+    
     .ui-header-fixed .ui-btn-left,
     .ui-header-fixed .ui-btn-right {
     	margin-top: 8px;
@@ -414,8 +425,16 @@ html .ui-bar-a .top-header.ui-btn{
         margin: .5625em 1.2%;
     }
     
+    .ui-page.submain-page{
+    	margin-top: 3em;
+    }
+    
+    .ui-page.main-page{
+    	margin-top: 4.9em;
+    }
+    
     .ui-page.home-page{
-    	margin-top: 4.4em;
+    	margin-top: 4.1em;
     }
 }
 
@@ -438,8 +457,12 @@ html .ui-bar-a .top-header.ui-btn{
         margin: .625em 1%;
     }
     
+    .ui-page.submain-page{
+    	margin-top: 3em;
+    }
+    
     .ui-page.main-page{
-    	margin-top: 4.4em;
+    	margin-top: 5em;
     }
 }
 /* For this demo we used images with a size of 310x310 pixels. Just before the second breakpoint the images reach their max width: 1019px - 2 x 9px padding = 1001px x 30.9333% = ~310px */

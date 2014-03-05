@@ -14,7 +14,7 @@
 		<div id="loadingDiv">         
 		</div>
 		
-		<div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="a" class="app-header">
+		<div id="app-header" data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="a" class="app-header">
 			<a id="main-back-link" href="#" data-rel="back" style="display: none;" class="top-header ui-btn ui-btn-inline ui-corner-all ui-icon-carat-l ui-btn-icon-notext"></a>
 			<div style="float: left;">
 				<div style="float: left">
@@ -31,6 +31,39 @@
 			</div>
 			
 		</div><!-- /header -->
+		
+		<!--登录页面-->
+		<div data-role="page" data-theme="a" class="main-page" id="loginpage">
+			<form>
+				<div class="ui-field-contain">
+					<label for="phone" style="text-align:right">手机:</label>
+					<input type="text" name="phone" id="phone" placeholder="请录入手机号" value="">
+				</div>
+				<div class="ui-field-contain">
+					<label for="password" style="text-align:right">密码:</label>
+					<input type="password" name="password" id="password" placeholder="请录入密码" value="" autocomplete="off">
+				</div>
+				<div class="ui-field-contain">
+					<label for="rememberPwd" style="text-align:right">记住密码:</label>
+					<select name="rememberPwd" id="rememberPwd" data-role="slider">
+						<option value="N">否</option>
+						<option value="Y">是</option>
+					</select>
+				</div>
+				<div class="ui-field-contain">
+					<label for="autoLogin" style="text-align:right">自动登录:</label>
+					<select name="autoLogin" id="autoLogin" data-role="slider">
+						<option value="N">否</option>
+						<option value="Y">是</option>
+					</select>
+				</div>
+				<div class="ui-field-contain">
+					<label></label>
+					<a href="#" id="formLogin" name="formLogin" class="ui-btn ui-btn-inline ui-corner-all">登录</a>
+					<button type="reset" id="formClean" name="formClean" class="ui-btn ui-btn-inline ui-corner-all" style="margin-top:0">重置</button>
+				</div>
+			</form>
+		</div>
 		
 		<!--首页-->
 		<div data-role="page" data-theme="a" id="homepage" class="main-page home-page" data-title="活动" >
@@ -64,7 +97,7 @@
 			</div><!-- /content -->
 		</div>
 		
-		<div data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="a">
+		<div id="app-footer" data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="a" style='display:none'>
 			<div data-role="navbar">
 				<ul>
 					<li><a href="#module?homepage" data-icon="comment" data-transition="fade" class="ui-btn-active">活动</a>

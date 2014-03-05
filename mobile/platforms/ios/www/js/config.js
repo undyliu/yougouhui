@@ -19,8 +19,7 @@ define(function(){
 	return { 
 	    getBaseUrl: function() {
 	    	if(!baseUrl){
-                //baseUrl = "http://223.203.193.239:7072/demo";
-                baseUrl = "http://localhost:3000";
+					baseUrl = "http://223.203.193.239:7072/demo";
 	    	}
 	    	return baseUrl;   
 	    },
