@@ -34,7 +34,6 @@
 		
 		<!--登录页面-->
 		<div data-role="page" data-theme="a" class="main-page" id="loginpage">
-			<form>
 				<div class="ui-field-contain">
 					<label for="phone" style="text-align:right">手机:</label>
 					<input type="text" name="phone" id="phone" placeholder="请录入手机号" value="">
@@ -62,7 +61,6 @@
 					<a href="#" id="formLogin" name="formLogin" class="ui-btn ui-btn-inline ui-corner-all">登录</a>
 					<button type="reset" id="formClean" name="formClean" class="ui-btn ui-btn-inline ui-corner-all" style="margin-top:0">重置</button>
 				</div>
-			</form>
 		</div>
 		
 		<!--首页-->
@@ -111,12 +109,6 @@
 				</ul>
 			</div><!-- /navbar -->
 		</div><!-- /footer -->
-		
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
         
         <script id="activityItems" type="text/template">        
               <% _.each( collection.toJSON(), function( activity, id ) { %>

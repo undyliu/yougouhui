@@ -1,1 +1,1 @@
-require(["config","utils"],function(a,b){require(["app"],function(c){c.initApp()})});
+require(["config","../cordova"],function(a,c){var b=a.getProperty("runMode");if(b==="mobile"){var d=function(){navigator.splashscreen.show();require(["app"],function(e){e.initApp()})};document.addEventListener("deviceready",d,false)}else{require(["app"],function(e){e.initApp()})}});

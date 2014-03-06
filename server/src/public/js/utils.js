@@ -8,7 +8,7 @@ define(function () {
 				$('#' + id).css('display', 'none');
 			}
 
-			for (var i = 0; i < exceptDomIds.length; i++) {
+			for (i = 0; i < exceptDomIds.length; i++) {
 				$('#' + exceptDomIds[i]).css('display', 'block');
 			}
 		},
@@ -24,7 +24,7 @@ define(function () {
 					positionTo : $link.jqmData("position-to")
 				};
 				var positionTo = $link.jqmData("position-to");
-				if(positionTo != 'window'){
+				if (positionTo != 'window') {
 					var offset = $link.offset();
 					options.x = offset.left + $link.outerWidth() / 2;
 					options.y = offset.top + $link.outerHeight() / 2;
@@ -32,10 +32,10 @@ define(function () {
 				popup.popup("open", options);
 			}
 		},
-		
-		closePopDiv: function(popDivId){
+
+		closePopDiv : function (popDivId) {
 			var popup = $(popDivId);
-			popup.popup( "close" );
+			popup.popup("close");
 		}
 	};
 });

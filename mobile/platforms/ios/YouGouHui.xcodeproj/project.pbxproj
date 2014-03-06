@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		0E9DC6F8FDE847D89A134D99 /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE02BDF0B9C4288AE2D2D5F /* CDVSplashScreen.m */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };

@@ -1,1 +1,1 @@
-define(["jquery","backbone"],function(b,c){var a=c.Collection.extend({initialize:function(e,d){this.title=d.title;this.backHref=d.backHref}});return a});
+define(["jquery","backbone"],function(d,f){var e=f.Collection.extend({initialize:function(a,b){this.title=b.title;this.backHref=b.backHref}});return e});
