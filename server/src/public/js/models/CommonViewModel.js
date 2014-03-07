@@ -1,17 +1,17 @@
-define([ "jquery", "backbone" ], function( $, Backbone ) {
+define(["jquery", "backbone"], function ($, Backbone) {
 
-    var Model = Backbone.Model.extend( {
-			defaults: {
-				el_data: null,
-				collection_data: {
-					models: [],
-					options:{}
+	var Model = Backbone.Model.extend({
+			defaults : {
+				el_data : null,
+				collection_data : {
+					models : [],
+					options : {}
 				},
-				model_data:{}
+				model_data : {}
 			}
-    } );
+		});
 
-    // Returns the Model class
-    return Model;
+	// Returns the Model class
+	return Model;
 
-} );
+});

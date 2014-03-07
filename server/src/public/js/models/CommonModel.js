@@ -1,12 +1,10 @@
 
-define([ "jquery", "backbone" ], function( $, Backbone ) {
+define(["jquery", "backbone"], function ($, Backbone) {
 
-    // The Model constructor
-    var Model = Backbone.Model.extend( {
+	// The Model constructor
+	var Model = Backbone.Model.extend({});
 
-    } );
+	// Returns the Model class
+	return Model;
 
-    // Returns the Model class
-    return Model;
-
-} );
+});

@@ -1,26 +1,25 @@
 
-define([ "jquery", "backbone", "views/BackModelView", "utils" ]
-	, function( $, Backbone, CallbackView, Utils ) {
+define(["jquery", "backbone", "views/BackModelView", "utils"], function ($, Backbone, CallbackView, Utils) {
 
-    var View = CallbackView.extend( {
-    		constructor:function(options) {
-    			View.__super__.constructor.call(this, options);
-    		},
-    		
-        initialize: function() {
-          View.__super__.initialize.call(this);
-        },
+	var View = CallbackView.extend({
+			constructor : function (options) {
+				View.__super__.constructor.call(this, options);
+			},
 
-        render: function() {
-          View.__super__.render.call(this);
-              
-          Utils.setDomVisibleExcept($('[data-role="header"].app-header div a'), []);
-          
-          return this;
-        }
+			initialize : function () {
+				View.__super__.initialize.call(this);
+			},
 
-    } );
+			render : function () {
+				View.__super__.render.call(this);
 
-    return View;
+				Utils.setDomVisibleExcept($('[data-role="header"].app-header div a'), []);
 
-} );
+				return this;
+			}
+
+		});
+
+	return View;
+
+});

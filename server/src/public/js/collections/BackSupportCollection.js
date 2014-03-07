@@ -1,15 +1,15 @@
 
-define([ "jquery","backbone"], function( $, Backbone) {
+define(["jquery", "backbone"], function ($, Backbone) {
 
-    var Collection = Backbone.Collection.extend( {
-				
-        initialize: function( models, options ) {
-					this.title = options.title;
-					this.backHref = options.backHref;
-        }
-        
-    } );
+	var Collection = Backbone.Collection.extend({
 
-    return Collection;
+			initialize : function (models, options) {
+				this.title = options.title;
+				this.backHref = options.backHref;
+			}
 
-} );
+		});
+
+	return Collection;
+
+});
