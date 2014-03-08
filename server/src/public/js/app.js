@@ -124,6 +124,7 @@ define(["jquery", "backbone", "routers/homeTabIniter", "env", "utils"],
 							}
 						}else{
 							$('#app-footer').css('display', 'none');
+							Utils.setDomVisibleExcept($('[data-role="header"].app-header div a'), []);
 						}
 										
 						document.getElementById('loadingDiv').style.display = "none";
