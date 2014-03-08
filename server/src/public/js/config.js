@@ -1,9 +1,7 @@
 define(function () {
 	var baseUrl = null;
-	var properties = {
-		//runMode : "mobile"
-		runMode : "pc"
-	};
+	//var runMode = "mobile";
+	var runMode = "pc";
 	
 	require.config({
 		paths : {
@@ -41,8 +39,9 @@ define(function () {
 				svGEO : "1"
 			};
 		},
-		getProperty: function(name){
-			return properties[name];
+		
+		getRunMode: function () {
+			return runMode;
 		}
 	};
 });

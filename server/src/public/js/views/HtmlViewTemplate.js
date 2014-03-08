@@ -1,7 +1,7 @@
 define(function () {
 	return {
 		getSearchHtml : function () {
-			return '<div data-role="popup" id="popupSearch" data-theme="a" class="ui-corner-all" style="margin-top:2.5em;">'
+			return '<div data-role="popup" id="popupSearch" data-theme="a" class="ui-corner-all" style="margin-top:3.5em;">'
 			 + '<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>'
 			 + '<form>'
 			 + '<div style="padding:10px 20px;">'

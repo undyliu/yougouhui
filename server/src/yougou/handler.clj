@@ -1,12 +1,13 @@
 (ns yougou.handler
   (:use [compojure.core]
-		[yougou.activity]
-		[yougou.module]
-		)
+	[yougou.activity]
+	[yougou.module]
+	[yougou.auth]
+	)
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
-			[clojure.data.json :as json]
-			))
+	     [clojure.data.json :as json]
+	))
 
 (defroutes app-routes
   (GET "/hello" [] "你好.")
@@ -21,6 +22,7 @@
   (GET "/getContactList/:user-id" [user-id] (json/write-str "[]"))
   (GET "/getFavoriteList/:user-id" [user-id] (json/write-str "[]"))
   (GET "/getShareList/:user-id" [user-id] (json/write-str "[]"))
+  (POST "/login" {{phone :phone, pwd :pwd} :params} (json/write-str (login phone pwd)))
   (route/resources "/")
   (route/not-found "Not Found"))
 

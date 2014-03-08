@@ -345,7 +345,9 @@ html .ui-bar-a .top-header.ui-btn{
     .ui-header .top-header.ui-btn{
     	font-size: 1.45em;
     }
-    .ui-navbar li .ui-btn {
+    .ui-btn, .ui-mobile label,
+    form, .ui-listview > .ui-li-static,
+    .subpage-ul-listview.ui-listview > li > a.ui-btn{
     	font-size: 1.25em;
     }
     .ui-header .ui-btn-left,
@@ -356,18 +358,13 @@ html .ui-bar-a .top-header.ui-btn{
     .ui-header .ui-title{
     	font-size: 1.65em;
     }
-    
-    .ui-mobile label{
-    	font-size: 1.25em;
-    }
-    
-    .ui-listview.channel-list .ui-btn{
+       
+    .ui-listview.channel-list .ui-btn,
+    .subpage-ul-listview.ui-listview > .ui-li-divider,
+    .ui-bar h1, .ui-bar h2, .ui-bar h3, .ui-bar h4, .ui-bar h5, .ui-bar h6{
     	font-size: 1.5em;
     }
     
-    .ui-bar h1, .ui-bar h2, .ui-bar h3, .ui-bar h4, .ui-bar h5, .ui-bar h6 {
-    	font-size: 1.5em;
-    }
 		.ui-body{
 			font-size: 1.2em;
 		}
@@ -380,20 +377,6 @@ html .ui-bar-a .top-header.ui-btn{
     	font-size: 0.8em;
     }
     
-    form{
-    	font-size: 1.25em;
-    }
-    
-    .subpage-ul-listview.ui-listview > .ui-li-divider{
-    	font-size: 1.5em;
-    }
-    .subpage-ul-listview.ui-listview > li > a.ui-btn{
-    	font-size: 1.25em;
-    }
-    
-		.ui-listview > .ui-li-static{
-			font-size: 1.25em;
-		}
     .share-choose-pic{
     	position: relative;
     	border: 1px dashed #ffe6cb;

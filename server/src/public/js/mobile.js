@@ -1,9 +1,9 @@
 //主应用的入口js
-require(["config", "../cordova"], function (Conf, Cordova) {
-	var runMode = Conf.getProperty('runMode');
+require(["config", "../cordova", "db"], function (Conf, Cordova, DB) {
+	var runMode = Conf.getRunMode();
 	if (runMode === 'mobile') {
 		var onDeviceReady = function () {
-			navigator.splashscreen.show();
+			navigator.splashscreen.show();//显示splash
 			/*
 			var db = window.sqlitePlugin.openDatabase("Database", "1.0", "Demo", -1);
 			db.transaction(function (tx) {
@@ -26,6 +26,8 @@ require(["config", "../cordova"], function (Conf, Cordova) {
 				});
 			});
 			*/
+			DB.init();//初始化db
+			
 			require(["app"], function (App) {
 				App.initApp();
 			});

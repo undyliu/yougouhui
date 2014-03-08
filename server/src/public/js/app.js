@@ -1,7 +1,23 @@
 
-define(["jquery", "backbone", "routers/homeTabIniter", "config"],
-	function ($, Backbone, HomeTabIniter, appConf) {
-
+define(["jquery", "backbone", "routers/homeTabIniter", "env", "utils"],
+	function ($, Backbone, HomeTabIniter, Env, Utils) {
+	
+	var openHomepage = function () {
+		$("[data-role='footer']").toolbar();
+		$('#app-footer').css('display', 'block');
+		$.mobile.navigate( "#module?homepage" );
+	};
+	
+	if(Env.getProperty('rememberPwd')){//记住密码
+		$('#phone').val(Env.getProperty('phone'));
+		$('#password').val(Env.getProperty('pwd'));
+		$("#rememberPwd").get(0).selectedIndex = 1;
+	}
+	
+	if(Env.getProperty('autoLogin')){//自动登录
+		$("#autoLogin").get(0).selectedIndex = 1;
+	}
+		
 	return {
 		initApp : function () {
 			$(document).on("mobileinit", function () {
@@ -14,10 +30,10 @@ define(["jquery", "backbone", "routers/homeTabIniter", "config"],
 
 			HomeTabIniter.init({
 				success : function (channelJsonData) {
-					$('#main-head-title').html(appConf.getAppTitle());
+					$('#main-head-title').html(Env.getAppTitle());
 
-					require(["jquerymobile", "routers/dispatcher", "routers/channelRouter", "utils", "views/HtmlViewTemplate"], function (JMobile, Dispatcher, ChannelRouter, Utils, HtmlViewTemplate) {
-						Utils.setDomVisibleExcept($('[data-role="header"].app-header div a'), []);
+					require(["jquerymobile", "routers/dispatcher", "routers/channelRouter", "views/HtmlViewTemplate", "auth"], function (JMobile, Dispatcher, ChannelRouter, HtmlViewTemplate, Auth) {
+						
 						Dispatcher.initRouters();
 						ChannelRouter.init(channelJsonData);
 						var headerActivedTabId = 'all'; //记录当前活动的页签id
@@ -34,15 +50,25 @@ define(["jquery", "backbone", "routers/homeTabIniter", "config"],
 
 						//登录点击事件
 						$("#formLogin").on("click", function () {
-							$("[data-role='footer']").toolbar();
-							$('#app-footer').css('display', 'block');
-							var router = Dispatcher.getRouter('ModuleRouter');
-							router.navigate("module?homepage", {
-								trigger : true,
-								replace : true
-							});
-							$(".home-page #homepage-tabs .tabs-fixed-header [href='#all']").addClass("ui-btn-active");
-							ChannelRouter.route('all');
+							var loginData = {
+								phone: $('#phone').val(),
+								pwd: $('#password').val(),
+								autoLogin: $("#autoLogin").get(0).selectedIndex == 0 ?false : true,
+								rememberPwd: $("#rememberPwd").get(0).selectedIndex == 0 ?false : true
+							};
+						
+							var authed = Auth.login(loginData);
+							if(authed){
+								openHomepage();
+								var router = Dispatcher.getRouter('ModuleRouter');
+								if (router) {
+									router.navigate("module?homepage", {
+										trigger : true,
+										replace : true
+									}); //触发路由
+									ChannelRouter.route('all');
+								}
+							}
 						});
 
 						//搜索点击事件
@@ -80,8 +106,26 @@ define(["jquery", "backbone", "routers/homeTabIniter", "config"],
 						$(document).on("tabsbeforeactivate", ".home-page [data-role='tabs']", function (event, ui) {
 							headerActivedTabId = ui.newPanel.attr('id');
 							ChannelRouter.route(headerActivedTabId);
-						});
-
+						});		
+						
+						if(Env.getProperty('autoLogin')){//自动登录
+							var loginData = {
+								phone: $('#phone').val(),
+								pwd: $('#password').val(),
+								autoLogin: $("#autoLogin").get(0).selectedIndex == 0 ?false : true,
+								rememberPwd: $("#rememberPwd").get(0).selectedIndex == 0 ?false : true
+							};
+							
+							var authed = Auth.login(loginData);
+							if(authed){
+								openHomepage();
+								$(".home-page #homepage-tabs .tabs-fixed-header [href='#all']").addClass("ui-btn-active");
+								ChannelRouter.route('all');
+							}
+						}else{
+							$('#app-footer').css('display', 'none');
+						}
+										
 						document.getElementById('loadingDiv').style.display = "none";
 					});
 
