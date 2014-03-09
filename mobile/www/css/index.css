@@ -1,1 +1,453 @@
-#loadingDiv{position:absolute;left:0;top:0;width:100%;height:100%;margin-top:0;margin-left:0;text-align:center;background-color:gray;z-index:99999}.app-header{background:#4e4a3f;color:white;text-align:center}.ui-header.ui-header-fixed.tabs-fixed-header{margin-top:3em}.ui-page.main-page{margin-top:3em}.ui-page.home-page{margin-top:1.5em}.ui-page.submain-page{margin-top:1.2em}.ui-listview>.module-li.ui-li-static.ui-li-has-thumb{padding-top:2em;min-height:2.7em}.ui-listview>.module-li.ui-li-static.ui-li-has-thumb img{padding-top:1em;margin-left:2em}.ui-header .ui-title.subheader-title-right{margin-right:1%;text-align:right}.app-header.ui-header .ui-title{margin:0;margin-left:.25em}.app-header.ui-header .header-top-img{margin-top:.5em;margin-left:2.2em}html .ui-bar-a .top-header.ui-btn{background-color:#4e4a3f;color:white;border-color:#4e4a3f}.home-page .ui-listview li .ui-btn p{color:silver}.home-page .ui-listview li .ui-btn .ui-li-aside{color:#eee}@media(min-width:30em){.home-page .ui-content{padding:.5625em}.home-page .ui-listview.list-grid-view li{float:left;width:47.6%;height:350px;margin:.5625em 1.2%}.home-page .ui-listview.list-grid-view li>.ui-btn{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;height:100%}.home-page .ui-listview.list-grid-view li.ui-li-has-thumb .ui-li-thumb{height:auto;max-width:100%;max-height:100%}.home-page .ui-listview.list-grid-view li,.home-page .ui-listview.list-grid-view li .ui-btn,.home-page .ui-listview.list-grid-view .ui-li-thumb{-webkit-border-radius:inherit;border-radius:inherit}.home-page .ui-listview.list-grid-view .ui-btn-icon-right:after{display:none}.home-page .ui-listview.list-grid-view h2{margin:0;padding:.125em 1em;margin-top:285px;font-weight:400;color:#333}.home-page .ui-listview.list-grid-view p{font-size:1.25em;margin:0;padding:0 1.25em;min-height:50%;bottom:0}.item-prices{background-color:#d4f3d3;padding:.125em 1em;height:40px}.item-prices .price{color:#128c67;font-family:tahoma,Arial;font-size:24px;font-style:normal;font-variant:normal;font-weight:700;line-height:36px;float:left}.item-prices .dock{position:relative;float:left}.item-prices .discount{background:url(../img/bg-discount.png) no-repeat 0 0;height:23px;width:62px;padding-left:6px;display:inline-block;color:#d51938;font:700 14px/23px "Microsoft Yahei",Arial;text-align:center;position:relative;top:-3px;margin-left:5px}.item-prices .discount em{font-size:18px;font-weight:700;margin-right:2px;vertical-align:bottom;vertical-align:middle \9;line-height:23px;letter-spacing:-1px}.item-prices .dock .orig-price{left:12px;top:19px;font-size:12px;color:#633d00;position:absolute}.item-prices .sold-num{font-size:12px;position:absolute;right:7px;bottom:5px}.item-prices .sold-num em{color:#390;font-weight:700;font-size:16px}.normal-pic-wrapper{overflow:hidden;width:45%}.floatleft{float:left !important}.detail-status{color:#676767;text-align:left;margin-left:-7px;width:55%}.detail-status .main-box .name-box{max-height:54px;overflow:hidden;margin-bottom:3px}.detail-status .main-box .name{color:#333;font-weight:400;letter-spacing:.5px;font-size:18px}.detail-status .main-box .description{line-height:20px;text-align:left;position:relative;border:1px dashed #ffe6cb;padding:5px 8px;color:#482a00;font-size:14px;letter-spacing:.5px;background-color:#fffdf5}.detail-status .main-box .description{color:#482a00;font-size:14px;border-color:#ffe6cb;letter-spacing:.5px;background-color:#fffdf5}.detail-status .avil .status-banner{background:url(../img/bg-activity-status-bar.png) no-repeat 0 0}.detail-status .main-box .status-banner{display:block;height:70px;line-height:70px;margin-top:10px;margin-left:-8px;position:relative}.detail-status .main-box .status-banner .floatleft{height:70px;overflow:hidden}.detail-status .main-box .status-banner .currentPrice{color:#fff;font-family:Arial;font-weight:700;font-size:42px;line-height:76px;margin-left:10px;margin-right:0;text-align:center;height:70px}.detail-status .main-box .status-banner .currentPrice small{font-size:32px}.detail-status .avil .status-banner .discount{color:#d21e3c;background:url(../img/bg-discount.png) no-repeat center}.detail-status .main-box .status-banner .discount{font-size:18px;font-weight:700;width:57px;padding-left:5px;text-align:center;height:25px;line-height:25px;position:relative;top:12px;margin-left:20px}.detail-status .main-box .status-banner .originPrice{font-size:16px;color:#fff;position:relative;top:-7px;margin-right:0;margin-left:20px}.home-page .ui-listview.list-grid-view li{-moz-box-shadow:0 0 9px #111;-webkit-box-shadow:0 0 9px #111;box-shadow:0 0 9px #111}.home-page .ui-listview.list-grid-view li>.ui-btn:hover{-moz-box-shadow:0 0 12px #3cf;-webkit-box-shadow:0 0 12px #3cf;box-shadow:0 0 12px #3cf}.home-page .ui-listview.list-grid-view li,.home-page .ui-listview.list-grid-view .ui-btn{-webkit-transition:all 500ms ease;-moz-transition:all 500ms ease;-o-transition:all 500ms ease;-ms-transition:all 500ms ease;transition:all 500ms ease;padding:0}.app-header.ui-header .ui-title{font-size:1.85em;margin:0;margin-left:.25em}.app-header.ui-header .header-top-img{margin-top:1.4em;margin-left:2.9em}.tabs-fixed-header.ui-header .ui-btn-left{font-size:1.45em}.tabs-fixed-header.ui-header .ui-navbar li .ui-btn{font-size:1.45em;display:block;margin:0;border-right-width:0}.ui-header.ui-header-fixed.tabs-fixed-header{margin-top:5.15em}.ui-page.submain-page{margin-top:3.2em}.ui-page.main-page{margin-top:4.9em}.ui-page.home-page{margin-top:4.1em}.ui-header-fixed .ui-btn-left,.ui-header-fixed .ui-btn-right{margin-top:8px}.ui-header .top-header.ui-btn{font-size:1.45em}.ui-navbar li .ui-btn{font-size:1.25em}.ui-header .ui-btn-left,.ui-header .ui-btn-right{font-size:1.35em}.ui-header .ui-title{font-size:1.65em}.ui-mobile label{font-size:1.25em}.ui-listview.channel-list .ui-btn{font-size:1.5em}.ui-bar h1,.ui-bar h2,.ui-bar h3,.ui-bar h4,.ui-bar h5,.ui-bar h6{font-size:1.5em}.ui-body{font-size:1.2em}.ui-body h1 .ui-mini,.ui-body h2 .ui-mini,.ui-body h3 .ui-mini,.ui-body h4 .ui-mini,.ui-body h5 .ui-mini,.ui-body h6 .ui-mini{font-size:1em}.ui-body .ui-listview{font-size:.8em}form{font-size:1.25em}.subpage-ul-listview.ui-listview>.ui-li-divider{font-size:1.5em}.subpage-ul-listview.ui-listview>li>a.ui-btn{font-size:1.25em}.ui-listview>.ui-li-static{font-size:1.25em}.share-choose-pic{position:relative;border:1px dashed #ffe6cb;padding:5px 8px;color:#482a00;background-color:#fffdf5;width:150px;height:150px;float:left}.ui-icon-myicon-add:after{background-image:url("img/add_96.png")}.ui-field-contain>label,.ui-field-contain .ui-controlgroup-label,.ui-field-contain>.ui-rangeslider>label{float:left;width:20%;margin:.2em 1% 0 0}}@media(min-width:48em){.home-page .ui-listview.list-grid-view li{width:30.9333%;height:350em;margin:.5625em 1.2%}.ui-page.submain-page{margin-top:3em}.ui-page.main-page{margin-top:4.9em}.ui-page.home-page{margin-top:4.1em}}@media(min-width:63.75em){.home-page .ui-content{padding:.625em}.home-page .ui-listview.list-grid-view{margin:0 auto}.home-page .ui-listview.list-grid-view li{width:23%;height:350px;margin:.625em 1%}.ui-page.submain-page{margin-top:3em}.ui-page.main-page{margin-top:5em}}
+
+#loadingDiv {    
+    position:absolute;    
+    left:0;    
+    top:0;    
+    width:100%;    
+    height:100%;    
+    margin-top:0px;    
+    margin-left:0px;    
+    text-align:center;
+		background-color:gray;
+    /*background-image:url('Loading.png');  这个图片是个半透明的背景*/    
+    z-index:99999;   
+}
+
+.app-header{
+	background: rgb(78,74,63);
+	color: white;
+	text-align: center;
+}
+
+.ui-header.ui-header-fixed.tabs-fixed-header{
+	margin-top: 3em;
+}
+
+.ui-page.main-page{
+	margin-top: 3em;
+}
+
+.ui-page.home-page{
+	margin-top: 1.5em;
+}
+
+.ui-page.submain-page{
+	margin-top: 1.2em;
+}
+
+.ui-listview > .module-li.ui-li-static.ui-li-has-thumb {
+	padding-top: 2em;
+	min-height: 2.7em;
+}
+
+.ui-listview > .module-li.ui-li-static.ui-li-has-thumb  img{
+	padding-top: 1em;
+	margin-left: 2em;
+}
+
+.ui-header .ui-title.subheader-title-right{
+	margin-right: 1%;
+	text-align: right;	
+}
+
+.app-header.ui-header .ui-title{
+	margin: 0;
+	margin-left: 0.25em;
+}
+
+.app-header.ui-header .header-top-img{
+	margin-top: 0.5em;
+	margin-left: 2.2em;
+}
+
+html .ui-bar-a .top-header.ui-btn{
+	background-color: rgb(78,74,63);
+	color: white;
+	border-color: rgb(78,74,63);
+}
+
+/* A bit custom styling */
+.home-page .ui-listview li .ui-btn p {
+    color: #c0c0c0;
+}
+.home-page .ui-listview li .ui-btn .ui-li-aside {
+    color: #eee;
+}
+/* First breakpoint is 48em (768px). 2 column layout. Tiles 250x250 pixels incl. margin at the breakpoint. */
+@media ( min-width: 30em ) {
+    .home-page .ui-content {
+        padding: .5625em; /* 9px */
+    }
+    .home-page .ui-listview.list-grid-view li {
+        float: left;
+        width: 47.6%; /* 33.3333% incl. 2 x 1.2% margin */
+        height: 350px; /* 232p */
+        margin: .5625em 1.2%;
+    }
+    .home-page .ui-listview.list-grid-view li > .ui-btn {
+        -webkit-box-sizing: border-box; /* include padding and border in height so we can set it to 100% */
+        -moz-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+        box-sizing: border-box;
+        height: 100%;
+    }
+    .home-page .ui-listview.list-grid-view li.ui-li-has-thumb .ui-li-thumb {
+        height: auto; /* To keep aspect ratio. */
+        max-width: 100%;
+        max-height: 100%;
+    }
+    /* Make all list items and anchors inherit the border-radius from the UL. */
+    .home-page .ui-listview.list-grid-view li,
+    .home-page .ui-listview.list-grid-view li .ui-btn,
+    .home-page .ui-listview.list-grid-view .ui-li-thumb {
+        -webkit-border-radius: inherit;
+        border-radius: inherit;
+    }
+    /* Hide the icon */
+    .home-page .ui-listview.list-grid-view .ui-btn-icon-right:after {
+        display: none;
+    }
+
+    /* Text position */
+    .home-page .ui-listview.list-grid-view h2 {
+        margin: 0;
+        padding: .125em 1em;
+        margin-top: 285px;
+        font-weight: 400;
+        color: #333;
+    }
+    .home-page .ui-listview.list-grid-view p {
+        font-size: 1.25em;
+        margin: 0;
+        padding: 0 1.25em;
+        min-height: 50%;
+        bottom: 0;
+    }
+		
+		/*activity 列表*/
+		.item-prices{
+			background-color: #d4f3d3;
+			padding: .125em 1em;
+			height: 40px;
+		}
+		.item-prices .price {
+			color: #128c67;
+			font-family: tahoma, Arial;
+			font-size: 24px;
+			font-style: normal;
+			font-variant: normal;
+			font-weight: 700;
+			line-height: 36px;
+			float: left;
+		}
+		.item-prices .dock {
+			position: relative;
+			float: left;
+		}
+		.item-prices .discount {
+		background: url(../img/bg-discount.png) no-repeat 0 0;
+		height: 23px;
+		width: 62px;
+		padding-left: 6px;
+		display: inline-block;
+		color: #d51938;
+		font: 700 14px/23px "Microsoft Yahei",Arial;
+		text-align: center;
+		position: relative;
+		top: -3px;
+		margin-left: 5px;
+		}
+		.item-prices .discount em {
+		font-size: 18px;
+		font-weight: 700;
+		margin-right: 2px;
+		vertical-align: bottom;
+		vertical-align: middle \9;
+		line-height: 23px;
+		letter-spacing: -1px;
+		}
+		.item-prices .dock .orig-price {
+		left: 12px;
+		top: 19px;
+		font-size: 12px;
+		color: #633d00;
+		position: absolute;
+		}
+		.item-prices .sold-num {
+		font-size: 12px;
+		position: absolute;
+		right: 7px;
+		bottom: 5px;
+		}
+		.item-prices .sold-num em {
+		color: #390;
+		font-weight: 700;
+		font-size: 16px;
+		}
+		
+		/*activity详细页面*/
+		.normal-pic-wrapper {
+			overflow: hidden;
+			width: 45%;
+		}
+		.floatleft {
+			float: left!important;
+		}
+		.detail-status {
+			color: #676767;
+			text-align: left;
+			margin-left: -7px;
+			width: 55%;
+		}
+		.detail-status .main-box .name-box {
+			max-height: 54px;
+			overflow: hidden;
+			margin-bottom: 3px;
+		}
+		.detail-status .main-box .name {
+			color: #333;
+			font-weight: 400;
+			letter-spacing: 0.5px;
+			font-size: 18px;
+		}
+		
+		.detail-status .main-box .description {
+			line-height: 20px;
+			text-align: left;
+			position: relative;
+			border: 1px dashed #ffe6cb;
+			padding: 5px 8px;
+			color: #482a00;
+			font-size: 14px;
+			letter-spacing: .5px;
+			background-color: #fffdf5;
+		}
+		.detail-status .main-box .description {
+			color: #482a00;
+			font-size: 14px;
+			border-color: #ffe6cb;
+			letter-spacing: 0.5px;
+			background-color: #fffdf5;
+		}
+		.detail-status .avil .status-banner {
+			background: url(../img/bg-activity-status-bar.png) no-repeat 0 0;
+		}
+		.detail-status .main-box .status-banner {
+			display: block;
+			height: 70px;
+			line-height: 70px;
+			margin-top: 10px;
+			margin-left: -8px;
+			position: relative;
+		}
+		.detail-status .main-box .status-banner .floatleft {
+			height: 70px;
+			overflow: hidden;
+		}
+		.detail-status .main-box .status-banner .currentPrice {
+			color: #fff;
+			font-family: Arial;
+			font-weight: 700;
+			font-size: 42px;
+			line-height: 76px;
+			margin-left: 10px;
+			margin-right: 0;
+			text-align: center;
+			height: 70px;
+		}
+		.detail-status .main-box .status-banner .currentPrice small {
+			font-size: 32px;
+		}
+		.detail-status .avil .status-banner .discount {
+			color: #d21e3c;
+			background: url(../img/bg-discount.png) no-repeat center;
+		}
+		.detail-status .main-box .status-banner .discount {
+			font-size: 18px;
+			font-weight: 700;
+			width: 57px;
+			padding-left: 5px;
+			text-align: center;
+			height: 25px;
+			line-height: 25px;
+			position: relative;
+			top: 12px;
+			margin-left: 20px;
+		}
+		.detail-status .main-box .status-banner .originPrice {
+			font-size: 16px;
+			color: #fff;
+			position: relative;
+			top: -7px;
+			margin-right: 0;
+			margin-left: 20px;
+		}
+    /* If you want to add shadow, don't kill the focus style. */
+    .home-page .ui-listview.list-grid-view li {
+        -moz-box-shadow: 0px 0px 9px #111;
+        -webkit-box-shadow: 0px 0px 9px #111;
+        box-shadow: 0px 0px 9px #111;
+    }
+    /* Images mask the hover bg color so we give desktop users feedback by applying the focus style on hover as well. */
+    .home-page .ui-listview.list-grid-view li > .ui-btn:hover {
+        -moz-box-shadow: 0px 0px 12px #33ccff;
+        -webkit-box-shadow: 0px 0px 12px #33ccff;
+        box-shadow: 0px 0px 12px #33ccff;
+    }
+    /* Animate focus and hover style, and resizing. */
+    .home-page .ui-listview.list-grid-view li,
+    .home-page .ui-listview.list-grid-view .ui-btn {
+        -webkit-transition: all 500ms ease;
+        -moz-transition: all 500ms ease;
+        -o-transition: all 500ms ease;
+        -ms-transition: all 500ms ease;
+        transition: all 500ms ease;
+        padding: 0px;
+    }
+    
+    .app-header.ui-header .ui-title{
+    	font-size: 1.85em;
+    	margin: 0;
+    	margin-left: 0.25em;
+    }
+    
+		.app-header.ui-header .header-top-img{
+			margin-top: 1.4em;
+			margin-left: 2.9em;
+		}
+		
+    .tabs-fixed-header.ui-header .ui-btn-left{
+    	font-size: 1.45em;
+    }
+    .tabs-fixed-header.ui-header .ui-navbar li .ui-btn {
+    	font-size: 1.45em;
+    	display: block;
+    	margin: 0;
+    	border-right-width: 0;
+    }
+    .ui-header.ui-header-fixed.tabs-fixed-header{
+    	margin-top: 5.15em;
+    }
+    .ui-page.submain-page{
+    	margin-top: 3.2em;
+    }
+    .ui-page.main-page{
+    	margin-top: 4.9em;
+    }
+    .ui-page.home-page{
+    	margin-top: 4.1em;
+    }
+    
+    .ui-header-fixed .ui-btn-left,
+    .ui-header-fixed .ui-btn-right {
+    	margin-top: 8px;
+    }
+    .ui-header .top-header.ui-btn{
+    	font-size: 1.45em;
+    }
+    .ui-btn, .ui-mobile label,
+    form, .ui-listview > .ui-li-static,
+    .subpage-ul-listview.ui-listview > li > a.ui-btn,
+    .ui-navbar li .ui-btn{
+    	font-size: 1.25em;
+    }
+    .ui-header .ui-btn-left,
+    .ui-header .ui-btn-right {
+    	font-size: 1.35em;
+    }
+    
+    .ui-header .ui-title{
+    	font-size: 1.65em;
+    }
+       
+    .ui-listview.channel-list .ui-btn,
+    .subpage-ul-listview.ui-listview > .ui-li-divider,
+    .ui-bar h1, .ui-bar h2, .ui-bar h3, .ui-bar h4, .ui-bar h5, .ui-bar h6{
+    	font-size: 1.5em;
+    }
+    
+		.ui-body{
+			font-size: 1.2em;
+		}
+		    
+    .ui-body h1 .ui-mini, .ui-body h2 .ui-mini, .ui-body h3 .ui-mini, .ui-body h4 .ui-mini, .ui-body h5 .ui-mini, .ui-body h6 .ui-mini {
+    	font-size: 1em;
+    }
+    
+    .ui-body .ui-listview{
+    	font-size: 0.8em;
+    }
+    
+    .share-choose-pic{
+    	position: relative;
+    	border: 1px dashed #ffe6cb;
+    	padding: 5px 8px;
+    	color: #482a00;
+    	background-color: #fffdf5;
+    	width: 150px;
+    	height: 150px;
+    	float: left;
+    }
+    
+    .ui-icon-myicon-add:after {
+    	background-image: url("img/add_96.png");
+    }
+		
+		.ui-field-contain > label,
+		.ui-field-contain .ui-controlgroup-label,
+		.ui-field-contain > .ui-rangeslider > label {
+			float: left;
+			width: 20%;
+			margin: .2em 1% 0 0;
+	}
+}
+
+@media ( min-width: 48em ) {
+    .home-page .ui-listview.list-grid-view li {
+        width: 30.9333%; /* 33.3333% incl. 2 x 1.2% margin */
+        height: 350em; /* 232p */
+        margin: .5625em 1.2%;
+    }
+    
+    .ui-page.submain-page{
+    	margin-top: 3em;
+    }
+    
+    .ui-page.main-page{
+    	margin-top: 4.9em;
+    }
+    
+    .ui-page.home-page{
+    	margin-top: 4.1em;
+    }
+}
+
+/* Second breakpoint is 63.75em (1020px). 4 column layout. Tiles will be 250x250 pixels incl. margin again at the breakpoint. */
+@media ( min-width: 63.75em ) {
+    .home-page .ui-content {
+        padding: .625em; /* 10px */
+    }
+    /* Set a max-width for the last breakpoint to prevent too much stretching on large screens.
+    By setting the max-width equal to the breakpoint width minus padding we keep square tiles. */
+    .home-page .ui-listview.list-grid-view {
+        /*max-width: 62.5em; /* 1000px */
+        margin: 0 auto;
+    }
+    /* Because of the 1000px max-width the width will always be 230px (and margin left/right 10px),
+    but we stick to percentage values for demo purposes. */
+    .home-page .ui-listview.list-grid-view li {
+        width: 23%;
+        height: 350px;
+        margin: .625em 1%;
+    }
+    
+    .ui-page.submain-page{
+    	margin-top: 3em;
+    }
+    
+    .ui-page.main-page{
+    	margin-top: 5em;
+    }
+}
+/* For this demo we used images with a size of 310x310 pixels. Just before the second breakpoint the images reach their max width: 1019px - 2 x 9px padding = 1001px x 30.9333% = ~310px */
+

@@ -1,1 +1,39 @@
-define(["jquery","backbone","routers/homeTabIniter","config"],function(h,g,e,f){return{initApp:function(){h(document).on("mobileinit",function(){h.mobile.linkBindingEnabled=false;h.mobile.hashListeningEnabled=false;h.support.cors=true;h.mobile.allowCrossDomainPages=true});e.init({success:function(a){h("#main-head-title").html(f.getAppTitle());require(["jquerymobile","routers/dispatcher","routers/channelRouter","utils","views/HtmlViewTemplate"],function(d,l,n,b,c){b.setDomVisibleExcept(h('[data-role="header"].app-header div a'),[]);l.initRouters();n.init(a);var m="all";h(function(){h("[data-role='header']").toolbar();h.mobile.loadPage("activity.html",{prefetch:true});h.mobile.loadPage("subChannel.html",{prefetch:true})});h("#formLogin").on("click",function(){h("[data-role='footer']").toolbar();h("#app-footer").css("display","block");var i=l.getRouter("ModuleRouter");i.navigate("module?homepage",{trigger:true,replace:true});h(".home-page #homepage-tabs .tabs-fixed-header [href='#all']").addClass("ui-btn-active");n.route("all")});h("#main-head-search-link").on("click",function(){if(h("#popupSearch").length===0){var i=c.getSearchHtml();h.mobile.activePage.append(i).trigger("create");h("#searchWorld").css("width",h.mobile.activePage.width())}b.openPopDiv("#popupSearch",h(this))});h("#main-head-city-link").on("click",function(){b.openPopDiv("#popupSearch",h(this))});h(document).on("pageshow",".main-page",function(){var i=h(this).jqmData("title");h("[data-role='footer'] a.ui-btn-active").removeClass("ui-btn-active");h("[data-role='footer'] a").each(function(){if(h(this).text()===i){h(this).addClass("ui-btn-active")}});h(".home-page #homepage-tabs .tabs-fixed-header a.ui-btn-active").removeClass("ui-btn-active");h(".home-page #homepage-tabs .tabs-fixed-header [href='#"+m+"']").addClass("ui-btn-active")});h(document).on("tabsbeforeactivate",".home-page [data-role='tabs']",function(j,i){m=i.newPanel.attr("id");n.route(m)});document.getElementById("loadingDiv").style.display="none"})}})}}});
+
+define(["jquery", "backbone", "env", "views/LoginPage", "views/HomePage"],
+	function ($, Backbone, Env, LoginPage, HomePage) {
+	
+	if(Env.getProperty('rememberPwd')){//记住密码
+		$('#phone').val(Env.getProperty('phone'));
+		$('#password').val(Env.getProperty('pwd'));
+		$("#rememberPwd").get(0).selectedIndex = 1;
+	}
+	
+	if(Env.getProperty('autoLogin')){//自动登录
+		$("#autoLogin").get(0).selectedIndex = 1;
+	}
+	$('#main-head-title').html(Env.getAppTitle());
+	
+		
+	return {
+		initApp : function () {
+			$(document).on("mobileinit", function () {
+				$.mobile.linkBindingEnabled = false;
+				$.mobile.hashListeningEnabled = false;
+
+				$.support.cors = true;
+				$.mobile.allowCrossDomainPages = true;
+			});
+			
+			if(!Env.getProperty('autoLogin')){//显示登陆界面				
+				LoginPage.show();
+			}else{
+				var authed = LoginPage.auth();
+				if(authed){
+					HomePage.init(HomePage.show);
+				}else{
+					LoginPage.show();
+				}
+			}
+		}
+	};
+});

@@ -1,1 +1,25 @@
-define(["jquery","backbone","views/BackCollectionView","utils"],function(f,h,j,g){var i=j.extend({constructor:function(a){i.__super__.constructor.call(this,a)},initialize:function(){i.__super__.initialize.call(this)},render:function(){this.constructor.__super__.render.call(this);g.setDomVisibleExcept(f('[data-role="header"].app-header div a'),[]);return this}});return i});
+
+define(["jquery", "backbone", "views/BackCollectionView", "utils"], function ($, Backbone, CallbackView, Utils) {
+
+	var View = CallbackView.extend({
+			constructor : function (options) {
+				View.__super__.constructor.call(this, options);
+			},
+
+			initialize : function () {
+				View.__super__.initialize.call(this);
+			},
+
+			render : function () {
+				this.constructor.__super__.render.call(this);
+
+				Utils.setDomVisibleExcept($('[data-role="header"].app-header div a'), []);
+
+				return this;
+			}
+
+		});
+
+	return View;
+
+});

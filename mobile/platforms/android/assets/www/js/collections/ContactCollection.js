@@ -1,1 +1,25 @@
-define(["jquery","backbone","models/CommonModel","collections/BackSupportCollection","config"],function(j,i,l,k,h){var g=k.extend({constructor:function(a,b){g.__super__.constructor.call(this,a,b)},initialize:function(a,b){b.backHref="#module?me";g.__super__.initialize.call(this,a,b)},model:l,url:function(){var a=h.getSession();return h.getBaseUrl()+"/getContactList/"+a.svUserId}});return g});
+
+define(["jquery", "backbone", "models/CommonModel", "collections/BackSupportCollection", "config"], function ($, Backbone, CommonModel, BackSupportCollection, appConf) {
+
+	var Collection = BackSupportCollection.extend({
+
+			constructor : function (models, options) {
+				Collection.__super__.constructor.call(this, models, options);
+			},
+
+			initialize : function (models, options) {
+				options.backHref = "#module?me";
+				Collection.__super__.initialize.call(this, models, options);
+			},
+
+			model : CommonModel,
+
+			url : function () {
+				var session = appConf.getSession();
+				return appConf.getBaseUrl() + "/getContactList/" + session.svUserId;
+			}
+		});
+
+	return Collection;
+
+});

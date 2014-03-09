@@ -1,9 +1,7 @@
 define(function () {
 	var baseUrl = null;
-	var properties = {
-		runMode : "mobile"
-		//runMode : "pc"
-	};
+	var runMode = "mobile";
+	//var runMode = "pc";
 	
 	require.config({
 		paths : {
@@ -24,8 +22,9 @@ define(function () {
 	return {
 		getBaseUrl : function () {
 			if (!baseUrl) {
-				baseUrl = "http://223.203.193.239:7072/demo";
-				// baseUrl = "http://localhost:3000";
+				//baseUrl = "http://223.203.193.239:7072/demo";
+				 //baseUrl = "http://localhost:3000";
+				baseUrl = 'http://192.168.1.103:3000';
 				//baseUrl = $(location).attr('href').substring(0, $(location).attr('href').lastIndexOf("/"));
 			}
 			return baseUrl;
@@ -41,8 +40,9 @@ define(function () {
 				svGEO : "1"
 			};
 		},
-		getProperty: function(name){
-			return properties[name];
+		
+		getRunMode: function () {
+			return runMode;
 		}
 	};
 });

@@ -1,1 +1,0 @@
-afterEach(function(){document.getElementById("stage").innerHTML=""});var helper={trigger:function(c,a){var b=document.createEvent("Event");b.initEvent(a,true,true);c.dispatchEvent(b)},getComputedStyle:function(b,c){var a=document.querySelector(b);return window.getComputedStyle(a).getPropertyValue(c)}};

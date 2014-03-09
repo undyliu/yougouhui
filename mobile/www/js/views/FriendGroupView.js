@@ -1,1 +1,51 @@
-define(["jquery","backbone","views/BackCollectionView","routers/dispatcher","utils"],function(c,f,d,a,b){var e=d.extend({constructor:function(g){e.__super__.constructor.call(this,g)},initialize:function(){e.__super__.initialize.call(this)},render:function(){this.constructor.__super__.render.call(this);var i="main-head-publish-link";var h=c("#"+i);if(h&&h.length>0){h.css("display","block")}else{var g='<a id="'+i+'" class="top-header ui-btn ui-btn-inline ui-corner-all ui-icon-camera ui-btn-icon-left">晒单</a>';c("#main-head-search-link").after(g);c.mobile.loadPage("share_publish.html",{prefetch:true})}c("#"+i).on("click",function(){var j=a.getRouter("DiscoverRouter");if(j){j.navigate(j.routerPrefix+"?share_publish",{trigger:true,replace:true})}});b.setDomVisibleExcept(c('[data-role="header"].app-header div a'),[i]);c(".friends-img-link").on("click",function(){b.openPopDiv("",c(this))});return this}});return e});
+
+define(["jquery", "backbone", "views/BackCollectionView", "routers/dispatcher", "utils"], function ($, Backbone, CallbackView, Dispatcher, Utils) {
+
+	var View = CallbackView.extend({
+			constructor : function (options) {
+				View.__super__.constructor.call(this, options);
+			},
+
+			initialize : function () {
+				View.__super__.initialize.call(this);
+			},
+
+			render : function () {
+				this.constructor.__super__.render.call(this);
+
+				var btnId = 'main-head-publish-link';
+				var publishBtnItem = $('#' + btnId);
+				if (publishBtnItem && publishBtnItem.length > 0) {
+					publishBtnItem.css("display", "block");
+				} else {
+					var publishBtnHtml = '<a id="' + btnId + '" class="top-header ui-btn ui-btn-inline ui-corner-all ui-icon-camera ui-btn-icon-left">晒单</a>';
+					$('#main-head-search-link').after(publishBtnHtml);
+					$.mobile.loadPage('share_publish.html', {
+						prefetch : true
+					}); //预加载对应的html
+				}
+
+				$("#" + btnId).on("click", function () {
+					var router = Dispatcher.getRouter('DiscoverRouter');
+					if (router) {
+						router.navigate(router.routerPrefix + "?share_publish", {
+							trigger : true,
+							replace : true
+						}); //触发路由
+					}
+				});
+
+				Utils.setDomVisibleExcept($('[data-role="header"].app-header div a'), [btnId]);
+
+				$(".friends-img-link").on("click", function () {
+					Utils.openPopDiv("", $(this));
+				});
+
+				return this;
+			}
+
+		});
+
+	return View;
+
+});

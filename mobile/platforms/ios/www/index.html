@@ -34,13 +34,14 @@
 		
 		<!--登录页面-->
 		<div data-role="page" data-theme="a" class="main-page" id="loginpage">
+			<form>
 				<div class="ui-field-contain">
 					<label for="phone" style="text-align:right">手机:</label>
-					<input type="text" name="phone" id="phone" placeholder="请录入手机号" value="">
+					<input type="number" name="phone" id="phone" placeholder="请录入手机号" value="" required aria-required="true">
 				</div>
 				<div class="ui-field-contain">
 					<label for="password" style="text-align:right">密码:</label>
-					<input type="password" name="password" id="password" placeholder="请录入密码" value="" autocomplete="off">
+					<input type="password" name="password" id="password" placeholder="请录入密码" value="" autocomplete="off" required aria-required="true">
 				</div>
 				<div class="ui-field-contain">
 					<label for="rememberPwd" style="text-align:right">记住密码:</label>
@@ -61,6 +62,7 @@
 					<a href="#" id="formLogin" name="formLogin" class="ui-btn ui-btn-inline ui-corner-all">登录</a>
 					<button type="reset" id="formClean" name="formClean" class="ui-btn ui-btn-inline ui-corner-all" style="margin-top:0">重置</button>
 				</div>
+				</form>
 		</div>
 		
 		<!--首页-->
@@ -95,7 +97,7 @@
 			</div><!-- /content -->
 		</div>
 		
-		<div id="app-footer" data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="a" style='display:none'>
+		<div id="app-footer" data-role="footer" data-position="fixed" data-tap-toggle="false" data-theme="a">
 			<div data-role="navbar">
 				<ul>
 					<li><a href="#module?homepage" data-icon="comment" data-transition="fade" class="ui-btn-active">活动</a>
@@ -133,12 +135,29 @@
         </script>
         
         <script id="channelItems" type="text/template">
-        	<% _.each( collection.toJSON(), function( channel, id ) { %>
-        			<li><a href="#<%= channel.code%>" data-ajax="false">
+        	<% 
+        	  var liClass="";
+        	  var index = 0;
+        		_.each( collection.toJSON(), function( channel, id ) { 
+        			if(index % 5 === 0){
+        				liClass = 'ui-block-a';
+        			}else if (index % 5 === 1) {
+        				liClass = 'ui-block-b';
+        			}else if (index % 5 === 2) {
+        				liClass = 'ui-block-c';
+        			}else if (index % 5 === 3) {
+        				liClass = 'ui-block-d';
+        			}else if (index % 5 === 4) {
+        				liClass = 'ui-block-e';
+        			}
+        		%>
+        			<li class='<%=liClass%>'><a href="#<%= channel.code%>" data-ajax="false" class="ui-btn">
         				<%= channel.name%>
         				</a>
         			</li>
-        	<% }); %>
+        	<% 
+        		index++;
+        	}); %>
         </script>
                 
         <script id="channelTabDivItems" type="text/template">

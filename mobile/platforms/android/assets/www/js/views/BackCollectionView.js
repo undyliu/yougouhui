@@ -1,1 +1,22 @@
-define(["jquery","backbone"],function(e,f){var d=f.View.extend({initialize:function(){this.collection.on("added",this.render,this)},render:function(){e("#main-back-link").attr("href",this.collection.backHref);e("#main-back-link").css("display","block");e("#main-head-title").html(this.collection.title);return this}});return d});
+
+define(["jquery", "backbone"], function ($, Backbone) {
+
+	var CallbackView = Backbone.View.extend({
+			initialize : function () {
+
+				this.collection.on("added", this.render, this);
+			},
+
+			render : function () {
+				$('#main-back-link').attr("href", this.collection.backHref);
+				$("#main-back-link").css("display", "block");
+				$('#main-head-title').html(this.collection.title);
+
+				return this;
+			}
+
+		});
+
+	return CallbackView;
+
+});

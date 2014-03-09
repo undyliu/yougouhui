@@ -1,1 +1,21 @@
-define(["jquery","backbone","models/CommonModel","collections/BackSupportCollection"],function(i,h,f,j){var g=j.extend({constructor:function(a,b){g.__super__.constructor.call(this,a,b)},initialize:function(a,b){b.backHref="#module?discover";g.__super__.initialize.call(this,a,b)},model:f});return g});
+
+define(["jquery", "backbone", "models/CommonModel", "collections/BackSupportCollection"], function ($, Backbone, CommonModel, BackSupportCollection) {
+
+	var Collection = BackSupportCollection.extend({
+
+			constructor : function (models, options) {
+				Collection.__super__.constructor.call(this, models, options);
+			},
+
+			initialize : function (models, options) {
+				options.backHref = "#module?discover";
+				Collection.__super__.initialize.call(this, models, options);
+			},
+
+			model : CommonModel
+
+		});
+
+	return Collection;
+
+});

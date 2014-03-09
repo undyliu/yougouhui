@@ -1,1 +1,41 @@
-define(function(){return{setDomVisibleExcept:function(j,g){for(var f=0;f<j.length;f++){var i=j[f];var h=i.getAttribute("id");$("#"+h).css("display","none")}for(f=0;f<g.length;f++){$("#"+g[f]).css("display","block")}},openPopDiv:function(j,l){if(!j){j=l.attr("href")}var h=$(j);if(h&&h.length>0){var k={transition:l.jqmData("transition"),positionTo:l.jqmData("position-to")};var g=l.jqmData("position-to");if(g!="window"){var i=l.offset();k.x=i.left+l.outerWidth()/2;k.y=i.top+l.outerHeight()/2}h.popup("open",k)}},closePopDiv:function(c){var d=$(c);d.popup("close")}}});
+
+define(function () {
+	return {
+		setDomVisibleExcept : function (jqObj, exceptDomIds) {
+			for (var i = 0; i < jqObj.length; i++) {
+				var obj = jqObj[i];
+				var id = obj.getAttribute("id");
+				$('#' + id).css('display', 'none');
+			}
+
+			for (i = 0; i < exceptDomIds.length; i++) {
+				$('#' + exceptDomIds[i]).css('display', 'block');
+			}
+		},
+
+		openPopDiv : function (popDivId, $link) {
+			if (!popDivId) {
+				popDivId = $link.attr('href');
+			}
+			var popup = $(popDivId);
+			if (popup && popup.length > 0) {
+				var options = {
+					transition : $link.jqmData("transition"),
+					positionTo : $link.jqmData("position-to")
+				};
+				var positionTo = $link.jqmData("position-to");
+				if (positionTo != 'window') {
+					var offset = $link.offset();
+					options.x = offset.left + $link.outerWidth() / 2;
+					options.y = offset.top + $link.outerHeight() / 2;
+				}
+				popup.popup("open", options);
+			}
+		},
+
+		closePopDiv : function (popDivId) {
+			var popup = $(popDivId);
+			popup.popup("close");
+		}
+	};
+});

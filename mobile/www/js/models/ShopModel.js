@@ -1,1 +1,23 @@
-define(["jquery","backbone","models/BackSupportModel","config"],function(c,e,b,a){var d=b.extend({defaults:{},constructor:function(f){d.__super__.constructor.call(this,f)},initialize:function(f){f.backHref="#module?me";d.__super__.initialize.call(this,f)},url:function(){return a.getBaseUrl()+"/settings/"}});return d});
+
+define(["jquery", "backbone", "models/BackSupportModel", "config"], function ($, Backbone, BackSupportModel, appConf) {
+
+	var Model = BackSupportModel.extend({
+			defaults : {},
+
+			constructor : function (options) {
+				Model.__super__.constructor.call(this, options);
+			},
+
+			initialize : function (options) {
+				options.backHref = '#module?me';
+				Model.__super__.initialize.call(this, options);
+			},
+
+			url : function () {
+				return appConf.getBaseUrl() + "/settings/";
+			}
+		});
+
+	return Model;
+
+});

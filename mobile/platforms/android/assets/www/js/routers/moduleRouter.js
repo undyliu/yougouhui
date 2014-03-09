@@ -1,1 +1,66 @@
-define(["jquery","backbone","collections/ModuleCollection","views/ModuleView","config","utils"],function(m,j,h,l,i,n){var k=j.Router.extend({initialize:function(){this.discoverView=new l({el:"#discover",collection:new h([],{type:"discover"})});j.history.start();this.meView=new l({el:"#me",collection:new h([],{type:"me"})})},routes:{"module?:type":"module"},module:function(b){var a=this[b+"View"];m("#main-back-link").css("display","none");m("#main-head-title").html(i.getAppTitle());n.setDomVisibleExcept(m('[data-role="header"].app-header div a'),["main-head-city-link","main-head-search-link"]);if(a&&!a.collection.length){m.mobile.loading("show");a.collection.fetch({success:function(c,e,d){c.trigger("added")},error:function(){m.mobile.loading("hide");alert("加载数据失败.")}}).done(function(){m.mobile.loading("hide");m.mobile.changePage("#"+b,{reverse:false,changeHash:false})})}else{m.mobile.changePage("#"+b,{reverse:false,changeHash:false})}}});return k});
+
+define(["jquery", "backbone", "collections/ModuleCollection", "views/ModuleView", "config", "utils"], function ($, Backbone, ModuleCollection, ModuleView, appConf, Utils) {
+
+	var ModuleRouter = Backbone.Router.extend({
+
+			initialize : function () {
+				this.discoverView = new ModuleView({
+						el : "#discover",
+						collection : new ModuleCollection([], {
+							"type" : "discover"
+						})
+					});
+				Backbone.history.start();
+				this.meView = new ModuleView({
+						el : "#me",
+						collection : new ModuleCollection([], {
+							"type" : "me"
+						})
+					});
+				//Backbone.history.start();
+			},
+
+			routes : {
+				"module?:type" : "module"
+			},
+
+			module : function (type) {
+				var currentView = this[type + "View"];
+
+				//$('#main-back-link').attr("href", "#module?homepage");
+				$("#main-back-link").css("display", "none");
+				$('#main-head-title').html(appConf.getAppTitle());
+
+				Utils.setDomVisibleExcept($('[data-role="header"].app-header div a'), ['main-head-city-link', 'main-head-search-link']);
+
+				if (currentView && !currentView.collection.length) {
+					$.mobile.loading("show");
+					currentView.collection.fetch({
+						success : function (collection, response, options) {
+							collection.trigger("added");
+						},
+						error : function () {
+							$.mobile.loading("hide");
+							alert("加载数据失败.");
+						}
+					}).done(function () {
+						$.mobile.loading("hide");
+						$.mobile.changePage("#" + type, {
+							reverse : false,
+							changeHash : false
+						});
+					});
+
+				} else {
+					$.mobile.changePage("#" + type, {
+						reverse : false,
+						changeHash : false
+					});
+				}
+			}
+
+		});
+
+	return ModuleRouter;
+
+});

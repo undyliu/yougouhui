@@ -1,1 +1,30 @@
-define(["jquery","collections/ChannelCollection","views/HomeTabView"],function(d,e,f){return{init:function(a){var b=new f({el:".home-page #homepage-tabs",collection:new e([],{})});if(!b.collection.length){b.collection.fetch({success:function(c,l,k){c.trigger("added");var j=a.success;if(j){j(c.toJSON())}},error:function(){alert("加载频道数据失败.")}}).done(function(){})}}}});
+/*
+ * 频道路由器
+ */
+define(["jquery", "collections/ChannelCollection", "views/HomeTabView"], function ($, ChannelCollection, HomeTabView) {
+
+	return {
+		init : function (initOpts) {
+			var homeTabView = new HomeTabView({
+					el : ".home-page #homepage-tabs",
+					collection : new ChannelCollection([], {})
+				});
+
+			if (!homeTabView.collection.length) {
+				homeTabView.collection.fetch({
+					success : function (collection, response, options) {
+						collection.trigger("added");
+						var success = initOpts.success;
+						if (success) {
+							success(collection.toJSON());
+						}
+					},
+					error : function () {
+						alert("加载频道数据失败.");
+					}
+				}).done(function () {});
+			}
+		}
+	};
+
+});

@@ -1,1 +1,21 @@
-define(function(){var b={};return{initRouters:function(){require(["routers/moduleRouter","routers/activityRouter","routers/subChannelRouter","routers/discoverRouter","routers/userProfileRouter"],function(g,i,j,a,h){b.ModuleRouter=new g();b.ActivityRouter=new i();b.SubChannelRouter=new j();b.DiscoverRouter=new a();b.UserProfileRouter=new h()})},getRouter:function(a){return b[a]}}});
+
+/**
+ *	路由统一的分配器
+ */
+define(function () {
+	var routers = {};
+	return {
+		initRouters : function () {
+			require(["routers/moduleRouter", "routers/activityRouter", "routers/subChannelRouter", "routers/discoverRouter", "routers/userProfileRouter"], function (ModuleRouter, ActivityRouter, SubChannelRouter, DiscoverRouter, UserProfileRouter) {
+				routers.ModuleRouter = new ModuleRouter();
+				routers.ActivityRouter = new ActivityRouter();
+				routers.SubChannelRouter = new SubChannelRouter();
+				routers.DiscoverRouter = new DiscoverRouter();
+				routers.UserProfileRouter = new UserProfileRouter();
+			});
+		},
+		getRouter : function (name) {
+			return routers[name];
+		}
+	};
+});

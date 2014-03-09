@@ -1,1 +1,67 @@
-define(["jquery","backbone","collections/ActivityCollection","views/ChannelView"],function(j,i,k,h){var l=[];var g=i.Router.extend({initialize:function(){},routes:{"subChannel?:id":"channel"},channel:function(a){var b=null;for(var d=0;d<l.length;d++){var c=l[d];if(c.id==a){b=c.view;break}}if(!b){return}j.mobile.loading("show");b.collection.fetch({success:function(e,n,f){e.trigger("added")},error:function(){j.mobile.loading("hide");alert("加载活动数据失败.")}}).done(function(){j.mobile.loading("hide");j.mobile.changePage("#subChannel",{reverse:false,changeHash:false})})},addViews:function(a){j.each(a,function(c,d){var b=d.uuid;var e=new h({el:"#subChannel",collection:new k([],{channelCode:d.code,channelId:b,channelName:d.name,parentId:d.parent_id})});l.push({id:b,view:e})})}});return g});
+
+define(["jquery", "backbone", "collections/ActivityCollection", "views/ChannelView"], function ($, Backbone, ActivityCollection, ChannelView) {
+	var subChannelViews = [];
+	var SubChannelRouter = Backbone.Router.extend({
+
+			initialize : function () {},
+
+			routes : {
+				"subChannel?:id" : "channel"
+			},
+
+			channel : function (id) {
+				var currentView = null;
+				for (var i = 0; i < subChannelViews.length; i++) {
+					var obj = subChannelViews[i];
+					if (obj.id == id) {
+						currentView = obj.view;
+						break;
+					}
+				}
+				if (!currentView) {
+					return;
+				}
+
+				$.mobile.loading("show");
+				currentView.collection.fetch({
+					success : function (collection, response, options) {
+						collection.trigger("added");
+					},
+					error : function () {
+						$.mobile.loading("hide");
+						alert("加载活动数据失败.");
+					}
+				}).done(function () {
+					$.mobile.loading("hide");
+					//$.mobile.navigate("#subChannel?" + code);
+					$.mobile.changePage("#subChannel", {
+						reverse : false,
+						changeHash : false
+					});
+				});
+
+			},
+
+			addViews : function (jsonData) {
+				$.each(jsonData, function (index, subChannel) {
+					var id = subChannel.uuid;
+					var view = new ChannelView({
+							el : "#subChannel",
+							collection : new ActivityCollection([], {
+								"channelCode" : subChannel.code,
+								"channelId" : id,
+								"channelName" : subChannel.name,
+								"parentId" : subChannel.parent_id
+							})
+						});
+					subChannelViews.push({
+						"id" : id,
+						"view" : view
+					});
+				});
+			}
+		});
+
+	return SubChannelRouter;
+
+});

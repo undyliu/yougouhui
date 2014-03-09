@@ -1,1 +1,41 @@
-define(["jquery","backbone","views/BackCollectionView","utils"],function(c,f,d,b){var a="my_favorite_shop";var e=d.extend({constructor:function(g){e.__super__.constructor.call(this,g)},initialize:function(){e.__super__.initialize.call(this)},render:function(){this.constructor.__super__.render.call(this);var i="main-head-favorite-refresh-link";var h=c("#"+i);if(h&&h.length>0){h.css("display","block")}else{var g='<a id="'+i+'" href="#" class="top-header ui-btn ui-btn-inline ui-corner-all ui-icon-refresh ui-btn-icon-left">刷新</a>';c("#main-head-search-link").after(g)}b.setDomVisibleExcept(c('[data-role="header"].app-header div a'),[i]);c(document).on("tabsbeforeactivate","#my_favorite [data-role='tabs']",function(j,k){a=k.newPanel.attr("id")});c("#my_favorite [data-role='tabs'] [href='#"+a+"']").addClass("ui-btn-active");return this}});return e});
+
+define(["jquery", "backbone", "views/BackCollectionView", "utils"], function ($, Backbone, CallbackView, Utils) {
+
+	var activedTabId = 'my_favorite_shop';
+	var View = CallbackView.extend({
+			constructor : function (options) {
+				View.__super__.constructor.call(this, options);
+			},
+
+			initialize : function () {
+				View.__super__.initialize.call(this);
+			},
+
+			render : function () {
+				this.constructor.__super__.render.call(this);
+
+				var btnId = 'main-head-favorite-refresh-link';
+				var scanBtnItem = $('#' + btnId);
+				if (scanBtnItem && scanBtnItem.length > 0) {
+					scanBtnItem.css("display", "block");
+				} else {
+					var scanBtnHtml = '<a id="' + btnId + '" href="#" class="top-header ui-btn ui-btn-inline ui-corner-all ui-icon-refresh ui-btn-icon-left">刷新</a>';
+					$('#main-head-search-link').after(scanBtnHtml);
+				}
+
+				Utils.setDomVisibleExcept($('[data-role="header"].app-header div a'), [btnId]);
+
+				$(document).on("tabsbeforeactivate", "#my_favorite [data-role='tabs']", function (event, ui) {
+					activedTabId = ui.newPanel.attr('id');
+				});
+
+				$("#my_favorite [data-role='tabs'] [href='#" + activedTabId + "']").addClass("ui-btn-active");
+
+				return this;
+			}
+
+		});
+
+	return View;
+
+});
