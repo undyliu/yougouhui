@@ -12,9 +12,9 @@ define(["db", "jquery", "config"], function (DB, $, Conf) {
 	$(function () {
 		DB.executeSql('select data from e_env', [], function (tx, res) {
 			if(res && res.rows && res.rows.length === 1){
-				properties = $.toJSON(res.rows.item(0).data);
+				properties = $.parseJSON(res.rows.item(0).data);
 			}else{
-				DB.executeSql(' insert into e_env(id, data) values(?, ?)', [1, $.toJSON(properties)]);
+				DB.executeSql(' insert into e_env(id, data) values(?, ?)', [1, properties]);
 			}
 		}, function (e) {
 			console.log("ERROR: " + e.message);

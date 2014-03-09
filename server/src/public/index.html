@@ -135,12 +135,29 @@
         </script>
         
         <script id="channelItems" type="text/template">
-        	<% _.each( collection.toJSON(), function( channel, id ) { %>
-        			<li><a href="#<%= channel.code%>" data-ajax="false">
+        	<% 
+        	  var liClass="";
+        	  var index = 0;
+        		_.each( collection.toJSON(), function( channel, id ) { 
+        			if(index % 5 === 0){
+        				liClass = 'ui-block-a';
+        			}else if (index % 5 === 1) {
+        				liClass = 'ui-block-b';
+        			}else if (index % 5 === 2) {
+        				liClass = 'ui-block-c';
+        			}else if (index % 5 === 3) {
+        				liClass = 'ui-block-d';
+        			}else if (index % 5 === 4) {
+        				liClass = 'ui-block-e';
+        			}
+        		%>
+        			<li class='<%=liClass%>'><a href="#<%= channel.code%>" data-ajax="false" class="ui-btn">
         				<%= channel.name%>
         				</a>
         			</li>
-        	<% }); %>
+        	<% 
+        		index++;
+        	}); %>
         </script>
                 
         <script id="channelTabDivItems" type="text/template">
