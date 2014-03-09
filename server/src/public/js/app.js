@@ -27,7 +27,12 @@ define(["jquery", "backbone", "env", "views/LoginPage", "views/HomePage"],
 			if(!Env.getProperty('autoLogin')){//显示登陆界面				
 				LoginPage.show();
 			}else{
-				HomePage.init(HomePage.show);
+				var authed = LoginPage.auth();
+				if(authed){
+					HomePage.init(HomePage.show);
+				}else{
+					LoginPage.show();
+				}
 			}
 		}
 	};
