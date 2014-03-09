@@ -14,7 +14,12 @@ define(["db", "jquery", "config"], function (DB, $, Conf) {
 			if(res && res.rows && res.rows.length === 1){
 				properties = $.parseJSON(res.rows.item(0).data);
 			}else{
-				DB.executeSql(' insert into e_env(id, data) values(?, ?)', [1, properties]);
+				properties = {
+					phone: '',
+					pwd: '',
+					autoLogin : false,
+					rememberPwd: false
+				};
 			}
 		}, function (e) {
 			console.log("ERROR: " + e.message);

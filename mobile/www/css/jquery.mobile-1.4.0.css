@@ -2498,7 +2498,7 @@ button.ui-btn-icon-notext,
 	.ui-field-contain > label + [class*="ui-"],
 	.ui-field-contain .ui-controlgroup-controls {
 		float: left;
-		width: 78%;
+		/*width: 78%;*/
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		-ms-box-sizing: border-box;

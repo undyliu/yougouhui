@@ -1,22 +1,24 @@
 /*
-Navicat MySQL Data Transfer
+ Navicat Premium Data Transfer
 
-Source Server         : 10.10.65.86_ebs
-Source Server Version : 50511
-Source Host           : 10.10.65.86:3306
-Source Database       : ebs
+ Source Server         : localhost_root
+ Source Server Type    : MySQL
+ Source Server Version : 50612
+ Source Host           : localhost
+ Source Database       : ebs
 
-Target Server Type    : MYSQL
-Target Server Version : 50511
-File Encoding         : 65001
+ Target Server Type    : MySQL
+ Target Server Version : 50612
+ File Encoding         : utf-8
 
-Date: 2014-03-04 16:58:31
+ Date: 03/09/2014 20:54:42 PM
 */
 
-SET FOREIGN_KEY_CHECKS=0;
+SET NAMES utf8;
+SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for `e_activity`
+--  Table structure for `e_activity`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_activity`;
 CREATE TABLE `e_activity` (
@@ -41,20 +43,14 @@ CREATE TABLE `e_activity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='活动记录表';
 
 -- ----------------------------
--- Records of e_activity
+--  Records of `e_activity`
 -- ----------------------------
-INSERT INTO `e_activity` VALUES ('1', 'iOS 6.1', '<p>Apple released iOS 6.1</p><p class=\"ui-li-aside\">iOS</p>', '/upload/img/apple.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
-INSERT INTO `e_activity` VALUES ('2', 'BlackBerry 10', '<p>BlackBerry launched the Z10 and Q10 with the new BB10 OS</p><p class=\"ui-li-aside\">BlackBerry</p>\n				<p class=\"ui-li-aside\">BlackBerry</p>', '/upload/img/blackberry_10.png', '2', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
-INSERT INTO `e_activity` VALUES ('3', 'WP 7.8', '<p>Nokia rolls out WP 7.8 to Lumia 800</p><p class=\"ui-li-aside\">Windows Phone</p>', '/upload/img/lumia_800.png', '41', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
-INSERT INTO `e_activity` VALUES ('4', 'Galaxy', '<p>New Samsung Galaxy Express</p><p class=\"ui-li-aside\">Samsung</p>', '/upload/img/galaxy_express.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
-INSERT INTO `e_activity` VALUES ('5', 'Nexus 7', '<p>Rumours about new full HD Nexus 7</p><p class=\"ui-li-aside\">Android</p>', '/upload/img/nexus_7.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
-INSERT INTO `e_activity` VALUES ('6', 'Firefox OS', '<p>ZTE to launch Firefox OS smartphone at MWC</p><p class=\"ui-li-aside\">Firefox</p>', '/upload/img/firefox_os.png', '3', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
-INSERT INTO `e_activity` VALUES ('7', 'Tizen', '<p>First Samsung phones with Tizen can be expected in 2013</p><p class=\"ui-li-aside\">Tizen</p>', '/upload/img/tizen.png', '41', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
-INSERT INTO `e_activity` VALUES ('8', 'Symbian', '<p>Nokia confirms the end of Symbian</p><p class=\"ui-li-aside\">Symbian</p>', null, '2', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
-INSERT INTO `e_activity` VALUES ('9', 'Symbian', '<p>Nokia confirms the end of Symbian</p>', null, '42', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
+BEGIN;
+INSERT INTO `e_activity` VALUES ('1', 'iOS 6.1', '<p>Apple released iOS 6.1</p><p class=\"ui-li-aside\">iOS</p>', '/upload/img/apple.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('2', 'BlackBerry 10', '<p>BlackBerry launched the Z10 and Q10 with the new BB10 OS</p><p class=\"ui-li-aside\">BlackBerry</p>\n				<p class=\"ui-li-aside\">BlackBerry</p>', '/upload/img/blackberry_10.png', '2', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('3', 'WP 7.8', '<p>Nokia rolls out WP 7.8 to Lumia 800</p><p class=\"ui-li-aside\">Windows Phone</p>', '/upload/img/lumia_800.png', '41', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('4', 'Galaxy', '<p>New Samsung Galaxy Express</p><p class=\"ui-li-aside\">Samsung</p>', '/upload/img/galaxy_express.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('5', 'Nexus 7', '<p>Rumours about new full HD Nexus 7</p><p class=\"ui-li-aside\">Android</p>', '/upload/img/nexus_7.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('6', 'Firefox OS', '<p>ZTE to launch Firefox OS smartphone at MWC</p><p class=\"ui-li-aside\">Firefox</p>', '/upload/img/firefox_os.png', '3', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('7', 'Tizen', '<p>First Samsung phones with Tizen can be expected in 2013</p><p class=\"ui-li-aside\">Tizen</p>', '/upload/img/tizen.png', '41', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('8', 'Symbian', '<p>Nokia confirms the end of Symbian</p><p class=\"ui-li-aside\">Symbian</p>', null, '2', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('9', 'Symbian', '<p>Nokia confirms the end of Symbian</p>', null, '42', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
+COMMIT;
 
 -- ----------------------------
--- Table structure for `e_activity_img`
+--  Table structure for `e_activity_img`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_activity_img`;
 CREATE TABLE `e_activity_img` (
@@ -66,11 +62,7 @@ CREATE TABLE `e_activity_img` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of e_activity_img
--- ----------------------------
-
--- ----------------------------
--- Table structure for `e_channel`
+--  Table structure for `e_channel`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_channel`;
 CREATE TABLE `e_channel` (
@@ -90,19 +82,14 @@ CREATE TABLE `e_channel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='栏目表';
 
 -- ----------------------------
--- Records of e_channel
+--  Records of `e_channel`
 -- ----------------------------
-INSERT INTO `e_channel` VALUES ('0', 'all', '全部', '', null, '0', null, null, null, null, null);
-INSERT INTO `e_channel` VALUES ('1', 'food', '美食', '', null, '1', null, null, null, null, null);
-INSERT INTO `e_channel` VALUES ('2', 'clothes', '服装', '', null, '2', null, null, null, null, null);
-INSERT INTO `e_channel` VALUES ('3', 'beauty', '美妆', '', null, '3', null, null, null, null, null);
-INSERT INTO `e_channel` VALUES ('4', 'other', '其他', '', null, '4', null, null, null, null, null);
-INSERT INTO `e_channel` VALUES ('40', 'baby', '母婴', 'baby.html', null, '0', '4', null, null, null, null);
-INSERT INTO `e_channel` VALUES ('41', 'computer', '电脑', 'computer.html', null, '1', '4', null, null, null, null);
-INSERT INTO `e_channel` VALUES ('42', 'book', '书城', 'book.html', null, '2', '4', null, null, null, null);
+BEGIN;
+INSERT INTO `e_channel` VALUES ('0', 'all', '全部', '', null, '0', null, null, null, null, null), ('1', 'food', '美食', '', null, '1', null, null, null, null, null), ('2', 'clothes', '服装', '', null, '2', null, null, null, null, null), ('3', 'beauty', '美妆', '', null, '3', null, null, null, null, null), ('4', 'other', '其他', '', null, '4', null, null, null, null, null), ('40', 'baby', '母婴', 'baby.html', null, '0', '4', null, null, null, null), ('41', 'computer', '电脑', 'computer.html', null, '1', '4', null, null, null, null), ('42', 'book', '书城', 'book.html', null, '2', '4', null, null, null, null);
+COMMIT;
 
 -- ----------------------------
--- Table structure for `e_comment`
+--  Table structure for `e_comment`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_comment`;
 CREATE TABLE `e_comment` (
@@ -116,11 +103,7 @@ CREATE TABLE `e_comment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of e_comment
--- ----------------------------
-
--- ----------------------------
--- Table structure for `e_discuss`
+--  Table structure for `e_discuss`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_discuss`;
 CREATE TABLE `e_discuss` (
@@ -134,11 +117,7 @@ CREATE TABLE `e_discuss` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of e_discuss
--- ----------------------------
-
--- ----------------------------
--- Table structure for `e_friend`
+--  Table structure for `e_friend`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_friend`;
 CREATE TABLE `e_friend` (
@@ -151,11 +130,7 @@ CREATE TABLE `e_friend` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of e_friend
--- ----------------------------
-
--- ----------------------------
--- Table structure for `e_log`
+--  Table structure for `e_log`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_log`;
 CREATE TABLE `e_log` (
@@ -168,11 +143,7 @@ CREATE TABLE `e_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of e_log
--- ----------------------------
-
--- ----------------------------
--- Table structure for `e_module`
+--  Table structure for `e_module`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_module`;
 CREATE TABLE `e_module` (
@@ -193,21 +164,14 @@ CREATE TABLE `e_module` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of e_module
+--  Records of `e_module`
 -- ----------------------------
-INSERT INTO `e_module` VALUES ('101', 'friends', '朋友圈', 'img/friend.png', 'friends.html', null, '0', 'discover', null, null, null, null);
-INSERT INTO `e_module` VALUES ('102', 'radar', '雷达', 'img/radar.png', 'radar.html', null, '1', 'discover', null, null, null, null);
-INSERT INTO `e_module` VALUES ('103', 'recommend', '推荐', 'img/recommend.png', 'recommend.html', null, '2', 'discover', null, null, null, null);
-INSERT INTO `e_module` VALUES ('104', 'hot', '热门', 'img/hot.png', 'hot.html', null, '3', 'discover', null, null, null, null);
-INSERT INTO `e_module` VALUES ('201', 'settings', '设置', 'img/settings.png', 'settings.html', null, '0', 'me', null, null, null, null);
-INSERT INTO `e_module` VALUES ('202', 'contact_list', '通讯录', 'img/add_friend.png', 'contact_list.html', null, '1', 'me', null, null, null, null);
-INSERT INTO `e_module` VALUES ('203', 'my_favorite', '我的收藏', 'img/favorite.png', 'my_favorite.html', null, '2', 'me', null, null, null, null);
-INSERT INTO `e_module` VALUES ('204', 'my_share', '我的分享', 'img/share.png', 'my_share.html', null, '3', 'me', null, null, null, null);
-INSERT INTO `e_module` VALUES ('205', 'my_shop', '我的店铺', 'img/my_shop.png', 'my_shop.html', null, '4', 'me', null, null, null, null);
-INSERT INTO `e_module` VALUES ('206', 'my_grade', '我的积分', 'img/my_grade.png', 'my_grade.html', null, '5', 'me', null, null, null, null);
+BEGIN;
+INSERT INTO `e_module` VALUES ('101', 'friends', '朋友圈', 'img/friend.png', 'friends.html', null, '0', 'discover', null, null, null, null), ('102', 'radar', '雷达', 'img/radar.png', 'radar.html', null, '1', 'discover', null, null, null, null), ('103', 'recommend', '推荐', 'img/recommend.png', 'recommend.html', null, '2', 'discover', null, null, null, null), ('104', 'hot', '热门', 'img/hot.png', 'hot.html', null, '3', 'discover', null, null, null, null), ('105', 'compare', '比价', 'img/compare.png', null, null, '4', 'discover', null, null, null, null), ('106', 'join', '拼单', 'img/join.png', null, null, '5', 'discover', null, null, null, null), ('201', 'settings', '设置', 'img/settings.png', 'settings.html', null, '0', 'me', null, null, null, null), ('202', 'contact_list', '通讯录', 'img/add_friend.png', 'contact_list.html', null, '1', 'me', null, null, null, null), ('203', 'my_favorite', '我的收藏', 'img/favorite.png', 'my_favorite.html', null, '2', 'me', null, null, null, null), ('204', 'my_share', '我的分享', 'img/share.png', 'my_share.html', null, '3', 'me', null, null, null, null), ('205', 'my_shop', '我的店铺', 'img/my_shop.png', 'my_shop.html', null, '4', 'me', null, null, null, null), ('206', 'my_grade', '我的积分', 'img/my_grade.png', 'my_grade.html', null, '5', 'me', null, null, null, null);
+COMMIT;
 
 -- ----------------------------
--- Table structure for `e_share`
+--  Table structure for `e_share`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_share`;
 CREATE TABLE `e_share` (
@@ -221,11 +185,7 @@ CREATE TABLE `e_share` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of e_share
--- ----------------------------
-
--- ----------------------------
--- Table structure for `e_share_img`
+--  Table structure for `e_share_img`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_share_img`;
 CREATE TABLE `e_share_img` (
@@ -237,11 +197,7 @@ CREATE TABLE `e_share_img` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of e_share_img
--- ----------------------------
-
--- ----------------------------
--- Table structure for `e_shop`
+--  Table structure for `e_shop`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_shop`;
 CREATE TABLE `e_shop` (
@@ -262,11 +218,7 @@ CREATE TABLE `e_shop` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of e_shop
--- ----------------------------
-
--- ----------------------------
--- Table structure for `e_shop_emp`
+--  Table structure for `e_shop_emp`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_shop_emp`;
 CREATE TABLE `e_shop_emp` (
@@ -281,11 +233,7 @@ CREATE TABLE `e_shop_emp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of e_shop_emp
--- ----------------------------
-
--- ----------------------------
--- Table structure for `e_user`
+--  Table structure for `e_user`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_user`;
 CREATE TABLE `e_user` (
@@ -303,5 +251,9 @@ CREATE TABLE `e_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of e_user
+--  Records of `e_user`
 -- ----------------------------
+BEGIN;
+INSERT INTO `e_user` VALUES ('1', 'liuxy', '刘小勇', null, null, '111111', null, null, null, null);
+COMMIT;
+

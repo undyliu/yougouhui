@@ -52,7 +52,7 @@ define([], function () {
 	
 							//监听页签的状态变化
 							$(document).on("tabsbeforeactivate", ".home-page [data-role='tabs']", function (event, ui) {
-								$(".home-page #homepage-tabs .tabs-fixed-header a.ui-btn-active").removeClass("ui-btn-active");
+								$(".home-page #homepage-tabs .tabs-fixed-header [href='#" + headerActivedTabId + "']").removeClass("ui-btn-active");
 								headerActivedTabId = ui.newPanel.attr('id');
 								ChannelRouter.route(headerActivedTabId);
 							});		

@@ -34,14 +34,34 @@ define(["db", "jquery", "config"], function (DB, $, Conf) {
 			  			}else{
 			  				alert('密码错误.');
 			  			}
+			  		}else{//认证成功，更新本地的用户信息
+			  			DB.executeSql('select pwd from e_user where phone = ? ', [loginData.phone], function (tx, res) {
+							if(res && res.rows && res.rows.length === 1){
+								DB.executeSql(' update e_user set pwd = ? where phone = ?', [loginData.pwd, loginData.phone]);
+							}else{
+								DB.executeSql(' insert into e_user(pwd, phone) values(?, ?)', [loginData.pwd, loginData.phone]);
+							}
+						}, function (e) {
+							console.log("ERROR: " + e.message);
+						});
 			  		}
+			  	},
+			  	error: function (XMLHttpRequest, textStatus, errorThrown) {
+			  		alert('无法连接服务器.');
 			  	} 
 				});
 			}
 			
 			if(authed){
-				var updateEnvSql = ' update e_env set data = ? where id = 1';
-				DB.executeSql(updateEnvSql, [loginData]);//记录登录信息
+				DB.executeSql('select data from e_env', [], function (tx, res) {
+					if(res && res.rows && res.rows.length === 1){
+						DB.executeSql(' update e_env set data = ? where id = 1', [loginData]);
+					}else{
+						DB.executeSql(' insert into e_env(id, data) values(?, ?)', [1, loginData]);
+					}
+				}, function (e) {
+					console.log("ERROR: " + e.message);
+				});//记录登录信息
 			}
 			return authed;
 		}
