@@ -1,18 +1,1 @@
-
-define(["jquery", "backbone", "models/CommonModel", "config"], function ($, Backbone, CommonModel, appConf) {
-
-	var Collection = Backbone.Collection.extend({
-
-			initialize : function (models, options) {},
-
-			model : CommonModel,
-
-			url : function () {
-				return appConf.getBaseUrl() + "/getActiveChannels";
-			}
-
-		});
-
-	return Collection;
-
-});
+define(["jquery","backbone","models/CommonModel","config"],function(d,e,c,a){var b=e.Collection.extend({initialize:function(g,f){},model:c,url:function(){return a.getBaseUrl()+"/getActiveChannels"}});return b});

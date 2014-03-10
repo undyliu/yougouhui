@@ -1,0 +1,460 @@
+com.seekon.ebs.BuildConfig
+com.seekon.ebs.R
+com.seekon.ebs.R$attr
+com.seekon.ebs.R$drawable
+com.seekon.ebs.R$string
+com.seekon.ebs.R$xml
+com.squareup.okhttp.Address:
+    63:63:public int getUriPort()
+    79:79:public javax.net.ssl.HostnameVerifier getHostnameVerifier()
+com.squareup.okhttp.Connection:
+    236:236:public com.squareup.okhttp.internal.spdy.SpdyConnection getSpdyConnection()
+com.squareup.okhttp.ConnectionPool:
+    private static final int MAX_CONNECTIONS_TO_CLEANUP
+    private static final long DEFAULT_KEEP_ALIVE_DURATION_MS
+    129:132:java.util.List getConnections()
+    141:148:private void waitForCleanupCallableToRun()
+    156:156:public synchronized int getConnectionCount()
+    161:165:public synchronized int getSpdyConnectionCount()
+    170:174:public synchronized int getHttpConnectionCount()
+    264:272:public void evictAll()
+com.squareup.okhttp.ConnectionPool$2
+com.squareup.okhttp.HttpResponseCache:
+    private static final int VERSION
+    private static final int ENTRY_METADATA
+    private static final int ENTRY_BODY
+    private static final int ENTRY_COUNT
+    private int networkCount
+    private int hitCount
+    private int requestCount
+    170:172:public HttpResponseCache(java.io.File,long)
+    276:295:private void update(java.net.CacheResponse,java.net.HttpURLConnection)
+    323:324:public void delete()
+    327:327:public synchronized int getWriteAbortCount()
+    331:331:public synchronized int getWriteSuccessCount()
+    335:346:private synchronized void trackResponse(com.squareup.okhttp.ResponseSource)
+    349:350:private synchronized void trackConditionalCacheHit()
+    353:353:public synchronized int getNetworkCount()
+    357:357:public synchronized int getHitCount()
+    361:361:public synchronized int getRequestCount()
+    121:121:static synthetic void access$000(com.squareup.okhttp.HttpResponseCache,java.net.CacheResponse,java.net.HttpURLConnection)
+    121:121:static synthetic void access$100(com.squareup.okhttp.HttpResponseCache)
+    121:121:static synthetic void access$200(com.squareup.okhttp.HttpResponseCache,com.squareup.okhttp.ResponseSource)
+com.squareup.okhttp.HttpResponseCache$1
+com.squareup.okhttp.HttpResponseCache$3
+com.squareup.okhttp.HttpResponseCache$EntryCacheResponse:
+    621:621:static synthetic com.squareup.okhttp.internal.DiskLruCache$Snapshot access$400(com.squareup.okhttp.HttpResponseCache$EntryCacheResponse)
+com.squareup.okhttp.HttpResponseCache$EntrySecureCacheResponse:
+    641:641:static synthetic com.squareup.okhttp.internal.DiskLruCache$Snapshot access$500(com.squareup.okhttp.HttpResponseCache$EntrySecureCacheResponse)
+com.squareup.okhttp.OkHttpClient:
+    54:55:public com.squareup.okhttp.OkHttpClient setProxy(java.net.Proxy)
+    72:73:public com.squareup.okhttp.OkHttpClient setProxySelector(java.net.ProxySelector)
+    88:89:public com.squareup.okhttp.OkHttpClient setCookieHandler(java.net.CookieHandler)
+    103:104:public com.squareup.okhttp.OkHttpClient setResponseCache(java.net.ResponseCache)
+    108:108:public java.net.ResponseCache getResponseCache()
+    128:129:public com.squareup.okhttp.OkHttpClient setSSLSocketFactory(javax.net.ssl.SSLSocketFactory)
+    144:145:public com.squareup.okhttp.OkHttpClient setHostnameVerifier(javax.net.ssl.HostnameVerifier)
+    159:160:public com.squareup.okhttp.OkHttpClient setConnectionPool(com.squareup.okhttp.ConnectionPool)
+    175:176:public com.squareup.okhttp.OkHttpClient setFollowProtocolRedirects(boolean)
+com.squareup.okhttp.OkResponseCache
+com.squareup.okhttp.ResponseSource:
+    19:19:public static com.squareup.okhttp.ResponseSource[] values()
+    19:19:public static com.squareup.okhttp.ResponseSource valueOf(java.lang.String)
+com.squareup.okhttp.Route:
+    59:59:public java.net.InetSocketAddress getSocketAddress()
+    64:64:public boolean isModernTls()
+com.squareup.okhttp.internal.Base64:
+    33:34:private Base64()
+com.squareup.okhttp.internal.DiskLruCache:
+    static final java.lang.String JOURNAL_FILE
+    static final java.lang.String JOURNAL_FILE_TEMP
+    static final java.lang.String JOURNAL_FILE_BACKUP
+    static final java.lang.String MAGIC
+    static final java.lang.String VERSION_1
+    static final long ANY_SEQUENCE_NUMBER
+    private static final java.lang.String CLEAN
+    private static final java.lang.String DIRTY
+    private static final java.lang.String REMOVE
+    private static final java.lang.String READ
+    180:188:private DiskLruCache(java.io.File,int,int,long)
+    201:240:public static com.squareup.okhttp.internal.DiskLruCache open(java.io.File,int,int,long)
+    244:273:private void readJournal()
+    276:312:private void readJournalLine(java.lang.String)
+    319:335:private void processJournal()
+    475:475:public java.io.File getDirectory()
+    483:483:public long getMaxSize()
+    491:493:public synchronized void setMaxSize(long)
+    501:501:public synchronized long size()
+    605:605:public boolean isClosed()
+    616:619:public synchronized void flush()
+    649:651:public void delete()
+    661:661:private static java.lang.String inputStreamToString(java.io.InputStream)
+    88:88:static synthetic com.squareup.okhttp.internal.DiskLruCache$Editor access$1600(com.squareup.okhttp.internal.DiskLruCache,java.lang.String,long)
+    88:88:static synthetic java.lang.String access$1700(java.io.InputStream)
+com.squareup.okhttp.internal.DiskLruCache$1:
+    164:164:DiskLruCache$1(com.squareup.okhttp.internal.DiskLruCache)
+com.squareup.okhttp.internal.DiskLruCache$Editor:
+    733:745:public java.io.InputStream newInputStream(int)
+    753:754:public java.lang.String getString(int)
+    792:799:public void set(int,java.lang.String)
+    824:830:public void abortUnlessCommitted()
+com.squareup.okhttp.internal.DiskLruCache$Entry:
+    901:912:private void setLengths(java.lang.String[])
+    915:915:private java.io.IOException invalidLengths(java.lang.String[])
+    871:871:static synthetic void access$800(com.squareup.okhttp.internal.DiskLruCache$Entry,java.lang.String[])
+com.squareup.okhttp.internal.DiskLruCache$Snapshot:
+    684:684:public com.squareup.okhttp.internal.DiskLruCache$Editor edit()
+    694:694:public java.lang.String getString(int)
+    699:699:public long getLength(int)
+com.squareup.okhttp.internal.StrictLineReader:
+    private static final byte CR
+    private static final byte LF
+com.squareup.okhttp.internal.Util:
+    49:50:private Util()
+    119:127:public static void closeQuietly(java.net.Socket)
+    157:169:public static void deleteContents(java.io.File)
+    231:239:public static java.lang.String readFully(java.io.Reader)
+    291:298:public static int copy(java.io.InputStream,java.io.OutputStream)
+com.squareup.okhttp.internal.http.AbstractHttpOutputStream
+com.squareup.okhttp.internal.http.HeaderParser:
+    110:111:private HeaderParser()
+com.squareup.okhttp.internal.http.HttpAuthenticator:
+    35:36:private HttpAuthenticator()
+com.squareup.okhttp.internal.http.HttpDate:
+    80:81:private HttpDate()
+com.squareup.okhttp.internal.http.HttpEngine:
+    public static final int HTTP_CONTINUE
+    163:163:public java.net.URI getUri()
+com.squareup.okhttp.internal.http.HttpResponseCache
+com.squareup.okhttp.internal.http.HttpResponseCache$1
+com.squareup.okhttp.internal.http.HttpResponseCache$2
+com.squareup.okhttp.internal.http.HttpResponseCache$CacheRequestImpl
+com.squareup.okhttp.internal.http.HttpResponseCache$CacheRequestImpl$1
+com.squareup.okhttp.internal.http.HttpResponseCache$Entry
+com.squareup.okhttp.internal.http.HttpResponseCache$EntryCacheResponse
+com.squareup.okhttp.internal.http.HttpResponseCache$EntrySecureCacheResponse
+com.squareup.okhttp.internal.http.HttpTransport:
+    private static final int DISCARD_STREAM_TIMEOUT_MILLIS
+    public static final int DEFAULT_CHUNK_LENGTH
+com.squareup.okhttp.internal.http.HttpTransport$ChunkedInputStream:
+    private static final int NO_CHUNK_YET
+com.squareup.okhttp.internal.http.HttpURLConnectionImpl:
+    static final int HTTP_TEMP_REDIRECT
+    private static final int MAX_REDIRECTS
+    private static final int MAX_REPLAY_BUFFER_LENGTH
+com.squareup.okhttp.internal.http.HttpURLConnectionImpl$Retry:
+    446:446:public static com.squareup.okhttp.internal.http.HttpURLConnectionImpl$Retry[] values()
+    446:446:public static com.squareup.okhttp.internal.http.HttpURLConnectionImpl$Retry valueOf(java.lang.String)
+com.squareup.okhttp.internal.http.RequestHeaders:
+    129:129:public java.net.URI getUri()
+    165:165:public java.lang.String getTransferEncoding()
+    189:189:public java.lang.String getIfModifiedSince()
+    193:193:public java.lang.String getIfNoneMatch()
+com.squareup.okhttp.internal.http.ResponseHeaders:
+    private static final java.lang.String SENT_MILLIS
+    private static final java.lang.String RECEIVED_MILLIS
+    static final java.lang.String RESPONSE_SOURCE
+    207:207:public java.net.URI getUri()
+    215:215:public java.util.Date getServedDate()
+    219:219:public java.util.Date getLastModified()
+    223:223:public java.util.Date getExpires()
+    227:227:public boolean isNoCache()
+    231:231:public boolean isNoStore()
+    235:235:public int getMaxAgeSeconds()
+    239:239:public int getSMaxAgeSeconds()
+    243:243:public boolean isPublic()
+    247:247:public boolean isMustRevalidate()
+    251:251:public java.lang.String getEtag()
+    259:259:public java.lang.String getContentEncoding()
+    267:267:public java.lang.String getConnection()
+com.squareup.okhttp.internal.http.RouteSelector:
+    private static final int TLS_MODE_MODERN
+    private static final int TLS_MODE_COMPATIBLE
+    private static final int TLS_MODE_NULL
+com.squareup.okhttp.internal.spdy.Ping:
+    55:56:public long roundTripTime()
+    65:68:public long roundTripTime(long,java.util.concurrent.TimeUnit)
+com.squareup.okhttp.internal.spdy.Settings:
+    static final int DEFAULT_INITIAL_WINDOW_SIZE
+    static final int FLAG_CLEAR_PREVIOUSLY_PERSISTED_SETTINGS
+    static final int PERSIST_VALUE
+    static final int PERSISTED
+    static final int UPLOAD_BANDWIDTH
+    static final int DOWNLOAD_BANDWIDTH
+    static final int ROUND_TRIP_TIME
+    static final int MAX_CONCURRENT_STREAMS
+    static final int CURRENT_CWND
+    static final int DOWNLOAD_RETRANS_RATE
+    static final int INITIAL_WINDOW_SIZE
+    static final int CLIENT_CERTIFICATE_VECTOR_SIZE
+    static final int COUNT
+    106:106:int size()
+    110:111:int getUploadBandwidth(int)
+    115:116:int getDownloadBandwidth(int)
+    120:121:int getRoundTripTime(int)
+    125:126:int getMaxConcurrentStreams(int)
+    130:131:int getCurrentCwnd(int)
+    135:136:int getDownloadRetransRate(int)
+    145:146:int getClientCertificateVectorSize(int)
+com.squareup.okhttp.internal.spdy.SpdyConnection:
+    static final int FLAG_FIN
+    static final int FLAG_UNIDIRECTIONAL
+    static final int TYPE_DATA
+    static final int TYPE_SYN_STREAM
+    static final int TYPE_SYN_REPLY
+    static final int TYPE_RST_STREAM
+    static final int TYPE_SETTINGS
+    static final int TYPE_NOOP
+    static final int TYPE_PING
+    static final int TYPE_GOAWAY
+    static final int TYPE_HEADERS
+    static final int TYPE_WINDOW_UPDATE
+    static final int TYPE_CREDENTIAL
+    static final int VERSION
+    static final int GOAWAY_OK
+    static final int GOAWAY_PROTOCOL_ERROR
+    static final int GOAWAY_INTERNAL_ERROR
+    127:127:public synchronized int openStreamCount()
+    194:195:void writeSynReply(int,int,java.util.List)
+    241:253:public com.squareup.okhttp.internal.spdy.Ping ping()
+    281:282:public void noop()
+com.squareup.okhttp.internal.spdy.SpdyConnection$Builder:
+    383:384:public SpdyConnection$Builder(boolean,java.net.Socket)
+    387:388:public SpdyConnection$Builder(boolean,java.io.InputStream,java.io.OutputStream)
+    395:396:public SpdyConnection$Builder(java.lang.String,boolean,java.net.Socket)
+    410:411:public com.squareup.okhttp.internal.spdy.SpdyConnection$Builder handler(com.squareup.okhttp.internal.spdy.IncomingStreamHandler)
+com.squareup.okhttp.internal.spdy.SpdyStream:
+    private static final int DATA_FRAME_HEADER_LENGTH
+    public static final int RST_PROTOCOL_ERROR
+    public static final int RST_INVALID_STREAM
+    public static final int RST_REFUSED_STREAM
+    public static final int RST_UNSUPPORTED_VERSION
+    public static final int RST_CANCEL
+    public static final int RST_INTERNAL_ERROR
+    public static final int RST_FLOW_CONTROL_ERROR
+    public static final int RST_STREAM_IN_USE
+    public static final int RST_STREAM_ALREADY_CLOSED
+    public static final int RST_INVALID_CREDENTIALS
+    public static final int RST_FRAME_TOO_LARGE
+    public static final int WINDOW_UPDATE_THRESHOLD
+    148:148:public com.squareup.okhttp.internal.spdy.SpdyConnection getConnection()
+    152:152:public java.util.List getRequestHeaders()
+    184:184:public synchronized int getRstStatusCode()
+    194:213:public void reply(java.util.List,boolean)
+    224:224:public long getReadTimeoutMillis()
+    373:373:int getPriority()
+    377:377:int getSlot()
+com.squareup.okhttp.internal.spdy.SpdyWriter:
+    63:72:public synchronized void synReply(int,int,java.util.List)
+    76:85:public synchronized void headers(int,int,java.util.List)
+    99:104:public synchronized void data(int,int,byte[])
+    118:131:public synchronized void settings(int,com.squareup.okhttp.internal.spdy.Settings)
+    134:140:public synchronized void noop()
+org.apache.cordova.App
+org.apache.cordova.App$1
+org.apache.cordova.App$2
+org.apache.cordova.App$3
+org.apache.cordova.AuthenticationToken:
+    44:45:public void setUserName(java.lang.String)
+    63:64:public void setPassword(java.lang.String)
+org.apache.cordova.BuildConfig
+org.apache.cordova.CallbackContext:
+    private static final java.lang.String LOG_TAG
+    private int changingThreads
+    43:43:public boolean isFinished()
+    47:47:public boolean isChangingThreads()
+    51:51:public java.lang.String getCallbackId()
+    72:73:public void success(org.json.JSONObject)
+    81:82:public void success(java.lang.String)
+    99:100:public void success(byte[])
+    108:109:public void success(int)
+    115:116:public void success()
+    124:125:public void error(org.json.JSONObject)
+    133:134:public void error(java.lang.String)
+    142:143:public void error(int)
+org.apache.cordova.Config:
+    public static final java.lang.String TAG
+    56:59:public static void init()
+    205:209:public static void addWhiteListEntry(java.lang.String,boolean)
+org.apache.cordova.CordovaActivity:
+    protected org.apache.cordova.CordovaWebViewClient webViewClient
+    private int lastRequestCode
+    private java.lang.Object responseCode
+    private android.content.Intent lastIntent
+    private java.lang.Object lastResponseCode
+    private java.lang.Object LOG_TAG
+    194:197:public void setAuthenticationToken(org.apache.cordova.AuthenticationToken,java.lang.String,java.lang.String)
+    208:211:public org.apache.cordova.AuthenticationToken removeAuthenticationToken(java.lang.String,java.lang.String)
+    229:232:public org.apache.cordova.AuthenticationToken getAuthenticationToken(java.lang.String,java.lang.String)
+    239:242:public void clearAuthenticationTokens()
+    443:457:public void loadUrl(java.lang.String,int)
+    499:500:public void cancelLoadUrl()
+    506:510:public void clearCache()
+    516:517:public void clearHistory()
+    525:528:public boolean backHistory()
+    626:640:public double getDoubleProperty(java.lang.String,double)
+    650:652:public void setBooleanProperty(java.lang.String,boolean)
+    672:674:public void setStringProperty(java.lang.String,java.lang.String)
+    683:685:public void setDoubleProperty(java.lang.String,double)
+    803:806:public void addService(java.lang.String,java.lang.String)
+    815:818:public void sendJavascript(java.lang.String)
+    868:878:public void startActivityForResult(org.apache.cordova.CordovaPlugin,android.content.Intent,int)
+    920:921:public void setActivityResultCallback(org.apache.cordova.CordovaPlugin)
+    1003:1003:public boolean isUrlWhiteListed(java.lang.String)
+    1034:1035:public android.content.Context getContext()
+    1049:1052:public void showWebPage(java.lang.String,boolean,boolean,java.util.HashMap)
+org.apache.cordova.CordovaArgs:
+    37:37:public java.lang.Object get(int)
+    41:41:public boolean getBoolean(int)
+    45:45:public double getDouble(int)
+    49:49:public int getInt(int)
+    53:53:public org.json.JSONArray getJSONArray(int)
+    57:57:public org.json.JSONObject getJSONObject(int)
+    61:61:public long getLong(int)
+    65:65:public java.lang.String getString(int)
+    70:70:public java.lang.Object opt(int)
+    74:74:public boolean optBoolean(int)
+    78:78:public double optDouble(int)
+    82:82:public int optInt(int)
+    86:86:public org.json.JSONArray optJSONArray(int)
+    90:90:public org.json.JSONObject optJSONObject(int)
+    94:94:public long optLong(int)
+    98:98:public java.lang.String optString(int)
+    102:102:public boolean isNull(int)
+    108:109:public byte[] getArrayBuffer(int)
+org.apache.cordova.CordovaChromeClient:
+    public static final int FILECHOOSER_RESULTCODE
+    private static final java.lang.String LOG_TAG
+    71:73:public CordovaChromeClient(org.apache.cordova.CordovaInterface)
+    388:389:public void openFileChooser(android.webkit.ValueCallback)
+    392:393:public void openFileChooser(android.webkit.ValueCallback,java.lang.String)
+    397:403:public void openFileChooser(android.webkit.ValueCallback,java.lang.String,java.lang.String)
+org.apache.cordova.CordovaInterface:
+    public abstract void startActivityForResult(org.apache.cordova.CordovaPlugin,android.content.Intent,int)
+    public abstract void setActivityResultCallback(org.apache.cordova.CordovaPlugin)
+org.apache.cordova.CordovaResourceApi:
+    private static final java.lang.String LOG_TAG
+    public static final int URI_TYPE_FILE
+    public static final int URI_TYPE_ASSET
+    public static final int URI_TYPE_CONTENT
+    public static final int URI_TYPE_RESOURCE
+    public static final int URI_TYPE_DATA
+    public static final int URI_TYPE_HTTP
+    public static final int URI_TYPE_HTTPS
+    public static final int URI_TYPE_UNKNOWN
+    81:82:public void setThreadCheckingEnabled(boolean)
+    85:85:public boolean isThreadCheckingEnabled()
+    122:122:public java.lang.String remapPath(java.lang.String)
+    130:152:public java.io.File mapUriToFile(android.net.Uri)
+    156:178:public java.lang.String getMimeType(android.net.Uri)
+    204:204:public org.apache.cordova.CordovaResourceApi$OpenForReadResult openForRead(android.net.Uri)
+    271:271:public java.io.OutputStream openOutputStream(android.net.Uri)
+    282:298:public java.io.OutputStream openOutputStream(android.net.Uri,boolean)
+    302:303:public java.net.HttpURLConnection createHttpConnection(android.net.Uri)
+    309:340:public void copyResource(org.apache.cordova.CordovaResourceApi$OpenForReadResult,java.io.OutputStream)
+    343:344:public void copyResource(android.net.Uri,java.io.OutputStream)
+    360:369:private java.lang.String getDataUriMimeType(android.net.Uri)
+org.apache.cordova.CordovaWebView:
+    public static final java.lang.String TAG
+    public static final java.lang.String CORDOVA_VERSION
+    150:163:public CordovaWebView(android.content.Context,android.util.AttributeSet)
+    174:186:public CordovaWebView(android.content.Context,android.util.AttributeSet,int)
+    198:211:public CordovaWebView(android.content.Context,android.util.AttributeSet,int,boolean)
+    215:224:private void initWebViewClient(org.apache.cordova.CordovaInterface)
+    759:760:public void bindButton(boolean)
+    764:770:public void bindButton(java.lang.String,boolean)
+    773:781:public void bindButton(int,boolean,boolean)
+    785:785:public boolean isBackButtonBound()
+    856:856:public boolean isPaused()
+    860:860:public boolean hadKeyEvent()
+    962:963:public void storeResult(int,int,android.content.Intent)
+org.apache.cordova.CordovaWebView$ActivityResult:
+    int request
+    int result
+    android.content.Intent incoming
+    final synthetic org.apache.cordova.CordovaWebView this$0
+    109:113:public CordovaWebView$ActivityResult(org.apache.cordova.CordovaWebView,int,int,android.content.Intent)
+org.apache.cordova.CordovaWebView$Level16Apis:
+    866:866:private CordovaWebView$Level16Apis()
+org.apache.cordova.CordovaWebViewClient:
+    private static final java.lang.String TAG
+    private static final java.lang.String CORDOVA_EXEC_URL_PREFIX
+    65:67:public CordovaWebViewClient(org.apache.cordova.CordovaInterface)
+    93:106:private void handleExecUrl(java.lang.String)
+    398:405:public void setAuthenticationToken(org.apache.cordova.AuthenticationToken,java.lang.String,java.lang.String)
+    416:416:public org.apache.cordova.AuthenticationToken removeAuthenticationToken(java.lang.String,java.lang.String)
+    459:460:public void clearAuthenticationTokens()
+org.apache.cordova.DirectoryManager
+org.apache.cordova.DroidGap
+org.apache.cordova.ExifHelper
+org.apache.cordova.FileHelper
+org.apache.cordova.IceCreamCordovaWebViewClient:
+    private static final java.lang.String TAG
+    40:41:public IceCreamCordovaWebViewClient(org.apache.cordova.CordovaInterface)
+org.apache.cordova.JSONUtils
+org.apache.cordova.LOG:
+    public static final int VERBOSE
+    public static final int DEBUG
+    public static final int INFO
+    public static final int WARN
+    public static final int ERROR
+    29:29:public LOG()
+    46:48:public static void setLogLevel(int)
+    132:133:public static void v(java.lang.String,java.lang.String,java.lang.Throwable)
+    143:144:public static void d(java.lang.String,java.lang.String,java.lang.Throwable)
+    154:155:public static void i(java.lang.String,java.lang.String,java.lang.Throwable)
+    165:166:public static void w(java.lang.String,java.lang.String,java.lang.Throwable)
+    220:221:public static varargs void w(java.lang.String,java.lang.String,java.lang.Object[])
+    231:232:public static varargs void e(java.lang.String,java.lang.String,java.lang.Object[])
+org.apache.cordova.LinearLayoutSoftKeyboardDetect:
+    private static final java.lang.String TAG
+org.apache.cordova.NativeToJsMessageQueue:
+    private static final java.lang.String LOG_TAG
+    private static final int DEFAULT_BRIDGE_MODE
+    private static final boolean FORCE_ENCODE_USING_EVAL
+    static final boolean ENABLE_LOCATION_CHANGE_EXEC_MODE
+    static final boolean DISABLE_EXEC_CHAINING
+    275:275:public boolean getPaused()
+org.apache.cordova.NativeToJsMessageQueue$PrivateApiBridgeMode:
+    private static final int EXECUTE_JS
+org.apache.cordova.PluginManager:
+    249:250:public void exec(java.lang.String,java.lang.String,java.lang.String,java.lang.String,boolean)
+    280:282:public void addService(java.lang.String,java.lang.String)
+org.apache.cordova.PluginResult:
+    public static final int MESSAGE_TYPE_STRING
+    public static final int MESSAGE_TYPE_JSON
+    public static final int MESSAGE_TYPE_NUMBER
+    public static final int MESSAGE_TYPE_BOOLEAN
+    public static final int MESSAGE_TYPE_NULL
+    public static final int MESSAGE_TYPE_ARRAYBUFFER
+    public static final int MESSAGE_TYPE_BINARYSTRING
+    49:53:public PluginResult(org.apache.cordova.PluginResult$Status,org.json.JSONObject)
+    55:59:public PluginResult(org.apache.cordova.PluginResult$Status,int)
+    61:65:public PluginResult(org.apache.cordova.PluginResult$Status,float)
+    67:71:public PluginResult(org.apache.cordova.PluginResult$Status,boolean)
+    74:75:public PluginResult(org.apache.cordova.PluginResult$Status,byte[])
+    77:81:public PluginResult(org.apache.cordova.PluginResult$Status,byte[],boolean)
+    84:85:public void setKeepCallback(boolean)
+    116:116:public java.lang.String getJSONString()
+    122:131:public java.lang.String toCallbackString(java.lang.String)
+    136:136:public java.lang.String toSuccessCallbackString(java.lang.String)
+    141:141:public java.lang.String toErrorCallbackString(java.lang.String)
+org.apache.cordova.PluginResult$Status:
+    167:167:public static org.apache.cordova.PluginResult$Status[] values()
+    167:167:public static org.apache.cordova.PluginResult$Status valueOf(java.lang.String)
+org.apache.cordova.Whitelist:
+    public static final java.lang.String TAG
+org.apache.cordova.camera.CameraLauncher
+org.apache.cordova.camera.ExifHelper
+org.apache.cordova.camera.FileHelper
+org.apache.cordova.device.Device
+org.apache.cordova.geolocation.CordovaLocationListener
+org.apache.cordova.geolocation.CordovaLocationListener$LocationTimeoutTask
+org.apache.cordova.geolocation.GPSListener
+org.apache.cordova.geolocation.GeoBroker
+org.apache.cordova.geolocation.NetworkListener
+org.apache.cordova.splashscreen.SplashScreen
+org.pgsqlite.SQLitePlugin:
+    45:45:public static android.database.sqlite.SQLiteDatabase getSQLiteDatabase(java.lang.String)
+    638:645:private void sendJavascriptToGuiThread(java.lang.String)
+org.pgsqlite.SQLitePlugin$2

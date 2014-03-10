@@ -1,10 +1,1 @@
-
-define(["jquery", "backbone"], function ($, Backbone) {
-
-	// The Model constructor
-	var Model = Backbone.Model.extend({});
-
-	// Returns the Model class
-	return Model;
-
-});
+define(["jquery","backbone"],function(a,c){var b=c.Model.extend({});return b});

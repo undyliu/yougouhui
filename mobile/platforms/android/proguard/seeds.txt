@@ -1,0 +1,6 @@
+com.seekon.ebs.YouGouHui
+com.seekon.ebs.YouGouHui: YouGouHui()
+org.apache.cordova.CordovaActivity: CordovaActivity()
+org.apache.cordova.CordovaPlugin: CordovaPlugin()
+org.pgsqlite.SQLitePlugin
+org.pgsqlite.SQLitePlugin: SQLitePlugin()

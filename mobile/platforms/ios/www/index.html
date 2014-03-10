@@ -37,11 +37,11 @@
 			<form>
 				<div class="ui-field-contain">
 					<label for="phone" style="text-align:right">手机:</label>
-					<input type="number" name="phone" id="phone" placeholder="请录入手机号" value="" required aria-required="true">
+					<input type="number" name="phone" id="phone" placeholder="请录入手机号" value="" required aria-required="true" length='15' data-clear-btn="true" pattern="[0-9]*">
 				</div>
 				<div class="ui-field-contain">
 					<label for="password" style="text-align:right">密码:</label>
-					<input type="password" name="password" id="password" placeholder="请录入密码" value="" autocomplete="off" required aria-required="true">
+					<input type="password" name="password" id="password" placeholder="请录入密码" value="" autocomplete="off" required aria-required="true" data-clear-btn="true">
 				</div>
 				<div class="ui-field-contain">
 					<label for="rememberPwd" style="text-align:right">记住密码:</label>
