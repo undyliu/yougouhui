@@ -9,7 +9,7 @@
    (if (= channel-id "0")
 	(select activities 
 	  (with channels)
-		(fields :uuid :img :title :price :discount :visit_count :discuss_count [:e_channel.name :channel_name]) 
+		(fields :uuid :img :title :price :discount :visit_count :discuss_count :content :channel_id [:e_channel.name :channel_name]) 
 					(order :publish_time)) 
 	(select activities
 	  (with channels) 

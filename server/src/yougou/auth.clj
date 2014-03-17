@@ -21,6 +21,7 @@
 (defn login [phone password]
   (let [user (get-user phone)
         no-error (and (:uuid user) (password-is-valid? password (:pwd user)))]
+    (println phone)
     (if no-error
       {:authed true}
       {:authed false, :error-type (if (:id user) :pass-error :user-error)}

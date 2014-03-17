@@ -12,7 +12,7 @@
 )
 
 (defn get-modules [type]
-	(select modules (fields :uuid :code :name :icon :desc :url)
+	(select modules (fields :uuid :code :name :icon :desc :url :type :ord_index)
 			(where {:type [= type]})
 			(order :ord_index)
 	)
