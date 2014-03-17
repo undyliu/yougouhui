@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TabHost;
 
@@ -92,8 +93,22 @@ public class ChannelTabActivity extends ActivityGroup {
 		this.registerReceiver(requestReceiver, filter);
 
 		if (requestId == null) {
-			requestId = mActivityServiceHelper.getChannels(null,
-					MessageServiceHelper.CHANNEL_REQUEST_RESULT);
+			AsyncTask<Void, Void, Long>  task = new AsyncTask<Void, Void, Long>(){
+				@Override
+				protected Long doInBackground(Void... params) {					
+					return mActivityServiceHelper.getChannels(null,
+							MessageServiceHelper.CHANNEL_REQUEST_RESULT);
+				}
+				
+				@Override
+				protected void onPostExecute(Long result) {
+					requestId = result;
+				}
+			};
+			task.execute((Void)null);
+			
+			//requestId = mActivityServiceHelper.getChannels(null,
+			//		MessageServiceHelper.CHANNEL_REQUEST_RESULT);
 		}
 	}
 

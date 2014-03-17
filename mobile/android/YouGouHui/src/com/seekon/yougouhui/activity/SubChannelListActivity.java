@@ -14,6 +14,7 @@ import java.util.Map;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -53,10 +54,23 @@ public class SubChannelListActivity extends RequestListActivity {
 	}
 
 	@Override
-	protected long initRequestId() {
-		return MessageServiceHelper.getInstance(this).getChannels(
-				parentChannel.getAsString(COL_NAME_UUID),
-				MessageServiceHelper.SUBCHANNEL_REQUEST_RESULT);
+	protected void initRequestId() {
+
+		AsyncTask<Void, Void, Long> task = new AsyncTask<Void, Void, Long>() {
+			@Override
+			protected Long doInBackground(Void... params) {
+				return MessageServiceHelper.getInstance(SubChannelListActivity.this)
+						.getChannels(parentChannel.getAsString(COL_NAME_UUID),
+								MessageServiceHelper.SUBCHANNEL_REQUEST_RESULT);
+			}
+
+			@Override
+			protected void onPostExecute(Long result) {
+				requestId = result;
+			}
+		};
+		task.execute((Void) null);
+
 	}
 
 	@Override

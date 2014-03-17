@@ -14,6 +14,7 @@ import java.util.Map;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,9 +45,20 @@ public class MessageListActivity extends RequestListActivity {
 	}
 
 	@Override
-	protected long initRequestId() {
-		return MessageServiceHelper.getInstance(this).getMessages(
-				channel.getAsString(COL_NAME_UUID), requestResultType);
+	protected void initRequestId() {
+		AsyncTask<Void, Void, Long> task = new AsyncTask<Void, Void, Long>() {
+			@Override
+			protected Long doInBackground(Void... params) {
+				return MessageServiceHelper.getInstance(MessageListActivity.this)
+						.getMessages(channel.getAsString(COL_NAME_UUID), requestResultType);
+			}
+
+			@Override
+			protected void onPostExecute(Long result) {
+				requestId = result;
+			}
+		};
+		task.execute((Void) null);
 	}
 
 	@Override

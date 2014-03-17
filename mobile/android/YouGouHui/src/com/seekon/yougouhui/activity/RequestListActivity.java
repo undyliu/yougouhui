@@ -52,7 +52,7 @@ public abstract class RequestListActivity extends ListActivity {
 		this.registerReceiver(requestReceiver, filter);
 
 		if (requestId == null) {
-			requestId = initRequestId();
+			initRequestId();
 		}
 	}
 
@@ -62,7 +62,7 @@ public abstract class RequestListActivity extends ListActivity {
 		this.unregisterReceiver(requestReceiver);
 	}
 	
-	protected abstract long initRequestId();
+	protected abstract void initRequestId();
 	
 	protected abstract void updateListItems();
 

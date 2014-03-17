@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.widget.SimpleAdapter;
 
 import com.seekon.yougouhui.R;
@@ -32,22 +33,33 @@ public class ModuleListActivity extends RequestListActivity {
 	}
 
 	@Override
-	protected long initRequestId() {
-		return ModuleServiceHelper.getInstance(this).getModules(type, requestResultType);
+	protected void initRequestId() {
+		AsyncTask<Void, Void, Long> task = new AsyncTask<Void, Void, Long>() {
+			@Override
+			protected Long doInBackground(Void... params) {
+				return ModuleServiceHelper.getInstance(ModuleListActivity.this)
+						.getModules(type, requestResultType);
+			}
+
+			@Override
+			protected void onPostExecute(Long result) {
+				requestId = result;
+			}
+		};
+		task.execute((Void)null);
 	}
 
 	@Override
 	protected void updateListItems() {
 		if (modules.size() == 0) {
-			Cursor cursor = getContentResolver().query(
-					ModuleConst.CONTENT_URI,
-					new String[] { COL_NAME_UUID, COL_NAME_CODE, COL_NAME_NAME}, COL_NAME_TYPE + "= ? ", new String[] { type },
-					COL_NAME_ORD_INDEX);
+			Cursor cursor = getContentResolver().query(ModuleConst.CONTENT_URI,
+					new String[] { COL_NAME_UUID, COL_NAME_CODE, COL_NAME_NAME },
+					COL_NAME_TYPE + "= ? ", new String[] { type }, COL_NAME_ORD_INDEX);
 			while (cursor.moveToNext()) {
 				Map values = new HashMap();
 				String code = cursor.getString(1);
 				int img = RUtils.getDrawableImg(code);
-				if(img == -1){
+				if (img == -1) {
 					img = R.drawable.default_module;
 				}
 				values.put(COL_NAME_UUID, cursor.getInt(0));
@@ -58,9 +70,9 @@ public class ModuleListActivity extends RequestListActivity {
 			}
 			cursor.close();
 		}
-		
+
 		SimpleAdapter adapter = new SimpleAdapter(this, modules,
-				R.layout.module_list, new String[] {COL_NAME_IMG, COL_NAME_NAME },
+				R.layout.module_list, new String[] { COL_NAME_IMG, COL_NAME_NAME },
 				new int[] { R.id.img, R.id.title });
 
 		this.setListAdapter(adapter);
