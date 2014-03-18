@@ -3,6 +3,7 @@ package com.seekon.yougouhui.sercurity;
 import android.content.ContentValues;
 import android.content.Context;
 
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.login.EnvHelper;
 import com.seekon.yougouhui.func.login.LoginConst;
 import com.seekon.yougouhui.func.login.LoginMethod;
@@ -69,7 +70,7 @@ public class AuthorizationManager implements RequestSigner {
 			String phone = loginData.getAsString(UserHelper.COL_NAME_PHONE);
 			String pwd = loginData.getAsString(UserHelper.COL_NAME_PWD);
 			ContentValues user = this.getUserHelper().auth(phone, pwd);// 本地数据库认证
-			if (user == null) {
+			if (user == null && RunEnv.getInstance().isConnectedToInternet()) {
 				RestMethod<JSONObjResource> loginmMethod = new LoginMethod(context, phone,
 						pwd);
 				RestMethodResult<JSONObjResource> result = loginmMethod.execute();
@@ -79,19 +80,27 @@ public class AuthorizationManager implements RequestSigner {
 					user.put(UserHelper.COL_NAME_PHONE, phone);
 					user.put(UserHelper.COL_NAME_PWD, pwd);
 					this.getUserHelper().updateUser(user);//登录成功，更新用户信息
-					errorType = null;
+					
 				}else{
 					errorType = result.getResource().getString("error-type");
 				}
 			}
+			if(user != null){
+				errorType = LoginConst.AUTH_SUCCESS;
+				RunEnv.getInstance().setUser(user);
+			}
 		} catch (Throwable e) {
 			Logger.error("login", e.getMessage());
-			errorType = LoginConst.AUTH_ERROR_UNKOWN;
 		}
 		
 		if(errorType == null){
+			errorType = LoginConst.AUTH_ERROR_UNKOWN;
+		}
+		
+		if(errorType.equals(LoginConst.AUTH_SUCCESS)){
 			this.getEnvHelper().updateLoginSetting(loginData);//认证成功记录登录设置信息
 		}
+		
 		return errorType;
 	}
 

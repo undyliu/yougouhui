@@ -61,20 +61,17 @@ public class MessageListActivity extends RequestListActivity {
 		AsyncTask<Void, Void, Long> task = new AsyncTask<Void, Void, Long>() {
 			@Override
 			protected Long doInBackground(Void... params) {
-				return MessageServiceHelper.getInstance(MessageListActivity.this)
+				requestId =  MessageServiceHelper.getInstance(MessageListActivity.this)
 						.getMessages(channel.getAsString(COL_NAME_UUID), requestResultType);
+				return requestId;
 			}
 
-			@Override
-			protected void onPostExecute(Long result) {
-				requestId = result;
-			}
 		};
 		task.execute((Void) null);
 	}
 
 	@Override
-	protected void updateListItems() {
+	protected List<Map<String, ?>> getListItemsFromLocal() {
 		if (messages.size() == 0) {
 			String channelId = channel.getAsString(COL_NAME_UUID);
 			String selection = null;
@@ -96,11 +93,14 @@ public class MessageListActivity extends RequestListActivity {
 				messages.add(values);
 			}
 			cursor.close();
-			this.setListAdapter(new ImageListRemoteAdapter(this, messages,
-					R.layout.message_list, new String[] { COL_NAME_TITLE },
-					new int[] { R.id.title }));
 		}
-
+		return messages;
 	}
-
+	
+	@Override
+	protected void updateListView(List<Map<String, ?>> data) {
+		this.setListAdapter(new ImageListRemoteAdapter(this, messages,
+				R.layout.message_list, new String[] { COL_NAME_TITLE },
+				new int[] { R.id.title }));
+	}
 }

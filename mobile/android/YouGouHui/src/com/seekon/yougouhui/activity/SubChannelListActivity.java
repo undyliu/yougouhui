@@ -55,7 +55,6 @@ public class SubChannelListActivity extends RequestListActivity {
 
 	@Override
 	protected void initRequestId() {
-
 		AsyncTask<Void, Void, Long> task = new AsyncTask<Void, Void, Long>() {
 			@Override
 			protected Long doInBackground(Void... params) {
@@ -70,11 +69,10 @@ public class SubChannelListActivity extends RequestListActivity {
 			}
 		};
 		task.execute((Void) null);
-
 	}
-
+	
 	@Override
-	protected void updateListItems() {
+	protected List<Map<String, ?>> getListItemsFromLocal() {
 		if (channels.size() == 0) {
 			Cursor cursor = getContentResolver().query(ChannelConst.CONTENT_URI,
 					new String[] { COL_NAME_UUID, COL_NAME_CODE, COL_NAME_NAME },
@@ -90,7 +88,11 @@ public class SubChannelListActivity extends RequestListActivity {
 			}
 			cursor.close();
 		}
-
+		return channels;
+	}
+	
+	@Override
+	protected void updateListView(List<Map<String, ?>> data) {
 		SimpleAdapter adapter = new SimpleAdapter(this, channels,
 				R.layout.sub_channel_list, new String[] { COL_NAME_NAME },
 				new int[] { R.id.title });

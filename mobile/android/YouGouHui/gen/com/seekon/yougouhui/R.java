@@ -82,30 +82,31 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int main=0x7f080000;
     }
     public static final class string {
-        public static final int action_auto_login=0x7f060016;
-        public static final int action_forgot_password=0x7f06000f;
-        public static final int action_remember_pwd=0x7f060017;
+        public static final int action_auto_login=0x7f060017;
+        public static final int action_forgot_password=0x7f060010;
+        public static final int action_remember_pwd=0x7f060018;
         public static final int action_settings=0x7f060001;
-        public static final int action_sign_in_register=0x7f06000d;
-        public static final int action_sign_in_short=0x7f06000e;
+        public static final int action_sign_in_register=0x7f06000e;
+        public static final int action_sign_in_short=0x7f06000f;
         public static final int app_log_tag=0x7f060002;
         public static final int app_name=0x7f060000;
         public static final int category_discover=0x7f060004;
         public static final int category_news=0x7f060003;
         public static final int category_profile=0x7f060005;
-        public static final int error_disconnect_server=0x7f060014;
-        public static final int error_field_required=0x7f060015;
-        public static final int error_incorrect_password=0x7f060012;
-        public static final int error_incorrect_phone=0x7f060013;
-        public static final int error_invalid_password=0x7f060011;
+        public static final int disconnected_server=0x7f06000a;
+        public static final int error_disconnect_server=0x7f060015;
+        public static final int error_field_required=0x7f060016;
+        public static final int error_incorrect_password=0x7f060013;
+        public static final int error_incorrect_phone=0x7f060014;
+        public static final int error_invalid_password=0x7f060012;
         public static final int hello_world=0x7f060007;
-        public static final int login_progress_signing_in=0x7f060010;
-        public static final int prompt_password=0x7f06000c;
+        public static final int login_progress_signing_in=0x7f060011;
+        public static final int prompt_password=0x7f06000d;
         /**  Strings related to login 
          */
-        public static final int prompt_phone=0x7f06000b;
+        public static final int prompt_phone=0x7f06000c;
         public static final int title_activity_channel_tab=0x7f060006;
-        public static final int title_activity_login=0x7f06000a;
+        public static final int title_activity_login=0x7f06000b;
         public static final int title_activity_message_list=0x7f060008;
         public static final int title_activity_sub_channel_list=0x7f060009;
     }

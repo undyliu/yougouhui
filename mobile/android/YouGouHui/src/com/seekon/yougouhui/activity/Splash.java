@@ -12,9 +12,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.login.EnvHelper;
 import com.seekon.yougouhui.func.login.UserHelper;
 import com.seekon.yougouhui.sercurity.AuthorizationManager;
+import com.seekon.yougouhui.service.ConnectionDetector;
 import com.seekon.yougouhui.util.Logger;
 
 /**
@@ -24,13 +26,17 @@ import com.seekon.yougouhui.util.Logger;
  * 
  */
 public class Splash extends Activity {
-	
+
 	private static final String TAG = Splash.class.getSimpleName();
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.splash);
+
+		ConnectionDetector connectionDetector = new ConnectionDetector(this);
+		RunEnv.getInstance().setConnectedToInternet(
+				connectionDetector.isConnectingToInternet());
 
 		boolean autoLogin = false;
 
@@ -43,12 +49,13 @@ public class Splash extends Activity {
 				autoLogin = false;
 			}
 		}
-
-		if (autoLogin) {
-			autoLogin = auth(loginSetting);
+		
+		boolean authed = false;
+		if (autoLogin || RunEnv.getInstance().getUser() != null) {
+			authed = auth(loginSetting);
 		}
 
-		if (autoLogin) {
+		if (authed) {
 			Intent main = new Intent(this, MainActivity.class);
 			startActivity(main);
 		} else {

@@ -28,6 +28,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.func.login.LoginConst;
 import com.seekon.yougouhui.func.login.UserHelper;
 import com.seekon.yougouhui.sercurity.AuthorizationManager;
 
@@ -53,24 +54,24 @@ public class LoginActivity extends Activity {
 	private TextView mLoginStatusMessageView;
 
 	private AuthorizationManager mAuthManager;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.login);
-		
+
 		mAuthManager = AuthorizationManager.getInstance(this);
-		
+
 		JSONObject loginSetting = null;
 		try {
-			String loginSettingStr = getIntent().getStringExtra(
-					LOGIN_SETTING_KEY);
+			String loginSettingStr = getIntent().getStringExtra(LOGIN_SETTING_KEY);
 			if (loginSettingStr != null && loginSettingStr.length() > 0) {
 				loginSetting = new JSONObject(loginSettingStr);
 			}
 
-			if (loginSetting != null && loginSetting.getBoolean(LOGIN_SETTING_REMEMBER_PWD)) {
+			if (loginSetting != null
+					&& loginSetting.getBoolean(LOGIN_SETTING_REMEMBER_PWD)) {
 				mPhone = loginSetting.getString(UserHelper.COL_NAME_PHONE);
 				mPassword = loginSetting.getString(UserHelper.COL_NAME_PWD);
 				autoLogin = loginSetting.getBoolean(LOGIN_SETTING_AUTO_LOGIN);
@@ -131,25 +132,25 @@ public class LoginActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+
 		if (getIntent().getData() != null) {
-			//TODO 设置用户登录信息
+			// TODO 设置用户登录信息
 		}
-		
-		if(mAuthManager.loggedIn()){
+
+		if (mAuthManager.loggedIn()) {
 			startHomeActivity();
-		}else{
-			
+		} else {
+
 		}
 	}
-	
+
 	private void startHomeActivity() {
 		showProgress(false);
 		Intent startHomeActivity = new Intent(this, MainActivity.class);
 		startActivity(startHomeActivity);
 		finish();
 	}
-	
+
 	/**
 	 * Attempts to sign in or register the account specified by the login form. If
 	 * there are form errors (invalid email, missing fields, etc.), the errors are
@@ -187,11 +188,11 @@ public class LoginActivity extends Activity {
 			mPhoneView.setError(getString(R.string.error_field_required));
 			focusView = mPhoneView;
 			cancel = true;
-		} 
-		
+		}
+
 		autoLogin = autoLoginView.isChecked();
 		rememberPwd = rememberPwdView.isChecked();
-		
+
 		if (cancel) {
 			// There was an error; don't attempt login and focus the first
 			// form field with an error.
@@ -250,7 +251,7 @@ public class LoginActivity extends Activity {
 	public class UserLoginTask extends AsyncTask<Void, Void, String> {
 		@Override
 		protected String doInBackground(Void... params) {
-			
+
 			ContentValues loginData = new ContentValues();
 			loginData.put(UserHelper.COL_NAME_PHONE, mPhone);
 			loginData.put(UserHelper.COL_NAME_PWD, mPassword);
@@ -263,22 +264,22 @@ public class LoginActivity extends Activity {
 		protected void onPostExecute(final String errorType) {
 			mAuthTask = null;
 			showProgress(false);
-			boolean success = errorType == null;
-			
+			boolean success = LoginConst.AUTH_SUCCESS.equals(errorType);
+
 			if (success) {
 				startHomeActivity();
 			} else {
-				if(AUTH_ERROR_PASS.equals(errorType)){
+				if (AUTH_ERROR_PASS.equals(errorType)) {
 					mPasswordView.setError(getString(R.string.error_incorrect_password));
 					mPasswordView.requestFocus();
-				}else if(AUTH_ERROR_USER.equals(errorType)){
+				} else if (AUTH_ERROR_USER.equals(errorType)) {
 					mPhoneView.setError(getString(R.string.error_incorrect_phone));
 					mPhoneView.requestFocus();
-				}else{
+				} else {
 					mPasswordView.setError(getString(R.string.error_disconnect_server));
 					mPasswordView.requestFocus();
 				}
-				
+
 			}
 		}
 

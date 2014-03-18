@@ -48,9 +48,9 @@ public class ModuleListActivity extends RequestListActivity {
 		};
 		task.execute((Void)null);
 	}
-
+	
 	@Override
-	protected void updateListItems() {
+	protected List<Map<String, ?>> getListItemsFromLocal() {
 		if (modules.size() == 0) {
 			Cursor cursor = getContentResolver().query(ModuleConst.CONTENT_URI,
 					new String[] { COL_NAME_UUID, COL_NAME_CODE, COL_NAME_NAME },
@@ -70,7 +70,11 @@ public class ModuleListActivity extends RequestListActivity {
 			}
 			cursor.close();
 		}
-
+		return modules;
+	}
+	
+	@Override
+	protected void updateListView(List<Map<String, ?>> data) {
 		SimpleAdapter adapter = new SimpleAdapter(this, modules,
 				R.layout.module_list, new String[] { COL_NAME_IMG, COL_NAME_NAME },
 				new int[] { R.id.img, R.id.title });

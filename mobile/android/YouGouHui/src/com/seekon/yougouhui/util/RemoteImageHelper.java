@@ -28,6 +28,27 @@ public class RemoteImageHelper {
 			return;
 		}
 
+		String fileName = filePath;
+		int pos = filePath.lastIndexOf("/");
+		if (pos > -1) {
+			fileName = filePath.substring(pos + 1, filePath.length());
+		}
+
+		if (FileHelper.fileExists(fileName)) {
+			InputStream is = null;
+			try {
+				is = FileHelper.read(fileName);
+				if (is != null) {
+					imageView.setImageDrawable(Drawable.createFromStream(is, "src"));
+					return;
+				}
+			} finally {
+				FileHelper.closeInputStream(is);
+			}
+
+		}
+		final String finalName = fileName;
+
 		imageView.setImageResource(R.drawable.loading);
 		Logger.debug(TAG, "Image file:" + filePath);
 
@@ -42,41 +63,24 @@ public class RemoteImageHelper {
 			public void run() {
 				InputStream is = null;
 				Drawable drawable = null;
-
-				String fileName = filePath;
-				int pos = filePath.lastIndexOf("/");
-				if (pos > -1) {
-					fileName = filePath.substring(pos + 1, filePath.length());
-				}
 				try {
-					is = FileHelper.read(fileName);
+					is = download(filePath);
 					if (is != null) {
-						drawable = Drawable.createFromStream(is, "src");
-					} else {
-						is = download(filePath);
-						if(is != null){
-							FileHelper.write(is, fileName);
-							is.close();
-						}
-						is = FileHelper.read(fileName);
-						//TODO:
-						drawable = Drawable.createFromStream(is, "src");
-						if (drawable != null) {
-							
-						}
+						//FileHelper.write(is, finalName);
+						//is.close();
+					}
+					//is = FileHelper.read(finalName);
+					// TODO:
+					drawable = Drawable.createFromStream(is, "src");
+					if (drawable != null) {
+
 					}
 				} catch (Exception e) {
 					Logger.error(TAG, "Image download failed", e);
 					drawable = imageView.getResources()
 							.getDrawable(R.drawable.image_fail);
 				} finally {
-					if (is != null) {
-						try {
-							is.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
+					FileHelper.closeInputStream(is);
 				}
 
 				Message msg = handler.obtainMessage(1, drawable);

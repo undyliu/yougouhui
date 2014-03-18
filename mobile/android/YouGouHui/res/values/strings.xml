@@ -11,5 +11,5 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_message_list">MessageListActivity</string>
     <string name="title_activity_sub_channel_list">SubChannelListActivity</string>
-
+	<string name="disconnected_server">连接服务器失败</string>
 </resources>

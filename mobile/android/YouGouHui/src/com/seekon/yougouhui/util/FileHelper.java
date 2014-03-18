@@ -40,6 +40,7 @@ public class FileHelper {
 		try {
 			os = getFileOutputStream(fileName, mode);
 			os.write(content);
+			os.flush();
 		} catch (Exception e) {
 			Logger.error(TAG, e.getMessage(), e);
 		} finally {
@@ -65,6 +66,7 @@ public class FileHelper {
 			while ((size = is.read(content)) != -1) {
 				os.write(content, 0, size);
 			}
+			os.flush();
 		} catch (Exception e) {
 			Logger.error(TAG, e.getMessage(), e);
 		} finally {
@@ -110,11 +112,11 @@ public class FileHelper {
 		return YouGouHuiApp.getAppContext().openFileInput(fileName);
 	}
 	
-	private static boolean fileExists(String fileName){
+	public static boolean fileExists(String fileName){
 		InputStream is = null;
 		try{
 			is = getFileInputStream(fileName);
-			return is != null;
+			return is != null && is.read() > 0;
 		}catch(Exception e){
 			Logger.error(TAG, e.getMessage(), e);
 		}finally{
