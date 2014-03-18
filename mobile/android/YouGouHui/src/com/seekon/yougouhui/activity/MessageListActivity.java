@@ -12,22 +12,26 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.ContentValues;
-import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.SimpleAdapter;
+import android.widget.ListView;
 
-import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.mess.ChannelConst;
 import com.seekon.yougouhui.func.mess.MessageConst;
 import com.seekon.yougouhui.func.mess.MessageServiceHelper;
-import com.seekon.yougouhui.util.RemoteImageHelper;
+import com.seekon.yougouhui.util.ContentValuesUtils;
+import com.seekon.yougouhui.widget.ImageListRemoteAdapter;
 
+/**
+ * 活动消息列表
+ * 
+ * @author undyliu
+ * 
+ */
 public class MessageListActivity extends RequestListActivity {
 
 	private ContentValues channel = null;
@@ -44,6 +48,14 @@ public class MessageListActivity extends RequestListActivity {
 		channel = getIntent().getParcelableExtra(ChannelConst.CHANNEL_DATA_KEY);
 	}
 
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		ContentValues message = ContentValuesUtils.fromMap(messages.get(position), null);
+		Intent messageIntent = new Intent(this, MessageActivity.class);
+		messageIntent.putExtra(MessageConst.MESSAGE_DATA_KEY, message);
+		startActivity(messageIntent);
+	}
+	
 	@Override
 	protected void initRequestId() {
 		AsyncTask<Void, Void, Long> task = new AsyncTask<Void, Void, Long>() {
@@ -84,31 +96,11 @@ public class MessageListActivity extends RequestListActivity {
 				messages.add(values);
 			}
 			cursor.close();
-			this.setListAdapter(new MyAdapter(this));
+			this.setListAdapter(new ImageListRemoteAdapter(this, messages,
+					R.layout.message_list, new String[] { COL_NAME_TITLE },
+					new int[] { R.id.title }));
 		}
 
 	}
 
-	class MyAdapter extends SimpleAdapter {
-
-		public MyAdapter(Context context) {
-			super(context, messages, R.layout.message_list,
-					new String[] { COL_NAME_TITLE }, new int[] { R.id.title, });
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			View view = super.getView(position, convertView, parent);
-			Map record = (Map) getItem(position);
-
-			String recordImg = (String) record.get(COL_NAME_IMG);
-			if (recordImg != null && recordImg.trim().length() > 0) {
-				ImageView imageView = (ImageView) view.findViewById(R.id.img_id);
-
-				String imgSrc = Const.SERVER_APP_URL + recordImg;
-				RemoteImageHelper.loadImage(imageView, imgSrc, true);
-			}
-			return view;
-		}
-	}
 }

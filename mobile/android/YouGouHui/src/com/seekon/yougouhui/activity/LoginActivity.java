@@ -1,5 +1,11 @@
 package com.seekon.yougouhui.activity;
 
+import static com.seekon.yougouhui.func.login.LoginConst.AUTH_ERROR_PASS;
+import static com.seekon.yougouhui.func.login.LoginConst.AUTH_ERROR_USER;
+import static com.seekon.yougouhui.func.login.LoginConst.LOGIN_SETTING_AUTO_LOGIN;
+import static com.seekon.yougouhui.func.login.LoginConst.LOGIN_SETTING_KEY;
+import static com.seekon.yougouhui.func.login.LoginConst.LOGIN_SETTING_REMEMBER_PWD;
+
 import org.json.JSONObject;
 
 import android.animation.Animator;
@@ -21,9 +27,8 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.db.UserHelper;
+import com.seekon.yougouhui.func.login.UserHelper;
 import com.seekon.yougouhui.sercurity.AuthorizationManager;
 
 public class LoginActivity extends Activity {
@@ -60,16 +65,16 @@ public class LoginActivity extends Activity {
 		JSONObject loginSetting = null;
 		try {
 			String loginSettingStr = getIntent().getStringExtra(
-					Const.LOGIN_SETTING_KEY);
+					LOGIN_SETTING_KEY);
 			if (loginSettingStr != null && loginSettingStr.length() > 0) {
 				loginSetting = new JSONObject(loginSettingStr);
 			}
 
-			if (loginSetting != null && loginSetting.getBoolean(Const.LOGIN_SETTING_REMEMBER_PWD)) {
+			if (loginSetting != null && loginSetting.getBoolean(LOGIN_SETTING_REMEMBER_PWD)) {
 				mPhone = loginSetting.getString(UserHelper.COL_NAME_PHONE);
 				mPassword = loginSetting.getString(UserHelper.COL_NAME_PWD);
-				autoLogin = loginSetting.getBoolean(Const.LOGIN_SETTING_AUTO_LOGIN);
-				rememberPwd = loginSetting.getBoolean(Const.LOGIN_SETTING_REMEMBER_PWD);
+				autoLogin = loginSetting.getBoolean(LOGIN_SETTING_AUTO_LOGIN);
+				rememberPwd = loginSetting.getBoolean(LOGIN_SETTING_REMEMBER_PWD);
 			}
 		} catch (Exception e) {
 			Log.d("get loginSetting from intent", e.getMessage());
@@ -249,8 +254,8 @@ public class LoginActivity extends Activity {
 			ContentValues loginData = new ContentValues();
 			loginData.put(UserHelper.COL_NAME_PHONE, mPhone);
 			loginData.put(UserHelper.COL_NAME_PWD, mPassword);
-			loginData.put(Const.LOGIN_SETTING_AUTO_LOGIN, autoLogin);
-			loginData.put(Const.LOGIN_SETTING_REMEMBER_PWD, rememberPwd);
+			loginData.put(LOGIN_SETTING_AUTO_LOGIN, autoLogin);
+			loginData.put(LOGIN_SETTING_REMEMBER_PWD, rememberPwd);
 			return mAuthManager.login(loginData);
 		}
 
@@ -263,10 +268,10 @@ public class LoginActivity extends Activity {
 			if (success) {
 				startHomeActivity();
 			} else {
-				if(Const.AUTH_ERROR_PASS.equals(errorType)){
+				if(AUTH_ERROR_PASS.equals(errorType)){
 					mPasswordView.setError(getString(R.string.error_incorrect_password));
 					mPasswordView.requestFocus();
-				}else if(Const.AUTH_ERROR_USER.equals(errorType)){
+				}else if(AUTH_ERROR_USER.equals(errorType)){
 					mPhoneView.setError(getString(R.string.error_incorrect_phone));
 					mPhoneView.requestFocus();
 				}else{

@@ -1,5 +1,8 @@
 package com.seekon.yougouhui.activity;
 
+import static com.seekon.yougouhui.func.login.LoginConst.LOGIN_SETTING_AUTO_LOGIN;
+import static com.seekon.yougouhui.func.login.LoginConst.LOGIN_SETTING_KEY;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -7,13 +10,12 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.db.EnvHelper;
-import com.seekon.yougouhui.db.UserHelper;
+import com.seekon.yougouhui.func.login.EnvHelper;
+import com.seekon.yougouhui.func.login.UserHelper;
 import com.seekon.yougouhui.sercurity.AuthorizationManager;
+import com.seekon.yougouhui.util.Logger;
 
 /**
  * 启动界面splash
@@ -22,7 +24,9 @@ import com.seekon.yougouhui.sercurity.AuthorizationManager;
  * 
  */
 public class Splash extends Activity {
-
+	
+	private static final String TAG = Splash.class.getSimpleName();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,7 +38,7 @@ public class Splash extends Activity {
 		JSONObject loginSetting = envHelper.getLoginSetting();
 		if (loginSetting != null) {
 			try {
-				autoLogin = loginSetting.getBoolean(Const.LOGIN_SETTING_AUTO_LOGIN);
+				autoLogin = loginSetting.getBoolean(LOGIN_SETTING_AUTO_LOGIN);
 			} catch (JSONException e) {
 				autoLogin = false;
 			}
@@ -50,7 +54,7 @@ public class Splash extends Activity {
 		} else {
 			Intent login = new Intent(this, LoginActivity.class);
 			if (loginSetting != null) {
-				login.putExtra(Const.LOGIN_SETTING_KEY, loginSetting.toString());
+				login.putExtra(LOGIN_SETTING_KEY, loginSetting.toString());
 			}
 			startActivity(login);
 		}
@@ -73,7 +77,7 @@ public class Splash extends Activity {
 					loginSetting.getString(UserHelper.COL_NAME_PWD));
 			authed = user != null;
 		} catch (JSONException e) {
-			Log.d("auth", e.getMessage());
+			Logger.debug(TAG, e.getMessage(), e);
 		}
 		return authed;
 	}

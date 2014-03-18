@@ -5,7 +5,6 @@ import java.net.URI;
 import android.content.Context;
 
 import com.seekon.yougouhui.Const;
-import com.seekon.yougouhui.db.UserHelper;
 import com.seekon.yougouhui.rest.AbstractRestMethod;
 import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;

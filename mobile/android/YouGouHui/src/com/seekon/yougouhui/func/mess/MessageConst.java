@@ -20,4 +20,6 @@ public interface MessageConst extends DataConst{
 	
 	public static final String COL_NAME_VISIT_COUNT = "visit_count";
 	
+	public static final String MESSAGE_DATA_KEY = "message.data.key";
+	
 }

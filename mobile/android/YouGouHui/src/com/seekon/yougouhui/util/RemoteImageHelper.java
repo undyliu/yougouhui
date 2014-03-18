@@ -4,40 +4,32 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.seekon.yougouhui.R;
 
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.widget.ImageView;
 
+import com.seekon.yougouhui.Const;
+import com.seekon.yougouhui.R;
+
 /**
- * A helper class facilitates loading a remote image into a given ListView.
- * http://www.cnblogs.com/bjzhanghao/archive/2012/11/11/2764970.html
+ * 远程图片加载类
+ * 
+ * @author undyliu
  * 
  */
 public class RemoteImageHelper {
 
-	private static final Map<String, Drawable> cache = new HashMap<String, Drawable>();
+	private static final String TAG = RemoteImageHelper.class.getSimpleName();
 
-	public static void loadImage(final ImageView imageView, final String urlString) {
-		loadImage(imageView, urlString, true);
-	}
-
-	public static void loadImage(final ImageView imageView, final String urlString,
-			boolean useCache) {
-		if (useCache && cache.containsKey(urlString)) {
-			imageView.setImageDrawable(cache.get(urlString));
+	public static void loadImage(final ImageView imageView, final String filePath) {
+		if (imageView == null || filePath == null || filePath.trim().length() == 0) {
+			return;
 		}
 
-		// You may want to show a "Loading" image here
 		imageView.setImageResource(R.drawable.loading);
-
-		Log.d(RemoteImageHelper.class.getSimpleName(), "Image url:" + urlString);
+		Logger.debug(TAG, "Image file:" + filePath);
 
 		final Handler handler = new Handler() {
 			@Override
@@ -48,22 +40,45 @@ public class RemoteImageHelper {
 
 		Runnable runnable = new Runnable() {
 			public void run() {
+				InputStream is = null;
 				Drawable drawable = null;
-				try {
-					InputStream is = download(urlString);
-					drawable = Drawable.createFromStream(is, "src");
 
-					if (drawable != null) {
-						cache.put(urlString, drawable);
+				String fileName = filePath;
+				int pos = filePath.lastIndexOf("/");
+				if (pos > -1) {
+					fileName = filePath.substring(pos + 1, filePath.length());
+				}
+				try {
+					is = FileHelper.read(fileName);
+					if (is != null) {
+						drawable = Drawable.createFromStream(is, "src");
+					} else {
+						is = download(filePath);
+						if(is != null){
+							FileHelper.write(is, fileName);
+							is.close();
+						}
+						is = FileHelper.read(fileName);
+						//TODO:
+						drawable = Drawable.createFromStream(is, "src");
+						if (drawable != null) {
+							
+						}
 					}
 				} catch (Exception e) {
-					Log.e(this.getClass().getSimpleName(), "Image download failed", e);
-					// Show "download fail" image
+					Logger.error(TAG, "Image download failed", e);
 					drawable = imageView.getResources()
 							.getDrawable(R.drawable.image_fail);
+				} finally {
+					if (is != null) {
+						try {
+							is.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
 				}
 
-				// Notify UI thread to show this image using Handler
 				Message msg = handler.obtainMessage(1, drawable);
 				handler.sendMessage(msg);
 			}
@@ -72,17 +87,9 @@ public class RemoteImageHelper {
 
 	}
 
-	/**
-	 * Download image from given url. Make sure you have
-	 * "android.permission.INTERNET" permission set in AndroidManifest.xml.
-	 * 
-	 * @param urlString
-	 * @return
-	 * @throws MalformedURLException
-	 * @throws IOException
-	 */
-	private static InputStream download(String urlString) throws MalformedURLException,
-			IOException {
+	private static InputStream download(String filePath)
+			throws MalformedURLException, IOException {
+		String urlString = Const.SERVER_APP_URL + filePath;
 		InputStream inputStream = (InputStream) new URL(urlString).getContent();
 		return inputStream;
 	}

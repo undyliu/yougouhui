@@ -66,7 +66,6 @@ public abstract class AbstractRestMethod<T extends Resource> implements RestMeth
 	}
 
 	private String getCharacterEncoding(Map<String, List<String>> headers) {
-		// TODO get value from headers
 		return DEFAULT_ENCODING;
 	}
 

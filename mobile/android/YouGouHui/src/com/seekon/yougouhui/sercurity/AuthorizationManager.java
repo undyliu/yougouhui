@@ -3,10 +3,10 @@ package com.seekon.yougouhui.sercurity;
 import android.content.ContentValues;
 import android.content.Context;
 
-import com.seekon.yougouhui.Const;
-import com.seekon.yougouhui.db.EnvHelper;
-import com.seekon.yougouhui.db.UserHelper;
+import com.seekon.yougouhui.func.login.EnvHelper;
+import com.seekon.yougouhui.func.login.LoginConst;
 import com.seekon.yougouhui.func.login.LoginMethod;
+import com.seekon.yougouhui.func.login.UserHelper;
 import com.seekon.yougouhui.rest.Request;
 import com.seekon.yougouhui.rest.RestMethod;
 import com.seekon.yougouhui.rest.RestMethodResult;
@@ -86,7 +86,7 @@ public class AuthorizationManager implements RequestSigner {
 			}
 		} catch (Throwable e) {
 			Logger.error("login", e.getMessage());
-			errorType = Const.AUTH_ERROR_UNKOWN;
+			errorType = LoginConst.AUTH_ERROR_UNKOWN;
 		}
 		
 		if(errorType == null){

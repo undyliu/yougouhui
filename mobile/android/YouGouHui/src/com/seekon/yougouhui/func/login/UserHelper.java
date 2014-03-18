@@ -1,4 +1,6 @@
-package com.seekon.yougouhui.db;
+package com.seekon.yougouhui.func.login;
+
+import com.seekon.yougouhui.func.AbstractDBHelper;
 
 import android.content.ContentValues;
 import android.content.Context;

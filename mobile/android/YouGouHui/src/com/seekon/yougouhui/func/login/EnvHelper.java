@@ -1,4 +1,4 @@
-package com.seekon.yougouhui.db;
+package com.seekon.yougouhui.func.login;
 
 import java.util.Iterator;
 
@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.seekon.yougouhui.func.AbstractDBHelper;
 import com.seekon.yougouhui.util.Logger;
 
 /**

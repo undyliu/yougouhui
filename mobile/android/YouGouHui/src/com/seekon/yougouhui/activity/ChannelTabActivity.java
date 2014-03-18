@@ -25,6 +25,11 @@ import com.seekon.yougouhui.func.mess.ChannelConst;
 import com.seekon.yougouhui.func.mess.MessageServiceHelper;
 import com.seekon.yougouhui.util.Logger;
 
+/**
+ * 活动栏目页签
+ * @author undyliu
+ *
+ */
 @SuppressWarnings("deprecation")
 public class ChannelTabActivity extends ActivityGroup {
 
@@ -56,29 +61,11 @@ public class ChannelTabActivity extends ActivityGroup {
 
 				long resultRequestId = intent.getLongExtra(
 						MessageServiceHelper.EXTRA_REQUEST_ID, 0);
-
-				Logger.debug(TAG, "Received intent " + intent.getAction()
-						+ ", request ID " + resultRequestId);
-
 				if (resultRequestId == requestId) {
-
-					Logger.debug(TAG, "Result is for our request ID");
-
-					// setRefreshing(false);
-
 					int resultCode = intent.getIntExtra(
 							MessageServiceHelper.EXTRA_RESULT_CODE, 0);
-
-					Logger.debug(TAG, "Result code = " + resultCode);
-
 					if (resultCode == 200) {
-
-						Logger.debug(TAG, "Updating UI with new data");
-
-						// String name = getNameFromContentProvider();
-						// showNameToast(name);
 						updateTabs(getChannelsFromContentProvider());
-
 					} else {
 						// showToast(getString(R.string.error_occurred));
 					}
@@ -106,9 +93,6 @@ public class ChannelTabActivity extends ActivityGroup {
 				}
 			};
 			task.execute((Void)null);
-			
-			//requestId = mActivityServiceHelper.getChannels(null,
-			//		MessageServiceHelper.CHANNEL_REQUEST_RESULT);
 		}
 	}
 
