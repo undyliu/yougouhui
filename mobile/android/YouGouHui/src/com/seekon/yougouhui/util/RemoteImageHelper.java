@@ -66,10 +66,10 @@ public class RemoteImageHelper {
 				try {
 					is = download(filePath);
 					if (is != null) {
-						//FileHelper.write(is, finalName);
-						//is.close();
+						FileHelper.write(is, finalName);
+						is.close();
 					}
-					//is = FileHelper.read(finalName);
+					is = FileHelper.read(finalName);
 					// TODO:
 					drawable = Drawable.createFromStream(is, "src");
 					if (drawable != null) {

@@ -58,10 +58,9 @@ public class FileHelper {
 		}
 		
 		byte[] content = new byte[1024];
-		Context context = YouGouHuiApp.getAppContext();
 		FileOutputStream os = null;
 		try {
-			os = context.openFileOutput(fileName, mode);
+			os = getFileOutputStream(fileName, mode);
 			int size = 0;
 			while ((size = is.read(content)) != -1) {
 				os.write(content, 0, size);
