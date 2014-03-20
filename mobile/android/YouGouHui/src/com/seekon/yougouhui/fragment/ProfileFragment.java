@@ -17,6 +17,5 @@ public class ProfileFragment extends ModuleListFragment{
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Intent intent = new Intent(attachedActivity, SettingActivity.class);
 		attachedActivity.startActivity(intent);
-		//super.onListItemClick(l, v, position, id);
 	}
 }

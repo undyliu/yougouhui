@@ -72,16 +72,17 @@ public abstract class RequestListFragment extends ListFragment{
 	}
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public void onResume() {
+		super.onResume();
 		attachedActivity.registerReceiver(requestReceiver, new IntentFilter(requestResultType));
-		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 	
 	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		attachedActivity.unregisterReceiver(requestReceiver);
+	public void onPause() {
+		super.onPause();
+		if(attachedActivity != null && requestReceiver != null){
+			attachedActivity.unregisterReceiver(requestReceiver);
+		}
 	}
 	
 	protected abstract void initRequestId();

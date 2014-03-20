@@ -66,16 +66,18 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int tab_square_btn=0x7f020021;
     }
     public static final class id {
-        public static final int action_settings=0x7f090012;
+        public static final int action_bar_spinner=0x7f090010;
+        public static final int action_bar_title=0x7f09000f;
+        public static final int action_settings=0x7f090014;
         public static final int auto_login=0x7f090008;
-        public static final int imageview=0x7f09000f;
+        public static final int imageview=0x7f090011;
         public static final int img=0x7f09000e;
         public static final int img_id=0x7f09000c;
         public static final int login=0x7f090007;
         public static final int login_form=0x7f090004;
         public static final int login_status=0x7f090002;
         public static final int login_status_message=0x7f090003;
-        public static final int menu_search=0x7f090011;
+        public static final int menu_search=0x7f090013;
         public static final int password=0x7f090006;
         public static final int phone=0x7f090005;
         public static final int realtabcontent=0x7f09000b;
@@ -83,7 +85,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int sign_in_button=0x7f09000a;
         public static final int tabChannel=0x7f090001;
         public static final int tabChannelViewPager=0x7f090000;
-        public static final int textview=0x7f090010;
+        public static final int textview=0x7f090012;
         public static final int title=0x7f09000d;
     }
     public static final class layout {
@@ -95,9 +97,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int module_item_view=0x7f030005;
         public static final int module_list=0x7f030006;
         public static final int profile_setting=0x7f030007;
-        public static final int splash=0x7f030008;
-        public static final int sub_channel_list=0x7f030009;
-        public static final int tab_item_view=0x7f03000a;
+        public static final int spinner_page=0x7f030008;
+        public static final int splash=0x7f030009;
+        public static final int sub_channel_list=0x7f03000a;
+        public static final int tab_item_view=0x7f03000b;
     }
     public static final class menu {
         public static final int main=0x7f080000;

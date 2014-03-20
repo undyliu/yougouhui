@@ -37,11 +37,8 @@
         </activity>
         <activity
             android:name=".activity.LoginActivity"
-            android:windowSoftInputMode="stateVisible" >
-        </activity>
-        <activity android:name=".activity.ChannelTabActivity" >
-        </activity>
-        <activity android:name=".activity.MessageListActivity" >
+            android:windowSoftInputMode="stateVisible" 
+            android:label="@string/title_activity_login">
         </activity>
 
         <service android:name=".func.mess.MessageService" />
@@ -60,14 +57,6 @@
             android:authorities="com.seekon.yougouhui.messages"
             android:exported="false" />
 
-        <activity
-            android:name=".activity.SubChannelListActivity"
-            android:label="@string/title_activity_sub_channel_list" >
-        </activity>
-        <activity android:name=".activity.DiscoverActivity" >
-        </activity>
-        <activity android:name=".activity.ProfileActivity" >
-        </activity>
         <activity android:name=".activity.MessageActivity" >
         </activity>
         <activity android:name=".activity.profile.SettingActivity" >

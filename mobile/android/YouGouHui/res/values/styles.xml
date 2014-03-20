@@ -40,6 +40,12 @@
         <item name="android:background">@android:drawable/bottom_bar</item>
     </style>
 
+     <style name="Widget.ActionBar.TabView" parent="android:style/Widget">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingLeft">4dip</item>
+        <item name="android:paddingRight">4dip</item>
+    </style>
+    
     <style name="ButtonBarButton" />
 
 </resources>

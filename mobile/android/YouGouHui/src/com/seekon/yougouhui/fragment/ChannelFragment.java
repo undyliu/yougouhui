@@ -23,11 +23,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.RunEnv;
@@ -48,14 +52,11 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 
 	private ActionBar actionBar = null;
 
-	 private ViewPager mViewPager;
-	
-	 private TabFragmentPagerAdapter mAdapter = null;
-	
-	 private Tab selectedTab = null;
-	
-	 private List<ContentValues> channels = null;
+	private ViewPager mViewPager;
 
+	private TabFragmentPagerAdapter mAdapter = null;
+
+	List<Fragment> messageFragments = new ArrayList<Fragment>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,9 +64,8 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 
 		attachedActivity = (FragmentActivity) this.getActivity();
 		actionBar = attachedActivity.getActionBar();
+		actionBar.setDisplayShowCustomEnabled(true);
 
-		IntentFilter filter = new IntentFilter(
-				MessageServiceHelper.CHANNEL_REQUEST_RESULT);
 		requestReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
@@ -85,7 +85,6 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 
 			}
 		};
-		attachedActivity.registerReceiver(requestReceiver, filter);
 
 		updateTabs();
 	}
@@ -93,25 +92,30 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// if (mViewPager != null) {
-		// mViewPager.removeAllViews();
-		// }
-		 mViewPager = (ViewPager) inflater.inflate(R.layout.channel_page_view,
-		 container, false);
-		// if (channels != null) {
-		// mAdapter = new TabFragmentPagerAdapter(
-		// attachedActivity.getSupportFragmentManager(), channels);
+		mViewPager = (ViewPager) inflater.inflate(R.layout.channel_page_view,
+				container, false);
+
+		return mViewPager;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		attachedActivity.registerReceiver(requestReceiver, new IntentFilter(
+				MessageServiceHelper.CHANNEL_REQUEST_RESULT));
+
 		if (mAdapter != null) {
 			mViewPager.setAdapter(mAdapter);
 		}
-		// }
-		// if(selectedTab != null){
-		// actionBar.selectTab(selectedTab);
-		// }
 
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);// 设置为页签导航模式
-		return mViewPager;
-		//return inflater.inflate(R.layout.channel_fragment, container, false);
+	}
+
+	@Override
+	public void onPause() {
+		super.onDestroy();
+		Logger.debug(TAG, " onPause channelFragement");
+		attachedActivity.unregisterReceiver(requestReceiver);
 	}
 
 	private void updateTabs() {
@@ -143,33 +147,29 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 					return;
 				}
 
-				// if (mViewPager == null) {
-				// mViewPager = (ViewPager) attachedActivity
-				// .findViewById(R.id.tabChannelViewPager);
-				// }
-
-				List<Fragment> messageFragments = new ArrayList<Fragment>();
-				for (ContentValues channel : channels) {
-					ActionBar.Tab channelTab = actionBar.newTab().setText(
-							channel.getAsString(COL_NAME_NAME));
-					channelTab.setTabListener(ChannelFragment.this);
-					actionBar.addTab(channelTab);
-					messageFragments.add(new MessageListFragment(channel));
-//					messageFragments.add(new
-//					TextFragment(channel.getAsString(COL_NAME_NAME)));
+				if (mViewPager == null) {
+					mViewPager = (ViewPager) attachedActivity
+							.findViewById(R.id.tabChannelViewPager);
 				}
 
-				 mAdapter = new TabFragmentPagerAdapter(
-				 attachedActivity.getSupportFragmentManager(), messageFragments);
-				// List<View> messageViews = new ArrayList<View>();
-				// for (ContentValues channel : channels) {
-				// TextView view = new TextView(attachedActivity);
-				// view.setText(channel.getAsString(COL_NAME_NAME));
-				// messageViews.add(view);
-				// }
-				//mAdapter = new TabPagerAdapter(messageViews);
+				for (ContentValues channel : channels) {
+					ActionBar.Tab channelTab = actionBar.newTab();
+					channelTab.setTabListener(ChannelFragment.this);
+					
+					String channelCode = channel.getAsString(COL_NAME_CODE);
+					if ("other".equalsIgnoreCase(channelCode)) {
+						channelTab.setCustomView(getSpinnerView());
+					} else {
+						channelTab.setText(channel.getAsString(COL_NAME_NAME));
+						messageFragments.add(new MessageListFragment(channel));
+					}
+					
+					actionBar.addTab(channelTab);
+				}
+
+				mAdapter = new TabFragmentPagerAdapter(
+						ChannelFragment.this.getChildFragmentManager(), messageFragments);
 				mViewPager.setAdapter(mAdapter);
-				mViewPager.setCurrentItem(0);
 			}
 		};
 
@@ -202,11 +202,7 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		// selectedTab = tab;
 		mViewPager.setCurrentItem(tab.getPosition(), false);
-//		if(mAdapter != null){
-//			mAdapter.show(tab.getPosition());
-//		}
 	}
 
 	@Override
@@ -214,4 +210,37 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 
 	}
 
+	private View getSpinnerView() {
+		View actionbarLayout = LayoutInflater.from(attachedActivity).inflate(
+				R.layout.spinner_page, null);
+		Spinner mActionbarSpinner = (Spinner) actionbarLayout
+				.findViewById(R.id.action_bar_spinner);
+		mActionbarSpinner
+				.setOnItemSelectedListener(new SpinnerItemSelectedListener());
+
+		List<String> data = new ArrayList<String>();
+		data.add("A");
+		data.add("B");
+		data.add("C");
+		data.add("D");
+
+		mActionbarSpinner.setAdapter(new ArrayAdapter<String>(attachedActivity,
+				android.R.layout.simple_expandable_list_item_1, data));
+		return actionbarLayout;
+	}
+
+	private class SpinnerItemSelectedListener implements OnItemSelectedListener {
+
+		@Override
+		public void onItemSelected(AdapterView<?> arg0, View view, int position,
+				long arg3) {
+			String str = arg0.getItemAtPosition(position).toString();
+			Logger.debug(TAG, "你点击的是:" + str);
+			// Toast.makeText(MainActivity.this, "你点击的是:"+str, 2000).show();
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> arg0) {
+		}
+	}
 }

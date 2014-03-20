@@ -13,16 +13,21 @@ import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.MessageActivity;
 import com.seekon.yougouhui.func.mess.MessageConst;
 import com.seekon.yougouhui.func.mess.MessageServiceHelper;
+import com.seekon.yougouhui.util.ContentValuesUtils;
+import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.widget.ImageListRemoteAdapter;
 
 @SuppressLint("ValidFragment")
@@ -42,6 +47,26 @@ public class MessageListFragment extends RequestListFragment{
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		return inflater.inflate(R.layout.module_list, container, false);
+	}
+	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		ContentValues message = ContentValuesUtils.fromMap(messages.get(position), null);
+		Intent intent = new Intent(attachedActivity, MessageActivity.class);
+		intent.putExtra(MessageConst.MESSAGE_DATA_KEY, message);
+		attachedActivity.startActivity(intent);
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		Logger.debug(TAG, "## onResume : " + channel);
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		Logger.debug(TAG, "## onPause : " + channel);
 	}
 	
 	@Override
