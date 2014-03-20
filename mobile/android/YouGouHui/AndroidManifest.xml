@@ -70,6 +70,8 @@
         </activity>
         <activity android:name=".activity.MessageActivity" >
         </activity>
+        <activity android:name=".activity.profile.SettingActivity" >
+        </activity>
     </application>
 
 </manifest>

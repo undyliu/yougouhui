@@ -1,19 +1,21 @@
 package com.seekon.yougouhui.activity;
 
-import android.app.TabActivity;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTabHost;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TabHost;
-import android.widget.TabWidget;
+import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.fragment.ChannelFragment;
+import com.seekon.yougouhui.fragment.DiscoverFragment;
+import com.seekon.yougouhui.fragment.ProfileFragment;
 
 /**
  * 主窗口界面
@@ -21,36 +23,13 @@ import com.seekon.yougouhui.R;
  * @author undyliu
  * 
  */
-@SuppressWarnings("deprecation")
-public class MainActivity extends TabActivity {
+public class MainActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
-		final TabHost tabCategory = this.getTabHost();
-		tabCategory.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-			
-			@Override
-			public void onTabChanged(String tabId) {
-				tabCategory.setCurrentTabByTag(tabId);
-				updateTabs();
-			}
-		});
-		
-		tabCategory.addTab(tabCategory.newTabSpec("tab_activity")
-				.setIndicator(composeLayout("活动", R.drawable.message))
-				.setContent(new Intent(this, ChannelTabActivity.class)));
-		tabCategory.addTab(tabCategory.newTabSpec("tab_discover")
-				.setIndicator(composeLayout("发现", R.drawable.discover))
-				.setContent(new Intent(this, DiscoverActivity.class)));
-		tabCategory.addTab(tabCategory.newTabSpec("tab_profile")
-				.setIndicator(composeLayout("我", R.drawable.profile))
-				.setContent(new Intent(this, ProfileActivity.class)));
-
-		tabCategory.setCurrentTab(0);
-		updateTabs();
+		initView();
 	}
 
 	@Override
@@ -59,39 +38,39 @@ public class MainActivity extends TabActivity {
 		return true;
 	}
 
-	private void updateTabs(){
-		TabHost tabCategory = this.getTabHost();
-		int currentTab = tabCategory.getCurrentTab();
-		TabWidget tw = tabCategory.getTabWidget();
-		for (int i = 0; i < tw.getChildCount(); i++) {
-			View view = tw.getChildAt(i);
-			if(i == currentTab){
-				view.setBackgroundColor(Color.DKGRAY);
-			}else{
-				view.setBackgroundColor(Color.LTGRAY);
-			}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void initView() {
+		FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+		mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
+
+		Class<Fragment>[] fragmentArray = new Class[] { ChannelFragment.class,
+				DiscoverFragment.class, ProfileFragment.class };
+		int[] imgArray = new int[] { R.drawable.tab_home_btn,
+				R.drawable.tab_square_btn, R.drawable.tab_selfinfo_btn };
+		String[] titleArray = new String[] { "活动", "发现", "我" };
+		for (int i = 0; i < fragmentArray.length; i++) {
+			TabSpec tabSpec = mTabHost.newTabSpec(titleArray[i]).setIndicator(
+					getTabItemView(imgArray[i], titleArray[i]));
+			mTabHost.addTab(tabSpec, fragmentArray[i], null);
+			mTabHost.getTabWidget().getChildAt(i)
+					.setBackgroundResource(R.drawable.selector_tab_background);
 		}
 	}
-	
-	private View composeLayout(String s, int i) {
-		LinearLayout layout = new LinearLayout(this);
-		layout.setOrientation(LinearLayout.VERTICAL);
 
-		ImageView iv = new ImageView(this);
-		iv.setImageResource(i);
-		layout.addView(iv, new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT));
+	private View getTabItemView(int img, String text) {
+		LayoutInflater layoutInflater = LayoutInflater.from(this);
+		View view = layoutInflater.inflate(R.layout.tab_item_view, null);
 
-		TextView tv = new TextView(this);
-		tv.setGravity(Gravity.CENTER);
-		tv.setSingleLine(true);
-		tv.setTextColor(Color.WHITE);
-		tv.setText(s);
-		layout.addView(tv, new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT));
+		ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
+		imageView.setImageResource(img);
 
-		return layout;
+		TextView textView = (TextView) view.findViewById(R.id.textview);
+		textView.setText(text);
+
+		return view;
 	}
 }

@@ -29,6 +29,7 @@
         <item name="android:windowBackground">@null</item>
         <item name="buttonBarStyle">@style/ButtonBar</item>
         <item name="buttonBarButtonStyle">@style/ButtonBarButton</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="ButtonBar">
