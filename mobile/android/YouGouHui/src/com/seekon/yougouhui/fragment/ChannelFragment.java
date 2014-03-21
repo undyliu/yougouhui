@@ -212,7 +212,7 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 
 	private View getSpinnerView() {
 		View actionbarLayout = LayoutInflater.from(attachedActivity).inflate(
-				R.layout.spinner_page, null);
+				R.layout.subchannel_spinner, null);
 		Spinner mActionbarSpinner = (Spinner) actionbarLayout
 				.findViewById(R.id.action_bar_spinner);
 		mActionbarSpinner
