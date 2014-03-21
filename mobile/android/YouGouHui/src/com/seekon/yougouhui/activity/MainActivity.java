@@ -63,7 +63,7 @@ public class MainActivity extends FragmentActivity {
 
 	private View getTabItemView(int img, String text) {
 		LayoutInflater layoutInflater = LayoutInflater.from(this);
-		View view = layoutInflater.inflate(R.layout.tab_item_view, null);
+		View view = layoutInflater.inflate(R.layout.main_tab_item, null);
 
 		ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
 		imageView.setImageResource(img);

@@ -41,9 +41,11 @@
             android:name=".activity.LoginActivity"
             android:windowSoftInputMode="stateVisible" 
             android:label="@string/title_activity_login">
+        </activity><activity android:name=".activity.MessageActivity">
         </activity>
 
-        <service android:name=".func.mess.MessageService" />
+        <activity android:name=".activity.profile.SettingActivity" android:label="@string/title_profie_setting">
+        </activity><service android:name=".func.mess.MessageService" />
         <service android:name=".func.module.ModuleService" />
 
         <provider
@@ -59,10 +61,9 @@
             android:authorities="com.seekon.yougouhui.messages"
             android:exported="false" />
 
-        <activity android:name=".activity.MessageActivity" >
-        </activity>
-        <activity android:name=".activity.profile.SettingActivity" >
-        </activity>
+        
+        
+        <activity android:name=".activity.discover.FriendShareActivity" android:label="@string/title_discover_friends"></activity>
     </application>
 
 </manifest>

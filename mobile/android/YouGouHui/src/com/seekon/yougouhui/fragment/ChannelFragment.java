@@ -12,7 +12,6 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
-import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
@@ -98,7 +97,7 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		mViewPager = (ViewPager) inflater.inflate(R.layout.channel_page_view,
+		mViewPager = (ViewPager) inflater.inflate(R.layout.channel_viewpager,
 				container, false);
 		
 		return mViewPager;

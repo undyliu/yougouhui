@@ -1,29 +1,25 @@
-package com.seekon.yougouhui.activity;
+package com.seekon.yougouhui.activity.discover;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.ContentValues;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.seekon.yougouhui.func.mess.MessageConst;
+import com.seekon.yougouhui.R;
 
 /**
- * 活动详细
+ * 朋友圈 activity
  * 
  * @author undyliu
  * 
  */
-public class MessageActivity extends Activity {
-
-	private ContentValues message = null;
+public class FriendShareActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		message = (ContentValues) this.getIntent().getExtras()
-				.get(MessageConst.MESSAGE_DATA_KEY);
-		
+		this.setContentView(R.layout.discover_friends);
+
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
@@ -41,4 +37,5 @@ public class MessageActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
 }

@@ -117,7 +117,7 @@ public class MessageListFragment extends RequestListFragment{
 	@Override
 	protected void updateListView(List<Map<String, ?>> data) {
 		this.setListAdapter(new ImageListRemoteAdapter(attachedActivity, messages,
-				R.layout.message_list, new String[] { COL_NAME_TITLE },
+				R.layout.message_item, new String[] { COL_NAME_TITLE },
 				new int[] { R.id.title }));
 	}
 }

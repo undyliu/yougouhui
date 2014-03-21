@@ -1,11 +1,11 @@
 package com.seekon.yougouhui.func.login;
 
-import com.seekon.yougouhui.func.AbstractDBHelper;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.seekon.yougouhui.func.AbstractDBHelper;
 
 public class UserHelper extends AbstractDBHelper {
 

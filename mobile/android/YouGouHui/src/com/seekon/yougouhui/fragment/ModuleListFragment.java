@@ -32,7 +32,7 @@ public class ModuleListFragment extends RequestListFragment{
 
 	private String type;
 
-	private List<Map<String, ?>> modules = new LinkedList<Map<String, ?>>();
+	protected List<Map<String, ?>> modules = new LinkedList<Map<String, ?>>();
 
 	public ModuleListFragment(String requestResultType, String type) {
 		super(requestResultType);
@@ -91,7 +91,7 @@ public class ModuleListFragment extends RequestListFragment{
 	@Override
 	protected void updateListView(List<Map<String, ?>> data) {
 		SimpleAdapter adapter = new SimpleAdapter(attachedActivity, modules,
-				R.layout.module_item_view, new String[] { COL_NAME_IMG, COL_NAME_NAME },
+				R.layout.module_item, new String[] { COL_NAME_IMG, COL_NAME_NAME },
 				new int[] { R.id.img, R.id.title });
 
 		this.setListAdapter(adapter);
