@@ -21,6 +21,7 @@ public class MessageData extends AbstractDBHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		db.execSQL(" drop table if EXISTS " + MessageConst.TABLE_NAME);
 		db.execSQL("CREATE TABLE IF NOT EXISTS " + MessageConst.TABLE_NAME + " ("
 				+ COL_NAME_UUID + " INTEGER PRIMARY KEY, " + COL_NAME_TITLE + " TEXT, "
 				+ COL_NAME_CONTENT + " TEXT, " + COL_NAME_IMG + " TEXT, "

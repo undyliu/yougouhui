@@ -27,11 +27,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.RunEnv;
@@ -44,6 +39,8 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 
 	private static String TAG = ChannelFragment.class.getSimpleName();
 
+	public static final int TAB_SHOW_COUNT = 4;
+	
 	private Long requestId;
 
 	private BroadcastReceiver requestReceiver;
@@ -56,13 +53,17 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 
 	private TabFragmentPagerAdapter mAdapter = null;
 
-	List<Fragment> messageFragments = new ArrayList<Fragment>();
+	private List<Fragment> messageFragments = new ArrayList<Fragment>();
+
+	private SubChannelViewBuilder subChannelViewBuilder = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		attachedActivity = (FragmentActivity) this.getActivity();
+		subChannelViewBuilder = new SubChannelViewBuilder(attachedActivity);
+
 		actionBar = attachedActivity.getActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
 
@@ -94,7 +95,8 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 			Bundle savedInstanceState) {
 		mViewPager = (ViewPager) inflater.inflate(R.layout.channel_page_view,
 				container, false);
-
+		subChannelViewBuilder.setViewPager(mViewPager);
+		
 		return mViewPager;
 	}
 
@@ -151,20 +153,27 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 					mViewPager = (ViewPager) attachedActivity
 							.findViewById(R.id.tabChannelViewPager);
 				}
-
+				
+				int index = 0;
+				List<ContentValues> subChannels = channels.subList(TAB_SHOW_COUNT, channels.size());
 				for (ContentValues channel : channels) {
-					ActionBar.Tab channelTab = actionBar.newTab();
-					channelTab.setTabListener(ChannelFragment.this);
 					
-					String channelCode = channel.getAsString(COL_NAME_CODE);
-					if ("other".equalsIgnoreCase(channelCode)) {
-						channelTab.setCustomView(getSpinnerView());
-					} else {
+					
+					if(index < TAB_SHOW_COUNT){
+						ActionBar.Tab channelTab = actionBar.newTab();
+						channelTab.setTabListener(ChannelFragment.this);
 						channelTab.setText(channel.getAsString(COL_NAME_NAME));
-						messageFragments.add(new MessageListFragment(channel));
+						actionBar.addTab(channelTab);						
+					}else if(index == TAB_SHOW_COUNT){
+						ActionBar.Tab channelTab = actionBar.newTab();
+						channelTab.setTabListener(ChannelFragment.this);
+						channelTab.setCustomView(subChannelViewBuilder.getSpinnerView(subChannels));
+						actionBar.addTab(channelTab);
 					}
 					
-					actionBar.addTab(channelTab);
+					messageFragments.add(new MessageListFragment(channel));
+					
+					index++;
 				}
 
 				mAdapter = new TabFragmentPagerAdapter(
@@ -210,37 +219,4 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 
 	}
 
-	private View getSpinnerView() {
-		View actionbarLayout = LayoutInflater.from(attachedActivity).inflate(
-				R.layout.subchannel_spinner, null);
-		Spinner mActionbarSpinner = (Spinner) actionbarLayout
-				.findViewById(R.id.action_bar_spinner);
-		mActionbarSpinner
-				.setOnItemSelectedListener(new SpinnerItemSelectedListener());
-
-		List<String> data = new ArrayList<String>();
-		data.add("A");
-		data.add("B");
-		data.add("C");
-		data.add("D");
-
-		mActionbarSpinner.setAdapter(new ArrayAdapter<String>(attachedActivity,
-				android.R.layout.simple_expandable_list_item_1, data));
-		return actionbarLayout;
-	}
-
-	private class SpinnerItemSelectedListener implements OnItemSelectedListener {
-
-		@Override
-		public void onItemSelected(AdapterView<?> arg0, View view, int position,
-				long arg3) {
-			String str = arg0.getItemAtPosition(position).toString();
-			Logger.debug(TAG, "你点击的是:" + str);
-			// Toast.makeText(MainActivity.this, "你点击的是:"+str, 2000).show();
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> arg0) {
-		}
-	}
 }

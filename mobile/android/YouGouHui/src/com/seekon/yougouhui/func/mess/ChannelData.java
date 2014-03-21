@@ -18,6 +18,7 @@ public class ChannelData extends AbstractDBHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		//db.execSQL(" drop table if EXISTS " + ChannelConst.TABLE_NAME);
 		db.execSQL("CREATE TABLE IF NOT EXISTS " + ChannelConst.TABLE_NAME + " ("
 				+ COL_NAME_UUID + " INTEGER PRIMARY KEY, "
 				+ COL_NAME_CODE + " TEXT, " + COL_NAME_NAME

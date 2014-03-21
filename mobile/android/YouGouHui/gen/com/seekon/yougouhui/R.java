@@ -100,8 +100,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int profile_setting=0x7f030007;
         public static final int splash=0x7f030008;
         public static final int sub_channel_list=0x7f030009;
-        public static final int subchannel_spinner=0x7f03000a;
-        public static final int tab_item_view=0x7f03000b;
+        public static final int subchannel_item=0x7f03000a;
+        public static final int subchannel_spinner=0x7f03000b;
+        public static final int tab_item_view=0x7f03000c;
     }
     public static final class menu {
         public static final int main=0x7f080000;
@@ -161,6 +162,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ButtonBarButton=0x7f070005;
         public static final int FullscreenTheme=0x7f070003;
         public static final int LoginFormContainer=0x7f070002;
+        /** 
+        <item name="android:backgroundStacked">#f8f6f6</item>
+        
+         */
         public static final int MyActionBar=0x7f070006;
         public static final int MyActionBar_TabBar=0x7f070008;
         public static final int MyActionBar_TabText=0x7f070009;

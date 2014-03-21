@@ -1,6 +1,8 @@
 package com.seekon.yougouhui.util;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -75,4 +77,15 @@ public class ContentValuesUtils {
 		}
 	}
 
+	public static Map toMap(ContentValues values, String[] keys){
+		Map result = new HashMap();
+		if(keys == null){
+			Set keySet = values.keySet();
+			keys = values.keySet().toArray(new String[keySet.size()]);
+		}
+		for(String key : keys){
+			result.put(key, values.get(key));
+		}
+		return result;
+	}
 }
