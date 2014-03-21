@@ -59,7 +59,11 @@ public class MessageListFragment extends RequestListFragment{
 	
 	@Override
 	public void onResume() {
+		requestResultType += channel.getAsString(COL_NAME_UUID);
 		super.onResume();
+		if(messages.isEmpty()){
+			updateListItems();
+		}
 		Logger.debug(TAG, "## onResume : " + channel);
 	}
 	

@@ -1,4 +1,4 @@
-package com.seekon.yougouhui.widget;
+package com.seekon.yougouhui.fragment.listener;
 
 import java.util.List;
 

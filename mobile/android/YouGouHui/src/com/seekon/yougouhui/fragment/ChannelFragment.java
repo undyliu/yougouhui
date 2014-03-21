@@ -12,6 +12,7 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
@@ -29,11 +30,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.fragment.listener.ChannelTabChangeListener;
+import com.seekon.yougouhui.fragment.listener.TabFragmentPagerAdapter;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.mess.ChannelConst;
 import com.seekon.yougouhui.func.mess.MessageServiceHelper;
 import com.seekon.yougouhui.util.Logger;
-import com.seekon.yougouhui.widget.TabFragmentPagerAdapter;
 
 public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 
@@ -56,14 +58,17 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 	private List<Fragment> messageFragments = new ArrayList<Fragment>();
 
 	private SubChannelViewBuilder subChannelViewBuilder = null;
-
+	
+	private ChannelTabChangeListener channelTabChangeListener = null;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		attachedActivity = (FragmentActivity) this.getActivity();
 		subChannelViewBuilder = new SubChannelViewBuilder(attachedActivity);
-
+		channelTabChangeListener = new ChannelTabChangeListener(this);
+		
 		actionBar = attachedActivity.getActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
 
@@ -95,7 +100,6 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 			Bundle savedInstanceState) {
 		mViewPager = (ViewPager) inflater.inflate(R.layout.channel_page_view,
 				container, false);
-		subChannelViewBuilder.setViewPager(mViewPager);
 		
 		return mViewPager;
 	}
@@ -109,7 +113,9 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 		if (mAdapter != null) {
 			mViewPager.setAdapter(mAdapter);
 		}
-
+		mViewPager.setOnPageChangeListener(channelTabChangeListener);
+		
+		subChannelViewBuilder.setViewPager(mViewPager);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);// 设置为页签导航模式
 	}
 
@@ -171,14 +177,15 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 						actionBar.addTab(channelTab);
 					}
 					
-					messageFragments.add(new MessageListFragment(channel));
-					
+					messageFragments.add(new MessageListFragment(channel));	
 					index++;
 				}
-
+				
+				subChannelViewBuilder.setViewPager(mViewPager);
 				mAdapter = new TabFragmentPagerAdapter(
 						ChannelFragment.this.getChildFragmentManager(), messageFragments);
 				mViewPager.setAdapter(mAdapter);
+				//mViewPager.setCurrentItem(0);
 			}
 		};
 
@@ -204,6 +211,10 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 		}
 	}
 
+	public SubChannelViewBuilder getSubChannelViewBuilder(){
+		return this.subChannelViewBuilder;
+	}
+	
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
 
