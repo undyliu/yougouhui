@@ -99,6 +99,7 @@ public class AuthorizationManager implements RequestSigner {
 		
 		if(errorType.equals(LoginConst.AUTH_SUCCESS)){
 			this.getEnvHelper().updateLoginSetting(loginData);//认证成功记录登录设置信息
+			RunEnv.getInstance().setLoginSetting(loginData);
 		}
 		
 		return errorType;

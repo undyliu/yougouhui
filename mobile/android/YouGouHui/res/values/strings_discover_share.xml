@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_share">分享</string>
+    
+    <string name="hit_share_content">请分享下本次购物的体验吧</string>
+</resources>

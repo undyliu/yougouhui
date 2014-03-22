@@ -29,8 +29,8 @@ public class ChannelTabChangeListener implements OnPageChangeListener{
 	public void onPageSelected(int position) {
 		if(channelFragment != null){
 			ActionBar actionBar = channelFragment.getActivity().getActionBar();
-			int tabCount = actionBar.getTabCount();
-			if(position < tabCount){
+			int tabCount = ChannelFragment.TAB_SHOW_COUNT;
+			if(position <= tabCount){
 				int selectedNav = actionBar.getSelectedNavigationIndex();
 				if(position != selectedNav){
 					actionBar.setSelectedNavigationItem(position);
@@ -39,8 +39,8 @@ public class ChannelTabChangeListener implements OnPageChangeListener{
 			
 			Spinner spinner = channelFragment.getSubChannelViewBuilder().getSpinner();
 			if(spinner != null){
-				if(position >= tabCount - 1){
-					int selectedPos = position - tabCount + 2;
+				if(position >= tabCount){
+					int selectedPos = position - tabCount + 1;
 					if(selectedPos != spinner.getSelectedItemPosition()){
 						spinner.setSelection(selectedPos);
 					}

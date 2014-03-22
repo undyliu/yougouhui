@@ -14,8 +14,16 @@ public class TabSpinnerItemSelectedListener implements OnItemSelectedListener {
 
 	private ViewPager viewPager = null;
 
+	public TabSpinnerItemSelectedListener() {
+		super();
+	}
+
 	public TabSpinnerItemSelectedListener(ViewPager viewPager) {
 		super();
+		this.viewPager = viewPager;
+	}
+
+	public void setViewPager(ViewPager viewPager) {
 		this.viewPager = viewPager;
 	}
 
@@ -27,7 +35,7 @@ public class TabSpinnerItemSelectedListener implements OnItemSelectedListener {
 			return;
 		}
 		if (viewPager != null) {
-			viewPager.setCurrentItem(position + ChannelFragment.TAB_SHOW_COUNT - 1);
+			viewPager.setCurrentItem(position + ChannelFragment.TAB_SHOW_COUNT - 1, false);
 		}
 	}
 

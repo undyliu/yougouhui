@@ -1,4 +1,4 @@
-package com.seekon.yougouhui.activity;
+package com.seekon.yougouhui.activity.home;
 
 import android.app.ActionBar;
 import android.app.Activity;

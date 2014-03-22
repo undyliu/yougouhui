@@ -17,6 +17,7 @@ import com.seekon.yougouhui.func.login.EnvHelper;
 import com.seekon.yougouhui.func.login.UserHelper;
 import com.seekon.yougouhui.sercurity.AuthorizationManager;
 import com.seekon.yougouhui.service.ConnectionDetector;
+import com.seekon.yougouhui.util.ContentValuesUtils;
 import com.seekon.yougouhui.util.Logger;
 
 /**
@@ -83,8 +84,12 @@ public class Splash extends Activity {
 					loginSetting.getString(UserHelper.COL_NAME_PHONE),
 					loginSetting.getString(UserHelper.COL_NAME_PWD));
 			authed = user != null;
+			if(authed){
+				RunEnv.getInstance().setLoginSetting(ContentValuesUtils.fromJSONObject(loginSetting, null));
+			}
 		} catch (JSONException e) {
 			Logger.debug(TAG, e.getMessage(), e);
+			authed = false;
 		}
 		return authed;
 	}

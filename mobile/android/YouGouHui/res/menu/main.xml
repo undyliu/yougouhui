@@ -4,7 +4,7 @@
         android:id="@+id/menu_search"  
         android:actionViewClass="android.widget.SearchView"  
         android:showAsAction="ifRoom"
-        android:title="@string/search"/>  
+        android:title="@string/title_action_search"/>  
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
