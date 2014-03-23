@@ -9,12 +9,13 @@ import com.seekon.yougouhui.YouGouHuiApp;
 public class CameraUtils {
 
 	private static final String TAG = CameraUtils.class.getSimpleName();
-	
-	private CameraUtils(){
+
+	private CameraUtils() {
 	}
-	
+
 	/**
 	 * 检查摄像头是否存在
+	 * 
 	 * @return
 	 */
 	public static boolean checkCameraHardware() {
@@ -26,14 +27,15 @@ public class CameraUtils {
 			return false;
 		}
 	}
-	
+
 	public static Camera getCameraInstance() {
 		Camera camera = null;
-		try{
+		try {
 			camera = Camera.open();
-		}catch(Exception e){
+		} catch (Exception e) {
 			Logger.error(TAG, "获取摄像头失败.");
 		}
 		return camera;
 	}
+
 }

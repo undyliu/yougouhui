@@ -74,7 +74,11 @@
             android:name=".activity.discover.FriendShareActivity"
             android:label="@string/title_discover_friends" >
         </activity>
-        <activity android:label="@string/title_activity_share" android:name=".activity.discover.ShareActivity"></activity>
-    </application>
+        <activity  android:name=".activity.discover.ShareActivity"
+            android:label="@string/title_activity_share"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.ImagePreviewActivity" android:label="@string/title_image_preview"></activity>
+        <activity android:name=".activity.discover.RadarActivity" android:label="@string/title_discover_radar"></activity>    
+       </application>
 
 </manifest>

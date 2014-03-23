@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.seekon.yougouhui.activity.discover.FriendShareActivity;
+import com.seekon.yougouhui.activity.discover.RadarActivity;
 import com.seekon.yougouhui.func.module.ModuleServiceHelper;
 
 public class DiscoverFragment extends ModuleListFragment{
@@ -20,7 +21,9 @@ public class DiscoverFragment extends ModuleListFragment{
 		case 0:
 			activity = FriendShareActivity.class;
 			break;
-
+		case 1:
+			activity = RadarActivity.class;
+			break;
 		default:
 			break;
 		}

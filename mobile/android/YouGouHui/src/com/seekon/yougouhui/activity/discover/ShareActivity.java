@@ -1,16 +1,15 @@
 package com.seekon.yougouhui.activity.discover;
 
-import java.io.File;
-import java.io.FileOutputStream;
-
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
-import android.hardware.Camera.AutoFocusCallback;
-import android.hardware.Camera.PictureCallback;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,20 +25,29 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.ImagePreviewActivity;
 import com.seekon.yougouhui.layout.FixGridLayout;
-import com.seekon.yougouhui.util.CameraUtils;
-import com.seekon.yougouhui.widget.CameraPreview;
+import com.seekon.yougouhui.util.ImageCompressUtils;
+import com.seekon.yougouhui.util.Logger;
 
 public class ShareActivity extends Activity {
 
 	private final String TAG = ShareActivity.class.getSimpleName();
+
+	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+
+	private static final int LOAD_IMAGE_ACTIVITY_REQUEST_CODE = 200;
+
+	private static final int PREVIEW_IMAGE_ACTIVITY_REQUEST_CODE = 300;
 	
+	private static final int IMAGE_VIEW_WIDTH = 150;
+
+	private static final int IMAGE_VIEW_HEIGHT = 150;
+
 	FixGridLayout picContainer = null;
 
-	int[] imageSrc = new int[] { R.drawable.compare, R.drawable.contact_list };
-	int curImageIndex = 0;
-
 	private String title[] = { "拍照", "从文件获取" };
+
 	private PopupWindow popupWindow;
 
 	private Camera camera;
@@ -53,8 +61,8 @@ public class ShareActivity extends Activity {
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		picContainer = (FixGridLayout) findViewById(R.id.share_pic_container);
-		picContainer.setmCellHeight(90);
-		picContainer.setmCellWidth(90);
+		picContainer.setmCellHeight(IMAGE_VIEW_HEIGHT);
+		picContainer.setmCellWidth(IMAGE_VIEW_WIDTH);
 
 		final LayoutInflater inflater = getLayoutInflater();
 		FrameLayout fl = (FrameLayout) inflater.inflate(
@@ -64,18 +72,6 @@ public class ShareActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				FrameLayout con = (FrameLayout) inflater.inflate(
-						R.layout.discover_share_pic_item, null);
-				ImageView pic = (ImageView) con.findViewById(R.id.share_pic);
-				// curImageIndex = (curImageIndex + 1) % imageSrc.length;
-				// pic.setBackgroundResource(imageSrc[curImageIndex]);
-				// picContainer.addView(con, picContainer.getChildCount() - 1);
-				//
-				// picContainer.postInvalidate(); // 提示UI重绘界面
-
-				// int y = pic.getBottom() * 3 / 2;
-				// int x = getWindowManager().getDefaultDisplay().getWidth() / 4;
-
 				showPopupWindow(v);
 			}
 		});
@@ -127,15 +123,10 @@ public class ShareActivity extends Activity {
 		popupWindow = new PopupWindow(this);
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		popupWindow.setWidth(getWindowManager().getDefaultDisplay().getWidth() / 2);
-		popupWindow.setHeight(80);
+		popupWindow.setHeight(140);
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.setFocusable(true);
 		popupWindow.setContentView(layout);
-		// showAsDropDown会把里面的view作为参照物，所以要那满屏幕parent
-		// popupWindow.showAsDropDown(findViewById(R.id.tv_title), x, 10);
-		// popupWindow.showAtLocation(findViewById(R.id.discover_share),
-		// Gravity.LEFT
-		// | Gravity.TOP, x, y);// 需要指定Gravity，默认情况是center.
 		popupWindow.showAsDropDown(v);
 
 		listView.setOnItemClickListener(new OnItemClickListener() {
@@ -143,9 +134,10 @@ public class ShareActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				// button.setText(title[arg2]);
 				if (position == 0) {
 					openCamera();
+				} else if (position == 1) {
+					openImageDir();
 				}
 				popupWindow.dismiss();
 				popupWindow = null;
@@ -153,43 +145,85 @@ public class ShareActivity extends Activity {
 		});
 	}
 
-	private void openCamera() {
-		camera = CameraUtils.getCameraInstance();
-		if(camera == null){
-			return;
-		}
-		CameraPreview cameraPreview = new CameraPreview(this, camera);
-
-		camera.autoFocus(new AutoFocusCallback() {
-
-			@Override
-			public void onAutoFocus(boolean success, Camera camera) {
-				camera.takePicture(null, null, new PictureCallback() {
-
-					@Override
-					public void onPictureTaken(byte[] data, Camera camera) {
-						// 获取Jpeg图片，并保存在sd卡上
-//						File pictureFile = new File("/sdcard/" + System.currentTimeMillis()
-//								+ ".jpg");
-//						try {
-//							FileOutputStream fos = new FileOutputStream(pictureFile);
-//							fos.write(data);
-//							fos.close();
-//						} catch (Exception e) {
-//							Log.d(TAG, "保存图片失败");
-//						}
-					}
-				});
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+			if (resultCode == RESULT_OK && data != null) {
+				Bitmap image = (Bitmap) data.getExtras().get("data");
+				if (image != null) {
+					image = ImageCompressUtils.compressBySize(image, IMAGE_VIEW_WIDTH - 10,
+							IMAGE_VIEW_HEIGHT);
+					addBitmapToImageView(image);
+				}
 			}
-		});
+		} else if (requestCode == LOAD_IMAGE_ACTIVITY_REQUEST_CODE) {
+			if (resultCode == RESULT_OK && null != data) {
+				Uri selectedImage = data.getData();
+				String[] filePathColumn = { MediaStore.Images.Media.DATA };
+				Cursor cursor = getContentResolver().query(selectedImage,
+						filePathColumn, null, null, null);
+				cursor.moveToFirst();
+				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+				String picturePath = cursor.getString(columnIndex);
+				cursor.close();
+
+				addBitmapToImageView(ImageCompressUtils.compressBySize(picturePath,
+						IMAGE_VIEW_WIDTH - 10, IMAGE_VIEW_HEIGHT));
+			}
+		}else if(requestCode == PREVIEW_IMAGE_ACTIVITY_REQUEST_CODE){
+			if(data != null){
+				boolean imageDeleted = data.getExtras().getBoolean(ImagePreviewActivity.IMAGE_DELETE_FLAG);
+				if(imageDeleted){
+					int imageIndex = data.getExtras().getInt(ImagePreviewActivity.IMAGE_INDEX_IN_CONTAINER);
+					picContainer.removeViewAt(imageIndex);
+					picContainer.postInvalidate();
+				}
+			}
+		}
+		
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	// public void deleteView(View view) {
-	// picContainer.removeView((View) view.getParent());
-	// picContainer.invalidate();
-	// }
+	private void addBitmapToImageView(final Bitmap image) {
+		FrameLayout con = (FrameLayout) ShareActivity.this.getLayoutInflater()
+				.inflate(R.layout.discover_share_pic_item, null);
+		ImageView pic = (ImageView) con.findViewById(R.id.share_pic);
+		pic.setImageBitmap(image);
+		pic.setBackgroundResource(0);//去掉background
+		final int imageIndex = picContainer.getChildCount() - 1;
+		
+		pic.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(ShareActivity.this, ImagePreviewActivity.class);
+				intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, image);
+				intent.putExtra(ImagePreviewActivity.IMAGE_INDEX_IN_CONTAINER, imageIndex);
+				ShareActivity.this.startActivityForResult(intent, PREVIEW_IMAGE_ACTIVITY_REQUEST_CODE);
+			}
+		});
+		
+		picContainer.addView(con, imageIndex);
+		picContainer.postInvalidate();
+	}
+
+	private void openCamera() {
+		Logger.debug(TAG, "openCamera");
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.addCategory(Intent.CATEGORY_DEFAULT);
+		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+	}
+
+	private void openImageDir() {
+		Logger.debug(TAG, "openImageDir");
+		Intent intent = new Intent(Intent.ACTION_PICK,
+				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		startActivityForResult(intent, LOAD_IMAGE_ACTIVITY_REQUEST_CODE);
+	}
 
 	private void publishShare() {
-
+		Intent intent = new Intent();
+		this.setResult(RESULT_OK, intent);
+		this.finish();
 	}
 }

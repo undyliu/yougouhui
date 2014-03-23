@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-     android:id="@+id/discover_share"
+    android:id="@+id/discover_share"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="5dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:layout_marginTop="10dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical" >
 
     <EditText
@@ -16,8 +18,6 @@
         android:ems="10"
         android:hint="@string/hit_share_content"
         android:inputType="textMultiLine" >
-
-        <requestFocus />
     </EditText>
 
     <com.seekon.yougouhui.layout.FixGridLayout
