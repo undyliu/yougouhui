@@ -2,9 +2,9 @@
   (:use [korma.db]
         [korma.core]))
 
-(defdb db-mysql (mysql {:host "127.0.0.1" :port 3306 :db "ebs" :user "ebs" :password "1"}))
+(defdb db-mysql (mysql {:host "10.10.65.86" :port 3306 :db "ebs" :user "ebs" :password "1"}))
 
-(declare activities-img activities discusses channels)
+(declare activities-img activities discusses channels shares share-images comments)
 
 (defentity activities-img
   (table :e_activity_img)
@@ -45,4 +45,23 @@
 (defentity friends
   (table :e_friend)
   (pk :uuid)
+)
+
+(defentity shares
+  (table :e_share)
+	(has-many share-images)
+	(has-many comments)
+  (pk :uuid)
+)
+
+(defentity share-images
+  (table :e_share_img)
+  (pk :uuid)
+  (belongs-to shares {:fk :share_id})
+)
+
+(defentity comments
+  (table :e_comment)
+  (pk :uuid)
+  (belongs-to shares {:fk :share_id})
 )

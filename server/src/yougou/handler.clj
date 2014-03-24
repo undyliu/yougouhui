@@ -3,6 +3,7 @@
 	[yougou.activity]
 	[yougou.module]
 	[yougou.auth]
+	[yougou.share]
 	)
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
@@ -22,6 +23,7 @@
   (GET "/getContactList/:user-id" [user-id] (json/write-str "[]"))
   (GET "/getFavoriteList/:user-id" [user-id] (json/write-str "[]"))
   (GET "/getShareList/:user-id" [user-id] (json/write-str "[]"))
+	(GET "/getFriendShares" [] (json/write-str (get-friend-share-data)))
   (POST "/login" {{phone :phone, pwd :pwd} :params} (json/write-str (login phone pwd)))
   (route/resources "/")
   (route/not-found "Not Found"))
