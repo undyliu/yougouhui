@@ -5,8 +5,9 @@
     android:orientation="horizontal" >
 
     <LinearLayout
-        android:layout_width="25dp"
-        android:layout_height="match_parent" >
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
         <ImageView
             android:id="@+id/user_img"
@@ -17,8 +18,7 @@
         <TextView
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
@@ -29,23 +29,26 @@
         <TextView
             android:id="@+id/share_content"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_height="wrap_content" />
+
+        <com.seekon.yougouhui.layout.FixGridLayout
+            android:id="@+id/share_pic_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/share_comment_action"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="right"
             android:text="Button" />
 
-        <ExpandableListView
-            android:id="@+id/share_comment_content"
+        <ListView
+            android:id="@+id/comment_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </ExpandableListView>
-
+            android:layout_height="match_parent"
+            android:drawSelectorOnTop="false" />
     </LinearLayout>
 
 </LinearLayout>

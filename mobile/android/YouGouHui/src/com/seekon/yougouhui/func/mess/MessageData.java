@@ -15,13 +15,17 @@ import com.seekon.yougouhui.func.AbstractDBHelper;
 
 public class MessageData extends AbstractDBHelper {
 
+	public static final String[] COL_NAMES = new String[] { COL_NAME_UUID,
+			COL_NAME_TITLE, COL_NAME_IMG, COL_NAME_CHANNEL_ID, COL_NAME_DISCOUNT,
+			COL_NAME_PRICE, COL_NAME_DISCOUNT, COL_NAME_VISIT_COUNT };
+
 	public MessageData(Context context) {
 		super(context);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		//db.execSQL(" drop table if EXISTS " + MessageConst.TABLE_NAME);
+		// db.execSQL(" drop table if EXISTS " + MessageConst.TABLE_NAME);
 		db.execSQL("CREATE TABLE IF NOT EXISTS " + MessageConst.TABLE_NAME + " ("
 				+ COL_NAME_UUID + " INTEGER PRIMARY KEY, " + COL_NAME_TITLE + " TEXT, "
 				+ COL_NAME_CONTENT + " TEXT, " + COL_NAME_IMG + " TEXT, "

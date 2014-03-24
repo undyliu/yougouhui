@@ -86,6 +86,7 @@ public class Splash extends Activity {
 			authed = user != null;
 			if(authed){
 				RunEnv.getInstance().setLoginSetting(ContentValuesUtils.fromJSONObject(loginSetting, null));
+				RunEnv.getInstance().setUser(user);
 			}
 		} catch (JSONException e) {
 			Logger.debug(TAG, e.getMessage(), e);

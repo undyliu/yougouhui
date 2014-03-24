@@ -56,7 +56,8 @@
 
         <service android:name=".func.mess.MessageService" />
         <service android:name=".func.module.ModuleService" />
-
+		<service android:name=".func.discover.share.ShareService" />
+		
         <provider
             android:name=".func.mess.ChannelProvider"
             android:authorities="com.seekon.yougouhui.channels"
@@ -69,7 +70,19 @@
             android:name=".func.mess.MessageProvider"
             android:authorities="com.seekon.yougouhui.messages"
             android:exported="false" />
-
+		 <provider
+            android:name=".func.discover.share.ShareProvider"
+            android:authorities="com.seekon.yougouhui.shares"
+            android:exported="false" />
+		 <provider
+            android:name=".func.discover.share.CommentProvider"
+            android:authorities="com.seekon.yougouhui.shares.comment"
+            android:exported="false" />
+		 <provider
+            android:name=".func.discover.share.ShareImgProvider"
+            android:authorities="com.seekon.yougouhui.shares.image"
+            android:exported="false" />
+		 
         <activity
             android:name=".activity.discover.FriendShareActivity"
             android:label="@string/title_discover_friends" >

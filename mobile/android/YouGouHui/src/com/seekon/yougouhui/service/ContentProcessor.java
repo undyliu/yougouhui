@@ -62,11 +62,11 @@ public class ContentProcessor {
 					if (size > 0) {
 						for (int i = 0; i < size; i++) {
 							JSONObject jsonObj = jsonArrayResource.getJSONObject(i);
-							this.updateContentProvider(jsonObj);
+							this.updateContentProvider(jsonObj, colNames, contentUri);
 						}
 					}
 				} else if (resource instanceof JSONObjResource) {
-					this.updateContentProvider((JSONObjResource) resource);
+					this.updateContentProvider((JSONObjResource) resource, colNames, contentUri);
 				}
 			}
 		} catch (Exception e) {
@@ -74,7 +74,7 @@ public class ContentProcessor {
 		}
 	}
 
-	protected void updateContentProvider(JSONObject jsonObj) throws JSONException {
+	protected void updateContentProvider(JSONObject jsonObj, String[] colNames, Uri contentUri) throws JSONException {
 		ContentValues values = ContentValuesUtils.fromJSONObject(jsonObj, colNames);
 
 		ContentResolver resolver = mContext.getContentResolver();

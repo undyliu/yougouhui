@@ -13,6 +13,9 @@ import com.seekon.yougouhui.func.AbstractDBHelper;
 
 public class ModuleData extends AbstractDBHelper {
 
+	public static final String[] COL_NAMES = new String[] { COL_NAME_UUID,
+			COL_NAME_CODE, COL_NAME_NAME, COL_NAME_TYPE };
+
 	public ModuleData(Context context) {
 		super(context);
 	}
@@ -27,7 +30,7 @@ public class ModuleData extends AbstractDBHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		
+
 	}
 
 }

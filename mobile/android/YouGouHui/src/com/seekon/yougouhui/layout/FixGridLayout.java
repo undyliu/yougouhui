@@ -19,6 +19,8 @@ public class FixGridLayout extends ViewGroup {
 	private int mCellWidth;
 	private int mCellHeight;
 	private int rowCount = 1;
+	private boolean showBorder = false;
+
 	public FixGridLayout(Context context) {
 		super(context);
 	}
@@ -41,11 +43,18 @@ public class FixGridLayout extends ViewGroup {
 		requestLayout();
 	}
 
+	public void setShowBorder(boolean showBorder) {
+		this.showBorder = showBorder;
+	}
+
 	/**
 	 * 控制子控件的换行
 	 */
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		if (mCellHeight == 0 || mCellWidth == 0) {
+			return;
+		}
 		int cellWidth = mCellWidth;
 		int cellHeight = mCellHeight;
 		int columns = (r - l) / cellWidth;
@@ -73,12 +82,12 @@ public class FixGridLayout extends ViewGroup {
 				i = 0;
 				x = 0;
 				y += cellHeight;
-				
+
 			} else {
 				i++;
 				x += cellWidth;
 			}
-			
+
 		}
 		rowCount = count / columns + 1;
 	}
@@ -122,20 +131,22 @@ public class FixGridLayout extends ViewGroup {
 	 */
 	@Override
 	protected void dispatchDraw(Canvas canvas) {
-		// 获取布局控件宽高
-		int width = getWidth();
-		int height = getHeight();
-		// 创建画笔
-		Paint mPaint = new Paint();
-		// 设置画笔的各个属性
-		mPaint.setColor(Color.BLUE);
-		mPaint.setStyle(Paint.Style.STROKE);
-		mPaint.setStrokeWidth(1);
-		mPaint.setAntiAlias(true);
-		// 创建矩形框
-		Rect mRect = new Rect(0, 0, width, height);
-		// 绘制边框
-		canvas.drawRect(mRect, mPaint);
+		if (this.showBorder) {
+			// 获取布局控件宽高
+			int width = getWidth();
+			int height = getHeight();
+			// 创建画笔
+			Paint mPaint = new Paint();
+			// 设置画笔的各个属性
+			mPaint.setColor(Color.BLUE);
+			mPaint.setStyle(Paint.Style.STROKE);
+			mPaint.setStrokeWidth(1);
+			mPaint.setAntiAlias(true);
+			// 创建矩形框
+			Rect mRect = new Rect(0, 0, width, height);
+			// 绘制边框
+			canvas.drawRect(mRect, mPaint);
+		}
 		// 最后必须调用父类的方法
 		super.dispatchDraw(canvas);
 	}

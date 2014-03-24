@@ -44,7 +44,7 @@ public class ShareActivity extends Activity {
 
 	private static final int IMAGE_VIEW_HEIGHT = 150;
 
-	FixGridLayout picContainer = null;
+	private FixGridLayout picContainer = null;
 
 	private String title[] = { "拍照", "从文件获取" };
 
@@ -63,7 +63,8 @@ public class ShareActivity extends Activity {
 		picContainer = (FixGridLayout) findViewById(R.id.share_pic_container);
 		picContainer.setmCellHeight(IMAGE_VIEW_HEIGHT);
 		picContainer.setmCellWidth(IMAGE_VIEW_WIDTH);
-
+		picContainer.setShowBorder(true);
+		
 		final LayoutInflater inflater = getLayoutInflater();
 		FrameLayout fl = (FrameLayout) inflater.inflate(
 				R.layout.discover_share_pic_item, null);
