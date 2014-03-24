@@ -1,36 +1,27 @@
 package com.seekon.yougouhui.activity.discover;
 
+import com.seekon.yougouhui.R;
+
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.seekon.yougouhui.R;
+public class RadarActivity extends Activity{
 
-/**
- * 朋友圈 activity
- * 
- * @author undyliu
- * 
- */
-public class FriendShareActivity extends Activity {
-
-	private static final int SHARE_ACTIVITY_REQUEST_CODE = 100;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.discover_friends);
-
+		setContentView(R.layout.discover_radar);
+		
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.discover_friends, menu);
+		getMenuInflater().inflate(R.menu.discover_radar, menu);
 		return true;
 	}
 	
@@ -41,22 +32,16 @@ public class FriendShareActivity extends Activity {
 		case android.R.id.home:
 			this.finish();
 			break;
-		case R.id.menu_discover_friends_share:
-			this.openShareActivity();
+		case R.id.menu_discover_radar_scan:
+			this.scan();
 			break;
 		default:
 			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-	}
 	
-	private void openShareActivity(){
-		Intent share = new Intent(this, ShareActivity.class);
-		startActivityForResult(share, SHARE_ACTIVITY_REQUEST_CODE);
+	private void scan(){
+		
 	}
 }

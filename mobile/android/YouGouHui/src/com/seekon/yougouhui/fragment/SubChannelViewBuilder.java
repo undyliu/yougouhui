@@ -27,6 +27,8 @@ public class SubChannelViewBuilder {
 
 	private Spinner mActionbarSpinner = null;
 
+	private TabSpinnerItemSelectedListener itemSelectedListener = new TabSpinnerItemSelectedListener();
+	
 	public SubChannelViewBuilder(Context context) {
 		super();
 		this.context = context;
@@ -34,9 +36,8 @@ public class SubChannelViewBuilder {
 
 	public void setViewPager(ViewPager viewPager) {
 		if (mActionbarSpinner != null) {
-			TabSpinnerItemSelectedListener listener = new TabSpinnerItemSelectedListener(
-					viewPager);
-			mActionbarSpinner.setOnItemSelectedListener(listener);
+			itemSelectedListener.setViewPager(viewPager);
+			mActionbarSpinner.setOnItemSelectedListener(itemSelectedListener);
 		}
 	}
 

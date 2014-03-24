@@ -23,7 +23,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.activity.MessageActivity;
+import com.seekon.yougouhui.activity.home.MessageActivity;
 import com.seekon.yougouhui.func.mess.MessageConst;
 import com.seekon.yougouhui.func.mess.MessageServiceHelper;
 import com.seekon.yougouhui.util.ContentValuesUtils;

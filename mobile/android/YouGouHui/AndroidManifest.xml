@@ -15,8 +15,14 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_OWNER_DATA" />
-    <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY"/>
-
+    <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	
+    <uses-permission android:name="android.permission.CAMERA" />  
+    <uses-feature android:name="android.hardware.camera" />  
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    
     <application
         android:name="com.seekon.yougouhui.YouGouHuiApp"
         android:allowBackup="true"
@@ -29,23 +35,26 @@
             android:theme="@style/FullscreenTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity" 
-            android:screenOrientation="portrait"
-            >
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".activity.LoginActivity"
-            android:windowSoftInputMode="stateVisible" 
-            android:label="@string/title_activity_login">
-        </activity><activity android:name=".activity.MessageActivity">
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="stateVisible" >
+        </activity>
+        <activity android:name=".activity.home.MessageActivity" >
+        </activity>
+        <activity
+            android:name=".activity.profile.SettingActivity"
+            android:label="@string/title_profie_setting" >
         </activity>
 
-        <activity android:name=".activity.profile.SettingActivity" android:label="@string/title_profie_setting">
-        </activity><service android:name=".func.mess.MessageService" />
+        <service android:name=".func.mess.MessageService" />
         <service android:name=".func.module.ModuleService" />
 
         <provider
@@ -61,9 +70,15 @@
             android:authorities="com.seekon.yougouhui.messages"
             android:exported="false" />
 
-        
-        
-        <activity android:name=".activity.discover.FriendShareActivity" android:label="@string/title_discover_friends"></activity>
-    </application>
+        <activity
+            android:name=".activity.discover.FriendShareActivity"
+            android:label="@string/title_discover_friends" >
+        </activity>
+        <activity  android:name=".activity.discover.ShareActivity"
+            android:label="@string/title_activity_share"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.ImagePreviewActivity" android:label="@string/title_image_preview"></activity>
+        <activity android:name=".activity.discover.RadarActivity" android:label="@string/title_discover_radar"></activity>    
+       </application>
 
 </manifest>

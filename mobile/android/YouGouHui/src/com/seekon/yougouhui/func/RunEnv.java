@@ -13,6 +13,8 @@ public class RunEnv {
 	
 	private ContentValues user = null;
 	
+	private ContentValues loginSetting = null;
+	
 	private RunEnv(){
 	}
 	
@@ -39,6 +41,14 @@ public class RunEnv {
 
 	public void setUser(ContentValues user) {
 		this.user = user;
+	}
+
+	public ContentValues getLoginSetting() {
+		return loginSetting;
+	}
+
+	public void setLoginSetting(ContentValues loginSetting) {
+		this.loginSetting = loginSetting;
 	}
 	
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+	<item 
+	    android:id="@+id/menu_discover_friends_share"
+	    android:showAsAction="always"
+	    android:icon="@drawable/camera"
+	    android:title="@string/title_action_share_publish"
+	    />
+</menu>

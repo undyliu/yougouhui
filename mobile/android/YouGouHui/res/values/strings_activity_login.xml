@@ -16,5 +16,5 @@
     <string name="error_field_required">不能为空</string>
     <string name="action_auto_login">自动登录</string>
     <string name="action_remember_pwd">记住密码</string>
-
+	<string name="action_logout">退出</string>
 </resources>
