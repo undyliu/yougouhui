@@ -7,6 +7,9 @@ import java.io.InputStream;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.util.DisplayMetrics;
+
+import com.seekon.yougouhui.YouGouHuiApp;
 
 public class ImageCompressUtils {
 
@@ -154,5 +157,30 @@ public class ImageCompressUtils {
 		opts.inJustDecodeBounds = false;
 		bitmap = BitmapFactory.decodeFile(pathName, opts);
 		return bitmap;
+	}
+	
+
+	/**
+	 * 根据屏幕的尺寸来压缩图片
+	 * @param pathName
+	 * @return
+	 */
+	public static Bitmap compress(String pathName) {
+		DisplayMetrics displayMetrics = YouGouHuiApp.getAppContext().getResources()
+				.getDisplayMetrics();
+		return compressBySize(pathName, displayMetrics.widthPixels,
+				displayMetrics.heightPixels);
+	}
+
+	/**
+	 * 根据屏幕的尺寸来压缩图片
+	 * @param bitmap
+	 * @return
+	 */
+	public static Bitmap compress(Bitmap bitmap) {
+		DisplayMetrics displayMetrics = YouGouHuiApp.getAppContext().getResources()
+				.getDisplayMetrics();
+		return compressBySize(bitmap, displayMetrics.widthPixels,
+				displayMetrics.heightPixels);
 	}
 }

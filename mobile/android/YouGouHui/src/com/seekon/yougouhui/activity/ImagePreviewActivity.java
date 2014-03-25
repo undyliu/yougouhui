@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.util.ViewUtils;
 
 /**
  * 简单的图片查看
@@ -24,7 +25,7 @@ public class ImagePreviewActivity extends Activity{
 	
 	public static final String IMAGE_DELETE_FLAG = "image.delete.flag";
 		
-	Bitmap image = null;
+	String imageFileName = null;
 	
 	int imageIndex = 0;
 	
@@ -37,11 +38,11 @@ public class ImagePreviewActivity extends Activity{
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		
 		Intent intent = this.getIntent();
-		image = (Bitmap) intent.getExtras().get(IMAGE_SRC_KEY);
+		imageFileName = intent.getExtras().getString(IMAGE_SRC_KEY);
 		imageIndex = intent.getExtras().getInt(IMAGE_INDEX_IN_CONTAINER);
 		
 		ImageView view = (ImageView) this.findViewById(R.id.image_preview_id);
-		view.setImageBitmap(image);
+		ViewUtils.setImageViewSrc(view, imageFileName);
 	}
 	
 	@Override
@@ -67,9 +68,9 @@ public class ImagePreviewActivity extends Activity{
 	}
 	
 	private void deleteImage(){
-		image = null;
 		Intent intent = new Intent();
 		intent.putExtra(IMAGE_DELETE_FLAG, true);
+		intent.putExtra(IMAGE_SRC_KEY, imageFileName);
 		intent.putExtra(IMAGE_INDEX_IN_CONTAINER, imageIndex);
 		this.setResult(RESULT_OK, intent);
 		this.finish();

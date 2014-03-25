@@ -16,9 +16,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/hit_share_content"
+        android:hint="@string/hint_share_content"
         android:inputType="textMultiLine" >
     </EditText>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/share_shop_barcode"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:focusable="false"
+            android:hint="@string/hint_scan_shop_barcode"
+            android:inputType="textMultiLine" >
+
+        </EditText>
+
+        <Button
+            android:id="@+id/b_scan_shop_barcode"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_scan" />
+
+    </LinearLayout>
 
     <com.seekon.yougouhui.layout.FixGridLayout
         android:id="@+id/share_pic_container"

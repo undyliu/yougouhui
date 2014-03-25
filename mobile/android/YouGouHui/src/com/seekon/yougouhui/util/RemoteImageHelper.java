@@ -34,19 +34,11 @@ public class RemoteImageHelper {
 			fileName = filePath.substring(pos + 1, filePath.length());
 		}
 
-		if (FileHelper.fileExists(fileName)) {
-			InputStream is = null;
-			try {
-				is = FileHelper.read(fileName);
-				if (is != null) {
-					imageView.setImageDrawable(Drawable.createFromStream(is, "src"));
-					return;
-				}
-			} finally {
-				FileHelper.closeInputStream(is);
-			}
-
+		boolean success = ViewUtils.setImageViewSrc(imageView, fileName);
+		if(success){
+			return;
 		}
+		
 		final String finalName = fileName;
 
 		imageView.setImageResource(R.drawable.loading);

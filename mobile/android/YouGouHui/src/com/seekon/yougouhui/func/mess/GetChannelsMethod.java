@@ -5,6 +5,7 @@ import java.net.URI;
 import android.content.Context;
 
 import com.seekon.yougouhui.Const;
+import com.seekon.yougouhui.rest.BaseRequest;
 import com.seekon.yougouhui.rest.JSONArrayResourceMethod;
 import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
@@ -36,7 +37,7 @@ public class GetChannelsMethod extends JSONArrayResourceMethod {
 			uri = URI.create(GET_CHANNELS_URI);
 		}
 
-		return new Request(Method.GET, uri, null, null);
+		return new BaseRequest(Method.GET, uri, null, null);
 	}
 
 }

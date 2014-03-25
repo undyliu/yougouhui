@@ -1,5 +1,7 @@
 package com.seekon.yougouhui.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,6 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Environment;
 
 import com.seekon.yougouhui.YouGouHuiApp;
@@ -27,15 +30,27 @@ public class FileHelper {
 	private FileHelper() {
 	}
 
+	public static void write(Bitmap image, String fileName) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		image.compress(Bitmap.CompressFormat.PNG, 100, baos);
+		InputStream isBm = null;
+		try {
+			isBm = new ByteArrayInputStream(baos.toByteArray());
+			write(isBm, fileName);
+		} finally {
+			closeInputStream(isBm);
+		}
+	}
+
 	public static void write(byte[] content, String fileName) {
 		write(content, fileName, Context.MODE_PRIVATE);
 	}
 
 	public static void write(byte[] content, String fileName, int mode) {
-		if(fileExists(fileName)){
+		if (fileExists(fileName)) {
 			return;
 		}
-		
+
 		FileOutputStream os = null;
 		try {
 			os = getFileOutputStream(fileName, mode);
@@ -53,10 +68,10 @@ public class FileHelper {
 	}
 
 	public static void write(InputStream is, String fileName, int mode) {
-		if(fileExists(fileName)){
+		if (fileExists(fileName)) {
 			return;
 		}
-		
+
 		byte[] content = new byte[1024];
 		FileOutputStream os = null;
 		try {
@@ -96,35 +111,40 @@ public class FileHelper {
 		}
 		return YouGouHuiApp.getAppContext().openFileOutput(fileName, mode);
 	}
-	
+
 	/**
 	 * 
 	 * @param fileName
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	private static InputStream getFileInputStream(String fileName) throws FileNotFoundException{
+	public static InputStream getFileInputStream(String fileName)
+			throws FileNotFoundException {
+		return new FileInputStream(getFile(fileName));
+	}
+
+	public static File getFile(String fileName) {
 		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 			File sdCardDir = Environment.getExternalStorageDirectory();
-			return new FileInputStream(new File(sdCardDir, fileName));
+			return new File(sdCardDir, fileName);
 		}
-		return YouGouHuiApp.getAppContext().openFileInput(fileName);
+		return YouGouHuiApp.getAppContext().getFileStreamPath(fileName);
 	}
-	
-	public static boolean fileExists(String fileName){
+
+	public static boolean fileExists(String fileName) {
 		InputStream is = null;
-		try{
+		try {
 			is = getFileInputStream(fileName);
 			return is != null && is.read() > 0;
-		}catch(Exception e){
-			Logger.error(TAG, e.getMessage(), e);
-		}finally{
+		} catch (Exception e) {
+			// Logger.error(TAG, e.getMessage(), e);
+		} finally {
 			closeInputStream(is);
 		}
 		return false;
 	}
-	
-	public static void closeOutputStream(OutputStream os){
+
+	public static void closeOutputStream(OutputStream os) {
 		if (os != null) {
 			try {
 				os.close();
@@ -133,8 +153,8 @@ public class FileHelper {
 			}
 		}
 	}
-	
-	public static void closeInputStream(InputStream is){
+
+	public static void closeInputStream(InputStream is) {
 		if (is != null) {
 			try {
 				is.close();

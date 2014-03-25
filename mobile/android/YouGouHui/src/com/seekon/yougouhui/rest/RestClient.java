@@ -45,7 +45,7 @@ public class RestClient {
 
 			if (conn.getContentLength() > 0) {
 				BufferedInputStream in = new BufferedInputStream(conn.getInputStream());
-				byte[] body = readStream(in);
+				byte[] body = RestUtils.readStream(in);
 				response = new Response(conn.getResponseCode(), conn.getHeaderFields(), body);
 			} else {
 				response = new Response(status, conn.getHeaderFields(), new byte[] {});
@@ -65,12 +65,5 @@ public class RestClient {
 		return response;
 	}
 
-	private static byte[] readStream(InputStream in) throws IOException {
-		byte[] buf = new byte[1024];
-		int count = 0;
-		ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
-		while ((count = in.read(buf)) != -1)
-			out.write(buf, 0, count);
-		return out.toByteArray();
-	}
+
 }

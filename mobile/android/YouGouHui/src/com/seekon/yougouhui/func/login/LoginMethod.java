@@ -1,19 +1,23 @@
 package com.seekon.yougouhui.func.login;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.content.Context;
 
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.rest.AbstractRestMethod;
+import com.seekon.yougouhui.rest.BaseRequest;
 import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
 /**
  * 登录rest访问
+ * 
  * @author undyliu
- *
+ * 
  */
 public class LoginMethod extends AbstractRestMethod<JSONObjResource> {
 
@@ -38,9 +42,10 @@ public class LoginMethod extends AbstractRestMethod<JSONObjResource> {
 
 	@Override
 	protected Request buildRequest() {
-		String params = UserHelper.COL_NAME_PHONE + "=" + phone + "&"
-				+ UserHelper.COL_NAME_PWD + "=" + pwd;
-		return new Request(Method.POST, LOGIN_URI, null, params.getBytes());
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(UserHelper.COL_NAME_PHONE, phone);
+		params.put(UserHelper.COL_NAME_PWD, pwd);
+		return new BaseRequest(Method.POST, LOGIN_URI, null, params);
 	}
 
 	@Override

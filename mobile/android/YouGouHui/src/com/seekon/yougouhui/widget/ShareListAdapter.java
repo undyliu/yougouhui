@@ -49,7 +49,8 @@ public class ShareListAdapter extends SimpleAdapter {
 					.findViewById(R.id.share_pic_container);
 			picContainer.setmCellHeight(IMAGE_VIEW_HEIGHT);
 			picContainer.setmCellWidth(IMAGE_VIEW_WIDTH);
-
+			picContainer.removeAllViews();
+			
 			for (String image : images) {
 				FrameLayout sharePicItem = (FrameLayout) activity.getLayoutInflater()
 						.inflate(R.layout.discover_share_pic_item, null);

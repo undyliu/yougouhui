@@ -2,5 +2,7 @@
 <resources>
     <string name="title_activity_share">分享</string>
     
-    <string name="hit_share_content">请分享下本次购物的体验吧</string>
+    <string name="hint_share_content">请分享下本次购物的体验吧</string>
+    <string name="hint_scan_shop_barcode">扫一扫商家二维码赚取更多积分</string>
+    <string name="button_scan">扫一扫</string>
 </resources>

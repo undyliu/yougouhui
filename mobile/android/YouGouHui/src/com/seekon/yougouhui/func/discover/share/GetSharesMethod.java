@@ -5,6 +5,7 @@ import java.net.URI;
 import android.content.Context;
 
 import com.seekon.yougouhui.Const;
+import com.seekon.yougouhui.rest.BaseRequest;
 import com.seekon.yougouhui.rest.JSONArrayResourceMethod;
 import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
@@ -21,7 +22,7 @@ public class GetSharesMethod extends JSONArrayResourceMethod {
 	@Override
 	protected Request buildRequest() {
 		URI uri = URI.create(GET_FRIEND_SHARES_URI);
-		return new Request(Method.GET, uri, null, null);
+		return new BaseRequest(Method.GET, uri, null, null);
 	}
 
 }

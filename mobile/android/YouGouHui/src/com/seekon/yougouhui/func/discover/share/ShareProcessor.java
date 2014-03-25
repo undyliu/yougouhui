@@ -1,5 +1,7 @@
 package com.seekon.yougouhui.func.discover.share;
 
+import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,10 +18,10 @@ public class ShareProcessor extends ContentProcessor {
 		super(mContext, ShareData.COL_NAMES, ShareConst.CONTENT_URI);
 	}
 
-	public int insertShare() {
-		return 0;
-	}
-
+	/**
+	 * 获取朋友分享信息
+	 * @param callback
+	 */
 	public void getShares(ProcessorCallback callback) {
 		GetSharesMethod method = new GetSharesMethod(mContext);
 		this.execMethodWithCallback(method, callback);
@@ -62,4 +64,10 @@ public class ShareProcessor extends ContentProcessor {
 		}
 	}
 
+	/**
+	 * 保存发布分享的信息
+	 */
+	public void postShare(Map share){
+		new PostShareMethod(share).execute();
+	}
 }

@@ -1,5 +1,13 @@
 package com.seekon.yougouhui.activity.discover;
 
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +16,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -18,6 +27,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,9 +36,13 @@ import android.widget.PopupWindow;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.ImagePreviewActivity;
+import com.seekon.yougouhui.func.discover.share.ShareConst;
+import com.seekon.yougouhui.func.discover.share.ShareProcessor;
 import com.seekon.yougouhui.layout.FixGridLayout;
+import com.seekon.yougouhui.util.FileHelper;
 import com.seekon.yougouhui.util.ImageCompressUtils;
 import com.seekon.yougouhui.util.Logger;
+import com.seekon.yougouhui.util.ViewUtils;
 
 public class ShareActivity extends Activity {
 
@@ -39,10 +53,10 @@ public class ShareActivity extends Activity {
 	private static final int LOAD_IMAGE_ACTIVITY_REQUEST_CODE = 200;
 
 	private static final int PREVIEW_IMAGE_ACTIVITY_REQUEST_CODE = 300;
-	
-	private static final int IMAGE_VIEW_WIDTH = 150;
 
-	private static final int IMAGE_VIEW_HEIGHT = 150;
+	private static final int IMAGE_VIEW_WIDTH = 120;
+
+	private static final int IMAGE_VIEW_HEIGHT = 120;
 
 	private FixGridLayout picContainer = null;
 
@@ -51,7 +65,9 @@ public class ShareActivity extends Activity {
 	private PopupWindow popupWindow;
 
 	private Camera camera;
-
+	
+	private List<String> imageFileNames = new ArrayList<String>();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,7 +80,7 @@ public class ShareActivity extends Activity {
 		picContainer.setmCellHeight(IMAGE_VIEW_HEIGHT);
 		picContainer.setmCellWidth(IMAGE_VIEW_WIDTH);
 		picContainer.setShowBorder(true);
-		
+
 		final LayoutInflater inflater = getLayoutInflater();
 		FrameLayout fl = (FrameLayout) inflater.inflate(
 				R.layout.discover_share_pic_item, null);
@@ -152,9 +168,9 @@ public class ShareActivity extends Activity {
 			if (resultCode == RESULT_OK && data != null) {
 				Bitmap image = (Bitmap) data.getExtras().get("data");
 				if (image != null) {
-					image = ImageCompressUtils.compressBySize(image, IMAGE_VIEW_WIDTH - 10,
-							IMAGE_VIEW_HEIGHT);
+					image = ImageCompressUtils.compress(image);
 					addBitmapToImageView(image);
+					image = null;
 				}
 			}
 		} else if (requestCode == LOAD_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -168,41 +184,55 @@ public class ShareActivity extends Activity {
 				String picturePath = cursor.getString(columnIndex);
 				cursor.close();
 
-				addBitmapToImageView(ImageCompressUtils.compressBySize(picturePath,
-						IMAGE_VIEW_WIDTH - 10, IMAGE_VIEW_HEIGHT));
+				addBitmapToImageView(ImageCompressUtils.compress(picturePath));
 			}
-		}else if(requestCode == PREVIEW_IMAGE_ACTIVITY_REQUEST_CODE){
-			if(data != null){
-				boolean imageDeleted = data.getExtras().getBoolean(ImagePreviewActivity.IMAGE_DELETE_FLAG);
-				if(imageDeleted){
-					int imageIndex = data.getExtras().getInt(ImagePreviewActivity.IMAGE_INDEX_IN_CONTAINER);
+		} else if (requestCode == PREVIEW_IMAGE_ACTIVITY_REQUEST_CODE) {
+			if (data != null) {
+				boolean imageDeleted = data.getExtras().getBoolean(
+						ImagePreviewActivity.IMAGE_DELETE_FLAG);
+				if (imageDeleted) {
+					int imageIndex = data.getExtras().getInt(
+							ImagePreviewActivity.IMAGE_INDEX_IN_CONTAINER);
+					String fileName = data.getExtras().getString(ImagePreviewActivity.IMAGE_SRC_KEY);
+					imageFileNames.remove(fileName);
 					picContainer.removeViewAt(imageIndex);
 					picContainer.postInvalidate();
 				}
 			}
 		}
-		
+
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	private void addBitmapToImageView(final Bitmap image) {
+		
+		final String fileName = System.currentTimeMillis() + ".png";
+		FileHelper.write(image, fileName);//临时写入到手机中
+		
 		FrameLayout con = (FrameLayout) ShareActivity.this.getLayoutInflater()
 				.inflate(R.layout.discover_share_pic_item, null);
 		ImageView pic = (ImageView) con.findViewById(R.id.share_pic);
-		pic.setImageBitmap(image);
-		pic.setBackgroundResource(0);//去掉background
-		final int imageIndex = picContainer.getChildCount() - 1;
+		pic.setImageURI(Uri.fromFile(new File(fileName)));
+		pic.setBackgroundResource(0);// 去掉background
+		ViewUtils.setImageViewSrc(pic, fileName);
 		
+		final int imageIndex = picContainer.getChildCount() - 1;
+
 		pic.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(ShareActivity.this, ImagePreviewActivity.class);
-				intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, image);
-				intent.putExtra(ImagePreviewActivity.IMAGE_INDEX_IN_CONTAINER, imageIndex);
-				ShareActivity.this.startActivityForResult(intent, PREVIEW_IMAGE_ACTIVITY_REQUEST_CODE);
+				Intent intent = new Intent(ShareActivity.this,
+						ImagePreviewActivity.class);
+				intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, fileName);
+				intent.putExtra(ImagePreviewActivity.IMAGE_INDEX_IN_CONTAINER,
+						imageIndex);
+				ShareActivity.this.startActivityForResult(intent,
+						PREVIEW_IMAGE_ACTIVITY_REQUEST_CODE);
 			}
 		});
+		
+		imageFileNames.add(fileName);
 		
 		picContainer.addView(con, imageIndex);
 		picContainer.postInvalidate();
@@ -223,8 +253,37 @@ public class ShareActivity extends Activity {
 	}
 
 	private void publishShare() {
-		Intent intent = new Intent();
-		this.setResult(RESULT_OK, intent);
-		this.finish();
+		AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
+
+			@Override
+			protected String doInBackground(Void... params) {
+				Map share = new HashMap();
+
+				EditText view = (EditText) findViewById(R.id.share_content);
+				String shareContent = view.getText().toString();
+				share.put(COL_NAME_CONTENT, shareContent);
+
+				List<File> files = new ArrayList<File>();
+				for(String fileName : imageFileNames){
+					files.add(FileHelper.getFile(fileName));
+				}
+				share.put(ShareConst.DATA_IMAGE_KEY, files);
+				
+				ShareProcessor processor = new ShareProcessor(ShareActivity.this);
+				processor.postShare(share);
+
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				Intent intent = new Intent();
+				setResult(RESULT_OK, intent);
+				finish();
+			}
+
+		};
+
+		task.execute((Void) null);
 	}
 }
