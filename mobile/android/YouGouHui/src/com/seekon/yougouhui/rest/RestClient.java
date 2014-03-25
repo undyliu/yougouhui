@@ -1,15 +1,12 @@
 package com.seekon.yougouhui.rest;
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
-public class RestClient {
+public abstract class RestClient {
 
 	public Response execute(Request request) {
 		HttpURLConnection conn = null;
@@ -19,51 +16,35 @@ public class RestClient {
 
 			URL url = request.getRequestUri().toURL();
 			conn = (HttpURLConnection) url.openConnection();
-			if (request.getHeaders() != null) {
-				for (String header : request.getHeaders().keySet()) {
-					for (String value : request.getHeaders().get(header)) {
-						conn.addRequestProperty(header, value);
-					}
-				}
-			}
-
-			switch (request.getMethod()) {
-			case GET:
-				conn.setDoOutput(false);
-				break;
-			case POST:
-				byte[] payload = request.getBody();
-				conn.setDoOutput(true);
-				conn.setFixedLengthStreamingMode(payload.length);
-				conn.getOutputStream().write(payload);
-				status = conn.getResponseCode();
-			default:
-				break;
-			}
-
+			
+			processHttpConnection(conn, request);
+			
 			status = conn.getResponseCode();
 
 			if (conn.getContentLength() > 0) {
 				BufferedInputStream in = new BufferedInputStream(conn.getInputStream());
 				byte[] body = RestUtils.readStream(in);
-				response = new Response(conn.getResponseCode(), conn.getHeaderFields(), body);
+				response = new Response(conn.getResponseCode(), conn.getHeaderFields(),
+						body);
 			} else {
 				response = new Response(status, conn.getHeaderFields(), new byte[] {});
 			}
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			if (conn != null)
 				conn.disconnect();
 		}
-		
+
 		if (response == null) {
-			response = new Response(status, new HashMap<String, List<String>>(), new byte[] {});
+			response = new Response(status, new HashMap<String, List<String>>(),
+					new byte[] {});
 		}
-		
+
 		return response;
 	}
 
-
+	protected abstract void processHttpConnection(HttpURLConnection conn,
+			Request request) throws Exception;
 }

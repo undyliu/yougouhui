@@ -10,15 +10,16 @@ import java.util.Map;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.hardware.Camera;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,12 +34,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.ImagePreviewActivity;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareProcessor;
 import com.seekon.yougouhui.layout.FixGridLayout;
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.resource.TextResource;
 import com.seekon.yougouhui.util.FileHelper;
 import com.seekon.yougouhui.util.ImageCompressUtils;
 import com.seekon.yougouhui.util.Logger;
@@ -64,10 +68,8 @@ public class ShareActivity extends Activity {
 
 	private PopupWindow popupWindow;
 
-	private Camera camera;
-	
 	private List<String> imageFileNames = new ArrayList<String>();
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -108,7 +110,7 @@ public class ShareActivity extends Activity {
 		int itemId = item.getItemId();
 		switch (itemId) {
 		case android.R.id.home:
-			this.finish();
+			goBackHome();
 			break;
 		case R.id.menu_discover_share:
 			this.publishShare();
@@ -121,12 +123,23 @@ public class ShareActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		if (camera != null) {
-			camera.stopPreview();
-			camera.release();
-			camera = null;
-		}
 		super.onDestroy();
+	}
+
+	/**
+	 * 返回到上一界面
+	 */
+	private void goBackHome() {
+		// 清理临时的图片文件
+		if (imageFileNames != null && !imageFileNames.isEmpty()) {
+			for (String fileName : imageFileNames) {
+				File file = FileHelper.getFile(fileName);
+				if (file != null && file.exists()) {
+					file.deleteOnExit();
+				}
+			}
+		}
+		this.finish();
 	}
 
 	private void showPopupWindow(View v) {
@@ -193,7 +206,8 @@ public class ShareActivity extends Activity {
 				if (imageDeleted) {
 					int imageIndex = data.getExtras().getInt(
 							ImagePreviewActivity.IMAGE_INDEX_IN_CONTAINER);
-					String fileName = data.getExtras().getString(ImagePreviewActivity.IMAGE_SRC_KEY);
+					String fileName = data.getExtras().getString(
+							ImagePreviewActivity.IMAGE_SRC_KEY);
 					imageFileNames.remove(fileName);
 					picContainer.removeViewAt(imageIndex);
 					picContainer.postInvalidate();
@@ -204,18 +218,19 @@ public class ShareActivity extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	private void addBitmapToImageView(final Bitmap image) {
+	private void addBitmapToImageView(Bitmap bitmap) {
+		Bitmap image = ImageCompressUtils.compressByQuality(bitmap, 100);//进一步压缩到300
 		
 		final String fileName = System.currentTimeMillis() + ".png";
-		FileHelper.write(image, fileName);//临时写入到手机中
-		
+		FileHelper.write(image, fileName);// 临时写入到手机中
+
 		FrameLayout con = (FrameLayout) ShareActivity.this.getLayoutInflater()
 				.inflate(R.layout.discover_share_pic_item, null);
 		ImageView pic = (ImageView) con.findViewById(R.id.share_pic);
 		pic.setImageURI(Uri.fromFile(new File(fileName)));
 		pic.setBackgroundResource(0);// 去掉background
 		ViewUtils.setImageViewSrc(pic, fileName);
-		
+
 		final int imageIndex = picContainer.getChildCount() - 1;
 
 		pic.setOnClickListener(new OnClickListener() {
@@ -231,9 +246,9 @@ public class ShareActivity extends Activity {
 						PREVIEW_IMAGE_ACTIVITY_REQUEST_CODE);
 			}
 		});
-		
+
 		imageFileNames.add(fileName);
-		
+
 		picContainer.addView(con, imageIndex);
 		picContainer.postInvalidate();
 	}
@@ -253,33 +268,44 @@ public class ShareActivity extends Activity {
 	}
 
 	private void publishShare() {
-		AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
+		EditText view = (EditText) findViewById(R.id.share_content);
+		final String shareContent = view.getText().toString();
+
+		AsyncTask<Void, Void, RestMethodResult<TextResource>> task = new AsyncTask<Void, Void, RestMethodResult<TextResource>>() {
 
 			@Override
-			protected String doInBackground(Void... params) {
+			protected RestMethodResult<TextResource> doInBackground(Void... params) {
 				Map share = new HashMap();
-
-				EditText view = (EditText) findViewById(R.id.share_content);
-				String shareContent = view.getText().toString();
 				share.put(COL_NAME_CONTENT, shareContent);
 
 				List<File> files = new ArrayList<File>();
-				for(String fileName : imageFileNames){
+				for (String fileName : imageFileNames) {
 					files.add(FileHelper.getFile(fileName));
 				}
 				share.put(ShareConst.DATA_IMAGE_KEY, files);
-				
-				ShareProcessor processor = new ShareProcessor(ShareActivity.this);
-				processor.postShare(share);
 
-				return null;
+				ShareProcessor processor = new ShareProcessor(ShareActivity.this);
+				return processor.postShare(share);
 			}
 
 			@Override
-			protected void onPostExecute(String result) {
-				Intent intent = new Intent();
-				setResult(RESULT_OK, intent);
-				finish();
+			protected void onPostExecute(RestMethodResult<TextResource> result) {
+				if (result == null) {
+					ViewUtils.showToast("发布信息失败.");
+					return;
+				}
+				if (result.getStatusCode() == 200) {
+					Intent intent = new Intent();
+					intent.putExtra(COL_NAME_CONTENT, shareContent);
+					intent.putStringArrayListExtra(ShareConst.DATA_IMAGE_KEY,
+							(ArrayList<String>) imageFileNames);
+
+					setResult(RESULT_OK, intent);
+					finish();
+				} else {
+					ViewUtils.showToast(result.getResource().getText());
+					return;
+				}
 			}
 
 		};

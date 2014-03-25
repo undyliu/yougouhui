@@ -32,7 +32,8 @@
         <activity
             android:name=".activity.Splash"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/FullscreenTheme" >
+            android:theme="@style/FullscreenTheme" 
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -45,13 +46,16 @@
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login"
-            android:windowSoftInputMode="stateVisible" >
+            android:windowSoftInputMode="stateVisible" 
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.home.MessageActivity" >
+        <activity android:name=".activity.home.MessageActivity" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.profile.SettingActivity"
-            android:label="@string/title_profie_setting" >
+            android:label="@string/title_profie_setting" 
+            android:screenOrientation="portrait">
         </activity>
 
         <service android:name=".func.mess.MessageService" />
@@ -85,13 +89,18 @@
 		 
         <activity
             android:name=".activity.discover.FriendShareActivity"
-            android:label="@string/title_discover_friends" >
+            android:label="@string/title_discover_friends" 
+            android:screenOrientation="portrait">
         </activity>
         <activity  android:name=".activity.discover.ShareActivity"
             android:label="@string/title_activity_share"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.ImagePreviewActivity" android:label="@string/title_image_preview"></activity>
-        <activity android:name=".activity.discover.RadarActivity" android:label="@string/title_discover_radar"></activity>    
+        <activity android:name=".activity.ImagePreviewActivity" 
+            android:label="@string/title_image_preview"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.discover.RadarActivity" 
+            android:label="@string/title_discover_radar"
+            android:screenOrientation="portrait"></activity>    
        </application>
 
 </manifest>

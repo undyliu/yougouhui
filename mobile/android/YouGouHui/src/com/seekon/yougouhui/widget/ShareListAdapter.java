@@ -42,20 +42,24 @@ public class ShareListAdapter extends SimpleAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = super.getView(position, convertView, parent);
 
+		FixGridLayout picContainer = (FixGridLayout) view
+				.findViewById(R.id.share_pic_container);
+		picContainer.removeAllViews();
+		picContainer.setmCellHeight(0);
+		picContainer.setmCellWidth(0);
+		
 		Map share = (Map) getItem(position);
 		List<String> images = (List) share.get(ShareConst.DATA_IMAGE_KEY);
-		if (images != null && !images.isEmpty()) {
-			FixGridLayout picContainer = (FixGridLayout) view
-					.findViewById(R.id.share_pic_container);
+		if (images != null && !images.isEmpty()) {			
 			picContainer.setmCellHeight(IMAGE_VIEW_HEIGHT);
 			picContainer.setmCellWidth(IMAGE_VIEW_WIDTH);
-			picContainer.removeAllViews();
-			
+
 			for (String image : images) {
 				FrameLayout sharePicItem = (FrameLayout) activity.getLayoutInflater()
 						.inflate(R.layout.discover_share_pic_item, null);
 				ImageView imageView = (ImageView) sharePicItem
 						.findViewById(R.id.share_pic);
+				imageView.setBackgroundResource(0);// 去掉background
 				RemoteImageHelper.loadImage(imageView, image);
 				picContainer.addView(sharePicItem);
 			}
@@ -71,4 +75,5 @@ public class ShareListAdapter extends SimpleAdapter {
 
 		return view;
 	}
+	
 }

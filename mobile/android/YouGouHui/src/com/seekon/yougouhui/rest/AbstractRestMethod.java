@@ -59,11 +59,7 @@ public abstract class AbstractRestMethod<T extends Resource> implements RestMeth
 
 	protected abstract T parseResponseBody(String responseBody) throws Exception;
 
-	private Response doRequest(Request request) {
-
-		RestClient client = new RestClient();
-		return client.execute(request);
-	}
+	protected abstract Response doRequest(Request request);
 
 	private String getCharacterEncoding(Map<String, List<String>> headers) {
 		return DEFAULT_ENCODING;

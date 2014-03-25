@@ -25,10 +25,10 @@ public class CommentData extends AbstractDBHelper {
 	public void onCreate(SQLiteDatabase db) {
 		//db.execSQL(" drop table if EXISTS " + CommentConst.TABLE_NAME);
 		db.execSQL("CREATE TABLE IF NOT EXISTS " + CommentConst.TABLE_NAME + " ("
-				+ COL_NAME_UUID + " INTEGER PRIMARY KEY, " + COL_NAME_CONTENT
+				+ COL_NAME_UUID + " TEXT PRIMARY KEY, " + COL_NAME_CONTENT
 				+ " TEXT, " + COL_NAME_SHARE_ID + " TEXT, " + COL_NAME_PUBLISHER
 				+ " TEXT, " + COL_NAME_PUBLISH_TIME + " INTEGER, "
-				+ COL_NAME_COMMENT_ID + " INTEGER)");
+				+ COL_NAME_COMMENT_ID + " TEXT)");
 	}
 
 	@Override

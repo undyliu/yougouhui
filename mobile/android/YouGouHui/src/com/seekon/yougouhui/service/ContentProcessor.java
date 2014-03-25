@@ -6,7 +6,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
@@ -16,6 +15,7 @@ import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.rest.resource.Resource;
+import com.seekon.yougouhui.util.ContentUtils;
 import com.seekon.yougouhui.util.ContentValuesUtils;
 import com.seekon.yougouhui.util.Logger;
 
@@ -78,8 +78,8 @@ public class ContentProcessor {
 		ContentValues values = ContentValuesUtils.fromJSONObject(jsonObj, colNames);
 
 		ContentResolver resolver = mContext.getContentResolver();
-		int id = values.getAsInteger(COL_NAME_UUID);
-		int count = resolver.update(ContentUris.withAppendedId(contentUri, id),
+		String id = values.getAsString(COL_NAME_UUID);
+		int count = resolver.update(ContentUtils.withAppendedId(contentUri, id),
 				values, null, null);
 		if (count == 0) {
 			resolver.insert(contentUri, values);

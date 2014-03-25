@@ -7,8 +7,8 @@ import java.util.Map;
 import android.content.Context;
 
 import com.seekon.yougouhui.Const;
-import com.seekon.yougouhui.rest.AbstractRestMethod;
 import com.seekon.yougouhui.rest.BaseRequest;
+import com.seekon.yougouhui.rest.BaseRestMethod;
 import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
@@ -19,7 +19,7 @@ import com.seekon.yougouhui.rest.resource.JSONObjResource;
  * @author undyliu
  * 
  */
-public class LoginMethod extends AbstractRestMethod<JSONObjResource> {
+public class LoginMethod extends BaseRestMethod<JSONObjResource> {
 
 	private Context context = null;
 	private String phone;

@@ -1,6 +1,11 @@
 package com.seekon.yougouhui.func;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -9,6 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.seekon.yougouhui.util.ContentUtils;
 import com.seekon.yougouhui.util.Logger;
 
 public abstract class SQLiteContentProvider extends ContentProvider {
@@ -72,12 +78,18 @@ public abstract class SQLiteContentProvider extends ContentProvider {
 		if (!this.validateUri(uri, Action.UPDATE)) {
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
-
-		String recordId = Long.toString(ContentUris.parseId(uri));
-		int affected = db.update(tableName, values, DataConst.COL_NAME_UUID + "="
-				+ recordId
+		
+		String recordId = ContentUtils.parseStringId(uri);
+		List<String> args = new ArrayList<String>();
+		args.add(recordId);
+		
+		if(selectionArgs != null){
+			args.addAll(Arrays.asList(selectionArgs));
+		}
+		
+		int affected = db.update(tableName, values, DataConst.COL_NAME_UUID + "= ? "
 				+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""),
-				selectionArgs);
+				args.toArray(new String[args.size()]));
 
 		Logger.debug(TAG, "Updated profile URI: " + uri.toString());
 

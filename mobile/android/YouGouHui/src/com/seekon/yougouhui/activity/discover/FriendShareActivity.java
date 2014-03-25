@@ -1,9 +1,9 @@
 package com.seekon.yougouhui.activity.discover;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_IMG;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_ORD_INDEX;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_TIME;
 import static com.seekon.yougouhui.func.discover.share.ShareImgConst.COL_NAME_SHARE_ID;
@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Adapter;
 import android.widget.SimpleAdapter;
 
 import com.seekon.yougouhui.R;
@@ -82,7 +83,28 @@ public class FriendShareActivity extends RequestListActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);// 刷新晒单后的分享数据
+		if (requestCode == SHARE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+			String content = data.getExtras().getString(COL_NAME_CONTENT);
+			List<String> imageNames = data.getExtras().getStringArrayList(
+					ShareConst.DATA_IMAGE_KEY);
+			ContentValues user = RunEnv.getInstance().getUser();
+			
+			Map values = new HashMap();
+			
+			values.put(COL_NAME_CONTENT, content);
+			values.put(COL_NAME_PHONE, user.get(COL_NAME_PHONE));
+
+			values.put(ShareConst.DATA_IMAGE_KEY, imageNames);
+			values.put(ShareConst.DATA_COMMENT_KEY, new ArrayList());
+			
+			shares.add(0, values);
+			
+			SimpleAdapter adapter = (SimpleAdapter) getListAdapter();
+			if(adapter != null){
+				adapter.notifyDataSetChanged();
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	private void openShareActivity() {
@@ -112,7 +134,7 @@ public class FriendShareActivity extends RequestListActivity {
 			String[] selectionArgs = null;
 			Cursor cursor = getContentResolver().query(ShareConst.CONTENT_URI,
 					new String[] { COL_NAME_UUID, COL_NAME_CONTENT }, selection,
-					selectionArgs, null);
+					selectionArgs, COL_NAME_PUBLISH_TIME + " desc ");
 			while (cursor.moveToNext()) {
 				String uuid = cursor.getString(0);
 
@@ -120,10 +142,10 @@ public class FriendShareActivity extends RequestListActivity {
 				values.put(COL_NAME_UUID, uuid);
 				values.put(COL_NAME_CONTENT, cursor.getString(1));
 				values.put(COL_NAME_PHONE, user.get(COL_NAME_PHONE));
-				
+
 				values.put(ShareConst.DATA_IMAGE_KEY, getShareImagesFromLocal(uuid));
 				values.put(ShareConst.DATA_COMMENT_KEY, getCommentsFromLocal(uuid));
-				
+
 				shares.add(values);
 			}
 			cursor.close();

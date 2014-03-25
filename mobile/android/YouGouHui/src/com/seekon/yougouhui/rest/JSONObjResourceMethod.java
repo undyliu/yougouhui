@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
-public abstract class JSONObjResourceMethod extends AbstractRestMethod<JSONObjResource>{
+public abstract class JSONObjResourceMethod extends BaseRestMethod<JSONObjResource>{
 	
 	protected Context context;
 
@@ -18,4 +18,9 @@ public abstract class JSONObjResourceMethod extends AbstractRestMethod<JSONObjRe
 		return this.context;
 	}
 	
+	@Override
+	protected JSONObjResource parseResponseBody(String responseBody)
+			throws Exception {
+		return new JSONObjResource(responseBody);
+	}
 }

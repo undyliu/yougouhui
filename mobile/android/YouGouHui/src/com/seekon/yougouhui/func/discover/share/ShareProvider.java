@@ -28,7 +28,7 @@ public class ShareProvider extends SQLiteContentProvider {
 	public boolean onCreate() {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI(ShareConst.AUTHORITY, ShareConst.TABLE_NAME, SHARES);
-		uriMatcher.addURI(ShareConst.AUTHORITY, ShareConst.TABLE_NAME + "/#",
+		uriMatcher.addURI(ShareConst.AUTHORITY, ShareConst.TABLE_NAME + "/*",
 				SHARE_ID);
 		shares = new ShareData(getContext());
 		shares.onCreate(shares.getWritableDatabase());// TODO:

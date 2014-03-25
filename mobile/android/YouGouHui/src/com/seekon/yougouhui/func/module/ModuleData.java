@@ -23,7 +23,7 @@ public class ModuleData extends AbstractDBHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("CREATE TABLE IF NOT EXISTS " + ModuleConst.TABLE_NAME + " ("
-				+ COL_NAME_UUID + " INTEGER PRIMARY KEY, " + COL_NAME_CODE + " TEXT, "
+				+ COL_NAME_UUID + " TEXT PRIMARY KEY, " + COL_NAME_CODE + " TEXT, "
 				+ COL_NAME_NAME + " TEXT, " + COL_NAME_ORD_INDEX + " INTEGER, "
 				+ COL_NAME_IMG + " TEXT, " + COL_NAME_TYPE + " INTEGER)");
 	}

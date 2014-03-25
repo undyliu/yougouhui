@@ -13,6 +13,8 @@ import com.seekon.yougouhui.YouGouHuiApp;
 
 public class ImageCompressUtils {
 
+	private static final String TAG = ImageCompressUtils.class.getSimpleName();
+
 	/**
 	 * 通过降低图片的质量来压缩图片
 	 * 
@@ -26,15 +28,15 @@ public class ImageCompressUtils {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int quality = 100;
 		bitmap.compress(CompressFormat.JPEG, quality, baos);
-		System.out.println("图片压缩前大小：" + baos.toByteArray().length + "byte");
+		Logger.debug(TAG, "图片压缩前大小：" + baos.toByteArray().length + "byte");
 		while (baos.toByteArray().length / 1024 > maxSize) {
 			quality -= 10;
 			baos.reset();
 			bitmap.compress(CompressFormat.JPEG, quality, baos);
-			System.out.println("质量压缩到原来的" + quality + "%时大小为："
+			Logger.debug(TAG, "质量压缩到原来的" + quality + "%时大小为："
 					+ baos.toByteArray().length + "byte");
 		}
-		System.out.println("图片压缩后大小：" + baos.toByteArray().length + "byte");
+		Logger.debug(TAG, "图片压缩后大小：" + baos.toByteArray().length + "byte");
 		bitmap = BitmapFactory.decodeByteArray(baos.toByteArray(), 0,
 				baos.toByteArray().length);
 		return bitmap;
@@ -158,10 +160,10 @@ public class ImageCompressUtils {
 		bitmap = BitmapFactory.decodeFile(pathName, opts);
 		return bitmap;
 	}
-	
 
 	/**
 	 * 根据屏幕的尺寸来压缩图片
+	 * 
 	 * @param pathName
 	 * @return
 	 */
@@ -174,6 +176,7 @@ public class ImageCompressUtils {
 
 	/**
 	 * 根据屏幕的尺寸来压缩图片
+	 * 
 	 * @param bitmap
 	 * @return
 	 */

@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 
-public abstract class JSONArrayResourceMethod extends AbstractRestMethod<JSONArrayResource>{
+public abstract class JSONArrayResourceMethod extends BaseRestMethod<JSONArrayResource>{
 
 	protected Context context;
 

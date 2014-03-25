@@ -62,7 +62,7 @@ public class ShareImgProvider extends SQLiteContentProvider {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI(ShareImgConst.AUTHORITY, ShareImgConst.TABLE_NAME,
 				SHARE_IMAGES);
-		uriMatcher.addURI(ShareImgConst.AUTHORITY, ShareImgConst.TABLE_NAME + "/#",
+		uriMatcher.addURI(ShareImgConst.AUTHORITY, ShareImgConst.TABLE_NAME + "/*",
 				SHARE_IMAGE_ID);
 		shareImages = new ShareImgData(getContext());
 		shareImages.onCreate(shareImages.getWritableDatabase());// TODO:

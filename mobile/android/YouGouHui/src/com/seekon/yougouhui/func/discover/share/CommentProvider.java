@@ -62,7 +62,7 @@ public class CommentProvider extends SQLiteContentProvider {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI(CommentConst.AUTHORITY, CommentConst.TABLE_NAME,
 				SHARE_COMMENTS);
-		uriMatcher.addURI(CommentConst.AUTHORITY, CommentConst.TABLE_NAME + "/#",
+		uriMatcher.addURI(CommentConst.AUTHORITY, CommentConst.TABLE_NAME + "/*",
 				SHARE_COMMENT_ID);
 		comments = new CommentData(getContext());
 		comments.onCreate(comments.getWritableDatabase());// TODO:
