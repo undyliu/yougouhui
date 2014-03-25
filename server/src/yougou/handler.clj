@@ -8,6 +8,9 @@
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
 	     [clojure.data.json :as json]
+			 [clojure.java.io :as io]
+			 [ring.util.response :as response]
+			 (ring.middleware [multipart-params :as mp])
 	))
 
 (defroutes app-routes
@@ -24,7 +27,19 @@
   (GET "/getFavoriteList/:user-id" [user-id] (json/write-str "[]"))
   (GET "/getShareList/:user-id" [user-id] (json/write-str "[]"))
 	(GET "/getFriendShares" [] (json/write-str (get-friend-share-data)))
+	
   (POST "/login" {{phone :phone, pwd :pwd} :params} (json/write-str (login phone pwd)))
+	
+	(POST "/saveShare"
+		{params :params}
+		;;(println params)
+		(try
+			(save-share params)
+			(catch Exception e (response/response "failed"))
+		)
+		(response/response "success")
+	)		
+			
   (route/resources "/")
   (route/not-found "Not Found"))
 
