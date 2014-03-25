@@ -3,6 +3,9 @@
 		[korma.core]
 		[yougou.db]
 		)
+	(:require
+		[clojure.java.io :as io]
+	)
 )
 
 (defn get-friend-shares []
@@ -42,3 +45,49 @@
 		)
 	)
 )
+(defn save-share-img [share-id img-name req-params ord-index]
+	(let [ uuid (str (java.util.UUID/randomUUID))
+				tempfile (:tempfile (req-params img-name))
+			]
+		(when (and img-name (> (count (clojure.string/trim img-name)) 0))	
+			(insert share-images (values {:uuid uuid :img img-name :share_id share-id :ord_index ord-index}))
+			(io/copy tempfile (io/file img-name))
+		)
+	)
+)
+
+(defn save-share-imgs [share-id image-names req-params]
+	(let [first-img-name (first image-names)
+				index 1
+			]
+		(loop [name-list image-names
+				  img-name first-img-name
+					ord-index index
+					]
+			  		
+				(when (> (count name-list) 0)
+					(save-share-img share-id img-name req-params ord-index)
+					(recur (rest name-list)
+							(first (rest name-list))
+							(inc ord-index)
+					)
+				)
+			
+		)
+	)			
+)
+
+(defn save-share [req-params]
+	(let [uuid (str (java.util.UUID/randomUUID))
+				content (java.net.URLDecoder/decode (:content req-params) "utf-8")
+				image-names (java.net.URLDecoder/decode (:fileNameList req-params) "utf-8")
+			]
+		;;(transaction	
+			(insert shares (values {:uuid uuid :content content :publish_time (str  (System/currentTimeMillis))}))
+			(if image-names
+				(save-share-imgs uuid (clojure.string/split image-names #"[|]") req-params)
+			)
+		;;)
+	)
+)
+
