@@ -4,7 +4,7 @@
 		[yougou.db]
 		)
 	(:require
-		[clojure.java.io :as io]
+		[yougou.file :as file]
 	)
 )
 
@@ -45,13 +45,13 @@
 		)
 	)
 )
+
 (defn save-share-img [share-id img-name req-params ord-index]
 	(let [ uuid (str (java.util.UUID/randomUUID))
-				tempfile (:tempfile (req-params img-name))
 			]
 		(when (and img-name (> (count (clojure.string/trim img-name)) 0))	
 			(insert share-images (values {:uuid uuid :img img-name :share_id share-id :ord_index ord-index}))
-			(io/copy tempfile (io/file img-name))
+			(file/save-image-file img-name (:tempfile (req-params img-name)))
 		)
 	)
 )

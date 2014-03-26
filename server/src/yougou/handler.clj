@@ -11,6 +11,7 @@
 			 [clojure.java.io :as io]
 			 [ring.util.response :as response]
 			 (ring.middleware [multipart-params :as mp])
+			 [yougou.file :as file]
 	))
 
 (defroutes app-routes
@@ -28,11 +29,13 @@
   (GET "/getShareList/:user-id" [user-id] (json/write-str "[]"))
 	(GET "/getFriendShares" [] (json/write-str (get-friend-share-data)))
 	
+	(GET "/getImageFile/:file-name" [file-name] (file/get-image-file file-name))
+	
   (POST "/login" {{phone :phone, pwd :pwd} :params} (json/write-str (login phone pwd)))
 	
 	(POST "/saveShare"
 		{params :params}
-		;;(println params)
+		(println params)
 		(try
 			(save-share params)
 			(catch Exception e (response/response "failed"))
