@@ -16,6 +16,7 @@ import android.support.v4.app.ListFragment;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.service.RequestServiceHelper;
 import com.seekon.yougouhui.util.Logger;
+import com.seekon.yougouhui.util.ViewUtils;
 
 @SuppressLint("ValidFragment")
 public abstract class RequestListFragment extends ListFragment{
@@ -55,7 +56,7 @@ public abstract class RequestListFragment extends ListFragment{
 					if (resultCode == 200) {
 						updateListItems();
 					} else {
-						// showToast(getString(R.string.error_occurred));
+						ViewUtils.showToast("获取数据失败.");
 					}
 				} else {
 					Logger.debug(TAG, "Result is NOT for our request ID");

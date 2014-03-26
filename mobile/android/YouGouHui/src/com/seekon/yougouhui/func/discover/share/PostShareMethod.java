@@ -11,6 +11,7 @@ import java.util.Map;
 import android.content.Context;
 
 import com.seekon.yougouhui.Const;
+import com.seekon.yougouhui.YouGouHuiApp;
 import com.seekon.yougouhui.rest.MultipartRequest;
 import com.seekon.yougouhui.rest.MultipartRestMethod;
 import com.seekon.yougouhui.rest.Request;
@@ -23,6 +24,10 @@ public class PostShareMethod extends MultipartRestMethod<TextResource> {
 
 	private Map share;
 
+	public PostShareMethod(Map share){
+		this(share, YouGouHuiApp.getAppContext());
+	}
+	
 	public PostShareMethod(Map share, Context context) {
 		super(context);
 		this.share = share;
@@ -36,7 +41,7 @@ public class PostShareMethod extends MultipartRestMethod<TextResource> {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(COL_NAME_CONTENT, (String) share.get(COL_NAME_CONTENT));
 
-		List<File> files = (List<File>) share.get(ShareConst.DATA_IMAGE_KEY);
+		List<String> files = (List<String>) share.get(ShareConst.DATA_IMAGE_KEY);
 		MultipartRequest request = new MultipartRequest(URI.create(POST_SHARE_URI),
 				null, params, files);
 		return request;

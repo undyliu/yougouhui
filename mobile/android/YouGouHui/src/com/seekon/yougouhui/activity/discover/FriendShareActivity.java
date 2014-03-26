@@ -22,7 +22,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Adapter;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.seekon.yougouhui.R;
@@ -46,6 +46,8 @@ public class FriendShareActivity extends RequestListActivity {
 
 	private List<Map<String, ?>> shares = new ArrayList<Map<String, ?>>();
 
+	private ListView shareListView = null;
+	
 	public FriendShareActivity() {
 		super(ShareServiceHelper.SHARE_GET_REQUEST_RESULT);
 	}
@@ -54,7 +56,9 @@ public class FriendShareActivity extends RequestListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.discover_friends);
-
+		
+		shareListView = (ListView) findViewById(R.id.freind_share_list);
+		
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
@@ -99,7 +103,7 @@ public class FriendShareActivity extends RequestListActivity {
 			
 			shares.add(0, values);
 			
-			SimpleAdapter adapter = (SimpleAdapter) getListAdapter();
+			SimpleAdapter adapter = (SimpleAdapter) shareListView.getAdapter();
 			if(adapter != null){
 				adapter.notifyDataSetChanged();
 			}
@@ -159,7 +163,11 @@ public class FriendShareActivity extends RequestListActivity {
 				new String[] { COL_NAME_IMG }, COL_NAME_SHARE_ID + "=?",
 				new String[] { shareId }, COL_NAME_ORD_INDEX);
 		while (cursor.moveToNext()) {
-			imageUrls.add(cursor.getString(0));
+			String image = cursor.getString(0);
+			if(image == null || image.trim().length() == 0){
+				continue;
+			}
+			imageUrls.add(image);
 		}
 		cursor.close();
 		return imageUrls;
@@ -183,9 +191,10 @@ public class FriendShareActivity extends RequestListActivity {
 
 	@Override
 	protected void updateListView(List<Map<String, ?>> data) {
-		this.setListAdapter(new ShareListAdapter(this, data,
+		shareListView.setAdapter(new ShareListAdapter(this, data,
 				R.layout.discover_friends_item, new String[] { COL_NAME_PHONE,
 						COL_NAME_CONTENT },
 				new int[] { R.id.user_name, R.id.share_content }));
 	}
+	
 }

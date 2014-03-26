@@ -3,7 +3,7 @@ package com.seekon.yougouhui.activity;
 import java.util.List;
 import java.util.Map;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,7 @@ import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.service.RequestServiceHelper;
 import com.seekon.yougouhui.util.Logger;
 
-public abstract class RequestListActivity extends ListActivity{
+public abstract class RequestListActivity extends Activity{
 
 	protected static final String TAG = RequestListActivity.class.getSimpleName();
 	

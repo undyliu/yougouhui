@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.util.ViewUtils;
 
 /**
@@ -42,7 +43,7 @@ public class ImagePreviewActivity extends Activity{
 		imageIndex = intent.getExtras().getInt(IMAGE_INDEX_IN_CONTAINER);
 		
 		ImageView view = (ImageView) this.findViewById(R.id.image_preview_id);
-		ViewUtils.setImageViewSrc(view, imageFileName);
+		ImageLoader.getInstance().displayImage(imageFileName, view, false);
 	}
 	
 	@Override

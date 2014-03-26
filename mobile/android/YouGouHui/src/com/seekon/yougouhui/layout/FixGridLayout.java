@@ -19,7 +19,7 @@ public class FixGridLayout extends ViewGroup {
 	private int mCellWidth;
 	private int mCellHeight;
 	private int rowCount = 1;
-	private boolean showBorder = false;
+	private boolean showBorder = true;
 
 	public FixGridLayout(Context context) {
 		super(context);
@@ -155,4 +155,9 @@ public class FixGridLayout extends ViewGroup {
 		super.dispatchDraw(canvas);
 	}
 
+	@Override
+	public void removeAllViews() {
+		super.removeAllViews();
+		rowCount = 1;
+	}
 }

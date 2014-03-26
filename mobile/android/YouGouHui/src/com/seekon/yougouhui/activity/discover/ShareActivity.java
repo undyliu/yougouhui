@@ -10,7 +10,6 @@ import java.util.Map;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -19,7 +18,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,21 +27,20 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.ImagePreviewActivity;
+import com.seekon.yougouhui.file.FileHelper;
+import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareProcessor;
 import com.seekon.yougouhui.layout.FixGridLayout;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.TextResource;
-import com.seekon.yougouhui.util.FileHelper;
 import com.seekon.yougouhui.util.ImageCompressUtils;
 import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.util.ViewUtils;
@@ -84,7 +81,7 @@ public class ShareActivity extends Activity {
 		picContainer.setShowBorder(true);
 
 		final LayoutInflater inflater = getLayoutInflater();
-		FrameLayout fl = (FrameLayout) inflater.inflate(
+		ImageView fl = (ImageView) inflater.inflate(
 				R.layout.discover_share_pic_item, null);
 
 		fl.setOnClickListener(new OnClickListener() {
@@ -219,18 +216,16 @@ public class ShareActivity extends Activity {
 	}
 
 	private void addBitmapToImageView(Bitmap bitmap) {
-		Bitmap image = ImageCompressUtils.compressByQuality(bitmap, 100);//进一步压缩到300
+		Bitmap image = ImageCompressUtils.compressByQuality(bitmap, 100);//进一步压缩
 		
 		final String fileName = System.currentTimeMillis() + ".png";
 		FileHelper.write(image, fileName);// 临时写入到手机中
 
-		FrameLayout con = (FrameLayout) ShareActivity.this.getLayoutInflater()
+		ImageView pic = (ImageView) ShareActivity.this.getLayoutInflater()
 				.inflate(R.layout.discover_share_pic_item, null);
-		ImageView pic = (ImageView) con.findViewById(R.id.share_pic);
-		pic.setImageURI(Uri.fromFile(new File(fileName)));
 		pic.setBackgroundResource(0);// 去掉background
-		ViewUtils.setImageViewSrc(pic, fileName);
-
+		ImageLoader.getInstance().displayImage(fileName, pic, true);
+		
 		final int imageIndex = picContainer.getChildCount() - 1;
 
 		pic.setOnClickListener(new OnClickListener() {
@@ -249,7 +244,7 @@ public class ShareActivity extends Activity {
 
 		imageFileNames.add(fileName);
 
-		picContainer.addView(con, imageIndex);
+		picContainer.addView(pic, imageIndex);
 		picContainer.postInvalidate();
 	}
 
@@ -278,11 +273,11 @@ public class ShareActivity extends Activity {
 				Map share = new HashMap();
 				share.put(COL_NAME_CONTENT, shareContent);
 
-				List<File> files = new ArrayList<File>();
-				for (String fileName : imageFileNames) {
-					files.add(FileHelper.getFile(fileName));
-				}
-				share.put(ShareConst.DATA_IMAGE_KEY, files);
+//				List<File> files = new ArrayList<File>();
+//				for (String fileName : imageFileNames) {
+//					files.add(FileHelper.getFile(fileName));
+//				}
+				share.put(ShareConst.DATA_IMAGE_KEY, imageFileNames);
 
 				ShareProcessor processor = new ShareProcessor(ShareActivity.this);
 				return processor.postShare(share);

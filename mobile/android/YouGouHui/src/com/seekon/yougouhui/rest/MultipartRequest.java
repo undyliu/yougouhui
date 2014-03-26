@@ -1,6 +1,5 @@
 package com.seekon.yougouhui.rest;
 
-import java.io.File;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -12,16 +11,16 @@ import java.util.Map;
  */
 public class MultipartRequest extends BaseRequest {
 
-	private List<File> files = null;
+	private List<String> fileNames = null;
 
 	public MultipartRequest(URI requestUri, Map<String, List<String>> headers,
-			Map<String, String> parameters, List<File> files) {
+			Map<String, String> parameters, List<String> fileNames) {
 		super(Method.POST, requestUri, headers, parameters);
-		this.files = files;
+		this.fileNames = fileNames;
 	}
 
-	public List<File> getFiles() {
-		return files;
+	public List<String> getFileNames() {
+		return fileNames;
 	}
 
 }

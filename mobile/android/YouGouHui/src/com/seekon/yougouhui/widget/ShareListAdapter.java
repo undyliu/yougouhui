@@ -1,22 +1,19 @@
 package com.seekon.yougouhui.widget;
 
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
+
 import java.util.List;
 import java.util.Map;
-
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
 
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
-import com.seekon.yougouhui.layout.FixGridLayout;
-import com.seekon.yougouhui.util.RemoteImageHelper;
 
 /**
  * 分享列表adapter
@@ -42,29 +39,13 @@ public class ShareListAdapter extends SimpleAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = super.getView(position, convertView, parent);
 
-		FixGridLayout picContainer = (FixGridLayout) view
-				.findViewById(R.id.share_pic_container);
-		picContainer.removeAllViews();
-		picContainer.setmCellHeight(0);
-		picContainer.setmCellWidth(0);
-		
 		Map share = (Map) getItem(position);
 		List<String> images = (List) share.get(ShareConst.DATA_IMAGE_KEY);
-		if (images != null && !images.isEmpty()) {			
-			picContainer.setmCellHeight(IMAGE_VIEW_HEIGHT);
-			picContainer.setmCellWidth(IMAGE_VIEW_WIDTH);
+		GridView picContainer = (GridView) view
+				.findViewById(R.id.share_pic_container);
 
-			for (String image : images) {
-				FrameLayout sharePicItem = (FrameLayout) activity.getLayoutInflater()
-						.inflate(R.layout.discover_share_pic_item, null);
-				ImageView imageView = (ImageView) sharePicItem
-						.findViewById(R.id.share_pic);
-				imageView.setBackgroundResource(0);// 去掉background
-				RemoteImageHelper.loadImage(imageView, image);
-				picContainer.addView(sharePicItem);
-			}
-		}
-
+		picContainer.setAdapter(new ShareImageAdapter(activity, images));
+		
 		ListView commentView = (ListView) view.findViewById(R.id.comment_list);
 		List<Map<String, ?>> comments = (List<Map<String, ?>>) share
 				.get(ShareConst.DATA_COMMENT_KEY);
@@ -75,5 +56,5 @@ public class ShareListAdapter extends SimpleAdapter {
 
 		return view;
 	}
-	
+
 }
