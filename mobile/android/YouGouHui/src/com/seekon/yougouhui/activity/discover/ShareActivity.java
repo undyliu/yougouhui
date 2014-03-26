@@ -26,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,6 +35,8 @@ import android.widget.PopupWindow;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.ImagePreviewActivity;
+import com.seekon.yougouhui.activity.MainActivity;
+import com.seekon.yougouhui.barcode.MipcaActivityCapture;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
@@ -55,6 +58,8 @@ public class ShareActivity extends Activity {
 
 	private static final int PREVIEW_IMAGE_ACTIVITY_REQUEST_CODE = 300;
 
+	private final static int SCANNIN_GREQUEST_CODE = 400;
+	
 	private static final int IMAGE_VIEW_WIDTH = 120;
 
 	private static final int IMAGE_VIEW_HEIGHT = 120;
@@ -94,6 +99,17 @@ public class ShareActivity extends Activity {
 
 		picContainer.addView(fl);
 		picContainer.invalidate(); // 让UI重绘界面
+		
+		Button barcodeScan = (Button) findViewById(R.id.b_scan_shop_barcode);
+		barcodeScan.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setClass(ShareActivity.this, MipcaActivityCapture.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
+			}
+		});
 	}
 
 	@Override
@@ -210,22 +226,29 @@ public class ShareActivity extends Activity {
 					picContainer.postInvalidate();
 				}
 			}
+		}else if(requestCode == SCANNIN_GREQUEST_CODE){
+			if(resultCode == RESULT_OK){
+				Bundle bundle = data.getExtras();
+				EditText barcodeText = (EditText) findViewById(R.id.share_shop_barcode);
+				barcodeText.setText(bundle.getString("result"));
+				Logger.debug(TAG, "barcode:" + bundle.toString());
+			}
 		}
 
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	private void addBitmapToImageView(Bitmap bitmap) {
-		Bitmap image = ImageCompressUtils.compressByQuality(bitmap, 100);//进一步压缩
-		
+		Bitmap image = ImageCompressUtils.compressByQuality(bitmap, 100);// 进一步压缩
+
 		final String fileName = System.currentTimeMillis() + ".png";
 		FileHelper.write(image, fileName);// 临时写入到手机中
 
-		ImageView pic = (ImageView) ShareActivity.this.getLayoutInflater()
-				.inflate(R.layout.discover_share_pic_item, null);
+		ImageView pic = (ImageView) ShareActivity.this.getLayoutInflater().inflate(
+				R.layout.discover_share_pic_item, null);
 		pic.setBackgroundResource(0);// 去掉background
 		ImageLoader.getInstance().displayImage(fileName, pic, true);
-		
+
 		final int imageIndex = picContainer.getChildCount() - 1;
 
 		pic.setOnClickListener(new OnClickListener() {
@@ -273,10 +296,6 @@ public class ShareActivity extends Activity {
 				Map share = new HashMap();
 				share.put(COL_NAME_CONTENT, shareContent);
 
-//				List<File> files = new ArrayList<File>();
-//				for (String fileName : imageFileNames) {
-//					files.add(FileHelper.getFile(fileName));
-//				}
 				share.put(ShareConst.DATA_IMAGE_KEY, imageFileNames);
 
 				ShareProcessor processor = new ShareProcessor(ShareActivity.this);

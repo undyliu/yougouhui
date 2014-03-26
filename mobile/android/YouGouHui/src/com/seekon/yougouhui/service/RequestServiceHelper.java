@@ -35,7 +35,7 @@ public abstract class RequestServiceHelper {
 				.getParcelable(ServiceConst.ORIGINAL_INTENT_EXTRA);
 		if (origIntent != null) {
 			long requestId = origIntent.getLongExtra(REQUEST_ID, 0);
-			
+
 			requests.remove(requestKey);
 			Intent resultBroadcast = new Intent(broadcastIntentAction);
 			resultBroadcast.putExtra(EXTRA_REQUEST_ID, requestId);

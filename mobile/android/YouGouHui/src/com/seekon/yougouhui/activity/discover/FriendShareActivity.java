@@ -47,7 +47,7 @@ public class FriendShareActivity extends RequestListActivity {
 	private List<Map<String, ?>> shares = new ArrayList<Map<String, ?>>();
 
 	private ListView shareListView = null;
-	
+
 	public FriendShareActivity() {
 		super(ShareServiceHelper.SHARE_GET_REQUEST_RESULT);
 	}
@@ -56,9 +56,9 @@ public class FriendShareActivity extends RequestListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.discover_friends);
-		
+
 		shareListView = (ListView) findViewById(R.id.freind_share_list);
-		
+
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
@@ -92,19 +92,19 @@ public class FriendShareActivity extends RequestListActivity {
 			List<String> imageNames = data.getExtras().getStringArrayList(
 					ShareConst.DATA_IMAGE_KEY);
 			ContentValues user = RunEnv.getInstance().getUser();
-			
+
 			Map values = new HashMap();
-			
+
 			values.put(COL_NAME_CONTENT, content);
 			values.put(COL_NAME_PHONE, user.get(COL_NAME_PHONE));
 
 			values.put(ShareConst.DATA_IMAGE_KEY, imageNames);
 			values.put(ShareConst.DATA_COMMENT_KEY, new ArrayList());
-			
+
 			shares.add(0, values);
-			
+
 			SimpleAdapter adapter = (SimpleAdapter) shareListView.getAdapter();
-			if(adapter != null){
+			if (adapter != null) {
 				adapter.notifyDataSetChanged();
 			}
 		}
@@ -164,7 +164,7 @@ public class FriendShareActivity extends RequestListActivity {
 				new String[] { shareId }, COL_NAME_ORD_INDEX);
 		while (cursor.moveToNext()) {
 			String image = cursor.getString(0);
-			if(image == null || image.trim().length() == 0){
+			if (image == null || image.trim().length() == 0) {
 				continue;
 			}
 			imageUrls.add(image);
@@ -191,10 +191,10 @@ public class FriendShareActivity extends RequestListActivity {
 
 	@Override
 	protected void updateListView(List<Map<String, ?>> data) {
-		shareListView.setAdapter(new ShareListAdapter(this, data,
+		shareListView.setAdapter(new ShareListAdapter(this, shareListView, data,
 				R.layout.discover_friends_item, new String[] { COL_NAME_PHONE,
 						COL_NAME_CONTENT },
 				new int[] { R.id.user_name, R.id.share_content }));
 	}
-	
+
 }

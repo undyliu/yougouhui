@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 
-import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.ImageLoader;
 
@@ -64,8 +63,7 @@ public class ImageListRemoteAdapter extends SimpleAdapter {
 		if (recordImg != null && recordImg.trim().length() > 0) {
 			imageView.setVisibility(ImageView.VISIBLE);
 			// RemoteImageHelper.loadImage(imageView, recordImg);
-			ImageLoader.getInstance().displayImage(recordImg,
-					imageView, true);
+			ImageLoader.getInstance().displayImage(recordImg, imageView, true);
 		} else {
 			if (imageView != null) {
 				imageView.setVisibility(ImageView.INVISIBLE);

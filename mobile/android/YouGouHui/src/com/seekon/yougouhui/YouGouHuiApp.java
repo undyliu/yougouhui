@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.seekon.yougouhui.util.Logger;
 
-public class YouGouHuiApp extends Application{
+public class YouGouHuiApp extends Application {
 
 	private static Context mAppContext;
 
@@ -14,7 +14,7 @@ public class YouGouHuiApp extends Application{
 		super.onCreate();
 
 		mAppContext = getApplicationContext();
-		
+
 		Logger.setAppTag(getString(R.string.app_log_tag));
 		Logger.setLevel(Logger.DEBUG);
 	}

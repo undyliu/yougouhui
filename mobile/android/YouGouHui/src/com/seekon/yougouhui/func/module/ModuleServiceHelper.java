@@ -45,7 +45,8 @@ public class ModuleServiceHelper extends RequestServiceHelper {
 		ResultReceiver serviceCallback = new ResultReceiver(null) {
 			@Override
 			protected void onReceiveResult(int resultCode, Bundle resultData) {
-				handleResponse(resultCode, resultData, broadcastIntentAction, HASH_KEY_MODULE);
+				handleResponse(resultCode, resultData, broadcastIntentAction,
+						HASH_KEY_MODULE);
 			}
 		};
 

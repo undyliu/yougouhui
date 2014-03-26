@@ -103,7 +103,7 @@ public class MultipartClient extends RestClient {
 		}
 		if (sb.length() > 0) {
 			param.put("fileNameList", sb.substring(1));
-		}else{
+		} else {
 			param.put("fileNameList", "");
 		}
 		/***

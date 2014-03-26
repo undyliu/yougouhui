@@ -50,7 +50,7 @@ public class Splash extends Activity {
 				autoLogin = false;
 			}
 		}
-		
+
 		boolean authed = false;
 		if (autoLogin || RunEnv.getInstance().getUser() != null) {
 			authed = auth(loginSetting);
@@ -84,8 +84,9 @@ public class Splash extends Activity {
 					loginSetting.getString(UserHelper.COL_NAME_PHONE),
 					loginSetting.getString(UserHelper.COL_NAME_PWD));
 			authed = user != null;
-			if(authed){
-				RunEnv.getInstance().setLoginSetting(ContentValuesUtils.fromJSONObject(loginSetting, null));
+			if (authed) {
+				RunEnv.getInstance().setLoginSetting(
+						ContentValuesUtils.fromJSONObject(loginSetting, null));
 				RunEnv.getInstance().setUser(user);
 			}
 		} catch (JSONException e) {

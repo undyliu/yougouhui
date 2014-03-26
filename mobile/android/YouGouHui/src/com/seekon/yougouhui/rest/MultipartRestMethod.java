@@ -6,9 +6,9 @@ import com.seekon.yougouhui.rest.resource.Resource;
 
 public abstract class MultipartRestMethod<T extends Resource> extends
 		AbstractRestMethod<T> {
-	
+
 	protected Context context;
-	
+
 	public MultipartRestMethod(Context context) {
 		super();
 		this.context = context;
@@ -18,11 +18,11 @@ public abstract class MultipartRestMethod<T extends Resource> extends
 	protected Context getContext() {
 		return context;
 	}
-	
+
 	@Override
 	protected Response doRequest(Request request) {
 		RestClient client = new MultipartClient();
 		return client.execute(request);
 	}
-	
+
 }

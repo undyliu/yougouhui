@@ -2,7 +2,6 @@ package com.seekon.yougouhui.func.discover.share;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
 
-import java.io.File;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
@@ -24,10 +23,10 @@ public class PostShareMethod extends MultipartRestMethod<TextResource> {
 
 	private Map share;
 
-	public PostShareMethod(Map share){
+	public PostShareMethod(Map share) {
 		this(share, YouGouHuiApp.getAppContext());
 	}
-	
+
 	public PostShareMethod(Map share, Context context) {
 		super(context);
 		this.share = share;

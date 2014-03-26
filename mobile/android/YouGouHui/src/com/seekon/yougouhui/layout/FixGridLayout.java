@@ -89,9 +89,9 @@ public class FixGridLayout extends ViewGroup {
 			}
 
 		}
-		if(columns == 0){
+		if (columns == 0) {
 			rowCount = 1;
-		}else{
+		} else {
 			rowCount = count / columns + 1;
 		}
 	}

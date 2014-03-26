@@ -20,7 +20,7 @@ public class ShareImgData extends AbstractDBHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(" drop table if EXISTS " + ShareImgConst.TABLE_NAME);
+		// db.execSQL(" drop table if EXISTS " + ShareImgConst.TABLE_NAME);
 		db.execSQL("CREATE TABLE IF NOT EXISTS " + ShareImgConst.TABLE_NAME + " ("
 				+ COL_NAME_UUID + " TEXT PRIMARY KEY, " + COL_NAME_IMG + " TEXT, "
 				+ COL_NAME_SHARE_ID + " TEXT, " + COL_NAME_ORD_INDEX + " INTEGER)");

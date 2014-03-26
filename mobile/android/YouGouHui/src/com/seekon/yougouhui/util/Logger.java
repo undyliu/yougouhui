@@ -91,9 +91,9 @@ public class Logger {
 	 * Formats a log message
 	 * 
 	 * @param tag
-	 *            message prefix, typically the requesting class name
+	 *          message prefix, typically the requesting class name
 	 * @param message
-	 *            message to write
+	 *          message to write
 	 * @return formatted string of the log message
 	 */
 	private static String formatMessage(String tag, String message) {

@@ -78,16 +78,17 @@ public abstract class SQLiteContentProvider extends ContentProvider {
 		if (!this.validateUri(uri, Action.UPDATE)) {
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
-		
+
 		String recordId = ContentUtils.parseStringId(uri);
 		List<String> args = new ArrayList<String>();
 		args.add(recordId);
-		
-		if(selectionArgs != null){
+
+		if (selectionArgs != null) {
 			args.addAll(Arrays.asList(selectionArgs));
 		}
-		
-		int affected = db.update(tableName, values, DataConst.COL_NAME_UUID + "= ? "
+
+		int affected = db.update(tableName, values, DataConst.COL_NAME_UUID
+				+ "= ? "
 				+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""),
 				args.toArray(new String[args.size()]));
 

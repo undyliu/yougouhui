@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -15,6 +14,7 @@ public class RestUtils {
 
 	/**
 	 * 读取输入流
+	 * 
 	 * @param in
 	 * @return
 	 * @throws IOException
@@ -30,6 +30,7 @@ public class RestUtils {
 
 	/**
 	 * 将map类型的参数转换为byte类型的数组，支持请求体的格式要求
+	 * 
 	 * @param params
 	 * @return
 	 */
@@ -40,9 +41,9 @@ public class RestUtils {
 
 		StringBuffer result = new StringBuffer();
 		Iterator<Entry<String, String>> iterator = params.entrySet().iterator();
-		while(iterator.hasNext()){
+		while (iterator.hasNext()) {
 			Entry<String, String> entry = iterator.next();
-			result.append("&" + entry.getKey() + "=" + 	entry.getValue());	
+			result.append("&" + entry.getKey() + "=" + entry.getValue());
 		}
 		return result.substring(1).getBytes();
 	}

@@ -24,8 +24,9 @@ public class FileHelper {
 
 	private static final String TAG = FileHelper.class.getSimpleName();
 
-	public static final String IMAGE_FILE_GET_URL = Const.SERVER_APP_URL + "/getImageFile/";
-	
+	public static final String IMAGE_FILE_GET_URL = Const.SERVER_APP_URL
+			+ "/getImageFile/";
+
 	private FileHelper() {
 	}
 
@@ -62,10 +63,10 @@ public class FileHelper {
 		}
 	}
 
-	public static File getFileByName(String fileName){
+	public static File getFileByName(String fileName) {
 		return getFile(IMAGE_FILE_GET_URL + fileName);
 	}
-	
+
 	public static File getFile(String url) {
 		FileCache fileCache = new FileCache();
 		return fileCache.getFile(url);

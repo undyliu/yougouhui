@@ -29,9 +29,11 @@
 
         <Button
             android:id="@+id/logout"
+            style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
+            android:background="@drawable/button_shape"
             android:text="@string/action_logout" />
 
     </LinearLayout>

@@ -5,4 +5,6 @@
     <string name="hint_share_content">请分享下本次购物的体验吧</string>
     <string name="hint_scan_shop_barcode">扫一扫商家二维码赚取更多积分</string>
     <string name="button_scan">扫一扫</string>
+    <string name="button_send">发送</string>
+    <string name="hint_button_comment">评论一下</string>
 </resources>

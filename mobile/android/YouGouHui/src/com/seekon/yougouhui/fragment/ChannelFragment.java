@@ -41,7 +41,7 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 	private static String TAG = ChannelFragment.class.getSimpleName();
 
 	public static final int TAB_SHOW_COUNT = 4;
-	
+
 	private Long requestId;
 
 	private BroadcastReceiver requestReceiver;
@@ -57,9 +57,9 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 	private List<Fragment> messageFragments = new ArrayList<Fragment>();
 
 	private SubChannelViewBuilder subChannelViewBuilder = null;
-	
+
 	private ChannelTabChangeListener channelTabChangeListener = null;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,7 +67,7 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 		attachedActivity = (FragmentActivity) this.getActivity();
 		subChannelViewBuilder = new SubChannelViewBuilder(attachedActivity);
 		channelTabChangeListener = new ChannelTabChangeListener(this);
-		
+
 		actionBar = attachedActivity.getActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
 
@@ -99,7 +99,7 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 			Bundle savedInstanceState) {
 		mViewPager = (ViewPager) inflater.inflate(R.layout.channel_viewpager,
 				container, false);
-		
+
 		return mViewPager;
 	}
 
@@ -113,7 +113,7 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 			mViewPager.setAdapter(mAdapter);
 		}
 		mViewPager.setOnPageChangeListener(channelTabChangeListener);
-		
+
 		subChannelViewBuilder.setViewPager(mViewPager);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);// 设置为页签导航模式
 	}
@@ -158,33 +158,34 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 					mViewPager = (ViewPager) attachedActivity
 							.findViewById(R.id.tabChannelViewPager);
 				}
-				
+
 				int index = 0;
-				List<ContentValues> subChannels = channels.subList(TAB_SHOW_COUNT, channels.size());
+				List<ContentValues> subChannels = channels.subList(TAB_SHOW_COUNT,
+						channels.size());
 				for (ContentValues channel : channels) {
-					
-					
-					if(index < TAB_SHOW_COUNT){
+
+					if (index < TAB_SHOW_COUNT) {
 						ActionBar.Tab channelTab = actionBar.newTab();
 						channelTab.setTabListener(ChannelFragment.this);
 						channelTab.setText(channel.getAsString(COL_NAME_NAME));
-						actionBar.addTab(channelTab);						
-					}else if(index == TAB_SHOW_COUNT){
+						actionBar.addTab(channelTab);
+					} else if (index == TAB_SHOW_COUNT) {
 						ActionBar.Tab channelTab = actionBar.newTab();
 						channelTab.setTabListener(ChannelFragment.this);
-						channelTab.setCustomView(subChannelViewBuilder.getSpinnerView(subChannels));
+						channelTab.setCustomView(subChannelViewBuilder
+								.getSpinnerView(subChannels));
 						actionBar.addTab(channelTab);
 					}
-					
-					messageFragments.add(new MessageListFragment(channel));	
+
+					messageFragments.add(new MessageListFragment(channel));
 					index++;
 				}
-				
+
 				subChannelViewBuilder.setViewPager(mViewPager);
 				mAdapter = new TabFragmentPagerAdapter(
 						ChannelFragment.this.getChildFragmentManager(), messageFragments);
 				mViewPager.setAdapter(mAdapter);
-				//mViewPager.setCurrentItem(0);
+				// mViewPager.setCurrentItem(0);
 			}
 		};
 
@@ -210,10 +211,10 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 		}
 	}
 
-	public SubChannelViewBuilder getSubChannelViewBuilder(){
+	public SubChannelViewBuilder getSubChannelViewBuilder() {
 		return this.subChannelViewBuilder;
 	}
-	
+
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
 

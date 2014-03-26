@@ -11,8 +11,8 @@ public interface ServiceConst {
 	public static final String RESOURCE_TYPE_EXTRA = "com.seekon.yougouhui.service.RESOURCE_TYPE_EXTRA";
 
 	public static final int REQUEST_INVALID = -1;
-	
+
 	public static final String METHOD_GET = "GET";
-	
+
 	public static final String METHOD_POST = "POST";
 }

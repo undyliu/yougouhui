@@ -23,7 +23,7 @@ public class MessageActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		message = (ContentValues) this.getIntent().getExtras()
 				.get(MessageConst.MESSAGE_DATA_KEY);
-		
+
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}

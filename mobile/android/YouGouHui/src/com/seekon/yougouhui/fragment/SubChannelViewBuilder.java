@@ -28,7 +28,7 @@ public class SubChannelViewBuilder {
 	private Spinner mActionbarSpinner = null;
 
 	private TabSpinnerItemSelectedListener itemSelectedListener = new TabSpinnerItemSelectedListener();
-	
+
 	public SubChannelViewBuilder(Context context) {
 		super();
 		this.context = context;
@@ -51,7 +51,7 @@ public class SubChannelViewBuilder {
 		Map otherMap = new HashMap();
 		otherMap.put(COL_NAME_NAME, "其他");
 		mapData.add(otherMap);
-		
+
 		for (ContentValues values : data) {
 			mapData.add(ContentValuesUtils.toMap(values, null));
 		}
@@ -61,7 +61,7 @@ public class SubChannelViewBuilder {
 		return actionbarLayout;
 	}
 
-	public Spinner getSpinner(){
+	public Spinner getSpinner() {
 		return mActionbarSpinner;
 	}
 }

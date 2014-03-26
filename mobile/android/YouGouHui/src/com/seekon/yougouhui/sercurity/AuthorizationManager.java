@@ -21,9 +21,9 @@ public class AuthorizationManager implements RequestSigner {
 	private Context context = null;
 
 	private UserHelper userHelper = null;
-	
+
 	private EnvHelper envHelper = null;
-	
+
 	public static AuthorizationManager getInstance(Context context) {
 		if (mInstance == null) {
 			mInstance = new AuthorizationManager(context);
@@ -42,9 +42,8 @@ public class AuthorizationManager implements RequestSigner {
 		return userHelper;
 	}
 
-	
 	public EnvHelper getEnvHelper() {
-		if(envHelper == null){
+		if (envHelper == null) {
 			envHelper = new EnvHelper(context);
 		}
 		return envHelper;
@@ -71,37 +70,37 @@ public class AuthorizationManager implements RequestSigner {
 			String pwd = loginData.getAsString(UserHelper.COL_NAME_PWD);
 			ContentValues user = this.getUserHelper().auth(phone, pwd);// 本地数据库认证
 			if (user == null && RunEnv.getInstance().isConnectedToInternet()) {
-				RestMethod<JSONObjResource> loginmMethod = new LoginMethod(context, phone,
-						pwd);
+				RestMethod<JSONObjResource> loginmMethod = new LoginMethod(context,
+						phone, pwd);
 				RestMethodResult<JSONObjResource> result = loginmMethod.execute();
 				Logger.debug("login", result.getResource().toString());
-				if(result.getResource().getBoolean("authed")){
+				if (result.getResource().getBoolean("authed")) {
 					user = new ContentValues();
 					user.put(UserHelper.COL_NAME_PHONE, phone);
 					user.put(UserHelper.COL_NAME_PWD, pwd);
-					this.getUserHelper().updateUser(user);//登录成功，更新用户信息
-					
-				}else{
+					this.getUserHelper().updateUser(user);// 登录成功，更新用户信息
+
+				} else {
 					errorType = result.getResource().getString("error-type");
 				}
 			}
-			if(user != null){
+			if (user != null) {
 				errorType = LoginConst.AUTH_SUCCESS;
 				RunEnv.getInstance().setUser(user);
 			}
 		} catch (Throwable e) {
 			Logger.error("login", e.getMessage());
 		}
-		
-		if(errorType == null){
+
+		if (errorType == null) {
 			errorType = LoginConst.AUTH_ERROR_UNKOWN;
 		}
-		
-		if(errorType.equals(LoginConst.AUTH_SUCCESS)){
-			this.getEnvHelper().updateLoginSetting(loginData);//认证成功记录登录设置信息
+
+		if (errorType.equals(LoginConst.AUTH_SUCCESS)) {
+			this.getEnvHelper().updateLoginSetting(loginData);// 认证成功记录登录设置信息
 			RunEnv.getInstance().setLoginSetting(loginData);
 		}
-		
+
 		return errorType;
 	}
 

@@ -6,10 +6,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-public class TabFragmentPagerAdapter extends FragmentPagerAdapter{
-	
+public class TabFragmentPagerAdapter extends FragmentPagerAdapter {
+
 	private List<Fragment> fragments = null;
-	
+
 	public TabFragmentPagerAdapter(FragmentManager fm, List<Fragment> fragments) {
 		super(fm);
 		this.fragments = fragments;
@@ -22,7 +22,7 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter{
 
 	@Override
 	public int getCount() {
-		return fragments == null? 0 : fragments.size();
+		return fragments == null ? 0 : fragments.size();
 	}
-	
+
 }

@@ -15,8 +15,7 @@ public class ModuleService extends AbstractService {
 	@Override
 	protected void handlerIntent(Intent requestIntent) {
 		String method = requestIntent.getStringExtra(ServiceConst.METHOD_EXTRA);
-		String type = requestIntent
-				.getStringExtra(DataConst.COL_NAME_TYPE);
+		String type = requestIntent.getStringExtra(DataConst.COL_NAME_TYPE);
 
 		if (method.equalsIgnoreCase(ServiceConst.METHOD_GET)) {
 			ModuleProcessor processor = new ModuleProcessor(getApplicationContext());

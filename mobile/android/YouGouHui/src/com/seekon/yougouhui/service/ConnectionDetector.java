@@ -6,8 +6,9 @@ import android.net.NetworkInfo;
 
 /**
  * 网络连接状态监测
+ * 
  * @author undyliu
- *
+ * 
  */
 public class ConnectionDetector {
 

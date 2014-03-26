@@ -8,7 +8,7 @@ import com.seekon.yougouhui.activity.discover.FriendShareActivity;
 import com.seekon.yougouhui.activity.discover.RadarActivity;
 import com.seekon.yougouhui.func.module.ModuleServiceHelper;
 
-public class DiscoverFragment extends ModuleListFragment{
+public class DiscoverFragment extends ModuleListFragment {
 
 	public DiscoverFragment() {
 		super(ModuleServiceHelper.DISCOVER_REQUEST_RESULT, "discover");
@@ -27,10 +27,10 @@ public class DiscoverFragment extends ModuleListFragment{
 		default:
 			break;
 		}
-		if(activity != null){
+		if (activity != null) {
 			Intent intent = new Intent(attachedActivity, activity);
 			attachedActivity.startActivity(intent);
 		}
 	}
-	
+
 }

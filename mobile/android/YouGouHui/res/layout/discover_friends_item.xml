@@ -35,20 +35,19 @@
             android:id="@+id/share_pic_container"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:horizontalSpacing="10dp"
+            android:horizontalSpacing="5dp"
             android:numColumns="auto_fit"
             android:columnWidth="110dp"
-            android:padding="10dp"
+            android:padding="5dp"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="10dp" />
+            android:verticalSpacing="5dp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/share_comment_action"
-            style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:text="Button" />
+            android:layout_gravity="right"
+            android:src="@drawable/b_comment" />
 
         <ListView
             android:id="@+id/comment_list"

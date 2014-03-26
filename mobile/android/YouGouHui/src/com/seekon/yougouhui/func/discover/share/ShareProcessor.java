@@ -22,6 +22,7 @@ public class ShareProcessor extends ContentProcessor {
 
 	/**
 	 * 获取朋友分享信息
+	 * 
 	 * @param callback
 	 */
 	public void getShares(ProcessorCallback callback) {
@@ -69,7 +70,7 @@ public class ShareProcessor extends ContentProcessor {
 	/**
 	 * 保存发布分享的信息
 	 */
-	public RestMethodResult<TextResource> postShare(Map share){
+	public RestMethodResult<TextResource> postShare(Map share) {
 		return new PostShareMethod(share, mContext).execute();
 	}
 }

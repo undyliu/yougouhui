@@ -36,9 +36,9 @@ public class EnvHelper extends AbstractDBHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		String sql = " create table IF NOT EXISTS " + TABLE_NAME + " (" + COL_NAME_PHONE
-				+ " integer primary key, " + COL_NAME_LOGIN_SETTING + " text, "
-				+ COL_NAME_LAST_MODIFY_TIME + " integer " + ")";
+		String sql = " create table IF NOT EXISTS " + TABLE_NAME + " ("
+				+ COL_NAME_PHONE + " integer primary key, " + COL_NAME_LOGIN_SETTING
+				+ " text, " + COL_NAME_LAST_MODIFY_TIME + " integer " + ")";
 		db.execSQL(sql);
 	}
 
@@ -54,7 +54,7 @@ public class EnvHelper extends AbstractDBHelper {
 	 */
 	public JSONObject getLoginSetting() {
 		onCreate(this.getWritableDatabase());
-		
+
 		Cursor cursor = this.getReadableDatabase().query(TABLE_NAME,
 				new String[] { COL_NAME_LOGIN_SETTING }, null, null, null, null,
 				COL_NAME_LAST_MODIFY_TIME + " desc ");
@@ -72,6 +72,7 @@ public class EnvHelper extends AbstractDBHelper {
 
 	/**
 	 * 更新用户登录设置
+	 * 
 	 * @param loginObj
 	 */
 	public void updateLoginSetting(JSONObject loginObj) {
@@ -96,11 +97,11 @@ public class EnvHelper extends AbstractDBHelper {
 			db.insert(TABLE_NAME, null, values);
 		}
 	}
-	
-	public void updateLoginSetting(ContentValues loginSetting){
+
+	public void updateLoginSetting(ContentValues loginSetting) {
 		JSONObject loginObj = new JSONObject();
 		Iterator<String> iterator = loginSetting.keySet().iterator();
-		while(iterator.hasNext()){
+		while (iterator.hasNext()) {
 			String key = iterator.next();
 			try {
 				loginObj.put(key, loginSetting.get(key));

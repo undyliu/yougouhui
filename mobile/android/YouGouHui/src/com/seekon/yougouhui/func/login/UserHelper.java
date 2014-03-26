@@ -21,8 +21,8 @@ public class UserHelper extends AbstractDBHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		String sql = " create table IF NOT EXISTS " + TABLE_NAME + " (" + COL_NAME_ID
-				+ " integer primary key autoincrement, " + COL_NAME_PHONE
+		String sql = " create table IF NOT EXISTS " + TABLE_NAME + " ("
+				+ COL_NAME_ID + " integer primary key autoincrement, " + COL_NAME_PHONE
 				+ " integer not null, " + COL_NAME_USER_NAME + " text, " + COL_NAME_PWD
 				+ " text " + ")";
 		db.execSQL(sql);
@@ -40,7 +40,7 @@ public class UserHelper extends AbstractDBHelper {
 				COL_NAME_PHONE + "= ? ", new String[] { phone }, null, null, null);
 		if (cursor.getCount() > 0) {
 			cursor.moveToNext();
-			
+
 			ContentValues user = new ContentValues();
 			user.put(COL_NAME_USER_NAME, cursor.getString(0));
 			user.put(COL_NAME_PWD, cursor.getString(1));
@@ -56,21 +56,22 @@ public class UserHelper extends AbstractDBHelper {
 
 		int count = db.update(TABLE_NAME, user, COL_NAME_PHONE + "= ? ",
 				new String[] { user.getAsString(COL_NAME_PHONE) });
-		if(count == 0){
+		if (count == 0) {
 			db.insert(TABLE_NAME, null, user);
 		}
 	}
-	
-	public ContentValues auth(String phone, String pwd){
+
+	public ContentValues auth(String phone, String pwd) {
 		ContentValues user = this.getUser(phone);
-		if(user == null){
+		if (user == null) {
 			return null;
 		}
-		//TODO:
+		// TODO:
 		String pwdInDb = user.getAsString(COL_NAME_PWD);
-		if((pwdInDb == null && pwd == null) || (pwdInDb != null && pwdInDb.equals(pwd))){
+		if ((pwdInDb == null && pwd == null)
+				|| (pwdInDb != null && pwdInDb.equals(pwd))) {
 			return user;
-		}else{
+		} else {
 			return null;
 		}
 	}

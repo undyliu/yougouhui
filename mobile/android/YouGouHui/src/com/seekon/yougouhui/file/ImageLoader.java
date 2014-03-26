@@ -23,9 +23,9 @@ import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.util.Logger;
 
 public class ImageLoader {
-	
+
 	private final static String TAG = ImageLoader.class.getSimpleName();
-	
+
 	private MemoryCache memoryCache = new MemoryCache();
 	private FileCache fileCache;
 
@@ -57,7 +57,8 @@ public class ImageLoader {
 	// 当进入listview时默认的图片，可换成你自己的默认图片
 	final int stub_id = R.drawable.loading;
 
-	public void displayImage(String fileName, ImageView imageView, boolean compress) {
+	public void displayImage(String fileName, ImageView imageView,
+			boolean compress) {
 		String url = FileHelper.IMAGE_FILE_GET_URL + fileName;
 		imageViews.put(imageView, url);
 		// 先从内存缓存中查找
@@ -73,7 +74,7 @@ public class ImageLoader {
 	}
 
 	private void queuePhoto(String url, ImageView imageView, boolean compress) {
-		Logger.debug(TAG,"开启新线程加载图片 ---------------------->>>>>");
+		Logger.debug(TAG, "开启新线程加载图片 ---------------------->>>>>");
 		PhotoToLoad p = new PhotoToLoad(url, imageView, compress);
 		executorService.submit(new PhotosLoader(p));
 	}
@@ -82,14 +83,16 @@ public class ImageLoader {
 		File f = fileCache.getFile(url);
 
 		// 先从文件缓存中查找是否有
-		Logger.debug(TAG, "先从文件缓存中查找是否有 --------------------------------->>>>>>>>>>>");
+		Logger.debug(TAG,
+				"先从文件缓存中查找是否有 --------------------------------->>>>>>>>>>>");
 		Bitmap b = decodeFile(f, compress);
 		if (b != null)
 			return b;
 
 		// 最后从指定的url中下载图片
 		try {
-			Logger.debug(TAG, "最后从指定的url中下载图片 --------------------------------->>>>>>>>>>>");
+			Logger.debug(TAG,
+					"最后从指定的url中下载图片 --------------------------------->>>>>>>>>>>");
 			Bitmap bitmap = null;
 			URL imageUrl = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
@@ -116,10 +119,10 @@ public class ImageLoader {
 			BitmapFactory.Options o = new BitmapFactory.Options();
 			o.inJustDecodeBounds = true;
 			bitmap = BitmapFactory.decodeStream(new FileInputStream(f), null, o);
-			if(!compress){
+			if (!compress) {
 				return bitmap;
 			}
-			
+
 			// Find the correct scale value. It should be the power of 2.
 			final int REQUIRED_SIZE = 70;
 			int width_tmp = o.outWidth, height_tmp = o.outHeight;
@@ -146,6 +149,7 @@ public class ImageLoader {
 		public String url;
 		public ImageView imageView;
 		public boolean compress;
+
 		public PhotoToLoad(String u, ImageView i, boolean c) {
 			url = u;
 			imageView = i;
@@ -164,8 +168,8 @@ public class ImageLoader {
 			if (imageViewReused(photoToLoad))
 				return;
 			Bitmap bmp = getBitmap(photoToLoad.url, photoToLoad.compress);
-			if(photoToLoad.compress){
-				memoryCache.put(photoToLoad.url, bmp);//仅压缩后的文件才放入内存中缓存
+			if (photoToLoad.compress) {
+				memoryCache.put(photoToLoad.url, bmp);// 仅压缩后的文件才放入内存中缓存
 			}
 			if (imageViewReused(photoToLoad))
 				return;

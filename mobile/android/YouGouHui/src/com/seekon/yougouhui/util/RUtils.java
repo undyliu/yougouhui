@@ -5,9 +5,9 @@ import java.lang.reflect.Field;
 import com.seekon.yougouhui.R;
 
 public class RUtils {
-	
+
 	static final String TAG = RUtils.class.getSimpleName();
-	
+
 	public static int getDrawableImg(String imgFieldName) {
 		try {
 			Field field = R.drawable.class.getField(imgFieldName);

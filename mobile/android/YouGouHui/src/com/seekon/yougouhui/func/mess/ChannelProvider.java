@@ -9,7 +9,7 @@ import com.seekon.yougouhui.func.SQLiteContentProvider;
 public class ChannelProvider extends SQLiteContentProvider {
 
 	private static final int CHANNELS = 1;
-	
+
 	private static final int CHANNEL_ID = 2;
 
 	private static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.seekon.channel";
@@ -23,14 +23,16 @@ public class ChannelProvider extends SQLiteContentProvider {
 	public ChannelProvider() {
 		super(ChannelConst.TABLE_NAME);
 	}
-	
+
 	@Override
 	public boolean onCreate() {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-		uriMatcher.addURI(ChannelConst.AUTHORITY, ChannelConst.TABLE_NAME, CHANNELS);
-		uriMatcher.addURI(ChannelConst.AUTHORITY, ChannelConst.TABLE_NAME + "/#", CHANNEL_ID);
+		uriMatcher
+				.addURI(ChannelConst.AUTHORITY, ChannelConst.TABLE_NAME, CHANNELS);
+		uriMatcher.addURI(ChannelConst.AUTHORITY, ChannelConst.TABLE_NAME + "/#",
+				CHANNEL_ID);
 		channels = new ChannelData(getContext());
-		channels.onCreate(channels.getWritableDatabase());//TODO:
+		channels.onCreate(channels.getWritableDatabase());// TODO:
 		return true;
 	}
 
@@ -45,22 +47,23 @@ public class ChannelProvider extends SQLiteContentProvider {
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 	}
-	
+
 	@Override
 	protected SQLiteDatabase getWritableDatabase() {
 		return channels.getWritableDatabase();
 	}
-	
+
 	@Override
 	protected SQLiteDatabase getReadableDatabase() {
 		return channels.getReadableDatabase();
 	}
-	
+
 	@Override
 	protected boolean validateUri(Uri uri, Action action) {
-		if(action == Action.UPDATE || action == Action.QUERY || action == Action.DELETE){
+		if (action == Action.UPDATE || action == Action.QUERY
+				|| action == Action.DELETE) {
 			return uriMatcher.match(uri) == CHANNEL_ID;
-		}else if(action == Action.INSERT){
+		} else if (action == Action.INSERT) {
 			return uriMatcher.match(uri) == CHANNELS;
 		}
 		return false;

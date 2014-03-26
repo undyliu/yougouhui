@@ -47,9 +47,10 @@ public class ShareProvider extends SQLiteContentProvider {
 
 	@Override
 	protected boolean validateUri(Uri uri, Action action) {
-		if(action == Action.UPDATE || action == Action.QUERY || action == Action.DELETE){
+		if (action == Action.UPDATE || action == Action.QUERY
+				|| action == Action.DELETE) {
 			return uriMatcher.match(uri) == SHARE_ID;
-		}else if(action == Action.INSERT){
+		} else if (action == Action.INSERT) {
 			return uriMatcher.match(uri) == SHARES;
 		}
 		return false;

@@ -28,20 +28,22 @@ public class TabSpinnerItemSelectedListener implements OnItemSelectedListener {
 	}
 
 	@Override
-	public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
+	public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
+			long arg3) {
 		String str = arg0.getItemAtPosition(position).toString();
 		Logger.debug(TAG, "你点击的是:" + str);
-		if(position == 0){
+		if (position == 0) {
 			return;
 		}
 		if (viewPager != null) {
-			viewPager.setCurrentItem(position + ChannelFragment.TAB_SHOW_COUNT - 1, false);
+			viewPager.setCurrentItem(position + ChannelFragment.TAB_SHOW_COUNT - 1,
+					false);
 		}
 	}
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
-		
+
 	}
 
 }

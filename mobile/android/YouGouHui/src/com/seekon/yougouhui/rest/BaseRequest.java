@@ -11,9 +11,8 @@ public class BaseRequest implements Request {
 	private Map<String, String> parameters;
 	private Method method;
 
-	
-	public BaseRequest(Method method, URI requestUri, Map<String, List<String>> headers,
-			Map<String, String> parameters) {
+	public BaseRequest(Method method, URI requestUri,
+			Map<String, List<String>> headers, Map<String, String> parameters) {
 		super();
 		this.requestUri = requestUri;
 		this.headers = headers;

@@ -76,13 +76,13 @@ public class ContentValuesUtils {
 		}
 	}
 
-	public static Map toMap(ContentValues values, String[] keys){
+	public static Map toMap(ContentValues values, String[] keys) {
 		Map result = new HashMap();
-		if(keys == null){
+		if (keys == null) {
 			Set keySet = values.keySet();
 			keys = values.keySet().toArray(new String[keySet.size()]);
 		}
-		for(String key : keys){
+		for (String key : keys) {
 			result.put(key, values.get(key));
 		}
 		return result;

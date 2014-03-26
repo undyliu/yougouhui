@@ -4,7 +4,8 @@ import android.content.Context;
 
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 
-public abstract class JSONArrayResourceMethod extends BaseRestMethod<JSONArrayResource>{
+public abstract class JSONArrayResourceMethod extends
+		BaseRestMethod<JSONArrayResource> {
 
 	protected Context context;
 
@@ -12,12 +13,12 @@ public abstract class JSONArrayResourceMethod extends BaseRestMethod<JSONArrayRe
 		super();
 		this.context = context.getApplicationContext();
 	}
-	
+
 	@Override
 	protected Context getContext() {
 		return this.context;
 	}
-	
+
 	@Override
 	protected JSONArrayResource parseResponseBody(String responseBody)
 			throws Exception {

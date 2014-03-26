@@ -7,12 +7,12 @@ import android.widget.ListView;
 import com.seekon.yougouhui.activity.profile.SettingActivity;
 import com.seekon.yougouhui.func.module.ModuleServiceHelper;
 
-public class ProfileFragment extends ModuleListFragment{
+public class ProfileFragment extends ModuleListFragment {
 
 	public ProfileFragment() {
 		super(ModuleServiceHelper.PROFILE_REQUEST_RESULT, "me");
 	}
-	
+
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Class<?> activity = null;
@@ -24,7 +24,7 @@ public class ProfileFragment extends ModuleListFragment{
 		default:
 			break;
 		}
-		if(activity != null){
+		if (activity != null) {
 			Intent intent = new Intent(attachedActivity, activity);
 			attachedActivity.startActivity(intent);
 		}

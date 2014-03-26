@@ -9,7 +9,8 @@ import com.seekon.yougouhui.rest.resource.Resource;
 import com.seekon.yougouhui.sercurity.AuthorizationManager;
 import com.seekon.yougouhui.sercurity.RequestSigner;
 
-public abstract class AbstractRestMethod<T extends Resource> implements RestMethod<T> {
+public abstract class AbstractRestMethod<T extends Resource> implements
+		RestMethod<T> {
 
 	private static final String DEFAULT_ENCODING = "UTF-8";
 
@@ -23,7 +24,7 @@ public abstract class AbstractRestMethod<T extends Resource> implements RestMeth
 		Response response = doRequest(request);
 		return buildResult(response);
 	}
-	
+
 	protected abstract Context getContext();
 
 	/**
@@ -41,7 +42,8 @@ public abstract class AbstractRestMethod<T extends Resource> implements RestMeth
 		T resource = null;
 
 		try {
-			responseBody = new String(response.getBody(), getCharacterEncoding(response.getHeaders()));
+			responseBody = new String(response.getBody(),
+					getCharacterEncoding(response.getHeaders()));
 			resource = parseResponseBody(responseBody);
 		} catch (Exception ex) {
 			// TODO Should we set some custom status code?
@@ -52,7 +54,7 @@ public abstract class AbstractRestMethod<T extends Resource> implements RestMeth
 	}
 
 	protected abstract Request buildRequest();
-	
+
 	protected boolean requiresAuthorization() {
 		return true;
 	}

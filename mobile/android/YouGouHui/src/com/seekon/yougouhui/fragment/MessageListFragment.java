@@ -31,12 +31,12 @@ import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.widget.ImageListRemoteAdapter;
 
 @SuppressLint("ValidFragment")
-public class MessageListFragment extends RequestListFragment{
+public class MessageListFragment extends RequestListFragment {
 
 	private ContentValues channel;
 
 	private List<Map<String, ?>> messages = new LinkedList<Map<String, ?>>();
-	
+
 	public MessageListFragment(ContentValues channel) {
 		super(MessageServiceHelper.MESSAGE_REQUEST_RESULT);
 		this.channel = channel;
@@ -48,37 +48,38 @@ public class MessageListFragment extends RequestListFragment{
 		super.onCreateView(inflater, container, savedInstanceState);
 		return inflater.inflate(R.layout.module_list, container, false);
 	}
-	
+
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		ContentValues message = ContentValuesUtils.fromMap(messages.get(position), null);
+		ContentValues message = ContentValuesUtils.fromMap(messages.get(position),
+				null);
 		Intent intent = new Intent(attachedActivity, MessageActivity.class);
 		intent.putExtra(MessageConst.MESSAGE_DATA_KEY, message);
 		attachedActivity.startActivity(intent);
 	}
-	
+
 	@Override
 	public void onResume() {
 		requestResultType += channel.getAsString(COL_NAME_UUID);
 		super.onResume();
-		if(messages.isEmpty()){
+		if (messages.isEmpty()) {
 			updateListItems();
 		}
 		Logger.debug(TAG, "## onResume : " + channel);
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
 		Logger.debug(TAG, "## onPause : " + channel);
 	}
-	
+
 	@Override
 	protected void initRequestId() {
 		AsyncTask<Void, Void, Long> task = new AsyncTask<Void, Void, Long>() {
 			@Override
 			protected Long doInBackground(Void... params) {
-				requestId =  MessageServiceHelper.getInstance(attachedActivity)
+				requestId = MessageServiceHelper.getInstance(attachedActivity)
 						.getMessages(channel.getAsString(COL_NAME_UUID), requestResultType);
 				return requestId;
 			}
@@ -113,7 +114,7 @@ public class MessageListFragment extends RequestListFragment{
 		}
 		return messages;
 	}
-	
+
 	@Override
 	protected void updateListView(List<Map<String, ?>> data) {
 		this.setListAdapter(new ImageListRemoteAdapter(attachedActivity, messages,

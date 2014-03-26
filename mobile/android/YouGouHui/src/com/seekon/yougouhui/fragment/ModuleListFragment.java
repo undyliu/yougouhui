@@ -28,7 +28,7 @@ import com.seekon.yougouhui.func.module.ModuleServiceHelper;
 import com.seekon.yougouhui.util.RUtils;
 
 @SuppressLint("ValidFragment")
-public class ModuleListFragment extends RequestListFragment{
+public class ModuleListFragment extends RequestListFragment {
 
 	private String type;
 
@@ -43,17 +43,18 @@ public class ModuleListFragment extends RequestListFragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		attachedActivity.getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		attachedActivity.getActionBar().setNavigationMode(
+				ActionBar.NAVIGATION_MODE_STANDARD);
 		return inflater.inflate(R.layout.module_list, container, false);
 	}
-	
+
 	@Override
 	protected void initRequestId() {
 		AsyncTask<Void, Void, Long> task = new AsyncTask<Void, Void, Long>() {
 			@Override
 			protected Long doInBackground(Void... params) {
-				return ModuleServiceHelper.getInstance(attachedActivity)
-						.getModules(type, requestResultType);
+				return ModuleServiceHelper.getInstance(attachedActivity).getModules(
+						type, requestResultType);
 			}
 
 			@Override
@@ -61,13 +62,14 @@ public class ModuleListFragment extends RequestListFragment{
 				requestId = result;
 			}
 		};
-		task.execute((Void)null);
+		task.execute((Void) null);
 	}
-	
+
 	@Override
 	protected List<Map<String, ?>> getListItemsFromLocal() {
 		if (modules.size() == 0) {
-			Cursor cursor = attachedActivity.getContentResolver().query(ModuleConst.CONTENT_URI,
+			Cursor cursor = attachedActivity.getContentResolver().query(
+					ModuleConst.CONTENT_URI,
 					new String[] { COL_NAME_UUID, COL_NAME_CODE, COL_NAME_NAME },
 					COL_NAME_TYPE + "= ? ", new String[] { type }, COL_NAME_ORD_INDEX);
 			while (cursor.moveToNext()) {
@@ -87,7 +89,7 @@ public class ModuleListFragment extends RequestListFragment{
 		}
 		return modules;
 	}
-	
+
 	@Override
 	protected void updateListView(List<Map<String, ?>> data) {
 		SimpleAdapter adapter = new SimpleAdapter(attachedActivity, modules,

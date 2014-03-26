@@ -6,8 +6,9 @@ import java.util.Map;
 
 /**
  * 支持多附件的请求，主要用于post请求
+ * 
  * @author undyliu
- *
+ * 
  */
 public class MultipartRequest extends BaseRequest {
 

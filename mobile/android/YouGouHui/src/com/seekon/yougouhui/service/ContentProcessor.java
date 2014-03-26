@@ -66,7 +66,8 @@ public class ContentProcessor {
 						}
 					}
 				} else if (resource instanceof JSONObjResource) {
-					this.updateContentProvider((JSONObjResource) resource, colNames, contentUri);
+					this.updateContentProvider((JSONObjResource) resource, colNames,
+							contentUri);
 				}
 			}
 		} catch (Exception e) {
@@ -74,7 +75,8 @@ public class ContentProcessor {
 		}
 	}
 
-	protected void updateContentProvider(JSONObject jsonObj, String[] colNames, Uri contentUri) throws JSONException {
+	protected void updateContentProvider(JSONObject jsonObj, String[] colNames,
+			Uri contentUri) throws JSONException {
 		ContentValues values = ContentValuesUtils.fromJSONObject(jsonObj, colNames);
 
 		ContentResolver resolver = mContext.getContentResolver();
