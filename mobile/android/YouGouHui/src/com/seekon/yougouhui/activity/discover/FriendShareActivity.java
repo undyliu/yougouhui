@@ -33,8 +33,10 @@ import com.seekon.yougouhui.func.discover.share.CommentConst;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareImgConst;
 import com.seekon.yougouhui.func.discover.share.ShareServiceHelper;
+import com.seekon.yougouhui.func.update.UpdateData;
 import com.seekon.yougouhui.layout.XListView;
 import com.seekon.yougouhui.layout.XListView.IXListViewListener;
+import com.seekon.yougouhui.util.DateUtils;
 import com.seekon.yougouhui.widget.ShareListAdapter;
 
 /**
@@ -56,9 +58,13 @@ public class FriendShareActivity extends RequestListActivity implements
 
 	private Handler mHandler;
 
+	private UpdateData updateData = null;
+
 	private int currentOffset = 0;// 分页用的当前的数据偏移
 
 	private String lastPublishTime = null;// 数据中分享记录最新发布的时间
+
+	private String lastUpdateTime = null;
 
 	public FriendShareActivity() {
 		super(ShareServiceHelper.SHARE_GET_REQUEST_RESULT);
@@ -83,6 +89,8 @@ public class FriendShareActivity extends RequestListActivity implements
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		mHandler = new Handler();
+
+		updateData = new UpdateData(this);
 
 		lastPublishTime = this.getLastPublishTime();
 
@@ -128,17 +136,23 @@ public class FriendShareActivity extends RequestListActivity implements
 	@Override
 	protected void initRequestId() {
 		requestId = ShareServiceHelper.getInstance(FriendShareActivity.this)
-				.getShares(requestResultType);
+				.getShares(lastPublishTime, requestResultType);
 	}
 
 	private String getLastPublishTime() {
+		String result = null;
 		String col = " max(" + COL_NAME_PUBLISH_TIME + ")";
 		Cursor cursor = getContentResolver().query(ShareConst.CONTENT_URI,
 				new String[] { col }, null, null, null);
 		if (cursor.moveToNext()) {
-			return cursor.getString(0);
+			result =  cursor.getString(0);
+		} 
+		cursor.close();
+		
+		if(result == null){
+			result =  updateData.getUpdateTime(ShareConst.TABLE_NAME);
 		}
-		return null;
+		return result;
 	}
 
 	/**
@@ -147,7 +161,8 @@ public class FriendShareActivity extends RequestListActivity implements
 	private List<Map<String, ?>> getHeadShareListFromLocal() {
 		List<Map<String, ?>> result = null;
 		if (lastPublishTime == null) {// 没有记录
-			result = new ArrayList<Map<String,?>>();
+			result = getBackShareListFromLocal();
+			lastPublishTime = this.getLastPublishTime();
 		} else {
 			String selection = COL_NAME_PUBLISH_TIME + " > ? ";
 			String[] selectionArgs = new String[] { lastPublishTime + "" };
@@ -189,7 +204,7 @@ public class FriendShareActivity extends RequestListActivity implements
 			values.put(ShareConst.DATA_COMMENT_KEY, getCommentsFromLocal(uuid));
 
 			currentOffset++;
-			
+
 			result.add(values);
 		}
 		cursor.close();
@@ -230,6 +245,12 @@ public class FriendShareActivity extends RequestListActivity implements
 
 	@Override
 	protected void updateListItemByRemoteCall() {
+		lastUpdateTime = String.valueOf(System.currentTimeMillis());
+		if (lastPublishTime == null) {
+			lastPublishTime = lastUpdateTime;
+		}
+		updateData.updateData(ShareConst.TABLE_NAME, lastUpdateTime);
+
 		shares.addAll(0, this.getHeadShareListFromLocal());
 		updateListView();
 	}
@@ -242,7 +263,13 @@ public class FriendShareActivity extends RequestListActivity implements
 	private void onPostLoad() {
 		shareListView.stopRefresh();
 		shareListView.stopLoadMore();
-		shareListView.setRefreshTime("刚刚");
+		if (lastUpdateTime != null) {
+			try {
+				shareListView.setRefreshTime(DateUtils.formartTime(Long
+						.valueOf(lastUpdateTime)));
+			} catch (Exception e) {
+			}
+		}
 	}
 
 	@Override

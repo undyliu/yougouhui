@@ -120,6 +120,7 @@ public class MultipartClient extends RestClient {
 				sb = new StringBuffer();
 				String key = it.next();
 				String value = URLEncoder.encode(param.get(key), CHARSET);// 对参数值进行编码
+				//String value = param.get(key);
 				sb.append(PREFIX).append(BOUNDARY).append(LINE_END);
 				sb.append("Content-Disposition: form-data; name=\"").append(key)
 						.append("\"").append(LINE_END).append(LINE_END);

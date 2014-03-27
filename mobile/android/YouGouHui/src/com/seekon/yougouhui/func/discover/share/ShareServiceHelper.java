@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 
+import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.service.RequestServiceHelper;
 import com.seekon.yougouhui.service.ServiceConst;
 
@@ -31,7 +32,7 @@ public class ShareServiceHelper extends RequestServiceHelper {
 		return instance;
 	}
 
-	public long getShares(final String broadcastIntentAction) {
+	public long getShares(String lastPublishTime, final String broadcastIntentAction) {
 		final String requestKey = HASH_KEY_SHARE;
 		if (requests.containsKey(requestKey)) {
 			return requests.get(requestKey);
@@ -52,7 +53,8 @@ public class ShareServiceHelper extends RequestServiceHelper {
 		intent.putExtra(ServiceConst.METHOD_EXTRA, ServiceConst.METHOD_GET);
 		intent.putExtra(ServiceConst.SERVICE_CALLBACK, serviceCallback);
 		intent.putExtra(REQUEST_ID, requestId);
-
+		intent.putExtra(ShareConst.COL_NAME_PUBLISH_TIME, lastPublishTime);
+		
 		this.context.startService(intent);
 
 		return requestId;

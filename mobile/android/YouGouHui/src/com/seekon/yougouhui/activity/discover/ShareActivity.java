@@ -40,6 +40,7 @@ import com.seekon.yougouhui.barcode.MipcaActivityCapture;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareProcessor;
+import com.seekon.yougouhui.func.update.UpdateData;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.TextResource;
 import com.seekon.yougouhui.util.Logger;
@@ -68,7 +69,7 @@ public class ShareActivity extends Activity {
 	private BaseAdapter imageAdapter;
 
 	private Uri currentCameraFileUri = null;// 当前拍照的文件存放的路径
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

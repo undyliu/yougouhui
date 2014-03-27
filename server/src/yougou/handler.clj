@@ -27,9 +27,9 @@
   (GET "/getContactList/:user-id" [user-id] (json/write-str "[]"))
   (GET "/getFavoriteList/:user-id" [user-id] (json/write-str "[]"))
   (GET "/getShareList/:user-id" [user-id] (json/write-str "[]"))
-	(GET "/getFriendShares" [] (json/write-str (get-friend-share-data)))
+  (GET "/getFriendShares/:last-pub-time" [last-pub-time] (json/write-str (get-friend-share-data last-pub-time)))
 	
-	(GET "/getImageFile/:file-name" [file-name] (file/get-image-file file-name))
+  (GET "/getImageFile/:file-name" [file-name] (file/get-image-file file-name))
 	
   (POST "/login" {{phone :phone, pwd :pwd} :params} (json/write-str (login phone pwd)))
 	

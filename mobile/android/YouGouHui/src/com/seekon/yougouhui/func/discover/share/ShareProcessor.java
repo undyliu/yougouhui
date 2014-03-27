@@ -25,8 +25,8 @@ public class ShareProcessor extends ContentProcessor {
 	 * 
 	 * @param callback
 	 */
-	public void getShares(ProcessorCallback callback) {
-		GetSharesMethod method = new GetSharesMethod(mContext);
+	public void getShares(ProcessorCallback callback, String lastPublishTime) {
+		GetSharesMethod method = new GetSharesMethod(mContext, lastPublishTime);
 		this.execMethodWithCallback(method, callback);
 	}
 

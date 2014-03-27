@@ -15,13 +15,19 @@ public class GetSharesMethod extends JSONArrayResourceMethod {
 	private static final String GET_FRIEND_SHARES_URI = Const.SERVER_APP_URL
 			+ "/getFriendShares";
 
-	public GetSharesMethod(Context context) {
+	private String lastPublishTime;
+	
+	public GetSharesMethod(Context context, String lastPublishTime) {
 		super(context);
+		this.lastPublishTime = lastPublishTime;
+		if(this.lastPublishTime == null || this.lastPublishTime.length() == 0){
+			this.lastPublishTime = "-1";
+		}
 	}
 
 	@Override
 	protected Request buildRequest() {
-		URI uri = URI.create(GET_FRIEND_SHARES_URI);
+		URI uri = URI.create(GET_FRIEND_SHARES_URI + "/" + lastPublishTime);
 		return new BaseRequest(Method.GET, uri, null, null);
 	}
 

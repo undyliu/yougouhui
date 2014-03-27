@@ -8,9 +8,15 @@
 	)
 )
 
-(defn get-friend-shares []
-  (select shares (fields :uuid :content :publisher :publish_time :activity_id)
+(defn get-friend-shares [last-pub-time]
+  (let [publish-time (Long/valueOf last-pub-time)]
+    (if (< publish-time 0)
+        (get-friend-shares (System/currentTimeMillis))
+  	(select shares (fields :uuid :content :publisher :publish_time :activity_id)
+	       (where {:publish_time [>= publish-time]})
 		(order :publish_time)
+	)
+     )
   )
 )
 
@@ -24,8 +30,8 @@
   )
 )
 
-(defn get-friend-share-data []
-  (let [shares (get-friend-shares)
+(defn get-friend-share-data [last-pub-time]
+  (let [shares (get-friend-shares last-pub-time)
 				first-share (first shares)
 			 ]
 		(loop [share-list shares
@@ -82,6 +88,8 @@
 	(let [uuid (str (java.util.UUID/randomUUID))
 				content (java.net.URLDecoder/decode (:content req-params) "utf-8")
 				image-names (java.net.URLDecoder/decode (:fileNameList req-params) "utf-8")
+			;;content (:content req-params)
+			;;image-names (:fileNameList req-params)
 			]
 		;;(transaction	
 			(insert shares (values {:uuid uuid :content content :publish_time (str  (System/currentTimeMillis))}))
