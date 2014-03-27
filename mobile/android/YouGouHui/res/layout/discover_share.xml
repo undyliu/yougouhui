@@ -46,10 +46,13 @@
 
     </LinearLayout>
 
-    <com.seekon.yougouhui.layout.FixGridLayout
-        android:id="@+id/share_pic_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/content_shape" />
+    <GridView
+            android:id="@+id/share_pic_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="5dp"
+            android:padding="5dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="5dp" />
 
 </LinearLayout>

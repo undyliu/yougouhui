@@ -94,16 +94,17 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int tab_home_btn=0x7f020039;
         public static final int tab_selfinfo_btn=0x7f02003a;
         public static final int tab_square_btn=0x7f02003b;
+        public static final int xlistview_arrow=0x7f02003c;
     }
     public static final class id {
         public static final int about_version_code=0x7f07000e;
-        public static final int action_bar_spinner=0x7f070038;
+        public static final int action_bar_spinner=0x7f070037;
         public static final int action_comment_send=0x7f070019;
-        public static final int action_settings=0x7f07003e;
+        public static final int action_settings=0x7f070046;
         /**  Messages IDs 
          */
         public static final int auto_focus=0x7f070000;
-        public static final int auto_login=0x7f07002e;
+        public static final int auto_login=0x7f07002d;
         public static final int b_scan_shop_barcode=0x7f070023;
         public static final int button_back=0x7f070013;
         public static final int button_function=0x7f070015;
@@ -116,29 +117,29 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int encode_succeeded=0x7f070005;
         public static final int freind_share_list=0x7f070017;
         public static final int gridview=0x7f07000c;
-        public static final int image_preview_id=0x7f070027;
-        public static final int imageview=0x7f070032;
-        public static final int img=0x7f070036;
-        public static final int img_id=0x7f070034;
+        public static final int image_preview_id=0x7f070026;
+        public static final int imageview=0x7f070031;
+        public static final int img=0x7f070035;
+        public static final int img_id=0x7f070033;
         public static final int include1=0x7f070012;
         public static final int launch_product_query=0x7f070006;
-        public static final int login=0x7f07002d;
-        public static final int login_form=0x7f07002a;
-        public static final int login_status=0x7f070028;
-        public static final int login_status_message=0x7f070029;
-        public static final int logout=0x7f070037;
-        public static final int menu_discover_friends_share=0x7f070039;
-        public static final int menu_discover_radar_scan=0x7f07003a;
-        public static final int menu_discover_share=0x7f07003b;
-        public static final int menu_image_preview_del=0x7f07003c;
-        public static final int menu_search=0x7f07003d;
-        public static final int menu_setting=0x7f07003f;
-        public static final int password=0x7f07002c;
-        public static final int phone=0x7f07002b;
+        public static final int login=0x7f07002c;
+        public static final int login_form=0x7f070029;
+        public static final int login_status=0x7f070027;
+        public static final int login_status_message=0x7f070028;
+        public static final int logout=0x7f070036;
+        public static final int menu_discover_friends_share=0x7f070041;
+        public static final int menu_discover_radar_scan=0x7f070042;
+        public static final int menu_discover_share=0x7f070043;
+        public static final int menu_image_preview_del=0x7f070044;
+        public static final int menu_search=0x7f070045;
+        public static final int menu_setting=0x7f070047;
+        public static final int password=0x7f07002b;
+        public static final int phone=0x7f07002a;
         public static final int preview_view=0x7f070010;
         public static final int quit=0x7f070007;
-        public static final int realtabcontent=0x7f070031;
-        public static final int remember_pwd=0x7f07002f;
+        public static final int realtabcontent=0x7f070030;
+        public static final int remember_pwd=0x7f07002e;
         public static final int restart_preview=0x7f070008;
         public static final int return_scan_result=0x7f070009;
         public static final int search_book_contents_failed=0x7f07000a;
@@ -149,19 +150,27 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int share_comment_action=0x7f07001e;
         public static final int share_comment_content=0x7f070020;
         public static final int share_content=0x7f07001c;
-        public static final int share_pic=0x7f070026;
         public static final int share_pic_container=0x7f07001d;
         public static final int share_shop_barcode=0x7f070022;
-        public static final int sign_in_button=0x7f070030;
+        public static final int sign_in_button=0x7f07002f;
         public static final int split=0x7f07000f;
         public static final int tabChannelViewPager=0x7f070016;
-        public static final int textview=0x7f070033;
+        public static final int textview=0x7f070032;
         public static final int textview_title=0x7f070014;
-        public static final int title=0x7f070035;
+        public static final int title=0x7f070034;
         public static final int user_img=0x7f07001a;
         public static final int user_name=0x7f07001b;
         public static final int viewfinder_view=0x7f070011;
         public static final int webview=0x7f07000d;
+        public static final int xlistview_footer_content=0x7f070038;
+        public static final int xlistview_footer_hint_textview=0x7f07003a;
+        public static final int xlistview_footer_progressbar=0x7f070039;
+        public static final int xlistview_header_arrow=0x7f07003f;
+        public static final int xlistview_header_content=0x7f07003b;
+        public static final int xlistview_header_hint_textview=0x7f07003d;
+        public static final int xlistview_header_progressbar=0x7f070040;
+        public static final int xlistview_header_text=0x7f07003c;
+        public static final int xlistview_header_time=0x7f07003e;
     }
     public static final class layout {
         public static final int barcode_capture=0x7f030000;
@@ -175,17 +184,18 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int discover_share=0x7f030008;
         public static final int discover_share_choose_pop=0x7f030009;
         public static final int discover_share_choose_pop_item=0x7f03000a;
-        public static final int discover_share_pic_item=0x7f03000b;
-        public static final int image_preview=0x7f03000c;
-        public static final int login=0x7f03000d;
-        public static final int main=0x7f03000e;
-        public static final int main_tab_item=0x7f03000f;
-        public static final int message_item=0x7f030010;
-        public static final int module_item=0x7f030011;
-        public static final int module_list=0x7f030012;
-        public static final int profile_setting=0x7f030013;
-        public static final int splash=0x7f030014;
-        public static final int subchannel_spinner=0x7f030015;
+        public static final int image_preview=0x7f03000b;
+        public static final int login=0x7f03000c;
+        public static final int main=0x7f03000d;
+        public static final int main_tab_item=0x7f03000e;
+        public static final int message_item=0x7f03000f;
+        public static final int module_item=0x7f030010;
+        public static final int module_list=0x7f030011;
+        public static final int profile_setting=0x7f030012;
+        public static final int splash=0x7f030013;
+        public static final int subchannel_spinner=0x7f030014;
+        public static final int xlistview_footer=0x7f030015;
+        public static final int xlistview_header=0x7f030016;
     }
     public static final class menu {
         public static final int discover_friends=0x7f0a0000;
@@ -244,6 +254,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int title_profie_myshare=0x7f08000a;
         public static final int title_profie_myshop=0x7f08000c;
         public static final int title_profie_setting=0x7f080008;
+        public static final int xlistview_footer_hint_normal=0x7f08002f;
+        public static final int xlistview_footer_hint_ready=0x7f080030;
+        public static final int xlistview_header_hint_loading=0x7f08002d;
+        public static final int xlistview_header_hint_normal=0x7f08002b;
+        public static final int xlistview_header_hint_ready=0x7f08002c;
+        public static final int xlistview_header_last_time=0x7f08002e;
     }
     public static final class style {
         /** 

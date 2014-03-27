@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.seekon.yougouhui.activity.ImagePreviewActivity;
@@ -15,6 +16,8 @@ import com.seekon.yougouhui.file.ImageLoader;
 
 public class ShareImageAdapter extends BaseAdapter {
 
+	public static final int IMAGE_VIEW_WIDTH  = 100;
+	
 	private Context mContext;
 
 	private List<String> images;
@@ -48,8 +51,10 @@ public class ShareImageAdapter extends BaseAdapter {
 		ImageView imageView;
 		if (convertView == null) {
 			imageView = new ImageView(mContext);
-			// imageView.setLayoutParams(new GridView.LayoutParams(100, 100));//
-			// 设置ImageView宽高
+			
+			GridView.LayoutParams lp = new GridView.LayoutParams(IMAGE_VIEW_WIDTH, IMAGE_VIEW_WIDTH);
+			
+			imageView.setLayoutParams(lp);
 			imageView.setAdjustViewBounds(false);
 			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 			imageView.setPadding(8, 8, 8, 8);

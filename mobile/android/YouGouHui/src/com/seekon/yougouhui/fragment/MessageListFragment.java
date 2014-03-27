@@ -37,6 +37,10 @@ public class MessageListFragment extends RequestListFragment {
 
 	private List<Map<String, ?>> messages = new LinkedList<Map<String, ?>>();
 
+	public MessageListFragment(){
+		super(MessageServiceHelper.MESSAGE_REQUEST_RESULT);
+	}
+	
 	public MessageListFragment(ContentValues channel) {
 		super(MessageServiceHelper.MESSAGE_REQUEST_RESULT);
 		this.channel = channel;

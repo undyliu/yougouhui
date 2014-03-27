@@ -2,7 +2,9 @@ package com.seekon.yougouhui.func.discover.share;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
 
+import java.io.File;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,7 @@ import android.content.Context;
 
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.YouGouHuiApp;
+import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.rest.MultipartRequest;
 import com.seekon.yougouhui.rest.MultipartRestMethod;
 import com.seekon.yougouhui.rest.Request;
@@ -41,8 +44,16 @@ public class PostShareMethod extends MultipartRestMethod<TextResource> {
 		params.put(COL_NAME_CONTENT, (String) share.get(COL_NAME_CONTENT));
 
 		List<String> files = (List<String>) share.get(ShareConst.DATA_IMAGE_KEY);
+		List<FileEntity> fileEntities = new ArrayList<FileEntity>();
+		if (files != null && !files.isEmpty()) {
+			for (String fileUri : files) {
+				String aliasName = new File(fileUri).getPath().hashCode() + "_"
+						+ System.currentTimeMillis() + ".png";
+				fileEntities.add(new FileEntity(fileUri, aliasName));
+			}
+		}
 		MultipartRequest request = new MultipartRequest(URI.create(POST_SHARE_URI),
-				null, params, files);
+				null, params, fileEntities);
 		return request;
 	}
 

@@ -26,6 +26,8 @@ public class ImageLoader {
 
 	private final static String TAG = ImageLoader.class.getSimpleName();
 
+	private final int REQUIRE_IMGAGE_WIDTH = 100;
+
 	private MemoryCache memoryCache = new MemoryCache();
 	private FileCache fileCache;
 
@@ -50,7 +52,7 @@ public class ImageLoader {
 	}
 
 	private ImageLoader() {
-		fileCache = new FileCache();
+		fileCache = FileCache.getInstance();
 		executorService = Executors.newFixedThreadPool(5);
 	}
 
@@ -61,6 +63,11 @@ public class ImageLoader {
 			boolean compress) {
 		String url = FileHelper.IMAGE_FILE_GET_URL + fileName;
 		imageViews.put(imageView, url);
+		if (!compress) {// 非压缩的不从缓存获取
+			queuePhoto(url, imageView, compress);
+			imageView.setImageResource(stub_id);
+			return;
+		}
 		// 先从内存缓存中查找
 		Logger.debug(TAG, "先从内存缓存中查找 ---------------------->>>>>");
 		Bitmap bitmap = memoryCache.get(url);
@@ -85,7 +92,8 @@ public class ImageLoader {
 		// 先从文件缓存中查找是否有
 		Logger.debug(TAG,
 				"先从文件缓存中查找是否有 --------------------------------->>>>>>>>>>>");
-		Bitmap b = decodeFile(f, compress);
+		Bitmap b = FileHelper.decodeFile(f, compress, REQUIRE_IMGAGE_WIDTH,
+				REQUIRE_IMGAGE_WIDTH);
 		if (b != null)
 			return b;
 
@@ -103,45 +111,13 @@ public class ImageLoader {
 			OutputStream os = new FileOutputStream(f);
 			FileHelper.CopyStream(is, os);
 			os.close();
-			bitmap = decodeFile(f, compress);
+			bitmap = FileHelper.decodeFile(f, compress, REQUIRE_IMGAGE_WIDTH,
+					REQUIRE_IMGAGE_WIDTH);
 			return bitmap;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;
 		}
-	}
-
-	// decode这个图片并且按比例缩放以减少内存消耗，虚拟机对每张图片的缓存大小也是有限制的
-	private Bitmap decodeFile(File f, boolean compress) {
-		try {
-			Bitmap bitmap = null;
-			// decode image size
-			BitmapFactory.Options o = new BitmapFactory.Options();
-			o.inJustDecodeBounds = true;
-			bitmap = BitmapFactory.decodeStream(new FileInputStream(f), null, o);
-			if (!compress) {
-				return bitmap;
-			}
-
-			// Find the correct scale value. It should be the power of 2.
-			final int REQUIRED_SIZE = 70;
-			int width_tmp = o.outWidth, height_tmp = o.outHeight;
-			int scale = 1;
-			while (true) {
-				if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE)
-					break;
-				width_tmp /= 2;
-				height_tmp /= 2;
-				scale *= 2;
-			}
-
-			// decode with inSampleSize
-			BitmapFactory.Options o2 = new BitmapFactory.Options();
-			o2.inSampleSize = scale;
-			return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
-		} catch (FileNotFoundException e) {
-		}
-		return null;
 	}
 
 	// Task for the queue
@@ -218,4 +194,7 @@ public class ImageLoader {
 		fileCache.clear();
 	}
 
+	public void putImageViews(ImageView imageView, String url) {
+		imageViews.put(imageView, url);
+	}
 }

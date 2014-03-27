@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import android.graphics.Bitmap;
+
+import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.file.FileHelper;
 
 //import android.util.Log;
@@ -93,13 +96,14 @@ public class MultipartClient extends RestClient {
 
 		Map<String, String> param = request.getParameters();
 		sb = new StringBuffer();
-		List<String> fileNames = ((MultipartRequest) request).getFileNames();
-		if (fileNames == null) {
-			fileNames = new ArrayList<String>();
+		List<FileEntity> fileEntities = ((MultipartRequest) request)
+				.getFileEntities();
+		if (fileEntities == null) {
+			fileEntities = new ArrayList<FileEntity>();
 		}
 
-		for (String fileName : fileNames) {
-			sb.append("|" + fileName);
+		for (FileEntity fileEntity : fileEntities) {
+			sb.append("|" + fileEntity.getAliasName());
 		}
 		if (sb.length() > 0) {
 			param.put("fileNameList", sb.substring(1));
@@ -130,8 +134,9 @@ public class MultipartClient extends RestClient {
 
 	private void setMultipartFiles(HttpURLConnection conn, Request request,
 			DataOutputStream dos) throws Exception {
-		List<String> fileNames = ((MultipartRequest) request).getFileNames();
-		if (fileNames == null || fileNames.isEmpty()) {
+		List<FileEntity> fileEntities = ((MultipartRequest) request)
+				.getFileEntities();
+		if (fileEntities == null || fileEntities.isEmpty()) {
 			return;
 		}
 
@@ -141,12 +146,13 @@ public class MultipartClient extends RestClient {
 		 * 这里重点注意： name里面的值为服务器端需要key 只有这个key 才可以得到对应的文件 filename是文件的名字，包含后缀名的
 		 * 比如:abc.png
 		 */
-		for (String fileName : fileNames) {
+		for (FileEntity fileEntity : fileEntities) {
 			sb = null;
 			sb = new StringBuffer();
 			sb.append(LINE_END);
-			sb.append("Content-Disposition:form-data; name=\"" + fileName
-					+ "\"; filename=\"" + fileName + "\"" + LINE_END);
+			sb.append("Content-Disposition:form-data; name=\""
+					+ fileEntity.getAliasName() + "\"; filename=\""
+					+ fileEntity.getAliasName() + "\"" + LINE_END);
 			sb.append("Content-Type:image/pjpeg" + LINE_END); // 这里配置的Content-type很重要的
 																												// ，用于服务器端辨别文件的类型的
 			sb.append(LINE_END);
@@ -155,17 +161,24 @@ public class MultipartClient extends RestClient {
 			// Log.i(TAG, file.getName() + "=" + params + "##");
 			dos.write(params.getBytes());
 			/** 上传文件 */
-			InputStream is = new FileInputStream(FileHelper.getFileByName(fileName));
-			byte[] bytes = new byte[1024];
-			int len = 0;
-			while ((len = is.read(bytes)) != -1) {
-				dos.write(bytes, 0, len);
-			}
-			is.close();
+//			InputStream is = new FileInputStream(fileEntity.getFileUri());// 对图片进行压缩处理
+//			byte[] bytes = new byte[1024];
+//			int len = 0;
+//			while ((len = is.read(bytes)) != -1) {
+//				dos.write(bytes, 0, len);
+//			}
+//			is.close();
+			dos.write(compressImageFile(fileEntity.getFileUri()));
 
 			dos.write(LINE_END.getBytes());
 			byte[] end_data = (PREFIX + BOUNDARY).getBytes();
 			dos.write(end_data);
 		}
 	}
+
+	private byte[] compressImageFile(String fileUri) {
+		Bitmap bitmap = FileHelper.decodeFileByDisplaySize(fileUri);
+		return FileHelper.compressByQuality(bitmap, 300);
+	}
+
 }

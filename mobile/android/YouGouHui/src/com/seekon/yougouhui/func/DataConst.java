@@ -19,4 +19,5 @@ public interface DataConst {
 	public static final String COL_NAME_TITLE = "title";
 
 	public static final String COL_NAME_CONTENT = "content";
+	
 }

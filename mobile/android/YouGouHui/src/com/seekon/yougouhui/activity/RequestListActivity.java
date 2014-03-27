@@ -46,7 +46,7 @@ public abstract class RequestListActivity extends Activity {
 					int resultCode = intent.getIntExtra(
 							RequestServiceHelper.EXTRA_RESULT_CODE, 0);
 					if (resultCode == 200) {
-						updateListItems();
+						updateListItemByRemoteCall();
 					} else {
 						// showToast(getString(R.string.error_occurred));
 					}
@@ -57,7 +57,6 @@ public abstract class RequestListActivity extends Activity {
 			}
 		};
 
-		this.updateListItems();
 	}
 
 	@Override
@@ -76,37 +75,5 @@ public abstract class RequestListActivity extends Activity {
 
 	protected abstract void initRequestId();
 
-	protected void updateListItems() {
-		AsyncTask<Void, Void, List<Map<String, ?>>> task = new AsyncTask<Void, Void, List<Map<String, ?>>>() {
-			@Override
-			protected List<Map<String, ?>> doInBackground(Void... params) {
-				Logger.debug(TAG, "getListItemsFromLocal");
-				return getListItemsFromLocal();
-			}
-
-			@Override
-			protected void onPostExecute(List<Map<String, ?>> result) {
-				updated = true;
-				if (result.size() == 0 && requestId == null
-						&& RunEnv.getInstance().isConnectedToInternet()) {
-					Logger.debug(TAG, "getListItemsFromRemote");
-					initRequestId();
-				} else {
-					updateListView(result);
-				}
-			}
-
-			@Override
-			protected void onCancelled() {
-				updated = false;
-			}
-		};
-
-		task.execute((Void) null);
-	}
-
-	protected abstract List<Map<String, ?>> getListItemsFromLocal();
-
-	protected abstract void updateListView(List<Map<String, ?>> data);
-
+	protected abstract void updateListItemByRemoteCall();
 }

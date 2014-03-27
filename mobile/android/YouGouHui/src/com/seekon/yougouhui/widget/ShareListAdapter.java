@@ -8,13 +8,14 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
@@ -51,8 +52,12 @@ public class ShareListAdapter extends SimpleAdapter {
 
 		GridView picContainer = (GridView) view
 				.findViewById(R.id.share_pic_container);
+		//设置GridView的列数
+		DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
+		int colNumber = displayMetrics.widthPixels / ShareImageAdapter.IMAGE_VIEW_WIDTH;
+		picContainer.setNumColumns(colNumber);
 		picContainer.setAdapter(new ShareImageAdapter(activity, images));
-
+		
 		ListView commentView = (ListView) view.findViewById(R.id.comment_list);
 		List<Map<String, ?>> comments = (List<Map<String, ?>>) share
 				.get(ShareConst.DATA_COMMENT_KEY);
@@ -61,7 +66,7 @@ public class ShareListAdapter extends SimpleAdapter {
 				new String[] { COL_NAME_CONTENT },
 				new int[] { R.id.share_comment_content }));
 
-		ImageButton button = (ImageButton) view
+		ImageView button = (ImageView) view
 				.findViewById(R.id.share_comment_action);
 		button.setOnClickListener(new View.OnClickListener() {
 

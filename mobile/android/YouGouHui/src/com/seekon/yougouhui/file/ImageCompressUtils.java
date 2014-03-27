@@ -1,4 +1,4 @@
-package com.seekon.yougouhui.util;
+package com.seekon.yougouhui.file;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -10,7 +10,13 @@ import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
 
 import com.seekon.yougouhui.YouGouHuiApp;
+import com.seekon.yougouhui.util.Logger;
 
+/**
+ * 
+ * @author undyliu
+ * @deprecated
+ */
 public class ImageCompressUtils {
 
 	private static final String TAG = ImageCompressUtils.class.getSimpleName();
@@ -27,9 +33,9 @@ public class ImageCompressUtils {
 	public static Bitmap compressByQuality(Bitmap bitmap, int maxSize) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int quality = 100;
-		bitmap.compress(CompressFormat.JPEG, quality, baos);
+		bitmap.compress(CompressFormat.PNG, quality, baos);
 		Logger.debug(TAG, "图片压缩前大小：" + baos.toByteArray().length + "byte");
-		while (baos.toByteArray().length / 1024 > maxSize) {
+		while (baos.toByteArray().length / 1024 > maxSize && quality > 0) {
 			quality -= 10;
 			baos.reset();
 			bitmap.compress(CompressFormat.JPEG, quality, baos);

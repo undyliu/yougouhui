@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
+import com.seekon.yougouhui.file.FileEntity;
+
 /**
  * 支持多附件的请求，主要用于post请求
  * 
@@ -12,16 +14,16 @@ import java.util.Map;
  */
 public class MultipartRequest extends BaseRequest {
 
-	private List<String> fileNames = null;
+	private List<FileEntity> fileEntities = null;
 
 	public MultipartRequest(URI requestUri, Map<String, List<String>> headers,
-			Map<String, String> parameters, List<String> fileNames) {
+			Map<String, String> parameters, List<FileEntity> fileEntities) {
 		super(Method.POST, requestUri, headers, parameters);
-		this.fileNames = fileNames;
+		this.fileEntities = fileEntities;
 	}
 
-	public List<String> getFileNames() {
-		return fileNames;
+	public List<FileEntity> getFileEntities() {
+		return fileEntities;
 	}
 
 }
