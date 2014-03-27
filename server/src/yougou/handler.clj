@@ -37,10 +37,11 @@
 		{params :params}
 		(println params)
 		(try
-			(save-share params)
-			(catch Exception e (response/response "failed"))
+			(json/write-str (save-share params))
+			(catch Exception e {:status  500 :body "failed."}
+			)
 		)
-		(response/response "success")
+		;;(response/response "success")
 	)		
 			
   (route/resources "/")

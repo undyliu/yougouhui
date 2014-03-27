@@ -53,7 +53,7 @@
 			(insert share-images (values {:uuid uuid :img img-name :share_id share-id :ord_index ord-index}))
 			(file/save-image-file img-name (:tempfile (req-params img-name)))
 		)
-	)
+	uuid)
 )
 
 (defn save-share-imgs [share-id image-names req-params]
@@ -63,16 +63,17 @@
 		(loop [name-list image-names
 				  img-name first-img-name
 					ord-index index
+					result []
 					]
 			  		
-				(when (> (count name-list) 0)
-					(save-share-img share-id img-name req-params ord-index)
+				(if (== (count name-list) 0)
+					 result
 					(recur (rest name-list)
 							(first (rest name-list))
 							(inc ord-index)
+							(conj result (save-share-img share-id img-name req-params ord-index))
 					)
-				)
-			
+				)			
 		)
 	)			
 )
@@ -88,6 +89,7 @@
 				(save-share-imgs uuid (clojure.string/split image-names #"[|]") req-params)
 			)
 		;;)
-	)
+		
+	uuid)
 )
 
