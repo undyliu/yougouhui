@@ -10,7 +10,7 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.seekon.yougouhui.rest.RestMethodResult;
-import com.seekon.yougouhui.rest.resource.TextResource;
+import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.service.ContentProcessor;
 import com.seekon.yougouhui.service.ProcessorCallback;
 
@@ -70,7 +70,12 @@ public class ShareProcessor extends ContentProcessor {
 	/**
 	 * 保存发布分享的信息
 	 */
-	public RestMethodResult<TextResource> postShare(Map share) {
+	public RestMethodResult<JSONObjResource> postShare(Map share) {
 		return new PostShareMethod(share, mContext).execute();
+	}
+
+	public RestMethodResult<JSONObjResource> postComment(
+			Map<String, String> comment) {
+		return new PostCommentMethod(mContext, comment).execute();
 	}
 }

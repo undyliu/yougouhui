@@ -3,7 +3,7 @@ package com.seekon.yougouhui.func.discover.share;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_IMG;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_ORD_INDEX;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
-import static com.seekon.yougouhui.func.discover.share.ShareImgConst.COL_NAME_SHARE_ID;
+import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_SHARE_ID;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 

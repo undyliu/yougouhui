@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:background="@drawable/grouplist_item_bg_normal"
+    android:background="@drawable/comment_content_shape"
     android:focusable="true"
     android:orientation="horizontal" >
 
@@ -22,7 +22,8 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_shape"
-        android:text="@string/button_send" />
+        android:text="@string/button_send"
+        android:textColor="@color/white"
+        android:textColorLink="@color/white" />
 
 </LinearLayout>

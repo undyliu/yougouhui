@@ -6,7 +6,7 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_ORD_INDEX;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_TIME;
-import static com.seekon.yougouhui.func.discover.share.ShareImgConst.COL_NAME_SHARE_ID;
+import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_SHARE_ID;
 import static com.seekon.yougouhui.func.login.UserHelper.COL_NAME_PHONE;
 
 import java.util.ArrayList;
@@ -18,12 +18,10 @@ import android.app.ActionBar;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.SimpleAdapter;
 
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
@@ -81,8 +79,8 @@ public class FriendShareActivity extends RequestListActivity implements
 
 		listAdapter = new ShareListAdapter(this, shareListView, shares,
 				R.layout.discover_friends_item, new String[] { COL_NAME_PHONE,
-						COL_NAME_CONTENT },
-				new int[] { R.id.user_name, R.id.share_content });
+						COL_NAME_CONTENT }, new int[] {
+						R.id.user_name, R.id.share_content });
 		shareListView.setAdapter(listAdapter);
 
 		ActionBar actionBar = this.getActionBar();
@@ -123,6 +121,7 @@ public class FriendShareActivity extends RequestListActivity implements
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == SHARE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+			//TODO:增加刷新的进度显示
 			this.onRefresh();
 		}
 		super.onActivityResult(requestCode, resultCode, data);
@@ -145,12 +144,12 @@ public class FriendShareActivity extends RequestListActivity implements
 		Cursor cursor = getContentResolver().query(ShareConst.CONTENT_URI,
 				new String[] { col }, null, null, null);
 		if (cursor.moveToNext()) {
-			result =  cursor.getString(0);
-		} 
+			result = cursor.getString(0);
+		}
 		cursor.close();
-		
-		if(result == null){
-			result =  updateData.getUpdateTime(ShareConst.TABLE_NAME);
+
+		if (result == null) {
+			result = updateData.getUpdateTime(ShareConst.TABLE_NAME);
 		}
 		return result;
 	}
@@ -197,7 +196,7 @@ public class FriendShareActivity extends RequestListActivity implements
 			Map values = new HashMap();
 			values.put(COL_NAME_UUID, uuid);
 			values.put(COL_NAME_CONTENT, cursor.getString(1));
-			values.put(COL_NAME_PUBLISH_TIME, cursor.getString(2));
+			values.put(COL_NAME_PUBLISH_TIME, DateUtils.formartTime(cursor.getLong(2)));
 			values.put(COL_NAME_PHONE, user.get(COL_NAME_PHONE));
 
 			values.put(ShareConst.DATA_IMAGE_KEY, getShareImagesFromLocal(uuid));
@@ -235,7 +234,7 @@ public class FriendShareActivity extends RequestListActivity implements
 				COL_NAME_PUBLISH_TIME);
 		while (cursor.moveToNext()) {
 			Map<String, String> row = new HashMap<String, String>();
-			row.put(COL_NAME_CONTENT, cursor.getString(1) + ":" + cursor.getString(0));
+			row.put(COL_NAME_CONTENT, cursor.getString(0));
 			row.put(COL_NAME_PUBLISHER, cursor.getString(1));
 			commentList.add(row);
 		}

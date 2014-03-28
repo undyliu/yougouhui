@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONException;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -40,9 +42,8 @@ import com.seekon.yougouhui.barcode.MipcaActivityCapture;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareProcessor;
-import com.seekon.yougouhui.func.update.UpdateData;
 import com.seekon.yougouhui.rest.RestMethodResult;
-import com.seekon.yougouhui.rest.resource.TextResource;
+import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.util.ViewUtils;
 
@@ -69,7 +70,7 @@ public class ShareActivity extends Activity {
 	private BaseAdapter imageAdapter;
 
 	private Uri currentCameraFileUri = null;// 当前拍照的文件存放的路径
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -238,10 +239,10 @@ public class ShareActivity extends Activity {
 		EditText view = (EditText) findViewById(R.id.share_content);
 		final String shareContent = view.getText().toString();
 
-		AsyncTask<Void, Void, RestMethodResult<TextResource>> task = new AsyncTask<Void, Void, RestMethodResult<TextResource>>() {
+		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
 
 			@Override
-			protected RestMethodResult<TextResource> doInBackground(Void... params) {
+			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
 				Map share = new HashMap();
 				share.put(COL_NAME_CONTENT, shareContent);
 				share.put(ShareConst.DATA_IMAGE_KEY, imageFileUriList);
@@ -250,7 +251,9 @@ public class ShareActivity extends Activity {
 			}
 
 			@Override
-			protected void onPostExecute(RestMethodResult<TextResource> result) {
+			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
+				showProgress(false);
+				
 				if (result == null) {
 					ViewUtils.showToast("发布信息失败.");
 					return;
@@ -258,21 +261,34 @@ public class ShareActivity extends Activity {
 				if (result.getStatusCode() == 200) {
 					Intent intent = new Intent();
 					intent.putExtra(COL_NAME_CONTENT, shareContent);
-					// intent.putStringArrayListExtra(ShareConst.DATA_IMAGE_KEY,
-					// (ArrayList<String>) imageFileNames);
 
 					setResult(RESULT_OK, intent);
 					clean();
 					finish();
 				} else {
-					ViewUtils.showToast(result.getResource().getText());
+					try {
+						ViewUtils.showToast(result.getResource().getString("error"));
+					} catch (JSONException e) {
+						Logger.error(TAG, e.getMessage(), e);
+					}
 					return;
 				}
 			}
-
+			
+			@Override
+			protected void onCancelled() {
+				showProgress(false);
+				super.onCancelled();
+			}
 		};
 
+		showProgress(true);
 		task.execute((Void) null);
+	}
+
+	private void showProgress(boolean show) {
+		ViewUtils.showProgress(this, findViewById(R.id.discover_share), show,
+				R.string.default_progress_status_message);
 	}
 
 	private void clean() {

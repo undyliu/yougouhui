@@ -79,8 +79,14 @@ public class SettingActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void saveSetting() {
+	private void showProgress(boolean show) {
+		ViewUtils.showProgress(this, this.findViewById(R.id.view_login_setting),
+				show, R.string.default_progress_status_message);
+	}
 
+	private void saveSetting() {
+		showProgress(true);
+		
 		AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
 			@Override
 			protected Boolean doInBackground(Void... params) {
@@ -94,12 +100,19 @@ public class SettingActivity extends Activity {
 				envHelper.updateLoginSetting(loginSetting);
 				return true;
 			}
-			
+
 			@Override
 			protected void onPostExecute(Boolean result) {
-				if(result){
+				if (result) {
 					ViewUtils.showToast("修改成功.");
 				}
+				showProgress(false);
+			}
+			
+			@Override
+			protected void onCancelled() {
+				showProgress(false);
+				super.onCancelled();
 			}
 		};
 

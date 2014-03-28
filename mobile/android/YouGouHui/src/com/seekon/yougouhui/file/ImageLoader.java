@@ -1,8 +1,6 @@
 package com.seekon.yougouhui.file;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,6 +18,7 @@ import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.YouGouHuiApp;
 import com.seekon.yougouhui.util.Logger;
 
 public class ImageLoader {
@@ -29,6 +28,7 @@ public class ImageLoader {
 	private final int REQUIRE_IMGAGE_WIDTH = 100;
 
 	private MemoryCache memoryCache = new MemoryCache();
+
 	private FileCache fileCache;
 
 	// 返回由指定 collection 支持的同步（线程安全的）collection。
@@ -37,6 +37,8 @@ public class ImageLoader {
 
 	// 线程池
 	private ExecutorService executorService;
+
+	private Bitmap defaultPic = null;
 
 	private static Object lock = new Object();
 
@@ -54,6 +56,8 @@ public class ImageLoader {
 	private ImageLoader() {
 		fileCache = FileCache.getInstance();
 		executorService = Executors.newFixedThreadPool(5);
+		defaultPic = BitmapFactory.decodeResource(YouGouHuiApp.getAppContext()
+				.getResources(), R.drawable.default_pic);
 	}
 
 	// 当进入listview时默认的图片，可换成你自己的默认图片
@@ -115,8 +119,8 @@ public class ImageLoader {
 					REQUIRE_IMGAGE_WIDTH);
 			return bitmap;
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			return null;
+			Logger.warn(TAG, ex.getMessage(), ex);
+			return defaultPic;
 		}
 	}
 

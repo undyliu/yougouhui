@@ -8,7 +8,7 @@
         android:id="@+id/share_choose_pop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/grouplist_item_bg_normal" >
+        android:background="@drawable/comment_content_shape" >
 
     </ListView>
 

@@ -17,18 +17,15 @@ import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.rest.MultipartRequest;
 import com.seekon.yougouhui.rest.MultipartRestMethod;
 import com.seekon.yougouhui.rest.Request;
+import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.rest.resource.TextResource;
 
-public class PostShareMethod extends MultipartRestMethod<TextResource> {
+public class PostShareMethod extends MultipartRestMethod<JSONObjResource> {
 
 	private static final String POST_SHARE_URI = Const.SERVER_APP_URL
 			+ "/saveShare";
 
 	private Map share;
-
-	public PostShareMethod(Map share) {
-		this(share, YouGouHuiApp.getAppContext());
-	}
 
 	public PostShareMethod(Map share, Context context) {
 		super(context);
@@ -58,9 +55,9 @@ public class PostShareMethod extends MultipartRestMethod<TextResource> {
 	}
 
 	@Override
-	protected TextResource parseResponseBody(String responseBody)
+	protected JSONObjResource parseResponseBody(String responseBody)
 			throws Exception {
-		return new TextResource(responseBody);
+		return new JSONObjResource(responseBody);
 	}
 
 }

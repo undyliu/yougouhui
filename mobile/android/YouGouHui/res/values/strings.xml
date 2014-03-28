@@ -26,4 +26,7 @@
 	<string name="title_action_share_publish">晒单</string>
 	<string name="title_action_save">保存</string>
 	<string name="title_action_delete">保存</string>
+	
+	<string name="default_progress_status_message">正在处理，请稍后...</string>
+	
 </resources>

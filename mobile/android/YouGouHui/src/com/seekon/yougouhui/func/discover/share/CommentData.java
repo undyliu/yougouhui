@@ -5,7 +5,7 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.discover.share.CommentConst.COL_NAME_COMMENT_ID;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_TIME;
-import static com.seekon.yougouhui.func.discover.share.ShareImgConst.COL_NAME_SHARE_ID;
+import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_SHARE_ID;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
