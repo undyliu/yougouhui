@@ -2,7 +2,7 @@
   (:use [korma.db]
         [korma.core]))
 
-(defdb db-mysql (mysql {:host "127.0.0.1" :port 3306 :db "ebs" :user "ebs" :password "1"}))
+(defdb db-mysql (mysql {:host "10.10.65.86" :port 3306 :db "ebs" :user "ebs" :password "1"}))
 
 (declare activities-img activities discusses channels shares share-images comments)
 

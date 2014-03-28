@@ -14,38 +14,63 @@
 			 [yougou.file :as file]
 	))
 
-(defroutes app-routes
+(defroutes default-routes
   (GET "/hello" [] "你好.")
-  (GET "/getActiveChannels" [] (json/write-str (get-channels nil)))
-  (GET "/getActiveChannels/:channel-id" [channel-id] (json/write-str (get-channels channel-id)))
-  (GET "/getActivities/:channel-id" [channel-id] (json/write-str (get-activities channel-id)))
-  (GET "/getModules/:type" [type] (json/write-str (get-modules type)))
-  (GET "/getFriendGroupInfo/:user-id" [user-id] (json/write-str "[]"))
-  (GET "/getNearbyDiscounts/:user-id" [user-id] (json/write-str "[]"))
-  (GET "/getNearbyShops/:user-id" [user-id] (json/write-str "[]"))
-  (GET "/getActiveData/:id" [id] (json/write-str (get-activity-data id)))
-  (GET "/getContactList/:user-id" [user-id] (json/write-str "[]"))
-  (GET "/getFavoriteList/:user-id" [user-id] (json/write-str "[]"))
-  (GET "/getShareList/:user-id" [user-id] (json/write-str "[]"))
-  (GET "/getFriendShares/:last-pub-time" [last-pub-time] (json/write-str (get-friend-share-data last-pub-time)))
-	
-  (GET "/getImageFile/:file-name" [file-name] (file/get-image-file file-name))
-	
-  (POST "/login" {{phone :phone, pwd :pwd} :params} (json/write-str (login phone pwd)))
-	
-	(POST "/saveShare"
-		{params :params}
-		(println params)
-		(try
-			(json/write-str (save-share params))
-			(catch Exception e {:status  500 :body "failed."}
-			)
-		)
-		;;(response/response "success")
-	)		
-			
   (route/resources "/")
   (route/not-found "Not Found"))
 
+(defroutes login-routes
+	(POST "/login" {{phone :phone, pwd :pwd} :params} (json/write-str (login phone pwd)))
+)
+
+(defroutes channel-routes
+	(GET "/getActiveChannels" [] (json/write-str (get-channels nil)))
+  (GET "/getActiveChannels/:channel-id" [channel-id] (json/write-str (get-channels channel-id)))
+)
+
+(defroutes activity-routes
+	(GET "/getActivities/:channel-id" [channel-id] (json/write-str (get-activities channel-id)))
+	(GET "/getActiveData/:id" [id] (json/write-str (get-activity-data id)))
+)
+
+(defroutes module-routes
+	(GET "/getModules/:type" [type] (json/write-str (get-modules type)))
+)
+
+(defroutes share-routes
+	(GET "/getFriendShares/:last-pub-time" [last-pub-time] (json/write-str (get-friend-share-data last-pub-time)))
+	(POST "/saveShare" {params :params}
+		;(println params)
+		(try
+			(json/write-str (save-share params))
+			(catch Exception e {:status  500 :body {:error "保存失败."}})
+		)
+	)
+	(POST "/saveComment" {{share-id :share_id content :content, user :publisher} :params} 
+		(try
+			(json/write-str (save-comment share-id content user))
+			(catch Exception e {:status  500 :body {:error "保存失败."}})
+		)	
+	)
+	(DELETE "/deleteShare/:share-id" [share-id] 
+		(try
+			(json/write-str (del-share-data share-id))
+			(catch Exception e {:status  500 :body {:error "删除失败."}})
+		)
+	)
+	(DELETE "deleteComment/:comment-id" [comment-id]
+		(try
+			(json/write-str (del-comment comment-id))
+			(catch Exception e {:status  500 :body {:error "删除失败."}})
+		)
+	)
+)
+
+(defroutes file-routes
+	(GET "/getImageFile/:file-name" [file-name] (file/get-image-file file-name))
+)
+
 (def app
-  (handler/site app-routes))
+  (-> (routes login-routes channel-routes activity-routes module-routes share-routes file-routes default-routes)
+      (handler/site :session)
+      ))

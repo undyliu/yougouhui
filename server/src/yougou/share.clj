@@ -97,7 +97,43 @@
 				(save-share-imgs uuid (clojure.string/split image-names #"[|]") req-params)
 			)
 		;;)
-		
-	uuid)
+	{:uuid uuid})
 )
 
+(defn save-comment [share-id content publisher]
+	(let [uuid (str (java.util.UUID/randomUUID))
+				publish-time (str  (System/currentTimeMillis))
+			]
+			(insert comments (values {:uuid uuid :share_id share-id :content content :publisher publisher :publish_time publish-time}))
+	{:uuid uuid :publish_time publish-time})
+)
+
+(defn del-share [share-id]
+	(if share-id
+		(delete shares (where {:uuid share-id}))
+	)
+)
+
+(defn del-share-img [share-id]
+	(when share-id
+		(delete share-images (where {:share_id share-id}))
+		(file/del-image-files (select share-images (fields :img) (where {:share_id share-id})))
+	)
+)
+
+(defn del-comments [share-id]
+	(delete comments (where {:share_id share-id}))
+)
+
+(defn del-share-data [share-id]
+	(when share-id
+		(del-share share-id)
+		(del-share-img share-id)
+	{:uuid share-id})
+)
+
+(defn del-comment [comment-id]
+	(if comment-id
+		(delete comments (where {:uuid comment-id}))
+	{:uuid comment-id})
+)
