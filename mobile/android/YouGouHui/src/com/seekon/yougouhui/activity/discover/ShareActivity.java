@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -238,7 +239,14 @@ public class ShareActivity extends Activity {
 	private void publishShare() {
 		EditText view = (EditText) findViewById(R.id.share_content);
 		final String shareContent = view.getText().toString();
-
+		
+		view.setError(null);
+		if(TextUtils.isEmpty(shareContent)){
+			view.setError(this.getString(R.string.error_field_required));
+			view.findFocus();
+			return;
+		}
+		
 		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
 
 			@Override

@@ -17,10 +17,16 @@ public class BaseRestClient extends RestClient {
 
 		switch (request.getMethod()) {
 		case GET:
+			conn.setRequestMethod("GET");
+			conn.setDoOutput(false);
+			break;
+		case DELETE:
+			conn.setRequestMethod("DELETE");
 			conn.setDoOutput(false);
 			break;
 		case POST:
 			byte[] payload = request.getBody();
+			conn.setRequestMethod("POST");
 			conn.setDoOutput(true);
 			conn.setFixedLengthStreamingMode(payload.length);
 			conn.getOutputStream().write(payload);

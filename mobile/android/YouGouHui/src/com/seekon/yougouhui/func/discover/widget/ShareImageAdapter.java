@@ -1,4 +1,4 @@
-package com.seekon.yougouhui.widget;
+package com.seekon.yougouhui.func.discover.widget;
 
 import java.util.ArrayList;
 import java.util.List;

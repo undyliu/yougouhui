@@ -7,4 +7,8 @@
     <string name="button_scan">扫一扫</string>
     <string name="button_send">发送</string>
     <string name="hint_button_comment">评论一下</string>
+    
+    <string name="button_comment">评论</string>
+    <string name="button_praise">赞</string>
+    <string name="button_delete">删除</string>
 </resources>

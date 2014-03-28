@@ -22,6 +22,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListAdapter;
+import android.widget.SimpleAdapter;
 
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
@@ -31,11 +33,11 @@ import com.seekon.yougouhui.func.discover.share.CommentConst;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareImgConst;
 import com.seekon.yougouhui.func.discover.share.ShareServiceHelper;
+import com.seekon.yougouhui.func.discover.widget.ShareListAdapter;
 import com.seekon.yougouhui.func.update.UpdateData;
 import com.seekon.yougouhui.layout.XListView;
 import com.seekon.yougouhui.layout.XListView.IXListViewListener;
 import com.seekon.yougouhui.util.DateUtils;
-import com.seekon.yougouhui.widget.ShareListAdapter;
 
 /**
  * 朋友圈 activity
@@ -62,7 +64,11 @@ public class FriendShareActivity extends RequestListActivity implements
 
 	private String lastPublishTime = null;// 数据中分享记录最新发布的时间
 
-	private String lastUpdateTime = null;
+	private String lastUpdateTime = null;// 分享数据最新的更新时间
+
+	private String commentLastPublishTime = null;// 评论数据最新的发布时间
+
+	private String commentLastUpdateTime = null;// 评论数据最新的更新时间
 
 	public FriendShareActivity() {
 		super(ShareServiceHelper.SHARE_GET_REQUEST_RESULT);
@@ -77,10 +83,10 @@ public class FriendShareActivity extends RequestListActivity implements
 		shareListView.setPullLoadEnable(true);
 		shareListView.setXListViewListener(this);
 
-		listAdapter = new ShareListAdapter(this, shareListView, shares,
+		listAdapter = new ShareListAdapter(this, shares,
 				R.layout.discover_friends_item, new String[] { COL_NAME_PHONE,
-						COL_NAME_CONTENT }, new int[] {
-						R.id.user_name, R.id.share_content });
+						COL_NAME_CONTENT },
+				new int[] { R.id.user_name, R.id.share_content });
 		shareListView.setAdapter(listAdapter);
 
 		ActionBar actionBar = this.getActionBar();
@@ -91,6 +97,9 @@ public class FriendShareActivity extends RequestListActivity implements
 		updateData = new UpdateData(this);
 
 		lastPublishTime = this.getLastPublishTime();
+		lastUpdateTime = updateData.getUpdateTime(ShareConst.TABLE_NAME);
+		commentLastPublishTime = this.getCommentLastPublishTime();
+		commentLastUpdateTime = updateData.getUpdateTime(CommentConst.TABLE_NAME);
 
 		shares.addAll(this.getBackShareListFromLocal());
 		updateListView();
@@ -121,7 +130,7 @@ public class FriendShareActivity extends RequestListActivity implements
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == SHARE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-			//TODO:增加刷新的进度显示
+			// TODO:增加刷新的进度显示
 			this.onRefresh();
 		}
 		super.onActivityResult(requestCode, resultCode, data);
@@ -150,6 +159,22 @@ public class FriendShareActivity extends RequestListActivity implements
 
 		if (result == null) {
 			result = updateData.getUpdateTime(ShareConst.TABLE_NAME);
+		}
+		return result;
+	}
+
+	private String getCommentLastPublishTime() {
+		String result = null;
+		String col = " max(" + COL_NAME_PUBLISH_TIME + ")";
+		Cursor cursor = getContentResolver().query(CommentConst.CONTENT_URI,
+				new String[] { col }, null, null, null);
+		if (cursor.moveToNext()) {
+			result = cursor.getString(0);
+		}
+		cursor.close();
+
+		if (result == null) {
+			result = updateData.getUpdateTime(CommentConst.TABLE_NAME);
 		}
 		return result;
 	}
@@ -196,7 +221,8 @@ public class FriendShareActivity extends RequestListActivity implements
 			Map values = new HashMap();
 			values.put(COL_NAME_UUID, uuid);
 			values.put(COL_NAME_CONTENT, cursor.getString(1));
-			values.put(COL_NAME_PUBLISH_TIME, DateUtils.formartTime(cursor.getLong(2)));
+			values.put(COL_NAME_PUBLISH_TIME,
+					DateUtils.formartTime(cursor.getLong(2)));
 			values.put(COL_NAME_PHONE, user.get(COL_NAME_PHONE));
 
 			values.put(ShareConst.DATA_IMAGE_KEY, getShareImagesFromLocal(uuid));
@@ -250,6 +276,13 @@ public class FriendShareActivity extends RequestListActivity implements
 		}
 		updateData.updateData(ShareConst.TABLE_NAME, lastUpdateTime);
 
+		// 对评论进行更新
+		// commentLastUpdateTime = lastUpdateTime;
+		// if(commentLastPublishTime == null){
+		// commentLastPublishTime = commentLastUpdateTime;
+		// }
+		// updateData.updateData(CommentConst.TABLE_NAME, commentLastUpdateTime);
+
 		shares.addAll(0, this.getHeadShareListFromLocal());
 		updateListView();
 	}
@@ -294,4 +327,11 @@ public class FriendShareActivity extends RequestListActivity implements
 		}, 2000);
 	}
 
+	public ShareListAdapter getShareListAdapter(){
+		return this.listAdapter;
+	}
+	
+	public List<Map<String, ?>> getShares() {
+		return shares;
+	}
 }

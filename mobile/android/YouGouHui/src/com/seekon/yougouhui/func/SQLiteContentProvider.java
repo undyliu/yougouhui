@@ -37,17 +37,24 @@ public abstract class SQLiteContentProvider extends ContentProvider {
 
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		throw new UnsupportedOperationException("not implemented");
+		if (!this.validateUri(uri, Action.INSERT)) {
+			throw new IllegalArgumentException("Unknown URI " + uri);
+		}
+		
+		SQLiteDatabase db = getWritableDatabase();
+		int rows = db.delete(tableName, selection, selectionArgs);
+		getContext().getContentResolver().notifyChange(uri, null);
+		return rows;
 	}
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		SQLiteDatabase db = getWritableDatabase();
-
 		if (!this.validateUri(uri, Action.INSERT)) {
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
-
+		
+		SQLiteDatabase db = getWritableDatabase();
+		
 		long id = db.insertOrThrow(tableName, null, values);
 		Uri newUri = ContentUris.withAppendedId(uri, id);
 		Logger.debug(TAG, "New profile URI: " + newUri.toString());
@@ -73,12 +80,11 @@ public abstract class SQLiteContentProvider extends ContentProvider {
 	@Override
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
-		SQLiteDatabase db = getWritableDatabase();
-
 		if (!this.validateUri(uri, Action.UPDATE)) {
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
+		SQLiteDatabase db = getWritableDatabase();
 		String recordId = ContentUtils.parseStringId(uri);
 		List<String> args = new ArrayList<String>();
 		args.add(recordId);

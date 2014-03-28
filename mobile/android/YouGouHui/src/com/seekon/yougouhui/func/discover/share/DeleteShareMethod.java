@@ -10,21 +10,26 @@ import com.seekon.yougouhui.rest.JSONObjResourceMethod;
 import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
 
-public class DeleteCommentMethod extends JSONObjResourceMethod {
+/**
+ * 删除分享信息
+ * @author undyliu
+ *
+ */
+public class DeleteShareMethod extends JSONObjResourceMethod{
 
-	private static final String DELETE_COMMENT_URI = Const.SERVER_APP_URL
-			+ "/deleteComment";
-
-	private String commentId;
-
-	public DeleteCommentMethod(Context context, String commentId) {
+	private static final String DELETE_SHARE_URI = Const.SERVER_APP_URL
+			+ "/deleteShare";
+	
+	private String shareId;
+	
+	public DeleteShareMethod(Context context, String shareId) {
 		super(context);
-		this.commentId = commentId;
+		this.shareId = shareId;
 	}
 
 	@Override
 	protected Request buildRequest() {
-		URI uri = URI.create(DELETE_COMMENT_URI + "/" + commentId);
+		URI uri = URI.create(DELETE_SHARE_URI + "/" + shareId);
 		return new BaseRequest(Method.DELETE, uri, null, null);
 	}
 

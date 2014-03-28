@@ -78,4 +78,12 @@ public class ShareProcessor extends ContentProcessor {
 			Map<String, String> comment) {
 		return new PostCommentMethod(mContext, comment).execute();
 	}
+	
+	public RestMethodResult<JSONObjResource> deleteShare(String shareId){
+		return new DeleteShareMethod(mContext, shareId).execute();
+	}
+	
+	public RestMethodResult<JSONObjResource> deleteComment(String commentId){
+		return new DeleteCommentMethod(mContext, commentId).execute();
+	}
 }

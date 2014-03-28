@@ -62,16 +62,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/b_comment" />
+
             </LinearLayout>
         </LinearLayout>
 
-        <ListView
+        <com.seekon.yougouhui.widget.NestedListView
             android:id="@+id/comment_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/content_shape"
             android:drawSelectorOnTop="false" />
+
     </LinearLayout>
 
 </LinearLayout>
