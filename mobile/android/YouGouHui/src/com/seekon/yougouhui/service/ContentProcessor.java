@@ -2,6 +2,7 @@ package com.seekon.yougouhui.service;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -86,5 +87,28 @@ public class ContentProcessor {
 		if (count == 0) {
 			resolver.insert(contentUri, values);
 		}
+	}
+
+	protected void deleteContentProvider(JSONArray jsonArray, Uri contentUri)
+			throws JSONException {
+		if (jsonArray == null) {
+			return;
+		}
+		int size = jsonArray.length();
+		for (int i = 0; i < size; i++) {
+			JSONObject jsonObj = jsonArray.getJSONObject(i);
+			this.deleteContentProvider(jsonObj, contentUri);
+		}
+	}
+
+	protected void deleteContentProvider(JSONObject jsonObj, Uri contentUri)
+			throws JSONException {
+		if (jsonObj == null) {
+			return;
+		}
+		ContentResolver resolver = mContext.getContentResolver();
+		String id = jsonObj.getString(COL_NAME_UUID);
+		String where = COL_NAME_UUID + "=?";
+		resolver.delete(contentUri, where, new String[] { id });
 	}
 }

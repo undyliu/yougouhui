@@ -8,12 +8,39 @@
 	)
 )
 
+(defn get-deleted-shares [min-pub-time]
+  (let [publish-time (Long/valueOf min-pub-time)]
+    (if (< publish-time 0)
+      {}
+      (select shares (fields :uuid) (where {:publish_time [>= publish-time] :is_deleted [= 1]}))
+    )
+  )
+)
+
+(defn get-deleted-comments [min-pub-time]
+  (let [publish-time (Long/valueOf min-pub-time)]
+    (if (< publish-time 0)
+      {}
+      (select comments (fields :uuid) (where {:publish_time [>= publish-time] :is_deleted [= 1]}))
+    )
+  )
+)
+
+(defn get-newest-comments [last-pub-time]
+  (let [publish-time (Long/valueOf last-pub-time)]
+    (if (< publish-time 0)
+        {}
+	(select comments (where {:publish_time [> publish-time] :is_deleted [not= 1]}))
+    )
+  )
+)
+
 (defn get-friend-shares [last-pub-time]
   (let [publish-time (Long/valueOf last-pub-time)]
     (if (< publish-time 0)
-        (get-friend-shares (System/currentTimeMillis))
+        {}
   	(select shares (fields :uuid :content :publisher :publish_time :activity_id)
-	       (where {:publish_time [>= publish-time]})
+	       (where {:publish_time [> publish-time] :is_deleted [not= 1]})
 		(order :publish_time)
 	)
      )
@@ -26,11 +53,11 @@
 )
 
 (defn get-comments [share-id]
-  (select comments (where {:share_id share-id})
+  (select comments (where {:share_id share-id :is_deleted [not= 1]})
   )
 )
 
-(defn get-friend-share-data [last-pub-time]
+(defn get-newest-share-data [last-pub-time]
   (let [shares (get-friend-shares last-pub-time)
 				first-share (first shares)
 			 ]
@@ -50,6 +77,14 @@
 				)
 		)
 	)
+)
+
+(defn get-friend-share-data [last-pub-time min-pub-time last-comm-pub-time]
+  {:newest-shares (get-newest-share-data last-pub-time)
+   :newest-comments (get-newest-comments last-comm-pub-time)
+   :deleted-shares (get-deleted-shares min-pub-time)
+   :deleted-comments (get-deleted-comments min-pub-time)
+  }
 )
 
 (defn save-share-img [share-id img-name req-params ord-index]
@@ -110,7 +145,8 @@
 
 (defn del-share [share-id]
 	(if share-id
-		(delete shares (where {:uuid share-id}))
+		;(delete shares (where {:uuid share-id}))
+		(update shares (set-fields {:is_deleted 1}) (where {:uuid share-id}))
 	)
 )
 
@@ -122,7 +158,8 @@
 )
 
 (defn del-comments [share-id]
-	(delete comments (where {:share_id share-id}))
+	;(delete comments (where {:share_id share-id}))
+	(update comments (set-fields {:is_deleted 1}) (where {:share_id share-id}))
 )
 
 (defn del-share-data [share-id]
@@ -135,7 +172,8 @@
 
 (defn del-comment [comment-id]
 	(if comment-id
-		(delete comments (where {:uuid comment-id}))
+		;(delete comments (where {:uuid comment-id}))
+		(update comments (set-fields {:is_deleted 1}) (where {:uuid comment-id}))
 	)
 	{:uuid comment-id}
 )

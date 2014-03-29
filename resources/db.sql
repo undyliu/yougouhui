@@ -11,7 +11,7 @@
  Target Server Version : 50612
  File Encoding         : utf-8
 
- Date: 03/09/2014 20:54:42 PM
+ Date: 03/29/2014 22:58:23 PM
 */
 
 SET NAMES utf8;
@@ -46,7 +46,7 @@ CREATE TABLE `e_activity` (
 --  Records of `e_activity`
 -- ----------------------------
 BEGIN;
-INSERT INTO `e_activity` VALUES ('1', 'iOS 6.1', '<p>Apple released iOS 6.1</p><p class=\"ui-li-aside\">iOS</p>', '/upload/img/apple.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('2', 'BlackBerry 10', '<p>BlackBerry launched the Z10 and Q10 with the new BB10 OS</p><p class=\"ui-li-aside\">BlackBerry</p>\n				<p class=\"ui-li-aside\">BlackBerry</p>', '/upload/img/blackberry_10.png', '2', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('3', 'WP 7.8', '<p>Nokia rolls out WP 7.8 to Lumia 800</p><p class=\"ui-li-aside\">Windows Phone</p>', '/upload/img/lumia_800.png', '41', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('4', 'Galaxy', '<p>New Samsung Galaxy Express</p><p class=\"ui-li-aside\">Samsung</p>', '/upload/img/galaxy_express.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('5', 'Nexus 7', '<p>Rumours about new full HD Nexus 7</p><p class=\"ui-li-aside\">Android</p>', '/upload/img/nexus_7.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('6', 'Firefox OS', '<p>ZTE to launch Firefox OS smartphone at MWC</p><p class=\"ui-li-aside\">Firefox</p>', '/upload/img/firefox_os.png', '3', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('7', 'Tizen', '<p>First Samsung phones with Tizen can be expected in 2013</p><p class=\"ui-li-aside\">Tizen</p>', '/upload/img/tizen.png', '41', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('8', 'Symbian', '<p>Nokia confirms the end of Symbian</p><p class=\"ui-li-aside\">Symbian</p>', null, '2', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('9', 'Symbian', '<p>Nokia confirms the end of Symbian</p>', null, '42', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
+INSERT INTO `e_activity` VALUES ('1', 'iOS 6.1', '<p>Apple released iOS 6.1</p><p class=\"ui-li-aside\">iOS</p>', 'apple.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('2', 'BlackBerry 10', '<p>BlackBerry launched the Z10 and Q10 with the new BB10 OS</p><p class=\"ui-li-aside\">BlackBerry</p>\n				<p class=\"ui-li-aside\">BlackBerry</p>', 'blackberry_10.png', '2', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('3', 'WP 7.8', '<p>Nokia rolls out WP 7.8 to Lumia 800</p><p class=\"ui-li-aside\">Windows Phone</p>', 'lumia_800.png', '41', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('4', 'Galaxy', '<p>New Samsung Galaxy Express</p><p class=\"ui-li-aside\">Samsung</p>', 'galaxy_express.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('5', 'Nexus 7', '<p>Rumours about new full HD Nexus 7</p><p class=\"ui-li-aside\">Android</p>', 'nexus_7.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('6', 'Firefox OS', '<p>ZTE to launch Firefox OS smartphone at MWC</p><p class=\"ui-li-aside\">Firefox</p>', 'firefox_os.png', '3', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('7', 'Tizen', '<p>First Samsung phones with Tizen can be expected in 2013</p><p class=\"ui-li-aside\">Tizen</p>', 'tizen.png', '41', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('8', 'Symbian', '<p>Nokia confirms the end of Symbian</p><p class=\"ui-li-aside\">Symbian</p>', null, '2', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('9', 'Symbian', '<p>Nokia confirms the end of Symbian</p>', null, '42', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
 COMMIT;
 
 -- ----------------------------
@@ -85,7 +85,7 @@ CREATE TABLE `e_channel` (
 --  Records of `e_channel`
 -- ----------------------------
 BEGIN;
-INSERT INTO `e_channel` VALUES ('0', 'all', '全部', '', null, '0', null, null, null, null, null), ('1', 'food', '美食', '', null, '1', null, null, null, null, null), ('2', 'clothes', '服装', '', null, '2', null, null, null, null, null), ('3', 'beauty', '美妆', '', null, '3', null, null, null, null, null), ('4', 'other', '其他', '', null, '4', null, null, null, null, null), ('40', 'baby', '母婴', 'baby.html', null, '0', '4', null, null, null, null), ('41', 'computer', '电脑', 'computer.html', null, '1', '4', null, null, null, null), ('42', 'book', '书城', 'book.html', null, '2', '4', null, null, null, null);
+INSERT INTO `e_channel` VALUES ('0', 'all', '全部', '', null, '0', null, null, null, null, null), ('1', 'food', '美食', '', null, '1', null, null, null, null, null), ('2', 'clothes', '服装', '', null, '2', null, null, null, null, null), ('3', 'beauty', '美妆', '', null, '3', null, null, null, null, null), ('40', 'baby', '母婴', 'baby.html', null, '4', null, null, null, null, null), ('41', 'computer', '电脑', 'computer.html', null, '5', null, null, null, null, null), ('42', 'book', '书城', 'book.html', null, '6', null, null, null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -98,9 +98,17 @@ CREATE TABLE `e_comment` (
   `comment_id` varchar(36) DEFAULT NULL,
   `content` varchar(2000) DEFAULT NULL,
   `publisher` varchar(32) DEFAULT NULL,
-  `publish_time` date DEFAULT NULL,
+  `publish_time` varchar(16) DEFAULT NULL,
+  `is_deleted` int(1) DEFAULT '0',
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `e_comment`
+-- ----------------------------
+BEGIN;
+INSERT INTO `e_comment` VALUES ('607f3094-0696-4260-9833-06ecea912bf1', '4bb8116f-38ab-46b4-9074-3cd57b0495e9', null, '222', '111111', '1396103895516', '0'), ('64de5bdb-7168-4aa1-8b79-1f03d3b58035', '9caab804-8de8-46ed-9fe8-ed6ba2c66cb0', null, '5555', '111111', '1396102487369', '1'), ('75dc21f2-b364-42a9-bcfe-fc5db657e064', '4bb8116f-38ab-46b4-9074-3cd57b0495e9', null, '333', '111111', '1396103921385', '1'), ('77161126-b199-4ca5-824d-b376968fcf59', '4bb8116f-38ab-46b4-9074-3cd57b0495e9', null, '666', '111111', '1396104918910', '0');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `e_discuss`
@@ -179,10 +187,18 @@ CREATE TABLE `e_share` (
   `content` varchar(2000) DEFAULT NULL,
   `geo` varchar(128) DEFAULT NULL,
   `publisher` varchar(32) DEFAULT NULL,
-  `publish_time` date DEFAULT NULL,
+  `publish_time` varchar(16) DEFAULT NULL,
   `activity_id` varchar(36) DEFAULT NULL,
+  `is_deleted` int(1) DEFAULT '0',
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `e_share`
+-- ----------------------------
+BEGIN;
+INSERT INTO `e_share` VALUES ('4bb8116f-38ab-46b4-9074-3cd57b0495e9', 'demo1', null, null, '1396102581904', null, '0'), ('9caab804-8de8-46ed-9fe8-ed6ba2c66cb0', 'demo', null, null, '1396102136651', null, '1');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `e_share_img`
@@ -195,6 +211,13 @@ CREATE TABLE `e_share_img` (
   `ord_index` int(11) DEFAULT NULL,
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `e_share_img`
+-- ----------------------------
+BEGIN;
+INSERT INTO `e_share_img` VALUES ('188c00c0-b77b-4431-aead-601261ad12f0', '1590624401_1396102577517.png', '4bb8116f-38ab-46b4-9074-3cd57b0495e9', '1');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `e_shop`

@@ -14,12 +14,18 @@ public class ShareService extends AbstractService {
 	@Override
 	protected void handlerIntent(Intent requestIntent) {
 		String method = requestIntent.getStringExtra(ServiceConst.METHOD_EXTRA);
-		String lastPublishTime = requestIntent.getStringExtra(ShareConst.COL_NAME_PUBLISH_TIME);
-		
+		String lastPublishTime = requestIntent
+				.getStringExtra(ShareConst.LAST_PUBLISH_TIME);
+		String minPublishTime = requestIntent
+				.getStringExtra(ShareConst.MIN_PUBLISH_TIME);
+		String lastCommentPublishTime = requestIntent
+				.getStringExtra(ShareConst.LAST_COMMENT_PUB_TIME);
+
 		if (method.equalsIgnoreCase(ServiceConst.METHOD_GET)) {
 			ShareProcessor shareProcessor = new ShareProcessor(
 					getApplicationContext());
-			shareProcessor.getShares(makeProcessorCallback(), lastPublishTime);
+			shareProcessor.getShares(makeProcessorCallback(), lastPublishTime,
+					minPublishTime, lastCommentPublishTime);
 		} else {
 			mCallback.send(ServiceConst.REQUEST_INVALID, getOriginalIntentBundle());
 		}

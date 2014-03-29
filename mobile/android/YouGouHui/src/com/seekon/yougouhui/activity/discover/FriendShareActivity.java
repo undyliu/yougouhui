@@ -64,11 +64,11 @@ public class FriendShareActivity extends RequestListActivity implements
 
 	private String lastPublishTime = null;// 数据中分享记录最新发布的时间
 
-	private String lastUpdateTime = null;// 分享数据最新的更新时间
+	private String lastUpdateTime = null;// 分享数据最新的更新时间，用于更新新增加的分享和评论数据
 
-	private String commentLastPublishTime = null;// 评论数据最新的发布时间
+	private String minPublishTime = null;// 数据中分享记录最小的发布时间, 用于获取已经删除了的分享和评论数据
 
-	private String commentLastUpdateTime = null;// 评论数据最新的更新时间
+	private String lastCommentPublishTime = null;
 
 	public FriendShareActivity() {
 		super(ShareServiceHelper.SHARE_GET_REQUEST_RESULT);
@@ -98,8 +98,9 @@ public class FriendShareActivity extends RequestListActivity implements
 
 		lastPublishTime = this.getLastPublishTime();
 		lastUpdateTime = updateData.getUpdateTime(ShareConst.TABLE_NAME);
-		commentLastPublishTime = this.getCommentLastPublishTime();
-		commentLastUpdateTime = updateData.getUpdateTime(CommentConst.TABLE_NAME);
+		minPublishTime = this.getMinPublishTime();
+
+		lastCommentPublishTime = this.getCommentLastPublishTime();
 
 		shares.addAll(this.getBackShareListFromLocal());
 		updateListView();
@@ -144,7 +145,8 @@ public class FriendShareActivity extends RequestListActivity implements
 	@Override
 	protected void initRequestId() {
 		requestId = ShareServiceHelper.getInstance(FriendShareActivity.this)
-				.getShares(lastPublishTime, requestResultType);
+				.getShares(lastPublishTime, minPublishTime, lastCommentPublishTime,
+						requestResultType);
 	}
 
 	private String getLastPublishTime() {
@@ -160,6 +162,19 @@ public class FriendShareActivity extends RequestListActivity implements
 		if (result == null) {
 			result = updateData.getUpdateTime(ShareConst.TABLE_NAME);
 		}
+		return result;
+	}
+
+	private String getMinPublishTime() {
+		String result = null;
+		String col = " min(" + COL_NAME_PUBLISH_TIME + ")";
+		Cursor cursor = getContentResolver().query(ShareConst.CONTENT_URI,
+				new String[] { col }, null, null, null);
+		if (cursor.moveToNext()) {
+			result = cursor.getString(0);
+		}
+		cursor.close();
+
 		return result;
 	}
 
@@ -179,23 +194,23 @@ public class FriendShareActivity extends RequestListActivity implements
 		return result;
 	}
 
-	/**
-	 * 获取最新的更新数据
-	 */
-	private List<Map<String, ?>> getHeadShareListFromLocal() {
-		List<Map<String, ?>> result = null;
-		if (lastPublishTime == null) {// 没有记录
-			result = getBackShareListFromLocal();
-			lastPublishTime = this.getLastPublishTime();
-		} else {
-			String selection = COL_NAME_PUBLISH_TIME + " > ? ";
-			String[] selectionArgs = new String[] { lastPublishTime + "" };
-			String limitSql = "";
-			result = this.getShareListFromLocal(selection, selectionArgs, limitSql);
-			lastPublishTime = this.getLastPublishTime();
-		}
-		return result;
-	}
+	// /**
+	// * 获取最新的更新数据
+	// */
+	// private List<Map<String, ?>> getHeadShareListFromLocal() {
+	// List<Map<String, ?>> result = null;
+	// if (lastPublishTime == null) {// 没有记录
+	// result = getBackShareListFromLocal();
+	// lastPublishTime = this.getLastPublishTime();
+	// } else {
+	// String selection = COL_NAME_PUBLISH_TIME + " > ? ";
+	// String[] selectionArgs = new String[] { lastPublishTime + "" };
+	// String limitSql = "";
+	// result = this.getShareListFromLocal(selection, selectionArgs, limitSql);
+	// lastPublishTime = this.getLastPublishTime();
+	// }
+	// return result;
+	// }
 
 	/**
 	 * 根据偏移获取偏移位置之后的数据
@@ -272,19 +287,20 @@ public class FriendShareActivity extends RequestListActivity implements
 	@Override
 	protected void updateListItemByRemoteCall() {
 		lastUpdateTime = String.valueOf(System.currentTimeMillis());
+		lastPublishTime = this.getLastPublishTime();
 		if (lastPublishTime == null) {
 			lastPublishTime = lastUpdateTime;
 		}
+		minPublishTime = this.getMinPublishTime();
+
+		lastCommentPublishTime = this.getCommentLastPublishTime();
+
 		updateData.updateData(ShareConst.TABLE_NAME, lastUpdateTime);
 
-		// 对评论进行更新
-		// commentLastUpdateTime = lastUpdateTime;
-		// if(commentLastPublishTime == null){
-		// commentLastPublishTime = commentLastUpdateTime;
-		// }
-		// updateData.updateData(CommentConst.TABLE_NAME, commentLastUpdateTime);
-
-		shares.addAll(0, this.getHeadShareListFromLocal());
+		this.currentOffset = 0;
+		shares.clear();
+		shares.addAll(this.getBackShareListFromLocal());
+		// shares.addAll(0, this.getHeadShareListFromLocal());
 		updateListView();
 	}
 
@@ -328,10 +344,10 @@ public class FriendShareActivity extends RequestListActivity implements
 		}, 2000);
 	}
 
-	public ShareListAdapter getShareListAdapter(){
+	public ShareListAdapter getShareListAdapter() {
 		return this.listAdapter;
 	}
-	
+
 	public List<Map<String, ?>> getShares() {
 		return shares;
 	}

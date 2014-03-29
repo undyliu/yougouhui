@@ -38,7 +38,8 @@
 )
 
 (defroutes share-routes
-	(GET "/getFriendShares/:last-pub-time" [last-pub-time] (json/write-str (get-friend-share-data last-pub-time)))
+	(POST "/getFriendShares" {{last-pub-time :last-pub-time, min-pub-time :min-pub-time, last-comm-pub-time :last-comm-pub-time} :params} 
+		(json/write-str (get-friend-share-data last-pub-time min-pub-time last-comm-pub-time)))
 	(POST "/saveShare" {params :params}
 		;(println params)
 		(try

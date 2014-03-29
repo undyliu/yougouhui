@@ -25,7 +25,7 @@ public class ShareData extends AbstractDBHelper {
 		// db.execSQL(" drop table if EXISTS " + ShareConst.TABLE_NAME);
 		db.execSQL("CREATE TABLE IF NOT EXISTS " + ShareConst.TABLE_NAME + " ("
 				+ COL_NAME_UUID + " TEXT PRIMARY KEY, " + COL_NAME_CONTENT + " TEXT, "
-				+ COL_NAME_PUBLISHER + " TEXT, " + COL_NAME_PUBLISH_TIME + " INTEGER, "
+				+ COL_NAME_PUBLISHER + " TEXT, " + COL_NAME_PUBLISH_TIME + " TEXT, "
 				+ COL_NAME_ACTIVITY_ID + " TEXT)");
 	}
 

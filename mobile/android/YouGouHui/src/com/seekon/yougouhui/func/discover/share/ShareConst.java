@@ -21,4 +21,7 @@ public interface ShareConst extends DataConst {
 	public final String DATA_IMAGE_KEY = "images";
 	public final String DATA_COMMENT_KEY = "comments";
 
+	public static final String LAST_PUBLISH_TIME = "last_publish_time";
+	public static final String MIN_PUBLISH_TIME = "min_publish_time";
+	public static final String LAST_COMMENT_PUB_TIME = "last_comment_pub_time";
 }
