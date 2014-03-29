@@ -48,14 +48,14 @@ public class ShareListAdapter extends SimpleAdapter {
 		// 设置GridView的列数
 		DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
 		int colNumber = displayMetrics.widthPixels
-				/ ShareImageAdapter.IMAGE_VIEW_WIDTH;
+				/ (ShareImageAdapter.IMAGE_VIEW_WIDTH + 20);
 		picContainer.setNumColumns(colNumber);
 		picContainer.setAdapter(new ShareImageAdapter(activity, images));
 
 		ListView commentView = (ListView) view.findViewById(R.id.comment_list);
 		List<Map<String, ?>> comments = (List<Map<String, ?>>) share
 				.get(ShareConst.DATA_COMMENT_KEY);
-		final SimpleAdapter commentAdapter = new SimpleAdapter(activity, comments,
+		final SimpleAdapter commentAdapter = new CommentListAdapter(activity, comments,
 				R.layout.discover_friends_item_comment, new String[] {
 						COL_NAME_CONTENT, COL_NAME_PUBLISHER }, new int[] {
 						R.id.share_comment_content, R.id.share_comment_publisher });

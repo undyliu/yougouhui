@@ -129,11 +129,13 @@
 	(when share-id
 		(del-share share-id)
 		(del-share-img share-id)
+		(del-comments share-id)
 	{:uuid share-id})
 )
 
 (defn del-comment [comment-id]
 	(if comment-id
 		(delete comments (where {:uuid comment-id}))
-	{:uuid comment-id})
+	)
+	{:uuid comment-id}
 )

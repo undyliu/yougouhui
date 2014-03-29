@@ -77,6 +77,15 @@ public class CommentPopupWindow extends PopupWindow {
 						int statusCode = result.getStatusCode();
 						if (statusCode == 200) {
 							CommentPopupWindow.this.dismiss();
+							try {
+								comment.put(COL_NAME_UUID,
+										result.getResource().getString(COL_NAME_UUID));
+								comment.put(COL_NAME_PUBLISH_TIME, result.getResource()
+										.getString(COL_NAME_PUBLISH_TIME));
+							} catch (JSONException e) {
+								Logger.warn(TAG, e.getMessage());
+								return;
+							}
 							List<Map<String, ?>> comments = (List<Map<String, ?>>) share
 									.get(ShareConst.DATA_COMMENT_KEY);
 							comments.add(comment);
@@ -85,14 +94,6 @@ public class CommentPopupWindow extends PopupWindow {
 
 							// TODO:使用监听的方式更新e_comment的数据
 							ContentValues values = ContentValuesUtils.fromMap(comment, null);
-							try {
-								values.putAll(ContentValuesUtils.fromJSONObject(
-										result.getResource(), new String[] { COL_NAME_UUID,
-												COL_NAME_PUBLISH_TIME }));
-							} catch (JSONException e) {
-								Logger.warn(TAG, e.getMessage());
-								return;
-							}
 							activity.getContentResolver().insert(CommentConst.CONTENT_URI,
 									values);
 						} else {

@@ -255,13 +255,14 @@ public class FriendShareActivity extends RequestListActivity implements
 	private List<Map<String, ?>> getCommentsFromLocal(String shareId) {
 		List<Map<String, ?>> commentList = new ArrayList<Map<String, ?>>();
 		Cursor cursor = getContentResolver().query(CommentConst.CONTENT_URI,
-				new String[] { COL_NAME_CONTENT, COL_NAME_PUBLISHER },
+				new String[] { COL_NAME_UUID, COL_NAME_CONTENT, COL_NAME_PUBLISHER },
 				COL_NAME_SHARE_ID + "=?", new String[] { shareId },
 				COL_NAME_PUBLISH_TIME);
 		while (cursor.moveToNext()) {
 			Map<String, String> row = new HashMap<String, String>();
-			row.put(COL_NAME_CONTENT, cursor.getString(0));
-			row.put(COL_NAME_PUBLISHER, cursor.getString(1));
+			row.put(COL_NAME_UUID, cursor.getString(0));
+			row.put(COL_NAME_CONTENT, cursor.getString(1));
+			row.put(COL_NAME_PUBLISHER, cursor.getString(2));
 			commentList.add(row);
 		}
 		cursor.close();

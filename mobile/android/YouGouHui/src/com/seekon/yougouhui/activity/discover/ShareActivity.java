@@ -84,7 +84,7 @@ public class ShareActivity extends Activity {
 		// 设置GridView的列数
 		DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
 		int colNumber = displayMetrics.widthPixels
-				/ SharePicSelectAdapter.IMAGE_VIEW_WIDTH;
+				/ (SharePicSelectAdapter.IMAGE_VIEW_WIDTH + 20);
 		picContainer.setNumColumns(colNumber);
 		imageAdapter = new SharePicSelectAdapter();
 		picContainer.setAdapter(imageAdapter);
@@ -338,7 +338,7 @@ public class ShareActivity extends Activity {
 				imageView.setLayoutParams(new GridView.LayoutParams(IMAGE_VIEW_WIDTH,
 						IMAGE_VIEW_WIDTH));//
 				imageView.setAdjustViewBounds(false);
-				imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+				imageView.setScaleType(ImageView.ScaleType.CENTER);
 				imageView.setPadding(8, 8, 8, 8);
 			} else {
 				imageView = (ImageView) convertView;

@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/button_shape"
         android:text="@string/button_praise"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/b_share_comment"

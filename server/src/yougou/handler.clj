@@ -58,7 +58,7 @@
 			(catch Exception e {:status  500 :body {:error "删除失败."}})
 		)
 	)
-	(DELETE "deleteComment/:comment-id" [comment-id]
+	(DELETE "/deleteComment/:comment-id" [comment-id]
 		(try
 			(json/write-str (del-comment comment-id))
 			(catch Exception e {:status  500 :body {:error "删除失败."}})

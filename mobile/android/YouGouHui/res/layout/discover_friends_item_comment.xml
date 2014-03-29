@@ -24,4 +24,14 @@
         android:layout_height="wrap_content" 
         android:textAppearance="?android:attr/textAppearanceSmall"/>
 
+        <ImageView
+            android:id="@+id/b_comment_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/b_comment_delete"
+            android:visibility="gone" />
+
 </LinearLayout>
