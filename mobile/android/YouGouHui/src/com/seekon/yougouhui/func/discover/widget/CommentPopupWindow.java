@@ -4,7 +4,7 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_TIME;
-import static com.seekon.yougouhui.func.login.UserHelper.COL_NAME_PHONE;
+import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
 
 import java.util.HashMap;
 import java.util.List;

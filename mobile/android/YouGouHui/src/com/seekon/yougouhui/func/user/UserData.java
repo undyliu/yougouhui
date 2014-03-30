@@ -1,5 +1,11 @@
-package com.seekon.yougouhui.func.login;
+package com.seekon.yougouhui.func.user;
 
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
+import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
+import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
+import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_ICON;
+import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_NAME;
+import static com.seekon.yougouhui.func.user.UserConst.TABLE_NAME;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -7,24 +13,21 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.seekon.yougouhui.func.AbstractDBHelper;
 
-public class UserHelper extends AbstractDBHelper {
+public class UserData extends AbstractDBHelper {
 
-	public static final String TABLE_NAME = "e_user";
-	public static final String COL_NAME_PHONE = "phone";
-	public static final String COL_NAME_ID = "id";
-	public static final String COL_NAME_USER_NAME = "user_name";
-	public static final String COL_NAME_PWD = "pwd";
+	public static final String[] COL_NAMES = new String[] { COL_NAME_UUID,
+			COL_NAME_PHONE, COL_NAME_USER_NAME, COL_NAME_USER_ICON, COL_NAME_PWD };
 
-	public UserHelper(Context context) {
+	public UserData(Context context) {
 		super(context);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		String sql = " create table IF NOT EXISTS " + TABLE_NAME + " ("
-				+ COL_NAME_ID + " integer primary key autoincrement, " + COL_NAME_PHONE
-				+ " integer not null, " + COL_NAME_USER_NAME + " text, " + COL_NAME_PWD
-				+ " text " + ")";
+				+ COL_NAME_UUID + " text primary key, " + COL_NAME_PHONE
+				+ " integer not null, " + COL_NAME_USER_NAME + " text, "
+				+ COL_NAME_USER_ICON + " text, " + COL_NAME_PWD + " text " + ")";
 		db.execSQL(sql);
 	}
 

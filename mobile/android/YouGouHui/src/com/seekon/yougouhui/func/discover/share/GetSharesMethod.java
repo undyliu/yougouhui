@@ -8,7 +8,6 @@ import android.content.Context;
 
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.rest.BaseRequest;
-import com.seekon.yougouhui.rest.JSONArrayResourceMethod;
 import com.seekon.yougouhui.rest.JSONObjResourceMethod;
 import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
@@ -30,8 +29,10 @@ public class GetSharesMethod extends JSONObjResourceMethod {
 
 	private String lastCommentPublishTime;
 	
+	private String minCommentPublishTime;
+	
 	public GetSharesMethod(Context context, String lastPublishTime,
-			String minPublishTime, String lastCommentPublishTime) {
+			String minPublishTime, String lastCommentPublishTime, String minCommentPublishTime) {
 		super(context);
 		this.lastPublishTime = lastPublishTime;
 		if (this.lastPublishTime == null || this.lastPublishTime.length() == 0) {
@@ -45,6 +46,10 @@ public class GetSharesMethod extends JSONObjResourceMethod {
 		if (this.lastCommentPublishTime == null || this.lastCommentPublishTime.length() == 0) {
 			this.lastCommentPublishTime = "-1";
 		}
+		this.minCommentPublishTime = minCommentPublishTime;
+		if (this.minCommentPublishTime == null || this.minCommentPublishTime.length() == 0) {
+			this.minCommentPublishTime = "-1";
+		}
 	}
 
 	@Override
@@ -54,6 +59,7 @@ public class GetSharesMethod extends JSONObjResourceMethod {
 		params.put("last-pub-time", lastPublishTime);
 		params.put("min-pub-time", minPublishTime);
 		params.put("last-comm-pub-time", lastCommentPublishTime);
+		params.put("min-comm-pub-time", minCommentPublishTime);
 		return new BaseRequest(Method.POST, uri, null, params);
 	}
 

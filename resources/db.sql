@@ -11,7 +11,7 @@
  Target Server Version : 50612
  File Encoding         : utf-8
 
- Date: 03/29/2014 22:58:23 PM
+ Date: 03/30/2014 23:09:08 PM
 */
 
 SET NAMES utf8;
@@ -107,7 +107,7 @@ CREATE TABLE `e_comment` (
 --  Records of `e_comment`
 -- ----------------------------
 BEGIN;
-INSERT INTO `e_comment` VALUES ('607f3094-0696-4260-9833-06ecea912bf1', '4bb8116f-38ab-46b4-9074-3cd57b0495e9', null, '222', '111111', '1396103895516', '0'), ('64de5bdb-7168-4aa1-8b79-1f03d3b58035', '9caab804-8de8-46ed-9fe8-ed6ba2c66cb0', null, '5555', '111111', '1396102487369', '1'), ('75dc21f2-b364-42a9-bcfe-fc5db657e064', '4bb8116f-38ab-46b4-9074-3cd57b0495e9', null, '333', '111111', '1396103921385', '1'), ('77161126-b199-4ca5-824d-b376968fcf59', '4bb8116f-38ab-46b4-9074-3cd57b0495e9', null, '666', '111111', '1396104918910', '0');
+INSERT INTO `e_comment` VALUES ('08d27192-92af-4eaa-8530-c46c032a04e9', 'f1bf07d6-4a66-4365-93a2-d3db9ab23b60', null, '222', '111111', '1396177665426', '0'), ('3f776339-8e38-47ac-aa2c-6312170c5fa9', '4bb8116f-38ab-46b4-9074-3cd57b0495e9', null, '555', '111111', '1396184694618', '0'), ('607f3094-0696-4260-9833-06ecea912bf1', '4bb8116f-38ab-46b4-9074-3cd57b0495e9', null, '222', '111111', '1396103895516', '1'), ('64de5bdb-7168-4aa1-8b79-1f03d3b58035', '9caab804-8de8-46ed-9fe8-ed6ba2c66cb0', null, '5555', '111111', '1396102487369', '1'), ('75dc21f2-b364-42a9-bcfe-fc5db657e064', '4bb8116f-38ab-46b4-9074-3cd57b0495e9', null, '333', '111111', '1396103921385', '1'), ('77161126-b199-4ca5-824d-b376968fcf59', '4bb8116f-38ab-46b4-9074-3cd57b0495e9', null, '666', '111111', '1396104918910', '1');
 COMMIT;
 
 -- ----------------------------
@@ -197,7 +197,7 @@ CREATE TABLE `e_share` (
 --  Records of `e_share`
 -- ----------------------------
 BEGIN;
-INSERT INTO `e_share` VALUES ('4bb8116f-38ab-46b4-9074-3cd57b0495e9', 'demo1', null, null, '1396102581904', null, '0'), ('9caab804-8de8-46ed-9fe8-ed6ba2c66cb0', 'demo', null, null, '1396102136651', null, '1');
+INSERT INTO `e_share` VALUES ('4bb8116f-38ab-46b4-9074-3cd57b0495e9', 'demo1', null, null, '1396102581904', null, '0'), ('9caab804-8de8-46ed-9fe8-ed6ba2c66cb0', 'demo', null, null, '1396102136651', null, '1'), ('f1bf07d6-4a66-4365-93a2-d3db9ab23b60', 'demo', null, null, '1396177606174', null, '0');
 COMMIT;
 
 -- ----------------------------
@@ -216,7 +216,7 @@ CREATE TABLE `e_share_img` (
 --  Records of `e_share_img`
 -- ----------------------------
 BEGIN;
-INSERT INTO `e_share_img` VALUES ('188c00c0-b77b-4431-aead-601261ad12f0', '1590624401_1396102577517.png', '4bb8116f-38ab-46b4-9074-3cd57b0495e9', '1');
+INSERT INTO `e_share_img` VALUES ('188c00c0-b77b-4431-aead-601261ad12f0', '1590624401_1396102577517.png', '4bb8116f-38ab-46b4-9074-3cd57b0495e9', '1'), ('26a308a1-93cb-454c-a5a9-4a3071a6c0c0', '1031961510_1396177586496.png', 'f1bf07d6-4a66-4365-93a2-d3db9ab23b60', '1'), ('60e28d3b-2bde-4d97-ba52-4c351fd022b1', '463517179_1396177586497.png', 'f1bf07d6-4a66-4365-93a2-d3db9ab23b60', '3'), ('7f28e79e-c497-49ce-a229-365f66da7aec', '832378606_1396177586497.png', 'f1bf07d6-4a66-4365-93a2-d3db9ab23b60', '2');
 COMMIT;
 
 -- ----------------------------
@@ -261,7 +261,6 @@ CREATE TABLE `e_shop_emp` (
 DROP TABLE IF EXISTS `e_user`;
 CREATE TABLE `e_user` (
   `uuid` varchar(36) NOT NULL,
-  `code` varchar(32) NOT NULL,
   `name` varchar(64) NOT NULL,
   `pwd` varchar(64) DEFAULT NULL,
   `type` varchar(32) DEFAULT NULL COMMENT '用于区别商家与普通用户',
@@ -277,6 +276,6 @@ CREATE TABLE `e_user` (
 --  Records of `e_user`
 -- ----------------------------
 BEGIN;
-INSERT INTO `e_user` VALUES ('1', 'liuxy', '刘小勇', null, null, '111111', null, null, null, null);
+INSERT INTO `e_user` VALUES ('1', '刘小勇', null, null, '111111', null, null, null, null), ('4b7bfcd6-7ccf-4bbf-ad91-392dce0dadea', 'test', '1111', null, '2222', '', null, null, null), ('60562de3-d6c5-4929-b959-b90dc797767d', 'demo', '1111', null, '333', '', null, null, null), ('d1c214f9-1f5d-4382-b716-6d1b0d5eef80', '4444', '1111', null, '4444', '', null, null, null), ('ec00d5eb-7e01-4d86-be05-befdb7fa115c', '555', '1111', null, '555', '', null, null, null);
 COMMIT;
 

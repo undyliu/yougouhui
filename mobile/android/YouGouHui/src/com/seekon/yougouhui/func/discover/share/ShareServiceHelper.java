@@ -32,7 +32,8 @@ public class ShareServiceHelper extends RequestServiceHelper {
 	}
 
 	public long getShares(String lastPublishTime, String minPublishTime,
-			String lastCommentPubTime, final String broadcastIntentAction) {
+			String lastCommentPubTime, String minCommentPubTime,
+			final String broadcastIntentAction) {
 		final String requestKey = HASH_KEY_SHARE;
 		if (requests.containsKey(requestKey)) {
 			return requests.get(requestKey);
@@ -56,7 +57,8 @@ public class ShareServiceHelper extends RequestServiceHelper {
 		intent.putExtra(ShareConst.LAST_PUBLISH_TIME, lastPublishTime);
 		intent.putExtra(ShareConst.MIN_PUBLISH_TIME, minPublishTime);
 		intent.putExtra(ShareConst.LAST_COMMENT_PUB_TIME, lastCommentPubTime);
-		
+		intent.putExtra(ShareConst.MIN_COMMENT_PUB_TIME, minCommentPubTime);
+
 		this.context.startService(intent);
 
 		return requestId;

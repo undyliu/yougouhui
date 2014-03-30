@@ -20,12 +20,14 @@ public class ShareService extends AbstractService {
 				.getStringExtra(ShareConst.MIN_PUBLISH_TIME);
 		String lastCommentPublishTime = requestIntent
 				.getStringExtra(ShareConst.LAST_COMMENT_PUB_TIME);
+		String minCommentPublishTime = requestIntent
+				.getStringExtra(ShareConst.MIN_COMMENT_PUB_TIME);
 
 		if (method.equalsIgnoreCase(ServiceConst.METHOD_GET)) {
 			ShareProcessor shareProcessor = new ShareProcessor(
 					getApplicationContext());
 			shareProcessor.getShares(makeProcessorCallback(), lastPublishTime,
-					minPublishTime, lastCommentPublishTime);
+					minPublishTime, lastCommentPublishTime, minCommentPublishTime);
 		} else {
 			mCallback.send(ServiceConst.REQUEST_INVALID, getOriginalIntentBundle());
 		}

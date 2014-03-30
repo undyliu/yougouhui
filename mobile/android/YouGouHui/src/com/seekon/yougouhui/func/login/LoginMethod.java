@@ -7,6 +7,8 @@ import java.util.Map;
 import android.content.Context;
 
 import com.seekon.yougouhui.Const;
+import com.seekon.yougouhui.func.user.UserConst;
+import com.seekon.yougouhui.func.user.UserData;
 import com.seekon.yougouhui.rest.BaseRequest;
 import com.seekon.yougouhui.rest.BaseRestMethod;
 import com.seekon.yougouhui.rest.Method;
@@ -43,8 +45,8 @@ public class LoginMethod extends BaseRestMethod<JSONObjResource> {
 	@Override
 	protected Request buildRequest() {
 		Map<String, String> params = new HashMap<String, String>();
-		params.put(UserHelper.COL_NAME_PHONE, phone);
-		params.put(UserHelper.COL_NAME_PWD, pwd);
+		params.put(UserConst.COL_NAME_PHONE, phone);
+		params.put(UserConst.COL_NAME_PWD, pwd);
 		return new BaseRequest(Method.POST, LOGIN_URI, null, params);
 	}
 

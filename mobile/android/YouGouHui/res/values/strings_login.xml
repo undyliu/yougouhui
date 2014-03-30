@@ -3,10 +3,9 @@
     <string name="title_activity_login">登录</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_phone">手机号</string>
-    <string name="prompt_password">密码</string>
-    <string name="action_sign_in_register"><b>Sign in</b> or register</string>
-    <string name="action_sign_in_short">登录</string>
+    <string name="prompt_phone">请输入手机号</string>
+    <string name="prompt_password">请输入密码</string>
+    <string name="action_sign_in">登录</string>
     <string name="action_forgot_password">找回密码</string>
     <string name="login_progress_signing_in">正在登录&#8230;</string>
     <string name="error_invalid_password">密码太短</string>
@@ -17,4 +16,15 @@
     <string name="action_auto_login">自动登录</string>
     <string name="action_remember_pwd">记住密码</string>
 	<string name="action_logout">退出</string>
+	<string name="label_phone">手机号</string>
+	<string name="label_password">密码</string>
+	
+	<string name="prompt_no_user">还没有会员帐号，请先</string>
+	<string name="action_register">注册</string>
+	
+	<string name="title_register">会员注册</string>
+	<string name="label_user_name">昵称</string>
+	<string name="label_password_confirm">密码确认</string>
+	<string name="label_user_icon">头像</string>
+	<string name="error_password_inconfirmed">输入的密码不一致</string>
 </resources>

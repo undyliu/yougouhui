@@ -7,7 +7,7 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_TIME;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_SHARE_ID;
-import static com.seekon.yougouhui.func.login.UserHelper.COL_NAME_PHONE;
+import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,6 +70,8 @@ public class FriendShareActivity extends RequestListActivity implements
 
 	private String lastCommentPublishTime = null;
 
+	private String minCommnetPublishTime = null;
+
 	public FriendShareActivity() {
 		super(ShareServiceHelper.SHARE_GET_REQUEST_RESULT);
 	}
@@ -100,7 +102,8 @@ public class FriendShareActivity extends RequestListActivity implements
 		lastUpdateTime = updateData.getUpdateTime(ShareConst.TABLE_NAME);
 		minPublishTime = this.getMinPublishTime();
 
-		lastCommentPublishTime = this.getCommentLastPublishTime();
+		lastCommentPublishTime = this.getLastCommentPublishTime();
+		minCommnetPublishTime = this.getMinCommentPublishTime();
 
 		shares.addAll(this.getBackShareListFromLocal());
 		updateListView();
@@ -146,7 +149,7 @@ public class FriendShareActivity extends RequestListActivity implements
 	protected void initRequestId() {
 		requestId = ShareServiceHelper.getInstance(FriendShareActivity.this)
 				.getShares(lastPublishTime, minPublishTime, lastCommentPublishTime,
-						requestResultType);
+						minCommnetPublishTime, requestResultType);
 	}
 
 	private String getLastPublishTime() {
@@ -178,7 +181,20 @@ public class FriendShareActivity extends RequestListActivity implements
 		return result;
 	}
 
-	private String getCommentLastPublishTime() {
+	private String getMinCommentPublishTime() {
+		String result = null;
+		String col = " min(" + COL_NAME_PUBLISH_TIME + ")";
+		Cursor cursor = getContentResolver().query(CommentConst.CONTENT_URI,
+				new String[] { col }, null, null, null);
+		if (cursor.moveToNext()) {
+			result = cursor.getString(0);
+		}
+		cursor.close();
+
+		return result;
+	}
+
+	private String getLastCommentPublishTime() {
 		String result = null;
 		String col = " max(" + COL_NAME_PUBLISH_TIME + ")";
 		Cursor cursor = getContentResolver().query(CommentConst.CONTENT_URI,
@@ -293,9 +309,11 @@ public class FriendShareActivity extends RequestListActivity implements
 		}
 		minPublishTime = this.getMinPublishTime();
 
-		lastCommentPublishTime = this.getCommentLastPublishTime();
-
+		lastCommentPublishTime = this.getLastCommentPublishTime();
+		minCommnetPublishTime = this.getMinCommentPublishTime();
+		
 		updateData.updateData(ShareConst.TABLE_NAME, lastUpdateTime);
+		updateData.updateData(CommentConst.TABLE_NAME, lastUpdateTime);
 
 		this.currentOffset = 0;
 		shares.clear();

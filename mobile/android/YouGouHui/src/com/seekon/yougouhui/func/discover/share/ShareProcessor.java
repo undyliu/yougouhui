@@ -36,9 +36,9 @@ public class ShareProcessor extends ContentProcessor {
 	 * @param callback
 	 */
 	public void getShares(ProcessorCallback callback, String lastPublishTime,
-			String minPublishTime, String lastCommentPublishTime) {
+			String minPublishTime, String lastCommentPublishTime, String minCommentPublishTime) {
 		GetSharesMethod method = new GetSharesMethod(mContext, lastPublishTime,
-				minPublishTime, lastCommentPublishTime);
+				minPublishTime, lastCommentPublishTime, minCommentPublishTime);
 		this.execMethodWithCallback(method, callback);
 	}
 

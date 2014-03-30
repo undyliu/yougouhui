@@ -39,7 +39,12 @@ public class ContentValuesUtils {
 		ContentValues result = new ContentValues();
 		if (keys != null) {
 			for (int i = 0; i < keys.length; i++) {
-				setContentValue(result, keys[i], jsonObj.get(keys[i]));
+				Object value = null;
+				try{
+					value = jsonObj.get(keys[i]);
+				}catch(JSONException e){
+				}
+				setContentValue(result, keys[i], value);
 			}
 		} else {
 			Iterator<String> iterator = jsonObj.keys();

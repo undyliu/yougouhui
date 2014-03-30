@@ -6,11 +6,12 @@ import static com.seekon.yougouhui.func.login.LoginConst.LOGIN_SETTING_AUTO_LOGI
 import static com.seekon.yougouhui.func.login.LoginConst.LOGIN_SETTING_KEY;
 import static com.seekon.yougouhui.func.login.LoginConst.LOGIN_SETTING_REMEMBER_PWD;
 
+import java.util.HashMap;
+
 import org.json.JSONObject;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -20,8 +21,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -29,15 +32,14 @@ import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.login.LoginConst;
-import com.seekon.yougouhui.func.login.UserHelper;
+import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.sercurity.AuthorizationManager;
 import com.seekon.yougouhui.util.ViewUtils;
 
 public class LoginActivity extends Activity {
 
-	/**
-	 * Keep track of the login task to ensure we can cancel it if requested.
-	 */
+	private final static int REGISTER_USER_REQUEST_CODE = 100;
+
 	private UserLoginTask mAuthTask = null;
 
 	private String mPhone;
@@ -60,6 +62,9 @@ public class LoginActivity extends Activity {
 
 		setContentView(R.layout.login);
 
+		ActionBar actionBar = this.getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
 		mAuthManager = AuthorizationManager.getInstance(this);
 
 		JSONObject loginSetting = null;
@@ -71,8 +76,8 @@ public class LoginActivity extends Activity {
 
 			if (loginSetting != null
 					&& loginSetting.getBoolean(LOGIN_SETTING_REMEMBER_PWD)) {
-				mPhone = loginSetting.getString(UserHelper.COL_NAME_PHONE);
-				mPassword = loginSetting.getString(UserHelper.COL_NAME_PWD);
+				mPhone = loginSetting.getString(UserConst.COL_NAME_PHONE);
+				mPassword = loginSetting.getString(UserConst.COL_NAME_PWD);
 				autoLogin = loginSetting.getBoolean(LOGIN_SETTING_AUTO_LOGIN);
 				rememberPwd = loginSetting.getBoolean(LOGIN_SETTING_REMEMBER_PWD);
 			}
@@ -116,7 +121,7 @@ public class LoginActivity extends Activity {
 		rememberPwdView.setChecked(rememberPwd);
 
 		mLoginFormView = findViewById(R.id.login_form);
-		
+
 		findViewById(R.id.sign_in_button).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
@@ -124,6 +129,15 @@ public class LoginActivity extends Activity {
 						attemptLogin();
 					}
 				});
+
+		Button register = (Button) findViewById(R.id.b_register);
+		register.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+				startActivityForResult(intent, REGISTER_USER_REQUEST_CODE);
+			}
+		});
 	}
 
 	@Override
@@ -197,7 +211,7 @@ public class LoginActivity extends Activity {
 		} else {
 			// Show a progress spinner, and kick off a background task to
 			// perform the user login attempt.
-			//mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
+			// mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
 			mAuthTask = new UserLoginTask();
 			mAuthTask.execute((Void) null);
@@ -209,7 +223,8 @@ public class LoginActivity extends Activity {
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	private void showProgress(final boolean show) {
-		ViewUtils.showProgress(this, mLoginFormView, show, R.string.login_progress_signing_in);
+		ViewUtils.showProgress(this, mLoginFormView, show,
+				R.string.login_progress_signing_in);
 	}
 
 	/**
@@ -221,8 +236,8 @@ public class LoginActivity extends Activity {
 		protected String doInBackground(Void... params) {
 
 			ContentValues loginData = new ContentValues();
-			loginData.put(UserHelper.COL_NAME_PHONE, mPhone);
-			loginData.put(UserHelper.COL_NAME_PWD, mPassword);
+			loginData.put(UserConst.COL_NAME_PHONE, mPhone);
+			loginData.put(UserConst.COL_NAME_PWD, mPassword);
 			loginData.put(LOGIN_SETTING_AUTO_LOGIN, autoLogin);
 			loginData.put(LOGIN_SETTING_REMEMBER_PWD, rememberPwd);
 			return mAuthManager.login(loginData);
@@ -257,4 +272,33 @@ public class LoginActivity extends Activity {
 			showProgress(false);
 		}
 	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int itemId = item.getItemId();
+		switch (itemId) {
+		case android.R.id.home:
+			this.finish();
+			break;
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == REGISTER_USER_REQUEST_CODE) {
+			if (resultCode == RESULT_OK && data != null) {
+				ContentValues user = data.getExtras().getParcelable(
+						UserConst.KEY_REGISTER_USER);
+				mPhoneView.setText(user.getAsString(UserConst.COL_NAME_PHONE));
+				mPasswordView.setText("");
+				rememberPwdView.setChecked(false);
+				autoLoginView.setChecked(false);
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
 }

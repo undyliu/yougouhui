@@ -37,17 +37,20 @@ public class ContentProcessor {
 		this.contentUri = contentUri;
 	}
 
-	protected void execMethodWithCallback(RestMethod method,
-			ProcessorCallback callback) {
+	protected RestMethodResult<Resource> execMethod(RestMethod method){
 		RestMethodResult<Resource> result = method.execute();
-
 		try {
 			updateContentProvider(result);
 		} catch (Exception e) {
 			Logger.error(TAG, e.getMessage(), e);
 		}
-
+		return result;
+	}
+	protected RestMethodResult<Resource> execMethodWithCallback(RestMethod method,
+			ProcessorCallback callback) {
+		RestMethodResult<Resource> result = this.execMethod(method);
 		callback.send(result.getStatusCode());
+		return result;
 	}
 
 	protected void updateContentProvider(RestMethodResult<Resource> result) {

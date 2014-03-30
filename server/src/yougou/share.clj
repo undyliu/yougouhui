@@ -79,11 +79,11 @@
 	)
 )
 
-(defn get-friend-share-data [last-pub-time min-pub-time last-comm-pub-time]
+(defn get-friend-share-data [last-pub-time min-pub-time last-comm-pub-time min-comm-pub-time]
   {:newest-shares (get-newest-share-data last-pub-time)
    :newest-comments (get-newest-comments last-comm-pub-time)
    :deleted-shares (get-deleted-shares min-pub-time)
-   :deleted-comments (get-deleted-comments min-pub-time)
+   :deleted-comments (get-deleted-comments min-comm-pub-time)
   }
 )
 

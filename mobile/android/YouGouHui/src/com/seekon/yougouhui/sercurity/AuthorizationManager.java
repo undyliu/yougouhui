@@ -1,5 +1,7 @@
 package com.seekon.yougouhui.sercurity;
 
+import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
+import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
 import android.content.ContentValues;
 import android.content.Context;
 
@@ -7,7 +9,7 @@ import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.login.EnvHelper;
 import com.seekon.yougouhui.func.login.LoginConst;
 import com.seekon.yougouhui.func.login.LoginMethod;
-import com.seekon.yougouhui.func.login.UserHelper;
+import com.seekon.yougouhui.func.user.UserData;
 import com.seekon.yougouhui.rest.Request;
 import com.seekon.yougouhui.rest.RestMethod;
 import com.seekon.yougouhui.rest.RestMethodResult;
@@ -20,7 +22,7 @@ public class AuthorizationManager implements RequestSigner {
 
 	private Context context = null;
 
-	private UserHelper userHelper = null;
+	private UserData userHelper = null;
 
 	private EnvHelper envHelper = null;
 
@@ -35,9 +37,9 @@ public class AuthorizationManager implements RequestSigner {
 		this.context = context;
 	}
 
-	public UserHelper getUserHelper() {
+	public UserData getUserHelper() {
 		if (userHelper == null) {
-			userHelper = new UserHelper(context);
+			userHelper = new UserData(context);
 		}
 		return userHelper;
 	}
@@ -66,8 +68,8 @@ public class AuthorizationManager implements RequestSigner {
 	public String login(ContentValues loginData) {
 		String errorType = null;
 		try {
-			String phone = loginData.getAsString(UserHelper.COL_NAME_PHONE);
-			String pwd = loginData.getAsString(UserHelper.COL_NAME_PWD);
+			String phone = loginData.getAsString(COL_NAME_PHONE);
+			String pwd = loginData.getAsString(COL_NAME_PWD);
 			ContentValues user = this.getUserHelper().auth(phone, pwd);// 本地数据库认证
 			if (user == null && RunEnv.getInstance().isConnectedToInternet()) {
 				RestMethod<JSONObjResource> loginmMethod = new LoginMethod(context,
@@ -76,8 +78,8 @@ public class AuthorizationManager implements RequestSigner {
 				Logger.debug("login", result.getResource().toString());
 				if (result.getResource().getBoolean("authed")) {
 					user = new ContentValues();
-					user.put(UserHelper.COL_NAME_PHONE, phone);
-					user.put(UserHelper.COL_NAME_PWD, pwd);
+					user.put(COL_NAME_PHONE, phone);
+					user.put(COL_NAME_PWD, pwd);
 					this.getUserHelper().updateUser(user);// 登录成功，更新用户信息
 
 				} else {

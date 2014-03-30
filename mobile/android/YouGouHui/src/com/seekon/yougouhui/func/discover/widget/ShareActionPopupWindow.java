@@ -2,7 +2,7 @@ package com.seekon.yougouhui.func.discover.widget;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_SHARE_ID;
-import static com.seekon.yougouhui.func.login.UserHelper.COL_NAME_PHONE;
+import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
 
 import java.io.File;
 import java.util.List;

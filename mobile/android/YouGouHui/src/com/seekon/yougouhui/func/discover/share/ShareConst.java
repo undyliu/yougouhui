@@ -24,4 +24,5 @@ public interface ShareConst extends DataConst {
 	public static final String LAST_PUBLISH_TIME = "last_publish_time";
 	public static final String MIN_PUBLISH_TIME = "min_publish_time";
 	public static final String LAST_COMMENT_PUB_TIME = "last_comment_pub_time";
+	public static final String MIN_COMMENT_PUB_TIME = "min_comment_pub_time";
 }

@@ -86,6 +86,10 @@
             android:name=".func.discover.share.ShareImgProvider"
             android:authorities="com.seekon.yougouhui.shares.image"
             android:exported="false" />
+		 <provider
+            android:name=".func.user.UserProvider"
+            android:authorities="com.seekon.yougouhui.users"
+            android:exported="false" />
 		 
         <activity
             android:name=".activity.discover.FriendShareActivity"
@@ -106,7 +110,22 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" >
-        </activity>    
+        </activity>
+        <activity
+            android:name=".activity.UserProfileActivity"
+            android:label="@string/title_user_profile" 
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.SSOActivity"
+            android:label="@string/title_sso" 
+            android:screenOrientation="portrait">
+        </activity>
+         <activity
+            android:name=".activity.RegisterActivity"
+            android:label="@string/title_register" 
+            android:screenOrientation="portrait">
+        </activity>     
        </application>
 
 </manifest>

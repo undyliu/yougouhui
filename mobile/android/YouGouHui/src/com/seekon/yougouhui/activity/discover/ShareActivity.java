@@ -346,7 +346,7 @@ public class ShareActivity extends Activity {
 
 			if (position == imageFileUriList.size()) {
 				imageView.setImageResource(R.drawable.add_camera);
-
+				imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 				imageView.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {

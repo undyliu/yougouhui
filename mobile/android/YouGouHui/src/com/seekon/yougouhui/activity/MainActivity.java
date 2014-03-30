@@ -1,5 +1,6 @@
 package com.seekon.yougouhui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -40,6 +41,16 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		int itemId = item.getItemId();
+		switch (itemId) {
+		case R.id.menu_search:
+			break;
+		case R.id.menu_user_profile:
+			openUserProfile();
+			break;
+		default:
+			break;
+		}
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -72,5 +83,10 @@ public class MainActivity extends FragmentActivity {
 		textView.setText(text);
 
 		return view;
+	}
+	
+	private void openUserProfile(){
+		Intent intent = new Intent(this, UserProfileActivity.class);
+		this.startActivity(intent);
 	}
 }
