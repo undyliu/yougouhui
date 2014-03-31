@@ -6,7 +6,7 @@
   ))
 
 (defn get-user [phone]
-  (if-let [user (first (select users (where {:phone phone})))] user {} ))
+  (if-let [user (first (select users (fields :uuid :name :pwd :phone :photo) (where {:phone phone})))] user {} ))
 
 (defn logged-in? [req]
   (get-in req [:session :user] false))
@@ -21,9 +21,9 @@
 (defn login [phone password]
   (let [user (get-user phone)
         no-error (and (:uuid user) (password-is-valid? password (:pwd user)))]
-    (println phone)
+    ;(println phone)
     (if no-error
-      {:authed true}
+      {:authed true :user user}
       {:authed false, :error-type (if (:id user) :pass-error :user-error)}
     )
   )

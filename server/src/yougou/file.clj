@@ -21,13 +21,16 @@
 
 (defn del-image-files [files]
 	(let [path "upload/images"]
-		(loop [file-names files]
-			(when (> (count file-names) 0)
-				(try
-					(.delete (io/file path (first file-names)))
-					(catch Exception e (.printStackTrace e))
+		(if (> (count files) 0)
+			(loop [file-names files file-name (first file-names)]
+					(try
+						(.delete (io/file path file-name))
+						(println (.getAbsolutePath (io/file path file-name)))
+						(catch Exception e (.printStackTrace e))
+					)
+				(if (> (count file-names) 0)
+					(recur (rest file-names) (first (rest file-names)))
 				)
-				(recur (rest file-names))
 			)
 		)
 	)
