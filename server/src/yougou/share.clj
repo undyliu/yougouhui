@@ -123,11 +123,11 @@
 	(let [uuid (str (java.util.UUID/randomUUID))
 				content (java.net.URLDecoder/decode (:content req-params) "utf-8")
 				image-names (java.net.URLDecoder/decode (:fileNameList req-params) "utf-8")
-			;;content (:content req-params)
-			;;image-names (:fileNameList req-params)
+			      publisher (:publisher req-params)
 			]
+		;(println publisher)
 		;;(transaction	
-			(insert shares (values {:uuid uuid :content content :publish_time (str  (System/currentTimeMillis))}))
+			(insert shares (values {:uuid uuid :content content :publisher publisher :publish_time (str  (System/currentTimeMillis))}))
 			(if image-names
 				(save-share-imgs uuid (clojure.string/split image-names #"[|]") req-params)
 			)

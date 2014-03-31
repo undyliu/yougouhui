@@ -1,6 +1,7 @@
 package com.seekon.yougouhui.activity.discover;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import org.json.JSONException;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
@@ -41,6 +43,7 @@ import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.ImagePreviewActivity;
 import com.seekon.yougouhui.barcode.MipcaActivityCapture;
 import com.seekon.yougouhui.file.FileHelper;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
@@ -251,7 +254,9 @@ public class ShareActivity extends Activity {
 
 			@Override
 			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
+				ContentValues user = RunEnv.getInstance().getUser();
 				Map share = new HashMap();
+				share.put(ShareConst.COL_NAME_PUBLISHER, user.getAsString(COL_NAME_UUID));
 				share.put(COL_NAME_CONTENT, shareContent);
 				share.put(ShareConst.DATA_IMAGE_KEY, imageFileUriList);
 				ShareProcessor processor = new ShareProcessor(ShareActivity.this);

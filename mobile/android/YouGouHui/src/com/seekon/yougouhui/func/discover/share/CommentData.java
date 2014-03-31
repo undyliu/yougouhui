@@ -7,6 +7,7 @@ import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLI
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_TIME;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_SHARE_ID;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.seekon.yougouhui.func.AbstractDBHelper;
@@ -35,4 +36,10 @@ public class CommentData extends AbstractDBHelper {
 
 	}
 
+	public Cursor getCommentData(String shareId){
+		String sql = " select c.uuid, c.content, c.publish_time, c.publisher, u.name as publisher_name, u.photo as publisher_photo "
+				+ " from e_comment c left join e_user u on c.publisher = u.uuid "
+				+ " where c.share_id = ? order by c.publish_time desc ";
+		return this.getReadableDatabase().rawQuery(sql, new String[]{shareId});
+	}
 }

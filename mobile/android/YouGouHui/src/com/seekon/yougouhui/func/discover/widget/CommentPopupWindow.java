@@ -2,9 +2,10 @@ package com.seekon.yougouhui.func.discover.widget;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
+import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER_NAME;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_TIME;
-import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
 
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +68,7 @@ public class CommentPopupWindow extends PopupWindow {
 						(String) share.get(COL_NAME_UUID));
 				comment.put(COL_NAME_CONTENT, commentText.getText().toString());
 				comment.put(COL_NAME_PUBLISHER, RunEnv.getInstance().getUser()
-						.getAsString(COL_NAME_PHONE));
+						.getAsString(COL_NAME_UUID));
 
 				AsyncTask<Map<String, String>, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Map<String, String>, Void, RestMethodResult<JSONObjResource>>() {
 
@@ -86,16 +87,19 @@ public class CommentPopupWindow extends PopupWindow {
 								Logger.warn(TAG, e.getMessage());
 								return;
 							}
-							List<Map<String, ?>> comments = (List<Map<String, ?>>) share
-									.get(ShareConst.DATA_COMMENT_KEY);
-							comments.add(comment);
-							share.put(ShareConst.DATA_COMMENT_KEY, comments);
-							commentAdapter.notifyDataSetChanged();
 
 							// TODO:使用监听的方式更新e_comment的数据
 							ContentValues values = ContentValuesUtils.fromMap(comment, null);
 							activity.getContentResolver().insert(CommentConst.CONTENT_URI,
 									values);
+
+							comment.put(COL_NAME_PUBLISHER_NAME, RunEnv.getInstance()
+									.getUser().getAsString(COL_NAME_NAME));
+							List<Map<String, ?>> comments = (List<Map<String, ?>>) share
+									.get(ShareConst.DATA_COMMENT_KEY);
+							comments.add(comment);
+							share.put(ShareConst.DATA_COMMENT_KEY, comments);
+							commentAdapter.notifyDataSetChanged();
 						} else {
 							ViewUtils.showToast("发送失败.");
 						}

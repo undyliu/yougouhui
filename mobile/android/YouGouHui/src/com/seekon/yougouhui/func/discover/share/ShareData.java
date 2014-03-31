@@ -6,6 +6,7 @@ import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_ACTIV
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_TIME;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.seekon.yougouhui.func.AbstractDBHelper;
@@ -31,7 +32,16 @@ public class ShareData extends AbstractDBHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+		
 	}
 
+	public Cursor getShareData(String limitSql){
+		
+		String sql = " select s.uuid, s.content, s.publish_time, s.publisher, u.name as publisher_name, u.photo publisher_photo " +
+				" from e_share s left join e_user u on s.publisher = u.uuid order by s.publish_time desc";
+		if(limitSql != null){
+			sql += limitSql;
+		}
+		return this.getReadableDatabase().rawQuery(sql, null);
+	}
 }

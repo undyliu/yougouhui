@@ -53,8 +53,8 @@ public class CommentListAdapter extends SimpleAdapter {
 		
 		ImageView commentDelete = (ImageView) view
 				.findViewById(R.id.b_comment_delete);
-		String userPhone = (String) comment.get(COL_NAME_PUBLISHER);
-		if (userPhone.equals(user.get(COL_NAME_PHONE))) {
+		String userId = (String) comment.get(COL_NAME_PUBLISHER);
+		if (userId.equals(user.get(COL_NAME_UUID))) {
 			commentDelete.setVisibility(View.VISIBLE);
 			commentDelete.setOnClickListener(new View.OnClickListener() {
 				

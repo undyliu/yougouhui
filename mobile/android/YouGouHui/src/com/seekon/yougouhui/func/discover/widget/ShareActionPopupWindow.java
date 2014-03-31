@@ -2,6 +2,7 @@ package com.seekon.yougouhui.func.discover.widget;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_SHARE_ID;
+import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
 
 import java.io.File;
@@ -95,8 +96,8 @@ public class ShareActionPopupWindow extends PopupWindow {
 				R.drawable.b_share_delete, 0, 0, 0);
 
 		ContentValues user = RunEnv.getInstance().getUser();
-		String userPhone = (String) share.get(COL_NAME_PHONE);
-		if (userPhone.equals(user.get(COL_NAME_PHONE))) {
+		String userId = (String) share.get(COL_NAME_PUBLISHER);
+		if (userId.equals(user.get(COL_NAME_UUID))) {
 			deleteButton.setVisibility(View.VISIBLE);
 			deleteButton.setOnClickListener(new View.OnClickListener() {
 

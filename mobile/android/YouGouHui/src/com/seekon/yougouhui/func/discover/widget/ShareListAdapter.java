@@ -1,7 +1,7 @@
 package com.seekon.yougouhui.func.discover.widget;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
-import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
+import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER_NAME;
 
 import java.util.List;
 import java.util.Map;
@@ -14,10 +14,12 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 
 /**
@@ -27,6 +29,8 @@ import com.seekon.yougouhui.func.discover.share.ShareConst;
  * 
  */
 public class ShareListAdapter extends SimpleAdapter {
+
+	private static final int PUBLISHER_IMAGE_WIDTH = 30;
 
 	private Activity activity = null;
 
@@ -41,8 +45,20 @@ public class ShareListAdapter extends SimpleAdapter {
 		View view = super.getView(position, convertView, parent);
 
 		Map share = (Map) getItem(position);
-		List<String> images = (List) share.get(ShareConst.DATA_IMAGE_KEY);
 
+		// 设置分享者的头像
+		ImageView userImg = (ImageView) view.findViewById(R.id.user_img);
+		userImg.setLayoutParams(new LinearLayout.LayoutParams(
+				PUBLISHER_IMAGE_WIDTH, PUBLISHER_IMAGE_WIDTH));
+		String userPhoto = (String) share.get(ShareConst.COL_NAME_PUBLISHER_PHOTO);
+		if (userPhoto != null && userPhoto.length() > 0) {
+			ImageLoader.getInstance().displayImage(userPhoto, userImg, true);
+		}else{
+			userImg.setImageResource(R.drawable.default_user_photo);
+		}
+
+		// 设置上传的图片
+		List<String> images = (List) share.get(ShareConst.DATA_IMAGE_KEY);
 		GridView picContainer = (GridView) view
 				.findViewById(R.id.share_pic_container);
 		// 设置GridView的列数
@@ -52,12 +68,13 @@ public class ShareListAdapter extends SimpleAdapter {
 		picContainer.setNumColumns(colNumber);
 		picContainer.setAdapter(new ShareImageAdapter(activity, images));
 
+		// 设置评论信息
 		ListView commentView = (ListView) view.findViewById(R.id.comment_list);
 		List<Map<String, ?>> comments = (List<Map<String, ?>>) share
 				.get(ShareConst.DATA_COMMENT_KEY);
-		final SimpleAdapter commentAdapter = new CommentListAdapter(activity, comments,
-				R.layout.discover_friends_item_comment, new String[] {
-						COL_NAME_CONTENT, COL_NAME_PUBLISHER }, new int[] {
+		final SimpleAdapter commentAdapter = new CommentListAdapter(activity,
+				comments, R.layout.discover_friends_item_comment, new String[] {
+						COL_NAME_CONTENT, COL_NAME_PUBLISHER_NAME }, new int[] {
 						R.id.share_comment_content, R.id.share_comment_publisher });
 		commentView.setAdapter(commentAdapter);
 
