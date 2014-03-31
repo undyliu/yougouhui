@@ -14,7 +14,8 @@ public class BaseRestClient extends RestClient {
 				}
 			}
 		}
-
+		byte[] payload = null;
+		
 		switch (request.getMethod()) {
 		case GET:
 			conn.setRequestMethod("GET");
@@ -24,8 +25,15 @@ public class BaseRestClient extends RestClient {
 			conn.setRequestMethod("DELETE");
 			conn.setDoOutput(false);
 			break;
+		case PUT:
+			payload = request.getBody();
+			conn.setRequestMethod("PUT");
+			conn.setDoOutput(true);
+			conn.setFixedLengthStreamingMode(payload.length);
+			conn.getOutputStream().write(payload);
+			break;
 		case POST:
-			byte[] payload = request.getBody();
+			payload = request.getBody();
 			conn.setRequestMethod("POST");
 			conn.setDoOutput(true);
 			conn.setFixedLengthStreamingMode(payload.length);

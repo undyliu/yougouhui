@@ -38,12 +38,12 @@ public class RegisterUserMethod extends MultipartRestMethod<JSONObjResource> {
 	protected Request buildRequest() {
 		String phone = user.get(UserConst.COL_NAME_PHONE);
 		String fileUri = (String) user.get(UserConst.COL_NAME_USER_ICON);
-		//user.remove(UserConst.COL_NAME_USER_ICON);
 
 		List<FileEntity> fileEntities = new ArrayList<FileEntity>();
 		if (fileUri != null && fileUri.length() > 0) {
-			fileEntities.add(new FileEntity(fileUri, phone + "+"
-					+ System.currentTimeMillis() + ".png"));
+			String fileName = phone + "_" + System.currentTimeMillis() + ".png";
+			fileEntities.add(new FileEntity(fileUri, fileName));
+			user.put(UserConst.COL_NAME_USER_ICON, fileName);
 		}
 
 		return new MultipartRequest(REGISER_USER_URI, null, user, fileEntities);
@@ -54,7 +54,7 @@ public class RegisterUserMethod extends MultipartRestMethod<JSONObjResource> {
 			throws Exception {
 		JSONObjResource result = new JSONObjResource(responseBody);
 		Iterator<String> keys = user.keySet().iterator();
-		while(keys.hasNext()){
+		while (keys.hasNext()) {
 			String key = keys.next();
 			result.put(key, user.get(key));
 		}

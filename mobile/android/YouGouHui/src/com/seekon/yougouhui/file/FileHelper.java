@@ -11,9 +11,11 @@ import java.io.OutputStream;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 
 import com.seekon.yougouhui.Const;
+import com.seekon.yougouhui.R.drawable;
 import com.seekon.yougouhui.YouGouHuiApp;
 import com.seekon.yougouhui.util.Logger;
 
@@ -205,7 +207,13 @@ public class FileHelper {
 			o2.inSampleSize = scale;
 			return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
 		} catch (FileNotFoundException e) {
+			Logger.error(TAG, e.getMessage(), e);
 		}
 		return null;
+	}
+	
+	public static Drawable getDrawableFromFileCache(String fileName){
+		File file = getFileFromCache(fileName);
+		return Drawable.createFromPath(file.getParent());
 	}
 }

@@ -1,4 +1,4 @@
-package com.seekon.yougouhui.activity;
+package com.seekon.yougouhui.activity.user;
 
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
@@ -8,19 +8,28 @@ import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_NAME;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
@@ -35,6 +44,10 @@ import com.seekon.yougouhui.util.ViewUtils;
  * 
  */
 public class RegisterActivity extends Activity {
+
+	private static final int USER_ICON_WIDTH = 100;
+
+	private static final int LOAD_IMAGE_ACTIVITY_REQUEST_CODE = 200;
 
 	private EditText phoneView = null;
 	private EditText nameView = null;
@@ -57,10 +70,15 @@ public class RegisterActivity extends Activity {
 		pwdConfView = (EditText) findViewById(R.id.password_conf);
 
 		userIcon = (ImageView) findViewById(R.id.user_icon);
+		userIcon.setLayoutParams(new FrameLayout.LayoutParams(USER_ICON_WIDTH,
+				USER_ICON_WIDTH));
+
 		userIcon.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				Intent intent = new Intent(Intent.ACTION_PICK,
+						android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+				startActivityForResult(intent, LOAD_IMAGE_ACTIVITY_REQUEST_CODE);
 			}
 		});
 
@@ -86,6 +104,43 @@ public class RegisterActivity extends Activity {
 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == LOAD_IMAGE_ACTIVITY_REQUEST_CODE) {
+			if (resultCode == RESULT_OK && null != data) {
+				Uri selectedImage = data.getData();
+				String[] filePathColumn = { MediaStore.Images.Media.DATA };
+				Cursor cursor = getContentResolver().query(selectedImage,
+						filePathColumn, null, null, null);
+				cursor.moveToFirst();
+				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+				userIconUri = cursor.getString(columnIndex);
+				cursor.close();
+
+				addUserIconToView(userIconUri);
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	private void addUserIconToView(String userIconPath) {
+		userIcon.setBackgroundResource(0);
+		userIcon.setBackground(new BitmapDrawable(FileHelper.decodeFile(
+				userIconPath, true, USER_ICON_WIDTH, USER_ICON_WIDTH)));
+		final ImageButton iconDel = (ImageButton) findViewById(R.id.user_icon_del);
+		iconDel.setVisibility(View.VISIBLE);
+		iconDel.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				userIcon.setBackgroundResource(R.drawable.add_camera);
+
+				iconDel.setVisibility(View.GONE);
+			}
+		});
 	}
 
 	private void registerUser() {
@@ -157,7 +212,7 @@ public class RegisterActivity extends Activity {
 			@Override
 			protected RestMethodResult<JSONObjResource> doInBackground(
 					Map<String, String>... params) {
-				return new UserProcessor(RegisterActivity.this).registerUser(params[0]);
+				return UserProcessor.getInstance(RegisterActivity.this).registerUser(params[0]);
 			}
 
 			@Override

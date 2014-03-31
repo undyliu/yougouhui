@@ -112,7 +112,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
         <activity
-            android:name=".activity.UserProfileActivity"
+            android:name=".activity.user.UserProfileActivity"
             android:label="@string/title_user_profile" 
             android:screenOrientation="portrait">
         </activity>
@@ -122,10 +122,13 @@
             android:screenOrientation="portrait">
         </activity>
          <activity
-            android:name=".activity.RegisterActivity"
+            android:name="com.seekon.yougouhui.activity.user.RegisterActivity"
             android:label="@string/title_register" 
             android:screenOrientation="portrait">
-        </activity>     
+        </activity>
+         <activity android:label="@string/title_user_change_nickname" android:name=".activity.user.ChangeNameActivity"></activity>
+         <activity android:label="@string/title_user_change_photo" android:name=".activity.user.ChangePhotoActivity"></activity>
+         <activity android:label="@string/title_user_change_pwd" android:name=".activity.user.ChangePwdActivity"></activity>     
        </application>
 
 </manifest>

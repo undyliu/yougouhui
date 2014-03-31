@@ -31,6 +31,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.user.RegisterActivity;
 import com.seekon.yougouhui.func.login.LoginConst;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.sercurity.AuthorizationManager;

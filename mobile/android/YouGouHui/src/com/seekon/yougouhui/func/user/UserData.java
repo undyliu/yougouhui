@@ -39,14 +39,16 @@ public class UserData extends AbstractDBHelper {
 	public ContentValues getUser(String phone) {
 		onCreate(this.getWritableDatabase());
 		Cursor cursor = this.getReadableDatabase().query(TABLE_NAME,
-				new String[] { COL_NAME_USER_NAME, COL_NAME_PWD },
+				new String[] { COL_NAME_UUID, COL_NAME_USER_NAME, COL_NAME_PWD, COL_NAME_USER_ICON },
 				COL_NAME_PHONE + "= ? ", new String[] { phone }, null, null, null);
 		if (cursor.getCount() > 0) {
 			cursor.moveToNext();
-
+			int i = 0;
 			ContentValues user = new ContentValues();
-			user.put(COL_NAME_USER_NAME, cursor.getString(0));
-			user.put(COL_NAME_PWD, cursor.getString(1));
+			user.put(COL_NAME_UUID, cursor.getString(i++));
+			user.put(COL_NAME_USER_NAME, cursor.getString(i++));
+			user.put(COL_NAME_PWD, cursor.getString(i++));
+			user.put(COL_NAME_USER_ICON, cursor.getString(i++));
 			user.put(COL_NAME_PHONE, phone);
 			return user;
 		} else {

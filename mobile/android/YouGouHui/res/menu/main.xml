@@ -8,6 +8,7 @@
     <item
         android:id="@+id/menu_user_profile"
         android:icon="@drawable/user_profile"
-        android:showAsAction="always"/>
+        android:showAsAction="always|withText"
+        android:title=""/>
 
 </menu>

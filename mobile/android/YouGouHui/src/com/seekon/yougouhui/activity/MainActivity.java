@@ -1,5 +1,6 @@
 package com.seekon.yougouhui.activity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,9 +15,13 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.user.UserProfileActivity;
+import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.fragment.ChannelFragment;
 import com.seekon.yougouhui.fragment.DiscoverFragment;
 import com.seekon.yougouhui.fragment.ProfileFragment;
+import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.user.UserConst;
 
 /**
  * 主窗口界面
@@ -36,6 +41,17 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
+		ContentValues user = RunEnv.getInstance().getUser();
+		if(user != null){
+			MenuItem item = menu.getItem(menu.size() - 1);
+			String userIcon = user.getAsString(UserConst.COL_NAME_USER_ICON);
+			if(userIcon != null){
+				//item.setIcon(FileHelper.getDrawableFromFileCache(userIcon));
+			}
+			String userName = user.getAsString(UserConst.COL_NAME_USER_NAME);
+			item.setTitle(userName);
+		}
+		
 		return true;
 	}
 

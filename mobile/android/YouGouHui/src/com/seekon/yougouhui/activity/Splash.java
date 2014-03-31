@@ -43,32 +43,32 @@ public class Splash extends Activity {
 
 		boolean autoLogin = false;
 		boolean sso = false;
-		
+
 		EnvHelper envHelper = AuthorizationManager.getInstance(this).getEnvHelper();
 		JSONObject loginSetting = envHelper.getLoginSetting();
 		if (loginSetting != null) {
 			try {
 				autoLogin = loginSetting.getBoolean(LOGIN_SETTING_AUTO_LOGIN);
-				sso = !loginSetting.getBoolean(LOGIN_SETTING_REMEMBER_PWD);//不记住密码则进行sso的集成登录
+				sso = !loginSetting.getBoolean(LOGIN_SETTING_REMEMBER_PWD);// 不记住密码则进行sso的集成登录
 			} catch (JSONException e) {
 				autoLogin = false;
 			}
-		}else{
+		} else {
 			sso = true;
 		}
-		
-		if(sso){
+
+		if (sso) {
 			Intent intent = new Intent(this, SSOActivity.class);
 			startActivity(intent);
 			finish();
 			return;
 		}
-		
+
 		boolean authed = false;
 		if (autoLogin || RunEnv.getInstance().getUser() != null) {
 			authed = auth(loginSetting);
 		}
-		
+
 		if (authed) {
 			Intent main = new Intent(this, MainActivity.class);
 			startActivity(main);
@@ -93,9 +93,9 @@ public class Splash extends Activity {
 		UserData userHelper = AuthorizationManager.getInstance(this)
 				.getUserHelper();
 		try {
-			ContentValues user = userHelper.auth(
-					loginSetting.getString(UserConst.COL_NAME_PHONE),
-					loginSetting.getString(UserConst.COL_NAME_PWD));
+			String phone = loginSetting.getString(UserConst.COL_NAME_PHONE);
+			String pwd = loginSetting.getString(UserConst.COL_NAME_PWD);
+			ContentValues user = userHelper.auth(phone, pwd);
 			authed = user != null;
 			if (authed) {
 				RunEnv.getInstance().setLoginSetting(

@@ -8,12 +8,12 @@ import android.content.Context;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.login.EnvHelper;
 import com.seekon.yougouhui.func.login.LoginConst;
-import com.seekon.yougouhui.func.login.LoginMethod;
+import com.seekon.yougouhui.func.login.LoginProcessor;
 import com.seekon.yougouhui.func.user.UserData;
 import com.seekon.yougouhui.rest.Request;
-import com.seekon.yougouhui.rest.RestMethod;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
+import com.seekon.yougouhui.util.ContentValuesUtils;
 import com.seekon.yougouhui.util.Logger;
 
 public class AuthorizationManager implements RequestSigner {
@@ -72,18 +72,14 @@ public class AuthorizationManager implements RequestSigner {
 			String pwd = loginData.getAsString(COL_NAME_PWD);
 			ContentValues user = this.getUserHelper().auth(phone, pwd);// 本地数据库认证
 			if (user == null && RunEnv.getInstance().isConnectedToInternet()) {
-				RestMethod<JSONObjResource> loginmMethod = new LoginMethod(context,
-						phone, pwd);
-				RestMethodResult<JSONObjResource> result = loginmMethod.execute();
-				Logger.debug("login", result.getResource().toString());
-				if (result.getResource().getBoolean("authed")) {
-					user = new ContentValues();
-					user.put(COL_NAME_PHONE, phone);
-					user.put(COL_NAME_PWD, pwd);
-					this.getUserHelper().updateUser(user);// 登录成功，更新用户信息
-
+				LoginProcessor processor = new LoginProcessor(context);
+				RestMethodResult<JSONObjResource> result = processor.login(phone, pwd);
+				JSONObjResource resource = result.getResource();
+				if (resource.getBoolean(LoginConst.LOGIN_RESULT_AUTHED)) {
+					user = ContentValuesUtils.fromJSONObject(
+							resource.getJSONObject(LoginConst.LOGIN_RESULT_USER), null);
 				} else {
-					errorType = result.getResource().getString("error-type");
+					errorType = resource.getString(LoginConst.LOGIN_RESULT_ERROR_TYPE);
 				}
 			}
 			if (user != null) {

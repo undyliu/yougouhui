@@ -43,7 +43,7 @@ public class ShareProcessor extends ContentProcessor {
 	}
 
 	@Override
-	protected void updateContentProvider(RestMethodResult<Resource> result) {
+	protected void updateContentProvider(RestMethodResult<Resource> result, String[] colNames) {
 		if (result == null) {
 			return;
 		}
