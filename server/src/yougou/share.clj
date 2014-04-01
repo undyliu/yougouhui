@@ -5,6 +5,7 @@
 		)
 	(:require
 		[yougou.file :as file]
+		[yougou.date :as date]
 	)
 )
 
@@ -39,7 +40,7 @@
   (let [publish-time (Long/valueOf last-pub-time)]
     (if (< publish-time 0)
         {}
-  	(select shares (fields :uuid :content :publisher :publish_time :activity_id)
+  	(select shares (fields :uuid :content :publisher :publish_time :publish_date :activity_id)
 	       (where {:publish_time [> publish-time] :is_deleted [not= 1]})
 		(order :publish_time)
 	)
@@ -123,11 +124,12 @@
 	(let [uuid (str (java.util.UUID/randomUUID))
 				content (java.net.URLDecoder/decode (:content req-params) "utf-8")
 				image-names (java.net.URLDecoder/decode (:fileNameList req-params) "utf-8")
-			      publisher (:publisher req-params)
+			  publisher (:publisher req-params)
+				currentTime (System/currentTimeMillis)				
 			]
 		;(println publisher)
 		;;(transaction	
-			(insert shares (values {:uuid uuid :content content :publisher publisher :publish_time (str  (System/currentTimeMillis))}))
+			(insert shares (values {:uuid uuid :content content :publisher publisher :publish_time (str currentTime) :publish_date (date/formatDate currentTime)}))
 			(if image-names
 				(save-share-imgs uuid (clojure.string/split image-names #"[|]") req-params)
 			)
@@ -152,8 +154,8 @@
 
 (defn del-share-img [share-id]
 	(when share-id
-		(delete share-images (where {:share_id share-id}))
 		(file/del-image-files (select share-images (fields :img) (where {:share_id share-id})))
+		(delete share-images (where {:share_id share-id}))
 	)
 )
 

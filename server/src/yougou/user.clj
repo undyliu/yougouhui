@@ -30,9 +30,9 @@
 (defn save-user-photo [uuid photo temp-file]
 	(let [photos (select users (fields :photo) (where {:uuid uuid}))]
 		(update users (set-fields {:photo photo}) (where {:uuid uuid}))
+		(file/del-image-files photos)
 		(if temp-file
 			(file/save-image-file photo temp-file)
-			(file/del-image-files photos)
 		)
 	{:uuid uuid :photo photo}
 	)
