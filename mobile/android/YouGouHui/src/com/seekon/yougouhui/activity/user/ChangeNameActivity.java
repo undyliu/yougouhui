@@ -57,7 +57,7 @@ public class ChangeNameActivity extends Activity {
 			this.finish();
 			break;
 		case R.id.menu_common_save:
-			saveNickName();
+			saveNickName(item);
 			break;
 		default:
 			break;
@@ -65,7 +65,7 @@ public class ChangeNameActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void saveNickName() {
+	private void saveNickName(final MenuItem item) {
 		nickNameView.setError(null);
 		final String nickName = nickNameView.getText().toString();
 		if (TextUtils.isEmpty(nickName)) {
@@ -98,10 +98,17 @@ public class ChangeNameActivity extends Activity {
 				} else {
 					ViewUtils.showToast("修改失败.");
 				}
+				item.setEnabled(true);
 				super.onPostExecute(result);
 			}
+			@Override
+			protected void onCancelled() {
+				item.setEnabled(true);
+				super.onCancelled();
+			}
 		};
-
+		
+		item.setEnabled(false);
 		task.execute((Void) null);
 	}
 }

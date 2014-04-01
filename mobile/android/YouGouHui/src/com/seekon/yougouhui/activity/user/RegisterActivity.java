@@ -98,7 +98,7 @@ public class RegisterActivity extends Activity {
 			this.finish();
 			break;
 		case R.id.menu_register_user:
-			registerUser();
+			registerUser(item);
 			break;
 		default:
 			break;
@@ -143,7 +143,7 @@ public class RegisterActivity extends Activity {
 		});
 	}
 
-	private void registerUser() {
+	private void registerUser(final MenuItem item) {
 		phoneView.setError(null);
 		nameView.setError(null);
 		pwdView.setError(null);
@@ -228,16 +228,19 @@ public class RegisterActivity extends Activity {
 				} else {
 					ViewUtils.showToast("注册失败.");
 				}
+				item.setEnabled(true);
 				super.onPostExecute(result);
 			}
 
 			@Override
 			protected void onCancelled() {
+				item.setEnabled(true);
 				showProgress(false);
 				super.onCancelled();
 			}
 		};
-
+		
+		item.setEnabled(false);
 		showProgress(true);
 		task.execute(user);
 	}

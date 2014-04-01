@@ -1,6 +1,7 @@
 package com.seekon.yougouhui.func.discover.widget;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
+import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER_NAME;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.ImageLoader;
@@ -30,7 +32,7 @@ import com.seekon.yougouhui.func.discover.share.ShareConst;
  */
 public class ShareListAdapter extends SimpleAdapter {
 
-	private static final int PUBLISHER_IMAGE_WIDTH = 30;
+	private static final int PUBLISHER_IMAGE_WIDTH = 60;
 
 	private Activity activity = null;
 
@@ -44,18 +46,27 @@ public class ShareListAdapter extends SimpleAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View view = super.getView(position, convertView, parent);
 
-		Map share = (Map) getItem(position);
+		final Map share = (Map) getItem(position);
+		UserClickListener userClickListener = new UserClickListener(
+				(String) share.get(COL_NAME_PUBLISHER), activity);
 
 		// 设置分享者的头像
 		ImageView userImg = (ImageView) view.findViewById(R.id.user_img);
+		userImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		userImg.setLayoutParams(new LinearLayout.LayoutParams(
 				PUBLISHER_IMAGE_WIDTH, PUBLISHER_IMAGE_WIDTH));
 		String userPhoto = (String) share.get(ShareConst.COL_NAME_PUBLISHER_PHOTO);
 		if (userPhoto != null && userPhoto.length() > 0) {
 			ImageLoader.getInstance().displayImage(userPhoto, userImg, true);
-		}else{
+		} else {
 			userImg.setImageResource(R.drawable.default_user_photo);
 		}
+		userImg.setOnClickListener(userClickListener);
+
+		// 设置朋友的点击监听
+		TextView userView = (TextView) view.findViewById(R.id.user_name);
+		userView.getPaint().setFakeBoldText(true);// TODO:使用样式表来处理
+		userView.setOnClickListener(userClickListener);
 
 		// 设置上传的图片
 		List<String> images = (List) share.get(ShareConst.DATA_IMAGE_KEY);
@@ -64,7 +75,7 @@ public class ShareListAdapter extends SimpleAdapter {
 		// 设置GridView的列数
 		DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
 		int colNumber = displayMetrics.widthPixels
-				/ (ShareImageAdapter.IMAGE_VIEW_WIDTH + 20);
+				/ (ShareImageAdapter.IMAGE_VIEW_WIDTH + 25);
 		picContainer.setNumColumns(colNumber);
 		picContainer.setAdapter(new ShareImageAdapter(activity, images));
 

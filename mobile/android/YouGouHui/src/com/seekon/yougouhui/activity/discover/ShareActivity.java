@@ -118,7 +118,7 @@ public class ShareActivity extends Activity {
 			goBackHome();
 			break;
 		case R.id.menu_discover_share:
-			this.publishShare();
+			this.publishShare(item);
 			break;
 		default:
 			break;
@@ -239,7 +239,7 @@ public class ShareActivity extends Activity {
 		startActivityForResult(intent, LOAD_IMAGE_ACTIVITY_REQUEST_CODE);
 	}
 
-	private void publishShare() {
+	private void publishShare(final MenuItem item) {
 		EditText view = (EditText) findViewById(R.id.share_content);
 		final String shareContent = view.getText().toString();
 		
@@ -279,6 +279,7 @@ public class ShareActivity extends Activity {
 					clean();
 					finish();
 				} else {
+					item.setEnabled(true);
 					try {
 						ViewUtils.showToast(result.getResource().getString("error"));
 					} catch (JSONException e) {
@@ -290,11 +291,12 @@ public class ShareActivity extends Activity {
 			
 			@Override
 			protected void onCancelled() {
+				item.setEnabled(true);
 				showProgress(false);
 				super.onCancelled();
 			}
 		};
-
+		item.setEnabled(false);
 		showProgress(true);
 		task.execute((Void) null);
 	}

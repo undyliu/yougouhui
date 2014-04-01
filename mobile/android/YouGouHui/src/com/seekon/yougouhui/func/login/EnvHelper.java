@@ -88,12 +88,12 @@ public class EnvHelper extends AbstractDBHelper {
 		}
 		ContentValues values = new ContentValues();
 		values.put(COL_NAME_LOGIN_SETTING, loginObj.toString());
+		values.put(COL_NAME_LAST_MODIFY_TIME, System.currentTimeMillis());
 		SQLiteDatabase db = this.getWritableDatabase();
 		int count = db.update(TABLE_NAME, values, COL_NAME_PHONE + " = ?",
 				new String[] { phone });
 		if (count == 0) {
 			values.put(COL_NAME_PHONE, phone);
-			values.put(COL_NAME_LAST_MODIFY_TIME, System.currentTimeMillis());
 			db.insert(TABLE_NAME, null, values);
 		}
 	}

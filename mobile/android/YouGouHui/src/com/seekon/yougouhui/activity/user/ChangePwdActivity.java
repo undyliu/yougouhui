@@ -56,7 +56,7 @@ public class ChangePwdActivity extends Activity {
 			this.finish();
 			break;
 		case R.id.menu_common_save:
-			savePassword();
+			savePassword(item);
 			break;
 		default:
 			break;
@@ -64,7 +64,7 @@ public class ChangePwdActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void savePassword() {
+	private void savePassword(final MenuItem item) {
 		pwdOldView.setError(null);
 		pwdNewView.setError(null);
 		pwdNewConfView.setError(null);
@@ -141,10 +141,18 @@ public class ChangePwdActivity extends Activity {
 				} else {
 					ViewUtils.showToast("修改失败.");
 				}
+				item.setEnabled(true);
 				super.onPostExecute(result);
+			}
+			
+			@Override
+			protected void onCancelled() {
+				item.setEnabled(true);
+				super.onCancelled();
 			}
 		};
 
+		item.setEnabled(false);
 		task.execute((Void) null);
 	}
 }

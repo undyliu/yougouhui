@@ -85,6 +85,7 @@ public class AuthorizationManager implements RequestSigner {
 			if (user != null) {
 				errorType = LoginConst.AUTH_SUCCESS;
 				RunEnv.getInstance().setUser(user);
+				loginData.put(COL_NAME_PWD, user.getAsString(COL_NAME_PWD));
 			}
 		} catch (Throwable e) {
 			Logger.error("login", e.getMessage());

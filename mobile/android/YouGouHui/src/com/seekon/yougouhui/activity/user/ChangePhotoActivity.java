@@ -88,7 +88,7 @@ public class ChangePhotoActivity extends Activity {
 			this.finish();
 			break;
 		case R.id.menu_common_save:
-			changeUserPhoto();
+			changeUserPhoto(item);
 			break;
 		default:
 			break;
@@ -136,7 +136,7 @@ public class ChangePhotoActivity extends Activity {
 		});
 	}
 
-	private void changeUserPhoto() {
+	private void changeUserPhoto(final MenuItem item) {
 
 		ContentValues user = RunEnv.getInstance().getUser();
 		if (userIconUri.equals(user.get(COL_NAME_USER_ICON))) {
@@ -162,10 +162,18 @@ public class ChangePhotoActivity extends Activity {
 				} else {
 					ViewUtils.showToast("修改失败.");
 				}
+				item.setEnabled(true);
 				super.onPostExecute(result);
 			}
+			
+			@Override
+			protected void onCancelled() {
+				item.setEnabled(true);
+				super.onCancelled();
+			}
 		};
-
+		
+		item.setEnabled(false);
 		task.execute((Void) null);
 	}
 }
