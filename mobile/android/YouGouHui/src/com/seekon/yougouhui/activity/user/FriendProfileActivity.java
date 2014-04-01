@@ -30,6 +30,7 @@ public class FriendProfileActivity extends Activity{
 		
 		Intent intent = this.getIntent();
 		userId = intent.getStringExtra(COL_NAME_UUID);
+		
 	}
 	
 	@Override

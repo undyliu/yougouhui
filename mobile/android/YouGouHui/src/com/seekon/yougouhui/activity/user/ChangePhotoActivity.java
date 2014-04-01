@@ -154,6 +154,7 @@ public class ChangePhotoActivity extends Activity {
 
 			@Override
 			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
+				showProgress(false);
 				int status = result.getStatusCode();
 				if (status == 200) {
 					Intent intent = new Intent();
@@ -168,12 +169,19 @@ public class ChangePhotoActivity extends Activity {
 			
 			@Override
 			protected void onCancelled() {
+				showProgress(false);
 				item.setEnabled(true);
 				super.onCancelled();
 			}
 		};
 		
+		showProgress(true);
 		item.setEnabled(false);
 		task.execute((Void) null);
+	}
+	
+	private void showProgress(final boolean show) {
+		ViewUtils
+				.showProgress(this, this.findViewById(R.id.user_photo_change), show);
 	}
 }

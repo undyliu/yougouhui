@@ -1,37 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:layout_marginTop="10dp"
-    android:gravity="center"
-    android:orientation="horizontal" >
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
 
-    <TextView
+    <include layout="@layout/progressbar" />
+
+    <LinearLayout
+        android:id="@+id/user_photo_change"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
-        android:text="请选择头像" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <ImageView
-            android:id="@+id/user_icon"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/app_name" />
+            android:layout_marginRight="5dp"
+            android:text="请选择头像" />
 
-        <ImageButton
-            android:id="@+id/user_icon_del"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="150dip"
-            android:contentDescription="@string/app_name"
-            android:onClick="deleteView"
-            android:src="@drawable/share_pic_delete"
-            android:visibility="gone" />
-    </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/user_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name" />
+
+            <ImageButton
+                android:id="@+id/user_icon_del"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="150dip"
+                android:contentDescription="@string/app_name"
+                android:onClick="deleteView"
+                android:src="@drawable/share_pic_delete"
+                android:visibility="gone" />
+        </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

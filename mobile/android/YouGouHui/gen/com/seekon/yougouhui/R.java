@@ -105,18 +105,18 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class id {
         public static final int about_version_code=0x7f07000e;
-        public static final int action_bar_spinner=0x7f070052;
+        public static final int action_bar_spinner=0x7f070053;
         public static final int action_comment_send=0x7f07001c;
-        public static final int action_progress_status=0x7f070049;
-        public static final int action_status_message=0x7f07004a;
+        public static final int action_progress_status=0x7f07004a;
+        public static final int action_status_message=0x7f07004b;
         /**  Messages IDs 
          */
         public static final int auto_focus=0x7f070000;
         public static final int auto_login=0x7f070033;
         public static final int b_comment_delete=0x7f070026;
-        public static final int b_login_or_register=0x7f07004f;
-        public static final int b_login_qq=0x7f070051;
-        public static final int b_login_sina_weibo=0x7f070050;
+        public static final int b_login_or_register=0x7f070050;
+        public static final int b_login_qq=0x7f070052;
+        public static final int b_login_sina_weibo=0x7f070051;
         public static final int b_register=0x7f070037;
         public static final int b_scan_shop_barcode=0x7f070029;
         public static final int b_share_comment=0x7f070019;
@@ -133,7 +133,6 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int encode_succeeded=0x7f070005;
         public static final int freind_share_list=0x7f070017;
         public static final int gridview=0x7f07000c;
-        public static final int imageView1=0x7f070043;
         public static final int image_preview_id=0x7f07002c;
         public static final int imageview=0x7f070039;
         public static final int img=0x7f07003d;
@@ -142,21 +141,21 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int launch_product_query=0x7f070006;
         public static final int login=0x7f070032;
         public static final int login_form=0x7f07002d;
-        public static final int logout=0x7f070046;
-        public static final int menu_common_save=0x7f070062;
-        public static final int menu_discover_friends_share=0x7f070063;
-        public static final int menu_discover_radar_scan=0x7f070064;
-        public static final int menu_discover_share=0x7f070065;
-        public static final int menu_image_preview_del=0x7f070066;
-        public static final int menu_register_user=0x7f07006a;
-        public static final int menu_search=0x7f070067;
-        public static final int menu_setting=0x7f070069;
-        public static final int menu_user_profile=0x7f070068;
+        public static final int logout=0x7f070047;
+        public static final int menu_common_save=0x7f070065;
+        public static final int menu_discover_friends_share=0x7f070066;
+        public static final int menu_discover_radar_scan=0x7f070067;
+        public static final int menu_discover_share=0x7f070068;
+        public static final int menu_image_preview_del=0x7f070069;
+        public static final int menu_register_user=0x7f07006d;
+        public static final int menu_search=0x7f07006a;
+        public static final int menu_setting=0x7f07006c;
+        public static final int menu_user_profile=0x7f07006b;
         public static final int my_share_list=0x7f07003e;
-        public static final int np_share_age=0x7f070048;
+        public static final int np_share_age=0x7f070049;
         public static final int password=0x7f070031;
-        public static final int password_conf=0x7f07004c;
-        public static final int password_old=0x7f070054;
+        public static final int password_conf=0x7f07004d;
+        public static final int password_old=0x7f070056;
         public static final int phone=0x7f07002f;
         public static final int preview_view=0x7f070010;
         public static final int quit=0x7f070007;
@@ -164,10 +163,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int remember_pwd=0x7f070034;
         public static final int restart_preview=0x7f070008;
         public static final int return_scan_result=0x7f070009;
-        public static final int row_password=0x7f070058;
-        public static final int row_user_icon=0x7f070055;
-        public static final int row_user_name=0x7f070057;
-        public static final int row_user_phone=0x7f070056;
+        public static final int row_password=0x7f07005b;
+        public static final int row_user_icon=0x7f070058;
+        public static final int row_user_name=0x7f07005a;
+        public static final int row_user_phone=0x7f070059;
         public static final int search_book_contents_failed=0x7f07000a;
         public static final int search_book_contents_succeeded=0x7f07000b;
         public static final int share_choose_pop=0x7f07002a;
@@ -179,6 +178,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int share_content=0x7f070020;
         public static final int share_detail=0x7f07001d;
         public static final int share_item_content=0x7f070044;
+        public static final int share_item_image=0x7f070043;
+        public static final int share_item_image_count=0x7f070045;
         public static final int share_item_list=0x7f070042;
         public static final int share_pic_container=0x7f070021;
         public static final int share_publish_count=0x7f070041;
@@ -194,25 +195,27 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int textview=0x7f07003a;
         public static final int textview_title=0x7f070014;
         public static final int title=0x7f07003c;
-        public static final int user_icon=0x7f07004d;
-        public static final int user_icon_del=0x7f07004e;
+        public static final int user_icon=0x7f07004e;
+        public static final int user_icon_del=0x7f07004f;
         public static final int user_img=0x7f07001e;
-        public static final int user_info=0x7f070053;
+        public static final int user_info=0x7f070054;
         public static final int user_name=0x7f07001f;
-        public static final int user_phone=0x7f07004b;
-        public static final int view_info_ageing=0x7f070047;
-        public static final int view_login_setting=0x7f070045;
+        public static final int user_password_change=0x7f070055;
+        public static final int user_phone=0x7f07004c;
+        public static final int user_photo_change=0x7f070057;
+        public static final int view_info_ageing=0x7f070048;
+        public static final int view_login_setting=0x7f070046;
         public static final int viewfinder_view=0x7f070011;
         public static final int webview=0x7f07000d;
-        public static final int xlistview_footer_content=0x7f070059;
-        public static final int xlistview_footer_hint_textview=0x7f07005b;
-        public static final int xlistview_footer_progressbar=0x7f07005a;
-        public static final int xlistview_header_arrow=0x7f070060;
-        public static final int xlistview_header_content=0x7f07005c;
-        public static final int xlistview_header_hint_textview=0x7f07005e;
-        public static final int xlistview_header_progressbar=0x7f070061;
-        public static final int xlistview_header_text=0x7f07005d;
-        public static final int xlistview_header_time=0x7f07005f;
+        public static final int xlistview_footer_content=0x7f07005c;
+        public static final int xlistview_footer_hint_textview=0x7f07005e;
+        public static final int xlistview_footer_progressbar=0x7f07005d;
+        public static final int xlistview_header_arrow=0x7f070063;
+        public static final int xlistview_header_content=0x7f07005f;
+        public static final int xlistview_header_hint_textview=0x7f070061;
+        public static final int xlistview_header_progressbar=0x7f070064;
+        public static final int xlistview_header_text=0x7f070060;
+        public static final int xlistview_header_time=0x7f070062;
     }
     public static final class layout {
         public static final int barcode_capture=0x7f030000;
@@ -259,8 +262,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int discover_share=0x7f0a0003;
         public static final int image_preview=0x7f0a0004;
         public static final int main=0x7f0a0005;
-        public static final int profile_setting=0x7f0a0006;
-        public static final int register=0x7f0a0007;
+        public static final int my_share=0x7f0a0006;
+        public static final int profile_setting=0x7f0a0007;
+        public static final int register=0x7f0a0008;
     }
     public static final class raw {
         public static final int beep=0x7f040000;

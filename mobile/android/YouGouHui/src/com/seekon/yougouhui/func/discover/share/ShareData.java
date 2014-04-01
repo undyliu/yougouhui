@@ -11,6 +11,7 @@ import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLI
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_TIME;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class ShareData extends AbstractDBHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-	  //db.execSQL(" drop table if EXISTS " + ShareConst.TABLE_NAME);
+		// db.execSQL(" drop table if EXISTS " + ShareConst.TABLE_NAME);
 		db.execSQL("CREATE TABLE IF NOT EXISTS " + ShareConst.TABLE_NAME + " ("
 				+ COL_NAME_UUID + " TEXT PRIMARY KEY, " + COL_NAME_CONTENT + " TEXT, "
 				+ COL_NAME_PUBLISHER + " TEXT, " + COL_NAME_PUBLISH_TIME + " TEXT, "
@@ -46,10 +47,11 @@ public class ShareData extends AbstractDBHelper {
 
 	}
 
-	private String getShareDataSqlPart(){
+	private String getShareDataSqlPart() {
 		return " select s.uuid, s.content, s.publish_time, s.publisher, u.name as publisher_name, u.photo publisher_photo "
 				+ " from e_share s left join e_user u on s.publisher = u.uuid ";
 	}
+
 	/**
 	 * 获取分享数据，包含用户名和用户头像
 	 * 
@@ -64,11 +66,11 @@ public class ShareData extends AbstractDBHelper {
 		return this.getReadableDatabase().rawQuery(sql, null);
 	}
 
-	public Map getShareDataById(String id){
+	public Map getShareDataById(String id) {
 		Map share = new HashMap();
 		String sql = getShareDataSqlPart() + " where s.uuid = ?";
-		Cursor cursor = getReadableDatabase().rawQuery(sql, new String[]{id});
-		if(cursor.moveToNext()){
+		Cursor cursor = getReadableDatabase().rawQuery(sql, new String[] { id });
+		if (cursor.moveToNext()) {
 			int i = 0;
 			share.put(COL_NAME_UUID, cursor.getString(i++));
 			share.put(COL_NAME_CONTENT, cursor.getString(i++));
@@ -81,23 +83,31 @@ public class ShareData extends AbstractDBHelper {
 		cursor.close();
 		return share;
 	}
-	
+
 	/**
 	 * 按发布日期获取分享的条数
 	 * 
 	 * @param publisher
 	 * @return
 	 */
-	public List<Map<String, ?>> getShareCountByPublishDate(String publisher, String limitSql) {
+	public List<Map<String, ?>> getShareCountByPublishDate(String where,
+			String[] whereArgs, String publisher, String limitSql) {
+		List<String> args = new ArrayList<String>();
+		args.add(publisher);
+
 		List<Map<String, ?>> result = new ArrayList<Map<String, ?>>();
-		String sql = " select publish_date, count(1) from e_share "
-				+ " where publisher = ? group by publish_date order by publish_date desc";
-		if(limitSql != null){
+		String sql = " select publish_date, count(1) from e_share where publisher = ? ";
+		if (where != null && where.length() > 0) {
+			sql += " and (" + where + ") ";
+			args.addAll(Arrays.asList(whereArgs));
+		}
+		sql += " group by publish_date order by publish_date desc ";
+		if (limitSql != null) {
 			sql += limitSql;
 		}
-		
+
 		Cursor cursor = getReadableDatabase().rawQuery(sql,
-				new String[] { publisher });
+				args.toArray(new String[args.size()]));
 		while (cursor.moveToNext()) {
 			int i = 0;
 			Map row = new HashMap();
@@ -108,26 +118,38 @@ public class ShareData extends AbstractDBHelper {
 		cursor.close();
 		return result;
 	}
-	
+
 	/**
 	 * 根据发布日期获取分享数据列表
+	 * 
 	 * @param publishData
 	 * @param publisher
 	 * @return
 	 */
-  public List<Map<String, ?>> getShareListByPublishDate(String publishData, String publisher){
-  	List<Map<String, ?>> result = new ArrayList<Map<String, ?>>();
-  	String sql = " select uuid, content from e_share where publish_date = ? and publisher = ? "
-  			+ " order by publish_date desc ";
-  	Cursor cursor = getReadableDatabase().rawQuery(sql, new String[]{publishData, publisher});
-  	while(cursor.moveToNext()){
-  		int i = 0;
-  		Map row = new HashMap();
-  		row.put(COL_NAME_UUID, cursor.getString(i++));
-  		row.put(COL_NAME_CONTENT, cursor.getString(i++));
-  		result.add(row);
-  	}
-  	cursor.close();
-  	return result;
-  }
+	public List<Map<String, ?>> getShareListByPublishDate(String where,
+			String[] whereArgs, String publishData, String publisher) {
+		List<String> args = new ArrayList<String>();
+		args.add(publishData);
+		args.add(publisher);
+
+		List<Map<String, ?>> result = new ArrayList<Map<String, ?>>();
+		String sql = " select uuid, content from e_share where publish_date = ? and publisher = ? ";
+		if (where != null && where.length() > 0) {
+			sql += " and (" + where + ") ";
+			args.addAll(Arrays.asList(whereArgs));
+		}
+		sql += " order by publish_date desc ";
+
+		Cursor cursor = getReadableDatabase().rawQuery(sql,
+				args.toArray(new String[args.size()]));
+		while (cursor.moveToNext()) {
+			int i = 0;
+			Map row = new HashMap();
+			row.put(COL_NAME_UUID, cursor.getString(i++));
+			row.put(COL_NAME_CONTENT, cursor.getString(i++));
+			result.add(row);
+		}
+		cursor.close();
+		return result;
+	}
 }

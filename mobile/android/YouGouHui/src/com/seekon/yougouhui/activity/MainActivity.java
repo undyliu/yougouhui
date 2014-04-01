@@ -43,7 +43,7 @@ public class MainActivity extends FragmentActivity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		ContentValues user = RunEnv.getInstance().getUser();
 		if(user != null){
-			MenuItem item = menu.getItem(menu.size() - 1);
+			MenuItem item = menu.findItem(R.id.menu_user_profile);
 			String userIcon = user.getAsString(UserConst.COL_NAME_USER_ICON);
 			if(userIcon != null){
 				//item.setIcon(FileHelper.getDrawableFromFileCache(userIcon));

@@ -32,7 +32,7 @@ import com.seekon.yougouhui.func.discover.share.ShareImgConst;
 
 public class ShareUtils {
 
-	private static final int PUBLISHER_IMAGE_WIDTH = 60;
+	public static final int PUBLISHER_IMAGE_WIDTH = 60;
 
 	public static List<String> getShareImagesFromLocal(Context context,
 			String shareId) {
