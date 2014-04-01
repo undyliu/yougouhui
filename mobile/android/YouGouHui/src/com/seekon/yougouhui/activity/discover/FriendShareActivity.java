@@ -1,14 +1,11 @@
 package com.seekon.yougouhui.activity.discover;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_IMG;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_ORD_INDEX;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER_NAME;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER_PHOTO;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_TIME;
-import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_SHARE_ID;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,9 +27,9 @@ import com.seekon.yougouhui.func.discover.share.CommentConst;
 import com.seekon.yougouhui.func.discover.share.CommentData;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareData;
-import com.seekon.yougouhui.func.discover.share.ShareImgConst;
 import com.seekon.yougouhui.func.discover.share.ShareServiceHelper;
 import com.seekon.yougouhui.func.discover.widget.ShareListAdapter;
+import com.seekon.yougouhui.func.discover.widget.ShareUtils;
 import com.seekon.yougouhui.func.update.UpdateData;
 import com.seekon.yougouhui.layout.XListView;
 import com.seekon.yougouhui.layout.XListView.IXListViewListener;
@@ -60,9 +57,9 @@ public class FriendShareActivity extends RequestListActivity implements
 	private UpdateData updateData = null;
 
 	private ShareData shareData = null;
-	
+
 	private CommentData commentData = null;
-	
+
 	private int currentOffset = 0;// 分页用的当前的数据偏移
 
 	private String lastPublishTime = null;// 数据中分享记录最新发布的时间
@@ -102,7 +99,7 @@ public class FriendShareActivity extends RequestListActivity implements
 		updateData = new UpdateData(this);
 		shareData = new ShareData(this);
 		commentData = new CommentData(this);
-		
+
 		lastPublishTime = this.getLastPublishTime();
 		lastUpdateTime = updateData.getUpdateTime(ShareConst.TABLE_NAME);
 		minPublishTime = this.getMinPublishTime();
@@ -244,18 +241,11 @@ public class FriendShareActivity extends RequestListActivity implements
 	public List<Map<String, ?>> getShareListFromLocal(String selection,
 			String[] selectionArgs, String limitSql) {
 		List<Map<String, ?>> result = new ArrayList<Map<String, ?>>();
-		//ContentValues user = RunEnv.getInstance().getUser();
-//		Cursor cursor = getContentResolver()
-//				.query(
-//						ShareConst.CONTENT_URI,
-//						new String[] { COL_NAME_UUID, COL_NAME_CONTENT,
-//								COL_NAME_PUBLISH_TIME }, selection, selectionArgs,
-//						COL_NAME_PUBLISH_TIME + " desc " + limitSql);
 		Cursor cursor = shareData.getShareData(limitSql);
 		while (cursor.moveToNext()) {
 			int i = 0;
 			String uuid = cursor.getString(i++);
-			
+
 			Map values = new HashMap();
 			values.put(COL_NAME_UUID, uuid);
 			values.put(COL_NAME_CONTENT, cursor.getString(i++));
@@ -264,8 +254,9 @@ public class FriendShareActivity extends RequestListActivity implements
 			values.put(COL_NAME_PUBLISHER, cursor.getString(i++));
 			values.put(COL_NAME_PUBLISHER_NAME, cursor.getString(i++));
 			values.put(COL_NAME_PUBLISHER_PHOTO, cursor.getString(i++));
-			
-			values.put(ShareConst.DATA_IMAGE_KEY, getShareImagesFromLocal(uuid));
+
+			values.put(ShareConst.DATA_IMAGE_KEY,
+					ShareUtils.getShareImagesFromLocal(this, uuid));
 			values.put(ShareConst.DATA_COMMENT_KEY, getCommentsFromLocal(uuid));
 
 			currentOffset++;
@@ -276,42 +267,8 @@ public class FriendShareActivity extends RequestListActivity implements
 		return result;
 	}
 
-	private List<String> getShareImagesFromLocal(String shareId) {
-		List<String> imageUrls = new ArrayList<String>();
-		Cursor cursor = getContentResolver().query(ShareImgConst.CONTENT_URI,
-				new String[] { COL_NAME_IMG }, COL_NAME_SHARE_ID + "=?",
-				new String[] { shareId }, COL_NAME_ORD_INDEX);
-		while (cursor.moveToNext()) {
-			String image = cursor.getString(0);
-			if (image == null || image.trim().length() == 0) {
-				continue;
-			}
-			imageUrls.add(image);
-		}
-		cursor.close();
-		return imageUrls;
-	}
-
 	private List<Map<String, ?>> getCommentsFromLocal(String shareId) {
-		List<Map<String, ?>> commentList = new ArrayList<Map<String, ?>>();
-//		Cursor cursor = getContentResolver().query(CommentConst.CONTENT_URI,
-//				new String[] { COL_NAME_UUID, COL_NAME_CONTENT, COL_NAME_PUBLISHER },
-//				COL_NAME_SHARE_ID + "=?", new String[] { shareId },
-//				COL_NAME_PUBLISH_TIME);
-		Cursor cursor = commentData.getCommentData(shareId);
-		while (cursor.moveToNext()) {
-			int i = 0;
-			Map<String, String> row = new HashMap<String, String>();
-			row.put(COL_NAME_UUID, cursor.getString(i++));
-			row.put(COL_NAME_CONTENT, cursor.getString(i++));
-			row.put(COL_NAME_PUBLISH_TIME, cursor.getString(i++));
-			row.put(COL_NAME_PUBLISHER, cursor.getString(i++));
-			row.put(COL_NAME_PUBLISHER_NAME, cursor.getString(i++));
-			row.put(COL_NAME_PUBLISHER_PHOTO, cursor.getString(i++));
-			commentList.add(row);
-		}
-		cursor.close();
-		return commentList;
+		return commentData.getCommentData(shareId);
 	}
 
 	@Override
@@ -325,7 +282,7 @@ public class FriendShareActivity extends RequestListActivity implements
 
 		lastCommentPublishTime = this.getLastCommentPublishTime();
 		minCommnetPublishTime = this.getMinCommentPublishTime();
-		
+
 		updateData.updateData(ShareConst.TABLE_NAME, lastUpdateTime);
 		updateData.updateData(CommentConst.TABLE_NAME, lastUpdateTime);
 

@@ -1,10 +1,15 @@
 package com.seekon.yougouhui.fragment;
 
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
+
 import android.content.Intent;
 import android.view.View;
 import android.widget.ListView;
 
+import com.seekon.yougouhui.activity.profile.MyShareActivity;
 import com.seekon.yougouhui.activity.profile.SettingActivity;
+import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.module.ModuleConst;
 import com.seekon.yougouhui.func.module.ModuleServiceHelper;
 
 public class ProfileFragment extends ModuleListFragment {
@@ -15,17 +20,16 @@ public class ProfileFragment extends ModuleListFragment {
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		Class<?> activity = null;
-		switch (position) {
-		case 0:
-			activity = SettingActivity.class;
-			break;
-
-		default:
-			break;
+		Intent intent = null;
+		String moduleCode = getModuleCode(position);
+		if(ModuleConst.CODE_SETTING.equalsIgnoreCase(moduleCode)){
+			intent = new Intent(attachedActivity, SettingActivity.class);
+		}else if(ModuleConst.CODE_MY_SHARE.equalsIgnoreCase(moduleCode)){
+			intent = new Intent(attachedActivity, MyShareActivity.class);
+			intent.putExtra(COL_NAME_UUID, RunEnv.getInstance().getUser().getAsString(COL_NAME_UUID));
 		}
-		if (activity != null) {
-			Intent intent = new Intent(attachedActivity, activity);
+		
+		if (intent != null) {		
 			attachedActivity.startActivity(intent);
 		}
 	}
