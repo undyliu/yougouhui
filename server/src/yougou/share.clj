@@ -152,8 +152,8 @@
 
 (defn del-share-img [share-id]
 	(when share-id
-		(delete share-images (where {:share_id share-id}))
 		(file/del-image-files (select share-images (fields :img) (where {:share_id share-id})))
+		(delete share-images (where {:share_id share-id}))
 	)
 )
 
