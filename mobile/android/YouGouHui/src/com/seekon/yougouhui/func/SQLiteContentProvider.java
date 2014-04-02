@@ -40,7 +40,7 @@ public abstract class SQLiteContentProvider extends ContentProvider {
 		if (!this.validateUri(uri, Action.INSERT)) {
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
-		
+
 		SQLiteDatabase db = getWritableDatabase();
 		int rows = db.delete(tableName, selection, selectionArgs);
 		getContext().getContentResolver().notifyChange(uri, null);
@@ -52,9 +52,9 @@ public abstract class SQLiteContentProvider extends ContentProvider {
 		if (!this.validateUri(uri, Action.INSERT)) {
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
-		
+
 		SQLiteDatabase db = getWritableDatabase();
-		
+
 		long id = db.insertOrThrow(tableName, null, values);
 		Uri newUri = ContentUris.withAppendedId(uri, id);
 		Logger.debug(TAG, "New profile URI: " + newUri.toString());

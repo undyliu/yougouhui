@@ -1,15 +1,11 @@
-package com.seekon.yougouhui.func.discover.widget;
+package com.seekon.yougouhui.func.discover.share.widget;
 
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_IMG;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_ORD_INDEX;
-import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
-import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER_NAME;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_SHARE_ID;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,17 +14,20 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.ImageLoader;
-import com.seekon.yougouhui.func.discover.share.ShareConst;
+import com.seekon.yougouhui.func.discover.share.CommentEntity;
+import com.seekon.yougouhui.func.discover.share.ShareEntity;
 import com.seekon.yougouhui.func.discover.share.ShareImgConst;
+import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.util.DateUtils;
 
 public class ShareUtils {
 
@@ -51,17 +50,22 @@ public class ShareUtils {
 		return imageUrls;
 	}
 
-	public static void updateShareDetailView(final Map share,
+	public static void updateShareDetailView(final ShareEntity share,
 			final Activity activity, View shareView) {
-		UserClickListener userClickListener = new UserClickListener(
-				(String) share.get(COL_NAME_PUBLISHER), activity);
+		if (share == null) {
+			return;
+		}
+
+		UserEntity publisher = share.getPublisher();
+		UserClickListener userClickListener = new UserClickListener(publisher,
+				activity);
 
 		// 设置分享者的头像
 		ImageView userImg = (ImageView) shareView.findViewById(R.id.user_img);
 		userImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		userImg.setLayoutParams(new LinearLayout.LayoutParams(
 				PUBLISHER_IMAGE_WIDTH, PUBLISHER_IMAGE_WIDTH));
-		String userPhoto = (String) share.get(ShareConst.COL_NAME_PUBLISHER_PHOTO);
+		String userPhoto = publisher.getPhoto();
 		if (userPhoto != null && userPhoto.length() > 0) {
 			ImageLoader.getInstance().displayImage(userPhoto, userImg, true);
 		} else {
@@ -73,14 +77,21 @@ public class ShareUtils {
 		TextView userView = (TextView) shareView.findViewById(R.id.user_name);
 		userView.getPaint().setFakeBoldText(true);// TODO:使用样式表来处理
 		userView.setOnClickListener(userClickListener);
-		userView.setText((String)share.get(COL_NAME_PUBLISHER_NAME));
-		
+		userView.setText(publisher.getName());
+
 		// 设置内容
-		TextView contentView = (TextView) shareView.findViewById(R.id.share_content);
-		contentView.setText((String)share.get(COL_NAME_CONTENT));
-		
+		TextView contentView = (TextView) shareView
+				.findViewById(R.id.share_content);
+		contentView.setText(share.getContent());
+
+		// 设置时间
+		long publishTime = share.getPublishTime();
+		TextView publishTimeView = (TextView) shareView
+				.findViewById(R.id.share_publish_time);
+		publishTimeView.setText(DateUtils.formatTime_MMdd(publishTime));
+
 		// 设置上传的图片
-		List<String> images = (List) share.get(ShareConst.DATA_IMAGE_KEY);
+		List<String> images = share.getImages();
 		GridView picContainer = (GridView) shareView
 				.findViewById(R.id.share_pic_container);
 		// 设置GridView的列数
@@ -92,12 +103,9 @@ public class ShareUtils {
 
 		// 设置评论信息
 		ListView commentView = (ListView) shareView.findViewById(R.id.comment_list);
-		List<Map<String, ?>> comments = (List<Map<String, ?>>) share
-				.get(ShareConst.DATA_COMMENT_KEY);
-		final SimpleAdapter commentAdapter = new CommentListAdapter(activity,
-				comments, R.layout.discover_friends_item_comment, new String[] {
-						COL_NAME_CONTENT, COL_NAME_PUBLISHER_NAME }, new int[] {
-						R.id.share_comment_content, R.id.share_comment_publisher });
+		List<CommentEntity> comments = share.getComments();
+		final BaseAdapter commentAdapter = new CommentListAdapter(activity,
+				comments);
 		commentView.setAdapter(commentAdapter);
 
 		ImageView commentButton = (ImageView) shareView
@@ -110,8 +118,8 @@ public class ShareUtils {
 		});
 	}
 
-	private static void showPopupWindow(final Map share, Activity activity,
-			final SimpleAdapter commentAdapter, View v) {
+	private static void showPopupWindow(final ShareEntity share,
+			Activity activity, final BaseAdapter commentAdapter, View v) {
 		ShareActionPopupWindow popupWindow = new ShareActionPopupWindow();
 		popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 		popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);

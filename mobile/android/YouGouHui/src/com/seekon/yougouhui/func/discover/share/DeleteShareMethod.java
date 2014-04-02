@@ -12,16 +12,17 @@ import com.seekon.yougouhui.rest.Request;
 
 /**
  * 删除分享信息
+ * 
  * @author undyliu
- *
+ * 
  */
-public class DeleteShareMethod extends JSONObjResourceMethod{
+public class DeleteShareMethod extends JSONObjResourceMethod {
 
 	private static final String DELETE_SHARE_URI = Const.SERVER_APP_URL
 			+ "/deleteShare";
-	
+
 	private String shareId;
-	
+
 	public DeleteShareMethod(Context context, String shareId) {
 		super(context);
 		this.shareId = shareId;

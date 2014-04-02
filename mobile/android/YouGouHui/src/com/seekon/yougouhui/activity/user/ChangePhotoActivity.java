@@ -1,9 +1,7 @@
 package com.seekon.yougouhui.activity.user;
 
-import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_ICON;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -21,6 +19,7 @@ import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.user.UserProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
@@ -39,7 +38,7 @@ public class ChangePhotoActivity extends Activity {
 	private static final int LOAD_IMAGE_ACTIVITY_REQUEST_CODE = 200;
 
 	private ImageView photoView = null;
-	private ContentValues user = null;
+	private UserEntity user = null;
 	private String userIconUri = null;
 
 	@Override
@@ -56,11 +55,11 @@ public class ChangePhotoActivity extends Activity {
 		photoView.setLayoutParams(new FrameLayout.LayoutParams(USER_ICON_WIDTH,
 				USER_ICON_WIDTH));
 		photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-		
-		userIconUri = user.getAsString(COL_NAME_USER_ICON);
+
+		userIconUri = user.getPhoto();
 		if (userIconUri != null && userIconUri.length() > 0) {
 			addUserIconToView(true);
-		}else{
+		} else {
 			photoView.setImageResource(R.drawable.add_camera);
 		}
 
@@ -137,9 +136,7 @@ public class ChangePhotoActivity extends Activity {
 	}
 
 	private void changeUserPhoto(final MenuItem item) {
-
-		ContentValues user = RunEnv.getInstance().getUser();
-		if (userIconUri.equals(user.get(COL_NAME_USER_ICON))) {
+		if (userIconUri.equals(RunEnv.getInstance().getUser().getPhoto())) {
 			ViewUtils.showToast("头像未做修改，不需要保存更新.");
 			return;
 		}
@@ -166,7 +163,7 @@ public class ChangePhotoActivity extends Activity {
 				item.setEnabled(true);
 				super.onPostExecute(result);
 			}
-			
+
 			@Override
 			protected void onCancelled() {
 				showProgress(false);
@@ -174,14 +171,14 @@ public class ChangePhotoActivity extends Activity {
 				super.onCancelled();
 			}
 		};
-		
+
 		showProgress(true);
 		item.setEnabled(false);
 		task.execute((Void) null);
 	}
-	
+
 	private void showProgress(final boolean show) {
-		ViewUtils
-				.showProgress(this, this.findViewById(R.id.user_photo_change), show);
+		ViewUtils.showProgress(this, this.findViewById(R.id.user_photo_change),
+				show);
 	}
 }

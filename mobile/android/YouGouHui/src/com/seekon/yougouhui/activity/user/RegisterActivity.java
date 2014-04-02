@@ -212,7 +212,8 @@ public class RegisterActivity extends Activity {
 			@Override
 			protected RestMethodResult<JSONObjResource> doInBackground(
 					Map<String, String>... params) {
-				return UserProcessor.getInstance(RegisterActivity.this).registerUser(params[0]);
+				return UserProcessor.getInstance(RegisterActivity.this).registerUser(
+						params[0]);
 			}
 
 			@Override
@@ -239,7 +240,7 @@ public class RegisterActivity extends Activity {
 				super.onCancelled();
 			}
 		};
-		
+
 		item.setEnabled(false);
 		showProgress(true);
 		task.execute(user);

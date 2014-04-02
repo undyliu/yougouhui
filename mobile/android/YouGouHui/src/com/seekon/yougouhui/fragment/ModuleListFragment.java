@@ -99,7 +99,7 @@ public class ModuleListFragment extends RequestListFragment {
 		this.setListAdapter(adapter);
 	}
 
-	protected String getModuleCode(int position){
+	protected String getModuleCode(int position) {
 		Map module = modules.get(position);
 		return (String) module.get(COL_NAME_CODE);
 	}

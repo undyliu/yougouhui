@@ -27,15 +27,15 @@ public class ImagePreviewActivity extends Activity {
 	public static final String IMAGE_DELETE_FLAG = "image.delete.flag";
 
 	public static final String SHOW_BY_LOCAL_FILE = "show.by.local.file";
-	
+
 	String imageFileName = null;
 
 	int imageIndex = 0;
 
 	boolean showDeleteMenuItem = true;
-	
+
 	boolean showByLocalFile = false;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,11 +49,11 @@ public class ImagePreviewActivity extends Activity {
 		imageIndex = intent.getExtras().getInt(IMAGE_INDEX_IN_CONTAINER);
 		showDeleteMenuItem = intent.getExtras().getBoolean(IMAGE_DELETE_FLAG);
 		showByLocalFile = intent.getExtras().getBoolean(SHOW_BY_LOCAL_FILE);
-		
+
 		ImageView view = (ImageView) this.findViewById(R.id.image_preview_id);
-		if(showByLocalFile){
+		if (showByLocalFile) {
 			view.setImageURI(Uri.parse(imageFileName));
-		}else{
+		} else {
 			ImageLoader.getInstance().displayImage(imageFileName, view, false);
 		}
 	}

@@ -37,8 +37,7 @@ public class PutUserNameMethod extends JSONObjResourceMethod {
 	@Override
 	protected Request buildRequest() {
 		Map<String, String> params = new HashMap<String, String>();
-		params.put(COL_NAME_UUID,
-				RunEnv.getInstance().getUser().getAsString(COL_NAME_UUID));
+		params.put(COL_NAME_UUID, RunEnv.getInstance().getUser().getUuid());
 		params.put(COL_NAME_USER_NAME, nickName);
 
 		return new BaseRequest(Method.PUT, PUT_USER_NAME_URI, null, params);

@@ -13,10 +13,10 @@ import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
 
 /**
- * 根据最新的发布时间获取最新的分享和评论数据
- * 同时，根据最早的发布书剑获取已经删除了的分享和评论数据
+ * 根据最新的发布时间获取最新的分享和评论数据 同时，根据最早的发布书剑获取已经删除了的分享和评论数据
+ * 
  * @author undyliu
- *
+ * 
  */
 public class GetSharesMethod extends JSONObjResourceMethod {
 
@@ -28,11 +28,12 @@ public class GetSharesMethod extends JSONObjResourceMethod {
 	private String minPublishTime;
 
 	private String lastCommentPublishTime;
-	
+
 	private String minCommentPublishTime;
-	
+
 	public GetSharesMethod(Context context, String lastPublishTime,
-			String minPublishTime, String lastCommentPublishTime, String minCommentPublishTime) {
+			String minPublishTime, String lastCommentPublishTime,
+			String minCommentPublishTime) {
 		super(context);
 		this.lastPublishTime = lastPublishTime;
 		if (this.lastPublishTime == null || this.lastPublishTime.length() == 0) {
@@ -43,11 +44,13 @@ public class GetSharesMethod extends JSONObjResourceMethod {
 			this.minPublishTime = "-1";
 		}
 		this.lastCommentPublishTime = lastCommentPublishTime;
-		if (this.lastCommentPublishTime == null || this.lastCommentPublishTime.length() == 0) {
+		if (this.lastCommentPublishTime == null
+				|| this.lastCommentPublishTime.length() == 0) {
 			this.lastCommentPublishTime = "-1";
 		}
 		this.minCommentPublishTime = minCommentPublishTime;
-		if (this.minCommentPublishTime == null || this.minCommentPublishTime.length() == 0) {
+		if (this.minCommentPublishTime == null
+				|| this.minCommentPublishTime.length() == 0) {
 			this.minCommentPublishTime = "-1";
 		}
 	}

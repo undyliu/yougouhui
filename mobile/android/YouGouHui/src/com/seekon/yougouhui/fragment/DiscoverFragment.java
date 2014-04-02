@@ -6,6 +6,7 @@ import android.widget.ListView;
 
 import com.seekon.yougouhui.activity.discover.FriendShareActivity;
 import com.seekon.yougouhui.activity.discover.RadarActivity;
+import com.seekon.yougouhui.func.module.ModuleConst;
 import com.seekon.yougouhui.func.module.ModuleServiceHelper;
 
 public class DiscoverFragment extends ModuleListFragment {
@@ -16,19 +17,15 @@ public class DiscoverFragment extends ModuleListFragment {
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		Class<?> activity = null;
-		switch (position) {
-		case 0:
-			activity = FriendShareActivity.class;
-			break;
-		case 1:
-			activity = RadarActivity.class;
-			break;
-		default:
-			break;
+		Intent intent = null;
+		String moduleCode = getModuleCode(position);
+		if (ModuleConst.CODE_FRIENDS.equalsIgnoreCase(moduleCode)) {
+			intent = new Intent(attachedActivity, FriendShareActivity.class);
+		} else if (ModuleConst.CODE_RADAR.equalsIgnoreCase(moduleCode)) {
+			intent = new Intent(attachedActivity, RadarActivity.class);
 		}
-		if (activity != null) {
-			Intent intent = new Intent(attachedActivity, activity);
+
+		if (intent != null) {
 			attachedActivity.startActivity(intent);
 		}
 	}

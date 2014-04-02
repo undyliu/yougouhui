@@ -8,7 +8,6 @@ import android.content.Context;
 
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.func.user.UserConst;
-import com.seekon.yougouhui.func.user.UserData;
 import com.seekon.yougouhui.rest.BaseRequest;
 import com.seekon.yougouhui.rest.BaseRestMethod;
 import com.seekon.yougouhui.rest.Method;

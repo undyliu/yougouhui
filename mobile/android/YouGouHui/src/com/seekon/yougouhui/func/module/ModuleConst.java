@@ -13,7 +13,12 @@ public interface ModuleConst extends DataConst {
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
 			+ "/" + TABLE_NAME);
 
+	public static final String CODE_FRIENDS = "friends";
+	public static final String CODE_RADAR = "radar";
+
 	public static final String CODE_SETTING = "settings";
 	public static final String CODE_MY_SHARE = "my_share";
 	public static final String CODE_MY_SHOP = "my_shop";
+	public static final String CODE_CONTACT_LIST = "contact_list";
+
 }

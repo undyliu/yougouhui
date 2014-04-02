@@ -24,6 +24,7 @@ import android.widget.ListView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.home.MessageActivity;
+import com.seekon.yougouhui.func.mess.ChannelEntity;
 import com.seekon.yougouhui.func.mess.MessageConst;
 import com.seekon.yougouhui.func.mess.MessageServiceHelper;
 import com.seekon.yougouhui.util.ContentValuesUtils;
@@ -33,15 +34,15 @@ import com.seekon.yougouhui.widget.ImageListRemoteAdapter;
 @SuppressLint("ValidFragment")
 public class MessageListFragment extends RequestListFragment {
 
-	private ContentValues channel;
+	private ChannelEntity channel;
 
 	private List<Map<String, ?>> messages = new LinkedList<Map<String, ?>>();
 
-	public MessageListFragment(){
+	public MessageListFragment() {
 		super(MessageServiceHelper.MESSAGE_REQUEST_RESULT);
 	}
-	
-	public MessageListFragment(ContentValues channel) {
+
+	public MessageListFragment(ChannelEntity channel) {
 		super(MessageServiceHelper.MESSAGE_REQUEST_RESULT);
 		this.channel = channel;
 	}
@@ -64,7 +65,7 @@ public class MessageListFragment extends RequestListFragment {
 
 	@Override
 	public void onResume() {
-		requestResultType += channel.getAsString(COL_NAME_UUID);
+		requestResultType += channel.getUuid();
 		super.onResume();
 		if (messages.isEmpty()) {
 			updateListItems();
@@ -84,7 +85,7 @@ public class MessageListFragment extends RequestListFragment {
 			@Override
 			protected Long doInBackground(Void... params) {
 				requestId = MessageServiceHelper.getInstance(attachedActivity)
-						.getMessages(channel.getAsString(COL_NAME_UUID), requestResultType);
+						.getMessages(channel.getUuid(), requestResultType);
 				return requestId;
 			}
 
@@ -95,7 +96,7 @@ public class MessageListFragment extends RequestListFragment {
 	@Override
 	protected List<Map<String, ?>> getListItemsFromLocal() {
 		if (messages.size() == 0) {
-			String channelId = channel.getAsString(COL_NAME_UUID);
+			String channelId = channel.getUuid();
 			String selection = null;
 			String[] selectionArgs = null;
 			if (!"0".equals(channelId)) {// 全部

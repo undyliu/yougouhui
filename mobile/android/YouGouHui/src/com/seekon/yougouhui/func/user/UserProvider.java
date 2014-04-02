@@ -6,8 +6,7 @@ import android.net.Uri;
 
 import com.seekon.yougouhui.func.SQLiteContentProvider;
 
-
-public class UserProvider extends SQLiteContentProvider{
+public class UserProvider extends SQLiteContentProvider {
 
 	private static final int USERS = 1;
 
@@ -29,8 +28,8 @@ public class UserProvider extends SQLiteContentProvider{
 	public boolean onCreate() {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI(UserConst.AUTHORITY, UserConst.TABLE_NAME, USERS);
-		uriMatcher.addURI(UserConst.AUTHORITY, UserConst.TABLE_NAME + "/*",
-				USER_ID);
+		uriMatcher
+				.addURI(UserConst.AUTHORITY, UserConst.TABLE_NAME + "/*", USER_ID);
 
 		user = new UserData(getContext());
 		user.onCreate(user.getWritableDatabase());// TODO:

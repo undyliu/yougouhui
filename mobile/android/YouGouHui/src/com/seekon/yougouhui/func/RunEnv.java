@@ -2,6 +2,8 @@ package com.seekon.yougouhui.func;
 
 import android.content.ContentValues;
 
+import com.seekon.yougouhui.func.user.UserEntity;
+
 public class RunEnv {
 
 	private static RunEnv instance = null;
@@ -10,7 +12,7 @@ public class RunEnv {
 
 	private boolean isConnectedToInternet = false;
 
-	private ContentValues user = null;
+	private UserEntity user = null;
 
 	private ContentValues loginSetting = null;
 
@@ -34,11 +36,11 @@ public class RunEnv {
 		return this.isConnectedToInternet;
 	}
 
-	public ContentValues getUser() {
+	public UserEntity getUser() {
 		return user;
 	}
 
-	public void setUser(ContentValues user) {
+	public void setUser(UserEntity user) {
 		this.user = user;
 	}
 

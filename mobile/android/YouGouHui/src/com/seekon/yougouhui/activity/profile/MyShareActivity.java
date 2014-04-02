@@ -21,8 +21,8 @@ import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareData;
-import com.seekon.yougouhui.func.discover.widget.ShareUtils;
-import com.seekon.yougouhui.func.profile.widget.MyShareListAdapter;
+import com.seekon.yougouhui.func.discover.share.widget.ShareUtils;
+import com.seekon.yougouhui.func.profile.share.widget.MyShareListAdapter;
 import com.seekon.yougouhui.layout.XListView;
 import com.seekon.yougouhui.layout.XListView.IXListViewListener;
 
@@ -163,13 +163,6 @@ public class MyShareActivity extends Activity implements IXListViewListener {
 	private void onPostLoad() {
 		shareListView.stopRefresh();
 		shareListView.stopLoadMore();
-		// if (lastUpdateTime != null) {
-		// try {
-		// shareListView.setRefreshTime(DateUtils.formartTime(Long
-		// .valueOf(lastUpdateTime)));
-		// } catch (Exception e) {
-		// }
-		// }
 	}
 
 	@Override

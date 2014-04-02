@@ -1,9 +1,7 @@
 package com.seekon.yougouhui.activity.user;
 
-import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +13,7 @@ import android.widget.EditText;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.user.UserProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
@@ -25,7 +24,7 @@ public class ChangePwdActivity extends Activity {
 	private EditText pwdOldView = null;
 	private EditText pwdNewView = null;
 	private EditText pwdNewConfView = null;
-	private ContentValues user = null;
+	private UserEntity user = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +106,7 @@ public class ChangePwdActivity extends Activity {
 			pwdOldView.setError(fieldRequired);
 			focusView = pwdOldView;
 			cancel = true;
-		} else if (!oldPwd.equals(user.getAsString(COL_NAME_PWD))) {
+		} else if (!oldPwd.equals(user.getPwd())) {
 			pwdOldView.setError(getString(R.string.error_incorrect_password));
 			focusView = pwdOldView;
 			cancel = true;
@@ -145,7 +144,7 @@ public class ChangePwdActivity extends Activity {
 				item.setEnabled(true);
 				super.onPostExecute(result);
 			}
-			
+
 			@Override
 			protected void onCancelled() {
 				showProgress(false);
@@ -153,14 +152,14 @@ public class ChangePwdActivity extends Activity {
 				super.onCancelled();
 			}
 		};
-		
+
 		showProgress(true);
 		item.setEnabled(false);
 		task.execute((Void) null);
 	}
-	
+
 	private void showProgress(final boolean show) {
-		ViewUtils
-				.showProgress(this, this.findViewById(R.id.user_password_change), show);
+		ViewUtils.showProgress(this, this.findViewById(R.id.user_password_change),
+				show);
 	}
 }

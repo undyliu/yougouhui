@@ -1,17 +1,7 @@
 package com.seekon.yougouhui.activity.user;
 
-import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_NAME;
-
-import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.func.RunEnv;
-import com.seekon.yougouhui.func.user.UserProcessor;
-import com.seekon.yougouhui.rest.RestMethodResult;
-import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.util.ViewUtils;
-
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +9,13 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+
+import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.user.UserProcessor;
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.resource.JSONObjResource;
+import com.seekon.yougouhui.util.ViewUtils;
 
 /**
  * 修改用户昵称
@@ -39,8 +36,7 @@ public class ChangeNameActivity extends Activity {
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		nickNameView = (EditText) findViewById(R.id.user_info);
-		nickNameView.setText(RunEnv.getInstance().getUser()
-				.getAsString(COL_NAME_USER_NAME));
+		nickNameView.setText(RunEnv.getInstance().getUser().getName());
 	}
 
 	@Override
@@ -74,8 +70,7 @@ public class ChangeNameActivity extends Activity {
 			return;
 		}
 
-		ContentValues user = RunEnv.getInstance().getUser();
-		if (nickName.equals(user.get(COL_NAME_USER_NAME))) {
+		if (nickName.equals(RunEnv.getInstance().getUser().getName())) {
 			ViewUtils.showToast("昵称未做修改，不需要保存更新.");
 			return;
 		}
@@ -102,6 +97,7 @@ public class ChangeNameActivity extends Activity {
 				item.setEnabled(true);
 				super.onPostExecute(result);
 			}
+
 			@Override
 			protected void onCancelled() {
 				showProgress(false);
@@ -109,14 +105,13 @@ public class ChangeNameActivity extends Activity {
 				super.onCancelled();
 			}
 		};
-		
+
 		showProgress(true);
 		item.setEnabled(false);
 		task.execute((Void) null);
 	}
-	
+
 	private void showProgress(final boolean show) {
-		ViewUtils
-				.showProgress(this, this.findViewById(R.id.user_info), show);
+		ViewUtils.showProgress(this, this.findViewById(R.id.user_info), show);
 	}
 }

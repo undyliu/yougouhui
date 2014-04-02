@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
-import android.util.JsonReader;
 
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.file.FileEntity;

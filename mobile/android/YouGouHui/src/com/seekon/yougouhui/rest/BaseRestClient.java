@@ -15,7 +15,7 @@ public class BaseRestClient extends RestClient {
 			}
 		}
 		byte[] payload = null;
-		
+
 		switch (request.getMethod()) {
 		case GET:
 			conn.setRequestMethod("GET");

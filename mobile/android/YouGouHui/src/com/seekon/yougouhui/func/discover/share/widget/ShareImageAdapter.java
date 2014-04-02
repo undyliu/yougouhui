@@ -1,4 +1,4 @@
-package com.seekon.yougouhui.func.discover.widget;
+package com.seekon.yougouhui.func.discover.share.widget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,8 @@ import com.seekon.yougouhui.file.ImageLoader;
 
 public class ShareImageAdapter extends BaseAdapter {
 
-	public static final int IMAGE_VIEW_WIDTH  = 100;
-	
+	public static final int IMAGE_VIEW_WIDTH = 100;
+
 	private Context mContext;
 
 	private List<String> images;
@@ -51,9 +51,10 @@ public class ShareImageAdapter extends BaseAdapter {
 		ImageView imageView;
 		if (convertView == null) {
 			imageView = new ImageView(mContext);
-			
-			GridView.LayoutParams lp = new GridView.LayoutParams(IMAGE_VIEW_WIDTH, IMAGE_VIEW_WIDTH);
-			
+
+			GridView.LayoutParams lp = new GridView.LayoutParams(IMAGE_VIEW_WIDTH,
+					IMAGE_VIEW_WIDTH);
+
 			imageView.setLayoutParams(lp);
 			imageView.setAdjustViewBounds(false);
 			imageView.setScaleType(ImageView.ScaleType.CENTER);

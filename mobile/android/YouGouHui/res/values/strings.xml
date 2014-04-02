@@ -29,4 +29,6 @@
 	
 	<string name="default_progress_status_message">正在处理，请稍后...</string>
 	
+	<string name="prompt_search_word">请输入关键字</string>
+	
 </resources>

@@ -7,17 +7,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.fragment.listener.TabSpinnerItemSelectedListener;
-import com.seekon.yougouhui.util.ContentValuesUtils;
-import com.seekon.yougouhui.widget.ImageListRemoteAdapter;
+import com.seekon.yougouhui.func.mess.ChannelEntity;
 
 public class SubChannelViewBuilder {
 
@@ -41,7 +40,7 @@ public class SubChannelViewBuilder {
 		}
 	}
 
-	public View getSpinnerView(List<ContentValues> data) {
+	public View getSpinnerView(List<ChannelEntity> data) {
 		View actionbarLayout = LayoutInflater.from(context).inflate(
 				R.layout.subchannel_spinner, null);
 		mActionbarSpinner = (Spinner) actionbarLayout
@@ -52,10 +51,12 @@ public class SubChannelViewBuilder {
 		otherMap.put(COL_NAME_NAME, "其他");
 		mapData.add(otherMap);
 
-		for (ContentValues values : data) {
-			mapData.add(ContentValuesUtils.toMap(values, null));
+		for (ChannelEntity values : data) {
+			Map row = new HashMap();
+			row.put(COL_NAME_NAME, values.getName());
+			mapData.add(row);
 		}
-		mActionbarSpinner.setAdapter(new ImageListRemoteAdapter(context, mapData,
+		mActionbarSpinner.setAdapter(new SimpleAdapter(context, mapData,
 				android.R.layout.simple_spinner_dropdown_item,
 				new String[] { COL_NAME_NAME }, new int[] { android.R.id.text1 }));
 		return actionbarLayout;

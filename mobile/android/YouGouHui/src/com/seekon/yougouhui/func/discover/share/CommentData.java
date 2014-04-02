@@ -4,21 +4,18 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.discover.share.CommentConst.COL_NAME_COMMENT_ID;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
-import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER_NAME;
-import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER_PHOTO;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_TIME;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_SHARE_ID;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.seekon.yougouhui.func.AbstractDBHelper;
+import com.seekon.yougouhui.func.user.UserEntity;
 
 public class CommentData extends AbstractDBHelper {
 
@@ -44,22 +41,22 @@ public class CommentData extends AbstractDBHelper {
 
 	}
 
-	public List getCommentData(String shareId){
-		List commentList = new ArrayList();
+	public List<CommentEntity> getCommentData(String shareId) {
+		List<CommentEntity> commentList = new ArrayList<CommentEntity>();
 		String sql = " select c.uuid, c.content, c.publish_time, c.publisher, u.name as publisher_name, u.photo as publisher_photo "
 				+ " from e_comment c left join e_user u on c.publisher = u.uuid "
 				+ " where c.share_id = ? order by c.publish_time desc ";
-		Cursor cursor = this.getReadableDatabase().rawQuery(sql, new String[]{shareId});
+		Cursor cursor = this.getReadableDatabase().rawQuery(sql,
+				new String[] { shareId });
 		while (cursor.moveToNext()) {
 			int i = 0;
-			Map<String, String> row = new HashMap<String, String>();
-			row.put(COL_NAME_UUID, cursor.getString(i++));
-			row.put(COL_NAME_CONTENT, cursor.getString(i++));
-			row.put(COL_NAME_PUBLISH_TIME, cursor.getString(i++));
-			row.put(COL_NAME_PUBLISHER, cursor.getString(i++));
-			row.put(COL_NAME_PUBLISHER_NAME, cursor.getString(i++));
-			row.put(COL_NAME_PUBLISHER_PHOTO, cursor.getString(i++));
-			commentList.add(row);
+			CommentEntity comment = new CommentEntity(cursor.getString(i++),
+					cursor.getString(i++));
+			comment.setPublishTime(cursor.getLong(i++));
+			UserEntity user = new UserEntity(cursor.getString(i++), null,
+					cursor.getString(i++), null, cursor.getString(i++));
+			comment.setPublisher(user);
+			commentList.add(comment);
 		}
 		cursor.close();
 		return commentList;

@@ -19,8 +19,8 @@ public interface DataConst {
 	public static final String COL_NAME_TITLE = "title";
 
 	public static final String COL_NAME_CONTENT = "content";
-	
+
 	public static final String COL_NAME_IS_DELETED = "is_deleted";
-	
+
 	public static final String NAME_COUNT = "count";
 }

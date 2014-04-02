@@ -86,7 +86,7 @@ public class SettingActivity extends Activity {
 
 	private void saveSetting() {
 		showProgress(true);
-		
+
 		AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
 			@Override
 			protected Boolean doInBackground(Void... params) {
@@ -108,7 +108,7 @@ public class SettingActivity extends Activity {
 				}
 				showProgress(false);
 			}
-			
+
 			@Override
 			protected void onCancelled() {
 				showProgress(false);

@@ -1,7 +1,6 @@
 package com.seekon.yougouhui.activity.discover;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +11,6 @@ import org.json.JSONException;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
@@ -46,6 +44,7 @@ import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareProcessor;
+import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.Logger;
@@ -242,21 +241,21 @@ public class ShareActivity extends Activity {
 	private void publishShare(final MenuItem item) {
 		EditText view = (EditText) findViewById(R.id.share_content);
 		final String shareContent = view.getText().toString();
-		
+
 		view.setError(null);
-		if(TextUtils.isEmpty(shareContent)){
+		if (TextUtils.isEmpty(shareContent)) {
 			view.setError(this.getString(R.string.error_field_required));
 			view.findFocus();
 			return;
 		}
-		
+
 		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
 
 			@Override
 			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				ContentValues user = RunEnv.getInstance().getUser();
+				UserEntity user = RunEnv.getInstance().getUser();
 				Map share = new HashMap();
-				share.put(ShareConst.COL_NAME_PUBLISHER, user.getAsString(COL_NAME_UUID));
+				share.put(ShareConst.COL_NAME_PUBLISHER, user.getUuid());
 				share.put(COL_NAME_CONTENT, shareContent);
 				share.put(ShareConst.DATA_IMAGE_KEY, imageFileUriList);
 				ShareProcessor processor = new ShareProcessor(ShareActivity.this);
@@ -266,7 +265,7 @@ public class ShareActivity extends Activity {
 			@Override
 			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
 				showProgress(false);
-				
+
 				if (result == null) {
 					ViewUtils.showToast("发布信息失败.");
 					return;
@@ -288,7 +287,7 @@ public class ShareActivity extends Activity {
 					return;
 				}
 			}
-			
+
 			@Override
 			protected void onCancelled() {
 				item.setEnabled(true);

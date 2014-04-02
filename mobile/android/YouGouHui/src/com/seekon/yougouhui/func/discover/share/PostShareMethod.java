@@ -13,13 +13,11 @@ import java.util.Map;
 import android.content.Context;
 
 import com.seekon.yougouhui.Const;
-import com.seekon.yougouhui.YouGouHuiApp;
 import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.rest.MultipartRequest;
 import com.seekon.yougouhui.rest.MultipartRestMethod;
 import com.seekon.yougouhui.rest.Request;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.rest.resource.TextResource;
 
 public class PostShareMethod extends MultipartRestMethod<JSONObjResource> {
 
@@ -41,7 +39,7 @@ public class PostShareMethod extends MultipartRestMethod<JSONObjResource> {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(COL_NAME_CONTENT, (String) share.get(COL_NAME_CONTENT));
 		params.put(COL_NAME_PUBLISHER, (String) share.get(COL_NAME_PUBLISHER));
-		
+
 		List<String> files = (List<String>) share.get(ShareConst.DATA_IMAGE_KEY);
 		List<FileEntity> fileEntities = new ArrayList<FileEntity>();
 		if (files != null && !files.isEmpty()) {

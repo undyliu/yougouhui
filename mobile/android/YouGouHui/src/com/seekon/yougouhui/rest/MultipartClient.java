@@ -1,8 +1,6 @@
 package com.seekon.yougouhui.rest;
 
 import java.io.DataOutputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -162,13 +160,14 @@ public class MultipartClient extends RestClient {
 			// Log.i(TAG, file.getName() + "=" + params + "##");
 			dos.write(params.getBytes());
 			/** 上传文件 */
-//			InputStream is = new FileInputStream(fileEntity.getFileUri());// 对图片进行压缩处理
-//			byte[] bytes = new byte[1024];
-//			int len = 0;
-//			while ((len = is.read(bytes)) != -1) {
-//				dos.write(bytes, 0, len);
-//			}
-//			is.close();
+			// InputStream is = new FileInputStream(fileEntity.getFileUri());//
+			// 对图片进行压缩处理
+			// byte[] bytes = new byte[1024];
+			// int len = 0;
+			// while ((len = is.read(bytes)) != -1) {
+			// dos.write(bytes, 0, len);
+			// }
+			// is.close();
 			dos.write(compressImageFile(fileEntity.getFileUri()));
 
 			dos.write(LINE_END.getBytes());

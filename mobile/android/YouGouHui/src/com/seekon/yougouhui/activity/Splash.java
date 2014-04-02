@@ -8,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -17,6 +16,7 @@ import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.login.EnvHelper;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserData;
+import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.sercurity.AuthorizationManager;
 import com.seekon.yougouhui.service.ConnectionDetector;
 import com.seekon.yougouhui.util.ContentValuesUtils;
@@ -95,7 +95,7 @@ public class Splash extends Activity {
 		try {
 			String phone = loginSetting.getString(UserConst.COL_NAME_PHONE);
 			String pwd = loginSetting.getString(UserConst.COL_NAME_PWD);
-			ContentValues user = userHelper.auth(phone, pwd);
+			UserEntity user = userHelper.auth(phone, pwd);
 			authed = user != null;
 			if (authed) {
 				RunEnv.getInstance().setLoginSetting(

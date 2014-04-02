@@ -5,8 +5,6 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.DataConst.NAME_COUNT;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_ACTIVITY_ID;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
-import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER_NAME;
-import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER_PHOTO;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_DATE;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_TIME;
 
@@ -21,7 +19,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.seekon.yougouhui.func.AbstractDBHelper;
-import com.seekon.yougouhui.util.DateUtils;
+import com.seekon.yougouhui.func.user.UserEntity;
 
 public class ShareData extends AbstractDBHelper {
 
@@ -52,33 +50,43 @@ public class ShareData extends AbstractDBHelper {
 				+ " from e_share s left join e_user u on s.publisher = u.uuid ";
 	}
 
+	private ShareEntity assembleShareEntity(Cursor cursor) {
+		int i = 0;
+		ShareEntity share = new ShareEntity(cursor.getString(i++),
+				cursor.getString(i++));
+		share.setPublishTime(cursor.getLong(i++));
+		UserEntity publisher = new UserEntity(cursor.getString(i++), null,
+				cursor.getString(i++), null, cursor.getString(i++));
+		share.setPublisher(publisher);
+		return share;
+	}
+
 	/**
 	 * 获取分享数据，包含用户名和用户头像
 	 * 
 	 * @param limitSql
 	 * @return
 	 */
-	public Cursor getShareData(String limitSql) {
+	public List<ShareEntity> getShareData(String limitSql) {
+		List<ShareEntity> result = new ArrayList<ShareEntity>();
 		String sql = getShareDataSqlPart() + " order by s.publish_time desc";
 		if (limitSql != null) {
 			sql += limitSql;
 		}
-		return this.getReadableDatabase().rawQuery(sql, null);
+		Cursor cursor = this.getReadableDatabase().rawQuery(sql, null);
+		while (cursor.moveToNext()) {
+			result.add(assembleShareEntity(cursor));
+		}
+		cursor.close();
+		return result;
 	}
 
-	public Map getShareDataById(String id) {
-		Map share = new HashMap();
+	public ShareEntity getShareDataById(String id) {
+		ShareEntity share = null;
 		String sql = getShareDataSqlPart() + " where s.uuid = ?";
 		Cursor cursor = getReadableDatabase().rawQuery(sql, new String[] { id });
 		if (cursor.moveToNext()) {
-			int i = 0;
-			share.put(COL_NAME_UUID, cursor.getString(i++));
-			share.put(COL_NAME_CONTENT, cursor.getString(i++));
-			share.put(COL_NAME_PUBLISH_TIME,
-					DateUtils.formartTime(cursor.getLong(i++)));
-			share.put(COL_NAME_PUBLISHER, cursor.getString(i++));
-			share.put(COL_NAME_PUBLISHER_NAME, cursor.getString(i++));
-			share.put(COL_NAME_PUBLISHER_PHOTO, cursor.getString(i++));
+			share = assembleShareEntity(cursor);
 		}
 		cursor.close();
 		return share;

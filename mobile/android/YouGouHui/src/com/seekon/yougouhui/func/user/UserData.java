@@ -36,24 +36,22 @@ public class UserData extends AbstractDBHelper {
 		// TODO
 	}
 
-	public ContentValues getUser(String phone) {
+	public UserEntity getUser(String phone) {
+		UserEntity user = null;
 		onCreate(this.getWritableDatabase());
-		Cursor cursor = this.getReadableDatabase().query(TABLE_NAME,
-				new String[] { COL_NAME_UUID, COL_NAME_USER_NAME, COL_NAME_PWD, COL_NAME_USER_ICON },
-				COL_NAME_PHONE + "= ? ", new String[] { phone }, null, null, null);
+		Cursor cursor = this.getReadableDatabase().query(
+				TABLE_NAME,
+				new String[] { COL_NAME_UUID, COL_NAME_USER_NAME, COL_NAME_PWD,
+						COL_NAME_USER_ICON }, COL_NAME_PHONE + "= ? ",
+				new String[] { phone }, null, null, null);
 		if (cursor.getCount() > 0) {
 			cursor.moveToNext();
 			int i = 0;
-			ContentValues user = new ContentValues();
-			user.put(COL_NAME_UUID, cursor.getString(i++));
-			user.put(COL_NAME_USER_NAME, cursor.getString(i++));
-			user.put(COL_NAME_PWD, cursor.getString(i++));
-			user.put(COL_NAME_USER_ICON, cursor.getString(i++));
-			user.put(COL_NAME_PHONE, phone);
-			return user;
-		} else {
-			return null;
+			user = new UserEntity(cursor.getString(i++), phone,
+					cursor.getString(i++), cursor.getString(i++), cursor.getString(i++));
 		}
+		cursor.close();
+		return user;
 	}
 
 	public void updateUser(ContentValues user) {
@@ -66,13 +64,13 @@ public class UserData extends AbstractDBHelper {
 		}
 	}
 
-	public ContentValues auth(String phone, String pwd) {
-		ContentValues user = this.getUser(phone);
+	public UserEntity auth(String phone, String pwd) {
+		UserEntity user = this.getUser(phone);
 		if (user == null) {
 			return null;
 		}
 		// TODO:
-		String pwdInDb = user.getAsString(COL_NAME_PWD);
+		String pwdInDb = user.getPwd();
 		if ((pwdInDb == null && pwd == null)
 				|| (pwdInDb != null && pwdInDb.equals(pwd))) {
 			return user;

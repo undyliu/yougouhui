@@ -40,9 +40,9 @@ public class ContentValuesUtils {
 		if (keys != null) {
 			for (int i = 0; i < keys.length; i++) {
 				Object value = null;
-				try{
+				try {
 					value = jsonObj.get(keys[i]);
-				}catch(JSONException e){
+				} catch (JSONException e) {
 				}
 				setContentValue(result, keys[i], value);
 			}
@@ -92,5 +92,5 @@ public class ContentValuesUtils {
 		}
 		return result;
 	}
-	
+
 }

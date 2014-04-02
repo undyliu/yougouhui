@@ -10,10 +10,11 @@ import com.seekon.yougouhui.func.login.EnvHelper;
 import com.seekon.yougouhui.func.login.LoginConst;
 import com.seekon.yougouhui.func.login.LoginProcessor;
 import com.seekon.yougouhui.func.user.UserData;
+import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.rest.Request;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.util.ContentValuesUtils;
+import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.Logger;
 
 public class AuthorizationManager implements RequestSigner {
@@ -70,14 +71,14 @@ public class AuthorizationManager implements RequestSigner {
 		try {
 			String phone = loginData.getAsString(COL_NAME_PHONE);
 			String pwd = loginData.getAsString(COL_NAME_PWD);
-			ContentValues user = this.getUserHelper().auth(phone, pwd);// 本地数据库认证
+			UserEntity user = this.getUserHelper().auth(phone, pwd);// 本地数据库认证
 			if (user == null && RunEnv.getInstance().isConnectedToInternet()) {
 				LoginProcessor processor = new LoginProcessor(context);
 				RestMethodResult<JSONObjResource> result = processor.login(phone, pwd);
 				JSONObjResource resource = result.getResource();
 				if (resource.getBoolean(LoginConst.LOGIN_RESULT_AUTHED)) {
-					user = ContentValuesUtils.fromJSONObject(
-							resource.getJSONObject(LoginConst.LOGIN_RESULT_USER), null);
+					user = JSONUtils.createUserEntity(resource
+							.getJSONObject(LoginConst.LOGIN_RESULT_USER));
 				} else {
 					errorType = resource.getString(LoginConst.LOGIN_RESULT_ERROR_TYPE);
 				}
@@ -85,7 +86,7 @@ public class AuthorizationManager implements RequestSigner {
 			if (user != null) {
 				errorType = LoginConst.AUTH_SUCCESS;
 				RunEnv.getInstance().setUser(user);
-				loginData.put(COL_NAME_PWD, user.getAsString(COL_NAME_PWD));
+				loginData.put(COL_NAME_PWD, user.getPwd());
 			}
 		} catch (Throwable e) {
 			Logger.error("login", e.getMessage());

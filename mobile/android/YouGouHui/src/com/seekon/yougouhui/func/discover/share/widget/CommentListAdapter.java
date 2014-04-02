@@ -1,25 +1,25 @@
-package com.seekon.yougouhui.func.discover.widget;
+package com.seekon.yougouhui.func.discover.share.widget;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
-import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
 
 import java.util.List;
-import java.util.Map;
 
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.discover.share.CommentConst;
+import com.seekon.yougouhui.func.discover.share.CommentEntity;
 import com.seekon.yougouhui.func.discover.share.ShareProcessor;
+import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.ViewUtils;
@@ -30,40 +30,51 @@ import com.seekon.yougouhui.util.ViewUtils;
  * @author undyliu
  * 
  */
-public class CommentListAdapter extends SimpleAdapter {
+public class CommentListAdapter extends BaseAdapter {
 
 	private Context context;
 
-	private ContentValues user = null;
+	private List<CommentEntity> commentList = null;
 
-	private List data = null;
-
-	public CommentListAdapter(Context context,
-			List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
-		super(context, data, resource, from, to);
-		this.user = RunEnv.getInstance().getUser();
+	public CommentListAdapter(Context context, List<CommentEntity> commentList) {
+		super();
 		this.context = context;
-		this.data = data;
+		this.commentList = commentList;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View view = super.getView(position, convertView, parent);
-		final Map comment = (Map) getItem(position);
-		final String commentId = (String) comment.get(COL_NAME_UUID);
+
+		ViewHolder holder = null;
+		if (convertView == null) {
+			holder = new ViewHolder();
+			convertView = LayoutInflater.from(context).inflate(
+					R.layout.discover_friends_item_comment, null, false);
+			holder.view = convertView;
+			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();
+		}
+
+		final CommentEntity comment = (CommentEntity) getItem(position);
+		UserEntity publisher = comment.getPublisher();
+		final String commentId = comment.getUuid();
+
+		TextView contentView = (TextView) convertView
+				.findViewById(R.id.share_comment_content);
+		contentView.setText(comment.getContent());
 
 		// 设置朋友的点击监听
-		TextView publisherView = (TextView) view
+		TextView publisherView = (TextView) convertView
 				.findViewById(R.id.share_comment_publisher);
 		publisherView.getPaint().setFakeBoldText(true);// TODO:使用样式表来处理
-		publisherView.setOnClickListener(new UserClickListener((String) comment
-				.get(COL_NAME_PUBLISHER), context));
+		publisherView.setText(publisher.getName());
+		publisherView.setOnClickListener(new UserClickListener(publisher, context));
 
 		// 设置评论的删除监听
-		ImageView commentDelete = (ImageView) view
+		ImageView commentDelete = (ImageView) convertView
 				.findViewById(R.id.b_comment_delete);
-		String userId = (String) comment.get(COL_NAME_PUBLISHER);
-		if (userId.equals(user.get(COL_NAME_UUID))) {
+		if (publisher.equals(RunEnv.getInstance().getUser())) {
 			commentDelete.setVisibility(View.VISIBLE);
 			commentDelete.setOnClickListener(new View.OnClickListener() {
 
@@ -88,7 +99,7 @@ public class CommentListAdapter extends SimpleAdapter {
 								String[] selectionArgs = new String[] { commentId };
 								resolver.delete(CommentConst.CONTENT_URI, where, selectionArgs);
 
-								data.remove(comment);
+								commentList.remove(comment);
 								CommentListAdapter.this.notifyDataSetChanged();
 							} else {
 								ViewUtils.showToast("删除失败.");
@@ -103,7 +114,25 @@ public class CommentListAdapter extends SimpleAdapter {
 			commentDelete.setVisibility(View.GONE);
 		}
 
-		return view;
+		return convertView;
 	}
 
+	@Override
+	public int getCount() {
+		return commentList.size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		return commentList.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+
+	class ViewHolder {
+		View view;
+	}
 }

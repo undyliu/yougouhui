@@ -6,8 +6,6 @@ import static com.seekon.yougouhui.func.login.LoginConst.LOGIN_SETTING_AUTO_LOGI
 import static com.seekon.yougouhui.func.login.LoginConst.LOGIN_SETTING_KEY;
 import static com.seekon.yougouhui.func.login.LoginConst.LOGIN_SETTING_REMEMBER_PWD;
 
-import java.util.HashMap;
-
 import org.json.JSONObject;
 
 import android.annotation.TargetApi;

@@ -1,26 +1,22 @@
-package com.seekon.yougouhui.func.discover.widget;
+package com.seekon.yougouhui.func.discover.share.widget;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_SHARE_ID;
-import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
-import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.PopupWindow;
-import android.widget.SimpleAdapter;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.discover.FriendShareActivity;
@@ -28,8 +24,10 @@ import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.discover.share.CommentConst;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
+import com.seekon.yougouhui.func.discover.share.ShareEntity;
 import com.seekon.yougouhui.func.discover.share.ShareImgConst;
 import com.seekon.yougouhui.func.discover.share.ShareProcessor;
+import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.ViewUtils;
@@ -47,8 +45,8 @@ public class ShareActionPopupWindow extends PopupWindow {
 		super();
 	}
 
-	public void init(final Activity activity, final Map share,
-			final SimpleAdapter commentAdapter) {
+	public void init(final Activity activity, final ShareEntity share,
+			final BaseAdapter commentAdapter) {
 		View view = activity.getLayoutInflater().inflate(
 				R.layout.discover_friends_action_pop, null);
 		this.setContentView(view);
@@ -95,15 +93,15 @@ public class ShareActionPopupWindow extends PopupWindow {
 		deleteButton.setCompoundDrawablesWithIntrinsicBounds(
 				R.drawable.b_share_delete, 0, 0, 0);
 
-		ContentValues user = RunEnv.getInstance().getUser();
-		String userId = (String) share.get(COL_NAME_PUBLISHER);
-		if (userId.equals(user.get(COL_NAME_UUID))) {
+		UserEntity user = RunEnv.getInstance().getUser();
+		UserEntity publisher = share.getPublisher();
+		if (publisher.equals(user)) {
 			deleteButton.setVisibility(View.VISIBLE);
 			deleteButton.setOnClickListener(new View.OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					final String shareId = (String) share.get(COL_NAME_UUID);
+					final String shareId = share.getUuid();
 					AsyncTask<String, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<String, Void, RestMethodResult<JSONObjResource>>() {
 
 						@Override
@@ -134,16 +132,16 @@ public class ShareActionPopupWindow extends PopupWindow {
 										selectionArgs);
 								ShareListAdapter adapter = ((FriendShareActivity) activity)
 										.getShareListAdapter();
-								
-								List<String> images = (List) share.get(ShareConst.DATA_IMAGE_KEY);
-								for(String image: images){
+
+								List<String> images = share.getImages();
+								for (String image : images) {
 									File file = FileHelper.getFileFromCache(image);
 									file.delete();
 								}
-								
+
 								((FriendShareActivity) activity).getShares().remove(share);
 								adapter.notifyDataSetChanged();
-								
+
 							} else {
 								// TODO:
 								ViewUtils.showToast("删除失败.");
@@ -171,7 +169,6 @@ public class ShareActionPopupWindow extends PopupWindow {
 	}
 
 	private void showProgress(Activity activity, boolean show) {
-		ViewUtils.showProgress(activity,
-				null, show);
+		ViewUtils.showProgress(activity, null, show);
 	}
 }

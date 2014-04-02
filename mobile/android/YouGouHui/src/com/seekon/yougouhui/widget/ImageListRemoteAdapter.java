@@ -62,7 +62,6 @@ public class ImageListRemoteAdapter extends SimpleAdapter {
 		String recordImg = (String) record.get(COL_NAME_IMG);
 		if (recordImg != null && recordImg.trim().length() > 0) {
 			imageView.setVisibility(ImageView.VISIBLE);
-			// RemoteImageHelper.loadImage(imageView, recordImg);
 			ImageLoader.getInstance().displayImage(recordImg, imageView, true);
 		} else {
 			if (imageView != null) {

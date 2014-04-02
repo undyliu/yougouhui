@@ -1,4 +1,4 @@
-package com.seekon.yougouhui.func.profile.widget;
+package com.seekon.yougouhui.func.profile.share.widget;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
 import static com.seekon.yougouhui.func.DataConst.NAME_COUNT;

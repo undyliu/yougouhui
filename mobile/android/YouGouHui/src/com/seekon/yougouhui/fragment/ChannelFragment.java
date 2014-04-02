@@ -14,7 +14,6 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -33,6 +32,7 @@ import com.seekon.yougouhui.fragment.listener.ChannelTabChangeListener;
 import com.seekon.yougouhui.fragment.listener.TabFragmentPagerAdapter;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.mess.ChannelConst;
+import com.seekon.yougouhui.func.mess.ChannelEntity;
 import com.seekon.yougouhui.func.mess.MessageServiceHelper;
 import com.seekon.yougouhui.util.Logger;
 
@@ -126,29 +126,28 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 	}
 
 	private void updateTabs() {
-		AsyncTask<Void, Void, List<ContentValues>> task = new AsyncTask<Void, Void, List<ContentValues>>() {
+		AsyncTask<Void, Void, List<ChannelEntity>> task = new AsyncTask<Void, Void, List<ChannelEntity>>() {
 			@Override
-			protected List<ContentValues> doInBackground(Void... params) {
+			protected List<ChannelEntity> doInBackground(Void... params) {
 				Logger.debug(TAG, "get channels from local db.");
 
-				List<ContentValues> channels = new LinkedList<ContentValues>();
+				List<ChannelEntity> channels = new LinkedList<ChannelEntity>();
 				Cursor cursor = attachedActivity.getContentResolver().query(
 						ChannelConst.CONTENT_URI,
-						new String[] { COL_NAME_UUID, COL_NAME_CODE, COL_NAME_NAME },
-						COL_NAME_PARENT_ID + " is null ", null, COL_NAME_ORD_INDEX);
+						new String[] { COL_NAME_UUID, COL_NAME_CODE, COL_NAME_NAME,
+								COL_NAME_ORD_INDEX }, COL_NAME_PARENT_ID + " is null ", null,
+						COL_NAME_ORD_INDEX);
 				while (cursor.moveToNext()) {
-					ContentValues values = new ContentValues();
-					values.put(COL_NAME_UUID, cursor.getInt(0));
-					values.put(COL_NAME_CODE, cursor.getString(1));
-					values.put(COL_NAME_NAME, cursor.getString(2));
-					channels.add(values);
+					int i = 0;
+					channels.add(new ChannelEntity(cursor.getString(i++), cursor
+							.getString(i++), cursor.getString(i++), cursor.getInt(i++)));
 				}
 				cursor.close();
 				return channels;
 			}
 
 			@Override
-			protected void onPostExecute(List<ContentValues> channels) {
+			protected void onPostExecute(List<ChannelEntity> channels) {
 				if (channels.size() == 0) {
 					updateChannelsRemote();
 					return;
@@ -160,14 +159,14 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 				}
 
 				int index = 0;
-				List<ContentValues> subChannels = channels.subList(TAB_SHOW_COUNT,
+				List<ChannelEntity> subChannels = channels.subList(TAB_SHOW_COUNT,
 						channels.size());
-				for (ContentValues channel : channels) {
+				for (ChannelEntity channel : channels) {
 
 					if (index < TAB_SHOW_COUNT) {
 						ActionBar.Tab channelTab = actionBar.newTab();
 						channelTab.setTabListener(ChannelFragment.this);
-						channelTab.setText(channel.getAsString(COL_NAME_NAME));
+						channelTab.setText(channel.getName());
 						actionBar.addTab(channelTab);
 					} else if (index == TAB_SHOW_COUNT) {
 						ActionBar.Tab channelTab = actionBar.newTab();

@@ -15,7 +15,6 @@ import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 
 import com.seekon.yougouhui.Const;
-import com.seekon.yougouhui.R.drawable;
 import com.seekon.yougouhui.YouGouHuiApp;
 import com.seekon.yougouhui.util.Logger;
 
@@ -211,8 +210,8 @@ public class FileHelper {
 		}
 		return null;
 	}
-	
-	public static Drawable getDrawableFromFileCache(String fileName){
+
+	public static Drawable getDrawableFromFileCache(String fileName) {
 		File file = getFileFromCache(fileName);
 		return Drawable.createFromPath(file.getParent());
 	}

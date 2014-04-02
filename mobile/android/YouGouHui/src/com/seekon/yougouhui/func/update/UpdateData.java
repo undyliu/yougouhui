@@ -62,18 +62,19 @@ public class UpdateData extends AbstractDBHelper {
 
 	/**
 	 * 获取最新的更新时间
+	 * 
 	 * @param tableName
 	 * @return
 	 */
 	public String getUpdateTime(String tableName) {
 		onCreate(this.getWritableDatabase());
-		
+
 		String updateTime = null;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.query(TABLE_NAME, new String[] { COL_NAME_UPDATE_TIME },
 				COL_NAME_TABLE_NAME + " = ?", new String[] { tableName }, null, null,
 				null);
-		if(cursor.moveToNext()){
+		if (cursor.moveToNext()) {
 			updateTime = cursor.getString(0);
 		}
 		cursor.close();

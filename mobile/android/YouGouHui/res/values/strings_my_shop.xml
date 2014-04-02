@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_shop_login">登录我的商铺</string>
+    <string name="title_shop_register">商铺注册</string>
+    
+    <string name="label_no_shop">还没有商铺，请先</string>
+</resources>

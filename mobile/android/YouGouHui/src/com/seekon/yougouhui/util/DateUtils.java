@@ -8,13 +8,16 @@ import java.util.Date;
 public class DateUtils {
 
 	private static final String TAG = DateUtils.class.getSimpleName();
-	
+
 	public static final SimpleDateFormat dateformat = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss");
-		
+
 	public static final SimpleDateFormat yyyymmddFormat = new SimpleDateFormat(
 			"yyyy-MM-dd");
-	
+
+	public static final SimpleDateFormat mmddFormat = new SimpleDateFormat(
+			"MM月dd日");
+
 	private DateUtils() {
 	}
 
@@ -22,8 +25,13 @@ public class DateUtils {
 		Date date = new Date(time);
 		return dateformat.format(date);
 	}
-	
-	public static Date getDate_yyyyMMdd(String dateString){
+
+	public static String formatTime_MMdd(long time) {
+		Date date = new Date(time);
+		return mmddFormat.format(date);
+	}
+
+	public static Date getDate_yyyyMMdd(String dateString) {
 		try {
 			return yyyymmddFormat.parse(dateString);
 		} catch (ParseException e) {
@@ -31,15 +39,15 @@ public class DateUtils {
 			throw new RuntimeException(e);
 		}
 	}
-	
-	public static int getMonth(Date date){
-		Calendar calendar = Calendar.getInstance(); 
+
+	public static int getMonth(Date date) {
+		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		return calendar.get(Calendar.MONTH) + 1;
 	}
-	
-	public static int getDate(Date date){
-		Calendar calendar = Calendar.getInstance(); 
+
+	public static int getDate(Date date) {
+		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		return calendar.get(Calendar.DAY_OF_MONTH);
 	}

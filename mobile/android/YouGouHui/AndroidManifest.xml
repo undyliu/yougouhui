@@ -131,7 +131,10 @@
          <activity android:label="@string/title_user_change_pwd" android:name=".activity.user.ChangePwdActivity"></activity>
          <activity android:label="@string/title_friend_profile" android:name=".activity.user.FriendProfileActivity"></activity>
          <activity android:label="@string/title_my_share" android:name=".activity.profile.MyShareActivity"></activity>
-         <activity android:label="@string/title_share_detail" android:name=".activity.profile.ShareDetailActivity"></activity>     
+         <activity android:label="@string/title_share_detail" android:name=".activity.profile.ShareDetailActivity"></activity>
+         <activity android:name=".activity.profile.shop.LoginShopActivity" android:label="@string/title_shop_login"></activity>
+         <activity android:name=".activity.profile.shop.RegisterShopActivity" android:label="@string/title_shop_register"></activity>
+         <activity android:name=".activity.profile.ContactListActivity" android:label="@string/title_contact_list"></activity>     
        </application>
 
 </manifest>

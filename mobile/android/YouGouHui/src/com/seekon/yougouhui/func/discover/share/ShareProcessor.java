@@ -36,14 +36,16 @@ public class ShareProcessor extends ContentProcessor {
 	 * @param callback
 	 */
 	public void getShares(ProcessorCallback callback, String lastPublishTime,
-			String minPublishTime, String lastCommentPublishTime, String minCommentPublishTime) {
+			String minPublishTime, String lastCommentPublishTime,
+			String minCommentPublishTime) {
 		GetSharesMethod method = new GetSharesMethod(mContext, lastPublishTime,
 				minPublishTime, lastCommentPublishTime, minCommentPublishTime);
 		this.execMethodWithCallback(method, callback);
 	}
 
 	@Override
-	protected void updateContentProvider(RestMethodResult<Resource> result, String[] colNames) {
+	protected void updateContentProvider(RestMethodResult<Resource> result,
+			String[] colNames) {
 		if (result == null) {
 			return;
 		}
@@ -154,13 +156,13 @@ public class ShareProcessor extends ContentProcessor {
 		ContentResolver resolver = mContext.getContentResolver();
 		Cursor cursor = resolver.query(ShareImgConst.CONTENT_URI,
 				new String[] { COL_NAME_IMG }, where, args, null);
-		while(cursor.moveToNext()){
+		while (cursor.moveToNext()) {
 			String image = cursor.getString(0);
 			File file = FileHelper.getFileFromCache(image);
 			file.delete();
 		}
 		cursor.close();
-		
+
 		resolver.delete(ShareImgConst.CONTENT_URI, where, args);
 	}
 

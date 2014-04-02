@@ -1,16 +1,9 @@
 package com.seekon.yougouhui.activity.discover;
 
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
-import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
-import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER_NAME;
-import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER_PHOTO;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_TIME;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -25,11 +18,13 @@ import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.RequestListActivity;
 import com.seekon.yougouhui.func.discover.share.CommentConst;
 import com.seekon.yougouhui.func.discover.share.CommentData;
+import com.seekon.yougouhui.func.discover.share.CommentEntity;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareData;
+import com.seekon.yougouhui.func.discover.share.ShareEntity;
 import com.seekon.yougouhui.func.discover.share.ShareServiceHelper;
-import com.seekon.yougouhui.func.discover.widget.ShareListAdapter;
-import com.seekon.yougouhui.func.discover.widget.ShareUtils;
+import com.seekon.yougouhui.func.discover.share.widget.ShareListAdapter;
+import com.seekon.yougouhui.func.discover.share.widget.ShareUtils;
 import com.seekon.yougouhui.func.update.UpdateData;
 import com.seekon.yougouhui.layout.XListView;
 import com.seekon.yougouhui.layout.XListView.IXListViewListener;
@@ -46,7 +41,7 @@ public class FriendShareActivity extends RequestListActivity implements
 
 	private static final int SHARE_ACTIVITY_REQUEST_CODE = 100;
 
-	private List<Map<String, ?>> shares = new ArrayList<Map<String, ?>>();
+	private List<ShareEntity> shares = new ArrayList<ShareEntity>();
 
 	private XListView shareListView = null;
 
@@ -85,10 +80,7 @@ public class FriendShareActivity extends RequestListActivity implements
 		shareListView.setPullLoadEnable(true);
 		shareListView.setXListViewListener(this);
 
-		listAdapter = new ShareListAdapter(this, shares,
-				R.layout.discover_friends_item, new String[] { COL_NAME_PUBLISHER_NAME,
-						COL_NAME_CONTENT },
-				new int[] { R.id.user_name, R.id.share_content });
+		listAdapter = new ShareListAdapter(this, shares);
 		shareListView.setAdapter(listAdapter);
 
 		ActionBar actionBar = this.getActionBar();
@@ -212,62 +204,28 @@ public class FriendShareActivity extends RequestListActivity implements
 		return result;
 	}
 
-	// /**
-	// * 获取最新的更新数据
-	// */
-	// private List<Map<String, ?>> getHeadShareListFromLocal() {
-	// List<Map<String, ?>> result = null;
-	// if (lastPublishTime == null) {// 没有记录
-	// result = getBackShareListFromLocal();
-	// lastPublishTime = this.getLastPublishTime();
-	// } else {
-	// String selection = COL_NAME_PUBLISH_TIME + " > ? ";
-	// String[] selectionArgs = new String[] { lastPublishTime + "" };
-	// String limitSql = "";
-	// result = this.getShareListFromLocal(selection, selectionArgs, limitSql);
-	// lastPublishTime = this.getLastPublishTime();
-	// }
-	// return result;
-	// }
-
 	/**
 	 * 根据偏移获取偏移位置之后的数据
 	 */
-	private List<Map<String, ?>> getBackShareListFromLocal() {
+	private List<ShareEntity> getBackShareListFromLocal() {
 		String limitSql = " limit " + Const.PAGE_SIZE + " offset " + currentOffset;
-		return getShareListFromLocal(null, null, limitSql);
+		List<ShareEntity> shares = getShareListFromLocal(null, null, limitSql);
+		currentOffset += shares.size();
+		return shares;
 	}
 
-	public List<Map<String, ?>> getShareListFromLocal(String selection,
+	public List<ShareEntity> getShareListFromLocal(String selection,
 			String[] selectionArgs, String limitSql) {
-		List<Map<String, ?>> result = new ArrayList<Map<String, ?>>();
-		Cursor cursor = shareData.getShareData(limitSql);
-		while (cursor.moveToNext()) {
-			int i = 0;
-			String uuid = cursor.getString(i++);
-
-			Map values = new HashMap();
-			values.put(COL_NAME_UUID, uuid);
-			values.put(COL_NAME_CONTENT, cursor.getString(i++));
-			values.put(COL_NAME_PUBLISH_TIME,
-					DateUtils.formartTime(cursor.getLong(i++)));
-			values.put(COL_NAME_PUBLISHER, cursor.getString(i++));
-			values.put(COL_NAME_PUBLISHER_NAME, cursor.getString(i++));
-			values.put(COL_NAME_PUBLISHER_PHOTO, cursor.getString(i++));
-
-			values.put(ShareConst.DATA_IMAGE_KEY,
-					ShareUtils.getShareImagesFromLocal(this, uuid));
-			values.put(ShareConst.DATA_COMMENT_KEY, getCommentsFromLocal(uuid));
-
-			currentOffset++;
-
-			result.add(values);
+		List<ShareEntity> result = shareData.getShareData(limitSql);
+		for (ShareEntity share : result) {
+			share
+					.setImages(ShareUtils.getShareImagesFromLocal(this, share.getUuid()));
+			share.setComments(getCommentsFromLocal(share.getUuid()));
 		}
-		cursor.close();
 		return result;
 	}
 
-	private List<Map<String, ?>> getCommentsFromLocal(String shareId) {
+	private List<CommentEntity> getCommentsFromLocal(String shareId) {
 		return commentData.getCommentData(shareId);
 	}
 
@@ -337,7 +295,7 @@ public class FriendShareActivity extends RequestListActivity implements
 		return this.listAdapter;
 	}
 
-	public List<Map<String, ?>> getShares() {
+	public List<ShareEntity> getShares() {
 		return shares;
 	}
 }
