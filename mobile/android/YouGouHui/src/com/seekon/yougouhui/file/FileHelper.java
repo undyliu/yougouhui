@@ -35,48 +35,6 @@ public class FileHelper {
 	private FileHelper() {
 	}
 
-	// public static void write(Bitmap image, String fileName) {
-	// ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	// image.compress(Bitmap.CompressFormat.PNG, 100, baos);
-	// InputStream isBm = null;
-	// try {
-	// isBm = new ByteArrayInputStream(baos.toByteArray());
-	// write(isBm, IMAGE_FILE_GET_URL + fileName);
-	// } finally {
-	// closeInputStream(isBm);
-	// }
-	// }
-	//
-	// private static void write(InputStream is, String url) {
-	// File file = getFile(url);
-	// if (file.exists()) {
-	// return;
-	// }
-	// byte[] content = new byte[1024];
-	// FileOutputStream os = null;
-	// try {
-	// os = new FileOutputStream(file);
-	// int size = 0;
-	// while ((size = is.read(content)) != -1) {
-	// os.write(content, 0, size);
-	// }
-	// os.flush();
-	// } catch (Exception e) {
-	// Logger.error(TAG, e.getMessage(), e);
-	// } finally {
-	// closeOutputStream(os);
-	// }
-	// }
-
-	// public static File getFileByName(String fileName) {
-	// return getFile(IMAGE_FILE_GET_URL + fileName);
-	// }
-	//
-	// public static File getFile(String url) {
-	// FileCache fileCache = new FileCache();
-	// return fileCache.getFile(url);
-	// }
-
 	/**
 	 * 从cache目录中获取文件
 	 * 

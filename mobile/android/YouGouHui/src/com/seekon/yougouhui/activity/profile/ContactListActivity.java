@@ -2,28 +2,34 @@ package com.seekon.yougouhui.activity.profile;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.user.FriendProfileActivity;
 import com.seekon.yougouhui.func.profile.contact.ContactEntity;
 import com.seekon.yougouhui.func.profile.contact.PinyinComparator;
 import com.seekon.yougouhui.func.profile.contact.widget.ContactListAdapter;
 import com.seekon.yougouhui.func.profile.contact.widget.SideBar;
 import com.seekon.yougouhui.func.profile.contact.widget.SideBar.OnTouchingLetterChangedListener;
+import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.util.PinyinUtils;
 import com.seekon.yougouhui.widget.ClearEditText;
 
@@ -56,6 +62,12 @@ public class ContactListActivity extends Activity {
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.contact_list, menu);
+		return true;
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
 		switch (itemId) {
@@ -67,11 +79,11 @@ public class ContactListActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void initViews() {
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		
+
 		pinyinComparator = new PinyinComparator();
 
 		sideBar = (SideBar) findViewById(R.id.contact_sidebar);
@@ -84,11 +96,11 @@ public class ContactListActivity extends Activity {
 
 					@Override
 					public void onTouchingLetterChanged(String s) {
-//						// 该字母首次出现的位置
-//						int position = adapter.getPositionForSection(s.charAt(0));
-//						if (position != -1) {
-//							sortListView.setSelection(position);
-//						}
+
+						int position = adapter.getPositionForSection(s.charAt(0));
+						if (position != -1) {
+							sortListView.setSelection(position);
+						}
 
 					}
 				});
@@ -99,10 +111,11 @@ public class ContactListActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
-				// 这里要利用adapter.getItem(position)来获取当前position所对应的对象
-				Toast.makeText(getApplication(),
-						((ContactEntity) adapter.getItem(position)).getName(),
-						Toast.LENGTH_SHORT).show();
+				ContactEntity user = contactDateList.get(position);
+				Intent intent = new Intent(ContactListActivity.this,
+						FriendProfileActivity.class);
+				intent.putExtra(UserConst.DATA_KEY_USER, user);
+				startActivity(intent);
 			}
 		});
 
@@ -112,6 +125,24 @@ public class ContactListActivity extends Activity {
 		Collections.sort(contactDateList, pinyinComparator);
 		adapter = new ContactListAdapter(this, contactDateList);
 		sortListView.setAdapter(adapter);
+
+		// 根据联系人数据重新设置sidebar
+		List<String> catalogKeys = new ArrayList<String>();
+		catalogKeys.addAll(adapter.getCatalogKeys());
+		Collections.sort(catalogKeys, new Comparator<String>() {
+			@Override
+			public int compare(String lhs, String rhs) {
+				return lhs.compareTo(rhs);
+			}
+
+		});
+		int catalogSize = catalogKeys.size();
+		int sideBarHeight = this.getResources().getDisplayMetrics().heightPixels;
+		if (sideBarHeight > catalogSize * 30) {
+			sideBar.setLayoutParams(new FrameLayout.LayoutParams(30,
+					catalogSize * 30, Gravity.RIGHT));
+		}
+		sideBar.setNavWords(catalogKeys.toArray(new String[catalogSize]));
 
 		mClearEditText = (ClearEditText) findViewById(R.id.contact_filter_edit);
 
