@@ -21,6 +21,7 @@ import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareData;
+import com.seekon.yougouhui.func.discover.share.ShareEntity;
 import com.seekon.yougouhui.func.discover.share.widget.ShareUtils;
 import com.seekon.yougouhui.func.profile.share.widget.MyShareListAdapter;
 import com.seekon.yougouhui.layout.XListView;
@@ -73,8 +74,7 @@ public class MyShareActivity extends Activity implements IXListViewListener {
 		shareListView.setPullLoadEnable(true);
 		shareListView.setXListViewListener(this);
 
-		listAdapter = new MyShareListAdapter(this, shareList,
-				R.layout.my_share_item, new String[] {}, new int[] {});
+		listAdapter = new MyShareListAdapter(this, shareList);
 		shareListView.setAdapter(listAdapter);
 	}
 
@@ -142,12 +142,10 @@ public class MyShareActivity extends Activity implements IXListViewListener {
 				where, whereArgs, userId, limitSql);
 		for (Map shareCount : shareCountList) {
 			String publishDate = (String) shareCount.get(COL_NAME_PUBLISH_DATE);
-			List<Map<String, ?>> shareList = shareData.getShareListByPublishDate(
+			List<ShareEntity> shareList = shareData.getShareListByPublishDate(
 					where, whereArgs, publishDate, userId);
-			for (Map share : shareList) {
-				String shareId = (String) share.get(COL_NAME_UUID);
-				share.put(ShareConst.DATA_IMAGE_KEY,
-						ShareUtils.getShareImagesFromLocal(this, shareId));
+			for (ShareEntity share : shareList) {
+				share.setImages(ShareUtils.getShareImagesFromLocal(this, share.getUuid()));
 			}
 			shareCount.put(ShareConst.DATA_SHARE_KEY, shareList);
 		}

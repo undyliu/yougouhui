@@ -1,25 +1,29 @@
 package com.seekon.yougouhui.func.profile.contact.widget;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.profile.contact.ContactEntity;
 
-public class ContactListAdapter extends BaseAdapter implements SectionIndexer {
-	private List<ContactEntity> list = null;
+public class ContactListAdapter extends BaseAdapter {
+	private List<ContactEntity> contactList;
+	private Map<String, Integer> catalogMap = new HashMap<String, Integer>();
 	private Context mContext;
 
-	public ContactListAdapter(Context mContext, List<ContactEntity> list) {
+	public ContactListAdapter(Context mContext, List<ContactEntity> contactList) {
 		this.mContext = mContext;
-		this.list = list;
+		this.contactList = contactList;
+		initCatalogList();
 	}
 
 	/**
@@ -27,26 +31,42 @@ public class ContactListAdapter extends BaseAdapter implements SectionIndexer {
 	 * 
 	 * @param list
 	 */
-	public void updateListView(List<ContactEntity> list) {
-		this.list = list;
+	public void updateListView(List<ContactEntity> contactList) {
+		this.contactList = contactList;
+		initCatalogList();
 		notifyDataSetChanged();
 	}
 
+	private void initCatalogList() {
+		int size = contactList.size();
+		for (int i = 0; i < size; i++) {
+			String firstLetter = contactList.get(i).getFirstLetter();
+			Set<String> keys = catalogMap.keySet();
+			if(!keys.contains(firstLetter)){
+				catalogMap.put(firstLetter, i);
+			}
+		}
+	}
+	
+	@Override
 	public int getCount() {
-		return this.list.size();
+		return this.contactList.size();
 	}
 
+	@Override
 	public Object getItem(int position) {
-		return list.get(position);
+		return contactList.get(position);
 	}
 
+	@Override
 	public long getItemId(int position) {
 		return position;
 	}
 
+	@Override
 	public View getView(final int position, View view, ViewGroup arg2) {
 		ViewHolder viewHolder = null;
-		final ContactEntity mContent = list.get(position);
+		final ContactEntity mContent = contactList.get(position);
 		if (view == null) {
 			viewHolder = new ViewHolder();
 			view = LayoutInflater.from(mContext).inflate(R.layout.contact_list_item,
@@ -59,18 +79,16 @@ public class ContactListAdapter extends BaseAdapter implements SectionIndexer {
 			viewHolder = (ViewHolder) view.getTag();
 		}
 
-		// 根据position获取分类的首字母的Char ascii值
-		int section = getSectionForPosition(position);
-
-		// 如果当前位置等于该分类首字母的Char的位置 ，则认为是第一次出现
-		if (position == getPositionForSection(section)) {
+		String firstLetter = mContent.getFirstLetter();
+		int catalogIndex = catalogMap.get(firstLetter);
+		if(position == catalogIndex){
 			viewHolder.tvLetter.setVisibility(View.VISIBLE);
-			viewHolder.tvLetter.setText(mContent.getFirstLetter());
-		} else {
+			viewHolder.tvLetter.setText(firstLetter.toUpperCase());
+		}else{
 			viewHolder.tvLetter.setVisibility(View.GONE);
 		}
 
-		viewHolder.tvTitle.setText(this.list.get(position).getName());
+		viewHolder.tvTitle.setText(this.contactList.get(position).getName());
 
 		return view;
 
@@ -81,30 +99,4 @@ public class ContactListAdapter extends BaseAdapter implements SectionIndexer {
 		TextView tvTitle;
 	}
 
-	/**
-	 * 根据ListView的当前位置获取分类的首字母的Char ascii值
-	 */
-	public int getSectionForPosition(int position) {
-		return list.get(position).getFirstLetter().charAt(0);
-	}
-
-	/**
-	 * 根据分类的首字母的Char ascii值获取其第一次出现该首字母的位置
-	 */
-	public int getPositionForSection(int section) {
-		for (int i = 0; i < getCount(); i++) {
-			String sortStr = list.get(i).getFirstLetter();
-			char firstChar = sortStr.toUpperCase().charAt(0);
-			if (firstChar == section) {
-				return i;
-			}
-		}
-
-		return -1;
-	}
-
-	@Override
-	public Object[] getSections() {
-		return null;
-	}
 }

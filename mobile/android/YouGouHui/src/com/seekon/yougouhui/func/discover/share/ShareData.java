@@ -134,28 +134,25 @@ public class ShareData extends AbstractDBHelper {
 	 * @param publisher
 	 * @return
 	 */
-	public List<Map<String, ?>> getShareListByPublishDate(String where,
+	public List<ShareEntity> getShareListByPublishDate(String where,
 			String[] whereArgs, String publishData, String publisher) {
 		List<String> args = new ArrayList<String>();
 		args.add(publishData);
 		args.add(publisher);
 
-		List<Map<String, ?>> result = new ArrayList<Map<String, ?>>();
+		List<ShareEntity> result = new ArrayList<ShareEntity>();
 		String sql = " select uuid, content from e_share where publish_date = ? and publisher = ? ";
 		if (where != null && where.length() > 0) {
 			sql += " and (" + where + ") ";
 			args.addAll(Arrays.asList(whereArgs));
 		}
-		sql += " order by publish_date desc ";
+		sql += " order by publish_time desc ";
 
 		Cursor cursor = getReadableDatabase().rawQuery(sql,
 				args.toArray(new String[args.size()]));
 		while (cursor.moveToNext()) {
 			int i = 0;
-			Map row = new HashMap();
-			row.put(COL_NAME_UUID, cursor.getString(i++));
-			row.put(COL_NAME_CONTENT, cursor.getString(i++));
-			result.add(row);
+			result.add(new ShareEntity(cursor.getString(i++), cursor.getString(i++)));
 		}
 		cursor.close();
 		return result;
