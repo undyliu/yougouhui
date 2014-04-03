@@ -3,6 +3,7 @@ package com.seekon.yougouhui.activity.profile;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_DATE;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,8 @@ import android.widget.SearchView.OnQueryTextListener;
 
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.discover.FriendShareActivity;
+import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareData;
 import com.seekon.yougouhui.func.discover.share.ShareEntity;
@@ -119,8 +122,23 @@ public class MyShareActivity extends Activity implements IXListViewListener {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 		case SHARE_DETAIL_REQUEST_RESULT_CODE:
-			if (resultCode == RESULT_OK) {
+			if (resultCode == RESULT_OK && data != null) {
+				int position = data.getIntExtra("position", -1);
+				if(position == -1){
+					return;
+				}
+				
+				ShareEntity share = (ShareEntity) data.getSerializableExtra(ShareConst.DATA_SHARE_KEY);
+				List<String> images = share.getImages();
+				for (String image : images) {
+					File file = FileHelper.getFileFromCache(image);
+					file.delete();
+				}
 
+				Map<String, ?> shareCountMap = shareList.get(position);
+				((List<ShareEntity>)shareCountMap.get(ShareConst.DATA_SHARE_KEY)).remove(share);
+				
+				listAdapter.notifyDataSetChanged();
 			}
 			break;
 		default:

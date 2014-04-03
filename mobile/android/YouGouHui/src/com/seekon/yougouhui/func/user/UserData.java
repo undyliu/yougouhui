@@ -86,7 +86,7 @@ public class UserData extends AbstractDBHelper {
 
 	public List<UserEntity> getUserFriends(String userId) {
 		List<UserEntity> result = new ArrayList<UserEntity>();
-		String sql = " select u.uuid, u.phone, u.name, u.photo from e_user u, e_friend f "
+		String sql = " select distinct u.uuid, u.phone, u.name, u.photo from e_user u, e_friend f "
 				+ " where u.uuid = f.friend_id and f.user_id = ? ";
 		Cursor cursor = this.getReadableDatabase().rawQuery(sql,
 				new String[] { userId });

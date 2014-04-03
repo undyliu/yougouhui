@@ -57,7 +57,10 @@ public class FriendProfileActionProvider extends ActionProvider {
 	 */
 	private void showPopup(View v) {
 		setFriendFromContext();
-
+		if(RunEnv.getInstance().getUser().equals(friend)){//TODO:
+			return;
+		}
+		
 		mPopupMenu = new PopupMenu(context, v);
 		mPopupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 

@@ -9,6 +9,7 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.view.Gravity;
@@ -20,6 +21,7 @@ import android.widget.PopupWindow;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.discover.FriendShareActivity;
+import com.seekon.yougouhui.activity.profile.ShareDetailActivity;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.discover.share.CommentConst;
@@ -47,7 +49,7 @@ public class ShareActionPopupWindow extends PopupWindow {
 
 	public void init(final Activity activity, final ShareEntity share,
 			final BaseAdapter commentAdapter) {
-		View view = activity.getLayoutInflater().inflate(
+		final View view = activity.getLayoutInflater().inflate(
 				R.layout.discover_friends_action_pop, null);
 		this.setContentView(view);
 
@@ -71,8 +73,12 @@ public class ShareActionPopupWindow extends PopupWindow {
 				popupWindow.setFocusable(true);
 				popupWindow
 						.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-				popupWindow.showAtLocation(
-						activity.findViewById(R.id.freind_share_list), Gravity.BOTTOM, 0, 0);
+				View parentView = activity.findViewById(R.id.freind_share_list);
+				if (parentView != null) {
+					popupWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);
+				} else {
+					popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+				}
 			}
 		});
 
@@ -130,18 +136,25 @@ public class ShareActionPopupWindow extends PopupWindow {
 										selectionArgs);
 								resolver.delete(CommentConst.CONTENT_URI, selection,
 										selectionArgs);
-								ShareListAdapter adapter = ((FriendShareActivity) activity)
-										.getShareListAdapter();
+								if (activity instanceof FriendShareActivity) {
+									ShareListAdapter adapter = ((FriendShareActivity) activity)
+											.getShareListAdapter();
 
-								List<String> images = share.getImages();
-								for (String image : images) {
-									File file = FileHelper.getFileFromCache(image);
-									file.delete();
+									List<String> images = share.getImages();
+									for (String image : images) {
+										File file = FileHelper.getFileFromCache(image);
+										file.delete();
+									}
+
+									((FriendShareActivity) activity).getShares().remove(share);
+									adapter.notifyDataSetChanged();
+								}else if(activity instanceof ShareDetailActivity){
+									Intent intent = new Intent();
+									intent.putExtra("position", activity.getIntent().getIntExtra("position", -1));
+									intent.putExtra(ShareConst.DATA_SHARE_KEY, share);
+									activity.setResult(Activity.RESULT_OK, intent);
+									activity.finish();
 								}
-
-								((FriendShareActivity) activity).getShares().remove(share);
-								adapter.notifyDataSetChanged();
-
 							} else {
 								// TODO:
 								ViewUtils.showToast("删除失败.");

@@ -42,6 +42,7 @@ import com.seekon.yougouhui.widget.ClearEditText;
 public class ContactListActivity extends Activity {
 
 	private final static int ADD_FRIEND_REQUEST_CODE = 1;
+	private final static int OPEN_FRIEND_REQUEST_CODE = 2;
 	
 	private ListView sortListView;
 	private SideBar sideBar;
@@ -120,7 +121,7 @@ public class ContactListActivity extends Activity {
 				Intent intent = new Intent(ContactListActivity.this,
 						FriendProfileActivity.class);
 				intent.putExtra(UserConst.DATA_KEY_USER, user);
-				startActivity(intent);
+				startActivityForResult(intent, OPEN_FRIEND_REQUEST_CODE);
 			}
 		});
 
@@ -216,11 +217,12 @@ public class ContactListActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
+		case OPEN_FRIEND_REQUEST_CODE:
 		case ADD_FRIEND_REQUEST_CODE:
 			if(resultCode == RESULT_OK){
 				contactDateList = getContactListData();
 				Collections.sort(contactDateList, pinyinComparator);
-				adapter.notifyDataSetChanged();
+				adapter.updateListView(contactDateList);
 			}
 			break;
 

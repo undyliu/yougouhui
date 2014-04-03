@@ -47,11 +47,17 @@ public class FriendProfileActivity extends Activity {
 		int itemId = item.getItemId();
 		switch (itemId) {
 		case android.R.id.home:
-			this.finish();
+			this.back();
 			break;
 		default:
 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private void back(){
+		Intent intent = new Intent();
+		this.setResult(RESULT_OK, intent);
+		this.finish();
 	}
 }

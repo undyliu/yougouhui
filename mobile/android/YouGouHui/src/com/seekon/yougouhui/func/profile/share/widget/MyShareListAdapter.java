@@ -65,7 +65,7 @@ public class MyShareListAdapter extends BaseAdapter {
 		List<ShareEntity> shareItemList = (List<ShareEntity>) shareCount
 				.get(ShareConst.DATA_SHARE_KEY);
 		ListView sharesView = (ListView) view.findViewById(R.id.share_item_list);
-		sharesView.setAdapter(new MyShareItemListAdapter(activity, shareItemList));
+		sharesView.setAdapter(new MyShareItemListAdapter(activity, shareItemList, position));
 
 		return view;
 	}
