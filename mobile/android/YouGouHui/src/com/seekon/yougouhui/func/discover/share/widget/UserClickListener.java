@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.seekon.yougouhui.activity.user.FriendProfileActivity;
+import com.seekon.yougouhui.activity.profile.contact.FriendProfileActivity;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
 

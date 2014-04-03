@@ -73,7 +73,7 @@ public class CommentPopupWindow extends PopupWindow {
 					protected RestMethodResult<JSONObjResource> doInBackground(
 							Void... params) {
 
-						ShareProcessor processor = new ShareProcessor(activity);
+						ShareProcessor processor = ShareProcessor.getInstance(activity);
 						return processor.postComment(commentMap);
 					}
 

@@ -1,9 +1,10 @@
-package com.seekon.yougouhui.activity.user;
+package com.seekon.yougouhui.activity.profile.contact;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.seekon.yougouhui.R;
@@ -35,6 +36,12 @@ public class FriendProfileActivity extends Activity {
 		actionBar.setTitle(user.getName());
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.friend_profile, menu);
+		return true;
+	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();

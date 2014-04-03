@@ -6,6 +6,10 @@ import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_ICON;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_NAME;
 import static com.seekon.yougouhui.func.user.UserConst.TABLE_NAME;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -73,9 +77,25 @@ public class UserData extends AbstractDBHelper {
 		String pwdInDb = user.getPwd();
 		if ((pwdInDb == null && pwd == null)
 				|| (pwdInDb != null && pwdInDb.equals(pwd))) {
+			user.setFriends(getUserFriends(user.getUuid()));
 			return user;
 		} else {
 			return null;
 		}
+	}
+
+	public List<UserEntity> getUserFriends(String userId) {
+		List<UserEntity> result = new ArrayList<UserEntity>();
+		String sql = " select u.uuid, u.phone, u.name, u.photo from e_user u, e_friend f "
+				+ " where u.uuid = f.friend_id and f.user_id = ? ";
+		Cursor cursor = this.getReadableDatabase().rawQuery(sql,
+				new String[] { userId });
+		while (cursor.moveToNext()) {
+			int i = 0;
+			result.add(new UserEntity(cursor.getString(i++), cursor.getString(i++),
+					cursor.getString(i++), null, cursor.getString(i++)));
+		}
+		cursor.close();
+		return result;
 	}
 }

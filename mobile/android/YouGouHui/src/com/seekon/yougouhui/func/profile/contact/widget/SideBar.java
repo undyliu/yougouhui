@@ -14,9 +14,9 @@ import android.widget.TextView;
 import com.seekon.yougouhui.R;
 
 public class SideBar extends View {
-	
+
 	private OnTouchingLetterChangedListener onTouchingLetterChangedListener;
-	
+
 	private String[] navWords = { "A", "B", "C", "D", "E", "F", "G", "H", "I",
 			"J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W",
 			"X", "Y", "Z", "#" };
@@ -41,16 +41,19 @@ public class SideBar extends View {
 		super(context);
 	}
 
-	public void setNavWords(String[] navWords){
+	public void setNavWords(String[] navWords) {
 		this.navWords = navWords;
 		this.postInvalidate();
 	}
-	
+
 	/**
 	 * 重写这个方法
 	 */
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+		if(navWords.length == 0){
+			return;
+		}
 		// 获取焦点改变背景颜色.
 		int height = getHeight();// 获取对应高度
 		int width = getWidth(); // 获取对应宽度

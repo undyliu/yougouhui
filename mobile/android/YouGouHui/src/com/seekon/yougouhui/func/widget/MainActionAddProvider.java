@@ -1,6 +1,7 @@
-package com.seekon.yougouhui.func.profile.contact.widget;
+package com.seekon.yougouhui.func.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.ActionProvider;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -11,14 +12,16 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.discover.ShareActivity;
+import com.seekon.yougouhui.activity.profile.contact.AddFriendActivity;
 
-public class FriendAddProvider extends ActionProvider {
+public class MainActionAddProvider extends ActionProvider {
 
 	private Context context;
 
 	PopupMenu mPopupMenu;
 
-	public FriendAddProvider(Context context) {
+	public MainActionAddProvider(Context context) {
 		super(context);
 		this.context = context;
 	}
@@ -27,9 +30,8 @@ public class FriendAddProvider extends ActionProvider {
 	@Deprecated
 	public View onCreateActionView() {
 		LayoutInflater layoutInflater = LayoutInflater.from(context);
-		View view = layoutInflater.inflate(R.layout.contact_add_friend_provider,
-				null);
-		ImageView popupView = (ImageView) view.findViewById(R.id.add_friend_view);
+		View view = layoutInflater.inflate(R.layout.action_add_provider, null);
+		ImageView popupView = (ImageView) view.findViewById(R.id.action_add_view);
 		popupView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -50,14 +52,33 @@ public class FriendAddProvider extends ActionProvider {
 
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
-				// do someting
+				int itemId = item.getItemId();
+				switch (itemId) {
+				case R.id.menu_add_friend:
+					addFriend();
+					break;
+				case R.id.menu_publish_share:
+					publishShare();
+					break;
+				default:
+					break;
+				}
 				return false;
 			}
 
 		});
 		MenuInflater inflater = mPopupMenu.getMenuInflater();
-		inflater.inflate(R.menu.contact_add_friend_pop, mPopupMenu.getMenu());
+		inflater.inflate(R.menu.main_add_pop, mPopupMenu.getMenu());
 		mPopupMenu.show();
 	}
 
+	private void addFriend() {
+		Intent intent = new Intent(context, AddFriendActivity.class);
+		context.startActivity(intent);
+	}
+
+	private void publishShare() {
+		Intent intent = new Intent(context, ShareActivity.class);
+		context.startActivity(intent);
+	}
 }

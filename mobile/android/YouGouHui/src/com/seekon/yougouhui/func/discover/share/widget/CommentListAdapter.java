@@ -85,7 +85,7 @@ public class CommentListAdapter extends BaseAdapter {
 						@Override
 						protected RestMethodResult<JSONObjResource> doInBackground(
 								Void... params) {
-							ShareProcessor processor = new ShareProcessor(context);
+							ShareProcessor processor = ShareProcessor.getInstance(context);
 							return processor.deleteComment(commentId);
 						}
 

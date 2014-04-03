@@ -1,4 +1,4 @@
-package com.seekon.yougouhui.activity.profile;
+package com.seekon.yougouhui.activity.profile.contact;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,13 +23,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.activity.user.FriendProfileActivity;
-import com.seekon.yougouhui.func.profile.contact.ContactEntity;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.profile.contact.PinyinComparator;
 import com.seekon.yougouhui.func.profile.contact.widget.ContactListAdapter;
 import com.seekon.yougouhui.func.profile.contact.widget.SideBar;
 import com.seekon.yougouhui.func.profile.contact.widget.SideBar.OnTouchingLetterChangedListener;
 import com.seekon.yougouhui.func.user.UserConst;
+import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.util.PinyinUtils;
 import com.seekon.yougouhui.widget.ClearEditText;
 
@@ -41,13 +41,15 @@ import com.seekon.yougouhui.widget.ClearEditText;
  */
 public class ContactListActivity extends Activity {
 
+	private final static int ADD_FRIEND_REQUEST_CODE = 1;
+	
 	private ListView sortListView;
 	private SideBar sideBar;
 	private TextView dialog;
 	private ContactListAdapter adapter;
 	private ClearEditText mClearEditText;
 
-	private List<ContactEntity> contactDateList;
+	private List<UserEntity> contactDateList;
 
 	/**
 	 * 根据拼音来排列ListView里面的数据类
@@ -73,6 +75,9 @@ public class ContactListActivity extends Activity {
 		switch (itemId) {
 		case android.R.id.home:
 			this.finish();
+			break;
+		case R.id.menu_contact_add:
+			addFriend();
 			break;
 		default:
 			break;
@@ -111,7 +116,7 @@ public class ContactListActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
-				ContactEntity user = contactDateList.get(position);
+				UserEntity user = contactDateList.get(position);
 				Intent intent = new Intent(ContactListActivity.this,
 						FriendProfileActivity.class);
 				intent.putExtra(UserConst.DATA_KEY_USER, user);
@@ -167,14 +172,14 @@ public class ContactListActivity extends Activity {
 		});
 	}
 
-	private List<ContactEntity> getContactListData() {
-		List<ContactEntity> result = new ArrayList<ContactEntity>();
-		result.add(new ContactEntity("1", null, "张三", null, null));
-		result.add(new ContactEntity("2", null, "李四", null, null));
-		result.add(new ContactEntity("3", null, "王五", null, null));
-		result.add(new ContactEntity("4", null, "刘六", null, null));
-		result.add(new ContactEntity("3", null, "王八", null, null));
-		return result;
+	private List<UserEntity> getContactListData() {
+		return RunEnv.getInstance().getUser().getFriends();
+//		result.add(new ContactEntity("1", null, "张三", null, null));
+//		result.add(new ContactEntity("2", null, "李四", null, null));
+//		result.add(new ContactEntity("3", null, "王五", null, null));
+//		result.add(new ContactEntity("4", null, "刘六", null, null));
+//		result.add(new ContactEntity("3", null, "王八", null, null));
+		//return result;
 	}
 
 	/**
@@ -183,13 +188,13 @@ public class ContactListActivity extends Activity {
 	 * @param filterStr
 	 */
 	private void filterData(String filterStr) {
-		List<ContactEntity> filterDateList = new ArrayList<ContactEntity>();
+		List<UserEntity> filterDateList = new ArrayList<UserEntity>();
 
 		if (TextUtils.isEmpty(filterStr)) {
 			filterDateList = contactDateList;
 		} else {
 			filterDateList.clear();
-			for (ContactEntity sortModel : contactDateList) {
+			for (UserEntity sortModel : contactDateList) {
 				String name = sortModel.getName();
 				if (name.indexOf(filterStr.toString()) != -1
 						|| PinyinUtils.getPinYin(name).startsWith(filterStr.toString())) {
@@ -203,4 +208,25 @@ public class ContactListActivity extends Activity {
 		adapter.updateListView(filterDateList);
 	}
 
+	private void addFriend() {
+		Intent intent = new Intent(this, AddFriendActivity.class);
+		startActivityForResult(intent, ADD_FRIEND_REQUEST_CODE);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case ADD_FRIEND_REQUEST_CODE:
+			if(resultCode == RESULT_OK){
+				contactDateList = getContactListData();
+				Collections.sort(contactDateList, pinyinComparator);
+				adapter.notifyDataSetChanged();
+			}
+			break;
+
+		default:
+			break;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
 }

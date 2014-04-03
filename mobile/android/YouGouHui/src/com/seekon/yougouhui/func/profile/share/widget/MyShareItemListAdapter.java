@@ -74,7 +74,7 @@ public class MyShareItemListAdapter extends BaseAdapter {
 			ImageLoader.getInstance().displayImage(imageUrls.get(0), imageView, true);
 
 			imageCountView.setVisibility(View.VISIBLE);
-			imageCountView.setText(imageUrls.size() + "张");
+			imageCountView.setText("共" + imageUrls.size() + "张");
 		} else {
 			imageView.setVisibility(View.GONE);
 			imageCountView.setVisibility(View.GONE);

@@ -7,7 +7,19 @@ import com.seekon.yougouhui.service.ProcessorCallback;
 
 public class MessageProcessor extends ContentProcessor {
 
-	public MessageProcessor(Context mContext) {
+	private static MessageProcessor instance = null;
+	private static Object lock = new Object();
+
+	public static MessageProcessor getInstance(Context mContext) {
+		synchronized (lock) {
+			if (instance == null) {
+				instance = new MessageProcessor(mContext);
+			}
+		}
+		return instance;
+	}
+
+	private MessageProcessor(Context mContext) {
 		super(mContext, MessageData.COL_NAMES, MessageConst.CONTENT_URI);
 	}
 

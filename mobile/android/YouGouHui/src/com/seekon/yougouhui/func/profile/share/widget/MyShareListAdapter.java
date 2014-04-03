@@ -26,7 +26,8 @@ public class MyShareListAdapter extends BaseAdapter {
 
 	private Activity activity;
 
-	public MyShareListAdapter(Activity activity, List<? extends Map<String, ?>> shareCountList) {
+	public MyShareListAdapter(Activity activity,
+			List<? extends Map<String, ?>> shareCountList) {
 		super();
 		this.shareCountList = shareCountList;
 		this.activity = activity;
@@ -50,10 +51,12 @@ public class MyShareListAdapter extends BaseAdapter {
 
 		Date publishDate = DateUtils.getDate_yyyyMMdd((String) shareCount
 				.get(COL_NAME_PUBLISH_DATE));
-		((TextView) view.findViewById(R.id.share_publish_date)).setText(DateUtils
-				.getDate(publishDate) + "日");
-		((TextView) view.findViewById(R.id.share_publish_month)).setText(DateUtils
-				.getMonth(publishDate) + "月");
+		TextView monthView = (TextView) view.findViewById(R.id.share_publish_date);
+		monthView.setText(DateUtils.getDate(publishDate) + "日");
+		TextView dateView = (TextView) view.findViewById(R.id.share_publish_month);
+		dateView.setText(DateUtils.getMonth(publishDate) + "月");
+		monthView.getPaint().setFakeBoldText(true);
+		dateView.getPaint().setFakeBoldText(true);// TODO:使用样式表来处理
 
 		String shareItemCount = shareCount.get(NAME_COUNT).toString();
 		((TextView) view.findViewById(R.id.share_publish_count))

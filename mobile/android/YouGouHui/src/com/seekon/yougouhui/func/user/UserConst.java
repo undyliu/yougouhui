@@ -16,7 +16,7 @@ public interface UserConst extends DataConst {
 	public static final String KEY_REGISTER_USER = "register.user";
 
 	public static final String DATA_KEY_USER = "data.user";
-	
+
 	public static final String COL_NAME_PHONE = "phone";
 	public static final String COL_NAME_USER_NAME = "name";
 	public static final String COL_NAME_PWD = "pwd";

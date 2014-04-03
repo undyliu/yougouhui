@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ListView;
 
-import com.seekon.yougouhui.activity.profile.ContactListActivity;
 import com.seekon.yougouhui.activity.profile.MyShareActivity;
 import com.seekon.yougouhui.activity.profile.SettingActivity;
+import com.seekon.yougouhui.activity.profile.contact.ContactListActivity;
 import com.seekon.yougouhui.activity.profile.shop.LoginShopActivity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.module.ModuleConst;

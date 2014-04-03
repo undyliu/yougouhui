@@ -26,7 +26,19 @@ import com.seekon.yougouhui.util.Logger;
 
 public class ShareProcessor extends ContentProcessor {
 
-	public ShareProcessor(Context mContext) {
+	private static ShareProcessor instance = null;
+	private static Object lock = new Object();
+
+	public static ShareProcessor getInstance(Context mContext) {
+		synchronized (lock) {
+			if (instance == null) {
+				instance = new ShareProcessor(mContext);
+			}
+		}
+		return instance;
+	}
+
+	private ShareProcessor(Context mContext) {
 		super(mContext, ShareData.COL_NAMES, ShareConst.CONTENT_URI);
 	}
 

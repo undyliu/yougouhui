@@ -2,9 +2,11 @@ package com.seekon.yougouhui.func.profile.contact;
 
 import java.util.Comparator;
 
-public class PinyinComparator implements Comparator<ContactEntity> {
+import com.seekon.yougouhui.func.user.UserEntity;
 
-	public int compare(ContactEntity o1, ContactEntity o2) {
+public class PinyinComparator implements Comparator<UserEntity> {
+
+	public int compare(UserEntity o1, UserEntity o2) {
 
 		return o1.getPinyinName().compareTo(o2.getPinyinName());
 

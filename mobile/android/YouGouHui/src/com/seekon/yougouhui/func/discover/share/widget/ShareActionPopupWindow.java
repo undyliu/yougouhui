@@ -107,7 +107,7 @@ public class ShareActionPopupWindow extends PopupWindow {
 						@Override
 						protected RestMethodResult<JSONObjResource> doInBackground(
 								String... params) {
-							ShareProcessor processor = new ShareProcessor(activity);
+							ShareProcessor processor = ShareProcessor.getInstance(activity);
 							return processor.deleteShare(params[0]);
 						}
 

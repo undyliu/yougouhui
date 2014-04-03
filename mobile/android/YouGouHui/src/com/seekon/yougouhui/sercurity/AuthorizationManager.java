@@ -79,6 +79,7 @@ public class AuthorizationManager implements RequestSigner {
 				if (resource.getBoolean(LoginConst.LOGIN_RESULT_AUTHED)) {
 					user = JSONUtils.createUserEntity(resource
 							.getJSONObject(LoginConst.LOGIN_RESULT_USER));
+					user.setFriends(this.getUserHelper().getUserFriends(user.getUuid()));
 				} else {
 					errorType = resource.getString(LoginConst.LOGIN_RESULT_ERROR_TYPE);
 				}

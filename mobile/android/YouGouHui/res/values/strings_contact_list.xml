@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_contact_list">通讯录</string>
+    <string name="title_add_friend">添加新朋友</string>
+    
+    <string name="prompt_search_friends">请输入手机号、昵称</string>
+    <string name="b_title_add_friend_from_weixin">从微信通讯录导入</string>
+    <string name="b_title_add_friend_from_weibo">从微博好友导入</string>
+    <string name="b_title_add_friend_from_contact_list">从手机联系人添加</string>
+    <string name="b_title_add_friend">加为好友</string>
+    <string name="b_title_allready_friends">已是朋友</string>
 </resources>

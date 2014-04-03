@@ -19,6 +19,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.seekon.yougouhui.func.AbstractDBHelper;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.user.UserEntity;
 
 public class ShareData extends AbstractDBHelper {
@@ -45,9 +46,15 @@ public class ShareData extends AbstractDBHelper {
 
 	}
 
+	private String getShareDataSqlPartWithFriendsCondition(){
+		String sql = getShareDataSqlPart();
+		sql += " where u.uuid = ? or u.uuid in (select f.friend_id from e_friend f where f.user_id = ?)";
+		return sql;
+	}
+	
 	private String getShareDataSqlPart() {
 		return " select s.uuid, s.content, s.publish_time, s.publisher, u.name as publisher_name, u.photo publisher_photo "
-				+ " from e_share s left join e_user u on s.publisher = u.uuid ";
+				+ " from e_share s inner join e_user u on s.publisher = u.uuid ";
 	}
 
 	private ShareEntity assembleShareEntity(Cursor cursor) {
@@ -69,11 +76,13 @@ public class ShareData extends AbstractDBHelper {
 	 */
 	public List<ShareEntity> getShareData(String limitSql) {
 		List<ShareEntity> result = new ArrayList<ShareEntity>();
-		String sql = getShareDataSqlPart() + " order by s.publish_time desc";
+		String sql = getShareDataSqlPartWithFriendsCondition() + " order by s.publish_time desc";
 		if (limitSql != null) {
 			sql += limitSql;
 		}
-		Cursor cursor = this.getReadableDatabase().rawQuery(sql, null);
+		
+		String userId = RunEnv.getInstance().getUser().getUuid();
+		Cursor cursor = this.getReadableDatabase().rawQuery(sql, new String[]{userId, userId});
 		while (cursor.moveToNext()) {
 			result.add(assembleShareEntity(cursor));
 		}

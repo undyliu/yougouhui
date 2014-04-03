@@ -24,8 +24,8 @@ public class ShareService extends AbstractService {
 				.getStringExtra(ShareConst.MIN_COMMENT_PUB_TIME);
 
 		if (method.equalsIgnoreCase(ServiceConst.METHOD_GET)) {
-			ShareProcessor shareProcessor = new ShareProcessor(
-					getApplicationContext());
+			ShareProcessor shareProcessor = ShareProcessor
+					.getInstance(getApplicationContext());
 			shareProcessor.getShares(makeProcessorCallback(), lastPublishTime,
 					minPublishTime, lastCommentPublishTime, minCommentPublishTime);
 		} else {

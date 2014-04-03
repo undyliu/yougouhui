@@ -18,7 +18,8 @@ public class ModuleService extends AbstractService {
 		String type = requestIntent.getStringExtra(DataConst.COL_NAME_TYPE);
 
 		if (method.equalsIgnoreCase(ServiceConst.METHOD_GET)) {
-			ModuleProcessor processor = new ModuleProcessor(getApplicationContext());
+			ModuleProcessor processor = ModuleProcessor
+					.getInstance(getApplicationContext());
 			processor.getModules(makeProcessorCallback(), type);
 		} else {
 			mCallback.send(ServiceConst.REQUEST_INVALID, getOriginalIntentBundle());

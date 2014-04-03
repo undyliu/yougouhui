@@ -12,9 +12,9 @@ import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
 
 public class JSONUtils {
-
+	private static final String TAG = JSONUtils.class.getSimpleName();
+	
 	private JSONUtils() {
-
 	}
 
 	public static String[] getKeys(JSONObject json) {
@@ -31,10 +31,19 @@ public class JSONUtils {
 		return keys;
 	}
 
+	public static void putJSONValue(JSONObject jsonObj, String key, Object value){
+		try {
+			jsonObj.put(key, value);
+		}catch (JSONException e) {
+			Logger.warn(TAG, e.getMessage());
+		}
+	}
+	
 	public static String getJSONStringValue(JSONObject jsonObj, String key) {
 		try {
 			return jsonObj.getString(key);
 		} catch (JSONException e) {
+			Logger.warn(TAG, e.getMessage());
 		}
 		return null;
 	}
@@ -67,5 +76,15 @@ public class JSONUtils {
 			user.setPwd(getJSONStringValue(jsonObj, UserConst.COL_NAME_PWD));
 		}
 		return user;
+	}
+	
+	public static JSONObject fromUserEntity(UserEntity user){
+		JSONObject jsonObj = new JSONObject();
+		putJSONValue(jsonObj, DataConst.COL_NAME_UUID, user.getUuid());
+		putJSONValue(jsonObj, UserConst.COL_NAME_PHONE, user.getPhone());
+		putJSONValue(jsonObj, UserConst.COL_NAME_USER_NAME, user.getName());
+		putJSONValue(jsonObj, UserConst.COL_NAME_PWD, user.getPwd());
+		putJSONValue(jsonObj, UserConst.COL_NAME_USER_ICON, user.getPhoto());
+		return jsonObj;
 	}
 }

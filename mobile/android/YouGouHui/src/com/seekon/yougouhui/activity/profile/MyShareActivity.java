@@ -142,10 +142,11 @@ public class MyShareActivity extends Activity implements IXListViewListener {
 				where, whereArgs, userId, limitSql);
 		for (Map shareCount : shareCountList) {
 			String publishDate = (String) shareCount.get(COL_NAME_PUBLISH_DATE);
-			List<ShareEntity> shareList = shareData.getShareListByPublishDate(
-					where, whereArgs, publishDate, userId);
+			List<ShareEntity> shareList = shareData.getShareListByPublishDate(where,
+					whereArgs, publishDate, userId);
 			for (ShareEntity share : shareList) {
-				share.setImages(ShareUtils.getShareImagesFromLocal(this, share.getUuid()));
+				share.setImages(ShareUtils.getShareImagesFromLocal(this,
+						share.getUuid()));
 			}
 			shareCount.put(ShareConst.DATA_SHARE_KEY, shareList);
 		}

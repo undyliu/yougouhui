@@ -1,6 +1,8 @@
 package com.seekon.yougouhui.func.profile.contact;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.content.Context;
 
@@ -12,29 +14,32 @@ import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
 
 /**
- * 删除朋友
+ * 添加朋友
  * 
  * @author undyliu
  * 
  */
-public class DeleteFriendMethod extends JSONObjResourceMethod {
+public class AddFriendMethod extends JSONObjResourceMethod {
 
 	private static final String ADD_FRIEND_URI = Const.SERVER_APP_URL
-			+ "/deleteFriend";
-	
+			+ "/addFriend";
+
 	private String friendId;
-	
-	public DeleteFriendMethod(Context context, String friendId) {
+
+	public AddFriendMethod(Context context, String friendId) {
 		super(context);
 		this.friendId = friendId;
 	}
 
 	@Override
 	protected Request buildRequest() {
-		String userId = RunEnv.getInstance().getUser().getUuid();
-		String uri = ADD_FRIEND_URI + "/" + userId + "/" + friendId;
-		return new BaseRequest(Method.DELETE, URI.create(uri), null,
-				null);
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(FriendConst.COL_NAME_FRIEND_ID, friendId);
+		params.put(FriendConst.COL_NAME_USER_ID, RunEnv.getInstance().getUser()
+				.getUuid());
+
+		return new BaseRequest(Method.POST, URI.create(ADD_FRIEND_URI), null,
+				params);
 	}
 
 }

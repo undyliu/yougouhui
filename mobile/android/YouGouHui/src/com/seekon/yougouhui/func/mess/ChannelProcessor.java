@@ -7,7 +7,19 @@ import com.seekon.yougouhui.service.ProcessorCallback;
 
 public class ChannelProcessor extends ContentProcessor {
 
-	public ChannelProcessor(Context mContext) {
+	private static ChannelProcessor instance = null;
+	private static Object lock = new Object();
+
+	public static ChannelProcessor getInstance(Context mContext) {
+		synchronized (lock) {
+			if (instance == null) {
+				instance = new ChannelProcessor(mContext);
+			}
+		}
+		return instance;
+	}
+
+	private ChannelProcessor(Context mContext) {
 		super(mContext, ChannelData.COL_NAMES, ChannelConst.CONTENT_URI);
 	}
 

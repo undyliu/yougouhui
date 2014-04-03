@@ -258,7 +258,8 @@ public class ShareActivity extends Activity {
 				share.put(ShareConst.COL_NAME_PUBLISHER, user.getUuid());
 				share.put(COL_NAME_CONTENT, shareContent);
 				share.put(ShareConst.DATA_IMAGE_KEY, imageFileUriList);
-				ShareProcessor processor = new ShareProcessor(ShareActivity.this);
+				ShareProcessor processor = ShareProcessor
+						.getInstance(ShareActivity.this);
 				return processor.postShare(share);
 			}
 

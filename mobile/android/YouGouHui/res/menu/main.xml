@@ -6,6 +6,11 @@
         android:showAsAction="always"
         android:title="@string/title_action_search"/>
     <item
+        android:id="@+id/menu_contact_add"
+        android:actionProviderClass="com.seekon.yougouhui.func.widget.MainActionAddProvider"
+        android:showAsAction="always"
+        android:title=""/>
+    <item
         android:id="@+id/menu_user_profile"
         android:icon="@drawable/user_profile"
         android:showAsAction="always|withText"

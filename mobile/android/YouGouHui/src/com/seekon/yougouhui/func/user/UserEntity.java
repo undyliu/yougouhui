@@ -1,6 +1,10 @@
 package com.seekon.yougouhui.func.user;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.seekon.yougouhui.util.PinyinUtils;
 
 /**
  * 用户对象
@@ -18,6 +22,10 @@ public class UserEntity implements Serializable {
 	private String pwd;
 	private String photo;
 
+	private String pinyinName;
+	
+	private List<UserEntity> friends = new ArrayList<UserEntity>();
+	
 	public UserEntity() {
 		super();
 	}
@@ -30,6 +38,8 @@ public class UserEntity implements Serializable {
 		this.name = name;
 		this.pwd = pwd;
 		this.photo = photo;
+		
+		pinyinName = PinyinUtils.getPinYin(name);
 	}
 
 	public String getUuid() {
@@ -54,6 +64,7 @@ public class UserEntity implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+		pinyinName = PinyinUtils.getPinYin(name);
 	}
 
 	public String getPwd() {
@@ -72,6 +83,32 @@ public class UserEntity implements Serializable {
 		this.photo = photo;
 	}
 
+	public List<UserEntity> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(List<UserEntity> friends) {
+		this.friends = friends;
+	}
+
+	public void addFriend(UserEntity friend){
+		if(!this.friends.contains(friend)){
+			this.friends.add(friend);
+		}
+	}
+	
+	public void removeFriend(UserEntity friend){
+		this.friends.remove(friend);
+	}
+	
+	public String getPinyinName() {
+		return pinyinName;
+	}
+
+	public String getFirstLetter() {
+		return new String(new char[] { pinyinName.charAt(0) });
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

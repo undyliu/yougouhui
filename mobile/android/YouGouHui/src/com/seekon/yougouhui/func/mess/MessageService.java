@@ -27,8 +27,8 @@ public class MessageService extends AbstractService {
 			if (method.equalsIgnoreCase(ServiceConst.METHOD_GET)) {
 				String parentId = requestIntent
 						.getStringExtra(DataConst.COL_NAME_PARENT_ID);
-				ChannelProcessor processor = new ChannelProcessor(
-						getApplicationContext());
+				ChannelProcessor processor = ChannelProcessor
+						.getInstance(getApplicationContext());
 				processor.getChannels(makeProcessorCallback(), parentId);
 			} else {
 				mCallback.send(ServiceConst.REQUEST_INVALID, getOriginalIntentBundle());
@@ -38,8 +38,8 @@ public class MessageService extends AbstractService {
 			if (method.equalsIgnoreCase(ServiceConst.METHOD_GET)) {
 				String channelId = requestIntent
 						.getStringExtra(MessageConst.COL_NAME_CHANNEL_ID);
-				MessageProcessor processor = new MessageProcessor(
-						getApplicationContext());
+				MessageProcessor processor = MessageProcessor
+						.getInstance(getApplicationContext());
 				processor.getMessages(makeProcessorCallback(), channelId);
 			} else {
 				mCallback.send(ServiceConst.REQUEST_INVALID, getOriginalIntentBundle());
