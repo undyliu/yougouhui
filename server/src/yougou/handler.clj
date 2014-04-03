@@ -5,6 +5,7 @@
 	[yougou.auth]
 	[yougou.share]
 	[yougou.user]
+	[yougou.friend]
 	)
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
@@ -104,9 +105,25 @@
 			(catch Exception e {:status  500 :body (json/write-str {:error "保存头像失败."})})
 		)
 	)
+	(POST "/searchUsers" {{word :search-word} :params} (json/write-str (search-user-exact (java.net.URLDecoder/decode word "utf-8"))))
+)
+
+(defroutes friend-routes
+	(POST "/addFriend" {{user-id :user_id friend-id :friend_id} :params}
+		(try
+			(json/write-str (add-friend user-id friend-id))
+		(catch Exception e {:status  500 :body (json/write-str {:error "添加朋友失败."})})	
+		)
+	)
+	(DELETE "/deleteFriend/:user-id/:friend-id" [user-id friend-id]
+		(try
+			(json/write-str (del-friend user-id friend-id))
+			(catch Exception e {:status  500 :body (json/write-str {:error "删除朋友失败."})})	
+		)
+	)
 )
 
 (def app
-  (-> (routes login-routes channel-routes activity-routes module-routes share-routes file-routes user-routes default-routes)
+  (-> (routes login-routes channel-routes activity-routes module-routes share-routes file-routes user-routes friend-routes default-routes)
       (handler/site :session)
       ))

@@ -37,3 +37,15 @@
 	{:uuid uuid :photo photo}
 	)
 )
+
+(defn search-user-exact [word]
+	(let [search-word (str word )]
+		(select users (fields :uuid :name :pwd :phone :photo) (where (or {:phone search-word} {:name search-word})) )
+	)
+)
+
+(defn search-user [word]
+	(let [search-word (str "%" word "%")]
+		(select users (fields :uuid :phone :name :photo) (where (or {:phone [like search-word]} {:name [like search-word]})))
+	)
+)
