@@ -26,8 +26,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.func.mess.ChannelConst;
+import com.seekon.yougouhui.func.mess.ChannelEntity;
+import com.seekon.yougouhui.func.mess.ChannelProcessor;
 import com.seekon.yougouhui.func.profile.shop.TradeConst;
-import com.seekon.yougouhui.func.profile.shop.TradeEntity;
 import com.seekon.yougouhui.func.profile.shop.TradeProcessor;
 import com.seekon.yougouhui.func.profile.shop.widget.TradeListAdapter;
 import com.seekon.yougouhui.rest.RestMethodResult;
@@ -55,7 +57,7 @@ public class RegisterShopActivity extends Activity {
 	private TextView descView;
 	private ImageView licenseView;
 	private BaseAdapter tradeAdapter;
-	private List<TradeEntity> trades = new ArrayList<TradeEntity>();
+	private List<ChannelEntity> trades = new ArrayList<ChannelEntity>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +97,7 @@ public class RegisterShopActivity extends Activity {
 	private void initViews() {
 		GridView tradeView = (GridView) findViewById(R.id.shop_trade_view);
 		tradeAdapter = new TradeListAdapter(this, trades);
+		tradeView.setAdapter(tradeAdapter);
 		
 		loadTrades();
 
@@ -125,7 +128,7 @@ public class RegisterShopActivity extends Activity {
 				startActivityForResult(intent, LOAD_LICENSE_REQUEST_CODE);
 			}
 		});
-	
+
 	}
 
 	private void loadTrades() {
@@ -140,13 +143,17 @@ public class RegisterShopActivity extends Activity {
 	private void loadTradeFromLocal() {
 		Cursor cursor = null;
 		try {
-			cursor = this.getContentResolver().query(TradeConst.CONTENT_URI,
-					new String[] { COL_NAME_UUID, COL_NAME_CODE, COL_NAME_NAME }, null,
-					null, COL_NAME_ORD_INDEX);
+			cursor = this.getContentResolver().query(
+					ChannelConst.CONTENT_URI,
+					new String[] { COL_NAME_UUID, COL_NAME_CODE, COL_NAME_NAME,
+							COL_NAME_ORD_INDEX }, null, null, COL_NAME_ORD_INDEX);
 			while (cursor.moveToNext()) {
+				if(cursor.getString(1).equalsIgnoreCase("all")){
+					continue;
+				}
 				int i = 0;
-				trades.add(new TradeEntity(cursor.getString(i++),
-						cursor.getString(i++), cursor.getString(i++)));
+				trades.add(new ChannelEntity(cursor.getString(i++), cursor
+						.getString(i++), cursor.getString(i++), cursor.getInt(i++)));
 			}
 		} finally {
 			cursor.close();
@@ -160,8 +167,7 @@ public class RegisterShopActivity extends Activity {
 			@Override
 			protected RestMethodResult<JSONArrayResource> doInBackground(
 					Void... params) {
-				return TradeProcessor.getInstance(RegisterShopActivity.this)
-						.getTrades();
+				return ChannelProcessor.getInstance(RegisterShopActivity.this).getChannels(null);
 			}
 
 			@Override
@@ -172,13 +178,16 @@ public class RegisterShopActivity extends Activity {
 						JSONArrayResource resource = result.getResource();
 						for (int i = 0; i < resource.length(); i++) {
 							JSONObject jsonObj = resource.getJSONObject(i);
-							TradeEntity trade = new TradeEntity();
-							trade.setUuid(JSONUtils.getJSONStringValue(jsonObj, COL_NAME_UUID));
-							trade.setCode(JSONUtils.getJSONStringValue(jsonObj, COL_NAME_CODE));
-							trade.setName(JSONUtils.getJSONStringValue(jsonObj, COL_NAME_NAME));
+							ChannelEntity trade = new ChannelEntity();
+							trade.setUuid(JSONUtils
+									.getJSONStringValue(jsonObj, COL_NAME_UUID));
+							trade.setCode(JSONUtils
+									.getJSONStringValue(jsonObj, COL_NAME_CODE));
+							trade.setName(JSONUtils
+									.getJSONStringValue(jsonObj, COL_NAME_NAME));
 							trades.add(trade);
 						}
-						
+
 						tradeAdapter.notifyDataSetChanged();
 					} catch (Exception e) {
 						ViewUtils.showToast("获取主营业务数据失败.");

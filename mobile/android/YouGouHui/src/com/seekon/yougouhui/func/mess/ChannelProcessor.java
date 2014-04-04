@@ -2,6 +2,8 @@ package com.seekon.yougouhui.func.mess;
 
 import android.content.Context;
 
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.service.ContentProcessor;
 import com.seekon.yougouhui.service.ProcessorCallback;
 
@@ -28,4 +30,7 @@ public class ChannelProcessor extends ContentProcessor {
 		this.execMethodWithCallback(method, callback);
 	}
 
+	public RestMethodResult<JSONArrayResource> getChannels( String parentId){
+		return (RestMethodResult)this.execMethod(new GetChannelsMethod(mContext, parentId));
+	}
 }
