@@ -51,7 +51,7 @@ public class SideBar extends View {
 	 */
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		if(navWords.length == 0){
+		if (navWords.length == 0) {
 			return;
 		}
 		// 获取焦点改变背景颜色.

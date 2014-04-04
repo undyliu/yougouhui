@@ -18,7 +18,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.seekon.yougouhui.func.AbstractDBHelper;
+import com.seekon.yougouhui.db.AbstractDBHelper;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.user.UserEntity;
 
@@ -46,12 +46,12 @@ public class ShareData extends AbstractDBHelper {
 
 	}
 
-	private String getShareDataSqlPartWithFriendsCondition(){
+	private String getShareDataSqlPartWithFriendsCondition() {
 		String sql = getShareDataSqlPart();
 		sql += " where u.uuid = ? or u.uuid in (select f.friend_id from e_friend f where f.user_id = ?)";
 		return sql;
 	}
-	
+
 	private String getShareDataSqlPart() {
 		return " select s.uuid, s.content, s.publish_time, s.publisher, u.name as publisher_name, u.photo publisher_photo "
 				+ " from e_share s inner join e_user u on s.publisher = u.uuid ";
@@ -76,28 +76,38 @@ public class ShareData extends AbstractDBHelper {
 	 */
 	public List<ShareEntity> getShareData(String limitSql) {
 		List<ShareEntity> result = new ArrayList<ShareEntity>();
-		String sql = getShareDataSqlPartWithFriendsCondition() + " order by s.publish_time desc";
+		String sql = getShareDataSqlPartWithFriendsCondition()
+				+ " order by s.publish_time desc";
 		if (limitSql != null) {
 			sql += limitSql;
 		}
-		
+
 		String userId = RunEnv.getInstance().getUser().getUuid();
-		Cursor cursor = this.getReadableDatabase().rawQuery(sql, new String[]{userId, userId});
-		while (cursor.moveToNext()) {
-			result.add(assembleShareEntity(cursor));
+		Cursor cursor = null;
+		try {
+			cursor = this.getReadableDatabase().rawQuery(sql,
+					new String[] { userId, userId });
+			while (cursor.moveToNext()) {
+				result.add(assembleShareEntity(cursor));
+			}
+		} finally {
+			cursor.close();
 		}
-		cursor.close();
 		return result;
 	}
 
 	public ShareEntity getShareDataById(String id) {
 		ShareEntity share = null;
 		String sql = getShareDataSqlPart() + " where s.uuid = ?";
-		Cursor cursor = getReadableDatabase().rawQuery(sql, new String[] { id });
-		if (cursor.moveToNext()) {
-			share = assembleShareEntity(cursor);
+		Cursor cursor = null;
+		try {
+			cursor = getReadableDatabase().rawQuery(sql, new String[] { id });
+			if (cursor.moveToNext()) {
+				share = assembleShareEntity(cursor);
+			}
+		} finally {
+			cursor.close();
 		}
-		cursor.close();
 		return share;
 	}
 
@@ -123,16 +133,20 @@ public class ShareData extends AbstractDBHelper {
 			sql += limitSql;
 		}
 
-		Cursor cursor = getReadableDatabase().rawQuery(sql,
-				args.toArray(new String[args.size()]));
-		while (cursor.moveToNext()) {
-			int i = 0;
-			Map row = new HashMap();
-			row.put(COL_NAME_PUBLISH_DATE, cursor.getString(i++));
-			row.put(NAME_COUNT, cursor.getInt(i++));
-			result.add(row);
+		Cursor cursor = null;
+		try {
+			cursor = getReadableDatabase().rawQuery(sql,
+					args.toArray(new String[args.size()]));
+			while (cursor.moveToNext()) {
+				int i = 0;
+				Map row = new HashMap();
+				row.put(COL_NAME_PUBLISH_DATE, cursor.getString(i++));
+				row.put(NAME_COUNT, cursor.getInt(i++));
+				result.add(row);
+			}
+		} finally {
+			cursor.close();
 		}
-		cursor.close();
 		return result;
 	}
 
@@ -157,13 +171,18 @@ public class ShareData extends AbstractDBHelper {
 		}
 		sql += " order by publish_time desc ";
 
-		Cursor cursor = getReadableDatabase().rawQuery(sql,
-				args.toArray(new String[args.size()]));
-		while (cursor.moveToNext()) {
-			int i = 0;
-			result.add(new ShareEntity(cursor.getString(i++), cursor.getString(i++)));
+		Cursor cursor = null;
+		try {
+			cursor = getReadableDatabase().rawQuery(sql,
+					args.toArray(new String[args.size()]));
+			while (cursor.moveToNext()) {
+				int i = 0;
+				result
+						.add(new ShareEntity(cursor.getString(i++), cursor.getString(i++)));
+			}
+		} finally {
+			cursor.close();
 		}
-		cursor.close();
 		return result;
 	}
 }

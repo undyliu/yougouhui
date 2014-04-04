@@ -14,6 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.seekon.yougouhui.db.SQLiteCursorWrapper;
 import com.seekon.yougouhui.util.ContentUtils;
 import com.seekon.yougouhui.util.Logger;
 
@@ -74,7 +75,7 @@ public abstract class SQLiteContentProvider extends ContentProvider {
 		Cursor cursor = db.query(tableName, projection, selection, selectionArgs,
 				null, null, sortOrder);
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
-		return cursor;
+		return new SQLiteCursorWrapper(cursor);
 	}
 
 	@Override

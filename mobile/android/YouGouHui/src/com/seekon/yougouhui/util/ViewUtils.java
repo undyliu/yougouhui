@@ -54,14 +54,15 @@ public class ViewUtils {
 		TextView _mStatusMessageView = (TextView) activity
 				.findViewById(R.id.action_status_message);
 		if (_progressStatusView == null || _mStatusMessageView == null) {
-			View xxView = activity.getLayoutInflater().inflate(R.layout.progressbar, null);
+			View xxView = activity.getLayoutInflater().inflate(R.layout.progressbar,
+					null);
 			_progressStatusView = xxView.findViewById(R.id.action_progress_status);
 			_mStatusMessageView = (TextView) xxView
 					.findViewById(R.id.action_status_message);
 		}
 		final View progressStatusView = _progressStatusView;
 		final TextView mStatusMessageView = _mStatusMessageView;
-		
+
 		mStatusMessageView.setText(statusMessage);
 
 		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow

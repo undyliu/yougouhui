@@ -16,7 +16,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.seekon.yougouhui.func.AbstractDBHelper;
+import com.seekon.yougouhui.db.AbstractDBHelper;
 
 public class UserData extends AbstractDBHelper {
 
@@ -45,19 +45,23 @@ public class UserData extends AbstractDBHelper {
 	public UserEntity getUser(String phone) {
 		UserEntity user = null;
 		onCreate(this.getWritableDatabase());
-		Cursor cursor = this.getReadableDatabase().query(
-				TABLE_NAME,
-				new String[] { COL_NAME_UUID, COL_NAME_USER_NAME, COL_NAME_PWD,
-						COL_NAME_USER_ICON, COL_NAME_REGISTER_TIME },
-				COL_NAME_PHONE + "= ? ", new String[] { phone }, null, null, null);
-		if (cursor.getCount() > 0) {
-			cursor.moveToNext();
-			int i = 0;
-			user = new UserEntity(cursor.getString(i++), phone,
-					cursor.getString(i++), cursor.getString(i++), cursor.getString(i++),
-					cursor.getString(i++));
+		Cursor cursor = null;
+		try {
+			cursor = this.getReadableDatabase().query(
+					TABLE_NAME,
+					new String[] { COL_NAME_UUID, COL_NAME_USER_NAME, COL_NAME_PWD,
+							COL_NAME_USER_ICON, COL_NAME_REGISTER_TIME },
+					COL_NAME_PHONE + "= ? ", new String[] { phone }, null, null, null);
+			if (cursor.getCount() > 0) {
+				cursor.moveToNext();
+				int i = 0;
+				user = new UserEntity(cursor.getString(i++), phone,
+						cursor.getString(i++), cursor.getString(i++),
+						cursor.getString(i++), cursor.getString(i++));
+			}
+		} finally {
+			cursor.close();
 		}
-		cursor.close();
 		return user;
 	}
 
@@ -91,14 +95,18 @@ public class UserData extends AbstractDBHelper {
 		List<UserEntity> result = new ArrayList<UserEntity>();
 		String sql = " select distinct u.uuid, u.phone, u.name, u.photo from e_user u, e_friend f "
 				+ " where u.uuid = f.friend_id and f.user_id = ? ";
-		Cursor cursor = this.getReadableDatabase().rawQuery(sql,
-				new String[] { userId });
-		while (cursor.moveToNext()) {
-			int i = 0;
-			result.add(new UserEntity(cursor.getString(i++), cursor.getString(i++),
-					cursor.getString(i++), null, cursor.getString(i++)));
+		Cursor cursor = null;
+		try {
+			cursor = this.getReadableDatabase()
+					.rawQuery(sql, new String[] { userId });
+			while (cursor.moveToNext()) {
+				int i = 0;
+				result.add(new UserEntity(cursor.getString(i++), cursor.getString(i++),
+						cursor.getString(i++), null, cursor.getString(i++)));
+			}
+		} finally {
+			cursor.close();
 		}
-		cursor.close();
 		return result;
 	}
 }

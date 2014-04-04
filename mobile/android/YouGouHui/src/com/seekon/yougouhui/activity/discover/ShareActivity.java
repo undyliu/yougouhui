@@ -182,14 +182,18 @@ public class ShareActivity extends Activity {
 			if (resultCode == RESULT_OK && null != data) {
 				Uri selectedImage = data.getData();
 				String[] filePathColumn = { MediaStore.Images.Media.DATA };
-				Cursor cursor = getContentResolver().query(selectedImage,
-						filePathColumn, null, null, null);
-				cursor.moveToFirst();
-				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-				String picturePath = cursor.getString(columnIndex);
-				cursor.close();
+				Cursor cursor = null;
+				try {
+					cursor = getContentResolver().query(selectedImage, filePathColumn,
+							null, null, null);
+					cursor.moveToFirst();
+					int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+					String picturePath = cursor.getString(columnIndex);
+					addBitmapToImageView(picturePath);
+				} finally {
+					cursor.close();
+				}
 
-				addBitmapToImageView(picturePath);
 			}
 		} else if (requestCode == PREVIEW_IMAGE_ACTIVITY_REQUEST_CODE) {
 			if (data != null) {

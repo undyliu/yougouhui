@@ -11,7 +11,7 @@ import static com.seekon.yougouhui.func.mess.MessageConst.COL_NAME_VISIT_COUNT;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.seekon.yougouhui.func.AbstractDBHelper;
+import com.seekon.yougouhui.db.AbstractDBHelper;
 
 public class MessageData extends AbstractDBHelper {
 

@@ -28,9 +28,9 @@ public class DeleteFriendTask extends AbstractFriendTask {
 
 	@Override
 	protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-		if(result != null){
+		if (result != null) {
 			int status = result.getStatusCode();
-			if(status == 200){
+			if (status == 200) {
 				RunEnv.getInstance().getUser().removeFriend(friend);
 				setUIWedgetEnable(false);
 				return;

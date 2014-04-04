@@ -39,7 +39,7 @@ import com.seekon.yougouhui.util.ViewUtils;
 public class AddFriendActivity extends Activity {
 
 	public static final int OPEN_FRIEND_REQUEST_CODE = 1;
-	
+
 	private static final String TAG = AddFriendActivity.class.getSimpleName();
 
 	private TextView searchWordView = null;
@@ -105,15 +105,17 @@ public class AddFriendActivity extends Activity {
 			updateSearchResultView(new JSONArrayResource());
 			return;
 		}
-		
+
 		UserEntity currentUser = RunEnv.getInstance().getUser();
-		if(searchWord.equals(currentUser.getPhone()) || searchWord.equals(currentUser.getName())){
-			searchWordView.setError(getString(R.string.error_no_need_add_self_to_friend));
+		if (searchWord.equals(currentUser.getPhone())
+				|| searchWord.equals(currentUser.getName())) {
+			searchWordView
+					.setError(getString(R.string.error_no_need_add_self_to_friend));
 			searchWordView.requestFocus();
 			updateSearchResultView(new JSONArrayResource());
 			return;
 		}
-		
+
 		AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>>() {
 
 			@Override
@@ -189,7 +191,7 @@ public class AddFriendActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 		case OPEN_FRIEND_REQUEST_CODE:
-			if(resultCode == RESULT_OK && data != null){
+			if (resultCode == RESULT_OK && data != null) {
 				searchResultAdapter.notifyDataSetChanged();
 			}
 			break;

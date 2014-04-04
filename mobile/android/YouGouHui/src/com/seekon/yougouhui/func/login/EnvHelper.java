@@ -11,7 +11,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.seekon.yougouhui.func.AbstractDBHelper;
+import com.seekon.yougouhui.db.AbstractDBHelper;
 import com.seekon.yougouhui.util.Logger;
 
 /**
@@ -55,17 +55,22 @@ public class EnvHelper extends AbstractDBHelper {
 	public JSONObject getLoginSetting() {
 		onCreate(this.getWritableDatabase());
 
-		Cursor cursor = this.getReadableDatabase().query(TABLE_NAME,
-				new String[] { COL_NAME_LOGIN_SETTING }, null, null, null, null,
-				COL_NAME_LAST_MODIFY_TIME + " desc ");
-		int rows = cursor.getCount();
-		if (rows > 0) {
-			cursor.moveToNext();
-			try {
-				return new JSONObject(cursor.getString(0));
-			} catch (JSONException e) {
-				Log.e("getLoginSetting", e.getMessage());
+		Cursor cursor = null;
+		try {
+			cursor = this.getReadableDatabase().query(TABLE_NAME,
+					new String[] { COL_NAME_LOGIN_SETTING }, null, null, null, null,
+					COL_NAME_LAST_MODIFY_TIME + " desc ");
+			int rows = cursor.getCount();
+			if (rows > 0) {
+				cursor.moveToNext();
+				try {
+					return new JSONObject(cursor.getString(0));
+				} catch (JSONException e) {
+					Log.e("getLoginSetting", e.getMessage());
+				}
 			}
+		} finally {
+			cursor.close();
 		}
 		return null;
 	}

@@ -22,11 +22,11 @@ public class UserEntity implements Serializable {
 	private String pwd;
 	private String photo;
 	private String registerTime;
-	
+
 	private String pinyinName;
-	
+
 	private List<UserEntity> friends = new ArrayList<UserEntity>();
-	
+
 	public UserEntity() {
 		super();
 	}
@@ -35,7 +35,7 @@ public class UserEntity implements Serializable {
 			String photo) {
 		this(uuid, phone, name, pwd, photo, null);
 	}
-	
+
 	public UserEntity(String uuid, String phone, String name, String pwd,
 			String photo, String registerTime) {
 		super();
@@ -45,7 +45,7 @@ public class UserEntity implements Serializable {
 		this.pwd = pwd;
 		this.photo = photo;
 		this.registerTime = registerTime;
-		
+
 		pinyinName = PinyinUtils.getPinYin(name);
 	}
 
@@ -106,16 +106,16 @@ public class UserEntity implements Serializable {
 		this.friends = friends;
 	}
 
-	public void addFriend(UserEntity friend){
-		if(!this.friends.contains(friend)){
+	public void addFriend(UserEntity friend) {
+		if (!this.friends.contains(friend)) {
 			this.friends.add(friend);
 		}
 	}
-	
-	public void removeFriend(UserEntity friend){
+
+	public void removeFriend(UserEntity friend) {
 		this.friends.remove(friend);
 	}
-	
+
 	public String getPinyinName() {
 		return pinyinName;
 	}
@@ -123,7 +123,7 @@ public class UserEntity implements Serializable {
 	public String getFirstLetter() {
 		return new String(new char[] { pinyinName.charAt(0) });
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

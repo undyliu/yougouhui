@@ -103,19 +103,23 @@ public class MessageListFragment extends RequestListFragment {
 				selection = COL_NAME_CHANNEL_ID + "= ? ";
 				selectionArgs = new String[] { channelId };
 			}
-			Cursor cursor = attachedActivity.getContentResolver().query(
-					MessageConst.CONTENT_URI,
-					new String[] { COL_NAME_UUID, COL_NAME_IMG, COL_NAME_TITLE,
-							COL_NAME_CONTENT }, selection, selectionArgs, null);
-			while (cursor.moveToNext()) {
-				Map values = new HashMap();
-				values.put(COL_NAME_UUID, cursor.getInt(0));
-				values.put(COL_NAME_IMG, cursor.getString(1));
-				values.put(COL_NAME_TITLE, cursor.getString(2));
-				values.put(COL_NAME_CONTENT, cursor.getString(3));
-				messages.add(values);
+			Cursor cursor = null;
+			try {
+				cursor = attachedActivity.getContentResolver().query(
+						MessageConst.CONTENT_URI,
+						new String[] { COL_NAME_UUID, COL_NAME_IMG, COL_NAME_TITLE,
+								COL_NAME_CONTENT }, selection, selectionArgs, null);
+				while (cursor.moveToNext()) {
+					Map values = new HashMap();
+					values.put(COL_NAME_UUID, cursor.getInt(0));
+					values.put(COL_NAME_IMG, cursor.getString(1));
+					values.put(COL_NAME_TITLE, cursor.getString(2));
+					values.put(COL_NAME_CONTENT, cursor.getString(3));
+					messages.add(values);
+				}
+			} finally {
+				cursor.close();
 			}
-			cursor.close();
 		}
 		return messages;
 	}

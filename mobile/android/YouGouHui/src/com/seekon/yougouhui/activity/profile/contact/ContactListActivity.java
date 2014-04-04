@@ -43,7 +43,7 @@ public class ContactListActivity extends Activity {
 
 	private final static int ADD_FRIEND_REQUEST_CODE = 1;
 	private final static int OPEN_FRIEND_REQUEST_CODE = 2;
-	
+
 	private ListView sortListView;
 	private SideBar sideBar;
 	private TextView dialog;
@@ -153,12 +153,12 @@ public class ContactListActivity extends Activity {
 			public void afterTextChanged(Editable s) {
 			}
 		});
-		
+
 		updateSideBar();
 	}
 
 	// 根据联系人数据重新设置sidebar
-	private void updateSideBar(){
+	private void updateSideBar() {
 		List<String> catalogKeys = new ArrayList<String>();
 		catalogKeys.addAll(adapter.getCatalogKeys());
 		Collections.sort(catalogKeys, new Comparator<String>() {
@@ -176,15 +176,15 @@ public class ContactListActivity extends Activity {
 		}
 		sideBar.setNavWords(catalogKeys.toArray(new String[catalogSize]));
 	}
-	
+
 	private List<UserEntity> getContactListData() {
 		return RunEnv.getInstance().getUser().getFriends();
-//		result.add(new ContactEntity("1", null, "张三", null, null));
-//		result.add(new ContactEntity("2", null, "李四", null, null));
-//		result.add(new ContactEntity("3", null, "王五", null, null));
-//		result.add(new ContactEntity("4", null, "刘六", null, null));
-//		result.add(new ContactEntity("3", null, "王八", null, null));
-		//return result;
+		// result.add(new ContactEntity("1", null, "张三", null, null));
+		// result.add(new ContactEntity("2", null, "李四", null, null));
+		// result.add(new ContactEntity("3", null, "王五", null, null));
+		// result.add(new ContactEntity("4", null, "刘六", null, null));
+		// result.add(new ContactEntity("3", null, "王八", null, null));
+		// return result;
 	}
 
 	/**
@@ -217,13 +217,13 @@ public class ContactListActivity extends Activity {
 		Intent intent = new Intent(this, AddFriendActivity.class);
 		startActivityForResult(intent, ADD_FRIEND_REQUEST_CODE);
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 		case OPEN_FRIEND_REQUEST_CODE:
 		case ADD_FRIEND_REQUEST_CODE:
-			if(resultCode == RESULT_OK){
+			if (resultCode == RESULT_OK) {
 				contactDateList = getContactListData();
 				Collections.sort(contactDateList, pinyinComparator);
 				adapter.updateListView(contactDateList);

@@ -65,11 +65,12 @@ public class ImageLoader {
 
 	public void displayImage(String fileName, ImageView imageView,
 			boolean compress) {
-		if(fileName == null || fileName.length() == 0 || fileName.equalsIgnoreCase("null")){
+		if (fileName == null || fileName.length() == 0
+				|| fileName.equalsIgnoreCase("null")) {
 			imageView.setImageResource(R.drawable.default_pic);
 			return;
 		}
-		
+
 		String url = FileHelper.IMAGE_FILE_GET_URL + fileName;
 		imageViews.put(imageView, url);
 		if (!compress) {// 非压缩的不从缓存获取

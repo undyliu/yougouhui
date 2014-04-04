@@ -12,8 +12,9 @@ import com.seekon.yougouhui.rest.resource.JSONObjResource;
 /**
  * 
  * TODO:将UIWedget传递进来特别扭，而且会不会存在引用不释放的问题？
+ * 
  * @author undyliu
- *
+ * 
  */
 public abstract class AbstractFriendTask extends
 		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> {

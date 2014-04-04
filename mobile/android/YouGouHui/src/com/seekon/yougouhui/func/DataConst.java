@@ -25,12 +25,12 @@ public interface DataConst {
 	public static final String NAME_COUNT = "count";
 
 	public static final String NAME_SEARCH_WORD = "search-word";
-	
-	//一下的action常量用于广播
-//	public static final String KEY_ACTION_ID = "key.action.id";
-//	public static final String KEY_ACTION_TYPE = "key.action.type";
-//	public static final String KEY_ACTION_RESULT = "key.action.result";
-//	public static final String ACTION_RESULT_OK = "action.result.ok";
-//	public static final String ACTION_RESULT_FAILED = "action.result.failed";
-//	public static final String ACTION_RESULT_CANCEL = "action.result.cancel";
+
+	// 一下的action常量用于广播
+	// public static final String KEY_ACTION_ID = "key.action.id";
+	// public static final String KEY_ACTION_TYPE = "key.action.type";
+	// public static final String KEY_ACTION_RESULT = "key.action.result";
+	// public static final String ACTION_RESULT_OK = "action.result.ok";
+	// public static final String ACTION_RESULT_FAILED = "action.result.failed";
+	// public static final String ACTION_RESULT_CANCEL = "action.result.cancel";
 }

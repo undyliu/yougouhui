@@ -21,9 +21,9 @@ public class DeleteFriendMethod extends JSONObjResourceMethod {
 
 	private static final String ADD_FRIEND_URI = Const.SERVER_APP_URL
 			+ "/deleteFriend";
-	
+
 	private String friendId;
-	
+
 	public DeleteFriendMethod(Context context, String friendId) {
 		super(context);
 		this.friendId = friendId;
@@ -33,8 +33,7 @@ public class DeleteFriendMethod extends JSONObjResourceMethod {
 	protected Request buildRequest() {
 		String userId = RunEnv.getInstance().getUser().getUuid();
 		String uri = ADD_FRIEND_URI + "/" + userId + "/" + friendId;
-		return new BaseRequest(Method.DELETE, URI.create(uri), null,
-				null);
+		return new BaseRequest(Method.DELETE, URI.create(uri), null, null);
 	}
 
 }

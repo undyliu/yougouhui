@@ -15,6 +15,7 @@ public class UserClickListener implements View.OnClickListener {
 	private Activity context;
 
 	private int requestCode = -1;
+
 	public UserClickListener(UserEntity user, Activity context, int requestCode) {
 		super();
 		this.user = user;
@@ -26,9 +27,9 @@ public class UserClickListener implements View.OnClickListener {
 	public void onClick(View v) {
 		Intent intent = new Intent(context, FriendProfileActivity.class);
 		intent.putExtra(UserConst.DATA_KEY_USER, user);
-		if(requestCode > 0){
+		if (requestCode > 0) {
 			context.startActivityForResult(intent, requestCode);
-		}else{
+		} else {
 			context.startActivity(intent);
 		}
 	}

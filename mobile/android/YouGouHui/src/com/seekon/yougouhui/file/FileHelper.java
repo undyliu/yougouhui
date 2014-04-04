@@ -135,6 +135,9 @@ public class FileHelper {
 
 	public static Bitmap decodeFile(File f, boolean compress, int reqWidth,
 			int reqHeight) {
+		if (!f.exists()) {
+			return null;
+		}
 		try {
 			BitmapFactory.Options o = new BitmapFactory.Options();
 			if (!compress) {

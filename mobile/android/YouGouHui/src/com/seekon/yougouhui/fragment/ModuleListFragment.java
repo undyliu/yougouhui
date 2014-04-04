@@ -68,24 +68,28 @@ public class ModuleListFragment extends RequestListFragment {
 	@Override
 	protected List<Map<String, ?>> getListItemsFromLocal() {
 		if (modules.size() == 0) {
-			Cursor cursor = attachedActivity.getContentResolver().query(
-					ModuleConst.CONTENT_URI,
-					new String[] { COL_NAME_UUID, COL_NAME_CODE, COL_NAME_NAME },
-					COL_NAME_TYPE + "= ? ", new String[] { type }, COL_NAME_ORD_INDEX);
-			while (cursor.moveToNext()) {
-				Map values = new HashMap();
-				String code = cursor.getString(1);
-				int img = RUtils.getDrawableImg(code);
-				if (img == -1) {
-					img = R.drawable.default_module;
+			Cursor cursor = null;
+			try {
+				cursor = attachedActivity.getContentResolver().query(
+						ModuleConst.CONTENT_URI,
+						new String[] { COL_NAME_UUID, COL_NAME_CODE, COL_NAME_NAME },
+						COL_NAME_TYPE + "= ? ", new String[] { type }, COL_NAME_ORD_INDEX);
+				while (cursor.moveToNext()) {
+					Map values = new HashMap();
+					String code = cursor.getString(1);
+					int img = RUtils.getDrawableImg(code);
+					if (img == -1) {
+						img = R.drawable.default_module;
+					}
+					values.put(COL_NAME_UUID, cursor.getInt(0));
+					values.put(COL_NAME_CODE, code);
+					values.put(COL_NAME_NAME, cursor.getString(2));
+					values.put(COL_NAME_IMG, img);
+					modules.add(values);
 				}
-				values.put(COL_NAME_UUID, cursor.getInt(0));
-				values.put(COL_NAME_CODE, code);
-				values.put(COL_NAME_NAME, cursor.getString(2));
-				values.put(COL_NAME_IMG, img);
-				modules.add(values);
+			} finally {
+				cursor.close();
 			}
-			cursor.close();
 		}
 		return modules;
 	}

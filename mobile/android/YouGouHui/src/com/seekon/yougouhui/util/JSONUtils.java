@@ -13,7 +13,7 @@ import com.seekon.yougouhui.func.user.UserEntity;
 
 public class JSONUtils {
 	private static final String TAG = JSONUtils.class.getSimpleName();
-	
+
 	private JSONUtils() {
 	}
 
@@ -31,14 +31,14 @@ public class JSONUtils {
 		return keys;
 	}
 
-	public static void putJSONValue(JSONObject jsonObj, String key, Object value){
+	public static void putJSONValue(JSONObject jsonObj, String key, Object value) {
 		try {
 			jsonObj.put(key, value);
-		}catch (JSONException e) {
+		} catch (JSONException e) {
 			Logger.warn(TAG, e.getMessage());
 		}
 	}
-	
+
 	public static String getJSONStringValue(JSONObject jsonObj, String key) {
 		try {
 			return jsonObj.getString(key);
@@ -55,7 +55,8 @@ public class JSONUtils {
 		user.setPhone(getJSONStringValue(jsonObj, UserConst.COL_NAME_PHONE));
 		user.setPhoto(getJSONStringValue(jsonObj, UserConst.COL_NAME_USER_ICON));
 		user.setPwd(getJSONStringValue(jsonObj, UserConst.COL_NAME_PWD));
-		user.setRegisterTime(getJSONStringValue(jsonObj, UserConst.COL_NAME_REGISTER_TIME));
+		user.setRegisterTime(getJSONStringValue(jsonObj,
+				UserConst.COL_NAME_REGISTER_TIME));
 		return user;
 	}
 
@@ -78,8 +79,8 @@ public class JSONUtils {
 		}
 		return user;
 	}
-	
-	public static JSONObject fromUserEntity(UserEntity user){
+
+	public static JSONObject fromUserEntity(UserEntity user) {
 		JSONObject jsonObj = new JSONObject();
 		putJSONValue(jsonObj, DataConst.COL_NAME_UUID, user.getUuid());
 		putJSONValue(jsonObj, UserConst.COL_NAME_PHONE, user.getPhone());

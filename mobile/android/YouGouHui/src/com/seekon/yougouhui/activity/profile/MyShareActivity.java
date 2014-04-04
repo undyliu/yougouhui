@@ -123,11 +123,12 @@ public class MyShareActivity extends Activity implements IXListViewListener {
 		case SHARE_DETAIL_REQUEST_RESULT_CODE:
 			if (resultCode == RESULT_OK && data != null) {
 				int position = data.getIntExtra("position", -1);
-				if(position == -1){
+				if (position == -1) {
 					return;
 				}
-				
-				ShareEntity share = (ShareEntity) data.getSerializableExtra(ShareConst.DATA_SHARE_KEY);
+
+				ShareEntity share = (ShareEntity) data
+						.getSerializableExtra(ShareConst.DATA_SHARE_KEY);
 				List<String> images = share.getImages();
 				for (String image : images) {
 					File file = FileHelper.getFileFromCache(image);
@@ -135,8 +136,9 @@ public class MyShareActivity extends Activity implements IXListViewListener {
 				}
 
 				Map<String, ?> shareCountMap = shareList.get(position);
-				((List<ShareEntity>)shareCountMap.get(ShareConst.DATA_SHARE_KEY)).remove(share);
-				
+				((List<ShareEntity>) shareCountMap.get(ShareConst.DATA_SHARE_KEY))
+						.remove(share);
+
 				listAdapter.notifyDataSetChanged();
 			}
 			break;

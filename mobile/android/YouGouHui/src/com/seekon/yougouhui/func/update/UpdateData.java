@@ -12,7 +12,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.seekon.yougouhui.func.AbstractDBHelper;
+import com.seekon.yougouhui.db.AbstractDBHelper;
 
 /**
  * 记录数据的更新
@@ -71,13 +71,17 @@ public class UpdateData extends AbstractDBHelper {
 
 		String updateTime = null;
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.query(TABLE_NAME, new String[] { COL_NAME_UPDATE_TIME },
-				COL_NAME_TABLE_NAME + " = ?", new String[] { tableName }, null, null,
-				null);
-		if (cursor.moveToNext()) {
-			updateTime = cursor.getString(0);
+		Cursor cursor = null;
+		try {
+			cursor = db.query(TABLE_NAME, new String[] { COL_NAME_UPDATE_TIME },
+					COL_NAME_TABLE_NAME + " = ?", new String[] { tableName }, null, null,
+					null);
+			if (cursor.moveToNext()) {
+				updateTime = cursor.getString(0);
+			}
+		} finally {
+			cursor.close();
 		}
-		cursor.close();
 		return updateTime;
 	}
 }

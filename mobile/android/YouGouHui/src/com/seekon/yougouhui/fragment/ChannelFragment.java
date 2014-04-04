@@ -132,17 +132,21 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 				Logger.debug(TAG, "get channels from local db.");
 
 				List<ChannelEntity> channels = new LinkedList<ChannelEntity>();
-				Cursor cursor = attachedActivity.getContentResolver().query(
-						ChannelConst.CONTENT_URI,
-						new String[] { COL_NAME_UUID, COL_NAME_CODE, COL_NAME_NAME,
-								COL_NAME_ORD_INDEX }, COL_NAME_PARENT_ID + " is null ", null,
-						COL_NAME_ORD_INDEX);
-				while (cursor.moveToNext()) {
-					int i = 0;
-					channels.add(new ChannelEntity(cursor.getString(i++), cursor
-							.getString(i++), cursor.getString(i++), cursor.getInt(i++)));
+				Cursor cursor = null;
+				try {
+					cursor = attachedActivity.getContentResolver().query(
+							ChannelConst.CONTENT_URI,
+							new String[] { COL_NAME_UUID, COL_NAME_CODE, COL_NAME_NAME,
+									COL_NAME_ORD_INDEX }, COL_NAME_PARENT_ID + " is null ", null,
+							COL_NAME_ORD_INDEX);
+					while (cursor.moveToNext()) {
+						int i = 0;
+						channels.add(new ChannelEntity(cursor.getString(i++), cursor
+								.getString(i++), cursor.getString(i++), cursor.getInt(i++)));
+					}
+				} finally {
+					cursor.close();
 				}
-				cursor.close();
 				return channels;
 			}
 

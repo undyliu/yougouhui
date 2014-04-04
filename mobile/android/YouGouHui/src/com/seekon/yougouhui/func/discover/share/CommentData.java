@@ -14,7 +14,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.seekon.yougouhui.func.AbstractDBHelper;
+import com.seekon.yougouhui.db.AbstractDBHelper;
 import com.seekon.yougouhui.func.user.UserEntity;
 
 public class CommentData extends AbstractDBHelper {
@@ -46,19 +46,23 @@ public class CommentData extends AbstractDBHelper {
 		String sql = " select c.uuid, c.content, c.publish_time, c.publisher, u.name as publisher_name, u.photo as publisher_photo "
 				+ " from e_comment c left join e_user u on c.publisher = u.uuid "
 				+ " where c.share_id = ? order by c.publish_time desc ";
-		Cursor cursor = this.getReadableDatabase().rawQuery(sql,
-				new String[] { shareId });
-		while (cursor.moveToNext()) {
-			int i = 0;
-			CommentEntity comment = new CommentEntity(cursor.getString(i++),
-					cursor.getString(i++));
-			comment.setPublishTime(cursor.getLong(i++));
-			UserEntity user = new UserEntity(cursor.getString(i++), null,
-					cursor.getString(i++), null, cursor.getString(i++));
-			comment.setPublisher(user);
-			commentList.add(comment);
+		Cursor cursor = null;
+		try {
+			cursor = this.getReadableDatabase().rawQuery(sql,
+					new String[] { shareId });
+			while (cursor.moveToNext()) {
+				int i = 0;
+				CommentEntity comment = new CommentEntity(cursor.getString(i++),
+						cursor.getString(i++));
+				comment.setPublishTime(cursor.getLong(i++));
+				UserEntity user = new UserEntity(cursor.getString(i++), null,
+						cursor.getString(i++), null, cursor.getString(i++));
+				comment.setPublisher(user);
+				commentList.add(comment);
+			}
+		} finally {
+			cursor.close();
 		}
-		cursor.close();
 		return commentList;
 	}
 }

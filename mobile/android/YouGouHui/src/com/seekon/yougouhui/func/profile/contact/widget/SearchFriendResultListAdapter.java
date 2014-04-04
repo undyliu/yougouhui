@@ -87,11 +87,11 @@ public class SearchFriendResultListAdapter extends BaseAdapter {
 		if (isFriend) {
 			addFriend.setText(R.string.b_title_allready_friends);
 			addFriend.setEnabled(false);
-		}else{
+		} else {
 			addFriend.setText(R.string.b_title_add_friend);
 			addFriend.setEnabled(true);
 		}
-		
+
 		ImageView userPhotoView = (ImageView) view
 				.findViewById(R.id.contact_user_photo);
 		userPhotoView.setLayoutParams(new LinearLayout.LayoutParams(60, 60));

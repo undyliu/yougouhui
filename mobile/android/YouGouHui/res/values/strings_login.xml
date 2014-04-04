@@ -19,7 +19,7 @@
 	<string name="label_phone">手机号</string>
 	<string name="label_password">密码</string>
 	
-	<string name="prompt_no_user">还不是会员，请先</string>
+	<string name="prompt_no_user">还不是会员？请先</string>
 	<string name="action_register">注册</string>
 	
 	<string name="title_register">会员注册</string>

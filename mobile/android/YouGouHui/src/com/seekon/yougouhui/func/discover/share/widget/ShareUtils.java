@@ -36,17 +36,21 @@ public class ShareUtils {
 	public static List<String> getShareImagesFromLocal(Context context,
 			String shareId) {
 		List<String> imageUrls = new ArrayList<String>();
-		Cursor cursor = context.getContentResolver().query(
-				ShareImgConst.CONTENT_URI, new String[] { COL_NAME_IMG },
-				COL_NAME_SHARE_ID + "=?", new String[] { shareId }, COL_NAME_ORD_INDEX);
-		while (cursor.moveToNext()) {
-			String image = cursor.getString(0);
-			if (image == null || image.trim().length() == 0) {
-				continue;
+		Cursor cursor = null;
+		try {
+			cursor = context.getContentResolver().query(ShareImgConst.CONTENT_URI,
+					new String[] { COL_NAME_IMG }, COL_NAME_SHARE_ID + "=?",
+					new String[] { shareId }, COL_NAME_ORD_INDEX);
+			while (cursor.moveToNext()) {
+				String image = cursor.getString(0);
+				if (image == null || image.trim().length() == 0) {
+					continue;
+				}
+				imageUrls.add(image);
 			}
-			imageUrls.add(image);
+		} finally {
+			cursor.close();
 		}
-		cursor.close();
 		return imageUrls;
 	}
 

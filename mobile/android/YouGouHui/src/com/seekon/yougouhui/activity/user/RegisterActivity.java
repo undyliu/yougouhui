@@ -112,13 +112,16 @@ public class RegisterActivity extends Activity {
 			if (resultCode == RESULT_OK && null != data) {
 				Uri selectedImage = data.getData();
 				String[] filePathColumn = { MediaStore.Images.Media.DATA };
-				Cursor cursor = getContentResolver().query(selectedImage,
-						filePathColumn, null, null, null);
-				cursor.moveToFirst();
-				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-				userIconUri = cursor.getString(columnIndex);
-				cursor.close();
-
+				Cursor cursor = null;
+				try {
+					cursor = getContentResolver().query(selectedImage, filePathColumn,
+							null, null, null);
+					cursor.moveToFirst();
+					int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+					userIconUri = cursor.getString(columnIndex);
+				} finally {
+					cursor.close();
+				}
 				addUserIconToView(userIconUri);
 			}
 		}
@@ -247,7 +250,6 @@ public class RegisterActivity extends Activity {
 	}
 
 	private void showProgress(final boolean show) {
-		ViewUtils
-				.showProgress(this, findViewById(R.id.register_main), show);
+		ViewUtils.showProgress(this, findViewById(R.id.register_main), show);
 	}
 }

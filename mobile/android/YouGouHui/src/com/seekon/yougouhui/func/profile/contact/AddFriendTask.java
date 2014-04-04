@@ -29,13 +29,13 @@ public class AddFriendTask extends AbstractFriendTask {
 
 	@Override
 	protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-		if(result != null){
+		if (result != null) {
 			int status = result.getStatusCode();
-			if(status == 200){
+			if (status == 200) {
 				RunEnv.getInstance().getUser().addFriend(friend);
 				setUIWedgetEnable(false);
-				if(UIWedget instanceof TextView){
-					((TextView)UIWedget).setText("已添加");
+				if (UIWedget instanceof TextView) {
+					((TextView) UIWedget).setText("已添加");
 				}
 				return;
 			}

@@ -11,7 +11,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.seekon.yougouhui.func.AbstractDBHelper;
+import com.seekon.yougouhui.db.AbstractDBHelper;
 import com.seekon.yougouhui.func.user.UserEntity;
 
 public class FriendData extends AbstractDBHelper {
@@ -39,14 +39,18 @@ public class FriendData extends AbstractDBHelper {
 		List<UserEntity> contactList = new ArrayList<UserEntity>();
 		String sql = " select u.uuid, u.phone, u.name, u.photo from e_user u, e_friend f "
 				+ " where u.uuid = f.friend_id and f.user_id = ? ";
-		Cursor cursor = getReadableDatabase()
-				.rawQuery(sql, new String[] { userId });
-		while (cursor.moveToNext()) {
-			int i = 0;
-			UserEntity contact = new UserEntity(cursor.getString(i++),
-					cursor.getString(i++), cursor.getString(i++), null,
-					cursor.getString(i++));
-			contactList.add(contact);
+		Cursor cursor = null;
+		try {
+			cursor = getReadableDatabase().rawQuery(sql, new String[] { userId });
+			while (cursor.moveToNext()) {
+				int i = 0;
+				UserEntity contact = new UserEntity(cursor.getString(i++),
+						cursor.getString(i++), cursor.getString(i++), null,
+						cursor.getString(i++));
+				contactList.add(contact);
+			}
+		} finally {
+			cursor.close();
 		}
 		return contactList;
 	}

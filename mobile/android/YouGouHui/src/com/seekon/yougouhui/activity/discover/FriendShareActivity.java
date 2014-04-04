@@ -150,15 +150,18 @@ public class FriendShareActivity extends RequestListActivity implements
 	private String getLastPublishTime() {
 		String result = null;
 		String col = " max(" + COL_NAME_PUBLISH_TIME + ")";
-		Cursor cursor = getContentResolver().query(ShareConst.CONTENT_URI,
-				new String[] { col }, null, null, null);
-		if (cursor.moveToNext()) {
-			result = cursor.getString(0);
+		Cursor cursor = null;
+		try {
+			cursor = getContentResolver().query(ShareConst.CONTENT_URI,
+					new String[] { col }, null, null, null);
+			if (cursor.moveToNext()) {
+				result = cursor.getString(0);
+			}
+		} finally {
+			cursor.close();
 		}
-		cursor.close();
-
 		if (result == null) {
-			result = RunEnv.getInstance().getUser().getRegisterTime();//updateData.getUpdateTime(ShareConst.TABLE_NAME);
+			result = RunEnv.getInstance().getUser().getRegisterTime();// updateData.getUpdateTime(ShareConst.TABLE_NAME);
 		}
 		return result;
 	}
@@ -166,41 +169,50 @@ public class FriendShareActivity extends RequestListActivity implements
 	private String getMinPublishTime() {
 		String result = null;
 		String col = " min(" + COL_NAME_PUBLISH_TIME + ")";
-		Cursor cursor = getContentResolver().query(ShareConst.CONTENT_URI,
-				new String[] { col }, null, null, null);
-		if (cursor.moveToNext()) {
-			result = cursor.getString(0);
+		Cursor cursor = null;
+		try {
+			cursor = getContentResolver().query(ShareConst.CONTENT_URI,
+					new String[] { col }, null, null, null);
+			if (cursor.moveToNext()) {
+				result = cursor.getString(0);
+			}
+		} finally {
+			cursor.close();
 		}
-		cursor.close();
-
 		return result;
 	}
 
 	private String getMinCommentPublishTime() {
 		String result = null;
 		String col = " min(" + COL_NAME_PUBLISH_TIME + ")";
-		Cursor cursor = getContentResolver().query(CommentConst.CONTENT_URI,
-				new String[] { col }, null, null, null);
-		if (cursor.moveToNext()) {
-			result = cursor.getString(0);
+		Cursor cursor = null;
+		try {
+			cursor = getContentResolver().query(CommentConst.CONTENT_URI,
+					new String[] { col }, null, null, null);
+			if (cursor.moveToNext()) {
+				result = cursor.getString(0);
+			}
+		} finally {
+			cursor.close();
 		}
-		cursor.close();
-
 		return result;
 	}
 
 	private String getLastCommentPublishTime() {
 		String result = null;
 		String col = " max(" + COL_NAME_PUBLISH_TIME + ")";
-		Cursor cursor = getContentResolver().query(CommentConst.CONTENT_URI,
-				new String[] { col }, null, null, null);
-		if (cursor.moveToNext()) {
-			result = cursor.getString(0);
+		Cursor cursor = null;
+		try {
+			cursor = getContentResolver().query(CommentConst.CONTENT_URI,
+					new String[] { col }, null, null, null);
+			if (cursor.moveToNext()) {
+				result = cursor.getString(0);
+			}
+		} finally {
+			cursor.close();
 		}
-		cursor.close();
-
 		if (result == null) {
-			result = RunEnv.getInstance().getUser().getRegisterTime();//updateData.getUpdateTime(CommentConst.TABLE_NAME);
+			result = RunEnv.getInstance().getUser().getRegisterTime();// updateData.getUpdateTime(CommentConst.TABLE_NAME);
 		}
 		return result;
 	}

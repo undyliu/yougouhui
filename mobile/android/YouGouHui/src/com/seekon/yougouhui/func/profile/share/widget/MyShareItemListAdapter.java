@@ -25,10 +25,11 @@ public class MyShareItemListAdapter extends BaseAdapter {
 	private Activity activity;
 
 	private List<ShareEntity> shareList;
-	
+
 	private int position = 0;
-	
-	public MyShareItemListAdapter(Activity activity, List<ShareEntity> shareList, int position) {
+
+	public MyShareItemListAdapter(Activity activity, List<ShareEntity> shareList,
+			int position) {
 		super();
 		this.activity = activity;
 		this.shareList = shareList;

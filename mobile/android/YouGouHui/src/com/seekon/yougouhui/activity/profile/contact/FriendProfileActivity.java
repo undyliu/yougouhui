@@ -36,24 +36,24 @@ public class FriendProfileActivity extends Activity {
 		user = (UserEntity) intent.getSerializableExtra(UserConst.DATA_KEY_USER);
 
 		actionBar.setTitle(user.getName());
-		
+
 		initViews();
 	}
 
-	private void initViews(){
+	private void initViews() {
 		ImageView userPhotoView = (ImageView) findViewById(R.id.user_photo);
 		String photo = user.getPhoto();
-		if(photo != null && photo.length() > 0){
+		if (photo != null && photo.length() > 0) {
 			ImageLoader.getInstance().displayImage(photo, userPhotoView, true);
 		}
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.friend_profile, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
@@ -66,10 +66,10 @@ public class FriendProfileActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	private void back(){
+
+	private void back() {
 		Intent intent = new Intent();
-		//intent.putExtra(UserConst.DATA_KEY_USER, user);
+		// intent.putExtra(UserConst.DATA_KEY_USER, user);
 		this.setResult(RESULT_OK, intent);
 		this.finish();
 	}

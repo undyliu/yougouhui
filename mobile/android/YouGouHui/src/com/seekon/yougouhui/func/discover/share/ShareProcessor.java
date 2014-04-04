@@ -166,15 +166,18 @@ public class ShareProcessor extends ContentProcessor {
 		String[] args = new String[] { share.getString(COL_NAME_UUID) };
 		String where = COL_NAME_SHARE_ID + "=?";
 		ContentResolver resolver = mContext.getContentResolver();
-		Cursor cursor = resolver.query(ShareImgConst.CONTENT_URI,
-				new String[] { COL_NAME_IMG }, where, args, null);
-		while (cursor.moveToNext()) {
-			String image = cursor.getString(0);
-			File file = FileHelper.getFileFromCache(image);
-			file.delete();
+		Cursor cursor = null;
+		try {
+			cursor = resolver.query(ShareImgConst.CONTENT_URI,
+					new String[] { COL_NAME_IMG }, where, args, null);
+			while (cursor.moveToNext()) {
+				String image = cursor.getString(0);
+				File file = FileHelper.getFileFromCache(image);
+				file.delete();
+			}
+		} finally {
+			cursor.close();
 		}
-		cursor.close();
-
 		resolver.delete(ShareImgConst.CONTENT_URI, where, args);
 	}
 

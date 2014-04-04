@@ -57,10 +57,10 @@ public class FriendProfileActionProvider extends ActionProvider {
 	 */
 	private void showPopup(View v) {
 		setFriendFromContext();
-		if(RunEnv.getInstance().getUser().equals(friend)){//TODO:
+		if (RunEnv.getInstance().getUser().equals(friend)) {// TODO:
 			return;
 		}
-		
+
 		mPopupMenu = new PopupMenu(context, v);
 		mPopupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
@@ -81,16 +81,16 @@ public class FriendProfileActionProvider extends ActionProvider {
 			}
 
 		});
-		
+
 		Menu menu = mPopupMenu.getMenu();
 		MenuInflater inflater = mPopupMenu.getMenuInflater();
 		inflater.inflate(R.menu.friend_profile_pop, menu);
-		
+
 		List<UserEntity> friends = RunEnv.getInstance().getUser().getFriends();
-		if(friends.contains(friend)){
+		if (friends.contains(friend)) {
 			MenuItem item = menu.findItem(R.id.menu_add_friend);
 			item.setVisible(false);
-		}else{
+		} else {
 			MenuItem item = menu.findItem(R.id.menu_del_friend);
 			item.setVisible(false);
 		}

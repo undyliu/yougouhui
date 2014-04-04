@@ -127,14 +127,17 @@ public class MipcaActivityCapture extends Activity implements Callback,
 			switch (requestCode) {
 			case REQUEST_CODE:
 				// 获取选中图片的路径
-				Cursor cursor = getContentResolver().query(data.getData(), null, null,
-						null, null);
-				if (cursor.moveToFirst()) {
-					photo_path = cursor.getString(cursor
-							.getColumnIndex(MediaStore.Images.Media.DATA));
+				Cursor cursor = null;
+				try {
+					cursor = getContentResolver().query(data.getData(), null, null, null,
+							null);
+					if (cursor.moveToFirst()) {
+						photo_path = cursor.getString(cursor
+								.getColumnIndex(MediaStore.Images.Media.DATA));
+					}
+				} finally {
+					cursor.close();
 				}
-				cursor.close();
-
 				mProgress = new ProgressDialog(MipcaActivityCapture.this);
 				mProgress.setMessage("正在扫描...");
 				mProgress.setCancelable(false);

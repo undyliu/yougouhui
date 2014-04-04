@@ -148,9 +148,10 @@ public class ShareActionPopupWindow extends PopupWindow {
 
 									((FriendShareActivity) activity).getShares().remove(share);
 									adapter.notifyDataSetChanged();
-								}else if(activity instanceof ShareDetailActivity){
+								} else if (activity instanceof ShareDetailActivity) {
 									Intent intent = new Intent();
-									intent.putExtra("position", activity.getIntent().getIntExtra("position", -1));
+									intent.putExtra("position",
+											activity.getIntent().getIntExtra("position", -1));
 									intent.putExtra(ShareConst.DATA_SHARE_KEY, share);
 									activity.setResult(Activity.RESULT_OK, intent);
 									activity.finish();

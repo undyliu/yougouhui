@@ -69,7 +69,8 @@ public class CommentListAdapter extends BaseAdapter {
 				.findViewById(R.id.share_comment_publisher);
 		publisherView.getPaint().setFakeBoldText(true);// TODO:使用样式表来处理
 		publisherView.setText(publisher.getName());
-		publisherView.setOnClickListener(new UserClickListener(publisher, context, -1));
+		publisherView.setOnClickListener(new UserClickListener(publisher, context,
+				-1));
 
 		// 设置评论的删除监听
 		ImageView commentDelete = (ImageView) convertView

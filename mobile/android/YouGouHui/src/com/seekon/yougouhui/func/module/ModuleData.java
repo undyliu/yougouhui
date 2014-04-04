@@ -9,7 +9,7 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.seekon.yougouhui.func.AbstractDBHelper;
+import com.seekon.yougouhui.db.AbstractDBHelper;
 
 public class ModuleData extends AbstractDBHelper {
 
