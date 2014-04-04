@@ -6,6 +6,7 @@
 	[yougou.share]
 	[yougou.user]
 	[yougou.friend]
+	[yougou.shop]
 	)
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
@@ -123,7 +124,11 @@
 	)
 )
 
+(defroutes shop-routes
+	(GET "/getTrades" [] (json/write-str (get-trades)))
+)
+
 (def app
-  (-> (routes login-routes channel-routes activity-routes module-routes share-routes file-routes user-routes friend-routes default-routes)
+  (-> (routes login-routes channel-routes activity-routes module-routes share-routes file-routes user-routes friend-routes shop-routes default-routes)
       (handler/site :session)
       ))

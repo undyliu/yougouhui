@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 10.10.65.86_ebs
+Source Server         : localhost_ebs
 Source Server Version : 50511
-Source Host           : 10.10.65.86:3306
+Source Host           : localhost:3306
 Source Database       : ebs
 
 Target Server Type    : MYSQL
 Target Server Version : 50511
 File Encoding         : 65001
 
-Date: 2014-04-01 17:41:26
+Date: 2014-04-04 17:05:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -118,7 +118,8 @@ CREATE TABLE `e_comment` (
 -- ----------------------------
 -- Records of e_comment
 -- ----------------------------
-INSERT INTO `e_comment` VALUES ('0348646d-e7cd-4561-8ac9-2eeec8f46af4', 'feba087b-3243-4161-ba4a-db048737c6fb', null, '点点滴滴d', '57e17c48-1504-4e93-8bd7-cc08024a27f4', '1396345032562', '0');
+INSERT INTO `e_comment` VALUES ('5d812a9a-ead1-49d4-9ca5-a4f4ae92e662', '11e4c01a-2155-4822-bec5-3d83d55481a4', null, '非常不错', '4eae0ad3-dfe1-40c9-8241-188885c86377', '1396583178296', '0');
+INSERT INTO `e_comment` VALUES ('a399f33d-0178-4c69-92e2-e0b5b5925071', '11e4c01a-2155-4822-bec5-3d83d55481a4', null, '看起来很好', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1396583740343', '0');
 
 -- ----------------------------
 -- Table structure for `e_discuss`
@@ -144,16 +145,27 @@ CREATE TABLE `e_discuss` (
 DROP TABLE IF EXISTS `e_friend`;
 CREATE TABLE `e_friend` (
   `uuid` varchar(36) NOT NULL,
-  `user_code` varchar(32) NOT NULL,
   `friend_id` varchar(36) NOT NULL,
-  `friend_code` varchar(32) NOT NULL,
   `user_id` varchar(36) NOT NULL,
+  `is_deleted` int(1) DEFAULT '0',
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of e_friend
 -- ----------------------------
+INSERT INTO `e_friend` VALUES ('0bec1918-c45b-44dc-ab78-6791c25fb5d8', '4eae0ad3-dfe1-40c9-8241-188885c86377', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1');
+INSERT INTO `e_friend` VALUES ('0ccbf194-a1d8-478f-b262-b228732b8667', '43c72a72-ca25-4415-a5df-cff584fec842', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '0');
+INSERT INTO `e_friend` VALUES ('46d5eed0-2be2-44c3-a000-733e4b86dbfe', 'd3a5b588-3204-4e7f-8d73-20fdd0dbaf54', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '0');
+INSERT INTO `e_friend` VALUES ('62b301fd-0a5a-44a9-8ac3-2548b9f9bb0d', '4eae0ad3-dfe1-40c9-8241-188885c86377', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '0');
+INSERT INTO `e_friend` VALUES ('6c6c114a-6a10-495f-8836-f8788e0dd6e1', '43c72a72-ca25-4415-a5df-cff584fec842', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1');
+INSERT INTO `e_friend` VALUES ('8bfdacbb-8440-468a-85f0-03b0646bba28', 'd3a5b588-3204-4e7f-8d73-20fdd0dbaf54', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1');
+INSERT INTO `e_friend` VALUES ('9c4b1402-dea8-4ddb-ad49-1a25ee7f63c6', '43c72a72-ca25-4415-a5df-cff584fec842', '4eae0ad3-dfe1-40c9-8241-188885c86377', '0');
+INSERT INTO `e_friend` VALUES ('b5e7431a-5014-49d3-985f-30f2ab6cce57', 'd3a5b588-3204-4e7f-8d73-20fdd0dbaf54', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1');
+INSERT INTO `e_friend` VALUES ('cd2389cd-39c6-4f87-b7f4-fdb239155b5c', '43c72a72-ca25-4415-a5df-cff584fec842', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1');
+INSERT INTO `e_friend` VALUES ('de266908-db43-44eb-84e1-708561b8d20a', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '4eae0ad3-dfe1-40c9-8241-188885c86377', '1');
+INSERT INTO `e_friend` VALUES ('e53d0478-52c4-4e87-b058-863e83adf11f', '4eae0ad3-dfe1-40c9-8241-188885c86377', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1');
+INSERT INTO `e_friend` VALUES ('ef917ef5-509a-4e5b-8eb7-b18c40539a03', '43c72a72-ca25-4415-a5df-cff584fec842', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1');
 
 -- ----------------------------
 -- Table structure for `e_log`
@@ -170,6 +182,26 @@ CREATE TABLE `e_log` (
 
 -- ----------------------------
 -- Records of e_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `e_message`
+-- ----------------------------
+DROP TABLE IF EXISTS `e_message`;
+CREATE TABLE `e_message` (
+  `uuid` varchar(36) NOT NULL,
+  `sender` varchar(36) NOT NULL,
+  `receiver` varchar(36) NOT NULL,
+  `content` varchar(500) DEFAULT NULL,
+  `send_time` varchar(16) DEFAULT NULL,
+  `type` int(1) DEFAULT NULL,
+  `status` int(1) DEFAULT NULL,
+  `reply_mess_id` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of e_message
 -- ----------------------------
 
 -- ----------------------------
@@ -229,11 +261,9 @@ CREATE TABLE `e_share` (
 -- ----------------------------
 -- Records of e_share
 -- ----------------------------
-INSERT INTO `e_share` VALUES ('1db537d1-924a-45bd-8ccc-5a383b584502', 'fenxiang', null, 'd92395a8-0f51-49ed-b473-5274cdcf183e', '1396335236218', '2014-04-01', null, '0');
-INSERT INTO `e_share` VALUES ('6132cf8a-8717-4500-aac8-ff91fe853bbd', '测试一下', null, '57e17c48-1504-4e93-8bd7-cc08024a27f4', '1396324575500', '2014-04-01', null, '0');
-INSERT INTO `e_share` VALUES ('a55c4209-202e-4a12-9d65-98b1bd346d23', '测试测试', null, '57e17c48-1504-4e93-8bd7-cc08024a27f4', '1396337331765', '2014-04-01', null, '0');
-INSERT INTO `e_share` VALUES ('b8bdf374-c9d7-4ade-abe0-52768d783e4c', '分享一下', null, '57e17c48-1504-4e93-8bd7-cc08024a27f4', '1396337136406', '2014-04-01', null, '0');
-INSERT INTO `e_share` VALUES ('feba087b-3243-4161-ba4a-db048737c6fb', '圣诞节快乐', null, '57e17c48-1504-4e93-8bd7-cc08024a27f4', '1396340884875', '2014-04-01', null, '0');
+INSERT INTO `e_share` VALUES ('11e4c01a-2155-4822-bec5-3d83d55481a4', '圣诞节购物季', null, '43c72a72-ca25-4415-a5df-cff584fec842', '1396583054328', '2014-04-04', null, '0');
+INSERT INTO `e_share` VALUES ('1a78b60a-dcad-4a45-b83f-822fc8e4f89d', '永旺的探路者打折很厉害', null, 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1396583684640', '2014-04-04', null, '0');
+INSERT INTO `e_share` VALUES ('97dd86ad-f227-44f1-8791-73860dc9dfd4', '新辣道鱼火锅', null, 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1396573458937', '2014-04-04', null, '0');
 
 -- ----------------------------
 -- Table structure for `e_share_img`
@@ -250,7 +280,10 @@ CREATE TABLE `e_share_img` (
 -- ----------------------------
 -- Records of e_share_img
 -- ----------------------------
-INSERT INTO `e_share_img` VALUES ('468e76fe-f7ae-4189-8e49-c65ca36cc070', '1031961510_1396340837965.png', 'feba087b-3243-4161-ba4a-db048737c6fb', '1');
+INSERT INTO `e_share_img` VALUES ('4c0215d4-a422-4add-9e0f-67e0387448c3', '1031961510_1396583010680.png', '11e4c01a-2155-4822-bec5-3d83d55481a4', '1');
+INSERT INTO `e_share_img` VALUES ('5ed0e8c4-4dd3-4383-96bc-a814492fc42d', '832378606_1396573415956.png', '97dd86ad-f227-44f1-8791-73860dc9dfd4', '1');
+INSERT INTO `e_share_img` VALUES ('6c5fe797-4f05-470e-86de-34d3dcb01e4d', '537577157_1396583627575.png', '1a78b60a-dcad-4a45-b83f-822fc8e4f89d', '2');
+INSERT INTO `e_share_img` VALUES ('97cfb2e8-29fd-414a-b607-2e479787cb10', '602324364_1396583627574.png', '1a78b60a-dcad-4a45-b83f-822fc8e4f89d', '1');
 
 -- ----------------------------
 -- Table structure for `e_shop`
@@ -264,6 +297,7 @@ CREATE TABLE `e_shop` (
   `geo` varchar(128) DEFAULT NULL,
   `address` varchar(500) DEFAULT NULL,
   `desc` varchar(500) DEFAULT NULL,
+  `busi_license` varchar(128) DEFAULT NULL,
   `credit_rank` int(11) DEFAULT NULL,
   `owner` varchar(36) DEFAULT NULL,
   `creator` varchar(36) DEFAULT NULL,
@@ -297,6 +331,38 @@ CREATE TABLE `e_shop_emp` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for `e_shop_trade`
+-- ----------------------------
+DROP TABLE IF EXISTS `e_shop_trade`;
+CREATE TABLE `e_shop_trade` (
+  `uuid` varchar(36) NOT NULL,
+  `shop_id` varchar(36) NOT NULL,
+  `trade_id` varchar(36) NOT NULL,
+  PRIMARY KEY (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of e_shop_trade
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `e_trade`
+-- ----------------------------
+DROP TABLE IF EXISTS `e_trade`;
+CREATE TABLE `e_trade` (
+  `uuid` varchar(36) NOT NULL,
+  `code` varchar(36) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `ord_index` int(1) DEFAULT NULL,
+  `is_used` int(1) DEFAULT '1',
+  PRIMARY KEY (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of e_trade
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `e_user`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_user`;
@@ -310,12 +376,15 @@ CREATE TABLE `e_user` (
   `birthday` varchar(16) DEFAULT NULL,
   `last_modifier` varchar(36) DEFAULT NULL,
   `last_modify_time` varchar(16) DEFAULT NULL,
-  PRIMARY KEY (`uuid`)
+  `register_time` varchar(16) DEFAULT NULL,
+  PRIMARY KEY (`uuid`),
+  UNIQUE KEY `u_e_user_phone` (`phone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of e_user
 -- ----------------------------
-INSERT INTO `e_user` VALUES ('1', '刘小勇', null, null, '111111', null, null, null, null);
-INSERT INTO `e_user` VALUES ('57e17c48-1504-4e93-8bd7-cc08024a27f4', '张三', '11111', null, '3', '3_1396345047823.png', null, null, null);
-INSERT INTO `e_user` VALUES ('d92395a8-0f51-49ed-b473-5274cdcf183e', '李四', '1111', null, '2', '2_1396314090641.png', null, null, null);
+INSERT INTO `e_user` VALUES ('43c72a72-ca25-4415-a5df-cff584fec842', '二二', '1111', null, '2', '', null, null, null, '1396573024125');
+INSERT INTO `e_user` VALUES ('4eae0ad3-dfe1-40c9-8241-188885c86377', '依依', '1111', null, '1', '1_1396572944339.png', null, null, null, '1396572978531');
+INSERT INTO `e_user` VALUES ('c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '李四', '1111', null, '4', '4_1396573057655.png', null, null, null, '1396573122453');
+INSERT INTO `e_user` VALUES ('d3a5b588-3204-4e7f-8d73-20fdd0dbaf54', '张三', '1111', null, '3', '3_1396573019613.png', null, null, null, '1396573053250');
