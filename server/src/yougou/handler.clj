@@ -6,6 +6,7 @@
 	[yougou.share]
 	[yougou.user]
 	[yougou.friend]
+	[yougou.shop]
 	)
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
@@ -40,8 +41,8 @@
 )
 
 (defroutes share-routes
-	(POST "/getFriendShares" {{last-pub-time :last-pub-time, min-pub-time :min-pub-time, last-comm-pub-time :last-comm-pub-time min-comm-pub-time :min-comm-pub-time} :params} 
-		(json/write-str (get-friend-share-data last-pub-time min-pub-time last-comm-pub-time min-comm-pub-time)))
+	(POST "/getFriendShares" {{last-pub-time :last-pub-time, min-pub-time :min-pub-time, last-comm-pub-time :last-comm-pub-time min-comm-pub-time :min-comm-pub-time user-id :user_id} :params} 
+		(json/write-str (get-friend-share-data last-pub-time min-pub-time last-comm-pub-time min-comm-pub-time user-id)))
 	(POST "/saveShare" {params :params}
 		;(println params)
 		(try
@@ -123,7 +124,11 @@
 	)
 )
 
+(defroutes shop-routes
+	(GET "/getTrades" [] (json/write-str (get-trades)))
+)
+
 (def app
-  (-> (routes login-routes channel-routes activity-routes module-routes share-routes file-routes user-routes friend-routes default-routes)
+  (-> (routes login-routes channel-routes activity-routes module-routes share-routes file-routes user-routes friend-routes shop-routes default-routes)
       (handler/site :session)
       ))

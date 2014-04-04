@@ -9,8 +9,9 @@
 )
 
 (defn register-user [name phone pwd photo temp-file]
-  (let [uuid (str (java.util.UUID/randomUUID))]
-		(insert users (values {:uuid uuid :name name :phone phone :pwd pwd :photo photo}))
+  (let [uuid (str (java.util.UUID/randomUUID))
+			register-time (str (System/currentTimeMillis))]
+		(insert users (values {:uuid uuid :name name :phone phone :pwd pwd :photo photo :register_time register-time}))
 		(if temp-file
 			(file/save-image-file photo temp-file)
 		)

@@ -9,42 +9,60 @@
 	)
 )
 
-(defn get-deleted-shares [min-pub-time]
+(defn get-deleted-shares [min-pub-time user-id]
   (let [publish-time (Long/valueOf min-pub-time)]
     (if (< publish-time 0)
       {}
-      (select shares (fields :uuid) (where {:publish_time [>= publish-time] :is_deleted [= 1]}))
+      (exec (-> (select* shares )
+							(fields :uuid) 
+							(where {:publish_time [>= publish-time] :is_deleted [= 1]})
+							(where (or {:publisher user-id} {:publisher [in (subselect friends (fields :friend_id) (where {:user_id user-id}))]}))
+						)
+			)
     )
   )
 )
 
-(defn get-deleted-comments [min-pub-time]
+(defn get-deleted-comments [min-pub-time user-id]
   (let [publish-time (Long/valueOf min-pub-time)]
     (if (< publish-time 0)
       {}
-      (select comments (fields :uuid) (where {:publish_time [>= publish-time] :is_deleted [= 1]}))
+      (exec (-> (select* comments)
+							(fields :uuid)
+							(where {:publish_time [>= publish-time] :is_deleted [= 1]})
+							(where (or {:publisher user-id} {:publisher [in (subselect friends (fields :friend_id) (where {:user_id user-id}))]}))
+						)
+			)
     )
   )
 )
 
-(defn get-newest-comments [last-pub-time]
+(defn get-newest-comments [last-pub-time user-id]
   (let [publish-time (Long/valueOf last-pub-time)]
     (if (< publish-time 0)
-        {}
-	(select comments (where {:publish_time [> publish-time] :is_deleted [not= 1]}))
+      {}
+			(exec (-> (select* comments )
+							(where {:publish_time [> publish-time] :is_deleted [not= 1]})
+							(where (or {:publisher user-id} {:publisher [in (subselect friends (fields :friend_id) (where {:user_id user-id}))]}))
+							(order :publish_time)
+						)
+			)
     )
   )
 )
 
-(defn get-friend-shares [last-pub-time]
+(defn get-friend-shares [last-pub-time user-id]
   (let [publish-time (Long/valueOf last-pub-time)]
     (if (< publish-time 0)
-        {}
-  	(select shares (fields :uuid :content :publisher :publish_time :publish_date :activity_id)
-	       (where {:publish_time [> publish-time] :is_deleted [not= 1]})
-		(order :publish_time)
-	)
-     )
+       {}
+			(exec (-> (select* shares)
+							(fields :uuid :content :publisher :publish_time :publish_date :activity_id)
+							(where {:publish_time [> publish-time] :is_deleted [not= 1]}) 
+							(where (or {:publisher user-id} {:publisher [in (subselect friends (fields :friend_id) (where {:user_id user-id}))]}))
+							(order :publish_time)
+						)
+			)
+    )
   )
 )
 
@@ -58,8 +76,8 @@
   )
 )
 
-(defn get-newest-share-data [last-pub-time]
-  (let [shares (get-friend-shares last-pub-time)
+(defn get-newest-share-data [last-pub-time user-id]
+  (let [shares (get-friend-shares last-pub-time user-id)
 				first-share (first shares)
 			 ]
 		(loop [share-list shares
@@ -68,23 +86,24 @@
 					]
 				(if (== 0 (count share-list))
 					result
-				(recur (rest share-list)
+					(recur (rest share-list)
 						 (first (rest share-list))
-						(conj result 
+						 (conj result 
 							(assoc 
 								(assoc share :images 
 										(get-share-images (:uuid share))) 
-										:comments (get-comments (:uuid share)))))
+										:comments (get-comments (:uuid share))))
+					)
 				)
 		)
 	)
 )
 
-(defn get-friend-share-data [last-pub-time min-pub-time last-comm-pub-time min-comm-pub-time]
-  {:newest-shares (get-newest-share-data last-pub-time)
-   :newest-comments (get-newest-comments last-comm-pub-time)
-   :deleted-shares (get-deleted-shares min-pub-time)
-   :deleted-comments (get-deleted-comments min-comm-pub-time)
+(defn get-friend-share-data [last-pub-time min-pub-time last-comm-pub-time min-comm-pub-time user-id]
+  {:newest-shares (get-newest-share-data last-pub-time user-id)
+   :newest-comments (get-newest-comments last-comm-pub-time user-id)
+   :deleted-shares (get-deleted-shares min-pub-time user-id)
+   :deleted-comments (get-deleted-comments min-comm-pub-time user-id)
   }
 )
 

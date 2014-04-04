@@ -65,3 +65,8 @@
   (pk :uuid)
   (belongs-to shares {:fk :share_id})
 )
+
+(defentity trades
+  (table :e_trade)
+  (pk :uuid)
+)
