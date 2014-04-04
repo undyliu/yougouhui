@@ -4,8 +4,8 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,11 +32,11 @@ import com.seekon.yougouhui.util.ViewUtils;
  */
 public class CommentListAdapter extends BaseAdapter {
 
-	private Context context;
+	private Activity context;
 
 	private List<CommentEntity> commentList = null;
 
-	public CommentListAdapter(Context context, List<CommentEntity> commentList) {
+	public CommentListAdapter(Activity context, List<CommentEntity> commentList) {
 		super();
 		this.context = context;
 		this.commentList = commentList;
@@ -69,7 +69,7 @@ public class CommentListAdapter extends BaseAdapter {
 				.findViewById(R.id.share_comment_publisher);
 		publisherView.getPaint().setFakeBoldText(true);// TODO:使用样式表来处理
 		publisherView.setText(publisher.getName());
-		publisherView.setOnClickListener(new UserClickListener(publisher, context));
+		publisherView.setOnClickListener(new UserClickListener(publisher, context, -1));
 
 		// 设置评论的删除监听
 		ImageView commentDelete = (ImageView) convertView

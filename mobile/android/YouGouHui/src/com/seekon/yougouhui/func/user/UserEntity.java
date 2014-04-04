@@ -21,7 +21,8 @@ public class UserEntity implements Serializable {
 	private String name;
 	private String pwd;
 	private String photo;
-
+	private String registerTime;
+	
 	private String pinyinName;
 	
 	private List<UserEntity> friends = new ArrayList<UserEntity>();
@@ -32,12 +33,18 @@ public class UserEntity implements Serializable {
 
 	public UserEntity(String uuid, String phone, String name, String pwd,
 			String photo) {
+		this(uuid, phone, name, pwd, photo, null);
+	}
+	
+	public UserEntity(String uuid, String phone, String name, String pwd,
+			String photo, String registerTime) {
 		super();
 		this.uuid = uuid;
 		this.phone = phone;
 		this.name = name;
 		this.pwd = pwd;
 		this.photo = photo;
+		this.registerTime = registerTime;
 		
 		pinyinName = PinyinUtils.getPinYin(name);
 	}
@@ -81,6 +88,14 @@ public class UserEntity implements Serializable {
 
 	public void setPhoto(String photo) {
 		this.photo = photo;
+	}
+
+	public String getRegisterTime() {
+		return registerTime;
+	}
+
+	public void setRegisterTime(String registerTime) {
+		this.registerTime = registerTime;
 	}
 
 	public List<UserEntity> getFriends() {

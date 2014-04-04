@@ -1,6 +1,6 @@
 package com.seekon.yougouhui.func.discover.share.widget;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 
@@ -12,19 +12,25 @@ public class UserClickListener implements View.OnClickListener {
 
 	private UserEntity user = null;
 
-	private Context context;
+	private Activity context;
 
-	public UserClickListener(UserEntity user, Context context) {
+	private int requestCode = -1;
+	public UserClickListener(UserEntity user, Activity context, int requestCode) {
 		super();
 		this.user = user;
 		this.context = context;
+		this.requestCode = requestCode;
 	}
 
 	@Override
 	public void onClick(View v) {
 		Intent intent = new Intent(context, FriendProfileActivity.class);
 		intent.putExtra(UserConst.DATA_KEY_USER, user);
-		context.startActivity(intent);
+		if(requestCode > 0){
+			context.startActivityForResult(intent, requestCode);
+		}else{
+			context.startActivity(intent);
+		}
 	}
 
 }

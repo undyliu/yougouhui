@@ -3,6 +3,7 @@ package com.seekon.yougouhui.func.user;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
+import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_REGISTER_TIME;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_ICON;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_NAME;
 import static com.seekon.yougouhui.func.user.UserConst.TABLE_NAME;
@@ -31,7 +32,8 @@ public class UserData extends AbstractDBHelper {
 		String sql = " create table IF NOT EXISTS " + TABLE_NAME + " ("
 				+ COL_NAME_UUID + " text primary key, " + COL_NAME_PHONE
 				+ " integer not null, " + COL_NAME_USER_NAME + " text, "
-				+ COL_NAME_USER_ICON + " text, " + COL_NAME_PWD + " text " + ")";
+				+ COL_NAME_REGISTER_TIME + " text, " + COL_NAME_USER_ICON + " text, "
+				+ COL_NAME_PWD + " text " + ")";
 		db.execSQL(sql);
 	}
 
@@ -46,13 +48,14 @@ public class UserData extends AbstractDBHelper {
 		Cursor cursor = this.getReadableDatabase().query(
 				TABLE_NAME,
 				new String[] { COL_NAME_UUID, COL_NAME_USER_NAME, COL_NAME_PWD,
-						COL_NAME_USER_ICON }, COL_NAME_PHONE + "= ? ",
-				new String[] { phone }, null, null, null);
+						COL_NAME_USER_ICON, COL_NAME_REGISTER_TIME },
+				COL_NAME_PHONE + "= ? ", new String[] { phone }, null, null, null);
 		if (cursor.getCount() > 0) {
 			cursor.moveToNext();
 			int i = 0;
 			user = new UserEntity(cursor.getString(i++), phone,
-					cursor.getString(i++), cursor.getString(i++), cursor.getString(i++));
+					cursor.getString(i++), cursor.getString(i++), cursor.getString(i++),
+					cursor.getString(i++));
 		}
 		cursor.close();
 		return user;

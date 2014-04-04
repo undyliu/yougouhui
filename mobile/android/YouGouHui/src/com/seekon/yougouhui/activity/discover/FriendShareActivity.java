@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.RequestListActivity;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.discover.share.CommentConst;
 import com.seekon.yougouhui.func.discover.share.CommentData;
 import com.seekon.yougouhui.func.discover.share.CommentEntity;
@@ -157,7 +158,7 @@ public class FriendShareActivity extends RequestListActivity implements
 		cursor.close();
 
 		if (result == null) {
-			result = updateData.getUpdateTime(ShareConst.TABLE_NAME);
+			result = RunEnv.getInstance().getUser().getRegisterTime();//updateData.getUpdateTime(ShareConst.TABLE_NAME);
 		}
 		return result;
 	}
@@ -199,7 +200,7 @@ public class FriendShareActivity extends RequestListActivity implements
 		cursor.close();
 
 		if (result == null) {
-			result = updateData.getUpdateTime(CommentConst.TABLE_NAME);
+			result = RunEnv.getInstance().getUser().getRegisterTime();//updateData.getUpdateTime(CommentConst.TABLE_NAME);
 		}
 		return result;
 	}

@@ -20,7 +20,6 @@ import android.widget.SearchView.OnQueryTextListener;
 
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.activity.discover.FriendShareActivity;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareData;

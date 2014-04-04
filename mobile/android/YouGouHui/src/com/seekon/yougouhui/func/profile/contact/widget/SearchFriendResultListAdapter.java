@@ -2,7 +2,7 @@ package com.seekon.yougouhui.func.profile.contact.widget;
 
 import java.util.List;
 
-import android.content.Context;
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.profile.contact.AddFriendActivity;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.discover.share.widget.UserClickListener;
@@ -23,10 +24,10 @@ public class SearchFriendResultListAdapter extends BaseAdapter {
 	private final String TAG = SearchFriendResultListAdapter.class
 			.getSimpleName();
 
-	private Context context;
+	private Activity context;
 	private List<UserEntity> searchResultList = null;
 
-	public SearchFriendResultListAdapter(Context context,
+	public SearchFriendResultListAdapter(Activity context,
 			List<UserEntity> searchResultList) {
 		super();
 		this.context = context;
@@ -67,7 +68,8 @@ public class SearchFriendResultListAdapter extends BaseAdapter {
 			isFriend = true;
 		}
 
-		UserClickListener userListener = new UserClickListener(user, context);
+		UserClickListener userListener = new UserClickListener(user, context,
+				AddFriendActivity.OPEN_FRIEND_REQUEST_CODE);
 
 		TextView userNameView = (TextView) view
 				.findViewById(R.id.contact_user_name);
@@ -85,7 +87,11 @@ public class SearchFriendResultListAdapter extends BaseAdapter {
 		if (isFriend) {
 			addFriend.setText(R.string.b_title_allready_friends);
 			addFriend.setEnabled(false);
+		}else{
+			addFriend.setText(R.string.b_title_add_friend);
+			addFriend.setEnabled(true);
 		}
+		
 		ImageView userPhotoView = (ImageView) view
 				.findViewById(R.id.contact_user_photo);
 		userPhotoView.setLayoutParams(new LinearLayout.LayoutParams(60, 60));

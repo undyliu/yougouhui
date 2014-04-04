@@ -55,6 +55,7 @@ public class JSONUtils {
 		user.setPhone(getJSONStringValue(jsonObj, UserConst.COL_NAME_PHONE));
 		user.setPhoto(getJSONStringValue(jsonObj, UserConst.COL_NAME_USER_ICON));
 		user.setPwd(getJSONStringValue(jsonObj, UserConst.COL_NAME_PWD));
+		user.setRegisterTime(getJSONStringValue(jsonObj, UserConst.COL_NAME_REGISTER_TIME));
 		return user;
 	}
 

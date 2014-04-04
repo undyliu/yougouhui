@@ -9,4 +9,6 @@
     <string name="b_title_add_friend_from_contact_list">从手机联系人添加</string>
     <string name="b_title_add_friend">加为好友</string>
     <string name="b_title_allready_friends">已是朋友</string>
+    
+    <string name="error_no_need_add_self_to_friend">不需要加自己为好友.</string>
 </resources>

@@ -132,24 +132,6 @@ public class ContactListActivity extends Activity {
 		adapter = new ContactListAdapter(this, contactDateList);
 		sortListView.setAdapter(adapter);
 
-		// 根据联系人数据重新设置sidebar
-		List<String> catalogKeys = new ArrayList<String>();
-		catalogKeys.addAll(adapter.getCatalogKeys());
-		Collections.sort(catalogKeys, new Comparator<String>() {
-			@Override
-			public int compare(String lhs, String rhs) {
-				return lhs.compareTo(rhs);
-			}
-
-		});
-		int catalogSize = catalogKeys.size();
-		int sideBarHeight = this.getResources().getDisplayMetrics().heightPixels;
-		if (sideBarHeight > catalogSize * 30) {
-			sideBar.setLayoutParams(new FrameLayout.LayoutParams(30,
-					catalogSize * 30, Gravity.RIGHT));
-		}
-		sideBar.setNavWords(catalogKeys.toArray(new String[catalogSize]));
-
 		mClearEditText = (ClearEditText) findViewById(R.id.contact_filter_edit);
 
 		// 根据输入框输入值的改变来过滤搜索
@@ -171,8 +153,30 @@ public class ContactListActivity extends Activity {
 			public void afterTextChanged(Editable s) {
 			}
 		});
+		
+		updateSideBar();
 	}
 
+	// 根据联系人数据重新设置sidebar
+	private void updateSideBar(){
+		List<String> catalogKeys = new ArrayList<String>();
+		catalogKeys.addAll(adapter.getCatalogKeys());
+		Collections.sort(catalogKeys, new Comparator<String>() {
+			@Override
+			public int compare(String lhs, String rhs) {
+				return lhs.compareTo(rhs);
+			}
+
+		});
+		int catalogSize = catalogKeys.size();
+		int sideBarHeight = this.getResources().getDisplayMetrics().heightPixels;
+		if (sideBarHeight > catalogSize * 30) {
+			sideBar.setLayoutParams(new FrameLayout.LayoutParams(30,
+					catalogSize * 30, Gravity.RIGHT));
+		}
+		sideBar.setNavWords(catalogKeys.toArray(new String[catalogSize]));
+	}
+	
 	private List<UserEntity> getContactListData() {
 		return RunEnv.getInstance().getUser().getFriends();
 //		result.add(new ContactEntity("1", null, "张三", null, null));
@@ -223,6 +227,7 @@ public class ContactListActivity extends Activity {
 				contactDateList = getContactListData();
 				Collections.sort(contactDateList, pinyinComparator);
 				adapter.updateListView(contactDateList);
+				updateSideBar();
 			}
 			break;
 

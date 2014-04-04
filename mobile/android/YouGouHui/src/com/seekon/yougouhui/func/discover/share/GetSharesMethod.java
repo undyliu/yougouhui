@@ -7,6 +7,8 @@ import java.util.Map;
 import android.content.Context;
 
 import com.seekon.yougouhui.Const;
+import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.profile.contact.FriendConst;
 import com.seekon.yougouhui.rest.BaseRequest;
 import com.seekon.yougouhui.rest.JSONObjResourceMethod;
 import com.seekon.yougouhui.rest.Method;
@@ -63,6 +65,8 @@ public class GetSharesMethod extends JSONObjResourceMethod {
 		params.put("min-pub-time", minPublishTime);
 		params.put("last-comm-pub-time", lastCommentPublishTime);
 		params.put("min-comm-pub-time", minCommentPublishTime);
+		params.put(FriendConst.COL_NAME_USER_ID, RunEnv.getInstance().getUser()
+				.getUuid());
 		return new BaseRequest(Method.POST, uri, null, params);
 	}
 

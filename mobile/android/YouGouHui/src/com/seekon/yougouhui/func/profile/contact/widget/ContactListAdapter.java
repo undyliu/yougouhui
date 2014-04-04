@@ -42,6 +42,7 @@ public class ContactListAdapter extends BaseAdapter implements SectionIndexer {
 	}
 
 	private void initCatalogList() {
+		catalogMap.clear();
 		int size = contactList.size();
 		for (int i = 0; i < size; i++) {
 			String firstLetter = contactList.get(i).getFirstLetter().toUpperCase();

@@ -248,6 +248,6 @@ public class RegisterActivity extends Activity {
 
 	private void showProgress(final boolean show) {
 		ViewUtils
-				.showProgress(this, null, show, R.string.login_progress_signing_in);
+				.showProgress(this, findViewById(R.id.register_main), show);
 	}
 }

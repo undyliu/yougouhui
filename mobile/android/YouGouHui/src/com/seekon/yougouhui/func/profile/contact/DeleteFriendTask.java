@@ -1,9 +1,7 @@
 package com.seekon.yougouhui.func.profile.contact;
 
 import android.content.Context;
-import android.widget.TextView;
 
-import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;

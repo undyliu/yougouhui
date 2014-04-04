@@ -58,7 +58,7 @@ public class ShareUtils {
 
 		UserEntity publisher = share.getPublisher();
 		UserClickListener userClickListener = new UserClickListener(publisher,
-				activity);
+				activity, -1);
 
 		// 设置分享者的头像
 		ImageView userImg = (ImageView) shareView.findViewById(R.id.user_img);

@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
 
@@ -34,8 +36,18 @@ public class FriendProfileActivity extends Activity {
 		user = (UserEntity) intent.getSerializableExtra(UserConst.DATA_KEY_USER);
 
 		actionBar.setTitle(user.getName());
+		
+		initViews();
 	}
 
+	private void initViews(){
+		ImageView userPhotoView = (ImageView) findViewById(R.id.user_photo);
+		String photo = user.getPhoto();
+		if(photo != null && photo.length() > 0){
+			ImageLoader.getInstance().displayImage(photo, userPhotoView, true);
+		}
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.friend_profile, menu);
@@ -57,6 +69,7 @@ public class FriendProfileActivity extends Activity {
 	
 	private void back(){
 		Intent intent = new Intent();
+		//intent.putExtra(UserConst.DATA_KEY_USER, user);
 		this.setResult(RESULT_OK, intent);
 		this.finish();
 	}
