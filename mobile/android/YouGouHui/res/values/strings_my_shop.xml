@@ -4,4 +4,11 @@
     <string name="title_shop_register">商铺注册</string>
     
     <string name="label_no_shop">还没有商铺？请先</string>
+    
+    <string name="label_shop_name">名称</string>
+    <string name="label_shop_image">店面图片</string>
+    <string name="label_shop_address">地址</string>
+    <string name="label_shop_business">主营业务</string>
+    <string name="label_shop_busi_license">营业执照</string>
+    <string name="label_shop_desc">简介</string>
 </resources>

@@ -94,7 +94,11 @@
             android:name=".func.profile.contact.FriendProvider"
             android:authorities="com.seekon.yougouhui.friends"
             android:exported="false" />
-		 
+		 <provider
+            android:name=".func.profile.shop.TradeProvider"
+            android:authorities="com.seekon.yougouhui.trades"
+            android:exported="false" />
+		 		 
         <activity
             android:name=".activity.discover.FriendShareActivity"
             android:label="@string/title_discover_friends" 
@@ -133,12 +137,12 @@
          <activity android:label="@string/title_user_change_nickname" android:name=".activity.user.ChangeNameActivity"></activity>
          <activity android:label="@string/title_user_change_photo" android:name=".activity.user.ChangePhotoActivity"></activity>
          <activity android:label="@string/title_user_change_pwd" android:name=".activity.user.ChangePwdActivity"></activity>
-         <activity android:label="@string/title_friend_profile" android:name="com.seekon.yougouhui.activity.profile.contact.FriendProfileActivity"></activity>
+         <activity android:label="@string/title_friend_profile" android:name=".activity.profile.contact.FriendProfileActivity"></activity>
          <activity android:label="@string/title_my_share" android:name=".activity.profile.MyShareActivity"></activity>
          <activity android:label="@string/title_share_detail" android:name=".activity.profile.ShareDetailActivity"></activity>
          <activity android:name=".activity.profile.shop.LoginShopActivity" android:label="@string/title_shop_login"></activity>
          <activity android:name=".activity.profile.shop.RegisterShopActivity" android:label="@string/title_shop_register"></activity>
-         <activity android:name="com.seekon.yougouhui.activity.profile.contact.ContactListActivity" android:label="@string/title_contact_list"></activity>
+         <activity android:name=".activity.profile.contact.ContactListActivity" android:label="@string/title_contact_list"></activity>
          <activity android:name=".activity.profile.contact.AddFriendActivity" android:label="@string/title_add_friend"></activity>     
        </application>
 
