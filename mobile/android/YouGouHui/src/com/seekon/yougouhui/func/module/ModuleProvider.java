@@ -28,7 +28,7 @@ public class ModuleProvider extends SQLiteContentProvider {
 	public boolean onCreate() {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI(ModuleConst.AUTHORITY, ModuleConst.TABLE_NAME, MODULES);
-		uriMatcher.addURI(ModuleConst.AUTHORITY, ModuleConst.TABLE_NAME + "/#",
+		uriMatcher.addURI(ModuleConst.AUTHORITY, ModuleConst.TABLE_NAME + "/*",
 				MODULE_ID);
 
 		modules = new ModuleData(getContext());

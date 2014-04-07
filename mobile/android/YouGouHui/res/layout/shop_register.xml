@@ -2,175 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
     android:orientation="vertical" >
 
-    <TableLayout
+    <include layout="@layout/progressbar" />
+    
+    <android.support.v4.view.ViewPager
+        android:id="@+id/shop_register_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" >
 
-        <TableRow
-            android:layout_width="fill_parent"
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/pagertab"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="0.5dip"
-            android:background="#ffffffff"
-            android:gravity="center" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/label_shop_name" />
-
-            <EditText
-                android:id="@+id/shop_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                android:singleLine="true" >
-
-                <requestFocus />
-            </EditText>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="0.5dip"
-            android:background="#ffffffff"
-            android:gravity="center" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/label_shop_image" />
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <ImageView
-                    android:id="@+id/shop_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/add_camera"
-                    android:contentDescription="@string/app_name" />
-
-                <ImageButton
-                    android:id="@+id/shop_image_del"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="70dip"
-                    android:contentDescription="@string/app_name"
-                    android:onClick="deleteView"
-                    android:src="@drawable/share_pic_delete"
-                    android:visibility="gone" />
-            </FrameLayout>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="0.5dip"
-            android:background="#ffffffff"
-            android:gravity="center" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/label_shop_address" />
-
-            <EditText
-                android:id="@+id/shop_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textMultiLine"
-                android:minLines="2" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="0.5dip"
-            android:background="#ffffffff"
-            android:gravity="center" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/label_shop_business" />
-
-            <GridView
-                android:id="@+id/shop_trade_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:numColumns="3" >
-            </GridView>
-            
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="0.5dip"
-            android:background="#ffffffff"
-            android:gravity="center" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/label_shop_busi_license" />
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <ImageView
-                    android:id="@+id/shop_busi_license"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/add_camera"
-                    android:contentDescription="@string/app_name" />
-
-                <ImageButton
-                    android:id="@+id/shop_busi_license_del"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="70dip"
-                    android:contentDescription="@string/app_name"
-                    android:onClick="deleteView"
-                    android:src="@drawable/share_pic_delete"
-                    android:visibility="gone" />
-            </FrameLayout>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="0.5dip"
-            android:background="#ffffffff"
-            android:gravity="center" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/label_shop_desc" />
-
-            <EditText
-                android:id="@+id/shop_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textMultiLine"
-                android:minLines="2" />
-        </TableRow>
-    </TableLayout>
+            android:layout_gravity="top" />
+        
+    </android.support.v4.view.ViewPager>
 
 </LinearLayout>

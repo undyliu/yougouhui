@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <include layout="@layout/progressbar" />
     <ScrollView
         android:id="@+id/shop_login_form"
         android:layout_width="match_parent"

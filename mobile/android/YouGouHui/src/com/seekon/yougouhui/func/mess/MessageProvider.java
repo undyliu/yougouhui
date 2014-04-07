@@ -29,7 +29,7 @@ public class MessageProvider extends SQLiteContentProvider {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher
 				.addURI(MessageConst.AUTHORITY, MessageConst.TABLE_NAME, MESSAGES);
-		uriMatcher.addURI(MessageConst.AUTHORITY, MessageConst.TABLE_NAME + "/#",
+		uriMatcher.addURI(MessageConst.AUTHORITY, MessageConst.TABLE_NAME + "/*",
 				MESSAGE_ID);
 		messages = new MessageData(getContext());
 		messages.onCreate(messages.getWritableDatabase());// TODO:

@@ -12,7 +12,7 @@ import com.seekon.yougouhui.util.PinyinUtils;
  * @author undyliu
  * 
  */
-public class UserEntity implements Serializable {
+public class UserEntity implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = -4052088250779917423L;
 
@@ -122,6 +122,16 @@ public class UserEntity implements Serializable {
 
 	public String getFirstLetter() {
 		return new String(new char[] { pinyinName.charAt(0) });
+	}
+
+	@Override
+	public UserEntity clone() {
+		try {
+			return (UserEntity) super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override

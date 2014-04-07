@@ -41,7 +41,7 @@
 )
 
 (defroutes share-routes
-	(POST "/getFriendShares" {{last-pub-time :last-pub-time, min-pub-time :min-pub-time, last-comm-pub-time :last-comm-pub-time min-comm-pub-time :min-comm-pub-time user-id :user_id} :params} 
+	(POST "/getFriendShares" {{last-pub-time :last-pub-time, min-pub-time :min-pub-time, last-comm-pub-time :last-comm-pub-time min-comm-pub-time :min-comm-pub-time user-id :user_id} :params}
 		(json/write-str (get-friend-share-data last-pub-time min-pub-time last-comm-pub-time min-comm-pub-time user-id)))
 	(POST "/saveShare" {params :params}
 		;(println params)
@@ -50,13 +50,13 @@
 			(catch Exception e {:status  500 :body (json/write-str{:error "保存失败."})})
 		)
 	)
-	(POST "/saveComment" {{share-id :share_id content :content, user :publisher} :params} 
+	(POST "/saveComment" {{share-id :share_id content :content, user :publisher} :params}
 		(try
 			(json/write-str (save-comment share-id content user))
 			(catch Exception e {:status  500 :body (json/write-str{:error "保存失败."})})
-		)	
+		)
 	)
-	(DELETE "/deleteShare/:share-id" [share-id] 
+	(DELETE "/deleteShare/:share-id" [share-id]
 		(try
 			(json/write-str (del-share-data share-id))
 			(catch Exception e {:status  500 :body (json/write-str{:error "删除失败."})})
@@ -113,19 +113,37 @@
 	(POST "/addFriend" {{user-id :user_id friend-id :friend_id} :params}
 		(try
 			(json/write-str (add-friend user-id friend-id))
-		(catch Exception e {:status  500 :body (json/write-str {:error "添加朋友失败."})})	
+		(catch Exception e {:status  500 :body (json/write-str {:error "添加朋友失败."})})
 		)
 	)
 	(DELETE "/deleteFriend/:user-id/:friend-id" [user-id friend-id]
 		(try
 			(json/write-str (del-friend user-id friend-id))
-			(catch Exception e {:status  500 :body (json/write-str {:error "删除朋友失败."})})	
+			(catch Exception e {:status  500 :body (json/write-str {:error "删除朋友失败."})})
 		)
 	)
 )
 
 (defroutes shop-routes
 	(GET "/getTrades" [] (json/write-str (get-trades)))
+  (POST "/registerShop" {{name :name address :address desc :desc shop-img :shop_img busi-license :busi_license owner :owner pwd :pwd :as params} :params}
+    (println params)
+    (let [files {shop-img (:tempfile (params shop-img)) busi-license (:tempfile (params busi-license))}
+          trades (clojure.string/split (java.net.URLDecoder/decode (:tradeList params) "utf-8") #"[|]")
+          ]
+      (try
+        (json/write-str (save-shop-data (java.net.URLDecoder/decode name "utf-8") (java.net.URLDecoder/decode desc "utf-8")
+                                        (java.net.URLDecoder/decode address "utf-8") shop-img busi-license owner pwd files trades))
+        (catch Exception e (.printStackTrace e) {:status  500 :body (json/write-str {:error "注册商铺失败."})})
+      )
+    )
+  )
+  (POST "/loginShop" {{user-id :user_id, pwd :pwd} :params}
+     (try
+       (json/write-str (loginShop user-id pwd))
+       (catch Exception e (.printStackTrace e) {:status  500 :body (json/write-str {:error "登录商铺失败."})})
+       )
+   )
 )
 
 (def app

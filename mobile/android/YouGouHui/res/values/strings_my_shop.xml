@@ -2,6 +2,7 @@
 <resources>
     <string name="title_shop_login">登录我的商铺</string>
     <string name="title_shop_register">商铺注册</string>
+    <string name="title_shop_main">商铺主页</string>
     
     <string name="label_no_shop">还没有商铺？请先</string>
     
@@ -11,4 +12,7 @@
     <string name="label_shop_business">主营业务</string>
     <string name="label_shop_busi_license">营业执照</string>
     <string name="label_shop_desc">简介</string>
+    
+    <string name="b_title_pre_step">上一步</string>
+    <string name="b_title_next_step">下一步</string>
 </resources>

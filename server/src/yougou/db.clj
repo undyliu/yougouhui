@@ -70,3 +70,18 @@
   (table :e_trade)
   (pk :uuid)
 )
+
+(defentity shop-trades
+  (table :e_shop_trade)
+  (pk :uuid)
+  )
+
+(defentity shop-emps
+  (table :e_shop_emp)
+  (pk :uuid)
+  )
+
+(defentity shops
+  (table :e_shop)
+  (pk :uuid)
+  )

@@ -59,6 +59,8 @@ public class UserData extends AbstractDBHelper {
 						cursor.getString(i++), cursor.getString(i++),
 						cursor.getString(i++), cursor.getString(i++));
 			}
+		}catch(Exception e){
+			e.printStackTrace();
 		} finally {
 			cursor.close();
 		}

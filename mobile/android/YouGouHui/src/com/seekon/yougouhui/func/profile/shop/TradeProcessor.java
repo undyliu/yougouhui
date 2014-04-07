@@ -7,7 +7,7 @@ import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.service.ContentProcessor;
 
 public class TradeProcessor extends ContentProcessor {
-
+	
 	private static TradeProcessor instance = null;
 
 	private static Object lock = new Object();
@@ -25,8 +25,8 @@ public class TradeProcessor extends ContentProcessor {
 		super(mContext, TradeData.COL_NAMES, TradeConst.CONTENT_URI);
 
 	}
-
+	
 	public RestMethodResult<JSONArrayResource> getTrades() {
-		return (RestMethodResult) this.execMethod(new GetTradeMethod(mContext));
+		return (RestMethodResult) this.execMethod(new GetTradesMethod(mContext));
 	}
 }

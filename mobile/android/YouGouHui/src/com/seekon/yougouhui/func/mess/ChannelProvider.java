@@ -29,7 +29,7 @@ public class ChannelProvider extends SQLiteContentProvider {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher
 				.addURI(ChannelConst.AUTHORITY, ChannelConst.TABLE_NAME, CHANNELS);
-		uriMatcher.addURI(ChannelConst.AUTHORITY, ChannelConst.TABLE_NAME + "/#",
+		uriMatcher.addURI(ChannelConst.AUTHORITY, ChannelConst.TABLE_NAME + "/*",
 				CHANNEL_ID);
 		channels = new ChannelData(getContext());
 		channels.onCreate(channels.getWritableDatabase());// TODO:

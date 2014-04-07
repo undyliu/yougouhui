@@ -7,15 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
-import com.seekon.yougouhui.func.mess.ChannelEntity;
+import com.seekon.yougouhui.func.profile.shop.TradeEntity;
 
 public class TradeListAdapter extends BaseAdapter {
 
-	private Context context;
-	private List<ChannelEntity> trades;
+	private TradeCheckedChangeActivity context;
+	private List<TradeEntity> trades;
 
-	public TradeListAdapter(Context context, List<ChannelEntity> trades) {
+	public TradeListAdapter(TradeCheckedChangeActivity context,
+			List<TradeEntity> trades) {
 		super();
 		this.context = context;
 		this.trades = trades;
@@ -43,14 +45,16 @@ public class TradeListAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			view = new CheckBox(context);
 			holder.view = (CheckBox) view;
+			holder.view.setId(position);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
-		
-		ChannelEntity trade = (ChannelEntity) getItem(position);
+
+		TradeEntity trade = (TradeEntity) getItem(position);
 		CheckBox tradeBox = holder.view;
 		tradeBox.setText(trade.getName());
+		tradeBox.setOnCheckedChangeListener(context);
 		
 		return view;
 	}
