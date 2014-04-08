@@ -50,3 +50,9 @@
 		(select users (fields :uuid :phone :name :photo) (where (or {:phone [like search-word]} {:name [like search-word]})))
 	)
 )
+(defn get-user-by-id [user-id]
+	(if-let [user (first (select users (fields :uuid :name :pwd :phone :photo) (where {:uuid user-id})))]
+		user
+		{}
+	)
+)

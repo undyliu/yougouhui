@@ -9,9 +9,26 @@
 )
 
 (defn get-trades []
-	(select trades (fields :uuid :code :name) (where {:is_used [= 1]}) (order :ord_index))
+  (exec (-> (select* trades )
+            (fields :uuid :code :name)
+            (where {:is_used [= 1]})
+            (order :ord_index)
+            )
+        )
 )
 
+(defn get-shop [shop-id]
+	(let [shop (first (select shops
+                       (fields :uuid :name :address :desc :shop_img :busi_license :register_time :owner :status)
+                       (where {:uuid shop-id})
+                     )
+                    )
+        trade-list (select shop-trades (fields :uuid :trade_id) (where {:shop_id shop-id}))
+
+        ]
+   (assoc shop :tradeList trade-list)
+    )
+)
 
 (defn save-shop-trades [shop-id trades]
   (loop [trade-list trades result []]
@@ -61,7 +78,9 @@
   )
 
 (defn loginShop [user-id pwd]
-  (let [shop-list (select shop-emps (fields :shop_id) (where {:user_id user-id :pwd pwd}))
+  (let [shop-list (select shops (fields :uuid :name :shop_img :owner :status)
+                          (join shop-emps (= :e_shop_emp.shop_id :uuid))
+                          (where {:e_shop_emp.user_id user-id :e_shop_emp.pwd pwd}))
         ]
     (if (= 0 (count shop-list))
       (let [shop-no-pwd (select shop-emps (fields :shop_id) (where {:user_id user-id}))]
