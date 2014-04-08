@@ -51,7 +51,7 @@ public class UserProfileActivity extends Activity {
 					@Override
 					public void onClick(View v) {
 						Intent intent = new Intent(UserProfileActivity.this,
-								ChangeNameActivity.class);
+								ChangeNickNameActivity.class);
 						startActivityForResult(intent, NAME_ACTIVITY_REQUEST_CODE);
 					}
 				});
@@ -64,7 +64,7 @@ public class UserProfileActivity extends Activity {
 					@Override
 					public void onClick(View v) {
 						Intent intent = new Intent(UserProfileActivity.this,
-								ChangePwdActivity.class);
+								ChangeUserPwdActivity.class);
 						startActivityForResult(intent, PASSWORD_ACTIVITY_REQUEST_CODE);
 					}
 				});
@@ -86,7 +86,7 @@ public class UserProfileActivity extends Activity {
 					@Override
 					public void onClick(View v) {
 						Intent intent = new Intent(UserProfileActivity.this,
-								ChangePhotoActivity.class);
+								ChangeUserPhotoActivity.class);
 						startActivityForResult(intent, PHOTO_ACTIVITY_REQUEST_CODE);
 					}
 				});

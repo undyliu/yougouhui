@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <TableLayout
+        android:id="@+id/shop_regiser_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TableRow
+            android:id="@+id/row_shop_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0.5dip"
+            android:background="#ffffffff" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right|center"
+                android:minHeight="50dp"
+                android:text="@string/label_shop_name" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/shop_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:gravity="right|center"
+                    android:singleLine="true" />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_shop_image"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0.5dip"
+            android:background="#ffffffff" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right|center"
+                android:minHeight="80dp"
+                android:text="@string/label_shop_image" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/shop_image"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/add_camera"
+                    android:contentDescription="@string/app_name"
+                    android:gravity="right|center" />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_shop_address"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0.5dip"
+            android:background="#ffffffff" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right|center"
+                android:minHeight="50dp"
+                android:text="@string/label_shop_address" />
+
+            <TextView
+                android:id="@+id/shop_address"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="right|center" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_shop_trades"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0.5dip"
+            android:background="#ffffffff" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right|center"
+                android:minHeight="50dp"
+                android:text="@string/label_shop_business" />
+
+            <TextView
+                android:id="@+id/shop_trades"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right|center" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_shop_busi_license"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0.5dip"
+            android:background="#ffffffff" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right|center"
+                android:minHeight="80dp"
+                android:text="@string/label_shop_busi_license" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/shop_busi_license"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/add_camera"
+                    android:contentDescription="@string/app_name"
+                    android:gravity="right|center" />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_shop_desc"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0.5dip"
+            android:background="#ffffffff" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right|center"
+                android:minHeight="50dp"
+                android:text="@string/label_shop_desc" />
+
+            <TextView
+                android:id="@+id/shop_desc"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="right|center" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_shop_pwd"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0.5dip"
+            android:background="#ffffffff" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right|center"
+                android:minHeight="50dp"
+                android:text="@string/label_password" />
+
+            <TextView
+                android:id="@+id/shop_pwd"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="right|center" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

@@ -142,11 +142,11 @@
             android:label="@string/title_register" 
             android:screenOrientation="portrait">
         </activity>
-         <activity android:label="@string/title_user_change_nickname" android:name=".activity.user.ChangeNameActivity"
+         <activity android:label="@string/title_user_change_nickname" android:name=".activity.user.ChangeNickNameActivity"
              android:screenOrientation="portrait"></activity>
-         <activity android:label="@string/title_user_change_photo" android:name=".activity.user.ChangePhotoActivity"
+         <activity android:label="@string/title_user_change_photo" android:name=".activity.user.ChangeUserPhotoActivity"
              android:screenOrientation="portrait"></activity>
-         <activity android:label="@string/title_user_change_pwd" android:name=".activity.user.ChangePwdActivity"
+         <activity android:label="@string/title_user_change_pwd" android:name=".activity.user.ChangeUserPwdActivity"
              android:screenOrientation="portrait"></activity>
          <activity android:label="@string/title_friend_profile" android:name=".activity.profile.contact.FriendProfileActivity"
              android:screenOrientation="portrait"></activity>
@@ -162,7 +162,15 @@
              android:screenOrientation="portrait"></activity>
          <activity android:name=".activity.profile.contact.AddFriendActivity" android:label="@string/title_add_friend"
              android:screenOrientation="portrait"></activity>
-         <activity android:label="@string/title_shop_main" android:name=".activity.profile.shop.ShopMainActivity"></activity>     
+         <activity android:label="@string/title_shop_main" android:name=".activity.profile.shop.ShopMainActivity"></activity>
+         <activity android:name=".activity.profile.shop.BaseInfoActivity" android:label="@string/title_shop_base_info"></activity>
+         <activity android:name=".activity.profile.shop.EmpSettingActivity" android:label="@string/title_shop_emp_setting"></activity>
+         <activity android:name=".activity.profile.shop.SaleInfoActivity" android:label="@string/title_shop_sale_info"></activity>
+         <activity android:name=".activity.profile.shop.ShareInteractAcitivity" android:label="@string/title_shop_share_interact"></activity>
+         <activity android:name=".activity.profile.shop.ChangeShopTextActivity"></activity>
+         <activity android:name=".activity.profile.shop.ChangeShopImageActivity"></activity>
+         <activity android:name=".activity.profile.shop.ChangeShopPwdActivity" android:label="@string/title_shop_change_pwd"></activity>
+         <activity android:name=".activity.profile.shop.ChangeTradesActivity" android:label="@string/title_shop_change_trades"></activity>     
        </application>
 
 </manifest>

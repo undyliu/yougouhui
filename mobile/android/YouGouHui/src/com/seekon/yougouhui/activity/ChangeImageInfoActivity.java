@@ -1,11 +1,10 @@
-package com.seekon.yougouhui.activity.user;
+package com.seekon.yougouhui.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
@@ -14,50 +13,38 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.file.ImageLoader;
-import com.seekon.yougouhui.func.RunEnv;
-import com.seekon.yougouhui.func.user.UserEntity;
-import com.seekon.yougouhui.func.user.UserProcessor;
-import com.seekon.yougouhui.rest.RestMethodResult;
-import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.ViewUtils;
 
-/**
- * 修改用户头像
- * 
- * @author undyliu
- * 
- */
-public class ChangePhotoActivity extends Activity {
+public abstract class ChangeImageInfoActivity extends Activity {
 
-	private static final int USER_ICON_WIDTH = 200;
+	protected static final int ICON_WIDTH = 200;
 
-	private static final int LOAD_IMAGE_ACTIVITY_REQUEST_CODE = 200;
+	protected static final int LOAD_IMAGE_ACTIVITY_REQUEST_CODE = 1;
 
-	private ImageView photoView = null;
-	private UserEntity user = null;
-	private String userIconUri = null;
+	protected ImageView photoView = null;
+
+	protected String imageUri = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.user_photo);
-
-		user = RunEnv.getInstance().getUser();
+		this.setContentView(R.layout.change_image_info);
 
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		photoView = (ImageView) findViewById(R.id.user_icon);
-		photoView.setLayoutParams(new FrameLayout.LayoutParams(USER_ICON_WIDTH,
-				USER_ICON_WIDTH));
+		photoView = (ImageView) findViewById(R.id.image_icon);
+		photoView.setLayoutParams(new FrameLayout.LayoutParams(ICON_WIDTH,
+				ICON_WIDTH));
 		photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-		userIconUri = user.getPhoto();
-		if (userIconUri != null && userIconUri.length() > 0) {
+		imageUri = getImageFileName();
+		if (imageUri != null && imageUri.length() > 0) {
 			addUserIconToView(true);
 		} else {
 			photoView.setImageResource(R.drawable.add_camera);
@@ -71,6 +58,9 @@ public class ChangePhotoActivity extends Activity {
 				startActivityForResult(intent, LOAD_IMAGE_ACTIVITY_REQUEST_CODE);
 			}
 		});
+		
+		TextView imageLabel = (TextView) findViewById(R.id.image_label);
+		imageLabel.setText(getImageLabel());
 	}
 
 	@Override
@@ -87,7 +77,7 @@ public class ChangePhotoActivity extends Activity {
 			this.finish();
 			break;
 		case R.id.menu_common_save:
-			changeUserPhoto(item);
+			doChangeImage(item);
 			break;
 		default:
 			break;
@@ -107,7 +97,7 @@ public class ChangePhotoActivity extends Activity {
 							null, null, null);
 					cursor.moveToFirst();
 					int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-					userIconUri = cursor.getString(columnIndex);
+					imageUri = cursor.getString(columnIndex);
 				} finally {
 					cursor.close();
 				}
@@ -119,13 +109,13 @@ public class ChangePhotoActivity extends Activity {
 
 	private void addUserIconToView(boolean fileName) {
 		if (fileName) {
-			ImageLoader.getInstance().displayImage(userIconUri, photoView, true);
+			ImageLoader.getInstance().displayImage(imageUri, photoView, true);
 		} else {
-			photoView.setImageBitmap(FileHelper.decodeFile(userIconUri, true,
-					USER_ICON_WIDTH, USER_ICON_WIDTH));
+			photoView.setImageBitmap(FileHelper.decodeFile(imageUri, true,
+					ICON_WIDTH, ICON_WIDTH));
 		}
 
-		final ImageButton iconDel = (ImageButton) findViewById(R.id.user_icon_del);
+		final ImageButton iconDel = (ImageButton) findViewById(R.id.image_icon_del);
 		iconDel.setVisibility(View.VISIBLE);
 		iconDel.setOnClickListener(new View.OnClickListener() {
 
@@ -133,55 +123,19 @@ public class ChangePhotoActivity extends Activity {
 			public void onClick(View v) {
 				photoView.setImageResource(R.drawable.add_camera);
 				iconDel.setVisibility(View.GONE);
-				userIconUri = "";
+				imageUri = "";
 			}
 		});
 	}
 
-	private void changeUserPhoto(final MenuItem item) {
-		if (userIconUri.equals(RunEnv.getInstance().getUser().getPhoto())) {
-			ViewUtils.showToast("头像未做修改，不需要保存更新.");
-			return;
-		}
-
-		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return UserProcessor.getInstance(ChangePhotoActivity.this)
-						.updateUserPhoto(userIconUri);
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				showProgress(false);
-				int status = result.getStatusCode();
-				if (status == 200) {
-					Intent intent = new Intent();
-					setResult(RESULT_OK, intent);
-					finish();
-				} else {
-					ViewUtils.showToast("修改失败.");
-				}
-				item.setEnabled(true);
-				super.onPostExecute(result);
-			}
-
-			@Override
-			protected void onCancelled() {
-				showProgress(false);
-				item.setEnabled(true);
-				super.onCancelled();
-			}
-		};
-
-		showProgress(true);
-		item.setEnabled(false);
-		task.execute((Void) null);
+	protected void showProgress(final boolean show) {
+		ViewUtils.showProgress(this,
+				this.findViewById(R.id.change_image_info_view), show);
 	}
 
-	private void showProgress(final boolean show) {
-		ViewUtils.showProgress(this, this.findViewById(R.id.user_photo_change),
-				show);
-	}
+	protected abstract void doChangeImage(final MenuItem item);
+	
+	protected abstract int getImageLabel();
+	
+	protected abstract String getImageFileName();
 }

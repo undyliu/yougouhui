@@ -3,6 +3,17 @@
     <string name="title_shop_login">登录我的商铺</string>
     <string name="title_shop_register">商铺注册</string>
     <string name="title_shop_main">商铺主页</string>
+    <string name="title_shop_base_info">商铺-基本信息</string>
+    <string name="title_shop_emp_setting">商铺-职员设置</string>
+    <string name="title_shop_sale_info">商铺-促销活动</string>
+    <string name="title_shop_share_interact">商铺-分享互动</string>
+    <string name="title_shop_change_name">商铺-修改名称</string>
+    <string name="title_shop_change_desc">商铺-修改简介</string>
+    <string name="title_shop_change_addr">商铺-修改地址</string>
+    <string name="title_shop_change_image">商铺-修改店铺图片</string>
+    <string name="title_shop_change_license">商铺-修改营业执照</string>
+    <string name="title_shop_change_pwd">商铺-修改登录密码</string>
+    <string name="title_shop_change_trades">商铺-修改主营业务</string>
     
     <string name="label_no_shop">还没有商铺？请先</string>
     
@@ -15,4 +26,15 @@
     
     <string name="b_title_pre_step">上一步</string>
     <string name="b_title_next_step">下一步</string>
+    
+    <string name="label_shop_base_info">基本信息</string>
+    <string name="label_shop_emp_setting">职员设置</string>
+    <string name="label_shop_sale_info">促销活动</string>
+    <string name="label_shop_share_interact">分享互动</string>
+    
+    <string name="label_shop_status_registered">已注册</string>
+    <string name="label_shop_status_audited">已审核</string>
+    <string name="label_shop_status_canceled">已注销</string>
+    <string name="label_shop_choose_image">请选择店铺图片</string>
+    <string name="label_shop_choose_license">请选择营业执照</string>
 </resources>

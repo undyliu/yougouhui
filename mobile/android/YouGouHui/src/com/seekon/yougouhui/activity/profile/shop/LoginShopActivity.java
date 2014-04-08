@@ -1,6 +1,13 @@
 package com.seekon.yougouhui.activity.profile.shop;
 
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
+import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_OWNER;
+import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_SHOP_IMAGE;
+import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_STATUS;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,6 +16,7 @@ import org.json.JSONObject;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -20,10 +28,14 @@ import android.widget.TextView;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.login.LoginConst;
-import com.seekon.yougouhui.func.profile.shop.LoginShopMethod;
 import com.seekon.yougouhui.func.profile.shop.ShopConst;
-import com.seekon.yougouhui.func.profile.shop.ShopTradeConst;
+import com.seekon.yougouhui.func.profile.shop.ShopEntity;
+import com.seekon.yougouhui.func.profile.shop.ShopProcessor;
+import com.seekon.yougouhui.func.profile.shop.TradeConst;
+import com.seekon.yougouhui.func.profile.shop.widget.GetTradesTask;
+import com.seekon.yougouhui.func.widget.TaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.ViewUtils;
 
@@ -102,7 +114,7 @@ public class LoginShopActivity extends Activity {
 				loginShop();
 			}
 		});
-		
+
 	}
 
 	private void loginShop() {
@@ -118,8 +130,8 @@ public class LoginShopActivity extends Activity {
 
 			@Override
 			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return new LoginShopMethod(LoginShopActivity.this, RunEnv.getInstance()
-						.getUser().getUuid(), password).execute();
+				return ShopProcessor.getInstance(LoginShopActivity.this).loginShop(
+						RunEnv.getInstance().getUser().getUuid(), password);
 			}
 
 			@Override
@@ -132,14 +144,20 @@ public class LoginShopActivity extends Activity {
 					try {
 						boolean authed = jsonObj.getBoolean(LoginConst.LOGIN_RESULT_AUTHED);
 						if (authed) {
-							ArrayList<String> shopIdList = new ArrayList<String>();
+							ArrayList<ShopEntity> shopEntityList = new ArrayList<ShopEntity>();
 							JSONArray shopList = jsonObj
 									.getJSONArray(ShopConst.NAME_SHOP_LIST);
 							for (int i = 0; i < shopList.length(); i++) {
-								JSONObject shop = shopList.getJSONObject(i);
-								shopIdList.add(shop.getString(ShopTradeConst.COL_NAME_SHOP_ID));
+								JSONObject json = shopList.getJSONObject(i);
+								ShopEntity shop = new ShopEntity();
+								shop.setUuid(json.getString(COL_NAME_UUID));
+								shop.setName(json.getString(COL_NAME_NAME));
+								shop.setShopImage(json.getString(COL_NAME_SHOP_IMAGE));
+								shop.setOwner(json.getString(COL_NAME_OWNER));
+								shop.setStatus(json.getString(COL_NAME_STATUS));
+								shopEntityList.add(shop);
 							}
-							showShopMain(shopIdList);
+							showShopMain(shopEntityList);
 							return;
 						} else {
 							String errorType = jsonObj
@@ -181,9 +199,46 @@ public class LoginShopActivity extends Activity {
 		ViewUtils.showProgress(this, findViewById(R.id.shop_login_form), show);
 	}
 
-	private void showShopMain(ArrayList<String> shopIdList) {
+	private void showShopMain(final ArrayList<ShopEntity> shopIdList) {
+		boolean loadTrade = true;
+		Cursor cursor = null;
+		try {
+			cursor = getContentResolver().query(TradeConst.CONTENT_URI,
+					new String[] { "count(1)" }, null, null, null);
+			if (cursor.moveToNext()) {
+				loadTrade = cursor.getInt(0) == 0;
+			}
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
+
+		if (loadTrade) {
+			new GetTradesTask(LoginShopActivity.this, new TaskCallback<RestMethodResult<JSONArrayResource>>() {
+				
+				@Override
+				public void onPostExecute(RestMethodResult<JSONArrayResource> result) {
+					if(result.getStatusCode() == 200){
+						_showShopMain(shopIdList);
+					}else{
+						ViewUtils.showToast("登录失败，获取主营业务数据出错.");
+					}
+				}
+				
+				@Override
+				public void onCancelled() {
+					
+				}
+			}).execute((Void) null);
+		} else {
+			_showShopMain(shopIdList);
+		}
+	}
+	
+	private void _showShopMain(ArrayList<ShopEntity> shopIdList){
 		Intent intent = new Intent(this, ShopMainActivity.class);
-		intent.putStringArrayListExtra(ShopConst.NAME_SHOP_LIST, shopIdList);
+		intent.putExtra(ShopConst.NAME_SHOP_LIST, shopIdList);
 		startActivity(intent);
 		finish();
 	}

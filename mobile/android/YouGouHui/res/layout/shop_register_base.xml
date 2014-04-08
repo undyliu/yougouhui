@@ -170,35 +170,7 @@
                 android:inputType="textMultiLine"
                 android:minLines="2" />
         </TableRow>
-<!-- 
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
 
-            <Button
-                android:id="@+id/b_pre_register_base"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/b_title_pre_step" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right" >
-
-                <Button
-                    android:id="@+id/b_next_register_base"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/b_title_next_step" />
-
-            </LinearLayout>
-
-        </TableRow>
- -->
     </TableLayout>
 
 </LinearLayout>

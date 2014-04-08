@@ -8,8 +8,6 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONObject;
-
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Intent;
@@ -42,15 +40,15 @@ import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.profile.shop.ShopProcessor;
 import com.seekon.yougouhui.func.profile.shop.TradeConst;
 import com.seekon.yougouhui.func.profile.shop.TradeEntity;
-import com.seekon.yougouhui.func.profile.shop.TradeProcessor;
+import com.seekon.yougouhui.func.profile.shop.widget.GetTradesTask;
 import com.seekon.yougouhui.func.profile.shop.widget.RegisterPagerAdapter;
 import com.seekon.yougouhui.func.profile.shop.widget.TradeCheckedChangeActivity;
 import com.seekon.yougouhui.func.profile.shop.widget.TradeListAdapter;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.widget.TaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.ViewUtils;
 
 /**
@@ -242,44 +240,25 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 	}
 
 	private void loadTradesFromRemote() {
+		GetTradesTask task = new GetTradesTask(RegisterShopActivity.this,
+				new TaskCallback<RestMethodResult<JSONArrayResource>>() {
 
-		AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONArrayResource> doInBackground(
-					Void... params) {
-				return TradeProcessor.getInstance(RegisterShopActivity.this)
-						.getTrades();
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONArrayResource> result) {
-				int status = result.getStatusCode();
-				if (status == 200) {
-					try {
-						JSONArrayResource resource = result.getResource();
-						for (int i = 0; i < resource.length(); i++) {
-							JSONObject jsonObj = resource.getJSONObject(i);
-							TradeEntity trade = new TradeEntity();
-							trade.setUuid(JSONUtils
-									.getJSONStringValue(jsonObj, COL_NAME_UUID));
-							trade.setCode(JSONUtils
-									.getJSONStringValue(jsonObj, COL_NAME_CODE));
-							trade.setName(JSONUtils
-									.getJSONStringValue(jsonObj, COL_NAME_NAME));
-							trades.add(trade);
+					@Override
+					public void onPostExecute(RestMethodResult<JSONArrayResource> result) {
+						int status = result.getStatusCode();
+						if (status == 200) {
+							loadTradeFromLocal();
+							tradeAdapter.notifyDataSetChanged();
+						} else {
+							ViewUtils.showToast("获取主营业务数据失败.");
 						}
-
-						tradeAdapter.notifyDataSetChanged();
-					} catch (Exception e) {
-						ViewUtils.showToast("获取主营业务数据失败.");
 					}
-				} else {
-					ViewUtils.showToast("获取主营业务数据失败.");
-				}
-			}
 
-		};
+					@Override
+					public void onCancelled() {
+
+					}
+				});
 
 		task.execute((Void) null);
 	}
@@ -334,11 +313,11 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 			public void onClick(View v) {
 				imageView.setBackgroundResource(R.drawable.add_camera);
 				delButton.setVisibility(View.GONE);
-				
+
 				int viewId = v.getId();
-				if(viewId == R.id.shop_busi_license_del){
+				if (viewId == R.id.shop_busi_license_del) {
 					busiLicense = null;
-				}else if(viewId == R.id.shop_image_del){
+				} else if (viewId == R.id.shop_image_del) {
 					shopImage = null;
 				}
 			}
@@ -401,33 +380,33 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 			focusView = nameView;
 			cancel = true;
 		}
-	
+
 		if (cancel) {
 			focusView.requestFocus();
-			if(focusView.equals(pwdView) || focusView.equals(pwdConfView)){
+			if (focusView.equals(pwdView) || focusView.equals(pwdConfView)) {
 				viewPager.setCurrentItem(2);
-			}else{
+			} else {
 				viewPager.setCurrentItem(1);
 			}
 			return;
 		}
 
-		if(shopImage == null){
+		if (shopImage == null) {
 			ViewUtils.showToast("请选择商铺图片.");
 			viewPager.setCurrentItem(1);
 			return;
 		}
-		if(busiLicense == null){
+		if (busiLicense == null) {
 			ViewUtils.showToast("请选择营业执照的图片.");
 			viewPager.setCurrentItem(1);
 			return;
 		}
-		if(selectedTrades == null || selectedTrades.isEmpty()){
+		if (selectedTrades == null || selectedTrades.isEmpty()) {
 			ViewUtils.showToast("请选择主营业务.");
 			viewPager.setCurrentItem(1);
 			return;
 		}
-		
+
 		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
 
 			@Override
@@ -447,7 +426,7 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 					emp.setPwd(password);
 					shop.addEmployee(emp);
 				}
-				
+
 				return ShopProcessor.getInstance(RegisterShopActivity.this)
 						.registerShop(shop);
 			}

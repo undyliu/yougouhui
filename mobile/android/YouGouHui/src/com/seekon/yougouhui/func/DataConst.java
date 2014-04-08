@@ -28,6 +28,10 @@ public interface DataConst {
 
 	public static final String NAME_SEARCH_WORD = "search-word";
 
+	public static final String NAME_TYPE= "type";
+	
+	public static final String NAME_TITLE= "title";
+	
 	// 一下的action常量用于广播
 	// public static final String KEY_ACTION_ID = "key.action.id";
 	// public static final String KEY_ACTION_TYPE = "key.action.type";

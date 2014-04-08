@@ -1,9 +1,7 @@
-package com.seekon.yougouhui.activity.user;
+package com.seekon.yougouhui.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -12,26 +10,18 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.func.RunEnv;
-import com.seekon.yougouhui.func.user.UserEntity;
-import com.seekon.yougouhui.func.user.UserProcessor;
-import com.seekon.yougouhui.rest.RestMethodResult;
-import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.ViewUtils;
 
-public class ChangePwdActivity extends Activity {
+public abstract class ChangePasswordActivity extends Activity {
 
-	private EditText pwdOldView = null;
-	private EditText pwdNewView = null;
-	private EditText pwdNewConfView = null;
-	private UserEntity user = null;
+	protected EditText pwdOldView = null;
+	protected EditText pwdNewView = null;
+	protected EditText pwdNewConfView = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.user_password);
-
-		user = RunEnv.getInstance().getUser();
+		this.setContentView(R.layout.change_password);
 
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -63,7 +53,7 @@ public class ChangePwdActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void savePassword(final MenuItem item) {
+	protected void savePassword(final MenuItem item) {
 		pwdOldView.setError(null);
 		pwdNewView.setError(null);
 		pwdNewConfView.setError(null);
@@ -106,7 +96,7 @@ public class ChangePwdActivity extends Activity {
 			pwdOldView.setError(fieldRequired);
 			focusView = pwdOldView;
 			cancel = true;
-		} else if (!oldPwd.equals(user.getPwd())) {
+		} else if (!oldPwd.equals(getOldPassword())) {
 			pwdOldView.setError(getString(R.string.error_incorrect_password));
 			focusView = pwdOldView;
 			cancel = true;
@@ -122,44 +112,15 @@ public class ChangePwdActivity extends Activity {
 			return;
 		}
 
-		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return UserProcessor.getInstance(ChangePwdActivity.this).updateUserPwd(
-						password);
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				showProgress(false);
-				int status = result.getStatusCode();
-				if (status == 200) {
-					Intent intent = new Intent();
-					setResult(RESULT_OK, intent);
-					finish();
-				} else {
-					ViewUtils.showToast("修改失败.");
-				}
-				item.setEnabled(true);
-				super.onPostExecute(result);
-			}
-
-			@Override
-			protected void onCancelled() {
-				showProgress(false);
-				item.setEnabled(true);
-				super.onCancelled();
-			}
-		};
-
-		showProgress(true);
-		item.setEnabled(false);
-		task.execute((Void) null);
+		doSavePassword(item);
 	}
 
-	private void showProgress(final boolean show) {
-		ViewUtils.showProgress(this, this.findViewById(R.id.user_password_change),
+	protected void showProgress(final boolean show) {
+		ViewUtils.showProgress(this, this.findViewById(R.id.change_password_view),
 				show);
 	}
+
+	protected abstract String getOldPassword();
+
+	protected abstract void doSavePassword(final MenuItem item);
 }

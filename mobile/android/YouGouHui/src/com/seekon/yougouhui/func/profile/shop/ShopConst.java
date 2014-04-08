@@ -18,6 +18,7 @@ public interface ShopConst extends DataConst{
 	public static final String COL_NAME_BUSI_LICENSE = "busi_license";
 	public static final String COL_NAME_REGISTER_TIME = "register_time";
 	public static final String COL_NAME_OWNER = "owner";
+	public static final String COL_NAME_STATUS = "status";
 	
 	public static final String NAME_REQUEST_PARAMETER_TRADES = "tradeList";
 	//public static final String NAME_REQUEST_PARAMETER_EMPS = "empList";
@@ -26,4 +27,6 @@ public interface ShopConst extends DataConst{
 	public static final String NAME_SHOP_LIST = "shopList";
 	
 	public static final String DATA_SHOP_KEY = "data.shop";
+	
+	public static final String MAP_SHOP_KEY = "map.shop";
 }

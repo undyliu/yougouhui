@@ -9,7 +9,7 @@
     <include layout="@layout/progressbar" />
 
     <LinearLayout
-        android:id="@+id/user_photo_change"
+        android:id="@+id/change_image_info_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -18,23 +18,24 @@
         android:orientation="horizontal" >
 
         <TextView
+            android:id="@+id/image_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:text="请选择头像" />
+             />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
             <ImageView
-                android:id="@+id/user_icon"
+                android:id="@+id/image_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/app_name" />
 
             <ImageButton
-                android:id="@+id/user_icon_del"
+                android:id="@+id/image_icon_del"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="150dip"

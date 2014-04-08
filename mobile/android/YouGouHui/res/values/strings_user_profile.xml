@@ -8,4 +8,6 @@
     <string name="label_pwd_old">原密码</string>
     <string name="label_pwd_new">新密码</string>
     <string name="label_pwd_new_conf">新密码确认</string>
+    
+    <string name="label_change_image">请选择头像</string>
 </resources>

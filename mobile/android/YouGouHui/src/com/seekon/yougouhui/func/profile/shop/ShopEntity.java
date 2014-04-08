@@ -18,6 +18,7 @@ public class ShopEntity implements Serializable {
 	private String busiLicense;
 	private long registerTime;
 	private String owner;
+	private String status;
 	private List<TradeEntity> trades = new ArrayList<TradeEntity>();
 	private List<UserEntity> employees = new ArrayList<UserEntity>();
 
@@ -85,6 +86,14 @@ public class ShopEntity implements Serializable {
 		this.registerTime = registerTime;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public List<TradeEntity> getTrades() {
 		return trades;
 	}
@@ -103,5 +112,9 @@ public class ShopEntity implements Serializable {
 	
 	public void addEmployee(UserEntity emp){
 		this.employees.add(emp);
+	}
+	
+	public void addTrade(TradeEntity trade){
+		this.trades.add(trade);
 	}
 }
