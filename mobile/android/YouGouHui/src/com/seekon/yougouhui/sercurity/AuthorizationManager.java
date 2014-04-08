@@ -2,6 +2,9 @@ package com.seekon.yougouhui.sercurity;
 
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
+
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 
@@ -9,6 +12,7 @@ import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.login.EnvHelper;
 import com.seekon.yougouhui.func.login.LoginConst;
 import com.seekon.yougouhui.func.login.LoginProcessor;
+import com.seekon.yougouhui.func.profile.contact.GetFriendsTask;
 import com.seekon.yougouhui.func.user.UserData;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.rest.Request;
@@ -79,7 +83,13 @@ public class AuthorizationManager implements RequestSigner {
 				if (resource.getBoolean(LoginConst.LOGIN_RESULT_AUTHED)) {
 					user = JSONUtils.createUserEntity(resource
 							.getJSONObject(LoginConst.LOGIN_RESULT_USER));
-					user.setFriends(this.getUserHelper().getUserFriends(user.getUuid()));
+					
+					List<UserEntity> friends = this.getUserHelper().getUserFriends(user.getUuid());
+					if(friends == null || friends.isEmpty()){
+						new GetFriendsTask(context, user).execute((Void)null);
+					}else{
+						user.setFriends(friends);
+					}
 				} else {
 					errorType = resource.getString(LoginConst.LOGIN_RESULT_ERROR_TYPE);
 				}
