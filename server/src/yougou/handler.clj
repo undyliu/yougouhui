@@ -122,6 +122,8 @@
 			(catch Exception e {:status  500 :body (json/write-str {:error "删除朋友失败."})})
 		)
 	)
+	(GET "/getFriends/:user-id" [user-id] (json/write-str (get-friends user-id))
+	)
 )
 
 (defroutes shop-routes
@@ -144,6 +146,7 @@
        (catch Exception e (.printStackTrace e) {:status  500 :body (json/write-str {:error "登录商铺失败."})})
        )
    )
+  (GET "/getShop/:shop-id" [shop-id] (json/write-str (get-shop shop-id)))
 )
 
 (def app
