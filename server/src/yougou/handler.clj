@@ -129,7 +129,7 @@
 (defroutes shop-routes
 	(GET "/getTrades" [] (json/write-str (get-trades)))
   (POST "/registerShop" {{name :name address :address desc :desc shop-img :shop_img busi-license :busi_license owner :owner pwd :pwd :as params} :params}
-    (println params)
+    ;(println params)
     (let [files {shop-img (:tempfile (params shop-img)) busi-license (:tempfile (params busi-license))}
           trades (clojure.string/split (java.net.URLDecoder/decode (:tradeList params) "utf-8") #"[|]")
           ]
@@ -142,11 +142,33 @@
   )
   (POST "/loginShop" {{user-id :user_id, pwd :pwd} :params}
      (try
-       (json/write-str (loginShop user-id pwd))
+       (json/write-str (login-shop user-id pwd))
        (catch Exception e (.printStackTrace e) {:status  500 :body (json/write-str {:error "登录商铺失败."})})
        )
    )
   (GET "/getShop/:shop-id" [shop-id] (json/write-str (get-shop shop-id)))
+  (POST "/updateShop" {{shop-id :shop_id field-name :field value :value :as params} :params}
+     (let [file (:tempfile (params value))]
+       (try
+         (json/write-str (update-shop field-name (java.net.URLDecoder/decode value "utf-8") shop-id file))
+         (catch Exception e (.printStackTrace e) {:status  500 :body (json/write-str {:error "修改商铺失败."})})
+         )
+      )
+   )
+  (PUT "/updateShopEmpPwd" {{shop-id :shop_id user-id :user_id old-pwd :old_pwd new-pwd :pwd} :params}
+     (try
+       (json/write-str (update-shop-emp-pwd shop-id user-id old-pwd new-pwd))
+       (catch Exception e (.printStackTrace e) {:status  500 :body (json/write-str {:error "修改登录密码失败."})})
+      )
+   )
+  (PUT "/updateShopTrades" {{shop-id :shop_id trade-list :tradeList} :params}
+       (let [trades (clojure.string/split (java.net.URLDecoder/decode trade-list "utf-8") #"[|]")]
+         (try
+           (json/write-str (update-shop-trades shop-id trades))
+           (catch Exception e (.printStackTrace e) {:status  500 :body (json/write-str {:error "修改主营业务失败."})})
+         )
+        )
+       )
 )
 
 (def app
