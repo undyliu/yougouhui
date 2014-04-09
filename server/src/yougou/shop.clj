@@ -5,6 +5,7 @@
 	)
   (:require
 		[yougou.file :as file]
+    [yougou.qrcode :as qrcode]
 	)
 )
 
@@ -19,7 +20,7 @@
 
 (defn get-shop [shop-id]
 	(let [shop (first (select shops
-                       (fields :uuid :name :address :desc :shop_img :busi_license :register_time :owner :status)
+                       (fields :uuid :name :address :desc :shop_img :busi_license :register_time :owner :status :barcode)
                        (where {:uuid shop-id})
                      )
                     )
@@ -132,3 +133,22 @@
   {:tradeList (save-shop-trades shop-id trades)}
   )
 
+(defn create-shop-barcode [shop-id]
+  (let [shop (first (select shops (fields :shop_img :name :barcode) (where {:uuid shop-id})))
+        content (str shop-id "##" (:name shop))
+        logo-path (.getPath (file/get-image-file (:shop_img shop)))
+        barcode  (str "barcode_" (.hashCode shop-id) "_" (System/currentTimeMillis) ".png")
+        image-path (.getPath (file/get-image-file barcode))
+        width 300
+        ]
+      (if (qrcode/encode-qrcode-image content image-path width width logo-path)
+        (let [old-barcode (:barcode shop)]
+         (if old-barcode
+           (file/del-image-files (list old-barcode))
+           )
+         (update shops (set-fields {:barcode barcode}) (where {:uuid shop-id}))
+         {:barcode barcode})
+        {:barcode ""}
+       )
+    )
+  )

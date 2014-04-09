@@ -169,6 +169,12 @@
          )
         )
        )
+  (POST "/createShopBarcode" {{shop-id :shop_id} :params}
+     (try
+       (json/write-str (create-shop-barcode shop-id))
+       (catch Exception e (.printStackTrace e) {:status  500 :body (json/write-str {:error "生成商铺二维码失败."})})
+      )
+   )
 )
 
 (def app
