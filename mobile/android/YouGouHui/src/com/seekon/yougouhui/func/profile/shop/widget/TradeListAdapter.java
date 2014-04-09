@@ -1,23 +1,24 @@
 package com.seekon.yougouhui.func.profile.shop.widget;
 
 import java.util.List;
+import java.util.Map;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
+import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.profile.shop.TradeConst;
 import com.seekon.yougouhui.func.profile.shop.TradeEntity;
 
 public class TradeListAdapter extends BaseAdapter {
 
 	private TradeCheckedChangeActivity context;
-	private List<TradeEntity> trades;
+	private List<Map<String, ?>> trades;
 
 	public TradeListAdapter(TradeCheckedChangeActivity context,
-			List<TradeEntity> trades) {
+			List<Map<String, ?>> trades) {
 		super();
 		this.context = context;
 		this.trades = trades;
@@ -37,7 +38,22 @@ public class TradeListAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		return position;
 	}
-
+	
+	public void updateData(List<Map<String, ?>> trades){
+		this.trades = trades;
+		this.notifyDataSetChanged();
+	}
+	
+	private boolean itemChecked(int position){
+		Map item = (Map) getItem(position);
+		return Boolean.valueOf(item.get(DataConst.NAME_CHECKED).toString());
+	}
+	
+	private TradeEntity getTrade(int position){
+		Map item = (Map) getItem(position);
+		return (TradeEntity) item.get(TradeConst.DATA_TRADE_KEY);
+	}
+	
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
 		ViewHolder holder = null;
@@ -51,10 +67,10 @@ public class TradeListAdapter extends BaseAdapter {
 			holder = (ViewHolder) view.getTag();
 		}
 
-		TradeEntity trade = (TradeEntity) getItem(position);
 		CheckBox tradeBox = holder.view;
-		tradeBox.setText(trade.getName());
+		tradeBox.setText(getTrade(position).getName());
 		tradeBox.setOnCheckedChangeListener(context);
+		tradeBox.setChecked(itemChecked(position));
 		
 		return view;
 	}

@@ -156,7 +156,7 @@ public class BaseInfoActivity extends Activity {
 						Intent intent = new Intent(BaseInfoActivity.this,
 								ChangeShopPwdActivity.class);
 						intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
-						startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
+						startActivity(intent);
 					}
 				});
 		findViewById(R.id.row_shop_trades).setOnClickListener(

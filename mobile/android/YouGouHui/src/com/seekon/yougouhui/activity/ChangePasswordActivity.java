@@ -96,7 +96,7 @@ public abstract class ChangePasswordActivity extends Activity {
 			pwdOldView.setError(fieldRequired);
 			focusView = pwdOldView;
 			cancel = true;
-		} else if (!oldPwd.equals(getOldPassword())) {
+		} else if (!validateOldPassword()) {
 			pwdOldView.setError(getString(R.string.error_incorrect_password));
 			focusView = pwdOldView;
 			cancel = true;
@@ -120,7 +120,7 @@ public abstract class ChangePasswordActivity extends Activity {
 				show);
 	}
 
-	protected abstract String getOldPassword();
+	protected abstract boolean validateOldPassword();
 
 	protected abstract void doSavePassword(final MenuItem item);
 }

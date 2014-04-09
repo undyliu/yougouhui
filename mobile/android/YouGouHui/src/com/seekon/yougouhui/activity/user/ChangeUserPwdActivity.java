@@ -40,8 +40,8 @@ public class ChangeUserPwdActivity extends ChangePasswordActivity {
 	}
 
 	@Override
-	protected String getOldPassword() {
-		return RunEnv.getInstance().getUser().getPwd();
+	protected boolean validateOldPassword() {
+		return RunEnv.getInstance().getUser().getPwd().equals(pwdOldView.getText().toString());
 	}
 
 }

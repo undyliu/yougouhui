@@ -6,7 +6,9 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_ORD_INDEX;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
@@ -35,6 +37,7 @@ import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.FileHelper;
+import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.profile.shop.ShopProcessor;
@@ -147,7 +150,15 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 
 		GridView tradeView = (GridView) baseInfoView
 				.findViewById(R.id.shop_trade_view);
-		tradeAdapter = new TradeListAdapter(this, trades);
+		
+		List<Map<String, ?>> tradeList = new ArrayList<Map<String, ?>>();
+		for(TradeEntity trade : trades){
+			Map data = new HashMap();
+			data.put(DataConst.NAME_CHECKED, false);
+			data.put(TradeConst.DATA_TRADE_KEY, trade);
+			tradeList.add(data);
+		}
+		tradeAdapter = new TradeListAdapter(this, tradeList);
 		tradeView.setAdapter(tradeAdapter);
 
 		loadTrades();
@@ -183,31 +194,6 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 
 		pwdView = (TextView) pwdInfoView.findViewById(R.id.password);
 		pwdConfView = (TextView) pwdInfoView.findViewById(R.id.password_conf);
-
-		/*
-		 * licenseInfoView.findViewById(R.id.b_next_register_license).setOnClickListener
-		 * (new View.OnClickListener() {
-		 * 
-		 * @Override public void onClick(View v) { viewPager.setCurrentItem(1); }
-		 * });
-		 * 
-		 * baseInfoView.findViewById(R.id.b_next_register_base).setOnClickListener(new
-		 * View.OnClickListener() {
-		 * 
-		 * @Override public void onClick(View v) { viewPager.setCurrentItem(2); }
-		 * });
-		 * baseInfoView.findViewById(R.id.b_pre_register_base).setOnClickListener
-		 * (new View.OnClickListener() {
-		 * 
-		 * @Override public void onClick(View v) { viewPager.setCurrentItem(0); }
-		 * });
-		 * 
-		 * pwdInfoView.findViewById(R.id.b_pre_register_pwd).setOnClickListener(new
-		 * View.OnClickListener() {
-		 * 
-		 * @Override public void onClick(View v) { viewPager.setCurrentItem(1); }
-		 * });
-		 */
 	}
 
 	private void loadTrades() {

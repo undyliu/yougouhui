@@ -17,12 +17,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 public class ShopMainActivity extends Activity{
-
+	
+	private static final int BASE_INFO_REQUEST_CODE = 1;
+	
 	private List<ShopEntity> shopList = null;
 	
 	private ShopEntity currentShop = null;
@@ -33,6 +36,9 @@ public class ShopMainActivity extends Activity{
 	private ImageView empSettingImageView;
 	private ImageView saleImageView;
 	private ImageView shareImageView;
+	
+	private BaseAdapter shopChooseAdapter;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,8 +55,9 @@ public class ShopMainActivity extends Activity{
 	}
 	
 	private void initViews(){
+		shopChooseAdapter = new ShopChooseAdapter(this, shopList);
 		Spinner spinner = (Spinner) findViewById(R.id.shop_choose);
-		spinner.setAdapter(new ShopChooseAdapter(this, shopList));
+		spinner.setAdapter(shopChooseAdapter);
 		spinner.setOnItemSelectedListener(new ShopItemSelectedListener());
 		
 		statusView = (TextView) findViewById(R.id.shop_status);
@@ -61,7 +68,7 @@ public class ShopMainActivity extends Activity{
 			public void onClick(View v) {
 				Intent intent = new Intent(ShopMainActivity.this, BaseInfoActivity.class);
 				intent.putExtra(DataConst.COL_NAME_UUID, currentShop.getUuid());
-				startActivity(intent);
+				startActivityForResult(intent, BASE_INFO_REQUEST_CODE);
 			}
 		});
 		
@@ -120,6 +127,25 @@ public class ShopMainActivity extends Activity{
 		if(!owner.equals(RunEnv.getInstance().getUser().getUuid())){
 			empSettingImageView.setEnabled(false);
 		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case BASE_INFO_REQUEST_CODE:
+			if(resultCode == RESULT_OK && data != null){
+				ShopEntity shop = (ShopEntity) data.getSerializableExtra(ShopConst.DATA_SHOP_KEY);
+				shopList.remove(currentShop);
+				shopList.add(shop);
+				currentShop = shop;
+				shopChooseAdapter.notifyDataSetChanged();
+			}
+			break;
+
+		default:
+			break;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 	
 	@Override

@@ -75,8 +75,16 @@ public class ShopProcessor extends ContentProcessor {
 		return (RestMethodResult) this.execMethod(new GetShopMethod(mContext,
 				shopId));
 	}
-	
-	public RestMethodResult<JSONObjResource> changeShop(ShopEntity shop, String fieldName){
-		return (RestMethodResult)this.execMethod(new ChangeShopMethod(mContext, shop, fieldName));
+
+	public RestMethodResult<JSONObjResource> changeShop(ShopEntity shop,
+			String fieldName) {
+		return (RestMethodResult) this.execMethod(new UpdateShopMethod(mContext,
+				shop, fieldName));
+	}
+
+	public RestMethodResult<JSONObjResource> changeShopEmpPwd(String shopId,
+			String userId, String oldPwd, String pwd) {
+		return new UpdateShopPwdMethod(mContext, shopId, userId, oldPwd, pwd)
+				.execute();
 	}
 }

@@ -6,12 +6,12 @@ import com.seekon.yougouhui.rest.MultipartRestMethod;
 import com.seekon.yougouhui.rest.Request;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
-public class ChangeShopMethod extends MultipartRestMethod<JSONObjResource> {
+public class UpdateShopMethod extends MultipartRestMethod<JSONObjResource> {
 
 	private ShopEntity shop;
 	private String fieldName;
 
-	public ChangeShopMethod(Context context, ShopEntity shop, String fieldName) {
+	public UpdateShopMethod(Context context, ShopEntity shop, String fieldName) {
 		super(context);
 		this.shop = shop;
 		this.fieldName = fieldName;
@@ -19,7 +19,7 @@ public class ChangeShopMethod extends MultipartRestMethod<JSONObjResource> {
 
 	@Override
 	protected Request buildRequest() {
-		return ChangeShopRequestFactory.getRequest(shop, fieldName);
+		return UpdateShopRequestFactory.getRequest(shop, fieldName);
 	}
 
 	@Override
