@@ -175,6 +175,7 @@
        (catch Exception e (.printStackTrace e) {:status  500 :body (json/write-str {:error "生成商铺二维码失败."})})
       )
    )
+  (GET "/getShopEmps/:shop-id" [shop-id] (json/write-str (get-shop-emps shop-id)))
 )
 
 (def app

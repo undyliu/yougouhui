@@ -46,7 +46,7 @@
                     android:id="@+id/img_shop_base_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/add_camera" />
+                    android:src="@drawable/shop_info" />
 
                 <TextView
                     android:id="@+id/t_shop_base_info"
@@ -67,7 +67,7 @@
                     android:id="@+id/img_shop_emp_setting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/add_camera" />
+                    android:src="@drawable/emp_setting" />
 
                 <TextView
                     android:id="@+id/t_shop_emp_setting"
@@ -95,7 +95,7 @@
                     android:id="@+id/img_shop_sale_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/add_camera" />
+                    android:src="@drawable/sale_info" />
 
                 <TextView
                     android:id="@+id/t_shop_sale_info"
@@ -116,7 +116,7 @@
                     android:id="@+id/img_shop_share_interact"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/add_camera" />
+                    android:src="@drawable/share_interact" />
 
                 <TextView
                     android:id="@+id/t_shop_share_interact"

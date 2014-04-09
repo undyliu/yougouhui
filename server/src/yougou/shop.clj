@@ -152,3 +152,6 @@
        )
     )
   )
+(defn get-shop-emps [shop-id]
+  (select shop-emps (where {:shop_id shop-id}))
+  )
