@@ -5,6 +5,7 @@
 	)
   (:require
 		[yougou.file :as file]
+    [yougou.qrcode :as qrcode]
 	)
 )
 
@@ -19,7 +20,7 @@
 
 (defn get-shop [shop-id]
 	(let [shop (first (select shops
-                       (fields :uuid :name :address :desc :shop_img :busi_license :register_time :owner :status)
+                       (fields :uuid :name :address :desc :shop_img :busi_license :register_time :owner :status :barcode)
                        (where {:uuid shop-id})
                      )
                     )
@@ -77,7 +78,7 @@
    )
   )
 
-(defn loginShop [user-id pwd]
+(defn login-shop [user-id pwd]
   (let [shop-list (select shops (fields :uuid :name :shop_img :owner :status)
                           (join shop-emps (= :e_shop_emp.shop_id :uuid))
                           (where {:e_shop_emp.user_id user-id :e_shop_emp.pwd pwd}))
@@ -91,5 +92,63 @@
        )
       {:authed true :shopList shop-list}
       )
+    )
+  )
+
+(defn update-shop [field-name value shop-id temp-file]
+  (cond
+   (= field-name "shop_img")
+     (let [old-images (select shops (fields :shop_img) (where {:uuid shop-id}))]
+        (update shops (set-fields {:shop_img value}) (where {:uuid shop-id}))
+        (file/del-image-files old-images)
+        (file/save-image-file value temp-file)
+      )
+   (= field-name "busi_license")
+     (let [old-images (select shops (fields :busi_license) (where {:uuid shop-id}))]
+        (update shops (set-fields {:busi_license value}) (where {:uuid shop-id}))
+        (file/del-image-files old-images)
+        (file/save-image-file value temp-file)
+      )
+   (= field-name "desc") (update shops (set-fields {:desc value}) (where {:uuid shop-id}))
+   :else (update shops (set-fields {(str field-name) value}) (where {:uuid shop-id}))
+   )
+  {:uuid shop-id}
+ )
+
+(defn validate-shop-emp-pwd [shop-id user-id pwd]
+  (let [pwd-db (:pwd (first (select shop-emps (fields :pwd) (where {:shop_id shop-id :user_id user-id}))))]
+    (if (= pwd pwd-db) true false)
+    )
+   )
+
+(defn update-shop-emp-pwd [shop-id user-id old-pwd new-pwd]
+  (if (validate-shop-emp-pwd shop-id user-id old-pwd)
+    {:rows (update shop-emps (set-fields {:pwd new-pwd}) (where {:shop_id shop-id :user_id user-id}))}
+    {:error-type :old-pass-incorrect}
+    )
+  )
+
+(defn update-shop-trades [shop-id trades]
+  (delete shop-trades (where {:shop_id shop-id}))
+  {:tradeList (save-shop-trades shop-id trades)}
+  )
+
+(defn create-shop-barcode [shop-id]
+  (let [shop (first (select shops (fields :shop_img :name :barcode) (where {:uuid shop-id})))
+        content (str shop-id "##" (:name shop))
+        logo-path (.getPath (file/get-image-file (:shop_img shop)))
+        barcode  (str "barcode_" (.hashCode shop-id) "_" (System/currentTimeMillis) ".png")
+        image-path (.getPath (file/get-image-file barcode))
+        width 300
+        ]
+      (if (qrcode/encode-qrcode-image content image-path width width logo-path)
+        (let [old-barcode (:barcode shop)]
+         (if old-barcode
+           (file/del-image-files (list old-barcode))
+           )
+         (update shops (set-fields {:barcode barcode}) (where {:uuid shop-id}))
+         {:barcode barcode})
+        {:barcode ""}
+       )
     )
   )
