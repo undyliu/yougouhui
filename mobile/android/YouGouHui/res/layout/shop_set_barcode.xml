@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical" >
 
     <include layout="@layout/progressbar" />
     
-    <GridView
-        android:id="@+id/shop_trade_view"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/image_shop_barcode"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:numColumns="3" >
-    </GridView>
+        android:src="@drawable/default_pic" />
 
 </LinearLayout>

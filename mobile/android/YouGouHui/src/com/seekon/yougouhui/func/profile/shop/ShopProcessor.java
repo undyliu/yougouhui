@@ -87,4 +87,9 @@ public class ShopProcessor extends ContentProcessor {
 		return new UpdateShopPwdMethod(mContext, shopId, userId, oldPwd, pwd)
 				.execute();
 	}
+
+	public RestMethodResult<JSONObjResource> createShopBarcode(ShopEntity shop) {
+		return (RestMethodResult) this.execMethod(new CreateShopBarcodeMethod(
+				mContext, shop));
+	}
 }

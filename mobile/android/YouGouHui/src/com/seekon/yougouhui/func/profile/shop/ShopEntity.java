@@ -19,6 +19,8 @@ public class ShopEntity implements Serializable {
 	private long registerTime;
 	private String owner;
 	private String status;
+	private String barcode;
+	
 	private List<TradeEntity> trades = new ArrayList<TradeEntity>();
 	private List<UserEntity> employees = new ArrayList<UserEntity>();
 
@@ -92,6 +94,14 @@ public class ShopEntity implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getBarcode() {
+		return barcode;
+	}
+
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
 	}
 
 	public List<TradeEntity> getTrades() {

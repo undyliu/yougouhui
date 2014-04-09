@@ -170,7 +170,8 @@
          <activity android:name=".activity.profile.shop.ChangeShopTextActivity"></activity>
          <activity android:name=".activity.profile.shop.ChangeShopImageActivity"></activity>
          <activity android:name=".activity.profile.shop.ChangeShopPwdActivity" android:label="@string/title_shop_change_pwd"></activity>
-         <activity android:name=".activity.profile.shop.ChangeTradesActivity" android:label="@string/title_shop_change_trades"></activity>     
+         <activity android:name=".activity.profile.shop.ChangeTradesActivity" android:label="@string/title_shop_change_trades"></activity>
+         <activity android:label="@string/title_shop_set_barcode" android:name=".activity.profile.shop.SetShopBarcodeActivity"></activity>     
        </application>
 
 </manifest>

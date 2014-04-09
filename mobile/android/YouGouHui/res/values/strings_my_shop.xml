@@ -14,6 +14,7 @@
     <string name="title_shop_change_license">商铺-修改营业执照</string>
     <string name="title_shop_change_pwd">商铺-修改登录密码</string>
     <string name="title_shop_change_trades">商铺-修改主营业务</string>
+    <string name="title_shop_set_barcode">商铺-设置二维码</string>
     
     <string name="label_no_shop">还没有商铺？请先</string>
     
@@ -23,7 +24,7 @@
     <string name="label_shop_business">主营业务</string>
     <string name="label_shop_busi_license">营业执照</string>
     <string name="label_shop_desc">简介</string>
-    
+    <string name="label_shop_barcode">二维码</string>
     <string name="b_title_pre_step">上一步</string>
     <string name="b_title_next_step">下一步</string>
     
@@ -37,4 +38,6 @@
     <string name="label_shop_status_canceled">已注销</string>
     <string name="label_shop_choose_image">请选择店铺图片</string>
     <string name="label_shop_choose_license">请选择营业执照</string>
+    
+    <string name="title_action_create_barcode">生成二维码</string>
 </resources>

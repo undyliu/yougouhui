@@ -6,6 +6,7 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_ORD_INDEX;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_ADDRESS;
+import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BARCODE;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BUSI_LICENSE;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_OWNER;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_SHOP_IMAGE;
@@ -51,7 +52,8 @@ public class BaseInfoActivity extends Activity {
 	private TextView pwdView;
 	private ImageView shopImageView;
 	private ImageView busiLicenseView;
-
+	private ImageView barcodeView;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -84,6 +86,11 @@ public class BaseInfoActivity extends Activity {
 		busiLicenseView.setLayoutParams(new TableRow.LayoutParams(SHOP_IMAGE_WIDTH,
 				SHOP_IMAGE_WIDTH));
 
+		barcodeView = (ImageView) findViewById(R.id.shop_barcode);
+		barcodeView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		barcodeView.setLayoutParams(new TableRow.LayoutParams(SHOP_IMAGE_WIDTH,
+				SHOP_IMAGE_WIDTH));
+		
 		findViewById(R.id.row_shop_name).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
@@ -169,6 +176,17 @@ public class BaseInfoActivity extends Activity {
 						startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
 					}
 				});
+		findViewById(R.id.row_shop_barcode).setOnClickListener(
+				new View.OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(BaseInfoActivity.this,
+								SetShopBarcodeActivity.class);
+						intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
+						startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
+					}
+				});
 	}
 
 	private void loadData(String shopId) {
@@ -186,7 +204,7 @@ public class BaseInfoActivity extends Activity {
 		try {
 			String[] projection = new String[] { COL_NAME_NAME, COL_NAME_ADDRESS,
 					COL_NAME_DESC, COL_NAME_SHOP_IMAGE, COL_NAME_BUSI_LICENSE,
-					COL_NAME_OWNER };
+					COL_NAME_OWNER, COL_NAME_BARCODE };
 			String selection = COL_NAME_UUID + "=?";
 			String[] selectionArgs = new String[] { shopId };
 
@@ -202,6 +220,7 @@ public class BaseInfoActivity extends Activity {
 				shop.setShopImage(cursor.getString(i++));
 				shop.setBusiLicense(cursor.getString(i++));
 				shop.setOwner(cursor.getString(i++));
+				shop.setBarcode(cursor.getString(i++));
 			}
 		} catch (Exception e) {
 			Logger.warn(TAG, e.getMessage());
@@ -274,7 +293,10 @@ public class BaseInfoActivity extends Activity {
 				true);
 		ImageLoader.getInstance().displayImage(shop.getBusiLicense(),
 				busiLicenseView, true);
-
+		String barcode = shop.getBarcode();
+		if(barcode != null && barcode.length() > 0){
+			ImageLoader.getInstance().displayImage(barcode, barcodeView, true);
+		}
 		StringBuffer trades = new StringBuffer();
 		for (TradeEntity trade : shop.getTrades()) {
 			trades.append(trade.getName() + "  ");

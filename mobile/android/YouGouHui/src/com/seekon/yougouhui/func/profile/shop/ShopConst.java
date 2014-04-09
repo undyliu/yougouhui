@@ -19,6 +19,7 @@ public interface ShopConst extends DataConst{
 	public static final String COL_NAME_REGISTER_TIME = "register_time";
 	public static final String COL_NAME_OWNER = "owner";
 	public static final String COL_NAME_STATUS = "status";
+	public static final String COL_NAME_BARCODE = "barcode";
 	
 	public static final String NAME_REQUEST_PARAMETER_TRADES = "tradeList";
 	//public static final String NAME_REQUEST_PARAMETER_EMPS = "empList";

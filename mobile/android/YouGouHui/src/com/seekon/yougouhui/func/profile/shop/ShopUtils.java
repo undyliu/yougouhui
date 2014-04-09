@@ -8,6 +8,7 @@ import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BUSI_LIC
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_OWNER;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_REGISTER_TIME;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_SHOP_IMAGE;
+import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BARCODE;
 
 import org.json.JSONObject;
 
@@ -29,6 +30,7 @@ public class ShopUtils {
 		JSONUtils.putJSONValue(jsonObj, COL_NAME_OWNER, shop.getOwner());
 		JSONUtils.putJSONValue(jsonObj, COL_NAME_REGISTER_TIME,
 				shop.getRegisterTime());
+		JSONUtils.putJSONValue(jsonObj, COL_NAME_BARCODE, shop.getBarcode());
 		return jsonObj;
 	}
 
