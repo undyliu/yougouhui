@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50511
 File Encoding         : 65001
 
-Date: 2014-04-10 15:43:18
+Date: 2014-04-10 17:57:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -314,6 +314,7 @@ CREATE TABLE `e_shop` (
 -- Records of e_shop
 -- ----------------------------
 INSERT INTO `e_shop` VALUES ('08c181bd-afa8-48ab-8522-ef22c89b3851', '上地华联一品香美食', null, '-703256829_1397006580733.png', null, '5555555', '666666', '-1400089674_1396933730140.png', null, 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', null, null, null, null, '1396933731990', '1', 'barcode_2116703421_1397044192126.png');
+INSERT INTO `e_shop` VALUES ('a1c99058-8244-48b6-8caf-5740111a36eb', '麦当劳上地店', null, '-1215697993_1397123329558.png', null, '666', '7788', '-1044649450_1397123329561.png', null, '4eae0ad3-dfe1-40c9-8241-188885c86377', null, null, null, null, '1397123363984', '1', 'barcode_55164796_1397123364250.png');
 INSERT INTO `e_shop` VALUES ('c1b1adb2-8e39-4850-ad4a-edaf4bc4651d', '昌平永旺商场探路者专卖店', null, '-1303150572_1397036911977.png', null, '222', '3干活奋斗史', '463517179_1396871363810.png', null, 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', null, null, null, null, '1396871367348', '0', 'barcode_-1053622591_1397036937468.png');
 
 -- ----------------------------
@@ -336,6 +337,7 @@ CREATE TABLE `e_shop_emp` (
 -- Records of e_shop_emp
 -- ----------------------------
 INSERT INTO `e_shop_emp` VALUES ('0d643c36-d375-45f9-a8e4-51e41271db7e', '08c181bd-afa8-48ab-8522-ef22c89b3851', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '2222', null, null, null, null);
+INSERT INTO `e_shop_emp` VALUES ('12222222222212121212', 'a1c99058-8244-48b6-8caf-5740111a36eb', '4eae0ad3-dfe1-40c9-8241-188885c86377', '1111', null, null, null, null);
 INSERT INTO `e_shop_emp` VALUES ('5bb94c4a-e542-4f45-95d6-b057c1513e1b', 'c1b1adb2-8e39-4850-ad4a-edaf4bc4651d', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1111', null, null, null, null);
 INSERT INTO `e_shop_emp` VALUES ('cdbcd7ac-c8ba-4848-8619-f33340bf4a7c', '08c181bd-afa8-48ab-8522-ef22c89b3851', '4eae0ad3-dfe1-40c9-8241-188885c86377', '1111', null, null, null, null);
 
@@ -356,6 +358,7 @@ CREATE TABLE `e_shop_trade` (
 INSERT INTO `e_shop_trade` VALUES ('01aad59b-df57-48f0-b54b-e481b83d4e15', 'c1b1adb2-8e39-4850-ad4a-edaf4bc4651d', '3');
 INSERT INTO `e_shop_trade` VALUES ('591157a6-e09d-4a46-adfa-8bab7726739e', '08c181bd-afa8-48ab-8522-ef22c89b3851', '41');
 INSERT INTO `e_shop_trade` VALUES ('b24b80c8-fb98-4339-bcf2-d5ad2f3f6d07', 'c1b1adb2-8e39-4850-ad4a-edaf4bc4651d', '1');
+INSERT INTO `e_shop_trade` VALUES ('ff5c0ad3-57aa-4063-97bc-965e46cd84b5', 'a1c99058-8244-48b6-8caf-5740111a36eb', '1');
 
 -- ----------------------------
 -- Table structure for `e_trade`

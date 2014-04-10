@@ -183,3 +183,10 @@
    )
   {:uuid shop-id}
   )
+
+(defn search-shop [word]
+  (let [search-word (str "%" word "%")]
+   (select shops (fields :uuid :name :shop_img :barcode :owner)
+           (where {:name [like search-word] :status "1"}))
+   )
+  )

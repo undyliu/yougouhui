@@ -194,6 +194,7 @@
        (catch Exception e (.printStackTrace e) {:status  500 :body (json/write-str {:error "设置登录密码失败."})})
       )
    )
+  (POST "/searchShops" {{word :search-word} :params} (json/write-str (search-shop (java.net.URLDecoder/decode word "utf-8"))))
 )
 
 (def app
