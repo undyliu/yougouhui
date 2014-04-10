@@ -9,6 +9,8 @@
 	)
 )
 
+(declare create-shop-barcode)
+
 (defn get-trades []
   (exec (-> (select* trades )
             (fields :uuid :code :name)
@@ -74,6 +76,7 @@
         trade-list (save-shop-trades shop-id trades)
         emp-list (save-shop-emps shop-id owner pwd)
         ]
+    (create-shop-barcode shop-id)
     (assoc (assoc shop :tradeList trade-list) :empList emp-list)
    )
   )
@@ -120,10 +123,13 @@
     (if (= pwd pwd-db) true false)
     )
    )
+(defn set-shop-emp-pwd [shop-id user-id new-pwd]
+  {:rows (update shop-emps (set-fields {:pwd new-pwd}) (where {:shop_id shop-id :user_id user-id}))}
+ )
 
 (defn update-shop-emp-pwd [shop-id user-id old-pwd new-pwd]
   (if (validate-shop-emp-pwd shop-id user-id old-pwd)
-    {:rows (update shop-emps (set-fields {:pwd new-pwd}) (where {:shop_id shop-id :user_id user-id}))}
+    (set-shop-emp-pwd shop-id user-id new-pwd)
     {:error-type :old-pass-incorrect}
     )
   )
@@ -153,5 +159,34 @@
     )
   )
 (defn get-shop-emps [shop-id]
-  (select shop-emps (where {:shop_id shop-id}))
+  (select users (fields :uuid :name :photo [:e_shop_emp.pwd :pwd])
+          (join shop-emps (= :e_shop_emp.user_id :uuid))
+          (where {:e_shop_emp.shop_id shop-id}))
+  )
+(defn save-shop-emps [shop-id emp-list del-flag]
+  (if emp-list
+    (loop [emps emp-list]
+      (if (> (count emps) 0)
+        (let [emp-id (first emps)
+              uuid (str (java.util.UUID/randomUUID))
+              ]
+          (if emp-id
+            (if del-flag
+              (delete shop-emps (where {:shop_id shop-id :user_id emp-id}))
+              (insert shop-emps (values {:uuid uuid :shop_id shop-id :user_id emp-id}))
+              )
+            )
+          (recur (rest emps))
+         )
+       )
+     )
+   )
+  {:uuid shop-id}
+  )
+
+(defn search-shop [word]
+  (let [search-word (str "%" word "%")]
+   (select shops (fields :uuid :name :shop_img :barcode :owner)
+           (where {:name [like search-word] :status "1"}))
+   )
   )

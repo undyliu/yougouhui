@@ -176,6 +176,25 @@
       )
    )
   (GET "/getShopEmps/:shop-id" [shop-id] (json/write-str (get-shop-emps shop-id)))
+  (POST "/addShopEmps" {{shop-id :shop_id emps :emps} :params}
+     (try
+       (json/write-str (save-shop-emps shop-id (clojure.string/split (java.net.URLDecoder/decode emps "utf-8") #"[|]") false))
+       (catch Exception e (.printStackTrace e) {:status  500 :body (json/write-str {:error "添加职员失败."})})
+      )
+   )
+  (DELETE "/deleteShopEmps/:shop-id/:emps" [shop-id emps]
+     (try
+       (json/write-str (save-shop-emps shop-id (clojure.string/split (java.net.URLDecoder/decode emps "utf-8") #"[|]") true))
+       (catch Exception e (.printStackTrace e) {:status  500 :body (json/write-str {:error "删除职员失败."})})
+      )
+   )
+  (PUT "/setShopEmpPwd" {{shop-id :shop_id user-id :user_id new-pwd :pwd} :params}
+     (try
+       (json/write-str (set-shop-emp-pwd shop-id user-id  new-pwd))
+       (catch Exception e (.printStackTrace e) {:status  500 :body (json/write-str {:error "设置登录密码失败."})})
+      )
+   )
+  (POST "/searchShops" {{word :search-word} :params} (json/write-str (search-shop (java.net.URLDecoder/decode word "utf-8"))))
 )
 
 (def app
