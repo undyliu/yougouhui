@@ -15,10 +15,10 @@ import com.seekon.yougouhui.func.login.LoginProcessor;
 import com.seekon.yougouhui.func.profile.contact.GetFriendsTask;
 import com.seekon.yougouhui.func.user.UserData;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.user.UserUtils;
 import com.seekon.yougouhui.rest.Request;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.Logger;
 
 public class AuthorizationManager implements RequestSigner {
@@ -81,7 +81,7 @@ public class AuthorizationManager implements RequestSigner {
 				RestMethodResult<JSONObjResource> result = processor.login(phone, pwd);
 				JSONObjResource resource = result.getResource();
 				if (resource.getBoolean(LoginConst.LOGIN_RESULT_AUTHED)) {
-					user = JSONUtils.createUserEntity(resource
+					user = UserUtils.createFromJSONObject(resource
 							.getJSONObject(LoginConst.LOGIN_RESULT_USER));
 					
 					List<UserEntity> friends = this.getUserHelper().getUserFriends(user.getUuid());

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
+import com.seekon.yougouhui.activity.profile.shop.TradeCheckedChangeActivity;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.profile.shop.TradeConst;
 import com.seekon.yougouhui.func.profile.shop.TradeEntity;
@@ -61,12 +62,12 @@ public class TradeListAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			view = new CheckBox(context);
 			holder.view = (CheckBox) view;
-			holder.view.setId(position);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
 
+		holder.view.setId(position);
 		CheckBox tradeBox = holder.view;
 		tradeBox.setText(getTrade(position).getName());
 		tradeBox.setOnCheckedChangeListener(context);

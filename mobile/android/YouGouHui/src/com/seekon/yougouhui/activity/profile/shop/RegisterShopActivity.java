@@ -45,7 +45,6 @@ import com.seekon.yougouhui.func.profile.shop.TradeConst;
 import com.seekon.yougouhui.func.profile.shop.TradeEntity;
 import com.seekon.yougouhui.func.profile.shop.widget.GetTradesTask;
 import com.seekon.yougouhui.func.profile.shop.widget.RegisterPagerAdapter;
-import com.seekon.yougouhui.func.profile.shop.widget.TradeCheckedChangeActivity;
 import com.seekon.yougouhui.func.profile.shop.widget.TradeListAdapter;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.widget.TaskCallback;

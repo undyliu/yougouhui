@@ -44,13 +44,13 @@ public class ContactListActivity extends Activity {
 	private final static int ADD_FRIEND_REQUEST_CODE = 1;
 	private final static int OPEN_FRIEND_REQUEST_CODE = 2;
 
-	private ListView sortListView;
-	private SideBar sideBar;
+	protected ListView sortListView;
+	protected SideBar sideBar;
 	private TextView dialog;
-	private ContactListAdapter adapter;
+	protected ContactListAdapter adapter;
 	private ClearEditText mClearEditText;
 
-	private List<UserEntity> contactDateList;
+	protected List<UserEntity> contactDateList;
 
 	/**
 	 * 根据拼音来排列ListView里面的数据类
@@ -86,7 +86,7 @@ public class ContactListActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void initViews() {
+	protected void initViews() {
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -129,7 +129,7 @@ public class ContactListActivity extends Activity {
 
 		// 根据a-z进行排序源数据
 		Collections.sort(contactDateList, pinyinComparator);
-		adapter = new ContactListAdapter(this, contactDateList);
+		adapter = getContactListAdapter();
 		sortListView.setAdapter(adapter);
 
 		mClearEditText = (ClearEditText) findViewById(R.id.contact_filter_edit);
@@ -177,14 +177,12 @@ public class ContactListActivity extends Activity {
 		sideBar.setNavWords(catalogKeys.toArray(new String[catalogSize]));
 	}
 
-	private List<UserEntity> getContactListData() {
+	protected ContactListAdapter getContactListAdapter(){
+		return new ContactListAdapter(this, contactDateList);
+	}
+	
+	protected List<UserEntity> getContactListData() {
 		return RunEnv.getInstance().getUser().getFriends();
-		// result.add(new ContactEntity("1", null, "张三", null, null));
-		// result.add(new ContactEntity("2", null, "李四", null, null));
-		// result.add(new ContactEntity("3", null, "王五", null, null));
-		// result.add(new ContactEntity("4", null, "刘六", null, null));
-		// result.add(new ContactEntity("3", null, "王八", null, null));
-		// return result;
 	}
 
 	/**

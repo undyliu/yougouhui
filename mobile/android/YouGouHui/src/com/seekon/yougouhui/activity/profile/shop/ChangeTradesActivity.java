@@ -28,7 +28,6 @@ import com.seekon.yougouhui.func.profile.shop.ShopTradeProcessor;
 import com.seekon.yougouhui.func.profile.shop.TradeConst;
 import com.seekon.yougouhui.func.profile.shop.TradeEntity;
 import com.seekon.yougouhui.func.profile.shop.widget.GetTradesTask;
-import com.seekon.yougouhui.func.profile.shop.widget.TradeCheckedChangeActivity;
 import com.seekon.yougouhui.func.profile.shop.widget.TradeListAdapter;
 import com.seekon.yougouhui.func.widget.TaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
@@ -58,7 +57,7 @@ public class ChangeTradesActivity extends TradeCheckedChangeActivity {
 		shop = (ShopEntity) this.getIntent().getSerializableExtra(
 				ShopConst.DATA_SHOP_KEY);
 		checkedTradeList = shop.getTrades();
-
+		
 		initViews();
 		loadTradeList();
 	}
@@ -170,7 +169,7 @@ public class ChangeTradesActivity extends TradeCheckedChangeActivity {
 			@Override
 			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
 				return ShopTradeProcessor.getInstance(ChangeTradesActivity.this)
-						.saveShopTrades(shop, checkedTradeList);
+						.saveShopTrades(shop.getUuid(), checkedTradeList);
 			}
 			@Override
 			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {

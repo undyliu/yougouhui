@@ -34,16 +34,16 @@ public class ShopTradeProcessor extends ContentProcessor {
 		super(mContext, ShopTradeData.COL_NAMES, ShopTradeConst.CONTENT_URI);
 	}
 
-	public RestMethodResult<JSONObjResource> saveShopTrades(ShopEntity shop, List<TradeEntity> trades){
-		String shopId = shop.getUuid();
+	public RestMethodResult<JSONObjResource> saveShopTrades(String shopId, List<TradeEntity> trades){
 		RestMethodResult<JSONObjResource> result = new UpdateShopTradesMethod(mContext, shopId, trades).execute();
 		if(result.getStatusCode() == 200){
 			try {
-				for(TradeEntity trade : shop.getTrades()){//删除原有的主营业务
-					JSONObject jsonObj = new JSONObject();
-					JSONUtils.putJSONValue(jsonObj, DataConst.COL_NAME_UUID, trade.getUuid());
-					super.deleteContentProvider(jsonObj, ShopTradeConst.CONTENT_URI);
-				}
+//				for(TradeEntity trade : shop.getTrades()){//删除原有的主营业务
+//					JSONObject jsonObj = new JSONObject();
+//					JSONUtils.putJSONValue(jsonObj, DataConst.COL_NAME_UUID, trade.getUuid());
+//					super.deleteContentProvider(jsonObj, ShopTradeConst.CONTENT_URI);
+//				}
+				new ShopTradeData(mContext).deleteShopTradesByShopId(shopId);
 				
 				JSONArray tradeList = result.getResource()
 						.getJSONArray(ShopConst.NAME_REQUEST_PARAMETER_TRADES);// 设置tradelist主营业务

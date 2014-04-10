@@ -29,4 +29,9 @@ public class ShopTradeData extends AbstractDBHelper {
 
 	}
 
+	public void deleteShopTradesByShopId(String shopId){
+		String whereClause = COL_NAME_SHOP_ID + "=?";
+		String[] whereArgs = new String[]{shopId};
+		this.getWritableDatabase().delete(ShopTradeConst.TABLE_NAME, whereClause, whereArgs);
+	}
 }

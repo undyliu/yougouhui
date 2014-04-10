@@ -1,4 +1,4 @@
-package com.seekon.yougouhui.func.profile.shop.widget;
+package com.seekon.yougouhui.activity.profile.shop;
 
 import android.app.Activity;
 import android.widget.CompoundButton.OnCheckedChangeListener;

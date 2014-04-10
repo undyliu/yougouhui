@@ -10,6 +10,7 @@ import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserData;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.user.UserUtils;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
@@ -100,7 +101,7 @@ public class FriendProcessor extends ContentProcessor {
 			JSONUtils.putJSONValue(resource, DataConst.COL_NAME_UUID, user.getUuid());
 			this.deleteContentProvider(resource, UserConst.CONTENT_URI);
 		} else {
-			this.updateContentProvider(JSONUtils.fromUserEntity(user),
+			this.updateContentProvider(UserUtils.toJSONObject(user),
 					UserData.COL_NAMES, UserConst.CONTENT_URI);
 		}
 	}

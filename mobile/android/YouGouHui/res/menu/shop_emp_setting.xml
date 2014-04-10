@@ -2,8 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/menu_add_emp"
+        android:id="@+id/menu_shop_add_emp"
         android:showAsAction="always|withText"
         android:title="@string/title_action_add_emp"/>
+    <item
+        android:id="@+id/menu_shop_del_emp"
+        android:showAsAction="always|withText"
+        android:title="@string/title_action_del_emp"/>
 
 </menu>

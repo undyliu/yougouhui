@@ -18,11 +18,12 @@
     <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-	<uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.CAMERA" />  
-    <uses-feature android:name="android.hardware.camera" />  
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    
+
     <application
         android:name="com.seekon.yougouhui.YouGouHuiApp"
         android:allowBackup="true"
@@ -32,10 +33,11 @@
         <activity
             android:name=".activity.Splash"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/FullscreenTheme" 
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -46,22 +48,23 @@
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login"
-            android:windowSoftInputMode="stateVisible" 
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible" >
         </activity>
-        <activity android:name=".activity.home.MessageActivity" 
-            android:screenOrientation="portrait">
+        <activity
+            android:name=".activity.home.MessageActivity"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".activity.profile.SettingActivity"
-            android:label="@string/title_profie_setting" 
-            android:screenOrientation="portrait">
+            android:label="@string/title_profie_setting"
+            android:screenOrientation="portrait" >
         </activity>
 
         <service android:name=".func.mess.MessageService" />
         <service android:name=".func.module.ModuleService" />
-		<service android:name=".func.discover.share.ShareService" />
-		
+        <service android:name=".func.discover.share.ShareService" />
+
         <provider
             android:name=".func.mess.ChannelProvider"
             android:authorities="com.seekon.yougouhui.channels"
@@ -74,53 +77,59 @@
             android:name=".func.mess.MessageProvider"
             android:authorities="com.seekon.yougouhui.messages"
             android:exported="false" />
-		 <provider
+        <provider
             android:name=".func.discover.share.ShareProvider"
             android:authorities="com.seekon.yougouhui.shares"
             android:exported="false" />
-		 <provider
+        <provider
             android:name=".func.discover.share.CommentProvider"
             android:authorities="com.seekon.yougouhui.shares.comment"
             android:exported="false" />
-		 <provider
+        <provider
             android:name=".func.discover.share.ShareImgProvider"
             android:authorities="com.seekon.yougouhui.shares.image"
             android:exported="false" />
-		 <provider
+        <provider
             android:name=".func.user.UserProvider"
             android:authorities="com.seekon.yougouhui.users"
             android:exported="false" />
-		 <provider
+        <provider
             android:name=".func.profile.contact.FriendProvider"
             android:authorities="com.seekon.yougouhui.friends"
             android:exported="false" />
-		 <provider
+        <provider
             android:name=".func.profile.shop.TradeProvider"
             android:authorities="com.seekon.yougouhui.trades"
             android:exported="false" />
-		 <provider
+        <provider
             android:name=".func.profile.shop.ShopProvider"
             android:authorities="com.seekon.yougouhui.shops"
             android:exported="false" />
-		 <provider
+        <provider
             android:name=".func.profile.shop.ShopTradeProvider"
             android:authorities="com.seekon.yougouhui.shopTrades"
             android:exported="false" />
-		 		 
+
         <activity
             android:name=".activity.discover.FriendShareActivity"
-            android:label="@string/title_discover_friends" 
-            android:screenOrientation="portrait">
+            android:label="@string/title_discover_friends"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity  android:name=".activity.discover.ShareActivity"
+        <activity
+            android:name=".activity.discover.ShareActivity"
             android:label="@string/title_activity_share"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.ImagePreviewActivity" 
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.ImagePreviewActivity"
             android:label="@string/title_image_preview"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.discover.RadarActivity" 
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.discover.RadarActivity"
             android:label="@string/title_discover_radar"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" >
+        </activity>
         <activity
             android:name=".barcode.MipcaActivityCapture"
             android:configChanges="orientation|keyboardHidden"
@@ -129,49 +138,127 @@
         </activity>
         <activity
             android:name=".activity.user.UserProfileActivity"
-            android:label="@string/title_user_profile" 
-            android:screenOrientation="portrait">
+            android:label="@string/title_user_profile"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".activity.SSOActivity"
-            android:label="@string/title_sso" 
-            android:screenOrientation="portrait">
+            android:label="@string/title_sso"
+            android:screenOrientation="portrait" >
         </activity>
-         <activity
+        <activity
             android:name="com.seekon.yougouhui.activity.user.RegisterActivity"
-            android:label="@string/title_register" 
-            android:screenOrientation="portrait">
+            android:label="@string/title_register"
+            android:screenOrientation="portrait" >
         </activity>
-         <activity android:label="@string/title_user_change_nickname" android:name=".activity.user.ChangeNickNameActivity"
-             android:screenOrientation="portrait"></activity>
-         <activity android:label="@string/title_user_change_photo" android:name=".activity.user.ChangeUserPhotoActivity"
-             android:screenOrientation="portrait"></activity>
-         <activity android:label="@string/title_user_change_pwd" android:name=".activity.user.ChangeUserPwdActivity"
-             android:screenOrientation="portrait"></activity>
-         <activity android:label="@string/title_friend_profile" android:name=".activity.profile.contact.FriendProfileActivity"
-             android:screenOrientation="portrait"></activity>
-         <activity android:label="@string/title_my_share" android:name=".activity.profile.MyShareActivity"
-             android:screenOrientation="portrait"></activity>
-         <activity android:label="@string/title_share_detail" android:name=".activity.profile.ShareDetailActivity"
-             android:screenOrientation="portrait"></activity>
-         <activity android:name=".activity.profile.shop.LoginShopActivity" android:label="@string/title_shop_login"
-             android:screenOrientation="portrait"></activity>
-         <activity android:name=".activity.profile.shop.RegisterShopActivity" android:label="@string/title_shop_register"
-             android:screenOrientation="portrait"></activity>
-         <activity android:name=".activity.profile.contact.ContactListActivity" android:label="@string/title_contact_list"
-             android:screenOrientation="portrait"></activity>
-         <activity android:name=".activity.profile.contact.AddFriendActivity" android:label="@string/title_add_friend"
-             android:screenOrientation="portrait"></activity>
-         <activity android:label="@string/title_shop_main" android:name=".activity.profile.shop.ShopMainActivity"></activity>
-         <activity android:name=".activity.profile.shop.BaseInfoActivity" android:label="@string/title_shop_base_info"></activity>
-         <activity android:name=".activity.profile.shop.EmpSettingActivity" android:label="@string/title_shop_emp_setting"></activity>
-         <activity android:name=".activity.profile.shop.SaleInfoActivity" android:label="@string/title_shop_sale_info"></activity>
-         <activity android:name=".activity.profile.shop.ShareInteractAcitivity" android:label="@string/title_shop_share_interact"></activity>
-         <activity android:name=".activity.profile.shop.ChangeShopTextActivity"></activity>
-         <activity android:name=".activity.profile.shop.ChangeShopImageActivity"></activity>
-         <activity android:name=".activity.profile.shop.ChangeShopPwdActivity" android:label="@string/title_shop_change_pwd"></activity>
-         <activity android:name=".activity.profile.shop.ChangeTradesActivity" android:label="@string/title_shop_change_trades"></activity>
-         <activity android:label="@string/title_shop_set_barcode" android:name=".activity.profile.shop.SetShopBarcodeActivity"></activity>     
-       </application>
+        <activity
+            android:name=".activity.user.ChangeNickNameActivity"
+            android:label="@string/title_user_change_nickname"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.user.ChangeUserPhotoActivity"
+            android:label="@string/title_user_change_photo"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.user.ChangeUserPwdActivity"
+            android:label="@string/title_user_change_pwd"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.contact.FriendProfileActivity"
+            android:label="@string/title_friend_profile"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.MyShareActivity"
+            android:label="@string/title_my_share"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.ShareDetailActivity"
+            android:label="@string/title_share_detail"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.shop.LoginShopActivity"
+            android:label="@string/title_shop_login"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.shop.RegisterShopActivity"
+            android:label="@string/title_shop_register"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.contact.ContactListActivity"
+            android:label="@string/title_contact_list"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.contact.AddFriendActivity"
+            android:label="@string/title_add_friend"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.shop.ShopMainActivity"
+            android:label="@string/title_shop_main"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.shop.BaseInfoActivity"
+            android:label="@string/title_shop_base_info"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.shop.EmpSettingActivity"
+            android:label="@string/title_shop_emp_setting"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.shop.SaleInfoActivity"
+            android:label="@string/title_shop_sale_info"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.shop.ShareInteractAcitivity"
+            android:label="@string/title_shop_share_interact"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.shop.ChangeShopTextActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.shop.ChangeShopImageActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.shop.ChangeShopPwdActivity"
+            android:label="@string/title_shop_change_pwd"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.shop.ChangeTradesActivity"
+            android:label="@string/title_shop_change_trades"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.shop.SetShopBarcodeActivity"
+            android:label="@string/title_shop_set_barcode"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.shop.SetEmpPwdActivity"
+            android:label="@string/title_shop_set_emp_pwd"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.profile.contact.ContactListWithCheckedActivity"
+            android:label="@string/title_contact_list"
+            android:screenOrientation="portrait" >
+        </activity>
+    </application>
 
 </manifest>

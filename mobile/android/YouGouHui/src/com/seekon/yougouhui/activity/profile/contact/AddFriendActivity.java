@@ -24,9 +24,9 @@ import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.profile.contact.SearchUserMethod;
 import com.seekon.yougouhui.func.profile.contact.widget.SearchFriendResultListAdapter;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.user.UserUtils;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
-import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.util.ViewUtils;
 
@@ -161,7 +161,7 @@ public class AddFriendActivity extends Activity {
 		for (int i = 0; i < resource.length(); i++) {
 			try {
 				JSONObject jsonObj = resource.getJSONObject(i);
-				UserEntity user = JSONUtils.createUserEntity(jsonObj);
+				UserEntity user = UserUtils.createFromJSONObject(jsonObj);
 				if (!currentUser.equals(user)) {
 					searchResultList.add(user);
 				}

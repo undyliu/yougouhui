@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SectionIndexer;
@@ -22,7 +23,7 @@ import com.seekon.yougouhui.func.user.UserEntity;
 public class ContactListAdapter extends BaseAdapter implements SectionIndexer {
 	private List<UserEntity> contactList;
 	private Map<String, Integer> catalogMap = new HashMap<String, Integer>();
-	private Context mContext;
+	protected Context mContext;
 
 	public ContactListAdapter(Context mContext, List<UserEntity> contactList) {
 		this.mContext = mContext;
@@ -117,6 +118,7 @@ public class ContactListAdapter extends BaseAdapter implements SectionIndexer {
 		TextView tvLetter;
 		TextView tvTitle;
 		ImageView imageView;
+		CheckBox checkBox;
 	}
 
 	@Override

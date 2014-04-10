@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.profile.shop.ShopConst;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.profile.shop.ShopProcessor;
@@ -53,7 +54,7 @@ public class BaseInfoActivity extends Activity {
 	private ImageView shopImageView;
 	private ImageView busiLicenseView;
 	private ImageView barcodeView;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -90,72 +91,104 @@ public class BaseInfoActivity extends Activity {
 		barcodeView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		barcodeView.setLayoutParams(new TableRow.LayoutParams(SHOP_IMAGE_WIDTH,
 				SHOP_IMAGE_WIDTH));
-		
-		findViewById(R.id.row_shop_name).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent intent = new Intent(BaseInfoActivity.this,
-								ChangeShopTextActivity.class);
-						intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
-						intent.putExtra(DataConst.NAME_TYPE, COL_NAME_NAME);
-						intent.putExtra(DataConst.NAME_TITLE,
-								R.string.title_shop_change_name);
-						startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
-					}
-				});
-		findViewById(R.id.row_shop_address).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent intent = new Intent(BaseInfoActivity.this,
-								ChangeShopTextActivity.class);
-						intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
-						intent.putExtra(DataConst.NAME_TYPE, COL_NAME_ADDRESS);
-						intent.putExtra(DataConst.NAME_TITLE,
-								R.string.title_shop_change_addr);
-						startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
-					}
-				});
-		findViewById(R.id.row_shop_desc).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent intent = new Intent(BaseInfoActivity.this,
-								ChangeShopTextActivity.class);
-						intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
-						intent.putExtra(DataConst.NAME_TYPE, COL_NAME_DESC);
-						intent.putExtra(DataConst.NAME_TITLE,
-								R.string.title_shop_change_desc);
-						startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
-					}
-				});
-		findViewById(R.id.row_shop_image).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent intent = new Intent(BaseInfoActivity.this,
-								ChangeShopImageActivity.class);
-						intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
-						intent.putExtra(DataConst.NAME_TYPE, COL_NAME_SHOP_IMAGE);
-						intent.putExtra(DataConst.NAME_TITLE,
-								R.string.title_shop_change_image);
-						startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
-					}
-				});
-		findViewById(R.id.row_shop_busi_license).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent intent = new Intent(BaseInfoActivity.this,
-								ChangeShopImageActivity.class);
-						intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
-						intent.putExtra(DataConst.NAME_TYPE, COL_NAME_BUSI_LICENSE);
-						intent.putExtra(DataConst.NAME_TITLE,
-								R.string.title_shop_change_license);
-						startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
-					}
-				});
+
+		String ownerId = shop.getOwner();
+		String userId = RunEnv.getInstance().getUser().getUuid();
+		if (userId.equals(ownerId)) {// 只有店主才可以修改商铺的基本信息
+			String status = shop.getStatus();
+			if (status.equals(ShopConst.STATUS_REGISTERED)) {
+				findViewById(R.id.row_shop_name).setOnClickListener(
+						new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								Intent intent = new Intent(BaseInfoActivity.this,
+										ChangeShopTextActivity.class);
+								intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
+								intent.putExtra(DataConst.NAME_TYPE, COL_NAME_NAME);
+								intent.putExtra(DataConst.NAME_TITLE,
+										R.string.title_shop_change_name);
+								startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
+							}
+						});
+				findViewById(R.id.row_shop_address).setOnClickListener(
+						new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								Intent intent = new Intent(BaseInfoActivity.this,
+										ChangeShopTextActivity.class);
+								intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
+								intent.putExtra(DataConst.NAME_TYPE, COL_NAME_ADDRESS);
+								intent.putExtra(DataConst.NAME_TITLE,
+										R.string.title_shop_change_addr);
+								startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
+							}
+						});
+				findViewById(R.id.row_shop_image).setOnClickListener(
+						new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								Intent intent = new Intent(BaseInfoActivity.this,
+										ChangeShopImageActivity.class);
+								intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
+								intent.putExtra(DataConst.NAME_TYPE, COL_NAME_SHOP_IMAGE);
+								intent.putExtra(DataConst.NAME_TITLE,
+										R.string.title_shop_change_image);
+								startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
+							}
+						});
+				findViewById(R.id.row_shop_busi_license).setOnClickListener(
+						new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								Intent intent = new Intent(BaseInfoActivity.this,
+										ChangeShopImageActivity.class);
+								intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
+								intent.putExtra(DataConst.NAME_TYPE, COL_NAME_BUSI_LICENSE);
+								intent.putExtra(DataConst.NAME_TITLE,
+										R.string.title_shop_change_license);
+								startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
+							}
+						});
+
+				findViewById(R.id.row_shop_trades).setOnClickListener(
+						new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								Intent intent = new Intent(BaseInfoActivity.this,
+										ChangeTradesActivity.class);
+								intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
+								startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
+							}
+						});
+				findViewById(R.id.row_shop_barcode).setOnClickListener(
+						new View.OnClickListener() {
+
+							@Override
+							public void onClick(View v) {
+								Intent intent = new Intent(BaseInfoActivity.this,
+										SetShopBarcodeActivity.class);
+								intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
+								startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
+							}
+						});
+			}
+			if (status.equals(ShopConst.STATUS_REGISTERED)
+					|| status.equals(ShopConst.STATUS_AUDITED)) {
+				findViewById(R.id.row_shop_desc).setOnClickListener(
+						new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								Intent intent = new Intent(BaseInfoActivity.this,
+										ChangeShopTextActivity.class);
+								intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
+								intent.putExtra(DataConst.NAME_TYPE, COL_NAME_DESC);
+								intent.putExtra(DataConst.NAME_TITLE,
+										R.string.title_shop_change_desc);
+								startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
+							}
+						});
+			}
+		}
 		findViewById(R.id.row_shop_pwd).setOnClickListener(
 				new View.OnClickListener() {
 					@Override
@@ -164,27 +197,6 @@ public class BaseInfoActivity extends Activity {
 								ChangeShopPwdActivity.class);
 						intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
 						startActivity(intent);
-					}
-				});
-		findViewById(R.id.row_shop_trades).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent intent = new Intent(BaseInfoActivity.this,
-								ChangeTradesActivity.class);
-						intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
-						startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
-					}
-				});
-		findViewById(R.id.row_shop_barcode).setOnClickListener(
-				new View.OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						Intent intent = new Intent(BaseInfoActivity.this,
-								SetShopBarcodeActivity.class);
-						intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
-						startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
 					}
 				});
 	}
@@ -294,7 +306,7 @@ public class BaseInfoActivity extends Activity {
 		ImageLoader.getInstance().displayImage(shop.getBusiLicense(),
 				busiLicenseView, true);
 		String barcode = shop.getBarcode();
-		if(barcode != null && barcode.length() > 0){
+		if (barcode != null && barcode.length() > 0) {
 			ImageLoader.getInstance().displayImage(barcode, barcodeView, true);
 		}
 		StringBuffer trades = new StringBuffer();

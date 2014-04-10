@@ -79,6 +79,7 @@ public class ShopMainActivity extends Activity{
 			public void onClick(View v) {
 				Intent intent = new Intent(ShopMainActivity.this, EmpSettingActivity.class);
 				intent.putExtra(DataConst.COL_NAME_UUID, currentShop.getUuid());
+				intent.putExtra(ShopConst.COL_NAME_OWNER, currentShop.getOwner());
 				startActivity(intent);
 			}
 		});
@@ -112,14 +113,14 @@ public class ShopMainActivity extends Activity{
 		shareImageView.setEnabled(true);
 		
 		String status = currentShop.getStatus();
-		if(status.equals("0")){
+		if(status.equals(ShopConst.STATUS_REGISTERED)){
 			statusView.setText(R.string.label_shop_status_registered);
 			empSettingImageView.setEnabled(false);
 			saleImageView.setEnabled(false);
 			shareImageView.setEnabled(false);
-		}else if(status.equals("1")){
+		}else if(status.equals(ShopConst.STATUS_AUDITED)){
 			statusView.setText(R.string.label_shop_status_audited);
-		}else if(status.equals("2")){
+		}else if(status.equals(ShopConst.STATUS_CANCELED)){
 			statusView.setText(R.string.label_shop_status_canceled);
 		}
 		

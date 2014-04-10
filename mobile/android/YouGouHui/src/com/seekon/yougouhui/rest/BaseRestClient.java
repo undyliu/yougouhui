@@ -14,7 +14,6 @@ public class BaseRestClient extends RestClient {
 				}
 			}
 		}
-		byte[] payload = null;
 
 		switch (request.getMethod()) {
 		case GET:
@@ -26,21 +25,23 @@ public class BaseRestClient extends RestClient {
 			conn.setDoOutput(false);
 			break;
 		case PUT:
-			payload = request.getBody();
 			conn.setRequestMethod("PUT");
-			conn.setDoOutput(true);
-			conn.setFixedLengthStreamingMode(payload.length);
-			conn.getOutputStream().write(payload);
+			putRequestDataToConnection(conn, request);
 			break;
 		case POST:
-			payload = request.getBody();
 			conn.setRequestMethod("POST");
-			conn.setDoOutput(true);
-			conn.setFixedLengthStreamingMode(payload.length);
-			conn.getOutputStream().write(payload);
+			putRequestDataToConnection(conn, request);
 		default:
 			break;
 		}
 	}
 
+	private void putRequestDataToConnection(HttpURLConnection conn,
+			Request request) throws Exception {
+		byte[] payload = request.getBody();
+
+		conn.setDoOutput(true);
+		conn.setFixedLengthStreamingMode(payload.length);
+		conn.getOutputStream().write(payload);
+	}
 }

@@ -51,7 +51,7 @@ public class UserProcessor extends ContentProcessor {
 					try {
 						if (uuid.equals(jsonRes.getString(COL_NAME_UUID))) {
 							newColNames = JSONUtils.getKeys(jsonRes);
-							user = JSONUtils.updateUserEntity(user, jsonRes);
+							user = UserUtils.updateUserEntity(user, jsonRes);
 							RunEnv.getInstance().setUser(user);// 更新系统环境中的user对象
 						}
 					} catch (JSONException e) {
