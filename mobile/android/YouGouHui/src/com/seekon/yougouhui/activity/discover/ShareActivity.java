@@ -39,11 +39,14 @@ import android.widget.PopupWindow;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.ImagePreviewActivity;
+import com.seekon.yougouhui.activity.profile.shop.ChooseShopActivity;
 import com.seekon.yougouhui.barcode.MipcaActivityCapture;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareProcessor;
+import com.seekon.yougouhui.func.profile.shop.ShopConst;
+import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
@@ -60,7 +63,9 @@ public class ShareActivity extends Activity {
 
 	private static final int PREVIEW_IMAGE_ACTIVITY_REQUEST_CODE = 300;
 
-	private final static int SCANNIN_GREQUEST_CODE = 400;
+	private final static int SCANNIN_REQUEST_CODE = 400;
+
+	private final static int CHOOSE_SHOP_REQUEST_CODE = 500;
 
 	private GridView picContainer = null;
 
@@ -98,7 +103,17 @@ public class ShareActivity extends Activity {
 				Intent intent = new Intent();
 				intent.setClass(ShareActivity.this, MipcaActivityCapture.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
+				startActivityForResult(intent, SCANNIN_REQUEST_CODE);
+			}
+		});
+
+		Button chooseShop = (Button) findViewById(R.id.b_choose_shop);
+		chooseShop.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setClass(ShareActivity.this, ChooseShopActivity.class);
+				startActivityForResult(intent, CHOOSE_SHOP_REQUEST_CODE);
 			}
 		});
 	}
@@ -208,12 +223,21 @@ public class ShareActivity extends Activity {
 					FileHelper.deleteCacheFile(fileUri);
 				}
 			}
-		} else if (requestCode == SCANNIN_GREQUEST_CODE) {
+		} else if (requestCode == SCANNIN_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
 				Bundle bundle = data.getExtras();
 				EditText barcodeText = (EditText) findViewById(R.id.share_shop_barcode);
 				barcodeText.setText(bundle.getString("result"));
 				Logger.debug(TAG, "barcode:" + bundle.toString());
+			}
+		} else if (requestCode == CHOOSE_SHOP_REQUEST_CODE) {
+			if (resultCode == RESULT_OK && data != null) {
+				ShopEntity shop = (ShopEntity) data
+						.getSerializableExtra(ShopConst.DATA_SHOP_KEY);
+				if (shop != null) {
+					EditText barcodeText = (EditText) findViewById(R.id.share_shop_barcode);
+					barcodeText.setText(shop.getName());
+				}
 			}
 		}
 

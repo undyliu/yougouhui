@@ -259,6 +259,11 @@
             android:label="@string/title_contact_list"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.seekon.yougouhui.activity.profile.shop.ChooseShopActivity"
+            android:label="@string/title_choose_shop"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

@@ -62,7 +62,7 @@ public class ShareActionPopupWindow extends PopupWindow {
 			@Override
 			public void onClick(View v) {
 				ShareActionPopupWindow.this.dismiss();
-				ViewUtils.popupInputMethodWindow();// 打开输入键盘
+				ViewUtils.popupInputMethodWindow(activity);// 打开输入键盘
 
 				CommentPopupWindow popupWindow = new CommentPopupWindow();
 				popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);

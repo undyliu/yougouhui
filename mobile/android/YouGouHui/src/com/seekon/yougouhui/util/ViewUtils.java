@@ -27,18 +27,23 @@ public class ViewUtils {
 	/**
 	 * 弹出输入法窗口
 	 */
-	public static void popupInputMethodWindow() {
+	public static void popupInputMethodWindow(final Activity activity) {
 
 		new Handler().postDelayed(new Runnable() {
-
 			@Override
 			public void run() {
-
-				InputMethodManager imm = (InputMethodManager) YouGouHuiApp
-						.getAppContext().getSystemService(Service.INPUT_METHOD_SERVICE);
+				InputMethodManager imm = (InputMethodManager) activity
+						.getSystemService(Service.INPUT_METHOD_SERVICE);
 				imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 			}
 		}, 200);
+	}
+
+	public static void hideInputMethodWindow(Activity activity) {
+		((InputMethodManager) activity
+				.getSystemService(Service.INPUT_METHOD_SERVICE))
+				.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),
+						InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 
 	public static void showProgress(Activity activity, final View coveredView,

@@ -8,6 +8,7 @@ import android.content.Context;
 
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.rest.resource.Resource;
 import com.seekon.yougouhui.service.ContentProcessor;
@@ -91,5 +92,9 @@ public class ShopProcessor extends ContentProcessor {
 	public RestMethodResult<JSONObjResource> createShopBarcode(ShopEntity shop) {
 		return (RestMethodResult) this.execMethod(new CreateShopBarcodeMethod(
 				mContext, shop));
+	}
+	
+	public RestMethodResult<JSONArrayResource> searchShops(String searchWord){
+		return new SearchShopMethod(mContext, searchWord).execute();
 	}
 }

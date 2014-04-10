@@ -86,7 +86,7 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 	private TextView addrView;
 	private TextView descView;
 	private ImageView busiLicenseView;
-	private BaseAdapter tradeAdapter;
+	private TradeListAdapter tradeAdapter;
 	private List<TradeEntity> trades = new ArrayList<TradeEntity>();
 
 	private String shopImage = null;
@@ -150,14 +150,7 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 		GridView tradeView = (GridView) baseInfoView
 				.findViewById(R.id.shop_trade_view);
 		
-		List<Map<String, ?>> tradeList = new ArrayList<Map<String, ?>>();
-		for(TradeEntity trade : trades){
-			Map data = new HashMap();
-			data.put(DataConst.NAME_CHECKED, false);
-			data.put(TradeConst.DATA_TRADE_KEY, trade);
-			tradeList.add(data);
-		}
-		tradeAdapter = new TradeListAdapter(this, tradeList);
+		tradeAdapter = new TradeListAdapter(this, getTradeList());
 		tradeView.setAdapter(tradeAdapter);
 
 		loadTrades();
@@ -195,12 +188,23 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 		pwdConfView = (TextView) pwdInfoView.findViewById(R.id.password_conf);
 	}
 
+	private List<Map<String, ?>> getTradeList(){
+		List<Map<String, ?>> tradeList = new ArrayList<Map<String, ?>>();
+		for(TradeEntity trade : trades){
+			Map data = new HashMap();
+			data.put(DataConst.NAME_CHECKED, false);
+			data.put(TradeConst.DATA_TRADE_KEY, trade);
+			tradeList.add(data);
+		}
+		return tradeList;
+	}
+	
 	private void loadTrades() {
 		loadTradeFromLocal();
 		if (trades.isEmpty()) {
 			loadTradesFromRemote();
 		} else {
-			tradeAdapter.notifyDataSetChanged();
+			tradeAdapter.updateData(getTradeList());
 		}
 	}
 
