@@ -1,24 +1,21 @@
 /*
- Navicat Premium Data Transfer
+Navicat MySQL Data Transfer
 
- Source Server         : localhost_root
- Source Server Type    : MySQL
- Source Server Version : 50612
- Source Host           : localhost
- Source Database       : ebs
+Source Server         : localhost_ebs
+Source Server Version : 50511
+Source Host           : localhost:3306
+Source Database       : ebs
 
- Target Server Type    : MySQL
- Target Server Version : 50612
- File Encoding         : utf-8
+Target Server Type    : MYSQL
+Target Server Version : 50511
+File Encoding         : 65001
 
- Date: 04/09/2014 21:04:41 PM
+Date: 2014-04-10 15:43:18
 */
 
-SET NAMES utf8;
-SET FOREIGN_KEY_CHECKS = 0;
-
+SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
---  Table structure for `e_activity`
+-- Table structure for `e_activity`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_activity`;
 CREATE TABLE `e_activity` (
@@ -43,14 +40,20 @@ CREATE TABLE `e_activity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='活动记录表';
 
 -- ----------------------------
---  Records of `e_activity`
+-- Records of e_activity
 -- ----------------------------
-BEGIN;
-INSERT INTO `e_activity` VALUES ('1', 'iOS 6.1', '<p>Apple released iOS 6.1</p><p class=\"ui-li-aside\">iOS</p>', 'apple.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('2', 'BlackBerry 10', '<p>BlackBerry launched the Z10 and Q10 with the new BB10 OS</p><p class=\"ui-li-aside\">BlackBerry</p>\n				<p class=\"ui-li-aside\">BlackBerry</p>', 'blackberry_10.png', '2', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('3', 'WP 7.8', '<p>Nokia rolls out WP 7.8 to Lumia 800</p><p class=\"ui-li-aside\">Windows Phone</p>', 'lumia_800.png', '41', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('4', 'Galaxy', '<p>New Samsung Galaxy Express</p><p class=\"ui-li-aside\">Samsung</p>', 'galaxy_express.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('5', 'Nexus 7', '<p>Rumours about new full HD Nexus 7</p><p class=\"ui-li-aside\">Android</p>', 'nexus_7.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('6', 'Firefox OS', '<p>ZTE to launch Firefox OS smartphone at MWC</p><p class=\"ui-li-aside\">Firefox</p>', 'firefox_os.png', '3', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('7', 'Tizen', '<p>First Samsung phones with Tizen can be expected in 2013</p><p class=\"ui-li-aside\">Tizen</p>', 'tizen.png', '41', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('8', 'Symbian', '<p>Nokia confirms the end of Symbian</p><p class=\"ui-li-aside\">Symbian</p>', null, '2', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null), ('9', 'Symbian', '<p>Nokia confirms the end of Symbian</p>', null, '42', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
-COMMIT;
+INSERT INTO `e_activity` VALUES ('1', 'iOS 6.1', '<p>Apple released iOS 6.1</p><p class=\"ui-li-aside\">iOS</p>', 'apple.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
+INSERT INTO `e_activity` VALUES ('2', 'BlackBerry 10', '<p>BlackBerry launched the Z10 and Q10 with the new BB10 OS</p><p class=\"ui-li-aside\">BlackBerry</p>\n				<p class=\"ui-li-aside\">BlackBerry</p>', 'blackberry_10.png', '2', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
+INSERT INTO `e_activity` VALUES ('3', 'WP 7.8', '<p>Nokia rolls out WP 7.8 to Lumia 800</p><p class=\"ui-li-aside\">Windows Phone</p>', 'lumia_800.png', '41', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
+INSERT INTO `e_activity` VALUES ('4', 'Galaxy', '<p>New Samsung Galaxy Express</p><p class=\"ui-li-aside\">Samsung</p>', 'galaxy_express.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
+INSERT INTO `e_activity` VALUES ('5', 'Nexus 7', '<p>Rumours about new full HD Nexus 7</p><p class=\"ui-li-aside\">Android</p>', 'nexus_7.png', '1', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
+INSERT INTO `e_activity` VALUES ('6', 'Firefox OS', '<p>ZTE to launch Firefox OS smartphone at MWC</p><p class=\"ui-li-aside\">Firefox</p>', 'firefox_os.png', '3', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
+INSERT INTO `e_activity` VALUES ('7', 'Tizen', '<p>First Samsung phones with Tizen can be expected in 2013</p><p class=\"ui-li-aside\">Tizen</p>', 'tizen.png', '41', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
+INSERT INTO `e_activity` VALUES ('8', 'Symbian', '<p>Nokia confirms the end of Symbian</p><p class=\"ui-li-aside\">Symbian</p>', null, '2', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
+INSERT INTO `e_activity` VALUES ('9', 'Symbian', '<p>Nokia confirms the end of Symbian</p>', null, '42', null, null, null, null, null, null, null, null, '1000.00', '0.70', '200', null);
 
 -- ----------------------------
---  Table structure for `e_activity_img`
+-- Table structure for `e_activity_img`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_activity_img`;
 CREATE TABLE `e_activity_img` (
@@ -62,7 +65,11 @@ CREATE TABLE `e_activity_img` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Table structure for `e_channel`
+-- Records of e_activity_img
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `e_channel`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_channel`;
 CREATE TABLE `e_channel` (
@@ -83,14 +90,18 @@ CREATE TABLE `e_channel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='栏目表';
 
 -- ----------------------------
---  Records of `e_channel`
+-- Records of e_channel
 -- ----------------------------
-BEGIN;
-INSERT INTO `e_channel` VALUES ('0', 'all', '全部', '', null, '0', null, null, null, null, null, '1'), ('1', 'food', '美食', '', null, '1', null, null, null, null, null, '1'), ('2', 'clothes', '服装', '', null, '2', null, null, null, null, null, '1'), ('3', 'beauty', '美妆', '', null, '3', null, null, null, null, null, '1'), ('40', 'baby', '母婴', 'baby.html', null, '4', null, null, null, null, null, '1'), ('41', 'computer', '电脑', 'computer.html', null, '5', null, null, null, null, null, '1'), ('42', 'book', '书城', 'book.html', null, '6', null, null, null, null, null, '1');
-COMMIT;
+INSERT INTO `e_channel` VALUES ('0', 'all', '全部', '', null, '0', null, null, null, null, null, '1');
+INSERT INTO `e_channel` VALUES ('1', 'food', '美食', '', null, '1', null, null, null, null, null, '1');
+INSERT INTO `e_channel` VALUES ('2', 'clothes', '服装', '', null, '2', null, null, null, null, null, '1');
+INSERT INTO `e_channel` VALUES ('3', 'beauty', '美妆', '', null, '3', null, null, null, null, null, '1');
+INSERT INTO `e_channel` VALUES ('40', 'baby', '母婴', 'baby.html', null, '4', null, null, null, null, null, '1');
+INSERT INTO `e_channel` VALUES ('41', 'computer', '电脑', 'computer.html', null, '5', null, null, null, null, null, '1');
+INSERT INTO `e_channel` VALUES ('42', 'book', '书城', 'book.html', null, '6', null, null, null, null, null, '1');
 
 -- ----------------------------
---  Table structure for `e_comment`
+-- Table structure for `e_comment`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_comment`;
 CREATE TABLE `e_comment` (
@@ -105,14 +116,13 @@ CREATE TABLE `e_comment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `e_comment`
+-- Records of e_comment
 -- ----------------------------
-BEGIN;
-INSERT INTO `e_comment` VALUES ('5d812a9a-ead1-49d4-9ca5-a4f4ae92e662', '11e4c01a-2155-4822-bec5-3d83d55481a4', null, '非常不错', '4eae0ad3-dfe1-40c9-8241-188885c86377', '1396583178296', '0'), ('a399f33d-0178-4c69-92e2-e0b5b5925071', '11e4c01a-2155-4822-bec5-3d83d55481a4', null, '看起来很好', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1396583740343', '0');
-COMMIT;
+INSERT INTO `e_comment` VALUES ('5d812a9a-ead1-49d4-9ca5-a4f4ae92e662', '11e4c01a-2155-4822-bec5-3d83d55481a4', null, '非常不错', '4eae0ad3-dfe1-40c9-8241-188885c86377', '1396583178296', '0');
+INSERT INTO `e_comment` VALUES ('a399f33d-0178-4c69-92e2-e0b5b5925071', '11e4c01a-2155-4822-bec5-3d83d55481a4', null, '看起来很好', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1396583740343', '0');
 
 -- ----------------------------
---  Table structure for `e_discuss`
+-- Table structure for `e_discuss`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_discuss`;
 CREATE TABLE `e_discuss` (
@@ -126,7 +136,11 @@ CREATE TABLE `e_discuss` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Table structure for `e_friend`
+-- Records of e_discuss
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `e_friend`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_friend`;
 CREATE TABLE `e_friend` (
@@ -138,14 +152,23 @@ CREATE TABLE `e_friend` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `e_friend`
+-- Records of e_friend
 -- ----------------------------
-BEGIN;
-INSERT INTO `e_friend` VALUES ('0bec1918-c45b-44dc-ab78-6791c25fb5d8', '4eae0ad3-dfe1-40c9-8241-188885c86377', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1'), ('0ccbf194-a1d8-478f-b262-b228732b8667', '43c72a72-ca25-4415-a5df-cff584fec842', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '0'), ('46d5eed0-2be2-44c3-a000-733e4b86dbfe', 'd3a5b588-3204-4e7f-8d73-20fdd0dbaf54', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '0'), ('62b301fd-0a5a-44a9-8ac3-2548b9f9bb0d', '4eae0ad3-dfe1-40c9-8241-188885c86377', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '0'), ('6c6c114a-6a10-495f-8836-f8788e0dd6e1', '43c72a72-ca25-4415-a5df-cff584fec842', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1'), ('8bfdacbb-8440-468a-85f0-03b0646bba28', 'd3a5b588-3204-4e7f-8d73-20fdd0dbaf54', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1'), ('9c4b1402-dea8-4ddb-ad49-1a25ee7f63c6', '43c72a72-ca25-4415-a5df-cff584fec842', '4eae0ad3-dfe1-40c9-8241-188885c86377', '0'), ('b5e7431a-5014-49d3-985f-30f2ab6cce57', 'd3a5b588-3204-4e7f-8d73-20fdd0dbaf54', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1'), ('cd2389cd-39c6-4f87-b7f4-fdb239155b5c', '43c72a72-ca25-4415-a5df-cff584fec842', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1'), ('de266908-db43-44eb-84e1-708561b8d20a', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '4eae0ad3-dfe1-40c9-8241-188885c86377', '1'), ('e53d0478-52c4-4e87-b058-863e83adf11f', '4eae0ad3-dfe1-40c9-8241-188885c86377', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1'), ('ef917ef5-509a-4e5b-8eb7-b18c40539a03', '43c72a72-ca25-4415-a5df-cff584fec842', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1');
-COMMIT;
+INSERT INTO `e_friend` VALUES ('0bec1918-c45b-44dc-ab78-6791c25fb5d8', '4eae0ad3-dfe1-40c9-8241-188885c86377', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1');
+INSERT INTO `e_friend` VALUES ('0ccbf194-a1d8-478f-b262-b228732b8667', '43c72a72-ca25-4415-a5df-cff584fec842', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '0');
+INSERT INTO `e_friend` VALUES ('46d5eed0-2be2-44c3-a000-733e4b86dbfe', 'd3a5b588-3204-4e7f-8d73-20fdd0dbaf54', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '0');
+INSERT INTO `e_friend` VALUES ('62b301fd-0a5a-44a9-8ac3-2548b9f9bb0d', '4eae0ad3-dfe1-40c9-8241-188885c86377', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '0');
+INSERT INTO `e_friend` VALUES ('6c6c114a-6a10-495f-8836-f8788e0dd6e1', '43c72a72-ca25-4415-a5df-cff584fec842', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1');
+INSERT INTO `e_friend` VALUES ('8bfdacbb-8440-468a-85f0-03b0646bba28', 'd3a5b588-3204-4e7f-8d73-20fdd0dbaf54', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1');
+INSERT INTO `e_friend` VALUES ('9c4b1402-dea8-4ddb-ad49-1a25ee7f63c6', '43c72a72-ca25-4415-a5df-cff584fec842', '4eae0ad3-dfe1-40c9-8241-188885c86377', '0');
+INSERT INTO `e_friend` VALUES ('b5e7431a-5014-49d3-985f-30f2ab6cce57', 'd3a5b588-3204-4e7f-8d73-20fdd0dbaf54', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1');
+INSERT INTO `e_friend` VALUES ('cd2389cd-39c6-4f87-b7f4-fdb239155b5c', '43c72a72-ca25-4415-a5df-cff584fec842', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1');
+INSERT INTO `e_friend` VALUES ('de266908-db43-44eb-84e1-708561b8d20a', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '4eae0ad3-dfe1-40c9-8241-188885c86377', '1');
+INSERT INTO `e_friend` VALUES ('e53d0478-52c4-4e87-b058-863e83adf11f', '4eae0ad3-dfe1-40c9-8241-188885c86377', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1');
+INSERT INTO `e_friend` VALUES ('ef917ef5-509a-4e5b-8eb7-b18c40539a03', '43c72a72-ca25-4415-a5df-cff584fec842', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1');
 
 -- ----------------------------
---  Table structure for `e_log`
+-- Table structure for `e_log`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_log`;
 CREATE TABLE `e_log` (
@@ -158,7 +181,11 @@ CREATE TABLE `e_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Table structure for `e_message`
+-- Records of e_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `e_message`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_message`;
 CREATE TABLE `e_message` (
@@ -174,7 +201,11 @@ CREATE TABLE `e_message` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Table structure for `e_module`
+-- Records of e_message
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `e_module`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_module`;
 CREATE TABLE `e_module` (
@@ -196,14 +227,23 @@ CREATE TABLE `e_module` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `e_module`
+-- Records of e_module
 -- ----------------------------
-BEGIN;
-INSERT INTO `e_module` VALUES ('101', 'friends', '朋友圈', 'img/friend.png', 'friends.html', null, '0', 'discover', '1', null, null, null, null), ('102', 'radar', '雷达', 'img/radar.png', 'radar.html', null, '1', 'discover', '1', null, null, null, null), ('103', 'recommend', '推荐', 'img/recommend.png', 'recommend.html', null, '2', 'discover', '1', null, null, null, null), ('104', 'hot', '热门', 'img/hot.png', 'hot.html', null, '3', 'discover', '1', null, null, null, null), ('105', 'compare', '比价', 'img/compare.png', null, null, '4', 'discover', '1', null, null, null, null), ('106', 'join', '拼单', 'img/join.png', null, null, '5', 'discover', '1', null, null, null, null), ('201', 'settings', '设置', 'img/settings.png', 'settings.html', null, '0', 'me', '1', null, null, null, null), ('202', 'contact_list', '通讯录', 'img/add_friend.png', 'contact_list.html', null, '1', 'me', '1', null, null, null, null), ('203', 'my_favorite', '我的收藏', 'img/favorite.png', 'my_favorite.html', null, '2', 'me', '1', null, null, null, null), ('204', 'my_share', '我的分享', 'img/share.png', 'my_share.html', null, '3', 'me', '1', null, null, null, null), ('205', 'my_shop', '我的店铺', 'img/my_shop.png', 'my_shop.html', null, '4', 'me', '1', null, null, null, null), ('206', 'my_grade', '我的积分', 'img/my_grade.png', 'my_grade.html', null, '5', 'me', '1', null, null, null, null);
-COMMIT;
+INSERT INTO `e_module` VALUES ('101', 'friends', '朋友圈', 'img/friend.png', 'friends.html', null, '0', 'discover', '1', null, null, null, null);
+INSERT INTO `e_module` VALUES ('102', 'radar', '雷达', 'img/radar.png', 'radar.html', null, '1', 'discover', '1', null, null, null, null);
+INSERT INTO `e_module` VALUES ('103', 'recommend', '推荐', 'img/recommend.png', 'recommend.html', null, '2', 'discover', '1', null, null, null, null);
+INSERT INTO `e_module` VALUES ('104', 'hot', '热门', 'img/hot.png', 'hot.html', null, '3', 'discover', '1', null, null, null, null);
+INSERT INTO `e_module` VALUES ('105', 'compare', '比价', 'img/compare.png', null, null, '4', 'discover', '1', null, null, null, null);
+INSERT INTO `e_module` VALUES ('106', 'join', '拼单', 'img/join.png', null, null, '5', 'discover', '1', null, null, null, null);
+INSERT INTO `e_module` VALUES ('201', 'settings', '设置', 'img/settings.png', 'settings.html', null, '0', 'me', '1', null, null, null, null);
+INSERT INTO `e_module` VALUES ('202', 'contact_list', '通讯录', 'img/add_friend.png', 'contact_list.html', null, '1', 'me', '1', null, null, null, null);
+INSERT INTO `e_module` VALUES ('203', 'my_favorite', '我的收藏', 'img/favorite.png', 'my_favorite.html', null, '2', 'me', '1', null, null, null, null);
+INSERT INTO `e_module` VALUES ('204', 'my_share', '我的分享', 'img/share.png', 'my_share.html', null, '3', 'me', '1', null, null, null, null);
+INSERT INTO `e_module` VALUES ('205', 'my_shop', '我的店铺', 'img/my_shop.png', 'my_shop.html', null, '4', 'me', '1', null, null, null, null);
+INSERT INTO `e_module` VALUES ('206', 'my_grade', '我的积分', 'img/my_grade.png', 'my_grade.html', null, '5', 'me', '1', null, null, null, null);
 
 -- ----------------------------
---  Table structure for `e_share`
+-- Table structure for `e_share`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_share`;
 CREATE TABLE `e_share` (
@@ -219,14 +259,14 @@ CREATE TABLE `e_share` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `e_share`
+-- Records of e_share
 -- ----------------------------
-BEGIN;
-INSERT INTO `e_share` VALUES ('11e4c01a-2155-4822-bec5-3d83d55481a4', '圣诞节购物季', null, '43c72a72-ca25-4415-a5df-cff584fec842', '1396583054328', '2014-04-04', null, '0'), ('1a78b60a-dcad-4a45-b83f-822fc8e4f89d', '永旺的探路者打折很厉害', null, 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1396583684640', '2014-04-04', null, '0'), ('97dd86ad-f227-44f1-8791-73860dc9dfd4', '新辣道鱼火锅', null, 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1396573458937', '2014-04-04', null, '0');
-COMMIT;
+INSERT INTO `e_share` VALUES ('11e4c01a-2155-4822-bec5-3d83d55481a4', '圣诞节购物季', null, '43c72a72-ca25-4415-a5df-cff584fec842', '1396583054328', '2014-04-04', null, '0');
+INSERT INTO `e_share` VALUES ('1a78b60a-dcad-4a45-b83f-822fc8e4f89d', '永旺的探路者打折很厉害', null, 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1396583684640', '2014-04-04', null, '0');
+INSERT INTO `e_share` VALUES ('97dd86ad-f227-44f1-8791-73860dc9dfd4', '新辣道鱼火锅', null, 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1396573458937', '2014-04-04', null, '0');
 
 -- ----------------------------
---  Table structure for `e_share_img`
+-- Table structure for `e_share_img`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_share_img`;
 CREATE TABLE `e_share_img` (
@@ -238,14 +278,15 @@ CREATE TABLE `e_share_img` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `e_share_img`
+-- Records of e_share_img
 -- ----------------------------
-BEGIN;
-INSERT INTO `e_share_img` VALUES ('4c0215d4-a422-4add-9e0f-67e0387448c3', '1031961510_1396583010680.png', '11e4c01a-2155-4822-bec5-3d83d55481a4', '1'), ('5ed0e8c4-4dd3-4383-96bc-a814492fc42d', '832378606_1396573415956.png', '97dd86ad-f227-44f1-8791-73860dc9dfd4', '1'), ('6c5fe797-4f05-470e-86de-34d3dcb01e4d', '537577157_1396583627575.png', '1a78b60a-dcad-4a45-b83f-822fc8e4f89d', '2'), ('97cfb2e8-29fd-414a-b607-2e479787cb10', '602324364_1396583627574.png', '1a78b60a-dcad-4a45-b83f-822fc8e4f89d', '1');
-COMMIT;
+INSERT INTO `e_share_img` VALUES ('4c0215d4-a422-4add-9e0f-67e0387448c3', '1031961510_1396583010680.png', '11e4c01a-2155-4822-bec5-3d83d55481a4', '1');
+INSERT INTO `e_share_img` VALUES ('5ed0e8c4-4dd3-4383-96bc-a814492fc42d', '832378606_1396573415956.png', '97dd86ad-f227-44f1-8791-73860dc9dfd4', '1');
+INSERT INTO `e_share_img` VALUES ('6c5fe797-4f05-470e-86de-34d3dcb01e4d', '537577157_1396583627575.png', '1a78b60a-dcad-4a45-b83f-822fc8e4f89d', '2');
+INSERT INTO `e_share_img` VALUES ('97cfb2e8-29fd-414a-b607-2e479787cb10', '602324364_1396583627574.png', '1a78b60a-dcad-4a45-b83f-822fc8e4f89d', '1');
 
 -- ----------------------------
---  Table structure for `e_shop`
+-- Table structure for `e_shop`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_shop`;
 CREATE TABLE `e_shop` (
@@ -270,14 +311,13 @@ CREATE TABLE `e_shop` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `e_shop`
+-- Records of e_shop
 -- ----------------------------
-BEGIN;
-INSERT INTO `e_shop` VALUES ('08c181bd-afa8-48ab-8522-ef22c89b3851', '上地华联一品香美食', null, '-703256829_1397006580733.png', null, '5555555', '666666', '-1400089674_1396933730140.png', null, 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', null, null, null, null, '1396933731990', '1', 'barcode_2116703421_1397044192126.png'), ('c1b1adb2-8e39-4850-ad4a-edaf4bc4651d', '昌平永旺商场探路者专卖店', null, '-1303150572_1397036911977.png', null, '222', '3干活奋斗史', '463517179_1396871363810.png', null, 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', null, null, null, null, '1396871367348', '0', 'barcode_-1053622591_1397036937468.png');
-COMMIT;
+INSERT INTO `e_shop` VALUES ('08c181bd-afa8-48ab-8522-ef22c89b3851', '上地华联一品香美食', null, '-703256829_1397006580733.png', null, '5555555', '666666', '-1400089674_1396933730140.png', null, 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', null, null, null, null, '1396933731990', '1', 'barcode_2116703421_1397044192126.png');
+INSERT INTO `e_shop` VALUES ('c1b1adb2-8e39-4850-ad4a-edaf4bc4651d', '昌平永旺商场探路者专卖店', null, '-1303150572_1397036911977.png', null, '222', '3干活奋斗史', '463517179_1396871363810.png', null, 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', null, null, null, null, '1396871367348', '0', 'barcode_-1053622591_1397036937468.png');
 
 -- ----------------------------
---  Table structure for `e_shop_emp`
+-- Table structure for `e_shop_emp`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_shop_emp`;
 CREATE TABLE `e_shop_emp` (
@@ -293,14 +333,14 @@ CREATE TABLE `e_shop_emp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `e_shop_emp`
+-- Records of e_shop_emp
 -- ----------------------------
-BEGIN;
-INSERT INTO `e_shop_emp` VALUES ('5bb94c4a-e542-4f45-95d6-b057c1513e1b', 'c1b1adb2-8e39-4850-ad4a-edaf4bc4651d', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1111', null, null, null, null), ('ae419f22-d686-458b-a0a1-972ba5987ae5', '08c181bd-afa8-48ab-8522-ef22c89b3851', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '2222', null, null, null, null);
-COMMIT;
+INSERT INTO `e_shop_emp` VALUES ('0d643c36-d375-45f9-a8e4-51e41271db7e', '08c181bd-afa8-48ab-8522-ef22c89b3851', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '2222', null, null, null, null);
+INSERT INTO `e_shop_emp` VALUES ('5bb94c4a-e542-4f45-95d6-b057c1513e1b', 'c1b1adb2-8e39-4850-ad4a-edaf4bc4651d', 'c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '1111', null, null, null, null);
+INSERT INTO `e_shop_emp` VALUES ('cdbcd7ac-c8ba-4848-8619-f33340bf4a7c', '08c181bd-afa8-48ab-8522-ef22c89b3851', '4eae0ad3-dfe1-40c9-8241-188885c86377', '1111', null, null, null, null);
 
 -- ----------------------------
---  Table structure for `e_shop_trade`
+-- Table structure for `e_shop_trade`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_shop_trade`;
 CREATE TABLE `e_shop_trade` (
@@ -311,14 +351,14 @@ CREATE TABLE `e_shop_trade` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `e_shop_trade`
+-- Records of e_shop_trade
 -- ----------------------------
-BEGIN;
-INSERT INTO `e_shop_trade` VALUES ('01aad59b-df57-48f0-b54b-e481b83d4e15', 'c1b1adb2-8e39-4850-ad4a-edaf4bc4651d', '3'), ('b24b80c8-fb98-4339-bcf2-d5ad2f3f6d07', 'c1b1adb2-8e39-4850-ad4a-edaf4bc4651d', '1'), ('ca0b7729-038c-4ff9-84b9-743429964f64', '08c181bd-afa8-48ab-8522-ef22c89b3851', '1');
-COMMIT;
+INSERT INTO `e_shop_trade` VALUES ('01aad59b-df57-48f0-b54b-e481b83d4e15', 'c1b1adb2-8e39-4850-ad4a-edaf4bc4651d', '3');
+INSERT INTO `e_shop_trade` VALUES ('591157a6-e09d-4a46-adfa-8bab7726739e', '08c181bd-afa8-48ab-8522-ef22c89b3851', '41');
+INSERT INTO `e_shop_trade` VALUES ('b24b80c8-fb98-4339-bcf2-d5ad2f3f6d07', 'c1b1adb2-8e39-4850-ad4a-edaf4bc4651d', '1');
 
 -- ----------------------------
---  Table structure for `e_trade`
+-- Table structure for `e_trade`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_trade`;
 CREATE TABLE `e_trade` (
@@ -331,14 +371,17 @@ CREATE TABLE `e_trade` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `e_trade`
+-- Records of e_trade
 -- ----------------------------
-BEGIN;
-INSERT INTO `e_trade` VALUES ('1', 'food', '美食', '1', '1'), ('2', 'clothes', '服装', '2', '1'), ('3', 'beauty', '美妆', '3', '1'), ('40', 'baby', '母婴', '4', '1'), ('41', 'computer', '电脑', '5', '1'), ('42', 'book', '书城', '6', '1');
-COMMIT;
+INSERT INTO `e_trade` VALUES ('1', 'food', '美食', '1', '1');
+INSERT INTO `e_trade` VALUES ('2', 'clothes', '服装', '2', '1');
+INSERT INTO `e_trade` VALUES ('3', 'beauty', '美妆', '3', '1');
+INSERT INTO `e_trade` VALUES ('40', 'baby', '母婴', '4', '1');
+INSERT INTO `e_trade` VALUES ('41', 'computer', '电脑', '5', '1');
+INSERT INTO `e_trade` VALUES ('42', 'book', '书城', '6', '1');
 
 -- ----------------------------
---  Table structure for `e_user`
+-- Table structure for `e_user`
 -- ----------------------------
 DROP TABLE IF EXISTS `e_user`;
 CREATE TABLE `e_user` (
@@ -357,9 +400,9 @@ CREATE TABLE `e_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `e_user`
+-- Records of e_user
 -- ----------------------------
-BEGIN;
-INSERT INTO `e_user` VALUES ('43c72a72-ca25-4415-a5df-cff584fec842', '二二', '1111', null, '2', '', null, null, null, '1396573024125'), ('4eae0ad3-dfe1-40c9-8241-188885c86377', '依依', '1111', null, '1', '1_1396572944339.png', null, null, null, '1396572978531'), ('c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '李四', '1111', null, '4', '4_1396573057655.png', null, null, null, '1396573122453'), ('d3a5b588-3204-4e7f-8d73-20fdd0dbaf54', '张三', '1111', null, '3', '3_1396573019613.png', null, null, null, '1396573053250');
-COMMIT;
-
+INSERT INTO `e_user` VALUES ('43c72a72-ca25-4415-a5df-cff584fec842', '二二', '1111', null, '2', '', null, null, null, '1396573024125');
+INSERT INTO `e_user` VALUES ('4eae0ad3-dfe1-40c9-8241-188885c86377', '依依', '1111', null, '1', '1_1396572944339.png', null, null, null, '1396572978531');
+INSERT INTO `e_user` VALUES ('c589a525-c3b6-4a22-9086-d9f1a2cdd5f5', '李四', '1111', null, '4', '4_1396573057655.png', null, null, null, '1396573122453');
+INSERT INTO `e_user` VALUES ('d3a5b588-3204-4e7f-8d73-20fdd0dbaf54', '张三', '1111', null, '3', '3_1396573019613.png', null, null, null, '1396573053250');
