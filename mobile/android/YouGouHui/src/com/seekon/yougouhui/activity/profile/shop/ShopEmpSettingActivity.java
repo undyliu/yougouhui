@@ -33,10 +33,10 @@ import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.util.ViewUtils;
 
-public class EmpSettingActivity extends Activity implements
+public class ShopEmpSettingActivity extends Activity implements
 		OnCheckedChangeListener {
 
-	private static final String TAG = EmpSettingActivity.class.getSimpleName();
+	private static final String TAG = ShopEmpSettingActivity.class.getSimpleName();
 
 	private static final int ADD_EMP_REQUEST_CODE = 1;
 
@@ -114,7 +114,7 @@ public class EmpSettingActivity extends Activity implements
 	}
 	
 	private void startSetEmpPwdActivity(UserEntity emp) {
-		Intent intent = new Intent(EmpSettingActivity.this, SetEmpPwdActivity.class);
+		Intent intent = new Intent(ShopEmpSettingActivity.this, SetEmpPwdActivity.class);
 		intent.putExtra(UserConst.DATA_KEY_USER, emp);
 		intent.putExtra(ShopConst.COL_NAME_UUID, shopId);
 		startActivityForResult(intent, SET_EMP_PWD_REQUEST_CODE);
@@ -165,7 +165,7 @@ public class EmpSettingActivity extends Activity implements
 
 			@Override
 			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return ShopEmpProcessor.getInstance(EmpSettingActivity.this)
+				return ShopEmpProcessor.getInstance(ShopEmpSettingActivity.this)
 						.deleteShopEmps(shopId, checkedEmpList);
 			}
 
@@ -202,7 +202,7 @@ public class EmpSettingActivity extends Activity implements
 			@Override
 			protected RestMethodResult<JSONArrayResource> doInBackground(
 					Void... params) {
-				return ShopEmpProcessor.getInstance(EmpSettingActivity.this)
+				return ShopEmpProcessor.getInstance(ShopEmpSettingActivity.this)
 						.getShopEmps(shopId);
 			}
 
@@ -240,7 +240,7 @@ public class EmpSettingActivity extends Activity implements
 
 			@Override
 			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return ShopEmpProcessor.getInstance(EmpSettingActivity.this)
+				return ShopEmpProcessor.getInstance(ShopEmpSettingActivity.this)
 						.addShopEmps(shopId, selectedUserList);
 			}
 

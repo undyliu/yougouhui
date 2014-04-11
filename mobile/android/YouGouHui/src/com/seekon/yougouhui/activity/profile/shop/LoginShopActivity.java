@@ -7,7 +7,6 @@ import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_SHOP_IMA
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_STATUS;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,6 +14,7 @@ import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -37,6 +37,7 @@ import com.seekon.yougouhui.func.widget.TaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
+import com.seekon.yougouhui.util.ContentUtils;
 import com.seekon.yougouhui.util.ViewUtils;
 
 /**
@@ -156,6 +157,13 @@ public class LoginShopActivity extends Activity {
 								shop.setOwner(json.getString(COL_NAME_OWNER));
 								shop.setStatus(json.getString(COL_NAME_STATUS));
 								shopEntityList.add(shop);
+
+								ContentValues values = new ContentValues();
+								values.put(COL_NAME_STATUS, json.getString(COL_NAME_STATUS));
+
+								getContentResolver().update(
+										ContentUtils.withAppendedId(ShopConst.CONTENT_URI,
+												json.getString(COL_NAME_UUID)), values, null, null);// 修改状态
 							}
 							showShopMain(shopEntityList);
 							return;
@@ -215,28 +223,29 @@ public class LoginShopActivity extends Activity {
 		}
 
 		if (loadTrade) {
-			new GetTradesTask(LoginShopActivity.this, new TaskCallback<RestMethodResult<JSONArrayResource>>() {
-				
-				@Override
-				public void onPostExecute(RestMethodResult<JSONArrayResource> result) {
-					if(result.getStatusCode() == 200){
-						_showShopMain(shopIdList);
-					}else{
-						ViewUtils.showToast("登录失败，获取主营业务数据出错.");
-					}
-				}
-				
-				@Override
-				public void onCancelled() {
-					
-				}
-			}).execute((Void) null);
+			new GetTradesTask(LoginShopActivity.this,
+					new TaskCallback<RestMethodResult<JSONArrayResource>>() {
+
+						@Override
+						public void onPostExecute(RestMethodResult<JSONArrayResource> result) {
+							if (result.getStatusCode() == 200) {
+								_showShopMain(shopIdList);
+							} else {
+								ViewUtils.showToast("登录失败，获取主营业务数据出错.");
+							}
+						}
+
+						@Override
+						public void onCancelled() {
+
+						}
+					}).execute((Void) null);
 		} else {
 			_showShopMain(shopIdList);
 		}
 	}
-	
-	private void _showShopMain(ArrayList<ShopEntity> shopIdList){
+
+	private void _showShopMain(ArrayList<ShopEntity> shopIdList) {
 		Intent intent = new Intent(this, ShopMainActivity.class);
 		intent.putExtra(ShopConst.NAME_SHOP_LIST, shopIdList);
 		startActivity(intent);

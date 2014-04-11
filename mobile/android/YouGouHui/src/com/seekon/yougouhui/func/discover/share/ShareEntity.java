@@ -17,6 +17,8 @@ public class ShareEntity implements Serializable {
 
 	private long publishTime;
 
+	private String shopId;
+	
 	private List<String> images;
 
 	private List<CommentEntity> comments;
@@ -61,6 +63,14 @@ public class ShareEntity implements Serializable {
 
 	public void setPublishTime(long publishTime) {
 		this.publishTime = publishTime;
+	}
+
+	public String getShopId() {
+		return shopId;
+	}
+
+	public void setShopId(String shopId) {
+		this.shopId = shopId;
 	}
 
 	public List<String> getImages() {

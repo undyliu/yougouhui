@@ -21,7 +21,8 @@ import com.seekon.yougouhui.db.AbstractDBHelper;
 public class UserData extends AbstractDBHelper {
 
 	public static final String[] COL_NAMES = new String[] { COL_NAME_UUID,
-			COL_NAME_PHONE, COL_NAME_USER_NAME, COL_NAME_USER_ICON, COL_NAME_PWD };
+			COL_NAME_PHONE, COL_NAME_USER_NAME, COL_NAME_USER_ICON, COL_NAME_PWD,
+			COL_NAME_REGISTER_TIME };
 
 	public UserData(Context context) {
 		super(context);
@@ -59,7 +60,7 @@ public class UserData extends AbstractDBHelper {
 						cursor.getString(i++), cursor.getString(i++),
 						cursor.getString(i++), cursor.getString(i++));
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			cursor.close();
@@ -95,7 +96,7 @@ public class UserData extends AbstractDBHelper {
 
 	public List<UserEntity> getUserFriends(String userId) {
 		List<UserEntity> result = new ArrayList<UserEntity>();
-		String sql = " select distinct u.uuid, u.phone, u.name, u.photo from e_user u, e_friend f "
+		String sql = " select distinct u.uuid, u.phone, u.name, u.photo, u.register_time from e_user u, e_friend f "
 				+ " where u.uuid = f.friend_id and f.user_id = ? ";
 		Cursor cursor = null;
 		try {
@@ -104,7 +105,8 @@ public class UserData extends AbstractDBHelper {
 			while (cursor.moveToNext()) {
 				int i = 0;
 				result.add(new UserEntity(cursor.getString(i++), cursor.getString(i++),
-						cursor.getString(i++), null, cursor.getString(i++)));
+						cursor.getString(i++), null, cursor.getString(i++), cursor
+								.getString(i++)));
 			}
 		} finally {
 			cursor.close();

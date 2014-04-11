@@ -9,6 +9,7 @@ import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_OWNER;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_REGISTER_TIME;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_SHOP_IMAGE;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BARCODE;
+import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_STATUS;
 
 import org.json.JSONObject;
 
@@ -28,6 +29,7 @@ public class ShopUtils {
 		shop.setShopImage(JSONUtils.getJSONStringValue(jsonObj, COL_NAME_SHOP_IMAGE));
 		shop.setOwner(JSONUtils.getJSONStringValue(jsonObj, COL_NAME_OWNER));
 		shop.setBarcode(JSONUtils.getJSONStringValue(jsonObj, COL_NAME_BARCODE));
+		shop.setStatus(JSONUtils.getJSONStringValue(jsonObj, COL_NAME_STATUS));
 		return shop;
 	}
 
@@ -44,6 +46,7 @@ public class ShopUtils {
 		JSONUtils.putJSONValue(jsonObj, COL_NAME_REGISTER_TIME,
 				shop.getRegisterTime());
 		JSONUtils.putJSONValue(jsonObj, COL_NAME_BARCODE, shop.getBarcode());
+		JSONUtils.putJSONValue(jsonObj, COL_NAME_STATUS, shop.getStatus());
 		return jsonObj;
 	}
 

@@ -56,7 +56,7 @@ public class CommentData extends AbstractDBHelper {
 						cursor.getString(i++));
 				comment.setPublishTime(cursor.getLong(i++));
 				UserEntity user = new UserEntity(cursor.getString(i++), null,
-						cursor.getString(i++), null, cursor.getString(i++));
+						cursor.getString(i++), null, cursor.getString(i++), null);
 				comment.setPublisher(user);
 				commentList.add(comment);
 			}

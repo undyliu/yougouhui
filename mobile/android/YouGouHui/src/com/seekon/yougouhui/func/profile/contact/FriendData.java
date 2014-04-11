@@ -37,7 +37,7 @@ public class FriendData extends AbstractDBHelper {
 
 	public List<UserEntity> getContactListByUserId(String userId) {
 		List<UserEntity> contactList = new ArrayList<UserEntity>();
-		String sql = " select u.uuid, u.phone, u.name, u.photo from e_user u, e_friend f "
+		String sql = " select u.uuid, u.phone, u.name, u.photo, u.register_time from e_user u, e_friend f "
 				+ " where u.uuid = f.friend_id and f.user_id = ? ";
 		Cursor cursor = null;
 		try {
@@ -46,7 +46,7 @@ public class FriendData extends AbstractDBHelper {
 				int i = 0;
 				UserEntity contact = new UserEntity(cursor.getString(i++),
 						cursor.getString(i++), cursor.getString(i++), null,
-						cursor.getString(i++));
+						cursor.getString(i++), cursor.getString(i++));
 				contactList.add(contact);
 			}
 		} finally {

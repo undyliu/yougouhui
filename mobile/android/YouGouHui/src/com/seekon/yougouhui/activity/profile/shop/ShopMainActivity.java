@@ -66,7 +66,8 @@ public class ShopMainActivity extends Activity{
 		baseInfoImageView.setOnClickListener(new View.OnClickListener() {		
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(ShopMainActivity.this, BaseInfoActivity.class);
+				Intent intent = new Intent(ShopMainActivity.this, ShopBaseInfoActivity.class);
+				intent.putExtra(DataConst.NAME_READONLY, false);
 				intent.putExtra(DataConst.COL_NAME_UUID, currentShop.getUuid());
 				startActivityForResult(intent, BASE_INFO_REQUEST_CODE);
 			}
@@ -77,7 +78,7 @@ public class ShopMainActivity extends Activity{
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(ShopMainActivity.this, EmpSettingActivity.class);
+				Intent intent = new Intent(ShopMainActivity.this, ShopEmpSettingActivity.class);
 				intent.putExtra(DataConst.COL_NAME_UUID, currentShop.getUuid());
 				intent.putExtra(ShopConst.COL_NAME_OWNER, currentShop.getOwner());
 				startActivity(intent);
@@ -89,7 +90,7 @@ public class ShopMainActivity extends Activity{
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(ShopMainActivity.this, SaleInfoActivity.class);
+				Intent intent = new Intent(ShopMainActivity.this, ShopSaleInfoActivity.class);
 				intent.putExtra(DataConst.COL_NAME_UUID, currentShop.getUuid());
 				startActivity(intent);
 			}

@@ -20,7 +20,8 @@ public interface ShareConst extends DataConst {
 	public static final String COL_NAME_ACTIVITY_ID = "activity_id";
 	public static final String COL_NAME_SHARE_ID = "share_id";
 	public static final String COL_NAME_PUBLISH_DATE = "publish_date";
-
+	public static final String COL_NAME_SHOP_ID = "shop_id";
+	
 	public final String DATA_IMAGE_KEY = "images";
 	public final String DATA_COMMENT_KEY = "comments";
 	public final String DATA_SHARE_KEY = "shares";

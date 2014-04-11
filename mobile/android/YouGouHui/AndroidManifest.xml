@@ -207,17 +207,17 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.shop.BaseInfoActivity"
+            android:name=".activity.profile.shop.ShopBaseInfoActivity"
             android:label="@string/title_shop_base_info"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.shop.EmpSettingActivity"
+            android:name=".activity.profile.shop.ShopEmpSettingActivity"
             android:label="@string/title_shop_emp_setting"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.shop.SaleInfoActivity"
+            android:name=".activity.profile.shop.ShopSaleInfoActivity"
             android:label="@string/title_shop_sale_info"
             android:screenOrientation="portrait" >
         </activity>

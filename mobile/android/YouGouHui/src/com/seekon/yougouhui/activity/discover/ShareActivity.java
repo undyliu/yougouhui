@@ -78,7 +78,11 @@ public class ShareActivity extends Activity {
 	private BaseAdapter imageAdapter;
 
 	private Uri currentCameraFileUri = null;// 当前拍照的文件存放的路径
-
+	
+	private String choosedShopId = null;
+	
+	private EditText choosedShopNameView = null;
+			
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -116,6 +120,8 @@ public class ShareActivity extends Activity {
 				startActivityForResult(intent, CHOOSE_SHOP_REQUEST_CODE);
 			}
 		});
+		
+		choosedShopNameView = (EditText) findViewById(R.id.share_shop_barcode);
 	}
 
 	@Override
@@ -225,18 +231,24 @@ public class ShareActivity extends Activity {
 			}
 		} else if (requestCode == SCANNIN_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
-				Bundle bundle = data.getExtras();
-				EditText barcodeText = (EditText) findViewById(R.id.share_shop_barcode);
-				barcodeText.setText(bundle.getString("result"));
-				Logger.debug(TAG, "barcode:" + bundle.toString());
+				String barcode = data.getExtras().getString("result");
+				if(barcode != null && barcode.length() > 0){
+					String[] barcodes = barcode.split(";");
+					if(barcodes.length == 2){
+						choosedShopId = barcodes[0];
+						choosedShopNameView.setText(barcodes[1]);
+					}
+				}else{
+					ViewUtils.showToast("扫描的商家二维码不正确.");
+				}
 			}
 		} else if (requestCode == CHOOSE_SHOP_REQUEST_CODE) {
 			if (resultCode == RESULT_OK && data != null) {
 				ShopEntity shop = (ShopEntity) data
 						.getSerializableExtra(ShopConst.DATA_SHOP_KEY);
 				if (shop != null) {
-					EditText barcodeText = (EditText) findViewById(R.id.share_shop_barcode);
-					barcodeText.setText(shop.getName());
+					choosedShopNameView.setText(shop.getName());
+					choosedShopId = shop.getUuid();
 				}
 			}
 		}
@@ -286,6 +298,8 @@ public class ShareActivity extends Activity {
 				share.put(ShareConst.COL_NAME_PUBLISHER, user.getUuid());
 				share.put(COL_NAME_CONTENT, shareContent);
 				share.put(ShareConst.DATA_IMAGE_KEY, imageFileUriList);
+				share.put(ShareConst.COL_NAME_SHOP_ID, choosedShopId);
+				
 				ShareProcessor processor = ShareProcessor
 						.getInstance(ShareActivity.this);
 				return processor.postShare(share);
@@ -311,7 +325,8 @@ public class ShareActivity extends Activity {
 					try {
 						ViewUtils.showToast(result.getResource().getString("error"));
 					} catch (JSONException e) {
-						Logger.error(TAG, e.getMessage(), e);
+						Logger.error(TAG, e.getMessage());
+						ViewUtils.showToast("发布信息失败.");
 					}
 					return;
 				}

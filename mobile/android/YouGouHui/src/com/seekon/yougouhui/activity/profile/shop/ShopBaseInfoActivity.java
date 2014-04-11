@@ -10,6 +10,7 @@ import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BARCODE;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BUSI_LICENSE;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_OWNER;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_SHOP_IMAGE;
+import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_STATUS;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -36,15 +37,16 @@ import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.util.ViewUtils;
 
-public class BaseInfoActivity extends Activity {
+public class ShopBaseInfoActivity extends Activity {
 
-	private static final String TAG = BaseInfoActivity.class.getSimpleName();
+	private static final String TAG = ShopBaseInfoActivity.class.getSimpleName();
 
 	private static final int SHOP_IMAGE_WIDTH = 75;
 
 	private static final int CHANGE_SHOP_REQUEST_CODE = 1;
 
 	private ShopEntity shop = null;
+	private boolean readonly = true;
 
 	private TextView nameView;
 	private TextView addressView;
@@ -62,6 +64,7 @@ public class BaseInfoActivity extends Activity {
 		setContentView(R.layout.shop_base_info);
 
 		String shopId = this.getIntent().getStringExtra(ShopConst.COL_NAME_UUID);
+		readonly = this.getIntent().getBooleanExtra(DataConst.NAME_READONLY, true);
 
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -108,7 +111,7 @@ public class BaseInfoActivity extends Activity {
 		try {
 			String[] projection = new String[] { COL_NAME_NAME, COL_NAME_ADDRESS,
 					COL_NAME_DESC, COL_NAME_SHOP_IMAGE, COL_NAME_BUSI_LICENSE,
-					COL_NAME_OWNER, COL_NAME_BARCODE };
+					COL_NAME_OWNER, COL_NAME_BARCODE, COL_NAME_STATUS };
 			String selection = COL_NAME_UUID + "=?";
 			String[] selectionArgs = new String[] { shopId };
 
@@ -125,6 +128,7 @@ public class BaseInfoActivity extends Activity {
 				shop.setBusiLicense(cursor.getString(i++));
 				shop.setOwner(cursor.getString(i++));
 				shop.setBarcode(cursor.getString(i++));
+				shop.setStatus(cursor.getString(i++));
 			}
 		} catch (Exception e) {
 			Logger.warn(TAG, e.getMessage());
@@ -165,7 +169,8 @@ public class BaseInfoActivity extends Activity {
 
 			@Override
 			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return ShopProcessor.getInstance(BaseInfoActivity.this).getShop(shopId);
+				return ShopProcessor.getInstance(ShopBaseInfoActivity.this).getShop(
+						shopId);
 			}
 
 			@Override
@@ -206,17 +211,38 @@ public class BaseInfoActivity extends Activity {
 			trades.append(trade.getName() + "  ");
 		}
 		tradesView.setText(trades);
+
+		if (!readonly) {
+			setListeners();
+		}
 		
+		final String status = shop.getStatus();
+		findViewById(R.id.row_shop_barcode).setOnClickListener(
+				new View.OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(ShopBaseInfoActivity.this,
+								SetShopBarcodeActivity.class);
+						intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
+						intent.putExtra(DataConst.NAME_READONLY,
+								readonly || !status.equals(ShopConst.STATUS_REGISTERED));
+						startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
+					}
+				});
+	}
+
+	private void setListeners() {
+		final String status = shop.getStatus();
 		String ownerId = shop.getOwner();
 		String userId = RunEnv.getInstance().getUser().getUuid();
 		if (userId.equals(ownerId)) {// 只有店主才可以修改商铺的基本信息
-			String status = shop.getStatus();
 			if (status.equals(ShopConst.STATUS_REGISTERED)) {
 				findViewById(R.id.row_shop_name).setOnClickListener(
 						new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
-								Intent intent = new Intent(BaseInfoActivity.this,
+								Intent intent = new Intent(ShopBaseInfoActivity.this,
 										ChangeShopTextActivity.class);
 								intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
 								intent.putExtra(DataConst.NAME_TYPE, COL_NAME_NAME);
@@ -229,7 +255,7 @@ public class BaseInfoActivity extends Activity {
 						new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
-								Intent intent = new Intent(BaseInfoActivity.this,
+								Intent intent = new Intent(ShopBaseInfoActivity.this,
 										ChangeShopTextActivity.class);
 								intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
 								intent.putExtra(DataConst.NAME_TYPE, COL_NAME_ADDRESS);
@@ -242,7 +268,7 @@ public class BaseInfoActivity extends Activity {
 						new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
-								Intent intent = new Intent(BaseInfoActivity.this,
+								Intent intent = new Intent(ShopBaseInfoActivity.this,
 										ChangeShopImageActivity.class);
 								intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
 								intent.putExtra(DataConst.NAME_TYPE, COL_NAME_SHOP_IMAGE);
@@ -255,7 +281,7 @@ public class BaseInfoActivity extends Activity {
 						new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
-								Intent intent = new Intent(BaseInfoActivity.this,
+								Intent intent = new Intent(ShopBaseInfoActivity.this,
 										ChangeShopImageActivity.class);
 								intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
 								intent.putExtra(DataConst.NAME_TYPE, COL_NAME_BUSI_LICENSE);
@@ -269,19 +295,8 @@ public class BaseInfoActivity extends Activity {
 						new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
-								Intent intent = new Intent(BaseInfoActivity.this,
+								Intent intent = new Intent(ShopBaseInfoActivity.this,
 										ChangeTradesActivity.class);
-								intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
-								startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
-							}
-						});
-				findViewById(R.id.row_shop_barcode).setOnClickListener(
-						new View.OnClickListener() {
-
-							@Override
-							public void onClick(View v) {
-								Intent intent = new Intent(BaseInfoActivity.this,
-										SetShopBarcodeActivity.class);
 								intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
 								startActivityForResult(intent, CHANGE_SHOP_REQUEST_CODE);
 							}
@@ -293,7 +308,7 @@ public class BaseInfoActivity extends Activity {
 						new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
-								Intent intent = new Intent(BaseInfoActivity.this,
+								Intent intent = new Intent(ShopBaseInfoActivity.this,
 										ChangeShopTextActivity.class);
 								intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
 								intent.putExtra(DataConst.NAME_TYPE, COL_NAME_DESC);
@@ -308,7 +323,7 @@ public class BaseInfoActivity extends Activity {
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						Intent intent = new Intent(BaseInfoActivity.this,
+						Intent intent = new Intent(ShopBaseInfoActivity.this,
 								ChangeShopPwdActivity.class);
 						intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
 						startActivity(intent);

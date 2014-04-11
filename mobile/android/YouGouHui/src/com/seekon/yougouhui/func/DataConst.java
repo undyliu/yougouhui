@@ -37,6 +37,9 @@ public interface DataConst {
 	public static final String NAME_VALUE = "value";
 	
 	public static final String NAME_CHECKED = "checked";
+	
+	public static final String NAME_READONLY = "readonly";
+	
 	// 一下的action常量用于广播
 	// public static final String KEY_ACTION_ID = "key.action.id";
 	// public static final String KEY_ACTION_TYPE = "key.action.type";

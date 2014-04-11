@@ -7,6 +7,7 @@ import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_ACTIV
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_DATE;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_TIME;
+import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_SHOP_ID;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +27,7 @@ public class ShareData extends AbstractDBHelper {
 
 	public static final String[] COL_NAMES = new String[] { COL_NAME_UUID,
 			COL_NAME_CONTENT, COL_NAME_PUBLISH_TIME, COL_NAME_PUBLISHER,
-			COL_NAME_ACTIVITY_ID, COL_NAME_PUBLISH_DATE };
+			COL_NAME_ACTIVITY_ID, COL_NAME_PUBLISH_DATE, COL_NAME_SHOP_ID };
 
 	public ShareData(Context context) {
 		super(context);
@@ -38,7 +39,8 @@ public class ShareData extends AbstractDBHelper {
 		db.execSQL("CREATE TABLE IF NOT EXISTS " + ShareConst.TABLE_NAME + " ("
 				+ COL_NAME_UUID + " TEXT PRIMARY KEY, " + COL_NAME_CONTENT + " TEXT, "
 				+ COL_NAME_PUBLISHER + " TEXT, " + COL_NAME_PUBLISH_TIME + " TEXT, "
-				+ COL_NAME_PUBLISH_DATE + " TEXT, " + COL_NAME_ACTIVITY_ID + " TEXT)");
+				+ COL_NAME_PUBLISH_DATE + " TEXT, " + COL_NAME_SHOP_ID + " TEXT, "
+				+ COL_NAME_ACTIVITY_ID + " TEXT)");
 	}
 
 	@Override
@@ -63,7 +65,7 @@ public class ShareData extends AbstractDBHelper {
 				cursor.getString(i++));
 		share.setPublishTime(cursor.getLong(i++));
 		UserEntity publisher = new UserEntity(cursor.getString(i++), null,
-				cursor.getString(i++), null, cursor.getString(i++));
+				cursor.getString(i++), null, cursor.getString(i++), null);
 		share.setPublisher(publisher);
 		return share;
 	}

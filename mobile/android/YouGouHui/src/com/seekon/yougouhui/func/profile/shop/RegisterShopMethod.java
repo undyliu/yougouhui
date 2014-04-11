@@ -80,11 +80,11 @@ public class RegisterShopMethod extends MultipartRestMethod<JSONObjResource> {
 	protected JSONObjResource parseResponseBody(String responseBody)
 			throws Exception {
 		JSONObjResource jsonObj = new JSONObjResource(responseBody);
+		JSONUtils.putJSONValue(jsonObj, COL_NAME_NAME, shop.getName());
 		JSONUtils.putJSONValue(jsonObj, COL_NAME_SHOP_IMAGE, shop.getShopImage());
 		JSONUtils.putJSONValue(jsonObj, COL_NAME_BUSI_LICENSE,
 				shop.getBusiLicense());
 		JSONUtils.putJSONValue(jsonObj, COL_NAME_ADDRESS, shop.getAddress());
-		JSONUtils.putJSONValue(jsonObj, COL_NAME_DESC, shop.getName());
 		JSONUtils.putJSONValue(jsonObj, COL_NAME_DESC, shop.getDesc());
 		JSONUtils.putJSONValue(jsonObj, COL_NAME_OWNER, shop.getOwner());
 		return jsonObj;

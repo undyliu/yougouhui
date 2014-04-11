@@ -32,11 +32,6 @@ public class UserEntity implements Serializable, Cloneable {
 	}
 
 	public UserEntity(String uuid, String phone, String name, String pwd,
-			String photo) {
-		this(uuid, phone, name, pwd, photo, null);
-	}
-
-	public UserEntity(String uuid, String phone, String name, String pwd,
 			String photo, String registerTime) {
 		super();
 		this.uuid = uuid;
