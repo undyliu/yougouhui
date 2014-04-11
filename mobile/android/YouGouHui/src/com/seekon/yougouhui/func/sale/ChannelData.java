@@ -1,4 +1,4 @@
-package com.seekon.yougouhui.func.mess;
+package com.seekon.yougouhui.func.sale;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CODE;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;

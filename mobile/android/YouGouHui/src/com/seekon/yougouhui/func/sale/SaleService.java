@@ -1,4 +1,4 @@
-package com.seekon.yougouhui.func.mess;
+package com.seekon.yougouhui.func.sale;
 
 import android.content.Intent;
 
@@ -6,14 +6,14 @@ import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.service.AbstractService;
 import com.seekon.yougouhui.service.ServiceConst;
 
-public class MessageService extends AbstractService {
+public class SaleService extends AbstractService {
 
 	public static final int RESOURCE_TYPE_CHANNEL = 1;
 
-	public static final int RESOURCE_TYPE_MESSAGE = 2;
+	public static final int RESOURCE_TYPE_SALE = 2;
 
-	public MessageService() {
-		super("MessageService");
+	public SaleService() {
+		super("SaleService");
 	}
 
 	@Override
@@ -34,13 +34,13 @@ public class MessageService extends AbstractService {
 				mCallback.send(ServiceConst.REQUEST_INVALID, getOriginalIntentBundle());
 			}
 			break;
-		case RESOURCE_TYPE_MESSAGE:
+		case RESOURCE_TYPE_SALE:
 			if (method.equalsIgnoreCase(ServiceConst.METHOD_GET)) {
 				String channelId = requestIntent
-						.getStringExtra(MessageConst.COL_NAME_CHANNEL_ID);
-				MessageProcessor processor = MessageProcessor
+						.getStringExtra(SaleConst.COL_NAME_CHANNEL_ID);
+				SaleProcessor processor = SaleProcessor
 						.getInstance(getApplicationContext());
-				processor.getMessages(makeProcessorCallback(), channelId);
+				processor.getSales(makeProcessorCallback(), channelId);
 			} else {
 				mCallback.send(ServiceConst.REQUEST_INVALID, getOriginalIntentBundle());
 			}

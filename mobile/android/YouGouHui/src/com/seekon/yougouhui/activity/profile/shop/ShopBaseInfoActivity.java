@@ -1,9 +1,7 @@
 package com.seekon.yougouhui.activity.profile.shop;
 
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_CODE;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_DESC;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_ORD_INDEX;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_ADDRESS;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BARCODE;
@@ -30,7 +28,7 @@ import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.profile.shop.ShopConst;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.profile.shop.ShopProcessor;
-import com.seekon.yougouhui.func.profile.shop.TradeConst;
+import com.seekon.yougouhui.func.profile.shop.ShopTradeProcessor;
 import com.seekon.yougouhui.func.profile.shop.TradeEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
@@ -139,27 +137,8 @@ public class ShopBaseInfoActivity extends Activity {
 		}
 
 		if (shop != null) {
-			String[] projection = new String[] { COL_NAME_UUID, COL_NAME_CODE,
-					COL_NAME_NAME };
-			String selection = COL_NAME_UUID
-					+ " in (select trade_id from e_shop_trade where shop_id = ?)";
-			String[] selectionArgs = new String[] { shopId };
-			try {
-				cursor = this.getContentResolver().query(TradeConst.CONTENT_URI,
-						projection, selection, selectionArgs, COL_NAME_ORD_INDEX);
-				while (cursor.moveToNext()) {
-					int i = 0;
-					TradeEntity trade = new TradeEntity(cursor.getString(i++),
-							cursor.getString(i++), cursor.getString(i++));
-					shop.addTrade(trade);
-				}
-			} catch (Exception e) {
-				Logger.warn(TAG, e.getMessage());
-			} finally {
-				if (cursor != null) {
-					cursor.close();
-				}
-			}
+			shop.setTrades(ShopTradeProcessor.getInstance(ShopBaseInfoActivity.this)
+					.getShopTradeList(shopId));
 		}
 		return shop;
 	}
@@ -215,7 +194,7 @@ public class ShopBaseInfoActivity extends Activity {
 		if (!readonly) {
 			setListeners();
 		}
-		
+
 		final String status = shop.getStatus();
 		findViewById(R.id.row_shop_barcode).setOnClickListener(
 				new View.OnClickListener() {

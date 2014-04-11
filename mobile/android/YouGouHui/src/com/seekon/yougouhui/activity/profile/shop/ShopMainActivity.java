@@ -3,6 +3,7 @@ package com.seekon.yougouhui.activity.profile.shop;
 import java.util.List;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.sale.ShopSaleListActivity;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.profile.shop.ShopConst;
@@ -90,7 +91,7 @@ public class ShopMainActivity extends Activity{
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(ShopMainActivity.this, ShopSaleInfoActivity.class);
+				Intent intent = new Intent(ShopMainActivity.this, ShopSaleListActivity.class);
 				intent.putExtra(DataConst.COL_NAME_UUID, currentShop.getUuid());
 				startActivity(intent);
 			}

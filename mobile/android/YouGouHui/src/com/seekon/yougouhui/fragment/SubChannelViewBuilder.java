@@ -16,7 +16,7 @@ import android.widget.Spinner;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.fragment.listener.TabSpinnerItemSelectedListener;
-import com.seekon.yougouhui.func.mess.ChannelEntity;
+import com.seekon.yougouhui.func.sale.ChannelEntity;
 
 public class SubChannelViewBuilder {
 

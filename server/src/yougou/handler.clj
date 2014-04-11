@@ -34,6 +34,18 @@
 (defroutes sale-routes
 	(GET "/getSales/:channel-id" [channel-id] (json/write-str (get-sales channel-id)))
 	(GET "/getSaleData/:id" [id] (json/write-str (get-sale-data id)))
+  (POST "/addSale" {{title :title content :content start-date :start_date end-date :end_date shop-id :shop_id trade-id :trade_id publisher :publisher :as params} :params}
+        (println params)
+        (let [image-names (clojure.string/split (java.net.URLDecoder/decode (:fileNameList params) "utf-8") #"[|]")
+              title (java.net.URLDecoder/decode title "utf-8")
+              content (java.net.URLDecoder/decode content "utf-8")
+              ]
+          (try
+			      (json/write-str (save-sale-data title content start-date end-date shop-id trade-id publisher image-names params))
+			      (catch Exception e {:status  500 :body (json/write-str{:error "保存失败."})})
+		        )
+          )
+        )
 )
 
 (defroutes module-routes

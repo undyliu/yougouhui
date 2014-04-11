@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 
     <ListView
-        android:id="@+id/share_choose_pop"
+        android:id="@+id/pic_choose_pop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/comment_content_shape" >

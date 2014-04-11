@@ -1,4 +1,4 @@
-package com.seekon.yougouhui.func.mess;
+package com.seekon.yougouhui.func.sale;
 
 import android.content.UriMatcher;
 import android.database.sqlite.SQLiteDatabase;

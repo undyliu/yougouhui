@@ -40,15 +40,38 @@ public class DateUtils {
 		}
 	}
 
+	public static int getYear(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar.get(Calendar.YEAR);
+	}
+
 	public static int getMonth(Date date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		return calendar.get(Calendar.MONTH) + 1;
 	}
 
-	public static int getDate(Date date) {
+	public static int getDayOfMoth(Date date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		return calendar.get(Calendar.DAY_OF_MONTH);
+	}
+
+	public static String getDateString_yyyyMMdd(int year, int month,
+			int dayOfMonth) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(year, month, dayOfMonth);
+		return yyyymmddFormat.format(calendar.getTime());
+	}
+	
+	public static boolean beforeDateString_yyyyMMdd(String date1, String date2){
+		Calendar calendar1 = Calendar.getInstance();
+		calendar1.setTime(getDate_yyyyMMdd(date1));
+		
+		Calendar calendar2 = Calendar.getInstance();
+		calendar2.setTime(getDate_yyyyMMdd(date2));
+		
+		return calendar1.before(calendar2);
 	}
 }

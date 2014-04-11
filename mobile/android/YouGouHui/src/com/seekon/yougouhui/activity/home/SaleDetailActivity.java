@@ -6,7 +6,7 @@ import android.content.ContentValues;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.seekon.yougouhui.func.mess.MessageConst;
+import com.seekon.yougouhui.func.sale.SaleConst;
 
 /**
  * 活动详细
@@ -14,7 +14,7 @@ import com.seekon.yougouhui.func.mess.MessageConst;
  * @author undyliu
  * 
  */
-public class MessageActivity extends Activity {
+public class SaleDetailActivity extends Activity {
 
 	private ContentValues message = null;
 
@@ -22,7 +22,7 @@ public class MessageActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		message = (ContentValues) this.getIntent().getExtras()
-				.get(MessageConst.MESSAGE_DATA_KEY);
+				.get(SaleConst.DATA_SALE_KEY);
 
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);

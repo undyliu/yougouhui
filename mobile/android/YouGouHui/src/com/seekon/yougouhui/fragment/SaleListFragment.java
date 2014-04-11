@@ -4,7 +4,7 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_IMG;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_TITLE;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
-import static com.seekon.yougouhui.func.mess.MessageConst.COL_NAME_CHANNEL_ID;
+import static com.seekon.yougouhui.func.sale.SaleConst.COL_NAME_CHANNEL_ID;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -23,27 +23,27 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.activity.home.MessageActivity;
-import com.seekon.yougouhui.func.mess.ChannelEntity;
-import com.seekon.yougouhui.func.mess.MessageConst;
-import com.seekon.yougouhui.func.mess.MessageServiceHelper;
+import com.seekon.yougouhui.activity.home.SaleDetailActivity;
+import com.seekon.yougouhui.func.sale.ChannelEntity;
+import com.seekon.yougouhui.func.sale.SaleConst;
+import com.seekon.yougouhui.func.sale.SaleServiceHelper;
 import com.seekon.yougouhui.util.ContentValuesUtils;
 import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.widget.ImageListRemoteAdapter;
 
 @SuppressLint("ValidFragment")
-public class MessageListFragment extends RequestListFragment {
+public class SaleListFragment extends RequestListFragment {
 
 	private ChannelEntity channel;
 
 	private List<Map<String, ?>> messages = new LinkedList<Map<String, ?>>();
 
-	public MessageListFragment() {
-		super(MessageServiceHelper.MESSAGE_REQUEST_RESULT);
+	public SaleListFragment() {
+		super(SaleServiceHelper.SALE_REQUEST_RESULT);
 	}
 
-	public MessageListFragment(ChannelEntity channel) {
-		super(MessageServiceHelper.MESSAGE_REQUEST_RESULT);
+	public SaleListFragment(ChannelEntity channel) {
+		super(SaleServiceHelper.SALE_REQUEST_RESULT);
 		this.channel = channel;
 	}
 
@@ -58,8 +58,8 @@ public class MessageListFragment extends RequestListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		ContentValues message = ContentValuesUtils.fromMap(messages.get(position),
 				null);
-		Intent intent = new Intent(attachedActivity, MessageActivity.class);
-		intent.putExtra(MessageConst.MESSAGE_DATA_KEY, message);
+		Intent intent = new Intent(attachedActivity, SaleDetailActivity.class);
+		intent.putExtra(SaleConst.DATA_SALE_KEY, message);
 		attachedActivity.startActivity(intent);
 	}
 
@@ -84,7 +84,7 @@ public class MessageListFragment extends RequestListFragment {
 		AsyncTask<Void, Void, Long> task = new AsyncTask<Void, Void, Long>() {
 			@Override
 			protected Long doInBackground(Void... params) {
-				requestId = MessageServiceHelper.getInstance(attachedActivity)
+				requestId = SaleServiceHelper.getInstance(attachedActivity)
 						.getMessages(channel.getUuid(), requestResultType);
 				return requestId;
 			}
@@ -106,7 +106,7 @@ public class MessageListFragment extends RequestListFragment {
 			Cursor cursor = null;
 			try {
 				cursor = attachedActivity.getContentResolver().query(
-						MessageConst.CONTENT_URI,
+						SaleConst.CONTENT_URI,
 						new String[] { COL_NAME_UUID, COL_NAME_IMG, COL_NAME_TITLE,
 								COL_NAME_CONTENT }, selection, selectionArgs, null);
 				while (cursor.moveToNext()) {

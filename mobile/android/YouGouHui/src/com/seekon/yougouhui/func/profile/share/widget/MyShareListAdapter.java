@@ -52,7 +52,7 @@ public class MyShareListAdapter extends BaseAdapter {
 		Date publishDate = DateUtils.getDate_yyyyMMdd((String) shareCount
 				.get(COL_NAME_PUBLISH_DATE));
 		TextView monthView = (TextView) view.findViewById(R.id.share_publish_date);
-		monthView.setText(DateUtils.getDate(publishDate) + "日");
+		monthView.setText(DateUtils.getDayOfMoth(publishDate) + "日");
 		TextView dateView = (TextView) view.findViewById(R.id.share_publish_month);
 		dateView.setText(DateUtils.getMonth(publishDate) + "月");
 		monthView.getPaint().setFakeBoldText(true);

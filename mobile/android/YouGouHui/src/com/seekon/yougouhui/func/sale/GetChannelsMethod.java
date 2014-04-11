@@ -1,4 +1,4 @@
-package com.seekon.yougouhui.func.mess;
+package com.seekon.yougouhui.func.sale;
 
 import java.net.URI;
 
@@ -19,7 +19,7 @@ import com.seekon.yougouhui.rest.Request;
 public class GetChannelsMethod extends JSONArrayResourceMethod {
 
 	private static final String GET_CHANNELS_URI = Const.SERVER_APP_URL
-			+ "/getActiveChannels";
+			+ "/getChannels";
 
 	private String pChannelId;
 

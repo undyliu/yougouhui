@@ -52,7 +52,7 @@
             android:windowSoftInputMode="stateVisible" >
         </activity>
         <activity
-            android:name=".activity.home.MessageActivity"
+            android:name=".activity.home.SaleDetailActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -61,12 +61,12 @@
             android:screenOrientation="portrait" >
         </activity>
 
-        <service android:name=".func.mess.MessageService" />
+        <service android:name="com.seekon.yougouhui.func.sale.SaleService" />
         <service android:name=".func.module.ModuleService" />
         <service android:name=".func.discover.share.ShareService" />
 
         <provider
-            android:name=".func.mess.ChannelProvider"
+            android:name="com.seekon.yougouhui.func.sale.ChannelProvider"
             android:authorities="com.seekon.yougouhui.channels"
             android:exported="false" />
         <provider
@@ -74,8 +74,8 @@
             android:authorities="com.seekon.yougouhui.modules"
             android:exported="false" />
         <provider
-            android:name=".func.mess.MessageProvider"
-            android:authorities="com.seekon.yougouhui.messages"
+            android:name="com.seekon.yougouhui.func.sale.SaleProvider"
+            android:authorities="com.seekon.yougouhui.sales"
             android:exported="false" />
         <provider
             android:name=".func.discover.share.ShareProvider"
@@ -217,7 +217,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.shop.ShopSaleInfoActivity"
+            android:name="com.seekon.yougouhui.activity.sale.ShopSaleListActivity"
             android:label="@string/title_shop_sale_info"
             android:screenOrientation="portrait" >
         </activity>
@@ -264,6 +264,7 @@
             android:label="@string/title_choose_shop"
             android:screenOrientation="portrait" >
         </activity>
+        <activity android:name="com.seekon.yougouhui.activity.sale.SalePromoteActivity" android:label="@string/title_shop_sale_promote"></activity>
     </application>
 
 </manifest>

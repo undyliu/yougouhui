@@ -31,9 +31,9 @@ import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.fragment.listener.ChannelTabChangeListener;
 import com.seekon.yougouhui.fragment.listener.TabFragmentPagerAdapter;
 import com.seekon.yougouhui.func.RunEnv;
-import com.seekon.yougouhui.func.mess.ChannelConst;
-import com.seekon.yougouhui.func.mess.ChannelEntity;
-import com.seekon.yougouhui.func.mess.MessageServiceHelper;
+import com.seekon.yougouhui.func.sale.ChannelConst;
+import com.seekon.yougouhui.func.sale.ChannelEntity;
+import com.seekon.yougouhui.func.sale.SaleServiceHelper;
 import com.seekon.yougouhui.util.Logger;
 
 public class ChannelFragment extends Fragment implements ActionBar.TabListener {
@@ -75,10 +75,10 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				long resultRequestId = intent.getLongExtra(
-						MessageServiceHelper.EXTRA_REQUEST_ID, 0);
+						SaleServiceHelper.EXTRA_REQUEST_ID, 0);
 				if (resultRequestId == requestId) {
 					int resultCode = intent.getIntExtra(
-							MessageServiceHelper.EXTRA_RESULT_CODE, 0);
+							SaleServiceHelper.EXTRA_RESULT_CODE, 0);
 					if (resultCode == 200) {
 						updateTabs();
 					} else {
@@ -107,7 +107,7 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 	public void onResume() {
 		super.onResume();
 		attachedActivity.registerReceiver(requestReceiver, new IntentFilter(
-				MessageServiceHelper.CHANNEL_REQUEST_RESULT));
+				SaleServiceHelper.CHANNEL_REQUEST_RESULT));
 
 		if (mAdapter != null) {
 			mViewPager.setAdapter(mAdapter);
@@ -180,7 +180,7 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 						actionBar.addTab(channelTab);
 					}
 
-					messageFragments.add(new MessageListFragment(channel));
+					messageFragments.add(new SaleListFragment(channel));
 					index++;
 				}
 
@@ -201,8 +201,8 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 			AsyncTask<Void, Void, Long> task = new AsyncTask<Void, Void, Long>() {
 				@Override
 				protected Long doInBackground(Void... params) {
-					return MessageServiceHelper.getInstance(attachedActivity)
-							.getChannels(null, MessageServiceHelper.CHANNEL_REQUEST_RESULT);
+					return SaleServiceHelper.getInstance(attachedActivity)
+							.getChannels(null, SaleServiceHelper.CHANNEL_REQUEST_RESULT);
 				}
 
 				@Override
