@@ -49,9 +49,10 @@
 	)
 )
 
-(defn save-shop-emps [shop-id user-id pwd]
+(defn save-shop-emp [shop-id user-id pwd]
   (let [uuid (str (java.util.UUID/randomUUID))
         ]
+    ;(println str uuid "," shop-id "," user-id "," pwd)
     (insert shop-emps (values {:uuid uuid :shop_id shop-id :user_id user-id :pwd pwd}))
     {:uuid uuid}
     )
@@ -66,7 +67,7 @@
     )
     (file/save-image-file shop-img (files shop-img))
     (file/save-image-file busi-license (files busi-license))
-    {:uuid uuid :register_time register-time}
+    {:uuid uuid :register_time register-time :status 0}
    )
 )
 
@@ -74,10 +75,9 @@
   (let [shop (save-shop name desc address shop-img busi-license owner files)
         shop-id (:uuid shop)
         trade-list (save-shop-trades shop-id trades)
-        emp-list (save-shop-emps shop-id owner pwd)
+        emp-list (save-shop-emp shop-id owner pwd)
         ]
-    (create-shop-barcode shop-id)
-    (assoc (assoc shop :tradeList trade-list) :empList emp-list)
+    (assoc (merge shop (create-shop-barcode shop-id)) :tradeList trade-list :empList emp-list)
    )
   )
 
