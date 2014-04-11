@@ -1,6 +1,6 @@
 (ns yougou.handler
   (:use [compojure.core]
-	[yougou.activity]
+	[yougou.sale]
 	[yougou.module]
 	[yougou.auth]
 	[yougou.share]
@@ -27,13 +27,13 @@
 )
 
 (defroutes channel-routes
-	(GET "/getActiveChannels" [] (json/write-str (get-channels nil)))
-  (GET "/getActiveChannels/:channel-id" [channel-id] (json/write-str (get-channels channel-id)))
+	(GET "/getChannels" [] (json/write-str (get-channels nil)))
+  (GET "/getChannels/:parent-id" [parent-id] (json/write-str (get-channels parent-id)))
 )
 
-(defroutes activity-routes
-	(GET "/getActivities/:channel-id" [channel-id] (json/write-str (get-activities channel-id)))
-	(GET "/getActiveData/:id" [id] (json/write-str (get-activity-data id)))
+(defroutes sale-routes
+	(GET "/getSales/:channel-id" [channel-id] (json/write-str (get-sales channel-id)))
+	(GET "/getSaleData/:id" [id] (json/write-str (get-sale-data id)))
 )
 
 (defroutes module-routes
@@ -198,6 +198,6 @@
 )
 
 (def app
-  (-> (routes login-routes channel-routes activity-routes module-routes share-routes file-routes user-routes friend-routes shop-routes default-routes)
+  (-> (routes login-routes channel-routes sale-routes module-routes share-routes file-routes user-routes friend-routes shop-routes default-routes)
       (handler/site :session)
       ))

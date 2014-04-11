@@ -1,5 +1,5 @@
 (ns yougou.share
-  (:use 
+  (:use
 		[korma.core]
 		[yougou.db]
 		)
@@ -14,7 +14,7 @@
     (if (< publish-time 0)
       {}
       (exec (-> (select* shares )
-							(fields :uuid) 
+							(fields :uuid)
 							(where {:publish_time [>= publish-time] :is_deleted [= 1]})
 							(where (or {:publisher user-id} {:publisher [in (subselect friends (fields :friend_id) (where {:user_id user-id}))]}))
 						)
@@ -27,7 +27,7 @@
   (let [publish-time (Long/valueOf min-pub-time)]
     (if (< publish-time 0)
       {}
-      (exec (-> (select* comments)
+      (exec (-> (select* share-comments)
 							(fields :uuid)
 							(where {:publish_time [>= publish-time] :is_deleted [= 1]})
 							(where (or {:publisher user-id} {:publisher [in (subselect friends (fields :friend_id) (where {:user_id user-id}))]}))
@@ -41,7 +41,7 @@
   (let [publish-time (Long/valueOf last-pub-time)]
     (if (< publish-time 0)
       {}
-			(exec (-> (select* comments )
+			(exec (-> (select* share-comments )
 							(where {:publish_time [> publish-time] :is_deleted [not= 1]})
 							(where (or {:publisher user-id} {:publisher [in (subselect friends (fields :friend_id) (where {:user_id user-id}))]}))
 							(order :publish_time)
@@ -56,8 +56,8 @@
     (if (< publish-time 0)
        {}
 			(exec (-> (select* shares)
-							(fields :uuid :content :publisher :publish_time :publish_date :activity_id)
-							(where {:publish_time [> publish-time] :is_deleted [not= 1]}) 
+							(fields :uuid :content :publisher :publish_time :publish_date :activity_id :shop_id)
+							(where {:publish_time [> publish-time] :is_deleted [not= 1]})
 							(where (or {:publisher user-id} {:publisher [in (subselect friends (fields :friend_id) (where {:user_id user-id}))]}))
 							(order :publish_time)
 						)
@@ -72,7 +72,7 @@
 )
 
 (defn get-comments [share-id]
-  (select comments (where {:share_id share-id :is_deleted [not= 1]})
+  (select share-comments (where {:share_id share-id :is_deleted [not= 1]})
   )
 )
 
@@ -88,10 +88,10 @@
 					result
 					(recur (rest share-list)
 						 (first (rest share-list))
-						 (conj result 
-							(assoc 
-								(assoc share :images 
-										(get-share-images (:uuid share))) 
+						 (conj result
+							(assoc
+								(assoc share :images
+										(get-share-images (:uuid share)))
 										:comments (get-comments (:uuid share))))
 					)
 				)
@@ -110,7 +110,7 @@
 (defn save-share-img [share-id img-name req-params ord-index]
 	(let [ uuid (str (java.util.UUID/randomUUID))
 			]
-		(when (and img-name (> (count (clojure.string/trim img-name)) 0))	
+		(when (and img-name (> (count (clojure.string/trim img-name)) 0))
 			(insert share-images (values {:uuid uuid :img img-name :share_id share-id :ord_index ord-index}))
 			(file/save-image-file img-name (:tempfile (req-params img-name)))
 		)
@@ -126,7 +126,7 @@
 					ord-index index
 					result []
 					]
-			  		
+
 				(if (== (count name-list) 0)
 					 result
 					(recur (rest name-list)
@@ -134,9 +134,9 @@
 							(inc ord-index)
 							(conj result (save-share-img share-id img-name req-params ord-index))
 					)
-				)			
+				)
 		)
-	)			
+	)
 )
 
 (defn save-share [req-params]
@@ -144,11 +144,12 @@
 				content (java.net.URLDecoder/decode (:content req-params) "utf-8")
 				image-names (java.net.URLDecoder/decode (:fileNameList req-params) "utf-8")
 			  publisher (:publisher req-params)
-				currentTime (System/currentTimeMillis)				
+        shop-id (:shop_id req-params)
+				currentTime (System/currentTimeMillis)
 			]
 		;(println publisher)
-		;;(transaction	
-			(insert shares (values {:uuid uuid :content content :publisher publisher :publish_time (str currentTime) :publish_date (date/formatDate currentTime)}))
+		;;(transaction
+			(insert shares (values {:uuid uuid :content content :shop_id shop-id :publisher publisher :publish_time (str currentTime) :publish_date (date/formatDate currentTime)}))
 			(if image-names
 				(save-share-imgs uuid (clojure.string/split image-names #"[|]") req-params)
 			)
@@ -160,7 +161,7 @@
 	(let [uuid (str (java.util.UUID/randomUUID))
 				publish-time (str  (System/currentTimeMillis))
 			]
-			(insert comments (values {:uuid uuid :share_id share-id :content content :publisher publisher :publish_time publish-time}))
+			(insert share-comments (values {:uuid uuid :share_id share-id :content content :publisher publisher :publish_time publish-time}))
 	{:uuid uuid :publish_time publish-time})
 )
 
@@ -179,8 +180,7 @@
 )
 
 (defn del-comments [share-id]
-	;(delete comments (where {:share_id share-id}))
-	(update comments (set-fields {:is_deleted 1}) (where {:share_id share-id}))
+	(update share-comments (set-fields {:is_deleted 1}) (where {:share_id share-id}))
 )
 
 (defn del-share-data [share-id]
@@ -193,8 +193,7 @@
 
 (defn del-comment [comment-id]
 	(if comment-id
-		;(delete comments (where {:uuid comment-id}))
-		(update comments (set-fields {:is_deleted 1}) (where {:uuid comment-id}))
+		(update share-comments (set-fields {:is_deleted 1}) (where {:uuid comment-id}))
 	)
 	{:uuid comment-id}
 )
