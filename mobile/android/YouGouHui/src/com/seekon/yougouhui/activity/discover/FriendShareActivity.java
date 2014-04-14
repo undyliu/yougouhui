@@ -75,9 +75,9 @@ public class FriendShareActivity extends RequestListActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.discover_friends);
+		this.setContentView(R.layout.base_xlistview);
 
-		shareListView = (XListView) findViewById(R.id.freind_share_list);
+		shareListView = (XListView) findViewById(R.id.listview_main);
 		shareListView.setPullLoadEnable(true);
 		shareListView.setXListViewListener(this);
 

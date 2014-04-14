@@ -109,7 +109,11 @@
             android:name=".func.profile.shop.ShopTradeProvider"
             android:authorities="com.seekon.yougouhui.shopTrades"
             android:exported="false" />
-
+		<provider
+            android:name="com.seekon.yougouhui.func.sale.SaleImgProvider"
+            android:authorities="com.seekon.yougouhui.sale.images"
+            android:exported="false" />
+		
         <activity
             android:name=".activity.discover.FriendShareActivity"
             android:label="@string/title_discover_friends"

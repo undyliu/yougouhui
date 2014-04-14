@@ -1,33 +1,24 @@
 package com.seekon.yougouhui.activity.profile;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
-import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_DATE;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.SearchView;
-import android.widget.SearchView.OnQueryTextListener;
 
 import com.seekon.yougouhui.Const;
-import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.DateIndexedListActivity;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareData;
 import com.seekon.yougouhui.func.discover.share.ShareEntity;
 import com.seekon.yougouhui.func.discover.share.widget.ShareUtils;
 import com.seekon.yougouhui.func.profile.share.widget.MyShareListAdapter;
-import com.seekon.yougouhui.layout.XListView;
-import com.seekon.yougouhui.layout.XListView.IXListViewListener;
+import com.seekon.yougouhui.func.widget.DateIndexedEntity;
+import com.seekon.yougouhui.func.widget.DateIndexedListAdapter;
+import com.seekon.yougouhui.util.DateUtils;
 
 /**
  * 个人的分享
@@ -35,7 +26,7 @@ import com.seekon.yougouhui.layout.XListView.IXListViewListener;
  * @author undyliu
  * 
  */
-public class MyShareActivity extends Activity implements IXListViewListener {
+public class MyShareActivity extends DateIndexedListActivity {
 
 	public static final int SHARE_DETAIL_REQUEST_RESULT_CODE = 1;
 
@@ -43,78 +34,15 @@ public class MyShareActivity extends Activity implements IXListViewListener {
 
 	private ShareData shareData = null;
 
-	private List<Map<String, ?>> shareList = new ArrayList<Map<String, ?>>();
-
 	private int currentOffset = 0;// 分页用的当前的数据偏移
-
-	private XListView shareListView = null;
-
-	private MyShareListAdapter listAdapter = null;
-
-	private Handler mHandler;
-
-	private String searchWord;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.my_share);
-
-		ActionBar actionBar = this.getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
-
 		Intent intent = this.getIntent();
 		userId = intent.getExtras().getString(COL_NAME_UUID);
-
-		mHandler = new Handler();
-
 		shareData = new ShareData(this);
-		shareList.addAll(getShareListData());
 
-		shareListView = (XListView) findViewById(R.id.my_share_list);
-		shareListView.setPullLoadEnable(true);
-		shareListView.setXListViewListener(this);
-
-		listAdapter = new MyShareListAdapter(this, shareList);
-		shareListView.setAdapter(listAdapter);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.my_share, menu);
-
-		MenuItem searchItem = menu.findItem(R.id.menu_search);
-		SearchView sv = (SearchView) searchItem.getActionView();
-		sv.setIconifiedByDefault(true);
-		sv.setOnQueryTextListener(new QueryTextListener());
-		sv.setOnCloseListener(new SearchView.OnCloseListener() {
-			@Override
-			public boolean onClose() {
-				currentOffset = 0;
-				searchWord = null;
-				shareList.clear();
-				shareList.addAll(getShareListData());
-				updateListView();
-				return false;
-			}
-		});
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int itemId = item.getItemId();
-		switch (itemId) {
-		case android.R.id.home:
-			this.finish();
-			break;
-		case R.id.menu_search:
-			break;
-		default:
-			break;
-		}
-		return super.onOptionsItemSelected(item);
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
@@ -135,9 +63,8 @@ public class MyShareActivity extends Activity implements IXListViewListener {
 					file.delete();
 				}
 
-				Map<String, ?> shareCountMap = shareList.get(position);
-				((List<ShareEntity>) shareCountMap.get(ShareConst.DATA_SHARE_KEY))
-						.remove(share);
+				DateIndexedEntity entity = dataList.get(position);
+				entity.getSubItemList().remove(entity);
 
 				listAdapter.notifyDataSetChanged();
 			}
@@ -148,7 +75,22 @@ public class MyShareActivity extends Activity implements IXListViewListener {
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	private List<Map<String, ?>> getShareListData() {
+	@Override
+	public void doFilterData(String word) {
+		currentOffset = 0;
+		searchWord = word;
+		dataList.clear();
+		dataList.addAll(getDateIndexedEntityList());
+		updateListView();
+	}
+
+	@Override
+	public DateIndexedListAdapter getListAdapter() {
+		return new MyShareListAdapter(dataList, this);
+	}
+
+	@Override
+	public List<DateIndexedEntity> getDateIndexedEntityList() {
 		String where = null;
 		String[] whereArgs = null;
 		if (searchWord != null && searchWord.trim().length() > 0) {
@@ -157,73 +99,20 @@ public class MyShareActivity extends Activity implements IXListViewListener {
 		}
 
 		String limitSql = " limit " + Const.PAGE_SIZE + " offset " + currentOffset;
-		List<Map<String, ?>> shareCountList = shareData.getShareCountByPublishDate(
-				where, whereArgs, userId, limitSql);
-		for (Map shareCount : shareCountList) {
-			String publishDate = (String) shareCount.get(COL_NAME_PUBLISH_DATE);
+		List<DateIndexedEntity> shareCountList = shareData
+				.getShareCountByPublishDate(where, whereArgs, userId, limitSql);
+		for (DateIndexedEntity shareCount : shareCountList) {
+			String publishDate = DateUtils.getDateString_yyyyMMdd(shareCount
+					.getDate());
 			List<ShareEntity> shareList = shareData.getShareListByPublishDate(where,
 					whereArgs, publishDate, userId);
 			for (ShareEntity share : shareList) {
 				share.setImages(ShareUtils.getShareImagesFromLocal(this,
 						share.getUuid()));
 			}
-			shareCount.put(ShareConst.DATA_SHARE_KEY, shareList);
+			shareCount.setSubItemList(shareList);
 		}
 		currentOffset += shareCountList.size();
 		return shareCountList;
-	}
-
-	protected void updateListView() {
-		listAdapter.notifyDataSetChanged();
-		onPostLoad();
-	}
-
-	private void onPostLoad() {
-		shareListView.stopRefresh();
-		shareListView.stopLoadMore();
-	}
-
-	@Override
-	public void onRefresh() {
-		mHandler.postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				onPostLoad();
-			}
-		}, 2000);
-	}
-
-	@Override
-	public void onLoadMore() {
-		mHandler.postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				shareList.addAll(getShareListData());
-				updateListView();
-			}
-		}, 2000);
-	}
-
-	class QueryTextListener implements OnQueryTextListener {
-
-		@Override
-		public boolean onQueryTextChange(String newText) {
-			return false;
-		}
-
-		@Override
-		public boolean onQueryTextSubmit(String query) {
-			// 搜索操作
-			currentOffset = 0;
-			searchWord = query;
-			shareList.clear();
-			shareList.addAll(getShareListData());
-			updateListView();
-
-			return false;
-		}
-
 	}
 }

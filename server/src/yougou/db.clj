@@ -61,7 +61,7 @@
 )
 
 (defentity share-comments
-  (table :e_share-comment)
+  (table :e_share_comment)
   (pk :uuid)
   (belongs-to shares {:fk :share_id})
 )

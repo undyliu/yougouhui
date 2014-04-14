@@ -129,6 +129,6 @@ public class CommentPopupWindow extends PopupWindow {
 
 	private void showProgress(Activity activity, boolean show) {
 		ViewUtils.showProgress(activity,
-				activity.findViewById(R.id.freind_share_list), show);
+				activity.findViewById(R.id.listview_main), show);
 	}
 }

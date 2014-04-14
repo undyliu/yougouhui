@@ -73,7 +73,7 @@ public class ShareActionPopupWindow extends PopupWindow {
 				popupWindow.setFocusable(true);
 				popupWindow
 						.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-				View parentView = activity.findViewById(R.id.freind_share_list);
+				View parentView = activity.findViewById(R.id.listview_main);
 				if (parentView != null) {
 					popupWindow.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);
 				} else {

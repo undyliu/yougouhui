@@ -26,14 +26,10 @@ public class MyShareItemListAdapter extends BaseAdapter {
 
 	private List<ShareEntity> shareList;
 
-	private int position = 0;
-
-	public MyShareItemListAdapter(Activity activity, List<ShareEntity> shareList,
-			int position) {
+	public MyShareItemListAdapter(Activity activity, List<ShareEntity> shareList) {
 		super();
 		this.activity = activity;
 		this.shareList = shareList;
-		this.position = position;
 	}
 
 	@Override
@@ -42,7 +38,7 @@ public class MyShareItemListAdapter extends BaseAdapter {
 		ViewHolder holder = null;
 		if (view == null) {
 			holder = new ViewHolder();
-			view = LayoutInflater.from(activity).inflate(R.layout.my_share_item_item,
+			view = LayoutInflater.from(activity).inflate(R.layout.my_share_item,
 					null, false);
 			holder.view = view;
 			view.setTag(holder);
@@ -57,7 +53,6 @@ public class MyShareItemListAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				Intent intent = new Intent(activity, ShareDetailActivity.class);
 				intent.putExtra(ShareConst.COL_NAME_SHARE_ID, share.getUuid());
-				intent.putExtra("position", MyShareItemListAdapter.this.position);
 				activity.startActivityForResult(intent,
 						MyShareActivity.SHARE_DETAIL_REQUEST_RESULT_CODE);
 			}

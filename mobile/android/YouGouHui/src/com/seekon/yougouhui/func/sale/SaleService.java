@@ -40,7 +40,7 @@ public class SaleService extends AbstractService {
 						.getStringExtra(SaleConst.COL_NAME_CHANNEL_ID);
 				SaleProcessor processor = SaleProcessor
 						.getInstance(getApplicationContext());
-				processor.getSales(makeProcessorCallback(), channelId);
+				processor.getSalesByChannel(makeProcessorCallback(), channelId);
 			} else {
 				mCallback.send(ServiceConst.REQUEST_INVALID, getOriginalIntentBundle());
 			}

@@ -2,7 +2,6 @@ package com.seekon.yougouhui.func.discover.share;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
-import static com.seekon.yougouhui.func.DataConst.NAME_COUNT;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_ACTIVITY_ID;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_DATE;
@@ -11,9 +10,7 @@ import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_SHOP_
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -22,6 +19,8 @@ import android.database.sqlite.SQLiteDatabase;
 import com.seekon.yougouhui.db.AbstractDBHelper;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.widget.DateIndexedEntity;
+import com.seekon.yougouhui.util.DateUtils;
 
 public class ShareData extends AbstractDBHelper {
 
@@ -119,12 +118,12 @@ public class ShareData extends AbstractDBHelper {
 	 * @param publisher
 	 * @return
 	 */
-	public List<Map<String, ?>> getShareCountByPublishDate(String where,
+	public List<DateIndexedEntity> getShareCountByPublishDate(String where,
 			String[] whereArgs, String publisher, String limitSql) {
 		List<String> args = new ArrayList<String>();
 		args.add(publisher);
 
-		List<Map<String, ?>> result = new ArrayList<Map<String, ?>>();
+		List<DateIndexedEntity> result = new ArrayList<DateIndexedEntity>();
 		String sql = " select publish_date, count(1) from e_share where publisher = ? ";
 		if (where != null && where.length() > 0) {
 			sql += " and (" + where + ") ";
@@ -141,10 +140,10 @@ public class ShareData extends AbstractDBHelper {
 					args.toArray(new String[args.size()]));
 			while (cursor.moveToNext()) {
 				int i = 0;
-				Map row = new HashMap();
-				row.put(COL_NAME_PUBLISH_DATE, cursor.getString(i++));
-				row.put(NAME_COUNT, cursor.getInt(i++));
-				result.add(row);
+				DateIndexedEntity entity = new DateIndexedEntity();
+				entity.setDate(DateUtils.getDate_yyyyMMdd(cursor.getString(i++)));
+				entity.setItemCount(cursor.getInt(i++));
+				result.add(entity);
 			}
 		} finally {
 			cursor.close();

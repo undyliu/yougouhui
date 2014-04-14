@@ -65,6 +65,10 @@ public class DateUtils {
 		return yyyymmddFormat.format(calendar.getTime());
 	}
 	
+	public static String getDateString_yyyyMMdd(Date date) {
+		return yyyymmddFormat.format(date.getTime());
+	}
+	
 	public static boolean beforeDateString_yyyyMMdd(String date1, String date2){
 		Calendar calendar1 = Calendar.getInstance();
 		calendar1.setTime(getDate_yyyyMMdd(date1));

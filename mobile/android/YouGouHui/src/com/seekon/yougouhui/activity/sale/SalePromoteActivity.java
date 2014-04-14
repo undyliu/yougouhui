@@ -145,7 +145,7 @@ public class SalePromoteActivity extends PicContainerActivity {
 				textView.setText(DateUtils.getDateString_yyyyMMdd(year, monthOfYear,
 						dayOfMonth));
 			}
-		}, DateUtils.getYear(date), DateUtils.getMonth(date),
+		}, DateUtils.getYear(date), DateUtils.getMonth(date) - 1,
 				DateUtils.getDayOfMoth(date));
 	}
 
@@ -225,15 +225,22 @@ public class SalePromoteActivity extends PicContainerActivity {
 			}
 			@Override
 			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				super.onPostExecute(result);
+				item.setEnabled(true);
+				if(result.getStatusCode() == 200){
+					
+				}else{
+					ViewUtils.showToast("发布活动信息失败.");
+				}
 			}
 			
 			@Override
 			protected void onCancelled() {
+				item.setEnabled(true);
 				super.onCancelled();
 			}
 		};
 		
+		item.setEnabled(false);
 		task.execute((Void)null);
 	}
 

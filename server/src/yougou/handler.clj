@@ -32,7 +32,8 @@
 )
 
 (defroutes sale-routes
-	(GET "/getSales/:channel-id" [channel-id] (json/write-str (get-sales channel-id)))
+	(GET "/getSalesByChannel/:channel-id" [channel-id] (json/write-str (get-sales-by-channel channel-id)))
+  (GET "/getSalesByShop/:shop-id" [shop-id] (json/write-str (get-sales-by-shop shop-id)))
 	(GET "/getSaleData/:id" [id] (json/write-str (get-sale-data id)))
   (POST "/addSale" {{title :title content :content start-date :start_date end-date :end_date shop-id :shop_id trade-id :trade_id publisher :publisher :as params} :params}
         (println params)

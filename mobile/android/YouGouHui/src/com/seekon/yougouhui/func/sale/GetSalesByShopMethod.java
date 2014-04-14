@@ -10,28 +10,27 @@ import com.seekon.yougouhui.rest.JSONArrayResourceMethod;
 import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
 
-public class GetSalesMethod extends JSONArrayResourceMethod {
+public class GetSalesByShopMethod extends JSONArrayResourceMethod {
 
 	private static final String GET_SALES_URI = Const.SERVER_APP_URL
-			+ "/getSales";
+			+ "/getSalesByShop";
 
-	private String channelId;
+	private String shopId;
 
-	public GetSalesMethod(Context context, String channelId) {
+	public GetSalesByShopMethod(Context context, String shopId) {
 		super(context);
-		this.channelId = channelId;
+		this.shopId = shopId;
 	}
 
 	@Override
 	protected Request buildRequest() {
 		URI uri = null;
-		if (channelId != null) {
-			uri = URI.create(GET_SALES_URI + "/" + channelId);
+		if (shopId != null) {
+			uri = URI.create(GET_SALES_URI + "/" + shopId);
 		} else {
 			uri = URI.create(GET_SALES_URI);
 		}
 
 		return new BaseRequest(Method.GET, uri, null, null);
 	}
-
 }

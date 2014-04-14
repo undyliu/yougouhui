@@ -20,6 +20,7 @@ public interface SaleConst extends DataConst {
 	public static final String COL_NAME_START_DATE = "start_date";
 	public static final String COL_NAME_END_DATE = "end_date";
 	public static final String COL_NAME_PUBLISH_TIME = "publish_time";
+	public static final String COL_NAME_PUBLISH_DATE = "publish_date";
 	public static final String COL_NAME_STATUS = "status";
 	
 	//public static final String COL_NAME_PRICE = "price";
@@ -28,6 +29,7 @@ public interface SaleConst extends DataConst {
 	public static final String COL_NAME_VISIT_COUNT = "visit_count";
 	public static final String COL_NAME_DISCUSS_COUNT = "discuss_count";
 	
-	public static final String DATA_SALE_KEY = "sale.data.key";
+	public static final String DATA_SALE_KEY = "sale";
+	public static final String DATA_IMAGES_KEY = "images";
 
 }

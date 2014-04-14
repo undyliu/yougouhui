@@ -45,7 +45,7 @@ public class ModuleListFragment extends RequestListFragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		attachedActivity.getActionBar().setNavigationMode(
 				ActionBar.NAVIGATION_MODE_STANDARD);
-		return inflater.inflate(R.layout.module_list, container, false);
+		return inflater.inflate(R.layout.base_listview, container, false);
 	}
 
 	@Override

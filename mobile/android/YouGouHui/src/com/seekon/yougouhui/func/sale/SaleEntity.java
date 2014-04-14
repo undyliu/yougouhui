@@ -22,6 +22,7 @@ public class SaleEntity implements Serializable {
 	private UserEntity publisher;
 	private long publishTime;
 	private String status;
+	private String img;
 	private List<String> images = new ArrayList<String>();
 
 	public String getUuid() {
@@ -118,6 +119,14 @@ public class SaleEntity implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
 	}
 
 	public List<String> getImages() {

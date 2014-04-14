@@ -1,57 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="5dp"
+    android:layout_height="wrap_content"
     android:orientation="horizontal" >
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_margin="5dp"
         android:orientation="vertical" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/share_publish_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <TextView
-                android:id="@+id/share_publish_month"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/share_item_image"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right" >
-
-            <TextView
-                android:id="@+id/share_publish_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp" />
-
-        </LinearLayout>
+            android:visibility="gone" />
 
     </LinearLayout>
 
-    <com.seekon.yougouhui.widget.NestedListView
-        android:id="@+id/share_item_list"
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:drawSelectorOnTop="false" />
+        android:layout_height="wrap_content" 
+        android:minHeight="50dp">
+
+        <TextView
+            android:id="@+id/share_item_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textSize="12sp"
+            />
+
+        <TextView
+            android:id="@+id/share_item_image_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
 
 </LinearLayout>

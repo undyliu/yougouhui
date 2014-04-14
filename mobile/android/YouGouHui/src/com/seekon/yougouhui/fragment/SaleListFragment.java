@@ -51,7 +51,7 @@ public class SaleListFragment extends RequestListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		return inflater.inflate(R.layout.module_list, container, false);
+		return inflater.inflate(R.layout.base_listview, container, false);
 	}
 
 	@Override
@@ -117,7 +117,9 @@ public class SaleListFragment extends RequestListFragment {
 					values.put(COL_NAME_CONTENT, cursor.getString(3));
 					messages.add(values);
 				}
-			} finally {
+			} catch(Exception e){
+				Logger.error(TAG, e.getMessage(), e);
+			}finally {
 				cursor.close();
 			}
 		}

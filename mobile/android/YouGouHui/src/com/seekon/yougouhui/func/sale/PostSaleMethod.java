@@ -12,7 +12,6 @@ import android.content.Context;
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.func.DataConst;
-import com.seekon.yougouhui.rest.JSONObjResourceMethod;
 import com.seekon.yougouhui.rest.MultipartRequest;
 import com.seekon.yougouhui.rest.MultipartRestMethod;
 import com.seekon.yougouhui.rest.Request;
@@ -41,7 +40,7 @@ public class PostSaleMethod extends MultipartRestMethod<JSONObjResource> {
 				String.valueOf(sale.getStartDate()));
 		params.put(SaleConst.COL_NAME_END_DATE, String.valueOf(sale.getEndDate()));
 		params.put(SaleConst.COL_NAME_PUBLISHER, sale.getPublisher().getUuid());
-		
+
 		List<String> images = sale.getImages();
 		List<FileEntity> fileEntities = new ArrayList<FileEntity>();
 		if (images != null && !images.isEmpty()) {
@@ -58,7 +57,18 @@ public class PostSaleMethod extends MultipartRestMethod<JSONObjResource> {
 	@Override
 	protected JSONObjResource parseResponseBody(String responseBody)
 			throws Exception {
-		return new JSONObjResource(responseBody);
+		JSONObjResource resource = new JSONObjResource(responseBody);
+		resource.put(DataConst.COL_NAME_TITLE, sale.getTitle());
+		resource.put(DataConst.COL_NAME_CONTENT, sale.getContent());
+		resource.put(SaleConst.COL_NAME_SHOP_ID, sale.getShopId());
+		resource.put(SaleConst.COL_NAME_TRADE_ID, sale.getTradeId());
+		resource.put(SaleConst.COL_NAME_START_DATE,
+				String.valueOf(sale.getStartDate()));
+		resource
+				.put(SaleConst.COL_NAME_END_DATE, String.valueOf(sale.getEndDate()));
+		resource.put(SaleConst.COL_NAME_PUBLISHER, sale.getPublisher().getUuid());
+
+		return resource;
 	}
 
 }
