@@ -11,7 +11,9 @@
 
 (def sale-select-base
   (-> (select* sales)
-      (fields :uuid :title :content :img :start_date :end_date :visit_count :discuss_count :shop_id :trade_id :publisher :publish_time :publish_date)
+      (fields :uuid :title :content :img :start_date :end_date :visit_count :discuss_count :shop_id [:e_shop.name :shop_name] :trade_id :publisher :publish_time :publish_date :e_mapping_ct.channel_id)
+      (join channel-trades (= :e_mapping_ct.trade_id :trade_id))
+      (join shops (= :e_shop.uuid :shop_id))
   )
 )
 
@@ -55,7 +57,7 @@
         currentTime (System/currentTimeMillis)
         ]
     (insert sales (values {:uuid uuid :title title :content content :start_date start-date :end_date end-date :shop_id shop-id :trade_id trade-id :publisher publisher :publish_time currentTime :publish_date (date/formatDate currentTime) :img image}))
-    {:uuid uuid :publish_time currentTime :status 0}
+    {:uuid uuid :publish_time currentTime :publish_date (date/formatDate currentTime) :img image :status 0}
     )
   )
 
