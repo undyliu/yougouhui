@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
@@ -15,6 +16,8 @@ import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.sale.SaleEntity;
 
 public class ShopSaleItemListAdapter extends BaseAdapter {
+
+	private static final int SALE_IMAGE_WIDTH = 150;
 
 	private Context context;
 	private List<SaleEntity> saleList;
@@ -52,23 +55,36 @@ public class ShopSaleItemListAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
-		
+
 		SaleEntity sale = saleList.get(postition);
-		
+
 		TextView titleView = (TextView) view.findViewById(R.id.sale_title);
 		titleView.setText(sale.getTitle());
-		
+
 		ImageView saleImageView = (ImageView) view.findViewById(R.id.sale_img);
+		saleImageView.setLayoutParams(new LinearLayout.LayoutParams(
+				SALE_IMAGE_WIDTH, SALE_IMAGE_WIDTH));
+		saleImageView.setAdjustViewBounds(false);
+		saleImageView.setScaleType(ImageView.ScaleType.CENTER);
+
 		ImageLoader.getInstance().displayImage(sale.getImg(), saleImageView, true);
-		
+
 		TextView contentView = (TextView) view.findViewById(R.id.sale_content);
 		contentView.setText(sale.getContent());
-		
-		TextView visitCountView = (TextView) view.findViewById(R.id.sale_visit_count);
-		visitCountView.setText(sale.getVisitCount());
-		
-		TextView discussCountView = (TextView) view.findViewById(R.id.sale_discuss_count);
-		discussCountView.setText(sale.getDiscussCount());
+
+		TextView visitCountView = (TextView) view
+				.findViewById(R.id.sale_visit_count);
+		visitCountView.setText(String.valueOf(sale.getVisitCount()));
+		visitCountView.getPaint().setFakeBoldText(true);
+
+		TextView discussCountView = (TextView) view
+				.findViewById(R.id.sale_discuss_count);
+		discussCountView.setText(String.valueOf(sale.getDiscussCount()));
+		discussCountView.getPaint().setFakeBoldText(true);
+
+		TextView publisherView = (TextView) view.findViewById(R.id.sale_publisher);
+		publisherView.setText(sale.getPublisher().getName());
+		publisherView.getPaint().setFakeBoldText(true);
 		
 		return view;
 	}

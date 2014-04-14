@@ -16,12 +16,12 @@ import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.ViewUtils;
 
-public class ChangeShopImageActivity extends ChangeImageInfoActivity{
+public class ChangeShopImageActivity extends ChangeImageInfoActivity {
 
 	private String fieldName = null;
 
 	private ShopEntity shop = null;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -34,10 +34,10 @@ public class ChangeShopImageActivity extends ChangeImageInfoActivity{
 
 		fieldName = intent.getStringExtra(DataConst.NAME_TYPE);
 		shop = (ShopEntity) intent.getSerializableExtra(ShopConst.DATA_SHOP_KEY);
-		
+
 		super.onCreate(savedInstanceState);
 	}
-	
+
 	@Override
 	protected void doChangeImage(MenuItem item) {
 		if (imageUri.equals(ShopUtils.getFieldValue(shop, fieldName))) {
@@ -80,9 +80,9 @@ public class ChangeShopImageActivity extends ChangeImageInfoActivity{
 
 	@Override
 	protected int getImageLabel() {
-		if(ShopConst.COL_NAME_SHOP_IMAGE.equals(fieldName)){
+		if (ShopConst.COL_NAME_SHOP_IMAGE.equals(fieldName)) {
 			return R.string.label_shop_choose_image;
-		}else if(ShopConst.COL_NAME_BUSI_LICENSE.equals(fieldName)){
+		} else if (ShopConst.COL_NAME_BUSI_LICENSE.equals(fieldName)) {
 			return R.string.label_shop_choose_license;
 		}
 		return 0;

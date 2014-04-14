@@ -17,8 +17,7 @@ public class MyShareListAdapter extends DateIndexedListAdapter {
 	}
 
 	@Override
-	public void initSubItemListView(ListView subItemListView,
-			List subItemDataList) {
+	public void initSubItemListView(ListView subItemListView, List subItemDataList) {
 		subItemListView.setAdapter(new MyShareItemListAdapter((Activity) context,
 				subItemDataList));
 	}

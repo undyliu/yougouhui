@@ -39,22 +39,22 @@ public class TradeListAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		return position;
 	}
-	
-	public void updateData(List<Map<String, ?>> trades){
+
+	public void updateData(List<Map<String, ?>> trades) {
 		this.trades = trades;
 		this.notifyDataSetChanged();
 	}
-	
-	private boolean itemChecked(int position){
+
+	private boolean itemChecked(int position) {
 		Map item = (Map) getItem(position);
 		return Boolean.valueOf(item.get(DataConst.NAME_CHECKED).toString());
 	}
-	
-	private TradeEntity getTrade(int position){
+
+	private TradeEntity getTrade(int position) {
 		Map item = (Map) getItem(position);
 		return (TradeEntity) item.get(TradeConst.DATA_TRADE_KEY);
 	}
-	
+
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
 		ViewHolder holder = null;
@@ -72,7 +72,7 @@ public class TradeListAdapter extends BaseAdapter {
 		tradeBox.setText(getTrade(position).getName());
 		tradeBox.setOnCheckedChangeListener(context);
 		tradeBox.setChecked(itemChecked(position));
-		
+
 		return view;
 	}
 

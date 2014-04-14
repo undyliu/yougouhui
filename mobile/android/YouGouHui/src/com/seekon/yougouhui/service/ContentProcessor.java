@@ -52,7 +52,7 @@ public class ContentProcessor {
 	protected RestMethodResult<Resource> execMethodWithCallback(
 			RestMethod method, ProcessorCallback callback) {
 		RestMethodResult<Resource> result = this.execMethod(method);
-		if(callback != null){
+		if (callback != null) {
 			callback.send(result.getStatusCode());
 		}
 		return result;

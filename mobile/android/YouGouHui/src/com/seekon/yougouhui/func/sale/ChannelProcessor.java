@@ -30,7 +30,8 @@ public class ChannelProcessor extends ContentProcessor {
 		this.execMethodWithCallback(method, callback);
 	}
 
-	public RestMethodResult<JSONArrayResource> getChannels( String parentId){
-		return (RestMethodResult)this.execMethod(new GetChannelsMethod(mContext, parentId));
+	public RestMethodResult<JSONArrayResource> getChannels(String parentId) {
+		return (RestMethodResult) this.execMethod(new GetChannelsMethod(mContext,
+				parentId));
 	}
 }

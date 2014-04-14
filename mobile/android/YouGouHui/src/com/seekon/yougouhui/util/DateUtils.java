@@ -64,18 +64,18 @@ public class DateUtils {
 		calendar.set(year, month, dayOfMonth);
 		return yyyymmddFormat.format(calendar.getTime());
 	}
-	
+
 	public static String getDateString_yyyyMMdd(Date date) {
 		return yyyymmddFormat.format(date.getTime());
 	}
-	
-	public static boolean beforeDateString_yyyyMMdd(String date1, String date2){
+
+	public static boolean beforeDateString_yyyyMMdd(String date1, String date2) {
 		Calendar calendar1 = Calendar.getInstance();
 		calendar1.setTime(getDate_yyyyMMdd(date1));
-		
+
 		Calendar calendar2 = Calendar.getInstance();
 		calendar2.setTime(getDate_yyyyMMdd(date2));
-		
+
 		return calendar1.before(calendar2);
 	}
 }

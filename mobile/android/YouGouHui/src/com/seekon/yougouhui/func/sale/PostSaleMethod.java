@@ -34,7 +34,7 @@ public class PostSaleMethod extends MultipartRestMethod<JSONObjResource> {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(DataConst.COL_NAME_TITLE, sale.getTitle());
 		params.put(DataConst.COL_NAME_CONTENT, sale.getContent());
-		params.put(SaleConst.COL_NAME_SHOP_ID, sale.getShopId());
+		params.put(SaleConst.COL_NAME_SHOP_ID, sale.getShop().getUuid());
 		params.put(SaleConst.COL_NAME_TRADE_ID, sale.getTradeId());
 		params.put(SaleConst.COL_NAME_START_DATE,
 				String.valueOf(sale.getStartDate()));
@@ -60,14 +60,13 @@ public class PostSaleMethod extends MultipartRestMethod<JSONObjResource> {
 		JSONObjResource resource = new JSONObjResource(responseBody);
 		resource.put(DataConst.COL_NAME_TITLE, sale.getTitle());
 		resource.put(DataConst.COL_NAME_CONTENT, sale.getContent());
-		resource.put(SaleConst.COL_NAME_SHOP_ID, sale.getShopId());
+		resource.put(SaleConst.COL_NAME_SHOP_ID, sale.getShop().getUuid());
 		resource.put(SaleConst.COL_NAME_TRADE_ID, sale.getTradeId());
 		resource.put(SaleConst.COL_NAME_START_DATE,
 				String.valueOf(sale.getStartDate()));
 		resource
 				.put(SaleConst.COL_NAME_END_DATE, String.valueOf(sale.getEndDate()));
 		resource.put(SaleConst.COL_NAME_PUBLISHER, sale.getPublisher().getUuid());
-
 		return resource;
 	}
 

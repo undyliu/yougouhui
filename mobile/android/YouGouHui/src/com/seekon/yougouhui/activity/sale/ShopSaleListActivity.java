@@ -15,6 +15,7 @@ import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.DateIndexedListActivity;
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.sale.SaleConst;
 import com.seekon.yougouhui.func.sale.SaleData;
 import com.seekon.yougouhui.func.sale.SaleProcessor;
 import com.seekon.yougouhui.func.sale.widget.ShopSaleListAdapter;
@@ -27,7 +28,7 @@ import com.seekon.yougouhui.util.ViewUtils;
 
 public class ShopSaleListActivity extends DateIndexedListActivity {
 
-	private static final int SALE_PROMOTE_REQUEST_CODE = 1;
+	public static final int SALE_PROMOTE_REQUEST_CODE = 1;
 
 	private String shopId;
 
@@ -45,8 +46,27 @@ public class ShopSaleListActivity extends DateIndexedListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.shop_sale_info, menu);
+		getMenuInflater().inflate(R.menu.shop_sale_list, menu);
 		return true;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case SALE_PROMOTE_REQUEST_CODE:
+			if (resultCode == RESULT_OK && data != null) {
+				boolean salePublish = data.getBooleanExtra(
+						SaleConst.DATA_REQUEST_PUBLISH_RESULT, false);
+				if (salePublish) {
+					doFilterData(searchWord);
+				}
+			}
+			break;
+
+		default:
+			break;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override
@@ -63,7 +83,7 @@ public class ShopSaleListActivity extends DateIndexedListActivity {
 	}
 
 	private void doSalePromote() {
-		Intent intent = new Intent(this, SalePromoteActivity.class);
+		Intent intent = new Intent(this, SalePublishActivity.class);
 		intent.putExtra(DataConst.COL_NAME_UUID, shopId);
 		startActivityForResult(intent, SALE_PROMOTE_REQUEST_CODE);
 	}
@@ -113,28 +133,30 @@ public class ShopSaleListActivity extends DateIndexedListActivity {
 			entity.setSubItemList(saleData.getSaleListByPublishDate(where, whereArgs,
 					publishDate));
 		}
+		currentOffset += result.size();
 		return result;
 	}
 
 	private void loadDataFormRemote() {
-		AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>>(){
+		AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>>() {
 
 			@Override
 			protected RestMethodResult<JSONArrayResource> doInBackground(
 					Void... params) {
-				return SaleProcessor.getInstance(ShopSaleListActivity.this).getSalesByShop(shopId);
+				return SaleProcessor.getInstance(ShopSaleListActivity.this)
+						.getSalesByShop(shopId);
 			}
-			
+
 			@Override
 			protected void onPostExecute(RestMethodResult<JSONArrayResource> result) {
-				if(result.getStatusCode() == 200){
+				if (result.getStatusCode() == 200) {
 					doFilterData("");
-				}else{
+				} else {
 					ViewUtils.showToast("获取活动数据失败.");
 				}
 			}
-			
+
 		};
-		task.execute((Void)null);
+		task.execute((Void) null);
 	}
 }

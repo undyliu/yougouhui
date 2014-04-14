@@ -47,7 +47,7 @@ public class ChangeUserPhotoActivity extends ChangeImageInfoActivity {
 				finish();
 			}
 		};
-		
+
 		showProgress(true);
 		item.setEnabled(false);
 		task.execute((Void) null);
@@ -57,7 +57,7 @@ public class ChangeUserPhotoActivity extends ChangeImageInfoActivity {
 	protected String getImageFileName() {
 		return RunEnv.getInstance().getUser().getPhoto();
 	}
-	
+
 	@Override
 	protected int getImageLabel() {
 		return R.string.label_change_image;

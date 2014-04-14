@@ -65,10 +65,10 @@ public abstract class DateIndexedListActivity extends Activity implements
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_ENTER) {
 					String word = mClearEditText.getText().toString();
-//					if (TextUtils.isEmpty(word)) {
-//						mClearEditText.setError(getString(R.string.error_field_required));
-//						return false;
-//					}
+					// if (TextUtils.isEmpty(word)) {
+					// mClearEditText.setError(getString(R.string.error_field_required));
+					// return false;
+					// }
 					if (!searchWord.equals(word)) {
 						filterData(word);
 					}
@@ -77,27 +77,28 @@ public abstract class DateIndexedListActivity extends Activity implements
 				return false;
 			}
 		});
-		
+
 		mClearEditText.addTextChangedListener(new TextWatcher() {
-			
+
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if(s == null || s.length() == 0){
+				if (s == null || s.length() == 0) {
 					filterData("");
 				}
 			}
-			
+
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+
 			}
-			
+
 			@Override
 			public void afterTextChanged(Editable s) {
-				
+
 			}
 		});
-		
+
 	}
 
 	@Override

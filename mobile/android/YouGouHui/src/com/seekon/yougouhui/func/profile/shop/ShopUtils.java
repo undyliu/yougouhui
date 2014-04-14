@@ -1,21 +1,37 @@
 package com.seekon.yougouhui.func.profile.shop;
 
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_CODE;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_DESC;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_ORD_INDEX;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_ADDRESS;
+import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BARCODE;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BUSI_LICENSE;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_OWNER;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_REGISTER_TIME;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_SHOP_IMAGE;
-import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BARCODE;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_STATUS;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.os.AsyncTask;
+
+import com.seekon.yougouhui.func.widget.TaskCallback;
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.JSONUtils;
+import com.seekon.yougouhui.util.Logger;
+import com.seekon.yougouhui.util.ViewUtils;
 
 public class ShopUtils {
+	private static final String TAG = ShopUtils.class.getSimpleName();
+
 	private ShopUtils() {
 	}
 
@@ -25,8 +41,10 @@ public class ShopUtils {
 		shop.setName(JSONUtils.getJSONStringValue(jsonObj, COL_NAME_NAME));
 		shop.setDesc(JSONUtils.getJSONStringValue(jsonObj, COL_NAME_DESC));
 		shop.setAddress(JSONUtils.getJSONStringValue(jsonObj, COL_NAME_ADDRESS));
-		shop.setBusiLicense(JSONUtils.getJSONStringValue(jsonObj, COL_NAME_BUSI_LICENSE));
-		shop.setShopImage(JSONUtils.getJSONStringValue(jsonObj, COL_NAME_SHOP_IMAGE));
+		shop.setBusiLicense(JSONUtils.getJSONStringValue(jsonObj,
+				COL_NAME_BUSI_LICENSE));
+		shop.setShopImage(JSONUtils
+				.getJSONStringValue(jsonObj, COL_NAME_SHOP_IMAGE));
 		shop.setOwner(JSONUtils.getJSONStringValue(jsonObj, COL_NAME_OWNER));
 		shop.setBarcode(JSONUtils.getJSONStringValue(jsonObj, COL_NAME_BARCODE));
 		shop.setStatus(JSONUtils.getJSONStringValue(jsonObj, COL_NAME_STATUS));
@@ -78,5 +96,107 @@ public class ShopUtils {
 			return shop.getShopImage();
 		}
 		return null;
+	}
+
+	public static ShopEntity loadDataFromLocal(Context context, String shopId) {
+		ShopEntity shop = null;
+		Cursor cursor = null;
+		try {
+			String[] projection = new String[] { COL_NAME_NAME, COL_NAME_ADDRESS,
+					COL_NAME_DESC, COL_NAME_SHOP_IMAGE, COL_NAME_BUSI_LICENSE,
+					COL_NAME_OWNER, COL_NAME_BARCODE, COL_NAME_STATUS };
+			String selection = COL_NAME_UUID + "=?";
+			String[] selectionArgs = new String[] { shopId };
+
+			cursor = context.getContentResolver().query(ShopConst.CONTENT_URI,
+					projection, selection, selectionArgs, null);
+			if (cursor.moveToNext()) {
+				int i = 0;
+				shop = new ShopEntity();
+				shop.setUuid(shopId);
+				shop.setName(cursor.getString(i++));
+				shop.setAddress(cursor.getString(i++));
+				shop.setDesc(cursor.getString(i++));
+				shop.setShopImage(cursor.getString(i++));
+				shop.setBusiLicense(cursor.getString(i++));
+				shop.setOwner(cursor.getString(i++));
+				shop.setBarcode(cursor.getString(i++));
+				shop.setStatus(cursor.getString(i++));
+			}
+		} catch (Exception e) {
+			Logger.warn(TAG, e.getMessage());
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
+
+		if (shop != null) {
+			shop.setTrades(ShopUtils.getShopTradeList(context, shopId));
+		}
+		return shop;
+	}
+
+	public static void loadDataFromRemote(final Context context,
+			final String shopId,
+			final TaskCallback<RestMethodResult<JSONObjResource>> taskCallback) {
+		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
+
+			@Override
+			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
+				return ShopProcessor.getInstance(context).getShop(shopId);
+			}
+
+			@Override
+			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
+				int status = result.getStatusCode();
+				if (status == 200) {
+					if (taskCallback != null) {
+						taskCallback.onPostExecute(result);
+					}
+
+				} else {
+					ViewUtils.showToast("获取商铺信息失败.");
+				}
+			}
+
+			@Override
+			protected void onCancelled() {
+				if (taskCallback != null) {
+					taskCallback.onCancelled();
+				}
+				super.onCancelled();
+			}
+
+		};
+		task.execute((Void) null);
+	}
+
+	public static List<TradeEntity> getShopTradeList(Context mContext,
+			String shopId) {
+		List<TradeEntity> tradeList = new ArrayList<TradeEntity>();
+		String[] projection = new String[] { COL_NAME_UUID, COL_NAME_CODE,
+				COL_NAME_NAME };
+		String selection = COL_NAME_UUID
+				+ " in (select trade_id from e_shop_trade where shop_id = ?)";
+		String[] selectionArgs = new String[] { shopId };
+		Cursor cursor = null;
+		try {
+			cursor = mContext.getContentResolver().query(TradeConst.CONTENT_URI,
+					projection, selection, selectionArgs, COL_NAME_ORD_INDEX);
+			while (cursor.moveToNext()) {
+				int i = 0;
+				TradeEntity trade = new TradeEntity(cursor.getString(i++),
+						cursor.getString(i++), cursor.getString(i++));
+				tradeList.add(trade);
+			}
+		} catch (Exception e) {
+			Logger.warn(TAG, e.getMessage());
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
+		return tradeList;
 	}
 }

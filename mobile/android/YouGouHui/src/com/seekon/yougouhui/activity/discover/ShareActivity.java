@@ -45,7 +45,7 @@ public class ShareActivity extends PicContainerActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+
 		setContentView(R.layout.discover_share);
 
 		Button barcodeScan = (Button) findViewById(R.id.b_scan_shop_barcode);
@@ -70,7 +70,7 @@ public class ShareActivity extends PicContainerActivity {
 		});
 
 		choosedShopNameView = (EditText) findViewById(R.id.share_shop_barcode);
-		
+
 		super.onCreate(savedInstanceState);
 	}
 

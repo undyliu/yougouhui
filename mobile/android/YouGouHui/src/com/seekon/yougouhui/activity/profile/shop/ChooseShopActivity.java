@@ -82,12 +82,13 @@ public class ChooseShopActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
 				ShopEntity shop = (ShopEntity) chooseShopListAdapter.getItem(position);
-				Intent intent = new Intent(ChooseShopActivity.this, ShopBaseInfoActivity.class);
+				Intent intent = new Intent(ChooseShopActivity.this,
+						ShopBaseInfoActivity.class);
 				intent.putExtra(ShopConst.COL_NAME_UUID, shop.getUuid());
 				startActivity(intent);
 			}
 		});
-		
+
 		mClearEditText = (ClearEditText) findViewById(R.id.shop_filter_edit);
 		mClearEditText.setOnKeyListener(new View.OnKeyListener() {
 			@Override
@@ -132,7 +133,7 @@ public class ChooseShopActivity extends Activity {
 							shopList.add(ShopUtils.createFromJSONObject(data));
 						}
 						chooseShopListAdapter.updateData(shopList);
-						if(shopList.isEmpty()){
+						if (shopList.isEmpty()) {
 							ViewUtils.showToast("没找到符合条件的商家.");
 						}
 						return;

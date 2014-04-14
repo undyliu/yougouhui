@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.user.UserEntity;
 
 public class SaleEntity implements Serializable {
@@ -15,7 +16,7 @@ public class SaleEntity implements Serializable {
 	private String content;
 	private long startDate;
 	private long endDate;
-	private String shopId;
+	private ShopEntity shop;
 	private String tradeId;
 	private int visitCount;
 	private int discussCount;
@@ -49,12 +50,12 @@ public class SaleEntity implements Serializable {
 		this.content = content;
 	}
 
-	public String getShopId() {
-		return shopId;
+	public ShopEntity getShop() {
+		return shop;
 	}
 
-	public void setShopId(String shopId) {
-		this.shopId = shopId;
+	public void setShop(ShopEntity shop) {
+		this.shop = shop;
 	}
 
 	public String getTradeId() {

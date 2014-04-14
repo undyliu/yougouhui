@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -27,7 +26,7 @@ public class ChooseShopListAdapter extends BaseAdapter {
 	private List<ShopEntity> shopList;
 
 	private Map<Integer, Boolean> states = new HashMap<Integer, Boolean>();
-	
+
 	public ChooseShopListAdapter(Context context, List<ShopEntity> shopList) {
 		super();
 		this.context = context;
@@ -54,17 +53,17 @@ public class ChooseShopListAdapter extends BaseAdapter {
 		this.notifyDataSetChanged();
 	}
 
-	public ShopEntity getCheckedShop(){
+	public ShopEntity getCheckedShop() {
 		ShopEntity shop = null;
 		for (Integer key : states.keySet()) {
-			if(states.get(key) == true){
+			if (states.get(key) == true) {
 				shop = this.shopList.get(key);
 				break;
 			}
 		}
 		return shop;
 	}
-	
+
 	@Override
 	public View getView(final int position, View view, ViewGroup parent) {
 		ViewHolder holder = null;
@@ -105,8 +104,9 @@ public class ChooseShopListAdapter extends BaseAdapter {
 				ChooseShopListAdapter.this.notifyDataSetChanged();
 			}
 		});
-		
-		holder.radioButton.setChecked(states.get(position) != null && states.get(position));
+
+		holder.radioButton.setChecked(states.get(position) != null
+				&& states.get(position));
 
 		return view;
 	}

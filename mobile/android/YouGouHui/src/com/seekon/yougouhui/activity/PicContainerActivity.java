@@ -32,8 +32,9 @@ import com.seekon.yougouhui.util.Logger;
 
 /**
  * 图片展示的activity，支持对图片的增加、删除等操作
+ * 
  * @author undyliu
- *
+ * 
  */
 public abstract class PicContainerActivity extends Activity {
 
@@ -54,7 +55,7 @@ public abstract class PicContainerActivity extends Activity {
 
 	protected List<String> imageFileUriList = new ArrayList<String>();
 
-	private BaseAdapter imageAdapter;
+	protected BaseAdapter imageAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,20 +69,19 @@ public abstract class PicContainerActivity extends Activity {
 		picContainer.setNumColumns(colNumber);
 		imageAdapter = new PicSelectAdapter();
 		picContainer.setAdapter(imageAdapter);
-		
+
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
-	
+
 	public abstract GridView getPicContainer();
-	
+
 	private void showPopupWindow(View v) {
 		LinearLayout layout = (LinearLayout) LayoutInflater.from(this).inflate(
 				R.layout.pic_choose_pop, null);
 		ListView listView = (ListView) layout.findViewById(R.id.pic_choose_pop);
 		listView.setAdapter(new ArrayAdapter<String>(this,
-				R.layout.pic_choose_pop_item, R.id.pic_choose_pop_item,
-				title));
+				R.layout.pic_choose_pop_item, R.id.pic_choose_pop_item, title));
 
 		popupWindow = new PopupWindow(this);
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -145,7 +145,7 @@ public abstract class PicContainerActivity extends Activity {
 		clean();
 		this.finish();
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {

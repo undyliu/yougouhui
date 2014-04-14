@@ -1,7 +1,7 @@
 package com.seekon.yougouhui.func.profile.shop;
 
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_DESC;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
 import static com.seekon.yougouhui.func.DataConst.NAME_FIELD;
 import static com.seekon.yougouhui.func.DataConst.NAME_VALUE;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_ADDRESS;
@@ -56,7 +56,7 @@ public class UpdateShopRequestFactory {
 		}
 		params.put(NAME_FIELD, fieldName);
 		params.put(ShopTradeConst.COL_NAME_SHOP_ID, shop.getUuid());
-		
+
 		return new MultipartRequest(URI.create(Const.SERVER_APP_URL + requestPath),
 				null, params, fileEntities);
 	}

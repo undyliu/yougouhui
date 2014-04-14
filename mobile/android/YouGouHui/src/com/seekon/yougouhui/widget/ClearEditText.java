@@ -1,6 +1,5 @@
 package com.seekon.yougouhui.widget;
 
-import android.R.drawable;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
@@ -133,7 +132,7 @@ public class ClearEditText extends EditText implements OnFocusChangeListener,
 		return translateAnimation;
 	}
 
-	public Drawable getClearDrawable(){
+	public Drawable getClearDrawable() {
 		return mClearDrawable;
 	}
 }

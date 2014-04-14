@@ -27,7 +27,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -149,7 +148,7 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 
 		GridView tradeView = (GridView) baseInfoView
 				.findViewById(R.id.shop_trade_view);
-		
+
 		tradeAdapter = new TradeListAdapter(this, getTradeList());
 		tradeView.setAdapter(tradeAdapter);
 
@@ -188,9 +187,9 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 		pwdConfView = (TextView) pwdInfoView.findViewById(R.id.password_conf);
 	}
 
-	private List<Map<String, ?>> getTradeList(){
+	private List<Map<String, ?>> getTradeList() {
 		List<Map<String, ?>> tradeList = new ArrayList<Map<String, ?>>();
-		for(TradeEntity trade : trades){
+		for (TradeEntity trade : trades) {
 			Map data = new HashMap();
 			data.put(DataConst.NAME_CHECKED, false);
 			data.put(TradeConst.DATA_TRADE_KEY, trade);
@@ -198,7 +197,7 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 		}
 		return tradeList;
 	}
-	
+
 	private void loadTrades() {
 		loadTradeFromLocal();
 		if (trades.isEmpty()) {

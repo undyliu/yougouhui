@@ -2,18 +2,12 @@ package com.seekon.yougouhui.activity.profile.shop;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_DESC;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_ADDRESS;
-import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BARCODE;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BUSI_LICENSE;
-import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_OWNER;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_SHOP_IMAGE;
-import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_STATUS;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,13 +21,11 @@ import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.profile.shop.ShopConst;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
-import com.seekon.yougouhui.func.profile.shop.ShopProcessor;
-import com.seekon.yougouhui.func.profile.shop.ShopTradeProcessor;
+import com.seekon.yougouhui.func.profile.shop.ShopUtils;
 import com.seekon.yougouhui.func.profile.shop.TradeEntity;
+import com.seekon.yougouhui.func.widget.TaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.util.Logger;
-import com.seekon.yougouhui.util.ViewUtils;
 
 public class ShopBaseInfoActivity extends Activity {
 
@@ -95,7 +87,7 @@ public class ShopBaseInfoActivity extends Activity {
 	}
 
 	private void loadData(String shopId) {
-		shop = loadDataFromLocal(shopId);
+		shop = ShopUtils.loadDataFromLocal(this, shopId);
 		if (shop == null) {
 			loadDataFromRemote(shopId);
 		} else {
@@ -103,68 +95,21 @@ public class ShopBaseInfoActivity extends Activity {
 		}
 	}
 
-	private ShopEntity loadDataFromLocal(String shopId) {
-		ShopEntity shop = null;
-		Cursor cursor = null;
-		try {
-			String[] projection = new String[] { COL_NAME_NAME, COL_NAME_ADDRESS,
-					COL_NAME_DESC, COL_NAME_SHOP_IMAGE, COL_NAME_BUSI_LICENSE,
-					COL_NAME_OWNER, COL_NAME_BARCODE, COL_NAME_STATUS };
-			String selection = COL_NAME_UUID + "=?";
-			String[] selectionArgs = new String[] { shopId };
-
-			cursor = this.getContentResolver().query(ShopConst.CONTENT_URI,
-					projection, selection, selectionArgs, null);
-			if (cursor.moveToNext()) {
-				int i = 0;
-				shop = new ShopEntity();
-				shop.setUuid(shopId);
-				shop.setName(cursor.getString(i++));
-				shop.setAddress(cursor.getString(i++));
-				shop.setDesc(cursor.getString(i++));
-				shop.setShopImage(cursor.getString(i++));
-				shop.setBusiLicense(cursor.getString(i++));
-				shop.setOwner(cursor.getString(i++));
-				shop.setBarcode(cursor.getString(i++));
-				shop.setStatus(cursor.getString(i++));
-			}
-		} catch (Exception e) {
-			Logger.warn(TAG, e.getMessage());
-		} finally {
-			if (cursor != null) {
-				cursor.close();
-			}
-		}
-
-		if (shop != null) {
-			shop.setTrades(ShopTradeProcessor.getInstance(ShopBaseInfoActivity.this)
-					.getShopTradeList(shopId));
-		}
-		return shop;
-	}
-
 	private void loadDataFromRemote(final String shopId) {
-		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
+		ShopUtils.loadDataFromRemote(this, shopId,
+				new TaskCallback<RestMethodResult<JSONObjResource>>() {
+					@Override
+					public void onCancelled() {
 
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return ShopProcessor.getInstance(ShopBaseInfoActivity.this).getShop(
-						shopId);
-			}
+					}
 
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				int status = result.getStatusCode();
-				if (status == 200) {
-					shop = loadDataFromLocal(shopId);
-					updateViews();
-				} else {
-					ViewUtils.showToast("获取商铺信息失败.");
-				}
-			}
-
-		};
-		task.execute((Void) null);
+					@Override
+					public void onPostExecute(RestMethodResult<JSONObjResource> result) {
+						shop = ShopUtils.loadDataFromLocal(ShopBaseInfoActivity.this,
+								shopId);
+						updateViews();
+					}
+				});
 	}
 
 	private void updateViews() {

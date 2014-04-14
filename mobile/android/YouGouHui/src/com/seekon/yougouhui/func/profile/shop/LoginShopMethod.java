@@ -13,11 +13,11 @@ import com.seekon.yougouhui.rest.JSONObjResourceMethod;
 import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
 
-public class LoginShopMethod extends JSONObjResourceMethod{
+public class LoginShopMethod extends JSONObjResourceMethod {
 
 	private static final URI LOGIN_URI = URI.create(Const.SERVER_APP_URL
 			+ "/loginShop");
-	
+
 	private String userId;
 	private String pwd;
 

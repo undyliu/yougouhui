@@ -55,14 +55,16 @@ public class SaleProcessor extends ContentProcessor {
 	}
 
 	public void getSalesByChannel(ProcessorCallback callback, String channelId) {
-		GetSalesByChannelMethod method = new GetSalesByChannelMethod(mContext, channelId);
+		GetSalesByChannelMethod method = new GetSalesByChannelMethod(mContext,
+				channelId);
 		this.execMethodWithCallback(method, callback);
 	}
 
-	public RestMethodResult<JSONArrayResource> getSalesByShop(String shopId){
-		return (RestMethodResult)this.execMethod(new GetSalesByShopMethod(mContext, shopId));
+	public RestMethodResult<JSONArrayResource> getSalesByShop(String shopId) {
+		return (RestMethodResult) this.execMethod(new GetSalesByShopMethod(
+				mContext, shopId));
 	}
-	
+
 	public RestMethodResult<JSONObjResource> publishSale(SaleEntity sale) {
 		return (RestMethodResult) this
 				.execMethod(new PostSaleMethod(mContext, sale));

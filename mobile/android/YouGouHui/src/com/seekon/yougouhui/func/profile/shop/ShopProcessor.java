@@ -93,8 +93,8 @@ public class ShopProcessor extends ContentProcessor {
 		return (RestMethodResult) this.execMethod(new CreateShopBarcodeMethod(
 				mContext, shop));
 	}
-	
-	public RestMethodResult<JSONArrayResource> searchShops(String searchWord){
+
+	public RestMethodResult<JSONArrayResource> searchShops(String searchWord) {
 		return new SearchShopMethod(mContext, searchWord).execute();
 	}
 }

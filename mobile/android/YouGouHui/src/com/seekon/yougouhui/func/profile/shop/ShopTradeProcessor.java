@@ -1,11 +1,5 @@
 package com.seekon.yougouhui.func.profile.shop;
 
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_CODE;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_ORD_INDEX;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -13,7 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.database.Cursor;
 
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
@@ -70,32 +63,5 @@ public class ShopTradeProcessor extends ContentProcessor {
 			}
 		}
 		return result;
-	}
-
-	public List<TradeEntity> getShopTradeList(String shopId) {
-		List<TradeEntity> tradeList = new ArrayList<TradeEntity>();
-		String[] projection = new String[] { COL_NAME_UUID, COL_NAME_CODE,
-				COL_NAME_NAME };
-		String selection = COL_NAME_UUID
-				+ " in (select trade_id from e_shop_trade where shop_id = ?)";
-		String[] selectionArgs = new String[] { shopId };
-		Cursor cursor= null;
-		try {
-			cursor = mContext.getContentResolver().query(TradeConst.CONTENT_URI,
-					projection, selection, selectionArgs, COL_NAME_ORD_INDEX);
-			while (cursor.moveToNext()) {
-				int i = 0;
-				TradeEntity trade = new TradeEntity(cursor.getString(i++),
-						cursor.getString(i++), cursor.getString(i++));
-				tradeList.add(trade);
-			}
-		} catch (Exception e) {
-			Logger.warn(TAG, e.getMessage());
-		} finally {
-			if (cursor != null) {
-				cursor.close();
-			}
-		}
-		return tradeList;
 	}
 }

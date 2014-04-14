@@ -36,7 +36,8 @@ import com.seekon.yougouhui.util.ViewUtils;
 public class ShopEmpSettingActivity extends Activity implements
 		OnCheckedChangeListener {
 
-	private static final String TAG = ShopEmpSettingActivity.class.getSimpleName();
+	private static final String TAG = ShopEmpSettingActivity.class
+			.getSimpleName();
 
 	private static final int ADD_EMP_REQUEST_CODE = 1;
 
@@ -71,8 +72,8 @@ public class ShopEmpSettingActivity extends Activity implements
 		initViews();
 		loadShopEmpsData();
 	}
-	
-	private void initViews(){
+
+	private void initViews() {
 		ListView empListView = (ListView) findViewById(R.id.shop_emp_list);
 		empListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -86,19 +87,19 @@ public class ShopEmpSettingActivity extends Activity implements
 				}
 				String pwd = emp.getPwd();
 				if (pwd != null && pwd.length() > 0) {
-					setPwdConfirm.setPositiveButton("是",
-							new DialogInterface.OnClickListener() {
+					setPwdConfirm
+							.setPositiveButton("是", new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
 									startSetEmpPwdActivity(emp);
 								}
 							}).setNegativeButton("否", new DialogInterface.OnClickListener() {
 
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.cancel();
-						}
-					}).show();
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									dialog.cancel();
+								}
+							}).show();
 				} else {
 					startSetEmpPwdActivity(emp);
 				}
@@ -112,9 +113,10 @@ public class ShopEmpSettingActivity extends Activity implements
 		shopEmpListAdapter = new ShopEmpListAdapter(empList, this, this, ownerId);
 		empListView.setAdapter(shopEmpListAdapter);
 	}
-	
+
 	private void startSetEmpPwdActivity(UserEntity emp) {
-		Intent intent = new Intent(ShopEmpSettingActivity.this, SetEmpPwdActivity.class);
+		Intent intent = new Intent(ShopEmpSettingActivity.this,
+				SetEmpPwdActivity.class);
 		intent.putExtra(UserConst.DATA_KEY_USER, emp);
 		intent.putExtra(ShopConst.COL_NAME_UUID, shopId);
 		startActivityForResult(intent, SET_EMP_PWD_REQUEST_CODE);

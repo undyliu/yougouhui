@@ -38,7 +38,7 @@ public class SetShopBarcodeActivity extends Activity {
 
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		
+
 		readonly = this.getIntent().getBooleanExtra(DataConst.NAME_READONLY, true);
 		shop = (ShopEntity) this.getIntent().getSerializableExtra(
 				ShopConst.DATA_SHOP_KEY);
@@ -48,7 +48,7 @@ public class SetShopBarcodeActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if(!readonly){
+		if (!readonly) {
 			getMenuInflater().inflate(R.menu.shop_barcode, menu);
 		}
 		return true;
@@ -79,11 +79,12 @@ public class SetShopBarcodeActivity extends Activity {
 		final String barcode = shop.getBarcode();
 		if (barcode != null && barcode.length() > 0) {
 			ImageLoader.getInstance().displayImage(barcode, barCodeView, true);
-			
+
 			barCodeView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent(SetShopBarcodeActivity.this, ImagePreviewActivity.class);
+					Intent intent = new Intent(SetShopBarcodeActivity.this,
+							ImagePreviewActivity.class);
 					intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, barcode);
 					intent.putExtra(ImagePreviewActivity.IMAGE_DELETE_FLAG, false);
 					startActivity(intent);

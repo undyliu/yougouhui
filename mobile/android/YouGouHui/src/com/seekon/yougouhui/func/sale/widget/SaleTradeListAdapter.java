@@ -44,8 +44,18 @@ public class SaleTradeListAdapter extends BaseAdapter {
 		return position;
 	}
 
+	public void setDefaultCheckedTrade(TradeEntity defaultCheckedTrade){
+		this.checkedTrade = defaultCheckedTrade;
+		this.notifyDataSetChanged();
+	}
+	
 	public TradeEntity getCheckedTrade() {
 		return checkedTrade;
+	}
+
+	public void updateData(List<TradeEntity> tradeList) {
+		this.tradeList = tradeList;
+		this.notifyDataSetChanged();
 	}
 
 	@Override
@@ -75,6 +85,12 @@ public class SaleTradeListAdapter extends BaseAdapter {
 		if (getCount() == 1) {
 			holder.view.setChecked(true);
 			checkedTrade = tradeList.get(0);
+		}
+		
+		if(checkedTrade.equals(tradeList.get(position))){
+			holder.view.setChecked(true);
+		}else{
+			holder.view.setChecked(false);
 		}
 		
 		return view;

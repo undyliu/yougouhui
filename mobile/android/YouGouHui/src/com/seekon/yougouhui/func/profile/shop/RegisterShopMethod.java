@@ -2,11 +2,11 @@ package com.seekon.yougouhui.func.profile.shop;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_DESC;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
-import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_ADDRESS;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BUSI_LICENSE;
-import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_SHOP_IMAGE;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_OWNER;
+import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_SHOP_IMAGE;
+import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
 
 import java.io.File;
 import java.net.URI;
@@ -45,7 +45,7 @@ public class RegisterShopMethod extends MultipartRestMethod<JSONObjResource> {
 		params.put(COL_NAME_ADDRESS, shop.getAddress());
 		params.put(COL_NAME_OWNER, shop.getOwner());
 		params.put(COL_NAME_PWD, shop.getEmployees().get(0).getPwd());
-		
+
 		StringBuffer trades = new StringBuffer();
 		List<TradeEntity> tradeList = shop.getTrades();
 		for (TradeEntity trade : tradeList) {
@@ -65,14 +65,14 @@ public class RegisterShopMethod extends MultipartRestMethod<JSONObjResource> {
 		fileEntities.add(new FileEntity(shopImage, aliasName));
 		params.put(COL_NAME_SHOP_IMAGE, aliasName);
 		shop.setShopImage(aliasName);
-		
+
 		String busiLicense = shop.getBusiLicense();
 		aliasName = new File(busiLicense).getPath().hashCode() + "_"
 				+ System.currentTimeMillis() + ".png";
 		fileEntities.add(new FileEntity(busiLicense, aliasName));
 		params.put(COL_NAME_BUSI_LICENSE, aliasName);
 		shop.setBusiLicense(aliasName);
-		
+
 		return new MultipartRequest(REGISER_SHOP_URI, null, params, fileEntities);
 	}
 

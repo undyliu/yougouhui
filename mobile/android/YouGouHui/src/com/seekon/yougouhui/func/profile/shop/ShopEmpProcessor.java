@@ -42,8 +42,9 @@ public class ShopEmpProcessor extends ContentProcessor {
 			List<UserEntity> empList) {
 		return new DeleteShopEmpsMethod(mContext, shopId, empList).execute();
 	}
-	
-	public RestMethodResult<JSONObjResource> setShopEmpPwd(String shopId, String userId, String pwd){
+
+	public RestMethodResult<JSONObjResource> setShopEmpPwd(String shopId,
+			String userId, String pwd) {
 		return new SetEmpPwdMethod(mContext, shopId, userId, pwd).execute();
 	}
 }

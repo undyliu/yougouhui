@@ -6,8 +6,8 @@ import android.net.Uri;
 
 import com.seekon.yougouhui.func.SQLiteContentProvider;
 
-public class TradeProvider extends SQLiteContentProvider{
-	
+public class TradeProvider extends SQLiteContentProvider {
+
 	private static final int TRADES = 1;
 
 	private static final int TRADE_ID = 2;

@@ -6,11 +6,11 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class RegisterPagerAdapter extends PagerAdapter{
+public class RegisterPagerAdapter extends PagerAdapter {
 
 	private List<String> titleList;
 	private List<View> pageViews;
-	
+
 	public RegisterPagerAdapter(List<View> pageViews, List<String> titleList) {
 		super();
 		this.pageViews = pageViews;
@@ -31,13 +31,13 @@ public class RegisterPagerAdapter extends PagerAdapter{
 	public void destroyItem(ViewGroup container, int position, Object object) {
 		container.removeView(pageViews.get(position));
 	}
-	
+
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
 		container.addView(pageViews.get(position));
 		return pageViews.get(position);
 	}
-	
+
 	@Override
 	public CharSequence getPageTitle(int position) {
 		return titleList.get(position);

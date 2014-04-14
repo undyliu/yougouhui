@@ -20,7 +20,7 @@ public class ShopEntity implements Serializable {
 	private String owner;
 	private String status;
 	private String barcode;
-	
+
 	private List<TradeEntity> trades = new ArrayList<TradeEntity>();
 	private List<UserEntity> employees = new ArrayList<UserEntity>();
 
@@ -119,12 +119,12 @@ public class ShopEntity implements Serializable {
 	public void setEmployees(List<UserEntity> employees) {
 		this.employees = employees;
 	}
-	
-	public void addEmployee(UserEntity emp){
+
+	public void addEmployee(UserEntity emp) {
 		this.employees.add(emp);
 	}
-	
-	public void addTrade(TradeEntity trade){
+
+	public void addTrade(TradeEntity trade) {
 		this.trades.add(trade);
 	}
 }

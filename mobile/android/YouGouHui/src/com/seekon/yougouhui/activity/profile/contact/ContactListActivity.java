@@ -177,10 +177,10 @@ public class ContactListActivity extends Activity {
 		sideBar.setNavWords(catalogKeys.toArray(new String[catalogSize]));
 	}
 
-	protected ContactListAdapter getContactListAdapter(){
+	protected ContactListAdapter getContactListAdapter() {
 		return new ContactListAdapter(this, contactDateList);
 	}
-	
+
 	protected List<UserEntity> getContactListData() {
 		return RunEnv.getInstance().getUser().getFriends();
 	}

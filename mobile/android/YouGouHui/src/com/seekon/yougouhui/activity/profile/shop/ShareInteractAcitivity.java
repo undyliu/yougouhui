@@ -1,11 +1,11 @@
 package com.seekon.yougouhui.activity.profile.shop;
 
-import com.seekon.yougouhui.R;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import com.seekon.yougouhui.R;
 
 public class ShareInteractAcitivity extends Activity {
 

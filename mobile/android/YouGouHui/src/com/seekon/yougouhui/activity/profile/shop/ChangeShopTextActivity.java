@@ -32,7 +32,7 @@ public class ChangeShopTextActivity extends ChangeTextInfoActivity {
 
 		fieldName = intent.getStringExtra(DataConst.NAME_TYPE);
 		shop = (ShopEntity) intent.getSerializableExtra(ShopConst.DATA_SHOP_KEY);
-		
+
 		super.onCreate(savedInstanceState);
 	}
 

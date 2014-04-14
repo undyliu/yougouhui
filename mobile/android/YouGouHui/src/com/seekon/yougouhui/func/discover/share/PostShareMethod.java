@@ -41,7 +41,7 @@ public class PostShareMethod extends MultipartRestMethod<JSONObjResource> {
 		params.put(COL_NAME_CONTENT, (String) share.get(COL_NAME_CONTENT));
 		params.put(COL_NAME_PUBLISHER, (String) share.get(COL_NAME_PUBLISHER));
 		params.put(COL_NAME_SHOP_ID, (String) share.get(COL_NAME_SHOP_ID));
-		
+
 		List<String> files = (List<String>) share.get(ShareConst.DATA_IMAGE_KEY);
 		List<FileEntity> fileEntities = new ArrayList<FileEntity>();
 		if (files != null && !files.isEmpty()) {

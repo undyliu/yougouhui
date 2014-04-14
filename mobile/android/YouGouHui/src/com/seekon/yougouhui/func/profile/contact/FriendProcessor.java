@@ -67,9 +67,10 @@ public class FriendProcessor extends ContentProcessor {
 				for (int i = 0; i < resource.length(); i++) {
 					JSONObject friend = resource.getJSONObject(i);
 					super.updateContentProvider(friend, colNames, contentUri);
-					
+
 					JSONObject user = friend.getJSONObject(UserConst.DATA_KEY_USER);
-					super.updateContentProvider(user, UserData.COL_NAMES, UserConst.CONTENT_URI);
+					super.updateContentProvider(user, UserData.COL_NAMES,
+							UserConst.CONTENT_URI);
 				}
 				return;
 			}

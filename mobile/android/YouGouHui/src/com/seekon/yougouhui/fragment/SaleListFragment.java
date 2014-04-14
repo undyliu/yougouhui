@@ -1,85 +1,143 @@
 package com.seekon.yougouhui.fragment;
 
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_IMG;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_TITLE;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
-import static com.seekon.yougouhui.func.sale.SaleConst.COL_NAME_CHANNEL_ID;
-
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-import android.annotation.SuppressLint;
-import android.content.ContentValues;
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.AdapterView;
 
+import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.activity.home.SaleDetailActivity;
+import com.seekon.yougouhui.activity.sale.SaleDetailActivity;
+import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.sale.ChannelEntity;
-import com.seekon.yougouhui.func.sale.SaleConst;
+import com.seekon.yougouhui.func.sale.SaleData;
+import com.seekon.yougouhui.func.sale.SaleEntity;
 import com.seekon.yougouhui.func.sale.SaleServiceHelper;
-import com.seekon.yougouhui.util.ContentValuesUtils;
+import com.seekon.yougouhui.func.sale.widget.ChannelSaleListAdapter;
+import com.seekon.yougouhui.layout.XListView;
+import com.seekon.yougouhui.layout.XListView.IXListViewListener;
+import com.seekon.yougouhui.service.RequestServiceHelper;
 import com.seekon.yougouhui.util.Logger;
-import com.seekon.yougouhui.widget.ImageListRemoteAdapter;
+import com.seekon.yougouhui.util.ViewUtils;
 
-@SuppressLint("ValidFragment")
-public class SaleListFragment extends RequestListFragment {
+public class SaleListFragment extends Fragment implements IXListViewListener {
+
+	private static final String TAG = SaleListFragment.class.getSimpleName();
 
 	private ChannelEntity channel;
 
-	private List<Map<String, ?>> messages = new LinkedList<Map<String, ?>>();
+	private List<SaleEntity> saleList = new LinkedList<SaleEntity>();
 
-	public SaleListFragment() {
-		super(SaleServiceHelper.SALE_REQUEST_RESULT);
+	private Long requestId;
+
+	private BroadcastReceiver requestReceiver;
+
+	protected Activity attachedActivity = null;
+
+	protected String requestResultType;
+
+	private XListView listView;
+
+	private SaleData saleData;
+
+	private ChannelSaleListAdapter saleListAdapter;
+
+	private Handler mHandler;
+
+	private int currentOffset = 0;// 分页用的当前的数据偏移
+
+	public void setChannel(ChannelEntity channel) {
+		this.channel = channel;
+		requestResultType = SaleServiceHelper.SALE_REQUEST_RESULT + "_"
+				+ channel.hashCode();
 	}
 
-	public SaleListFragment(ChannelEntity channel) {
-		super(SaleServiceHelper.SALE_REQUEST_RESULT);
-		this.channel = channel;
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		attachedActivity = this.getActivity();
+		saleData = new SaleData(attachedActivity);
+		saleListAdapter = new ChannelSaleListAdapter(attachedActivity, saleList);
+		mHandler = new Handler();
+
+		requestReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				Logger.debug(TAG, intent);
+				long resultRequestId = intent.getLongExtra(
+						RequestServiceHelper.EXTRA_REQUEST_ID, 0);
+				if (resultRequestId == requestId) {
+					int resultCode = intent.getIntExtra(
+							RequestServiceHelper.EXTRA_RESULT_CODE, 0);
+					if (resultCode == 200) {
+						updateListItems();
+					} else {
+						ViewUtils.showToast("获取数据失败.");
+					}
+				} else {
+					Logger.debug(TAG, "Result is NOT for our request ID");
+				}
+
+			}
+		};
+		updateListItems();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		return inflater.inflate(R.layout.base_listview, container, false);
-	}
+		View view = inflater.inflate(R.layout.base_xlistview, container, false);
+		listView = (XListView) view.findViewById(R.id.listview_main);
+		listView.setAdapter(saleListAdapter);
+		listView.setPullLoadEnable(true);
+		listView.setXListViewListener(this);
 
-	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		ContentValues message = ContentValuesUtils.fromMap(messages.get(position),
-				null);
-		Intent intent = new Intent(attachedActivity, SaleDetailActivity.class);
-		intent.putExtra(SaleConst.DATA_SALE_KEY, message);
-		attachedActivity.startActivity(intent);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				SaleEntity sale = saleList.get(position);
+				Intent intent = new Intent(attachedActivity, SaleDetailActivity.class);
+				intent.putExtra(DataConst.COL_NAME_UUID, sale.getUuid());
+				attachedActivity.startActivity(intent);
+			}
+
+		});
+
+		return view;
 	}
 
 	@Override
 	public void onResume() {
-		requestResultType += channel.getUuid();
 		super.onResume();
-		if (messages.isEmpty()) {
-			updateListItems();
-		}
-		Logger.debug(TAG, "## onResume : " + channel);
+		attachedActivity.registerReceiver(requestReceiver, new IntentFilter(
+				requestResultType));
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		Logger.debug(TAG, "## onPause : " + channel);
+		if (attachedActivity != null && requestReceiver != null) {
+			attachedActivity.unregisterReceiver(requestReceiver);
+		}
 	}
 
-	@Override
 	protected void initRequestId() {
 		AsyncTask<Void, Void, Long> task = new AsyncTask<Void, Void, Long>() {
 			@Override
@@ -90,46 +148,81 @@ public class SaleListFragment extends RequestListFragment {
 			}
 
 		};
+		currentOffset = 0;
+		task.execute((Void) null);
+	}
+
+	protected List<SaleEntity> getListItemsFromLocal() {
+		String channelId = channel.getUuid();
+		if (channelId.equals("0")) {
+			channelId = null;
+		}
+		String limitSql = " limit " + Const.PAGE_SIZE + " offset " + currentOffset;
+
+		List<SaleEntity> result = saleData
+				.getSaleListByChannel(channelId, limitSql);
+		currentOffset += result.size();
+		return result;
+	}
+
+	protected void updateListView() {
+		listView.stopRefresh();
+		listView.stopLoadMore();
+
+		saleListAdapter.updateData(saleList);
+	}
+
+	protected void updateListItems() {
+
+		AsyncTask<Void, Void, List<SaleEntity>> task = new AsyncTask<Void, Void, List<SaleEntity>>() {
+			@Override
+			protected List<SaleEntity> doInBackground(Void... params) {
+				Logger.debug(TAG, "getListItemsFromLocal");
+				return getListItemsFromLocal();
+			}
+
+			@Override
+			protected void onPostExecute(List<SaleEntity> result) {
+
+				if (result.size() == 0 && requestId == null
+						&& RunEnv.getInstance().isConnectedToInternet()) {
+					Logger.debug(TAG, "getListItemsFromRemote");
+					initRequestId();
+				} else {
+					saleList = result;
+					updateListView();
+				}
+			}
+
+			@Override
+			protected void onCancelled() {
+
+			}
+		};
+
 		task.execute((Void) null);
 	}
 
 	@Override
-	protected List<Map<String, ?>> getListItemsFromLocal() {
-		if (messages.size() == 0) {
-			String channelId = channel.getUuid();
-			String selection = null;
-			String[] selectionArgs = null;
-			if (!"0".equals(channelId)) {// 全部
-				selection = COL_NAME_CHANNEL_ID + "= ? ";
-				selectionArgs = new String[] { channelId };
+	public void onRefresh() {
+		mHandler.postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				initRequestId();
 			}
-			Cursor cursor = null;
-			try {
-				cursor = attachedActivity.getContentResolver().query(
-						SaleConst.CONTENT_URI,
-						new String[] { COL_NAME_UUID, COL_NAME_IMG, COL_NAME_TITLE,
-								COL_NAME_CONTENT }, selection, selectionArgs, null);
-				while (cursor.moveToNext()) {
-					Map values = new HashMap();
-					values.put(COL_NAME_UUID, cursor.getInt(0));
-					values.put(COL_NAME_IMG, cursor.getString(1));
-					values.put(COL_NAME_TITLE, cursor.getString(2));
-					values.put(COL_NAME_CONTENT, cursor.getString(3));
-					messages.add(values);
-				}
-			} catch(Exception e){
-				Logger.error(TAG, e.getMessage(), e);
-			}finally {
-				cursor.close();
-			}
-		}
-		return messages;
+		}, 2000);
 	}
 
 	@Override
-	protected void updateListView(List<Map<String, ?>> data) {
-		this.setListAdapter(new ImageListRemoteAdapter(attachedActivity, messages,
-				R.layout.message_item, new String[] { COL_NAME_TITLE },
-				new int[] { R.id.title }));
+	public void onLoadMore() {
+		mHandler.postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				saleList.addAll(getListItemsFromLocal());
+				updateListView();
+			}
+		}, 2000);
 	}
 }

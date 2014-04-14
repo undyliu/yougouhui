@@ -12,8 +12,7 @@ import com.seekon.yougouhui.rest.Request;
 
 public class GetShopMethod extends JSONObjResourceMethod {
 
-	private static final String GET_SHOP_URI = Const.SERVER_APP_URL
-			+ "/getShop/";
+	private static final String GET_SHOP_URI = Const.SERVER_APP_URL + "/getShop/";
 
 	private String shopId;
 

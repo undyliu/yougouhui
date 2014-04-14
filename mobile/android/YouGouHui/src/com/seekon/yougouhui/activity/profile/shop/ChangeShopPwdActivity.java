@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.ChangePasswordActivity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.login.LoginConst;
@@ -26,6 +28,11 @@ public class ChangeShopPwdActivity extends ChangePasswordActivity {
 		shop = (ShopEntity) intent.getSerializableExtra(ShopConst.DATA_SHOP_KEY);
 
 		super.onCreate(savedInstanceState);
+
+		((TextView) findViewById(R.id.label_name))
+				.setText(R.string.label_shop_name);
+		TextView nameView = (TextView) findViewById(R.id.name);
+		nameView.setText(shop.getName());
 	}
 
 	@Override
@@ -45,26 +52,27 @@ public class ChangeShopPwdActivity extends ChangePasswordActivity {
 						.changeShopEmpPwd(shop.getUuid(),
 								RunEnv.getInstance().getUser().getUuid(), oldPwd, pwd);
 			}
-			
+
 			@Override
 			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
 				showProgress(false);
 				int status = result.getStatusCode();
-				if(status == 200){
+				if (status == 200) {
 					JSONObjResource resource = result.getResource();
-					String errorType = JSONUtils.getJSONStringValue(resource, LoginConst.LOGIN_RESULT_ERROR_TYPE);
-					if(errorType != null){
+					String errorType = JSONUtils.getJSONStringValue(resource,
+							LoginConst.LOGIN_RESULT_ERROR_TYPE);
+					if (errorType != null) {
 						ViewUtils.showToast("原密码不正确.");
-					}else{
+					} else {
 						finish();
 					}
-				}else{
+				} else {
 					ViewUtils.showToast("修改密码失败.");
 				}
-				
+
 				item.setEnabled(true);
 			}
-			
+
 			@Override
 			protected void onCancelled() {
 				showProgress(false);

@@ -83,11 +83,12 @@ public class AuthorizationManager implements RequestSigner {
 				if (resource.getBoolean(LoginConst.LOGIN_RESULT_AUTHED)) {
 					user = UserUtils.createFromJSONObject(resource
 							.getJSONObject(LoginConst.LOGIN_RESULT_USER));
-					
-					List<UserEntity> friends = this.getUserHelper().getUserFriends(user.getUuid());
-					if(friends == null || friends.isEmpty()){
-						new GetFriendsTask(context, user).execute((Void)null);
-					}else{
+
+					List<UserEntity> friends = this.getUserHelper().getUserFriends(
+							user.getUuid());
+					if (friends == null || friends.isEmpty()) {
+						new GetFriendsTask(context, user).execute((Void) null);
+					} else {
 						user.setFriends(friends);
 					}
 				} else {

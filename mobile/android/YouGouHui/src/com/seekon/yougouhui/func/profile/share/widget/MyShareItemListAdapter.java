@@ -18,9 +18,10 @@ import com.seekon.yougouhui.activity.profile.ShareDetailActivity;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareEntity;
-import com.seekon.yougouhui.func.discover.share.widget.ShareUtils;
 
 public class MyShareItemListAdapter extends BaseAdapter {
+
+	private static final int SHARE_IMAGE_WIDHT = 100;
 
 	private Activity activity;
 
@@ -69,7 +70,7 @@ public class MyShareItemListAdapter extends BaseAdapter {
 		if (imageUrls.size() > 0) {
 			imageView.setScaleType(ImageView.ScaleType.CENTER);
 			imageView.setLayoutParams(new LinearLayout.LayoutParams(
-					ShareUtils.PUBLISHER_IMAGE_WIDTH, ShareUtils.PUBLISHER_IMAGE_WIDTH));
+					SHARE_IMAGE_WIDHT, SHARE_IMAGE_WIDHT));
 			imageView.setVisibility(View.VISIBLE);
 			ImageLoader.getInstance().displayImage(imageUrls.get(0), imageView, true);
 

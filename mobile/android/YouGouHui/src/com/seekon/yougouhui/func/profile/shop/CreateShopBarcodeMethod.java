@@ -41,7 +41,7 @@ public class CreateShopBarcodeMethod extends JSONObjResourceMethod {
 			throws Exception {
 		JSONObjResource resource = super.parseResponseBody(responseBody);
 		String barcode = JSONUtils.getJSONStringValue(resource, COL_NAME_BARCODE);
-		if(barcode != null && barcode.length() > 0){
+		if (barcode != null && barcode.length() > 0) {
 			shop.setBarcode(barcode);
 			resource = new JSONObjResource(ShopUtils.toJson(shop).toString());
 		}

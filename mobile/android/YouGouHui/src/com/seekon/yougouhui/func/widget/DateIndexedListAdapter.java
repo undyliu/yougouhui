@@ -46,10 +46,11 @@ public abstract class DateIndexedListAdapter extends BaseAdapter {
 		Date date = dateIndexedEntity.getDate();
 		TextView dateView = (TextView) view.findViewById(R.id.item_day_field);
 		dateView.setText(DateUtils.getDayOfMoth(date) + "日");
-		TextView monthView = (TextView) view.findViewById(R.id.item_month_field);
-		dateView.setText(DateUtils.getMonth(date) + "月");
-		monthView.getPaint().setFakeBoldText(true);
 		dateView.getPaint().setFakeBoldText(true);// TODO:使用样式表来处理
+
+		TextView monthView = (TextView) view.findViewById(R.id.item_month_field);
+		monthView.setText(DateUtils.getMonth(date) + "月");
+		monthView.getPaint().setFakeBoldText(true);
 
 		int itemCount = dateIndexedEntity.getItemCount();
 		((TextView) view.findViewById(R.id.item_count_field)).setText(itemCount

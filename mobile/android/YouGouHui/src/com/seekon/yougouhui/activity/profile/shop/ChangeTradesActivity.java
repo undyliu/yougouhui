@@ -57,7 +57,7 @@ public class ChangeTradesActivity extends TradeCheckedChangeActivity {
 		shop = (ShopEntity) this.getIntent().getSerializableExtra(
 				ShopConst.DATA_SHOP_KEY);
 		checkedTradeList = shop.getTrades();
-		
+
 		initViews();
 		loadTradeList();
 	}
@@ -171,32 +171,33 @@ public class ChangeTradesActivity extends TradeCheckedChangeActivity {
 				return ShopTradeProcessor.getInstance(ChangeTradesActivity.this)
 						.saveShopTrades(shop.getUuid(), checkedTradeList);
 			}
+
 			@Override
 			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
 				showProgress(false);
-				if(result.getStatusCode() == 200){
+				if (result.getStatusCode() == 200) {
 					shop.setTrades(checkedTradeList);
 					Intent intent = new Intent();
 					intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
 					setResult(RESULT_OK, intent);
 					finish();
-				}else{
+				} else {
 					ViewUtils.showToast("保存失败.");
 				}
 			}
-			
+
 			@Override
 			protected void onCancelled() {
 				item.setEnabled(true);
 				showProgress(false);
-				
+
 				super.onCancelled();
 			}
 		};
-		
+
 		item.setEnabled(false);
 		showProgress(true);
-		task.execute((Void)null);
+		task.execute((Void) null);
 	}
 
 	private void showProgress(boolean show) {

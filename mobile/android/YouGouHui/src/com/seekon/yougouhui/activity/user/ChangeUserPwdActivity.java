@@ -1,8 +1,11 @@
 package com.seekon.yougouhui.activity.user;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.ChangePasswordActivity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.user.UserProcessor;
@@ -11,6 +14,14 @@ import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
 public class ChangeUserPwdActivity extends ChangePasswordActivity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		TextView nameView = (TextView) findViewById(R.id.name);
+		nameView.setText(RunEnv.getInstance().getUser().getName());
+	}
 
 	protected void doSavePassword(final MenuItem item) {
 
@@ -41,7 +52,8 @@ public class ChangeUserPwdActivity extends ChangePasswordActivity {
 
 	@Override
 	protected boolean validateOldPassword() {
-		return RunEnv.getInstance().getUser().getPwd().equals(pwdOldView.getText().toString());
+		return RunEnv.getInstance().getUser().getPwd()
+				.equals(pwdOldView.getText().toString());
 	}
 
 }

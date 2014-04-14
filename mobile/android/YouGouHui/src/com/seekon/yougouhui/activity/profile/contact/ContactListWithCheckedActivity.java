@@ -17,30 +17,32 @@ import com.seekon.yougouhui.func.profile.contact.widget.ContactListAdapter;
 import com.seekon.yougouhui.func.profile.contact.widget.ContactListWithCheckedAdapter;
 import com.seekon.yougouhui.func.user.UserEntity;
 
-public class ContactListWithCheckedActivity extends ContactListActivity implements OnCheckedChangeListener{
+public class ContactListWithCheckedActivity extends ContactListActivity
+		implements OnCheckedChangeListener {
 
 	private List<UserEntity> selectedUserList;
-	
+
 	private ArrayList<UserEntity> checkedUserList = new ArrayList<UserEntity>();
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		selectedUserList = (List<UserEntity>) this.getIntent()
 				.getSerializableExtra(FriendConst.DATA_SELECTED_USER_LIST_KEY);
-		if(selectedUserList == null){
+		if (selectedUserList == null) {
 			selectedUserList = new ArrayList<UserEntity>();
 		}
-		
+
 		super.onCreate(savedInstanceState);
 	}
-	
+
 	@Override
 	protected List<UserEntity> getContactListData() {
-		List<UserEntity> list = new ArrayList<UserEntity>(super.getContactListData());
+		List<UserEntity> list = new ArrayList<UserEntity>(
+				super.getContactListData());
 		list.removeAll(selectedUserList);
 		return list;
 	}
-	
+
 	@Override
 	protected ContactListAdapter getContactListAdapter() {
 		return new ContactListWithCheckedAdapter(this, contactDateList, this);
@@ -51,13 +53,13 @@ public class ContactListWithCheckedActivity extends ContactListActivity implemen
 		super.initViews();
 		this.sideBar.setVisibility(View.GONE);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		 boolean result = super.onCreateOptionsMenu(menu);
-		 menu.findItem(R.id.menu_contact_add).setVisible(false);
-		 menu.findItem(R.id.menu_contact_confirm).setVisible(true);
-		 return result;
+		boolean result = super.onCreateOptionsMenu(menu);
+		menu.findItem(R.id.menu_contact_add).setVisible(false);
+		menu.findItem(R.id.menu_contact_confirm).setVisible(true);
+		return result;
 	}
 
 	@Override
@@ -76,7 +78,7 @@ public class ContactListWithCheckedActivity extends ContactListActivity implemen
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void contactCheckedConfirm(){
+	private void contactCheckedConfirm() {
 		Intent intent = new Intent();
 		intent.putExtra(FriendConst.DATA_SELECTED_USER_LIST_KEY, checkedUserList);
 		this.setResult(RESULT_OK, intent);
@@ -86,11 +88,11 @@ public class ContactListWithCheckedActivity extends ContactListActivity implemen
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		int id = buttonView.getId();
-		if(isChecked){
+		if (isChecked) {
 			UserEntity emp = this.contactDateList.get(id);
-			//emp.setPwd(null);
+			// emp.setPwd(null);
 			checkedUserList.add(emp);
-		}else{
+		} else {
 			checkedUserList.remove(this.contactDateList.get(id));
 		}
 	}

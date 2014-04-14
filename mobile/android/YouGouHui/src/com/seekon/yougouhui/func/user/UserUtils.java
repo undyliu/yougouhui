@@ -10,13 +10,16 @@ import com.seekon.yougouhui.util.JSONUtils;
 public class UserUtils {
 	private UserUtils() {
 	}
-	
+
 	public static UserEntity createFromJSONObject(JSONObject jsonObj) {
 		UserEntity user = new UserEntity();
-		user.setName(JSONUtils.getJSONStringValue(jsonObj, UserConst.COL_NAME_USER_NAME));
+		user.setName(JSONUtils.getJSONStringValue(jsonObj,
+				UserConst.COL_NAME_USER_NAME));
 		user.setUuid(JSONUtils.getJSONStringValue(jsonObj, DataConst.COL_NAME_UUID));
-		user.setPhone(JSONUtils.getJSONStringValue(jsonObj, UserConst.COL_NAME_PHONE));
-		user.setPhoto(JSONUtils.getJSONStringValue(jsonObj, UserConst.COL_NAME_USER_ICON));
+		user.setPhone(JSONUtils.getJSONStringValue(jsonObj,
+				UserConst.COL_NAME_PHONE));
+		user.setPhoto(JSONUtils.getJSONStringValue(jsonObj,
+				UserConst.COL_NAME_USER_ICON));
 		user.setPwd(JSONUtils.getJSONStringValue(jsonObj, UserConst.COL_NAME_PWD));
 		user.setRegisterTime(JSONUtils.getJSONStringValue(jsonObj,
 				UserConst.COL_NAME_REGISTER_TIME));
@@ -29,13 +32,16 @@ public class UserUtils {
 		}
 		List<String> keys = JSONUtils.getKeyList(jsonObj);
 		if (keys.contains(UserConst.COL_NAME_USER_NAME)) {
-			user.setName(JSONUtils.getJSONStringValue(jsonObj, UserConst.COL_NAME_USER_NAME));
+			user.setName(JSONUtils.getJSONStringValue(jsonObj,
+					UserConst.COL_NAME_USER_NAME));
 		}
 		if (keys.contains(UserConst.COL_NAME_PHONE)) {
-			user.setPhone(JSONUtils.getJSONStringValue(jsonObj, UserConst.COL_NAME_PHONE));
+			user.setPhone(JSONUtils.getJSONStringValue(jsonObj,
+					UserConst.COL_NAME_PHONE));
 		}
 		if (keys.contains(UserConst.COL_NAME_USER_ICON)) {
-			user.setPhoto(JSONUtils.getJSONStringValue(jsonObj, UserConst.COL_NAME_USER_ICON));
+			user.setPhoto(JSONUtils.getJSONStringValue(jsonObj,
+					UserConst.COL_NAME_USER_ICON));
 		}
 		if (keys.contains(UserConst.COL_NAME_PWD)) {
 			user.setPwd(JSONUtils.getJSONStringValue(jsonObj, UserConst.COL_NAME_PWD));
@@ -47,9 +53,11 @@ public class UserUtils {
 		JSONObject jsonObj = new JSONObject();
 		JSONUtils.putJSONValue(jsonObj, DataConst.COL_NAME_UUID, user.getUuid());
 		JSONUtils.putJSONValue(jsonObj, UserConst.COL_NAME_PHONE, user.getPhone());
-		JSONUtils.putJSONValue(jsonObj, UserConst.COL_NAME_USER_NAME, user.getName());
+		JSONUtils.putJSONValue(jsonObj, UserConst.COL_NAME_USER_NAME,
+				user.getName());
 		JSONUtils.putJSONValue(jsonObj, UserConst.COL_NAME_PWD, user.getPwd());
-		JSONUtils.putJSONValue(jsonObj, UserConst.COL_NAME_USER_ICON, user.getPhoto());
+		JSONUtils.putJSONValue(jsonObj, UserConst.COL_NAME_USER_ICON,
+				user.getPhoto());
 		return jsonObj;
 	}
 }

@@ -58,7 +58,7 @@ public abstract class ChangeImageInfoActivity extends Activity {
 				startActivityForResult(intent, LOAD_IMAGE_ACTIVITY_REQUEST_CODE);
 			}
 		});
-		
+
 		TextView imageLabel = (TextView) findViewById(R.id.image_label);
 		imageLabel.setText(getImageLabel());
 	}
@@ -134,8 +134,8 @@ public abstract class ChangeImageInfoActivity extends Activity {
 	}
 
 	protected abstract void doChangeImage(final MenuItem item);
-	
+
 	protected abstract int getImageLabel();
-	
+
 	protected abstract String getImageFileName();
 }

@@ -11,6 +11,7 @@ import static com.seekon.yougouhui.func.sale.SaleConst.COL_NAME_PUBLISHER;
 import static com.seekon.yougouhui.func.sale.SaleConst.COL_NAME_PUBLISH_DATE;
 import static com.seekon.yougouhui.func.sale.SaleConst.COL_NAME_PUBLISH_TIME;
 import static com.seekon.yougouhui.func.sale.SaleConst.COL_NAME_SHOP_ID;
+import static com.seekon.yougouhui.func.sale.SaleConst.COL_NAME_SHOP_NAME;
 import static com.seekon.yougouhui.func.sale.SaleConst.COL_NAME_START_DATE;
 import static com.seekon.yougouhui.func.sale.SaleConst.COL_NAME_STATUS;
 import static com.seekon.yougouhui.func.sale.SaleConst.COL_NAME_TRADE_ID;
@@ -25,6 +26,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.seekon.yougouhui.db.AbstractDBHelper;
+import com.seekon.yougouhui.func.profile.shop.ShopEntity;
+import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.widget.DateIndexedEntity;
 import com.seekon.yougouhui.util.DateUtils;
 
@@ -32,10 +35,10 @@ public class SaleData extends AbstractDBHelper {
 
 	public static final String[] COL_NAMES = new String[] { COL_NAME_UUID,
 			COL_NAME_TITLE, COL_NAME_CONTENT, COL_NAME_IMG, COL_NAME_SHOP_ID,
-			COL_NAME_START_DATE, COL_NAME_END_DATE, COL_NAME_PUBLISHER,
-			COL_NAME_PUBLISH_TIME, COL_NAME_PUBLISH_DATE, COL_NAME_TRADE_ID,
-			COL_NAME_STATUS, COL_NAME_DISCUSS_COUNT, COL_NAME_VISIT_COUNT,
-			COL_NAME_CHANNEL_ID };
+			COL_NAME_SHOP_NAME, COL_NAME_START_DATE, COL_NAME_END_DATE,
+			COL_NAME_PUBLISHER, COL_NAME_PUBLISH_TIME, COL_NAME_PUBLISH_DATE,
+			COL_NAME_TRADE_ID, COL_NAME_STATUS, COL_NAME_DISCUSS_COUNT,
+			COL_NAME_VISIT_COUNT, COL_NAME_CHANNEL_ID };
 
 	public SaleData(Context context) {
 		super(context);
@@ -47,12 +50,13 @@ public class SaleData extends AbstractDBHelper {
 		db.execSQL("CREATE TABLE IF NOT EXISTS " + SaleConst.TABLE_NAME + " ("
 				+ COL_NAME_UUID + " TEXT PRIMARY KEY, " + COL_NAME_TITLE + " TEXT, "
 				+ COL_NAME_CONTENT + " TEXT, " + COL_NAME_IMG + " TEXT, "
-				+ COL_NAME_SHOP_ID + " TEXT, " + COL_NAME_START_DATE + " TEXT, "
-				+ COL_NAME_END_DATE + " TEXT, " + COL_NAME_PUBLISH_TIME + " TEXT, "
-				+ COL_NAME_PUBLISHER + " TEXT, " + COL_NAME_TRADE_ID + " TEXT, "
-				+ COL_NAME_PUBLISH_DATE + " TEXT, " + COL_NAME_STATUS + " TEXT, "
-				+ COL_NAME_CHANNEL_ID + " TEXT, " + COL_NAME_DISCUSS_COUNT
-				+ " INTEGER, " + COL_NAME_VISIT_COUNT + " INTEGER)");
+				+ COL_NAME_SHOP_ID + " TEXT, " + COL_NAME_SHOP_NAME + " TEXT, "
+				+ COL_NAME_START_DATE + " TEXT, " + COL_NAME_END_DATE + " TEXT, "
+				+ COL_NAME_PUBLISH_TIME + " TEXT, " + COL_NAME_PUBLISHER + " TEXT, "
+				+ COL_NAME_TRADE_ID + " TEXT, " + COL_NAME_PUBLISH_DATE + " TEXT, "
+				+ COL_NAME_STATUS + " TEXT, " + COL_NAME_CHANNEL_ID + " TEXT, "
+				+ COL_NAME_DISCUSS_COUNT + " INTEGER, " + COL_NAME_VISIT_COUNT
+				+ " INTEGER)");
 	}
 
 	@Override
@@ -112,7 +116,10 @@ public class SaleData extends AbstractDBHelper {
 		args.add(publishDate);
 
 		List<SaleEntity> result = new ArrayList<SaleEntity>();
-		String sql = " select uuid, title, img, content, visit_count, discuss_count from e_sale where publish_date = ?  ";
+		String sql = " select s.uuid, title, img, content, visit_count, discuss_count, publisher, u.name as user_name"
+				+ ",  shop_id, shop_name "
+				+ " from e_sale s join e_user u on s.publisher = u.uuid "
+				+ " where publish_date = ?  ";
 		if (where != null && where.length() > 0) {
 			sql += " and (" + where + ") ";
 			args.addAll(Arrays.asList(whereArgs));
@@ -133,10 +140,107 @@ public class SaleData extends AbstractDBHelper {
 				sale.setVisitCount(cursor.getInt(i++));
 				sale.setDiscussCount(cursor.getInt(i++));
 
+				UserEntity publisher = new UserEntity();
+				publisher.setUuid(cursor.getString(i++));
+				publisher.setName(cursor.getString(i++));
+				sale.setPublisher(publisher);
+
+				ShopEntity shop = new ShopEntity();
+				shop.setUuid(cursor.getString(i++));
+				shop.setName(cursor.getString(i++));
+				sale.setShop(shop);
+
 				result.add(sale);
 			}
 		} finally {
 			cursor.close();
+		}
+		return result;
+	}
+
+	public SaleEntity getSale(String uuid) {
+		SaleEntity sale = null;
+		String sql = " select sa.uuid, title, content, start_date, end_date, trade_id, visit_count, discuss_count, sa.status "
+				+ ", shop_id, shop_name"
+				+ " from e_sale sa where sa.uuid = ? ";
+		Cursor cursor = null;
+		try {
+			cursor = this.getReadableDatabase().rawQuery(sql, new String[] { uuid });
+			if (cursor.moveToNext()) {
+				int i = 0;
+				sale = new SaleEntity();
+				sale.setUuid(cursor.getString(i++));
+				sale.setTitle(cursor.getString(i++));
+				sale.setContent(cursor.getString(i++));
+				sale.setStartDate(cursor.getLong(i++));
+				sale.setEndDate(cursor.getLong(i++));
+				sale.setTradeId(cursor.getString(i++));
+				sale.setVisitCount(cursor.getInt(i++));
+				sale.setDiscussCount(cursor.getInt(i++));
+				sale.setStatus(cursor.getString(i++));
+
+				ShopEntity shop = new ShopEntity();
+				shop.setUuid(cursor.getString(i++));
+				shop.setName(cursor.getString(i++));
+				sale.setShop(shop);
+			}
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
+		return sale;
+	}
+
+	public List<SaleEntity> getSaleListByChannel(String channelId, String limitSql) {
+		List<SaleEntity> result = new ArrayList<SaleEntity>();
+		String selection = null;
+		String[] selectionArgs = null;
+		if (channelId != null) {// 全部
+			selection = COL_NAME_CHANNEL_ID + "= ? ";
+			selectionArgs = new String[] { channelId };
+		}
+		String sql = " select sa.uuid, title, content, start_date, end_date, trade_id, visit_count, discuss_count, sa.status, sa.img "
+				+ ", shop_id, shop_name "
+				+ " from e_sale sa  ";
+		if (selection != null) {
+			sql += " where " + selection;
+		}
+
+		sql += " order by sa.publish_time desc ";// TODO根据距离进行排序处理
+
+		if (limitSql != null) {
+			sql += limitSql;
+		}
+
+		Cursor cursor = null;
+		try {
+			cursor = getReadableDatabase().rawQuery(sql, selectionArgs);
+			while (cursor.moveToNext()) {
+				int i = 0;
+				SaleEntity sale = new SaleEntity();
+				sale.setUuid(cursor.getString(i++));
+				sale.setTitle(cursor.getString(i++));
+				sale.setContent(cursor.getString(i++));
+				sale.setStartDate(cursor.getLong(i++));
+				sale.setEndDate(cursor.getLong(i++));
+				sale.setTradeId(cursor.getString(i++));
+				sale.setVisitCount(cursor.getInt(i++));
+				sale.setDiscussCount(cursor.getInt(i++));
+				sale.setStatus(cursor.getString(i++));
+				sale.setImg(cursor.getString(i++));
+
+				ShopEntity shop = new ShopEntity();
+				shop.setUuid(cursor.getString(i++));
+				shop.setName(cursor.getString(i++));
+				sale.setShop(shop);
+
+				result.add(sale);
+			}
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
 		}
 		return result;
 	}

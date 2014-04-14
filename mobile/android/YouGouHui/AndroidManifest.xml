@@ -52,10 +52,6 @@
             android:windowSoftInputMode="stateVisible" >
         </activity>
         <activity
-            android:name=".activity.home.SaleDetailActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name=".activity.profile.SettingActivity"
             android:label="@string/title_profie_setting"
             android:screenOrientation="portrait" >
@@ -109,11 +105,11 @@
             android:name=".func.profile.shop.ShopTradeProvider"
             android:authorities="com.seekon.yougouhui.shopTrades"
             android:exported="false" />
-		<provider
+        <provider
             android:name="com.seekon.yougouhui.func.sale.SaleImgProvider"
             android:authorities="com.seekon.yougouhui.sale.images"
             android:exported="false" />
-		
+
         <activity
             android:name=".activity.discover.FriendShareActivity"
             android:label="@string/title_discover_friends"
@@ -268,7 +264,21 @@
             android:label="@string/title_choose_shop"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.seekon.yougouhui.activity.sale.SalePromoteActivity" android:label="@string/title_shop_sale_promote"></activity>
+        <activity
+            android:name="com.seekon.yougouhui.activity.sale.SalePublishActivity"
+            android:label="@string/title_shop_sale_publish"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.sale.SaleEditActivity"
+            android:label="@string/title_shop_sale_edit"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.sale.SaleDetailActivity"
+            android:label="@string/title_shop_sale_detail"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

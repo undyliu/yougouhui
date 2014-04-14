@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.ImageLoader;
@@ -28,7 +28,7 @@ public class ShopEmpListAdapter extends BaseAdapter {
 	private OnCheckedChangeListener onCheckedChangeListener = null;
 
 	private String ownerId = null;
-	
+
 	public ShopEmpListAdapter(List<UserEntity> empList, Context context,
 			OnCheckedChangeListener onCheckedChangeListener, String ownerId) {
 		super();
@@ -80,13 +80,13 @@ public class ShopEmpListAdapter extends BaseAdapter {
 		}
 
 		UserEntity user = (UserEntity) this.getItem(position);
-		if(user.getUuid().equals(ownerId)){
+		if (user.getUuid().equals(ownerId)) {
 			holder.checkBox.setVisibility(View.INVISIBLE);
-		}else{
+		} else {
 			holder.checkBox.setVisibility(View.VISIBLE);
 		}
 		holder.checkBox.setId(position);
-		
+
 		holder.nameView.setText(user.getName());
 		String photo = user.getPhoto();
 		if (photo != null && photo.length() > 0) {

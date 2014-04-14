@@ -28,8 +28,8 @@ public class ShopProvider extends SQLiteContentProvider {
 	public boolean onCreate() {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI(ShopConst.AUTHORITY, ShopConst.TABLE_NAME, SHOPES);
-		uriMatcher.addURI(ShopConst.AUTHORITY, ShopConst.TABLE_NAME + "/*",
-				SHOP_ID);
+		uriMatcher
+				.addURI(ShopConst.AUTHORITY, ShopConst.TABLE_NAME + "/*", SHOP_ID);
 
 		shopes = new ShopData(getContext());
 		shopes.onCreate(shopes.getWritableDatabase());// TODO:

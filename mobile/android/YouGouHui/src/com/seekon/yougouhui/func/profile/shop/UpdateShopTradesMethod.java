@@ -15,9 +15,9 @@ import com.seekon.yougouhui.rest.Request;
 
 public class UpdateShopTradesMethod extends JSONObjResourceMethod {
 
-	private static final URI UPDATE_SHOP_TRADES_URI = URI.create(Const.SERVER_APP_URL
-			+ "/updateShopTrades");
-	
+	private static final URI UPDATE_SHOP_TRADES_URI = URI
+			.create(Const.SERVER_APP_URL + "/updateShopTrades");
+
 	private String shopId;
 	private List<TradeEntity> tradeList;
 
@@ -30,16 +30,16 @@ public class UpdateShopTradesMethod extends JSONObjResourceMethod {
 
 	@Override
 	protected Request buildRequest() {
-		
+
 		StringBuffer trades = new StringBuffer();
-		for(TradeEntity trade : tradeList){
+		for (TradeEntity trade : tradeList) {
 			trades.append("|" + trade.getUuid());
 		}
-		
+
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(ShopTradeConst.COL_NAME_SHOP_ID, shopId);
 		params.put(ShopConst.NAME_REQUEST_PARAMETER_TRADES, trades.substring(1));
-		
+
 		return new BaseRequest(Method.PUT, UPDATE_SHOP_TRADES_URI, null, params);
 	}
 

@@ -27,10 +27,9 @@ public class SaleProvider extends SQLiteContentProvider {
 	@Override
 	public boolean onCreate() {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+		uriMatcher.addURI(SaleConst.AUTHORITY, SaleConst.TABLE_NAME, SALES);
 		uriMatcher
-				.addURI(SaleConst.AUTHORITY, SaleConst.TABLE_NAME, SALES);
-		uriMatcher.addURI(SaleConst.AUTHORITY, SaleConst.TABLE_NAME + "/*",
-				SALE_ID);
+				.addURI(SaleConst.AUTHORITY, SaleConst.TABLE_NAME + "/*", SALE_ID);
 		sales = new SaleData(getContext());
 		sales.onCreate(sales.getWritableDatabase());// TODO:
 		return true;

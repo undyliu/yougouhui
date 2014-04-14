@@ -18,7 +18,7 @@ public class ShareEntity implements Serializable {
 	private long publishTime;
 
 	private String shopId;
-	
+
 	private List<String> images;
 
 	private List<CommentEntity> comments;

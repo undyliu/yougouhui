@@ -41,7 +41,7 @@ public class SetEmpPwdActivity extends Activity {
 		emp = (UserEntity) this.getIntent().getSerializableExtra(
 				UserConst.DATA_KEY_USER);
 		shopId = this.getIntent().getStringExtra(ShopConst.COL_NAME_UUID);
-		
+
 		initViews();
 	}
 
@@ -122,22 +122,23 @@ public class SetEmpPwdActivity extends Activity {
 
 			@Override
 			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return ShopEmpProcessor.getInstance(SetEmpPwdActivity.this).setShopEmpPwd(shopId, emp.getUuid(), password);
+				return ShopEmpProcessor.getInstance(SetEmpPwdActivity.this)
+						.setShopEmpPwd(shopId, emp.getUuid(), password);
 			}
-			
+
 			@Override
 			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				if(result.getStatusCode() == 200){
+				if (result.getStatusCode() == 200) {
 					emp.setPwd(password);
 					Intent intent = new Intent();
 					intent.putExtra(UserConst.DATA_KEY_USER, emp);
 					setResult(RESULT_OK, intent);
 					finish();
-				}else{
+				} else {
 					ViewUtils.showToast("设置密码失败.");
 				}
 			}
-			
+
 			@Override
 			protected void onCancelled() {
 				item.setEnabled(true);
@@ -145,10 +146,10 @@ public class SetEmpPwdActivity extends Activity {
 				super.onCancelled();
 			}
 		};
-		
+
 		item.setEnabled(false);
 		showProgress(true);
-		task.execute((Void)null);
+		task.execute((Void) null);
 	}
 
 	protected void showProgress(final boolean show) {

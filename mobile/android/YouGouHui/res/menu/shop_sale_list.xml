@@ -4,6 +4,6 @@
     <item
         android:id="@+id/menu_shop_sale_publish"
         android:showAsAction="always|withText"
-        android:title="@string/title_action_publish"/>
+        android:title="@string/title_action_publish_new_sale"/>
 
 </menu>
