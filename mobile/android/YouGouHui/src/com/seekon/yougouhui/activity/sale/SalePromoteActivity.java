@@ -63,7 +63,7 @@ public abstract class SalePromoteActivity extends PicContainerActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		shopId = this.getIntent().getStringExtra(DataConst.COL_NAME_UUID);
+		shopId = this.getIntent().getStringExtra(SaleConst.COL_NAME_SHOP_ID);
 
 		initViews();
 		loadShopData();

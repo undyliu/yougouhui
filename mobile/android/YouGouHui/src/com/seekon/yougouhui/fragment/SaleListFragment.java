@@ -112,7 +112,7 @@ public class SaleListFragment extends Fragment implements IXListViewListener {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				SaleEntity sale = saleList.get(position);
+				SaleEntity sale = saleList.get(position - 1 );
 				Intent intent = new Intent(attachedActivity, SaleDetailActivity.class);
 				intent.putExtra(DataConst.COL_NAME_UUID, sale.getUuid());
 				attachedActivity.startActivity(intent);

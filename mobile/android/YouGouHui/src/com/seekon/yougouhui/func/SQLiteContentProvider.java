@@ -74,7 +74,7 @@ public abstract class SQLiteContentProvider extends ContentProvider {
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor cursor = db.query(tableName, projection, selection, selectionArgs,
 				null, null, sortOrder);
-		cursor.setNotificationUri(getContext().getContentResolver(), uri);
+		//cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		return new SQLiteCursorWrapper(cursor);
 	}
 

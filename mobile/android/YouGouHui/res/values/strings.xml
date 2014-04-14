@@ -33,6 +33,8 @@
 	<string name="b_title_search">搜索</string>
 	
 	<string name="title_action_publish">发布</string>
+	<string name="title_button_favorite">收藏</string>
+	<string name="title_button_favorite_shop">收藏此商家</string>
 	
 	<string name="label_to">至</string>
 	<string name="error_end_date_must_after_start_date">截止日期必须在开始日期之后</string>

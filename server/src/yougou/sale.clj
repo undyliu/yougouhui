@@ -6,6 +6,7 @@
   (:require
 		[yougou.file :as file]
     [yougou.date :as date]
+    [yougou.shop :as shop]
 	)
 )
 
@@ -39,16 +40,22 @@
         )
   )
 
+(defn get-sale-images [sale-id]
+  (select sale-images (fields :uuid :img :ord_index) (where {:sale_id sale-id}))
+  )
+
 (defn get-sale-discusses [sale-id]
   (select sale-discusses (where {:sale_id sale-id})
   )
 )
 
 (defn get-sale-data [id]
-  (let [[sale] (select sales (where {:uuid id}))
-       discusses (get-sale-discusses id)
-	]
-   (assoc sale :discusses discusses)
+  (let [[sale] (exec (-> sale-select-base (where {:uuid id})))
+         discusses (get-sale-discusses id)
+         images (get-sale-images id)
+         ;shop (shop/get-shop (:shop_id sale))
+	    ]
+   (assoc sale :discusses discusses :images images )
   )
 )
 

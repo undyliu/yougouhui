@@ -1,17 +1,16 @@
 package com.seekon.yougouhui.widget;
 
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_IMG;
-
 import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
 
-import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.ImagePreviewActivity;
 import com.seekon.yougouhui.file.ImageLoader;
 
 /**
@@ -20,58 +19,78 @@ import com.seekon.yougouhui.file.ImageLoader;
  * @author undyliu
  * 
  */
-public class ImageListRemoteAdapter extends SimpleAdapter {
+public class ImageListRemoteAdapter extends BaseAdapter {
 
-	public ImageListRemoteAdapter(Context context,
-			List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
-		super(context, data, resource, from, to);
+	private Context context;
+	private List<String> imageList;
+	private int iconWidth = 0;
+
+	public ImageListRemoteAdapter(Context context, List<String> imageList,
+			int iconWidth) {
+		super();
+		this.context = context;
+		this.imageList = imageList;
+		this.iconWidth = iconWidth;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		//
-		// ViewHolder holder = null;
-		// if(convertView == null){
-		// holder = new ViewHolder();
-		// convertView = LayoutInflater.from(context).inflate(mResource, null,
-		// false);
-		// holder.imageView = (ImageView) convertView.findViewById(R.id.img_id);
-		// convertView.setTag(holder);
-		// }else{
-		// holder = (ViewHolder) convertView.getTag();
-		// }
-		//
-		// Map record = (Map) getItem(position);
-		// String recordImg = (String) record.get(COL_NAME_IMG);
-		// if (recordImg != null && recordImg.trim().length() > 0) {
-		// holder.imageView.setVisibility(ImageView.VISIBLE);
-		// imageLoader.displayImage(Const.SERVER_APP_URL + recordImg,
-		// holder.imageView);
-		// }else{
-		// if(holder != null && holder.imageView != null){
-		// holder.imageView.setVisibility(ImageView.INVISIBLE);
-		// }
-		// }
-		//
-		// return convertView;
 
-		View view = super.getView(position, convertView, parent);
-		ImageView imageView = (ImageView) view.findViewById(R.id.img_id);
-
-		Map record = (Map) getItem(position);
-		String recordImg = (String) record.get(COL_NAME_IMG);
-		if (recordImg != null && recordImg.trim().length() > 0) {
-			imageView.setVisibility(ImageView.VISIBLE);
-			ImageLoader.getInstance().displayImage(recordImg, imageView, true);
+		ViewHolder holder = null;
+		if (convertView == null) {
+			holder = new ViewHolder();
+			convertView = new ImageView(context);
+			holder.imageView = (ImageView) convertView;
+			convertView.setTag(holder);
 		} else {
-			if (imageView != null) {
-				imageView.setVisibility(ImageView.INVISIBLE);
-			}
+			holder = (ViewHolder) convertView.getTag();
 		}
-		return view;
+
+		holder.imageView.setLayoutParams(new AbsListView.LayoutParams(iconWidth,
+				iconWidth));
+		holder.imageView.setAdjustViewBounds(false);
+		holder.imageView.setScaleType(ImageView.ScaleType.CENTER);
+
+		final String image = imageList.get(position);
+		if (image != null && image.trim().length() > 0) {
+			holder.imageView.setVisibility(ImageView.VISIBLE);
+			ImageLoader.getInstance().displayImage(image, holder.imageView, true);
+		} else {
+			holder.imageView.setVisibility(ImageView.INVISIBLE);
+		}
+
+		holder.imageView.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(context, ImagePreviewActivity.class);
+				intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, image);
+				intent.putExtra(ImagePreviewActivity.IMAGE_INDEX_IN_CONTAINER, 0);
+				intent.putExtra(ImagePreviewActivity.IMAGE_DELETE_FLAG, false);
+
+				context.startActivity(intent);
+			}
+		});
+
+		return holder.imageView;
 	}
 
-	// class ViewHolder{
-	// ImageView imageView;
-	// }
+	@Override
+	public int getCount() {
+		return imageList.size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		return imageList.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+
+	class ViewHolder {
+		ImageView imageView;
+	}
 }

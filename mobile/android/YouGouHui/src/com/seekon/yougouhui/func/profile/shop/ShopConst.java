@@ -27,7 +27,7 @@ public interface ShopConst extends DataConst {
 
 	public static final String NAME_SHOP_LIST = "shopList";
 
-	public static final String DATA_SHOP_KEY = "data.shop";
+	public static final String DATA_SHOP_KEY = "shop";
 
 	public static final String MAP_SHOP_KEY = "map.shop";
 

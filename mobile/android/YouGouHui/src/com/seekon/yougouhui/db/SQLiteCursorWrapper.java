@@ -1,6 +1,5 @@
 package com.seekon.yougouhui.db;
 
-import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.database.CharArrayBuffer;
 import android.database.ContentObserver;
@@ -103,7 +102,6 @@ public class SQLiteCursorWrapper implements Cursor {
 		return cursor.getLong(columnIndex);
 	}
 
-	@SuppressLint("NewApi")
 	public Uri getNotificationUri() {
 		return cursor.getNotificationUri();
 	}

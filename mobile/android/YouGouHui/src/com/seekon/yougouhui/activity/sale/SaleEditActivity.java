@@ -1,20 +1,19 @@
 package com.seekon.yougouhui.activity.sale;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.profile.shop.TradeEntity;
-import com.seekon.yougouhui.func.sale.SaleConst;
-import com.seekon.yougouhui.func.sale.SaleData;
 import com.seekon.yougouhui.func.sale.SaleEntity;
-import com.seekon.yougouhui.func.sale.SaleImgConst;
+import com.seekon.yougouhui.func.sale.SaleUtils;
+import com.seekon.yougouhui.func.sale.widget.GetSaleTask;
+import com.seekon.yougouhui.func.widget.TaskCallback;
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.DateUtils;
 import com.seekon.yougouhui.util.ViewUtils;
 
@@ -22,42 +21,36 @@ public class SaleEditActivity extends SalePromoteActivity {
 
 	private SaleEntity sale;
 
-	private SaleData saleData;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.shop_sale_edit);
 		
-		saleData = new SaleData(this);
 		loadSale();
 		
 		super.onCreate(savedInstanceState);
 	}
 
 	private void loadSale() {
-		sale = (SaleEntity) this.getIntent().getSerializableExtra(SaleConst.DATA_SALE_KEY);
-		sale = saleData.getSale(sale.getUuid());
-		if (sale == null) {
-			ViewUtils.showToast("获取活动数据失败.");
-			return;
-		}
-
-		Cursor cursor = null;
-		try {
-			cursor = this.getContentResolver().query(SaleImgConst.CONTENT_URI,
-					new String[] { DataConst.COL_NAME_IMG },
-					SaleImgConst.COL_NAME_SALE_ID + "=?", new String[] { sale.getUuid() },
-					DataConst.COL_NAME_ORD_INDEX);
-			List<String> images = new ArrayList<String>();
-			while(cursor.moveToNext()){
-				images.add(cursor.getString(0));
+		final String saleId = this.getIntent().getStringExtra(DataConst.COL_NAME_UUID);
+		GetSaleTask task = new GetSaleTask(this, new TaskCallback<RestMethodResult<JSONObjResource>>() {
+			
+			@Override
+			public void onPostExecute(RestMethodResult<JSONObjResource> result) {
+				if(result.getStatusCode() == 200){
+					sale = SaleUtils.getSale(SaleEditActivity.this, saleId);
+					updateViews();
+				}else{
+					ViewUtils.showToast("获取活动数据失败.");
+				}
 			}
-			sale.setImages(images);
-		} finally {
-			if (cursor != null) {
-				cursor.close();
+			
+			@Override
+			public void onCancelled() {
+				
 			}
-		}
+		}, saleId);
+		
+		task.execute((Void)null);
 	}
 	
 	@Override

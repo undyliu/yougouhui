@@ -50,8 +50,8 @@ public class ShopSaleListAdapter extends DateIndexedListAdapter {
 						}
 						
 						Intent intent = new Intent(context, startActivity);
-						intent.putExtra(DataConst.COL_NAME_UUID, sale.getShop().getUuid());
-						intent.putExtra(SaleConst.DATA_SALE_KEY, sale);
+						intent.putExtra(SaleConst.COL_NAME_SHOP_ID, sale.getShop().getUuid());
+						intent.putExtra(DataConst.COL_NAME_UUID, sale.getUuid());
 						((Activity) context).startActivityForResult(intent,
 								ShopSaleListActivity.SALE_PROMOTE_REQUEST_CODE);
 					}

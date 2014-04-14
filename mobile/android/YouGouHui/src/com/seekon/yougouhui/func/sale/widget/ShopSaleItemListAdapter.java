@@ -65,7 +65,7 @@ public class ShopSaleItemListAdapter extends BaseAdapter {
 		saleImageView.setLayoutParams(new LinearLayout.LayoutParams(
 				SALE_IMAGE_WIDTH, SALE_IMAGE_WIDTH));
 		saleImageView.setAdjustViewBounds(false);
-		saleImageView.setScaleType(ImageView.ScaleType.CENTER);
+		saleImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
 		ImageLoader.getInstance().displayImage(sale.getImg(), saleImageView, true);
 

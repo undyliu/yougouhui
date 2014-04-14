@@ -8,6 +8,8 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.profile.shop.ShopConst;
+import com.seekon.yougouhui.func.profile.shop.ShopProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
@@ -48,6 +50,12 @@ public class SaleProcessor extends ContentProcessor {
 					updateContentProvider(image, SaleImgData.COL_NAMES,
 							SaleImgConst.CONTENT_URI);
 				}
+//				if (jsonObj.has(ShopConst.DATA_SHOP_KEY)) {
+//					JSONObject shopObj = jsonObj.getJSONObject(ShopConst.DATA_SHOP_KEY);
+//					RestMethodResult<JSONObjResource> restResult = new RestMethodResult<JSONObjResource>(
+//							200, "", new JSONObjResource(shopObj.toString()));
+//					ShopProcessor.getInstance(mContext).updateContentProvider(restResult);
+//				}
 			}
 		} catch (Exception e) {
 			Logger.warn(TAG, e.getMessage());
@@ -68,5 +76,10 @@ public class SaleProcessor extends ContentProcessor {
 	public RestMethodResult<JSONObjResource> publishSale(SaleEntity sale) {
 		return (RestMethodResult) this
 				.execMethod(new PostSaleMethod(mContext, sale));
+	}
+
+	public RestMethodResult<JSONObjResource> getSale(String saleId) {
+		return (RestMethodResult) this.execMethod(new GetSaleMethod(mContext,
+				saleId));
 	}
 }

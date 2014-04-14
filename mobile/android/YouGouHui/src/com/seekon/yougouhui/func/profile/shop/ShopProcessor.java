@@ -36,6 +36,10 @@ public class ShopProcessor extends ContentProcessor {
 		super(mContext, ShopData.COL_NAMES, ShopConst.CONTENT_URI);
 	}
 
+	public void updateContentProvider(RestMethodResult result){
+		updateContentProvider(result, colNames);
+	}
+	
 	@Override
 	protected void updateContentProvider(RestMethodResult<Resource> result,
 			String[] colNames) {
