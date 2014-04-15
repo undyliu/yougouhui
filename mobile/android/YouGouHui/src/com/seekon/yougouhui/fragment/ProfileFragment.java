@@ -8,6 +8,7 @@ import android.widget.ListView;
 import com.seekon.yougouhui.activity.profile.MyShareActivity;
 import com.seekon.yougouhui.activity.profile.SettingActivity;
 import com.seekon.yougouhui.activity.profile.contact.ContactListActivity;
+import com.seekon.yougouhui.activity.profile.favorit.FavoritMainActivity;
 import com.seekon.yougouhui.activity.profile.shop.LoginShopActivity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.module.ModuleConst;
@@ -32,6 +33,8 @@ public class ProfileFragment extends ModuleListFragment {
 			intent = new Intent(attachedActivity, LoginShopActivity.class);
 		} else if (ModuleConst.CODE_CONTACT_LIST.equalsIgnoreCase(moduleCode)) {
 			intent = new Intent(attachedActivity, ContactListActivity.class);
+		}else if(ModuleConst.CODE_MY_FAVORIT.equalsIgnoreCase(moduleCode)){
+			intent = new Intent(attachedActivity, FavoritMainActivity.class);
 		}
 
 		if (intent != null) {

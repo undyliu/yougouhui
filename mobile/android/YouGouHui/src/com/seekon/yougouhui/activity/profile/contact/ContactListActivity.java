@@ -23,8 +23,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.func.PinyinComparator;
 import com.seekon.yougouhui.func.RunEnv;
-import com.seekon.yougouhui.func.profile.contact.PinyinComparator;
 import com.seekon.yougouhui.func.profile.contact.widget.ContactListAdapter;
 import com.seekon.yougouhui.func.profile.contact.widget.SideBar;
 import com.seekon.yougouhui.func.profile.contact.widget.SideBar.OnTouchingLetterChangedListener;
@@ -60,7 +60,7 @@ public class ContactListActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.contact_list);
+		setContentView(R.layout.catalog_list);
 		initViews();
 	}
 
@@ -154,7 +154,7 @@ public class ContactListActivity extends Activity {
 			}
 		});
 
-		updateSideBar();
+		//updateSideBar();
 	}
 
 	// 根据联系人数据重新设置sidebar
@@ -225,7 +225,7 @@ public class ContactListActivity extends Activity {
 				contactDateList = getContactListData();
 				Collections.sort(contactDateList, pinyinComparator);
 				adapter.updateListView(contactDateList);
-				updateSideBar();
+				//updateSideBar();
 			}
 			break;
 

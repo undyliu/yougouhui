@@ -20,5 +20,5 @@ public interface ModuleConst extends DataConst {
 	public static final String CODE_MY_SHARE = "my_share";
 	public static final String CODE_MY_SHOP = "my_shop";
 	public static final String CODE_CONTACT_LIST = "contact_list";
-
+	public static final String CODE_MY_FAVORIT = "my_favorite";
 }

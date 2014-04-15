@@ -291,6 +291,7 @@
             android:label="@string/title_shop_sale_detail"
             android:screenOrientation="portrait" >
         </activity>
+        <activity android:label="@string/title_my_favorit" android:name=".activity.profile.favorit.FavoritMainActivity"></activity>
     </application>
 
 </manifest>

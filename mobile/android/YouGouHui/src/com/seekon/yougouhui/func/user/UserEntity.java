@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.seekon.yougouhui.func.PinyinEntity;
 import com.seekon.yougouhui.util.PinyinUtils;
 
 /**
@@ -12,18 +13,15 @@ import com.seekon.yougouhui.util.PinyinUtils;
  * @author undyliu
  * 
  */
-public class UserEntity implements Serializable, Cloneable {
+public class UserEntity extends PinyinEntity implements Cloneable {
 
 	private static final long serialVersionUID = -4052088250779917423L;
 
 	private String uuid;
 	private String phone;
-	private String name;
 	private String pwd;
 	private String photo;
 	private String registerTime;
-
-	private String pinyinName;
 
 	private List<UserEntity> friends = new ArrayList<UserEntity>();
 
@@ -33,15 +31,12 @@ public class UserEntity implements Serializable, Cloneable {
 
 	public UserEntity(String uuid, String phone, String name, String pwd,
 			String photo, String registerTime) {
-		super();
+		super(name);
 		this.uuid = uuid;
 		this.phone = phone;
-		this.name = name;
 		this.pwd = pwd;
 		this.photo = photo;
 		this.registerTime = registerTime;
-
-		pinyinName = PinyinUtils.getPinYin(name);
 	}
 
 	public String getUuid() {
@@ -58,15 +53,6 @@ public class UserEntity implements Serializable, Cloneable {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-		pinyinName = PinyinUtils.getPinYin(name);
 	}
 
 	public String getPwd() {
@@ -109,14 +95,6 @@ public class UserEntity implements Serializable, Cloneable {
 
 	public void removeFriend(UserEntity friend) {
 		this.friends.remove(friend);
-	}
-
-	public String getPinyinName() {
-		return pinyinName;
-	}
-
-	public String getFirstLetter() {
-		return new String(new char[] { pinyinName.charAt(0) });
 	}
 
 	@Override

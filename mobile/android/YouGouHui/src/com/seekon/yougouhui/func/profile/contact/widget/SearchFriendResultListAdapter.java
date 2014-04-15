@@ -54,7 +54,7 @@ public class SearchFriendResultListAdapter extends BaseAdapter {
 		ViewHolder viewHolder = null;
 		if (view == null) {
 			viewHolder = new ViewHolder();
-			view = LayoutInflater.from(context).inflate(R.layout.contact_list_item,
+			view = LayoutInflater.from(context).inflate(R.layout.catalog_list_item,
 					null);
 			viewHolder.view = view;
 			view.setTag(viewHolder);
