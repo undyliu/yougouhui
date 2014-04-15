@@ -6,6 +6,82 @@
 
 (declare sale-images sales sale-discusses channels trades shares share-images share-comments shops shop-trades shop-emps users)
 
+;;base tables
+(defentity trades
+  (table :e_trade)
+  (pk :uuid)
+)
+
+(defentity channels
+  (table :e_channel)
+  (pk :uuid)
+)
+
+(defentity channel-trades
+  (table :e_mapping_ct)
+  (pk :uuid)
+  )
+
+(defentity modules
+  (table :e_module)
+  (pk :uuid)
+)
+
+;;user tables
+(defentity users
+  (table :e_user)
+  (pk :uuid)
+)
+
+(defentity friends
+  (table :e_friend)
+  (pk :uuid)
+)
+
+;;share tables
+(defentity shares
+  (table :e_share)
+	(has-many share-images)
+	(has-many share-comments)
+  (pk :uuid)
+)
+
+(defentity share-images
+  (table :e_share_img)
+  (pk :uuid)
+  (belongs-to shares {:fk :share_id})
+)
+
+(defentity share-comments
+  (table :e_share_comment)
+  (pk :uuid)
+  (belongs-to shares {:fk :share_id})
+)
+
+;;shop tables
+(defentity shop-trades
+  (table :e_shop_trade)
+  (pk :uuid)
+  (belongs-to shops {:fk :shop_id})
+  )
+
+(defentity shop-emps
+  (table :e_shop_emp)
+  (pk :uuid)
+  (belongs-to shops {:fk :shop_id})
+  (belongs-to users {:fk :user_id})
+  )
+
+(defentity shops
+  (table :e_shop)
+  (pk :uuid)
+  )
+(defentity shop-favorites
+  (table :e_shop_favorit)
+  (pk :uuid)
+  )
+
+;;sale tables
 (defentity sale-images
   (table :e_sale_img)
   (pk :uuid)
@@ -27,69 +103,12 @@
   (belongs-to sales {:fk :sale_id})
 )
 
-(defentity channels
-  (table :e_channel)
-  (pk :uuid)
-)
-
-(defentity modules
-  (table :e_module)
-  (pk :uuid)
-)
-
-(defentity users
-  (table :e_user)
-  (pk :uuid)
-)
-
-(defentity friends
-  (table :e_friend)
-  (pk :uuid)
-)
-
-(defentity shares
-  (table :e_share)
-	(has-many share-images)
-	(has-many share-comments)
-  (pk :uuid)
-)
-
-(defentity share-images
-  (table :e_share_img)
-  (pk :uuid)
-  (belongs-to shares {:fk :share_id})
-)
-
-(defentity share-comments
-  (table :e_share_comment)
-  (pk :uuid)
-  (belongs-to shares {:fk :share_id})
-)
-
-(defentity trades
-  (table :e_trade)
-  (pk :uuid)
-)
-
-(defentity shop-trades
-  (table :e_shop_trade)
-  (pk :uuid)
-  (belongs-to shops {:fk :shop_id})
-  )
-
-(defentity shop-emps
-  (table :e_shop_emp)
-  (pk :uuid)
-  (belongs-to shops {:fk :shop_id})
-  (belongs-to users {:fk :user_id})
-  )
-
-(defentity shops
-  (table :e_shop)
+(defentity sale-visites
+  (table :e_sale_visit)
   (pk :uuid)
   )
 
-(defentity channel-trades
-  (table :e_mapping_ct)
+(defentity sale-favorites
+  (table :e_sale_favorit)
   (pk :uuid)
   )

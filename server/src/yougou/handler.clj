@@ -34,7 +34,7 @@
 (defroutes sale-routes
 	(GET "/getSalesByChannel/:channel-id" [channel-id] (json/write-str (get-sales-by-channel channel-id)))
   (GET "/getSalesByShop/:shop-id" [shop-id] (json/write-str (get-sales-by-shop shop-id)))
-	(GET "/getSaleData/:id" [id] (json/write-str (get-sale-data id)))
+	(GET "/getSaleData/:id/:user-id" [id user-id] (json/write-str (get-sale-data id user-id)))
   (POST "/addSale" {{title :title content :content start-date :start_date end-date :end_date shop-id :shop_id trade-id :trade_id publisher :publisher :as params} :params}
         (println params)
         (let [image-names (clojure.string/split (java.net.URLDecoder/decode (:fileNameList params) "utf-8") #"[|]")
@@ -47,6 +47,25 @@
 		        )
           )
         )
+  (POST "/addSaleFavorit" {{sale-id :sale_id user-id :user_id} :params}
+		(try
+			(json/write-str (save-sale-favorit user-id sale-id))
+			(catch Exception e {:status  500 :body (json/write-str{:error "添加收藏失败."})})
+		)
+	)
+  (POST "/addSaleDiscuss" {{sale-id :sale_id user-id :publisher content :content} :params}
+		(try
+			(json/write-str (save-sale-discuss sale-id user-id content))
+			(catch Exception e {:status  500 :body (json/write-str{:error "添加评论失败."})})
+		)
+	)
+  (DELETE "/deleteSaleDiscuss/:uuid" [uuid]
+		(try
+			(json/write-str (del-sale-discuss uuid))
+			(catch Exception e {:status  500 :body (json/write-str{:error "删除评论失败."})})
+		)
+	)
+  (GET "/getSaleDiscusses/:sale-id" [sale-id] (json/write-str (get-sale-discusses sale-id)))
 )
 
 (defroutes module-routes
@@ -208,6 +227,13 @@
       )
    )
   (POST "/searchShops" {{word :search-word} :params} (json/write-str (search-shop (java.net.URLDecoder/decode word "utf-8"))))
+
+  (POST "/addShopFavorit" {{shop-id :shop_id user-id :user_id} :params}
+		(try
+			(json/write-str (save-shop-favorit user-id shop-id))
+			(catch Exception e {:status  500 :body (json/write-str{:error "添加收藏失败."})})
+		)
+	)
 )
 
 (def app

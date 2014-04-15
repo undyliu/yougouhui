@@ -40,6 +40,15 @@
         )
   )
 
+(defn save-sale-visit [user-id sale-id visit-count]
+  (let [uuid (str (java.util.UUID/randomUUID))
+        currentTime (System/currentTimeMillis)
+        ]
+    (update sales (set-fields {:visit_count visit-count}) (where {:uuid sale-id}))
+    (insert sale-visites (values {:uuid uuid :user_id user-id :sale_id sale-id :visit_time currentTime}))
+    )
+  )
+
 (defn get-sale-images [sale-id]
   (select sale-images (fields :uuid :img :ord_index) (where {:sale_id sale-id}))
   )
@@ -49,13 +58,14 @@
   )
 )
 
-(defn get-sale-data [id]
+(defn get-sale-data [id user-id]
   (let [[sale] (exec (-> sale-select-base (where {:uuid id})))
          discusses (get-sale-discusses id)
          images (get-sale-images id)
          ;shop (shop/get-shop (:shop_id sale))
 	    ]
-   (assoc sale :discusses discusses :images images )
+    (save-sale-visit user-id id (+ 1 (:visit_count sale)))
+    (assoc sale :discusses discusses :images images )
   )
 )
 
@@ -94,4 +104,44 @@
     )
   )
 
+(defn save-sale-favorit [user-id sale-id]
+  (let [uuid (str (java.util.UUID/randomUUID))
+        currentTime (System/currentTimeMillis)
+        ]
+    (insert sale-favorites (values {:uuid uuid :user_id user-id :sale_id sale-id :last_modify_time currentTime}))
+    {:uuid uuid :last_modify_time currentTime}
+    )
+  )
 
+(defn save-sale-discuss [sale-id publisher content]
+  (let [uuid (str (java.util.UUID/randomUUID))
+        currentTime (System/currentTimeMillis)
+        discuss-count (:discuss_count (first (select sales (fields :discuss_count) (where {:uuid sale-id}))))
+        ]
+    (insert sale-discusses (values {:uuid uuid :sale_id sale-id :content content :publisher publisher :publish_time currentTime}))
+    (update sales (set-fields {:discuss_count (+ 1 discuss-count)}) (where {:uuid sale-id}))
+    {:uuid uuid :publish_time currentTime}
+   )
+ )
+
+(defn del-sale-discuss [uuid]
+  (let [sale (first (select sales (fields :discuss_count :uuid)
+                                  (join sale-discusses (and (= :e_sale_discuss.sale_id :uuid) (= :e_sale_discuss.uuid uuid)))
+                                  ))
+        discuss-count (:discuss_count sale)
+        sale-id (:uuid sale)
+        ]
+    (update sale-discusses (set-fields {:is_deleted 1}) (where {:uuid uuid}))
+    (update sales (set-fields {:discuss_count (- discuss-count 1)}) (where {:uuid sale-id}))
+    {:uuid uuid :is_deleted 1}
+    )
+  )
+
+(defn get-sale-discusses [sale-id]
+  (let [discusses (select sale-discusses
+                          (fields :uuid :sale_id :content :publisher :publish_time)
+                          (where {:is_deleted 0}))
+        ]
+    discusses
+   )
+  )
