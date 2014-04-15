@@ -44,7 +44,7 @@ public class CommentPopupWindow extends PopupWindow {
 	public void init(final Activity activity, final ShareEntity share,
 			final BaseAdapter commentAdapter) {
 		View view = activity.getLayoutInflater().inflate(
-				R.layout.discover_friends_input_comment, null);
+				R.layout.base_comment_input, null);
 		this.setContentView(view);
 
 		final EditText commentText = (EditText) view

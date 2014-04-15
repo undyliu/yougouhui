@@ -5,28 +5,27 @@ import java.net.URI;
 import android.content.Context;
 
 import com.seekon.yougouhui.Const;
-import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.rest.BaseRequest;
-import com.seekon.yougouhui.rest.JSONObjResourceMethod;
+import com.seekon.yougouhui.rest.JSONArrayResourceMethod;
 import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
 
-public class GetSaleMethod extends JSONObjResourceMethod{
-	
-	private static final String GET_SALE_URI = Const.SERVER_APP_URL
-			+ "/getSaleData/";
-	
+public class GetDiscussesMethod extends JSONArrayResourceMethod {
+
+	private static final String GET_DISCUSSES_URI = Const.SERVER_APP_URL
+			+ "/getSaleDiscusses/";
+
 	private String saleId;
 
-	public GetSaleMethod(Context context, String saleId) {
+	public GetDiscussesMethod(Context context, String saleId) {
 		super(context);
 		this.saleId = saleId;
 	}
 
 	@Override
 	protected Request buildRequest() {
-		String uri = GET_SALE_URI + saleId + "/" + RunEnv.getInstance().getUser().getUuid();
+		String uri = GET_DISCUSSES_URI + saleId;
 		return new BaseRequest(Method.GET, URI.create(uri), null, null);
 	}
-	
+
 }

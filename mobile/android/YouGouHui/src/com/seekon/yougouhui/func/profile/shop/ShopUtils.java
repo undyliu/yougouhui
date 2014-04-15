@@ -199,4 +199,26 @@ public class ShopUtils {
 		}
 		return tradeList;
 	}
+
+	public static boolean isShopFavorited(Context context, String shopId,
+			String userId) {
+		String selection = ShopFavoritConst.COL_NAME_SHOP_ID + "=? and "
+				+ ShopFavoritConst.COL_NAME_USER_ID + "=?";
+		String[] selectionArgs = new String[] { shopId, userId };
+		Cursor cursor = null;
+		try {
+			cursor = context.getContentResolver().query(ShopFavoritConst.CONTENT_URI,
+					new String[] { " count(1) " }, selection, selectionArgs, null);
+			if (cursor.moveToNext()) {
+				return cursor.getInt(0) > 0;
+			}
+		} catch (Exception e) {
+			Logger.warn(TAG, e.getMessage());
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
+		return false;
+	}
 }

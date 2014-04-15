@@ -86,7 +86,7 @@ public class SaleListFragment extends Fragment implements IXListViewListener {
 					if (resultCode == 200) {
 						updateListItems();
 					} else {
-						ViewUtils.showToast("获取数据失败.");
+						ViewUtils.showToast("获取活动数据失败.");
 					}
 				} else {
 					Logger.debug(TAG, "Result is NOT for our request ID");

@@ -15,7 +15,6 @@ import java.util.Map;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,19 +49,21 @@ public class ModuleListFragment extends RequestListFragment {
 
 	@Override
 	protected void initRequestId() {
-		AsyncTask<Void, Void, Long> task = new AsyncTask<Void, Void, Long>() {
-			@Override
-			protected Long doInBackground(Void... params) {
-				return ModuleServiceHelper.getInstance(attachedActivity).getModules(
-						type, requestResultType);
-			}
-
-			@Override
-			protected void onPostExecute(Long result) {
-				requestId = result;
-			}
-		};
-		task.execute((Void) null);
+		// AsyncTask<Void, Void, Long> task = new AsyncTask<Void, Void, Long>() {
+		// @Override
+		// protected Long doInBackground(Void... params) {
+		// return ModuleServiceHelper.getInstance(attachedActivity).getModules(
+		// type, requestResultType);
+		// }
+		//
+		// @Override
+		// protected void onPostExecute(Long result) {
+		// requestId = result;
+		// }
+		// };
+		// task.execute((Void) null);
+		requestId = ModuleServiceHelper.getInstance(attachedActivity).getModules(
+				type, requestResultType);
 	}
 
 	@Override

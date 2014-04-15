@@ -6,94 +6,176 @@
     android:layout_marginTop="10dp"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+    <include layout="@layout/progressbar" />
 
-        <ImageView
-            android:id="@+id/sale_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-             />
+    <LinearLayout
+        android:id="@+id/sale_detail_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:orientation="vertical" >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal" >
-
-                <TextView
-                    android:id="@+id/sale_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right" >
-
-                <TextView
-                    android:id="@+id/shop_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/sale_content"
+            <ImageView
+                android:id="@+id/sale_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:orientation="vertical" >
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="left" >
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" >
 
                     <TextView
-                        android:id="@+id/shop_distance"
+                        android:id="@+id/sale_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="米"
-                        android:textSize="12sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="right" >
 
                     <TextView
+                        android:id="@+id/shop_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="截止到"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/sale_end_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/sale_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="left" >
+
+                        <TextView
+                            android:id="@+id/shop_distance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="米"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="right" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="截止到"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/sale_end_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right" >
+
+                    <Button
+                        android:id="@+id/b_sale_favorite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_shape"
+                        android:text="@string/title_button_favorite"
+                        android:textColor="@color/white" />
+                </LinearLayout>
             </LinearLayout>
+        </LinearLayout>
+
+        <GridView
+            android:id="@+id/sale_pic_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:horizontalSpacing="5dp"
+            android:numColumns="3"
+            android:padding="5dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="5dp" >
+        </GridView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="共"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/sale_visit_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="位浏览"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/sale_discuss_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="条评论"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/img_sale_discuss_expand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/arrow_down" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/discuss_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible" >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -101,71 +183,20 @@
                 android:gravity="right" >
 
                 <Button
-                    android:id="@+id/b_sale_favorite"
+                    android:id="@+id/b_discuss"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_button_favorite" />
+                    android:background="@drawable/button_shape"
+                    android:text="@string/button_comment"
+                    android:textColor="@color/white" />
             </LinearLayout>
+
+            <com.seekon.yougouhui.layout.XListView
+                android:id="@+id/listview_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawSelectorOnTop="false" />
         </LinearLayout>
-    </LinearLayout>
-
-    <GridView
-        android:id="@+id/sale_pic_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:horizontalSpacing="5dp"
-        android:numColumns="3"
-        android:padding="5dp"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="5dp" >
-
-    </GridView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="共"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/sale_visit_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:text="位浏览"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/sale_discuss_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="条评论"
-            android:textSize="12sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone" >
-
-        <include layout="@layout/base_xlistview" />
     </LinearLayout>
 
 </LinearLayout>
