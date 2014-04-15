@@ -190,3 +190,12 @@
            (where {:name [like search-word] :status "1"}))
    )
   )
+
+(defn save-shop-favorit [user-id shop-id]
+  (let [uuid (str (java.util.UUID/randomUUID))
+        currentTime (System/currentTimeMillis)
+        ]
+    (insert shop-favorites (values {:uuid uuid :user_id user-id :shop_id shop-id :last_modify_time currentTime}))
+    {:uuid uuid :last_modify_time currentTime}
+    )
+  )
