@@ -7,6 +7,7 @@
 	[yougou.user]
 	[yougou.friend]
 	[yougou.shop]
+  [yougou.favorit]
 	)
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
@@ -47,12 +48,6 @@
 		        )
           )
         )
-  (POST "/addSaleFavorit" {{sale-id :sale_id user-id :user_id} :params}
-		(try
-			(json/write-str (save-sale-favorit user-id sale-id))
-			(catch Exception e {:status  500 :body (json/write-str{:error "添加收藏失败."})})
-		)
-	)
   (POST "/addSaleDiscuss" {{sale-id :sale_id user-id :publisher content :content} :params}
 		(try
 			(json/write-str (save-sale-discuss sale-id user-id content))
@@ -160,14 +155,15 @@
 
 (defroutes shop-routes
 	(GET "/getTrades" [] (json/write-str (get-trades)))
-  (POST "/registerShop" {{name :name address :address desc :desc shop-img :shop_img busi-license :busi_license owner :owner pwd :pwd :as params} :params}
+  (POST "/registerShop" {{name :name location :location address :address desc :desc shop-img :shop_img busi-license :busi_license owner :owner pwd :pwd :as params} :params}
     ;(println params)
     (let [files {shop-img (:tempfile (params shop-img)) busi-license (:tempfile (params busi-license))}
           trades (clojure.string/split (java.net.URLDecoder/decode (:tradeList params) "utf-8") #"[|]")
           ]
       (try
         (json/write-str (save-shop-data (java.net.URLDecoder/decode name "utf-8") (java.net.URLDecoder/decode desc "utf-8")
-                                        (java.net.URLDecoder/decode address "utf-8") shop-img busi-license owner pwd files trades))
+                                        (java.net.URLDecoder/decode location "utf-8") (java.net.URLDecoder/decode address "utf-8")
+                                        shop-img busi-license owner pwd files trades))
         (catch Exception e (.printStackTrace e) {:status  500 :body (json/write-str {:error "注册商铺失败."})})
       )
     )
@@ -236,7 +232,40 @@
 	)
 )
 
+(defroutes favorit-routes
+ (POST "/addSaleFavorit" {{sale-id :sale_id user-id :user_id} :params}
+		(try
+			(json/write-str (save-sale-favorit user-id sale-id))
+			(catch Exception e {:status  500 :body (json/write-str{:error "添加收藏失败."})})
+		)
+	)
+ (POST "/addShopFavorit" {{shop-id :shop_id user-id :user_id} :params}
+		(try
+			(json/write-str (save-shop-favorit user-id shop-id))
+			(catch Exception e {:status  500 :body (json/write-str{:error "添加收藏失败."})})
+		)
+	)
+  (GET "/getSaleFavoritesByUser/:user-id" [user-id]
+     (json/write-str (get-sale-favorites-by-user user-id))
+   )
+  (GET "/getShopFavoritesByUser/:user-id" [user-id]
+     (json/write-str (get-shop-favorites-by-user user-id))
+   )
+  (DELETE "/deleteSaleFavorit/:user-id/:sale-id" [user-id sale-id]
+		(try
+			(json/write-str (del-sale-favorit user-id sale-id))
+			(catch Exception e {:status  500 :body (json/write-str{:error "取消收藏失败."})})
+		)
+	)
+  (DELETE "/deleteShopFavorit/:user-id/:shop-id" [user-id shop-id]
+		(try
+			(json/write-str (del-shop-favorit user-id shop-id))
+			(catch Exception e {:status  500 :body (json/write-str{:error "取消收藏失败."})})
+		)
+	)
+ )
+
 (def app
-  (-> (routes login-routes channel-routes sale-routes module-routes share-routes file-routes user-routes friend-routes shop-routes default-routes)
+  (-> (routes login-routes channel-routes sale-routes module-routes share-routes file-routes user-routes friend-routes shop-routes favorit-routes default-routes)
       (handler/site :session)
       ))

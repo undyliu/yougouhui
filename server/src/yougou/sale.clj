@@ -104,15 +104,6 @@
     )
   )
 
-(defn save-sale-favorit [user-id sale-id]
-  (let [uuid (str (java.util.UUID/randomUUID))
-        currentTime (System/currentTimeMillis)
-        ]
-    (insert sale-favorites (values {:uuid uuid :user_id user-id :sale_id sale-id :last_modify_time currentTime}))
-    {:uuid uuid :last_modify_time currentTime}
-    )
-  )
-
 (defn save-sale-discuss [sale-id publisher content]
   (let [uuid (str (java.util.UUID/randomUUID))
         currentTime (System/currentTimeMillis)
