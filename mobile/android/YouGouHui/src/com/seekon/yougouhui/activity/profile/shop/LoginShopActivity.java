@@ -137,7 +137,6 @@ public class LoginShopActivity extends Activity {
 
 			@Override
 			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				showProgress(false);
 				String errorMessage = "登录失败.";
 				int status = result.getStatusCode();
 				if (status == 200) {
@@ -186,6 +185,7 @@ public class LoginShopActivity extends Activity {
 				} else {
 					ViewUtils.showToast(errorMessage);
 				}
+				showProgress(false);
 				bLogin.setEnabled(true);
 				super.onPostExecute(result);
 			}
@@ -246,6 +246,7 @@ public class LoginShopActivity extends Activity {
 	}
 
 	private void _showShopMain(ArrayList<ShopEntity> shopIdList) {
+		showProgress(false);
 		Intent intent = new Intent(this, ShopMainActivity.class);
 		intent.putExtra(ShopConst.NAME_SHOP_LIST, shopIdList);
 		startActivity(intent);

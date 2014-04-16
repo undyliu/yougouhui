@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.seekon.yougouhui.func.LocationEntity;
 import com.seekon.yougouhui.func.user.UserEntity;
 
 public class ShopEntity implements Serializable {
@@ -20,7 +21,7 @@ public class ShopEntity implements Serializable {
 	private String owner;
 	private String status;
 	private String barcode;
-
+	private LocationEntity location;
 	private List<TradeEntity> trades = new ArrayList<TradeEntity>();
 	private List<UserEntity> employees = new ArrayList<UserEntity>();
 
@@ -102,6 +103,14 @@ public class ShopEntity implements Serializable {
 
 	public void setBarcode(String barcode) {
 		this.barcode = barcode;
+	}
+
+	public LocationEntity getLocation() {
+		return location;
+	}
+
+	public void setLocation(LocationEntity location) {
+		this.location = location;
 	}
 
 	public List<TradeEntity> getTrades() {

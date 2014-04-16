@@ -1,8 +1,4 @@
-package com.seekon.yougouhui.func.profile.shop;
-
-import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
+package com.seekon.yougouhui.func.profile.favorit;
 
 import android.content.Context;
 
@@ -14,15 +10,14 @@ import com.seekon.yougouhui.rest.Request;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.JSONUtils;
 
-public class PostShopFavoritMethod extends JSONObjResourceMethod {
-
-	private static final URI ADD_SALE_FAVORITE_URI = URI
-			.create(Const.SERVER_APP_URL + "/addShopFavorit");
+public class DeleteShopFavoritMethod extends JSONObjResourceMethod{
+	private static final String DEL_SHOP_FAVORIT_URI = Const.SERVER_APP_URL
+			+ "/deleteShopFavorit/";
 
 	private String shopId;
 	private String userId;
 
-	public PostShopFavoritMethod(Context context, String shopId, String userId) {
+	public DeleteShopFavoritMethod(Context context, String shopId, String userId) {
 		super(context);
 		this.shopId = shopId;
 		this.userId = userId;
@@ -30,13 +25,10 @@ public class PostShopFavoritMethod extends JSONObjResourceMethod {
 
 	@Override
 	protected Request buildRequest() {
-		Map<String, String> params = new HashMap<String, String>();
-		params.put(ShopFavoritConst.COL_NAME_SHOP_ID, shopId);
-		params.put(ShopFavoritConst.COL_NAME_USER_ID, userId);
-
-		return new BaseRequest(Method.POST, ADD_SALE_FAVORITE_URI, null, params);
+		String uri = DEL_SHOP_FAVORIT_URI + userId + "/" + shopId;
+		return new BaseRequest(Method.DELETE, uri, null, null);
 	}
-
+	
 	@Override
 	protected JSONObjResource parseResponseBody(String responseBody)
 			throws Exception {

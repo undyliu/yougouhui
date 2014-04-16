@@ -40,8 +40,16 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="150dip"
                 android:contentDescription="@string/app_name"
-                android:onClick="deleteView"
-                android:src="@drawable/share_pic_delete"
+                android:src="@drawable/b_pic_delete"
+                android:visibility="gone" />
+            <ImageButton
+                android:id="@+id/image_icon_preview"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="150dip"
+                android:layout_marginTop="50dip"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/b_pic_preview"
                 android:visibility="gone" />
         </FrameLayout>
     </LinearLayout>

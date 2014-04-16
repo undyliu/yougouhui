@@ -51,7 +51,7 @@ public abstract class CatalogListFragement extends Fragment{
 		return mainView;
 	}
 	
-	private void initViews(){
+	protected void initViews(){
 		activity = this.getActivity();
 		
 		pinyinComparator = new PinyinComparator();
@@ -81,11 +81,7 @@ public abstract class CatalogListFragement extends Fragment{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
-//				UserEntity user = contactDateList.get(position);
-//				Intent intent = new Intent(ContactListActivity.this,
-//						FriendProfileActivity.class);
-//				intent.putExtra(UserConst.DATA_KEY_USER, user);
-//				startActivityForResult(intent, OPEN_FRIEND_REQUEST_CODE);
+				doItemCheckAction(position);
 			}
 		});
 
@@ -123,6 +119,13 @@ public abstract class CatalogListFragement extends Fragment{
 	
 	public abstract FavoritListAdapter getCatalogListAdapter();
 	
+	public abstract void doItemCheckAction(int position);
+	
+	protected void updateViews(List catalogDataList){
+		Collections.sort(catalogDataList, pinyinComparator);
+		adapter.updateListView(catalogDataList);
+	}
+	
 	private void filterData(String filterStr) {
 		List filterDateList = new ArrayList();
 
@@ -138,9 +141,8 @@ public abstract class CatalogListFragement extends Fragment{
 				}
 			}
 		}
+		
+		updateViews(filterDateList);
 
-		// 根据a-z进行排序
-		Collections.sort(filterDateList, pinyinComparator);
-		adapter.updateListView(filterDateList);
 	}
 }

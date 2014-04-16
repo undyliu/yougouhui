@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -25,16 +26,17 @@ import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.ImagePreviewActivity;
+import com.seekon.yougouhui.activity.discover.ShareActivity;
 import com.seekon.yougouhui.activity.profile.shop.ShopBaseInfoActivity;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.profile.favorit.SaleFavoritProcessor;
 import com.seekon.yougouhui.func.profile.shop.ShopConst;
 import com.seekon.yougouhui.func.sale.SaleDiscussData;
 import com.seekon.yougouhui.func.sale.SaleDiscussEntity;
 import com.seekon.yougouhui.func.sale.SaleDiscussProcessor;
 import com.seekon.yougouhui.func.sale.SaleEntity;
-import com.seekon.yougouhui.func.sale.SaleFavoritProcessor;
 import com.seekon.yougouhui.func.sale.SaleUtils;
 import com.seekon.yougouhui.func.sale.widget.DiscussPopupWindow;
 import com.seekon.yougouhui.func.sale.widget.GetSaleTask;
@@ -66,7 +68,6 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 	TextView discussCountView;
 	ImageView saleImageView;
 	GridView saleImagesView;
-	Button favoritButton;
 	View discussView;
 	XListView discussListView;
 	ImageView discussExpandView;
@@ -75,6 +76,9 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 
 	private Handler mHandler;
 	private SaleDiscussData saleDiscussData;
+
+	private Menu menu;
+	private boolean saleFavorited = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +117,6 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 		DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
 		int colNumber = displayMetrics.widthPixels / (110);
 		saleImagesView.setNumColumns(colNumber);
-
-		favoritButton = (Button) findViewById(R.id.b_sale_favorite);
 
 		discussExpandView = (ImageView) findViewById(R.id.img_sale_discuss_expand);
 
@@ -183,36 +185,6 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 		BaseAdapter baseAdapter = new ImageListRemoteAdapter(this,
 				sale.getImages(), 100);
 		saleImagesView.setAdapter(baseAdapter);
-
-		favoritButton.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-					@Override
-					protected RestMethodResult<JSONObjResource> doInBackground(
-							Void... params) {
-						return SaleFavoritProcessor.getInstance(SaleDetailActivity.this)
-								.addSaleFavorit(sale.getUuid(),
-										RunEnv.getInstance().getUser().getUuid());
-					}
-
-					@Override
-					protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-						if (result.getStatusCode() == 200) {
-							favoritButton.setText(R.string.label_button_has_favorited);
-							favoritButton.setEnabled(false);
-						} else {
-							ViewUtils.showToast("收藏失败.");
-						}
-					}
-
-				};
-
-				task.execute((Void) null);
-			}
-		});
 
 		discussExpandView.setOnClickListener(new View.OnClickListener() {
 
@@ -284,8 +256,8 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 			@Override
 			protected void onPostExecute(Boolean result) {
 				if (result) {
-					favoritButton.setText(R.string.label_button_has_favorited);
-					favoritButton.setEnabled(false);
+					saleFavorited = result;
+					updateMenuStatus();
 				}
 			}
 		};
@@ -323,16 +295,102 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.sale_detail, menu);
+		this.menu = menu;
+		updateMenuStatus();
+
+		return true;
+	}
+
+	private void updateMenuStatus() {
+		if (menu != null) {
+			MenuItem item = menu.findItem(R.id.menu_sale_favorit_cancel);
+			item.setVisible(saleFavorited);
+
+			item = menu.findItem(R.id.menu_sale_favorit);
+			item.setVisible(!saleFavorited);
+		}
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
 		switch (itemId) {
 		case android.R.id.home:
 			this.finish();
 			break;
+		case R.id.menu_sale_favorit:
+			favoritSale(item);
+			break;
+		case R.id.menu_sale_favorit_cancel:
+			cancelFavoritSale(item);
+			break;
+		case R.id.menu_share_publish:
+			publishShare();
+			break;
 		default:
 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void publishShare(){
+		Intent intent = new Intent(this, ShareActivity.class);
+		intent.putExtra(ShopConst.DATA_SHOP_KEY, sale.getShop());
+		startActivity(intent);
+	}
+	
+	private void favoritSale(final MenuItem item) {
+		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
+
+			@Override
+			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
+				return SaleFavoritProcessor.getInstance(SaleDetailActivity.this)
+						.addSaleFavorit(sale, RunEnv.getInstance().getUser().getUuid());
+			}
+
+			@Override
+			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
+				item.setEnabled(true);
+				if (result.getStatusCode() == 200) {
+					saleFavorited = true;
+					updateMenuStatus();
+				} else {
+					ViewUtils.showToast("收藏失败.");
+				}
+			}
+
+		};
+
+		item.setEnabled(false);
+		task.execute((Void) null);
+	}
+
+	private void cancelFavoritSale(final MenuItem item) {
+		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
+
+			@Override
+			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
+				return SaleFavoritProcessor.getInstance(SaleDetailActivity.this)
+						.deleteSaleFavorit(sale.getUuid(), RunEnv.getInstance().getUser().getUuid());
+			}
+
+			@Override
+			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
+				item.setEnabled(true);
+				if (result.getStatusCode() == 200) {
+					saleFavorited = false;
+					updateMenuStatus();
+				} else {
+					ViewUtils.showToast("取消收藏失败.");
+				}
+			}
+
+		};
+
+		item.setEnabled(false);
+		task.execute((Void) null);
 	}
 
 	private void showProgress(boolean show) {

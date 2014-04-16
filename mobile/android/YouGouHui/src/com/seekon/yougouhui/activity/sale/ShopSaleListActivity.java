@@ -84,7 +84,7 @@ public class ShopSaleListActivity extends DateIndexedListActivity {
 
 	private void doSalePromote() {
 		Intent intent = new Intent(this, SalePublishActivity.class);
-		intent.putExtra(DataConst.COL_NAME_UUID, shopId);
+		intent.putExtra(SaleConst.COL_NAME_SHOP_ID, shopId);
 		startActivityForResult(intent, SALE_PROMOTE_REQUEST_CODE);
 	}
 

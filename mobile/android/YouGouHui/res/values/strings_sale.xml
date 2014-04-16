@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="label_shop_sale_title">标题</string>
+    <string name="label_shop_sale_content">内容</string>
+    <string name="label_shop_sale_valid_date">有效期</string>
+    <string name="label_shop_sale_trade">所属业务</string>
+
+    <string name="label_sale_count">共</string>
+    <string name="label_sale_visit_count">次浏览</string>
+    <string name="label_sale_discuss_count">条评论</string>
+    
+</resources>

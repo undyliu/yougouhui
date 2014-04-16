@@ -16,9 +16,9 @@
     <string name="title_shop_change_trades">商铺-修改主营业务</string>
     <string name="title_shop_set_barcode">商铺-设置二维码</string>
     <string name="title_shop_set_emp_pwd">商铺-设置职员密码</string>
-    <string name="title_shop_sale_publish">商铺-发布活动信息</string>
-    <string name="title_shop_sale_edit">商铺-编辑活动信息</string>
-    <string name="title_shop_sale_detail">活动信息详情</string>
+    <string name="title_shop_sale_publish">商铺-发布活动</string>
+    <string name="title_shop_sale_edit">商铺-编辑活动</string>
+    <string name="title_shop_sale_detail">活动详情</string>
     
     <string name="label_no_shop">还没有商铺？请先</string>
     
@@ -41,11 +41,6 @@
     <string name="label_shop_choose_image">请选择店铺图片</string>
     <string name="label_shop_choose_license">请选择营业执照</string>
     <string name="label_shop_emp_pwd_no">还未设置登录密码</string>
-    <string name="label_shop_sale_title">标题</string>
-    <string name="label_shop_sale_content">内容</string>
-    <string name="label_shop_sale_valid_date">有效期</string>
-    <string name="label_shop_sale_trade">所属业务</string>
-    <string name="label_button_has_favorited">已收藏</string>
     
     <string name="title_action_create_barcode">生成二维码</string>
     <string name="title_action_add_emp">添加</string>

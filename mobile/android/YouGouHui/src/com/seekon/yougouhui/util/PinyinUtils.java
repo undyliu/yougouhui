@@ -36,6 +36,6 @@ public class PinyinUtils {
 	// }
 
 	public static String getPinYin(String str) {
-		return CharacterParser.getInstance().getSelling(str);
+		return str == null ? null : CharacterParser.getInstance().getSelling(str);
 	}
 }

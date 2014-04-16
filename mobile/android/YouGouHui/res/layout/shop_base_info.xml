@@ -73,7 +73,6 @@
                     android:id="@+id/shop_image"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/add_camera"
                     android:contentDescription="@string/app_name"
                     android:gravity="right|center" />
             </LinearLayout>

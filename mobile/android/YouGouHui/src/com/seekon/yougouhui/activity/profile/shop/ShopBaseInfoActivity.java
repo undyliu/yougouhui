@@ -18,12 +18,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.discover.ShareActivity;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.profile.favorit.ShopFavoritProcessor;
 import com.seekon.yougouhui.func.profile.shop.ShopConst;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
-import com.seekon.yougouhui.func.profile.shop.ShopFavoritProcessor;
 import com.seekon.yougouhui.func.profile.shop.ShopUtils;
 import com.seekon.yougouhui.func.profile.shop.TradeEntity;
 import com.seekon.yougouhui.func.widget.TaskCallback;
@@ -53,7 +54,7 @@ public class ShopBaseInfoActivity extends Activity {
 
 	private Menu menu;
 	private boolean shopFavorited = false;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -176,9 +177,7 @@ public class ShopBaseInfoActivity extends Activity {
 				if (result) {
 					shopFavorited = true;
 					if (menu != null) {
-						MenuItem item = menu.findItem(R.id.menu_shop_favorit);
-						item.setTitle(R.string.label_button_has_favorited);
-						item.setEnabled(false);
+						updateMenuStatus();
 					}
 				}
 			}
@@ -290,13 +289,17 @@ public class ShopBaseInfoActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.shop_base_info, menu);
 		this.menu = menu;
-		if(shopFavorited){
-			MenuItem item = menu.findItem(R.id.menu_shop_favorit);
-			item.setTitle(R.string.label_button_has_favorited);
-			item.setEnabled(false);
-		}
+		updateMenuStatus();
 		
 		return true;
+	}
+
+	private void updateMenuStatus() {
+		MenuItem item = menu.findItem(R.id.menu_shop_favorit_cancel);
+		item.setVisible(shopFavorited);
+		
+		item = menu.findItem(R.id.menu_shop_favorit);
+		item.setVisible(!shopFavorited);
 	}
 
 	@Override
@@ -309,27 +312,38 @@ public class ShopBaseInfoActivity extends Activity {
 		case R.id.menu_shop_favorit:
 			addShopFavorit(item);
 			break;
+		case R.id.menu_shop_favorit_cancel:
+			cancelShopFavorit(item);
+			break;
+		case R.id.menu_share_publish:
+			publishShare();
+			break;
 		default:
 			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
+	private void publishShare(){
+		Intent intent = new Intent(this, ShareActivity.class);
+		intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
+		startActivity(intent);
+	}
+	
 	private void addShopFavorit(final MenuItem item) {
 		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
 
 			@Override
 			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
 				return ShopFavoritProcessor.getInstance(ShopBaseInfoActivity.this)
-						.addShopFavorit(shop.getUuid(),
-								RunEnv.getInstance().getUser().getUuid());
+						.addShopFavorit(shop, RunEnv.getInstance().getUser().getUuid());
 			}
 
 			@Override
 			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
 				if (result.getStatusCode() == 200) {
-					item.setTitle(R.string.label_button_has_favorited);
-					item.setEnabled(false);
+					shopFavorited = true;
+					updateMenuStatus();
 				} else {
 					ViewUtils.showToast("收藏商铺失败.");
 				}
@@ -342,6 +356,32 @@ public class ShopBaseInfoActivity extends Activity {
 		task.execute((Void) null);
 	}
 
+	private void cancelShopFavorit(final MenuItem item){
+		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
+
+			@Override
+			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
+				return ShopFavoritProcessor.getInstance(ShopBaseInfoActivity.this)
+						.deleteShopFavorit(shop.getUuid(), RunEnv.getInstance().getUser().getUuid());
+			}
+
+			@Override
+			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
+				if (result.getStatusCode() == 200) {
+					shopFavorited = false;
+					updateMenuStatus();
+				} else {
+					ViewUtils.showToast("取消收藏商铺失败.");
+				}
+				item.setEnabled(true);
+			}
+
+		};
+
+		item.setEnabled(false);
+		task.execute((Void) null);
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {

@@ -61,9 +61,6 @@ public class LoginActivity extends Activity {
 
 		setContentView(R.layout.login);
 
-		ActionBar actionBar = this.getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
-
 		mAuthManager = AuthorizationManager.getInstance(this);
 
 		JSONObject loginSetting = null;
@@ -245,7 +242,7 @@ public class LoginActivity extends Activity {
 		@Override
 		protected void onPostExecute(final String errorType) {
 			mAuthTask = null;
-			showProgress(false);
+			
 			boolean success = LoginConst.AUTH_SUCCESS.equals(errorType);
 
 			if (success) {
@@ -261,8 +258,8 @@ public class LoginActivity extends Activity {
 					mPasswordView.setError(getString(R.string.error_disconnect_server));
 					mPasswordView.requestFocus();
 				}
-
 			}
+			showProgress(false);
 		}
 
 		@Override
@@ -291,6 +288,9 @@ public class LoginActivity extends Activity {
 			if (resultCode == RESULT_OK && data != null) {
 				ContentValues user = data.getExtras().getParcelable(
 						UserConst.KEY_REGISTER_USER);
+				mPhoneView.setError(null);
+				mPasswordView.setError(null);
+				
 				mPhoneView.setText(user.getAsString(UserConst.COL_NAME_PHONE));
 				mPasswordView.setText("");
 				rememberPwdView.setChecked(false);

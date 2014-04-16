@@ -8,16 +8,41 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
 
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" >
+    </uses-permission>
+    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" >
+    </uses-permission>
+    <!-- 用于访问wifi网络信息,wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" >
+    </uses-permission>
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
+    </uses-permission>
+    <!-- 这个权限用于获取wifi的获取权限,wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" >
+    </uses-permission>
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" >
+    </uses-permission>
+    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
+    </uses-permission>
+    <!-- 访问网络，网络定位需要上网 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- SD卡读取权限，用户写入离线定位数据 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" >
+    </uses-permission>
+    <!-- 允许应用读取低级别的系统日志文件 -->
+    <uses-permission android:name="android.permission.READ_LOGS" >
+    </uses-permission>
+    <!-- 
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+     -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_OWNER_DATA" />
     <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -30,6 +55,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
+        <meta-data android:name="com.baidu.lbsapi.API_KEY" android:value="LLXisvq0MtLdgBST7umNcuVT"/>
+        
         <activity
             android:name=".activity.Splash"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -57,6 +85,11 @@
             android:screenOrientation="portrait" >
         </activity>
 
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+        </service>
         <service android:name="com.seekon.yougouhui.func.sale.SaleService" />
         <service android:name=".func.module.ModuleService" />
         <service android:name=".func.discover.share.ShareService" />
@@ -109,19 +142,19 @@
             android:name="com.seekon.yougouhui.func.sale.SaleImgProvider"
             android:authorities="com.seekon.yougouhui.sale.images"
             android:exported="false" />
-		<provider
-            android:name="com.seekon.yougouhui.func.sale.SaleFavoritProvider"
+        <provider
+            android:name="com.seekon.yougouhui.func.profile.favorit.SaleFavoritProvider"
             android:authorities="com.seekon.yougouhui.sale.favorites"
             android:exported="false" />
-		<provider
-            android:name="com.seekon.yougouhui.func.profile.shop.ShopFavoritProvider"
+        <provider
+            android:name="com.seekon.yougouhui.func.profile.favorit.ShopFavoritProvider"
             android:authorities="com.seekon.yougouhui.shop.favorites"
             android:exported="false" />
-		<provider
+        <provider
             android:name="com.seekon.yougouhui.func.sale.SaleDiscussProvider"
             android:authorities="com.seekon.yougouhui.sale.discusses"
             android:exported="false" />
-		
+
         <activity
             android:name=".activity.discover.FriendShareActivity"
             android:label="@string/title_discover_friends"
@@ -291,7 +324,10 @@
             android:label="@string/title_shop_sale_detail"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:label="@string/title_my_favorit" android:name=".activity.profile.favorit.FavoritMainActivity"></activity>
+        <activity
+            android:name=".activity.profile.favorit.FavoritMainActivity"
+            android:label="@string/title_my_favorit" >
+        </activity>
     </application>
 
 </manifest>

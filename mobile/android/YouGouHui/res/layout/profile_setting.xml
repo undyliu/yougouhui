@@ -37,8 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:background="@drawable/button_shape"
-            android:text="@string/action_logout"
-            android:visibility="gone" />
+            android:text="@string/action_logout"/>
     </LinearLayout>
 
     <LinearLayout

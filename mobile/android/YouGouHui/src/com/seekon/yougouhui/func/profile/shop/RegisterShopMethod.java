@@ -4,6 +4,7 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_DESC;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_ADDRESS;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BUSI_LICENSE;
+import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_LOCATION;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_OWNER;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_SHOP_IMAGE;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
@@ -24,6 +25,7 @@ import com.seekon.yougouhui.rest.MultipartRestMethod;
 import com.seekon.yougouhui.rest.Request;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.JSONUtils;
+import com.seekon.yougouhui.util.LocationUtils;
 
 public class RegisterShopMethod extends MultipartRestMethod<JSONObjResource> {
 
@@ -45,6 +47,8 @@ public class RegisterShopMethod extends MultipartRestMethod<JSONObjResource> {
 		params.put(COL_NAME_ADDRESS, shop.getAddress());
 		params.put(COL_NAME_OWNER, shop.getOwner());
 		params.put(COL_NAME_PWD, shop.getEmployees().get(0).getPwd());
+		params.put(COL_NAME_LOCATION, LocationUtils
+				.toJSONObject(shop.getLocation()).toString());
 
 		StringBuffer trades = new StringBuffer();
 		List<TradeEntity> tradeList = shop.getTrades();
@@ -87,6 +91,8 @@ public class RegisterShopMethod extends MultipartRestMethod<JSONObjResource> {
 		JSONUtils.putJSONValue(jsonObj, COL_NAME_ADDRESS, shop.getAddress());
 		JSONUtils.putJSONValue(jsonObj, COL_NAME_DESC, shop.getDesc());
 		JSONUtils.putJSONValue(jsonObj, COL_NAME_OWNER, shop.getOwner());
+		JSONUtils.putJSONValue(jsonObj, COL_NAME_LOCATION, LocationUtils
+				.toJSONObject(shop.getLocation()).toString());
 		return jsonObj;
 	}
 

@@ -70,7 +70,13 @@ public class ShareActivity extends PicContainerActivity {
 		});
 
 		choosedShopNameView = (EditText) findViewById(R.id.share_shop_barcode);
-
+		
+		ShopEntity shop = (ShopEntity) this.getIntent().getSerializableExtra(ShopConst.DATA_SHOP_KEY);
+		if(shop != null){
+			choosedShopId = shop.getUuid();
+			choosedShopNameView.setText(shop.getName());
+		}
+		
 		super.onCreate(savedInstanceState);
 	}
 

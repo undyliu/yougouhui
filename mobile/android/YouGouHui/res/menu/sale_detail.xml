@@ -6,12 +6,12 @@
         android:showAsAction="always|withText"
         android:title="@string/title_action_share_publish"/>
     <item
-        android:id="@+id/menu_shop_favorit"
+        android:id="@+id/menu_sale_favorit"
         android:showAsAction="always|withText"
         android:title="@string/title_action_favorit"
         android:visible="false"/>
     <item
-        android:id="@+id/menu_shop_favorit_cancel"
+        android:id="@+id/menu_sale_favorit_cancel"
         android:showAsAction="always|withText"
         android:title="@string/title_action_favorit_cancel"
         android:visible="false"/>

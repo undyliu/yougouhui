@@ -11,12 +11,14 @@ public class FavoritEntity extends PinyinEntity implements Serializable {
 	private String uuid;
 	private String userId;
 	private String code;
-	
-	public FavoritEntity(String uuid, String userId, String code, String name) {
+	private String image;
+
+	public FavoritEntity(String uuid, String userId, String code, String name, String image) {
 		super(name);
 		this.uuid = uuid;
 		this.userId = userId;
 		this.code = code;
+		this.image = image;
 	}
 
 	public String getUuid() {
@@ -41,6 +43,14 @@ public class FavoritEntity extends PinyinEntity implements Serializable {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	@Override

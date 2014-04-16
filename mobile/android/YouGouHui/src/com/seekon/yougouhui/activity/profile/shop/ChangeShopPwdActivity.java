@@ -62,7 +62,8 @@ public class ChangeShopPwdActivity extends ChangePasswordActivity {
 					String errorType = JSONUtils.getJSONStringValue(resource,
 							LoginConst.LOGIN_RESULT_ERROR_TYPE);
 					if (errorType != null) {
-						ViewUtils.showToast("原密码不正确.");
+						pwdOldView.setError("原密码不正确.");
+						pwdOldView.requestFocus();
 					} else {
 						finish();
 					}

@@ -8,6 +8,7 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_ADDRESS;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BARCODE;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BUSI_LICENSE;
+import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_LOCATION;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_OWNER;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_REGISTER_TIME;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_SHOP_IMAGE;
@@ -22,10 +23,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 
+import com.seekon.yougouhui.func.profile.favorit.ShopFavoritConst;
 import com.seekon.yougouhui.func.widget.TaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.JSONUtils;
+import com.seekon.yougouhui.util.LocationUtils;
 import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.util.ViewUtils;
 
@@ -104,7 +107,7 @@ public class ShopUtils {
 		try {
 			String[] projection = new String[] { COL_NAME_NAME, COL_NAME_ADDRESS,
 					COL_NAME_DESC, COL_NAME_SHOP_IMAGE, COL_NAME_BUSI_LICENSE,
-					COL_NAME_OWNER, COL_NAME_BARCODE, COL_NAME_STATUS };
+					COL_NAME_OWNER, COL_NAME_BARCODE, COL_NAME_STATUS, COL_NAME_LOCATION };
 			String selection = COL_NAME_UUID + "=?";
 			String[] selectionArgs = new String[] { shopId };
 
@@ -122,6 +125,8 @@ public class ShopUtils {
 				shop.setOwner(cursor.getString(i++));
 				shop.setBarcode(cursor.getString(i++));
 				shop.setStatus(cursor.getString(i++));
+				shop.setLocation(LocationUtils.fromJSONObject(new JSONObject(cursor
+						.getString(i++))));
 			}
 		} catch (Exception e) {
 			Logger.warn(TAG, e.getMessage());

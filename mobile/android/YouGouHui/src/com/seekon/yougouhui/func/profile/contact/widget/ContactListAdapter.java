@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.seekon.yougouhui.file.ImageLoader;
@@ -22,7 +23,9 @@ public class ContactListAdapter extends CatalogListAdapter {
 		View view = super.getView(position, convertView, arg2);
 		ViewHolder viewHolder = (ViewHolder) view.getTag();
 
-		viewHolder.imageView.setLayoutParams(new LinearLayout.LayoutParams(60, 60));
+		viewHolder.imageView.setLayoutParams(new LinearLayout.LayoutParams(80, 80));
+		viewHolder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		
 		UserEntity mContent = (UserEntity) dataList.get(position);
 		
 		String userPhoto = mContent.getPhoto();

@@ -125,7 +125,7 @@
                     android:layout_marginLeft="70dip"
                     android:contentDescription="@string/app_name"
                     android:onClick="deleteView"
-                    android:src="@drawable/share_pic_delete"
+                    android:src="@drawable/b_pic_delete"
                     android:visibility="gone" />
             </FrameLayout>
         </TableRow>

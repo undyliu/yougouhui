@@ -10,6 +10,7 @@ import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_OWNER;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_REGISTER_TIME;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_SHOP_IMAGE;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_STATUS;
+import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_LOCATION;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -20,7 +21,7 @@ public class ShopData extends AbstractDBHelper {
 	public static final String[] COL_NAMES = new String[] { COL_NAME_UUID,
 			COL_NAME_DESC, COL_NAME_NAME, COL_NAME_ADDRESS, COL_NAME_BUSI_LICENSE,
 			COL_NAME_SHOP_IMAGE, COL_NAME_REGISTER_TIME, COL_NAME_OWNER,
-			COL_NAME_BARCODE, COL_NAME_STATUS };
+			COL_NAME_BARCODE, COL_NAME_STATUS, COL_NAME_LOCATION };
 
 	public ShopData(Context context) {
 		super(context);
@@ -33,7 +34,8 @@ public class ShopData extends AbstractDBHelper {
 				+ COL_NAME_NAME + " TEXT, " + COL_NAME_ADDRESS + " TEXT, "
 				+ COL_NAME_BUSI_LICENSE + " TEXT, " + COL_NAME_SHOP_IMAGE + " TEXT, "
 				+ COL_NAME_OWNER + " TEXT, " + COL_NAME_BARCODE + " TEXT, "
-				+ COL_NAME_STATUS + " TEXT, " + COL_NAME_REGISTER_TIME + " TEXT)");
+				+ COL_NAME_LOCATION + " TEXT, " + COL_NAME_STATUS + " TEXT, "
+				+ COL_NAME_REGISTER_TIME + " TEXT)");
 	}
 
 	@Override

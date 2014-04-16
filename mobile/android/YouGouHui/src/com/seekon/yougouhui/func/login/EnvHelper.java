@@ -117,4 +117,9 @@ public class EnvHelper extends AbstractDBHelper {
 		}
 		this.updateLoginSetting(loginObj);
 	}
+
+	public int deleteLoginSetting(String phone) {
+		return getWritableDatabase().delete(TABLE_NAME, COL_NAME_PHONE + " = ?",
+				new String[] { phone });
+	}
 }

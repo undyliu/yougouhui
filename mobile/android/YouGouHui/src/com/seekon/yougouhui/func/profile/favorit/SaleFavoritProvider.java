@@ -10,7 +10,7 @@ public class SaleFavoritProvider extends SQLiteContentProvider {
 
 	private static final int SALE_FAVORITES = 1;
 
-	private static final int SALE_FAVORIT_ID = 2;
+	private static final int SALE_FAVORITE_ID = 2;
 
 	private static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.seekon.sale.favorites";
 
@@ -30,7 +30,7 @@ public class SaleFavoritProvider extends SQLiteContentProvider {
 		uriMatcher.addURI(SaleFavoritConst.AUTHORITY, SaleFavoritConst.TABLE_NAME,
 				SALE_FAVORITES);
 		uriMatcher.addURI(SaleFavoritConst.AUTHORITY, SaleFavoritConst.TABLE_NAME
-				+ "/*", SALE_FAVORIT_ID);
+				+ "/*", SALE_FAVORITE_ID);
 		saleFavorites = new SaleFavoritData(getContext());
 		saleFavorites.onCreate(saleFavorites.getWritableDatabase());// TODO:
 		return true;
@@ -41,7 +41,7 @@ public class SaleFavoritProvider extends SQLiteContentProvider {
 		switch (uriMatcher.match(uri)) {
 		case SALE_FAVORITES:
 			return CONTENT_TYPE;
-		case SALE_FAVORIT_ID:
+		case SALE_FAVORITE_ID:
 			return CONTENT_ITEM_TYPE;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
@@ -62,7 +62,7 @@ public class SaleFavoritProvider extends SQLiteContentProvider {
 	protected boolean validateUri(Uri uri, Action action) {
 		if (action == Action.UPDATE || action == Action.QUERY
 				|| action == Action.DELETE) {
-			return uriMatcher.match(uri) == SALE_FAVORIT_ID;
+			return uriMatcher.match(uri) == SALE_FAVORITE_ID;
 		} else if (action == Action.INSERT) {
 			return uriMatcher.match(uri) == SALE_FAVORITES;
 		}

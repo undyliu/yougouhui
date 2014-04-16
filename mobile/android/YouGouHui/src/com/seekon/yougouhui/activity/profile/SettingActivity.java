@@ -3,6 +3,7 @@ package com.seekon.yougouhui.activity.profile;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.Switch;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.LoginActivity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.login.EnvHelper;
 import com.seekon.yougouhui.func.login.LoginConst;
@@ -51,8 +53,13 @@ public class SettingActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// SettingActivity.this.finish();
-
+				String phone = RunEnv.getInstance().getUser().getPhone();
+				AuthorizationManager.getInstance(SettingActivity.this).getEnvHelper()
+						.deleteLoginSetting(phone);
+				RunEnv.getInstance().setUser(null);
+				Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+				startActivity(intent);
+				finish();//TODO:获取activity堆栈销毁活动的activity
 			}
 		});
 	}

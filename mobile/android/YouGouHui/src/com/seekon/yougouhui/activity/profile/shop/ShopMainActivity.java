@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -179,8 +181,22 @@ public class ShopMainActivity extends Activity {
 	}
 
 	private void logout() {
-		// TODO:
-		this.finish();
+		AlertDialog.Builder logoutConfirm = new AlertDialog.Builder(this);
+		logoutConfirm.setTitle("退出商铺");
+		logoutConfirm.setMessage("是否退出商铺？下次进入商铺需重新登录.");
+		logoutConfirm.setPositiveButton("是", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				finish();
+			}
+		}).setNegativeButton("否", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		}).show();
+
 	}
 
 	public ShopEntity getCurrentShop() {

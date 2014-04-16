@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.profile.favorit.SaleFavoritConst;
 import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.util.ViewUtils;
 

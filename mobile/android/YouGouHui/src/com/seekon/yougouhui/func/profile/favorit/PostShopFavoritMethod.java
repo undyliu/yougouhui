@@ -1,4 +1,4 @@
-package com.seekon.yougouhui.func.sale;
+package com.seekon.yougouhui.func.profile.favorit;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -7,6 +7,8 @@ import java.util.Map;
 import android.content.Context;
 
 import com.seekon.yougouhui.Const;
+import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.rest.BaseRequest;
 import com.seekon.yougouhui.rest.JSONObjResourceMethod;
 import com.seekon.yougouhui.rest.Method;
@@ -14,25 +16,25 @@ import com.seekon.yougouhui.rest.Request;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.JSONUtils;
 
-public class PostSaleFavoritMethod extends JSONObjResourceMethod {
+public class PostShopFavoritMethod extends JSONObjResourceMethod {
 
 	private static final URI ADD_SALE_FAVORITE_URI = URI
-			.create(Const.SERVER_APP_URL + "/addSaleFavorit");
+			.create(Const.SERVER_APP_URL + "/addShopFavorit");
 
-	private String saleId;
+	private ShopEntity shop;
 	private String userId;
 
-	public PostSaleFavoritMethod(Context context, String saleId, String userId) {
+	public PostShopFavoritMethod(Context context, ShopEntity shop, String userId) {
 		super(context);
-		this.saleId = saleId;
+		this.shop = shop;
 		this.userId = userId;
 	}
 
 	@Override
 	protected Request buildRequest() {
 		Map<String, String> params = new HashMap<String, String>();
-		params.put(SaleFavoritConst.COL_NAME_SALE_ID, saleId);
-		params.put(SaleFavoritConst.COL_NAME_USER_ID, userId);
+		params.put(ShopFavoritConst.COL_NAME_SHOP_ID, shop.getUuid());
+		params.put(ShopFavoritConst.COL_NAME_USER_ID, userId);
 
 		return new BaseRequest(Method.POST, ADD_SALE_FAVORITE_URI, null, params);
 	}
@@ -41,8 +43,10 @@ public class PostSaleFavoritMethod extends JSONObjResourceMethod {
 	protected JSONObjResource parseResponseBody(String responseBody)
 			throws Exception {
 		JSONObjResource resource = super.parseResponseBody(responseBody);
-		JSONUtils.putJSONValue(resource, SaleFavoritConst.COL_NAME_SALE_ID, saleId);
-		JSONUtils.putJSONValue(resource, SaleFavoritConst.COL_NAME_USER_ID, userId);
+		JSONUtils.putJSONValue(resource, ShopFavoritConst.COL_NAME_SHOP_ID, shop.getUuid());
+		JSONUtils.putJSONValue(resource, DataConst.COL_NAME_TITLE, shop.getName());
+		JSONUtils.putJSONValue(resource, DataConst.COL_NAME_IMG, shop.getShopImage());
+		JSONUtils.putJSONValue(resource, ShopFavoritConst.COL_NAME_USER_ID, userId);
 		return resource;
 	}
 }

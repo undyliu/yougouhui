@@ -170,6 +170,7 @@ public class AddFriendActivity extends Activity {
 			}
 		}
 		if (searchResultList.isEmpty()) {
+			searchWordView.requestFocus();
 			ViewUtils.showToast("没有符合条件的数据.");
 			addFriendChooseView.setVisibility(View.VISIBLE);
 		} else {

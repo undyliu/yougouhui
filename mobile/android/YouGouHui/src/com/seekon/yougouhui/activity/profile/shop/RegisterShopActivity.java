@@ -34,9 +34,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.LocationEntity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.profile.shop.ShopProcessor;
@@ -95,6 +100,11 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 	private TextView pwdView;
 	private TextView pwdConfView;
 
+	private LocationClient mLocationClient = null;
+	private BDLocationListener myListener = new MyLocationListener();
+	
+	private LocationEntity locationEntity = new LocationEntity();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -105,8 +115,14 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
+		mLocationClient = new LocationClient(getApplicationContext()); // 声明LocationClient类
+		mLocationClient.registerLocationListener(myListener); // 注册监听函数
+		setLocationOption();
+		mLocationClient.start();// 开始定位
+		
 		initViews();
 
+		
 	}
 
 	@Override
@@ -215,9 +231,6 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 					new String[] { COL_NAME_UUID, COL_NAME_CODE, COL_NAME_NAME,
 							COL_NAME_ORD_INDEX }, null, null, COL_NAME_ORD_INDEX);
 			while (cursor.moveToNext()) {
-				if (cursor.getString(1).equalsIgnoreCase("all")) {
-					continue;
-				}
 				int i = 0;
 				trades.add(new TradeEntity(cursor.getString(i++),
 						cursor.getString(i++), cursor.getString(i++)));
@@ -236,7 +249,7 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 						int status = result.getStatusCode();
 						if (status == 200) {
 							loadTradeFromLocal();
-							tradeAdapter.notifyDataSetChanged();
+							tradeAdapter.updateData(getTradeList());
 						} else {
 							ViewUtils.showToast("获取主营业务数据失败.");
 						}
@@ -406,7 +419,8 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 				shop.setShopImage(shopImage);
 				shop.setBusiLicense(busiLicense);
 				shop.setTrades(selectedTrades);
-
+				shop.setLocation(locationEntity);
+				
 				UserEntity currentUser = RunEnv.getInstance().getUser();
 				shop.setOwner(currentUser.getUuid());
 				UserEntity emp = currentUser.clone();
@@ -477,5 +491,55 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 	@Override
 	public void onPageSelected(int position) {
 
+	}
+	
+	private void setLocationOption() {
+		LocationClientOption option = new LocationClientOption();
+		option.setOpenGps(true);
+		option.setIsNeedAddress(true);// 返回的定位结果包含地址信息
+		option.setAddrType("all");// 返回的定位结果包含地址信息
+		option.setCoorType("bd09ll");// 返回的定位结果是百度经纬度,默认值gcj02
+		option.setScanSpan(5000);// 设置发起定位请求的间隔时间为5000ms
+		option.disableCache(true);// 禁止启用缓存定位
+		option.setPoiNumber(5); // 最多返回POI个数
+		option.setPoiDistance(1000); // poi查询距离
+		option.setPoiExtraInfo(true); // 是否需要POI的电话和地址等详细信息
+		mLocationClient.setLocOption(option);
+	}
+	
+	class MyLocationListener implements BDLocationListener{
+
+		@Override
+		public void onReceiveLocation(BDLocation location) {
+			if(location == null){
+				return;
+			}
+			
+			double latitude = location.getLatitude();
+			double longitude = location.getLongitude();
+			if (location.getLocType() == BDLocation.TypeNetWorkLocation){
+				addrView.setText(location.getAddrStr());
+				locationEntity.setAddress(location.getAddrStr());
+			}
+			
+			locationEntity.setLatitude(location.getLatitude());
+			locationEntity.setLontitude(location.getLongitude());
+			locationEntity.setRadius(location.getRadius());
+		}
+
+		@Override
+		public void onReceivePoi(BDLocation poiLocation) {
+			
+		}
+		
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if(this.mLocationClient != null && this.mLocationClient.isStarted()){
+			this.mLocationClient.stop();
+			this.mLocationClient = null;
+		}
 	}
 }
