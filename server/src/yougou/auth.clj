@@ -15,7 +15,7 @@
 
 (defn password-is-valid? [password-login password-in-db]
  ; (= (encrypt password-login) password-in-db)
-  true
+  (= password-login password-in-db)
   )
 
 (defn login [phone password]
@@ -24,7 +24,7 @@
     ;(println phone)
     (if no-error
       {:authed true :user user}
-      {:authed false, :error-type (if (:id user) :pass-error :user-error)}
+      {:authed false, :error-type (if (:uuid user) :pass-error :user-error)}
     )
   )
 )

@@ -22,7 +22,7 @@
 
 (defn get-shop [shop-id]
 	(let [shop (first (select shops
-                       (fields :uuid :name :address :desc :shop_img :busi_license :register_time :owner :status :barcode)
+                       (fields :uuid :name :location :address :desc :shop_img :busi_license :register_time :owner :status :barcode)
                        (where {:uuid shop-id})
                      )
                     )
@@ -58,12 +58,12 @@
     )
   )
 
-(defn save-shop [name desc address shop-img busi-license owner files]
+(defn save-shop [name desc location address shop-img busi-license owner files]
 	(let [uuid (str (java.util.UUID/randomUUID))
         register-time (str  (System/currentTimeMillis))
         ]
     (insert shops
-      (values {:uuid uuid :name name :desc desc :address address :shop_img shop-img :busi_license busi-license :register_time register-time :owner owner})
+      (values {:uuid uuid :name name :desc desc :location location :address address :shop_img shop-img :busi_license busi-license :register_time register-time :owner owner})
     )
     (file/save-image-file shop-img (files shop-img))
     (file/save-image-file busi-license (files busi-license))
@@ -71,8 +71,8 @@
    )
 )
 
-(defn save-shop-data [name desc address shop-img busi-license owner pwd files trades]
-  (let [shop (save-shop name desc address shop-img busi-license owner files)
+(defn save-shop-data [name desc location address shop-img busi-license owner pwd files trades]
+  (let [shop (save-shop name desc location address shop-img busi-license owner files)
         shop-id (:uuid shop)
         trade-list (save-shop-trades shop-id trades)
         emp-list (save-shop-emp shop-id owner pwd)
@@ -189,13 +189,4 @@
    (select shops (fields :uuid :name :shop_img :barcode :owner)
            (where {:name [like search-word] :status "1"}))
    )
-  )
-
-(defn save-shop-favorit [user-id shop-id]
-  (let [uuid (str (java.util.UUID/randomUUID))
-        currentTime (System/currentTimeMillis)
-        ]
-    (insert shop-favorites (values {:uuid uuid :user_id user-id :shop_id shop-id :last_modify_time currentTime}))
-    {:uuid uuid :last_modify_time currentTime}
-    )
   )
