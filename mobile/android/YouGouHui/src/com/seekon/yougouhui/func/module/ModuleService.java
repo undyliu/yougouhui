@@ -3,6 +3,7 @@ package com.seekon.yougouhui.func.module;
 import android.content.Intent;
 
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.spi.IModuleProcessor;
 import com.seekon.yougouhui.service.AbstractService;
 import com.seekon.yougouhui.service.ServiceConst;
 
@@ -18,7 +19,7 @@ public class ModuleService extends AbstractService {
 		String type = requestIntent.getStringExtra(DataConst.COL_NAME_TYPE);
 
 		if (method.equalsIgnoreCase(ServiceConst.METHOD_GET)) {
-			ModuleProcessor processor = ModuleProcessor
+			IModuleProcessor processor = ModuleProcessor
 					.getInstance(getApplicationContext());
 			processor.getModules(makeProcessorCallback(), type);
 		} else {

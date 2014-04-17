@@ -9,25 +9,28 @@ import org.json.JSONException;
 import android.content.Context;
 
 import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.spi.IUserProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.rest.resource.Resource;
 import com.seekon.yougouhui.service.ContentProcessor;
+import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.Logger;
 
-public class UserProcessor extends ContentProcessor {
+public class UserProcessor extends ContentProcessor implements IUserProcessor{
 
 	private static final String TAG = UserProcessor.class.getSimpleName();
 
-	private static UserProcessor instance = null;
+	private static IUserProcessor instance = null;
 
 	private static Object lock = new Object();
 
-	public static UserProcessor getInstance(Context mContext) {
+	public static IUserProcessor getInstance(Context mContext) {
 		synchronized (lock) {
 			if (instance == null) {
-				instance = new UserProcessor(mContext);
+				ProcessorProxy proxy = new ProcessorProxy();
+				instance = (IUserProcessor) proxy.bind(new UserProcessor(mContext));
 			}
 		}
 		return instance;

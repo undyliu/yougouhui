@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.PicContainerActivity;
-import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.profile.shop.ShopUtils;
@@ -129,7 +128,24 @@ public abstract class SalePromoteActivity extends PicContainerActivity {
 
 	protected void updateViews(){
 		ShopEntity shop = ShopUtils.loadDataFromLocal(this, shopId);
-		shopNameView.setText(shop.getName());
+		if(shop == null){
+			ShopUtils.loadDataFromRemote(this, shopId,
+					new TaskCallback<RestMethodResult<JSONObjResource>>() {
+						@Override
+						public void onCancelled() {
+
+						}
+
+						@Override
+						public void onPostExecute(RestMethodResult<JSONObjResource> result) {
+							ShopEntity shop = ShopUtils.loadDataFromLocal(SalePromoteActivity.this,
+									shopId);
+							shopNameView.setText(shop.getName());
+						}
+					});
+		}else{
+			shopNameView.setText(shop.getName());
+		}
 		saleTradeListAdapter.updateData(shopTradeList);
 	}
 	

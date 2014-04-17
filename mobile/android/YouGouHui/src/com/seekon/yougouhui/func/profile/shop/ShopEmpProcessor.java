@@ -4,22 +4,27 @@ import java.util.List;
 
 import android.content.Context;
 
+import com.seekon.yougouhui.func.spi.IShopEmpProcessor;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.service.ContentProcessor;
+import com.seekon.yougouhui.service.ProcessorProxy;
 
-public class ShopEmpProcessor extends ContentProcessor {
+public class ShopEmpProcessor extends ContentProcessor implements
+		IShopEmpProcessor {
 
-	private static ShopEmpProcessor instance;
+	private static IShopEmpProcessor instance;
 
 	private static final Object lock = new Object();
 
-	public static ShopEmpProcessor getInstance(Context mContext) {
+	public static IShopEmpProcessor getInstance(Context mContext) {
 		synchronized (lock) {
 			if (instance == null) {
-				instance = new ShopEmpProcessor(mContext);
+				ProcessorProxy proxy = new ProcessorProxy();
+				instance = (IShopEmpProcessor) proxy
+						.bind(new ShopEmpProcessor(mContext));
 			}
 		}
 		return instance;

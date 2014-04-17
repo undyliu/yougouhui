@@ -6,22 +6,25 @@ import android.content.Context;
 
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
+import com.seekon.yougouhui.func.spi.IShopFavoritProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.rest.resource.Resource;
 import com.seekon.yougouhui.service.ContentProcessor;
+import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.JSONUtils;
 
-public class ShopFavoritProcessor extends ContentProcessor {
+public class ShopFavoritProcessor extends ContentProcessor implements IShopFavoritProcessor{
 
-	private static ShopFavoritProcessor instance = null;
+	private static IShopFavoritProcessor instance = null;
 	private static Object lock = new Object();
 
-	public static ShopFavoritProcessor getInstance(Context mContext) {
+	public static IShopFavoritProcessor getInstance(Context mContext) {
 		synchronized (lock) {
 			if (instance == null) {
-				instance = new ShopFavoritProcessor(mContext);
+				ProcessorProxy proxy = new ProcessorProxy();
+				instance = (IShopFavoritProcessor) proxy.bind(new ShopFavoritProcessor(mContext));
 			}
 		}
 		return instance;

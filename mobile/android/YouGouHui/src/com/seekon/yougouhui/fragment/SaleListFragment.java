@@ -21,7 +21,6 @@ import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.sale.SaleDetailActivity;
 import com.seekon.yougouhui.func.DataConst;
-import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.sale.ChannelEntity;
 import com.seekon.yougouhui.func.sale.SaleData;
 import com.seekon.yougouhui.func.sale.SaleEntity;
@@ -185,7 +184,7 @@ public class SaleListFragment extends Fragment implements IXListViewListener {
 			protected void onPostExecute(List<SaleEntity> result) {
 
 				if (result.size() == 0 && requestId == null
-						&& RunEnv.getInstance().isConnectedToInternet()) {
+						) {
 					Logger.debug(TAG, "getListItemsFromRemote");
 					initRequestId();
 				} else {

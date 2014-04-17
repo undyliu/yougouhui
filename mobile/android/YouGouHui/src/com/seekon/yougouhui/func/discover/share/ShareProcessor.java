@@ -17,22 +17,25 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.seekon.yougouhui.file.FileHelper;
+import com.seekon.yougouhui.func.spi.IShareProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.rest.resource.Resource;
 import com.seekon.yougouhui.service.ContentProcessor;
 import com.seekon.yougouhui.service.ProcessorCallback;
+import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.Logger;
 
-public class ShareProcessor extends ContentProcessor {
+public class ShareProcessor extends ContentProcessor implements IShareProcessor{
 
-	private static ShareProcessor instance = null;
+	private static IShareProcessor instance = null;
 	private static Object lock = new Object();
 
-	public static ShareProcessor getInstance(Context mContext) {
+	public static IShareProcessor getInstance(Context mContext) {
 		synchronized (lock) {
 			if (instance == null) {
-				instance = new ShareProcessor(mContext);
+				ProcessorProxy proxy = new ProcessorProxy();
+				instance = (IShareProcessor) proxy.bind(new ShareProcessor(mContext));
 			}
 		}
 		return instance;

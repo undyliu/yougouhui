@@ -2,20 +2,23 @@ package com.seekon.yougouhui.func.profile.shop;
 
 import android.content.Context;
 
+import com.seekon.yougouhui.func.spi.ITradeProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.service.ContentProcessor;
+import com.seekon.yougouhui.service.ProcessorProxy;
 
-public class TradeProcessor extends ContentProcessor {
+public class TradeProcessor extends ContentProcessor implements ITradeProcessor{
 
-	private static TradeProcessor instance = null;
+	private static ITradeProcessor instance = null;
 
 	private static Object lock = new Object();
 
-	public static TradeProcessor getInstance(Context mContext) {
+	public static ITradeProcessor getInstance(Context mContext) {
 		synchronized (lock) {
 			if (instance == null) {
-				instance = new TradeProcessor(mContext);
+				ProcessorProxy proxy = new ProcessorProxy();
+				instance = (ITradeProcessor) proxy.bind(new TradeProcessor(mContext));
 			}
 		}
 		return instance;

@@ -22,4 +22,7 @@ public interface FriendConst extends DataConst {
 	// public static final String ACTION_TYPE_ADD_FRIEND = "action.add.friend";
 	// public static final String ACTION_TYPE_DEL_FRIEND = "action.del.friend";
 
+	enum Type {
+		DELETE, ADD, GET
+	}
 }

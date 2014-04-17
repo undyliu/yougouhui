@@ -22,7 +22,7 @@ public class GetFriendsTask extends
 
 	@Override
 	protected RestMethodResult<JSONArrayResource> doInBackground(Void... params) {
-		return new FriendProcessor(context, user).getFriends();
+		return FriendProcessor.getInstance(context).getFriends(user);
 	}
 
 	@Override

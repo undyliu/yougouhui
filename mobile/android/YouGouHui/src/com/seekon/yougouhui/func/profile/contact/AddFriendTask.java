@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.spi.IFriendProcessor;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
@@ -18,9 +19,9 @@ public class AddFriendTask extends AbstractFriendTask {
 
 	@Override
 	protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-		FriendProcessor processor = new FriendProcessor(context, friend);
+		IFriendProcessor processor = FriendProcessor.getInstance(context);
 		try {
-			return processor.addFriend();
+			return processor.addFriend(friend);
 		} catch (Exception e) {
 			Logger.error(TAG, e.getMessage());
 		}

@@ -34,6 +34,8 @@ public class BaseRestClient extends RestClient {
 		default:
 			break;
 		}
+		
+		conn.setConnectTimeout(3 * 1000);//超时时间3秒
 	}
 
 	private void putRequestDataToConnection(HttpURLConnection conn,

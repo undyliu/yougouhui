@@ -18,7 +18,6 @@ import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserData;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.sercurity.AuthorizationManager;
-import com.seekon.yougouhui.service.ConnectionDetector;
 import com.seekon.yougouhui.util.ContentValuesUtils;
 import com.seekon.yougouhui.util.Logger;
 
@@ -36,10 +35,6 @@ public class Splash extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.splash);
-
-		ConnectionDetector connectionDetector = new ConnectionDetector(this);
-		RunEnv.getInstance().setConnectedToInternet(
-				connectionDetector.isConnectingToInternet());
 
 		boolean autoLogin = false;
 		boolean sso = false;

@@ -7,26 +7,29 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.spi.IShopProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.rest.resource.Resource;
 import com.seekon.yougouhui.service.ContentProcessor;
+import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.Logger;
 
-public class ShopProcessor extends ContentProcessor {
+public class ShopProcessor extends ContentProcessor implements IShopProcessor{
 
 	private static final String TAG = ShopProcessor.class.getSimpleName();
 
-	private static ShopProcessor instance = null;
+	private static IShopProcessor instance = null;
 
 	private static Object lock = new Object();
 
-	public static ShopProcessor getInstance(Context mContext) {
+	public static IShopProcessor getInstance(Context mContext) {
 		synchronized (lock) {
 			if (instance == null) {
-				instance = new ShopProcessor(mContext);
+				ProcessorProxy proxy = new ProcessorProxy();
+				instance = (IShopProcessor) proxy.bind(new ShopProcessor(mContext));
 			}
 		}
 		return instance;

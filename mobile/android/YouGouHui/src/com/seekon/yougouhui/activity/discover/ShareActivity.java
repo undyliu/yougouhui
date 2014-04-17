@@ -27,6 +27,7 @@ import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareProcessor;
 import com.seekon.yougouhui.func.profile.shop.ShopConst;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
+import com.seekon.yougouhui.func.spi.IShareProcessor;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
@@ -150,7 +151,7 @@ public class ShareActivity extends PicContainerActivity {
 				share.put(ShareConst.DATA_IMAGE_KEY, imageFileUriList);
 				share.put(ShareConst.COL_NAME_SHOP_ID, choosedShopId);
 
-				ShareProcessor processor = ShareProcessor
+				IShareProcessor processor = ShareProcessor
 						.getInstance(ShareActivity.this);
 				return processor.postShare(share);
 			}

@@ -13,11 +13,13 @@ import com.seekon.yougouhui.func.login.EnvHelper;
 import com.seekon.yougouhui.func.login.LoginConst;
 import com.seekon.yougouhui.func.login.LoginProcessor;
 import com.seekon.yougouhui.func.profile.contact.GetFriendsTask;
+import com.seekon.yougouhui.func.spi.ILoginProcessor;
 import com.seekon.yougouhui.func.user.UserData;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.user.UserUtils;
 import com.seekon.yougouhui.rest.Request;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestStatus;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.Logger;
 
@@ -76,9 +78,13 @@ public class AuthorizationManager implements RequestSigner {
 			String phone = loginData.getAsString(COL_NAME_PHONE);
 			String pwd = loginData.getAsString(COL_NAME_PWD);
 			UserEntity user = this.getUserHelper().auth(phone, pwd);// 本地数据库认证
-			if (user == null && RunEnv.getInstance().isConnectedToInternet()) {
-				LoginProcessor processor = new LoginProcessor(context);
+			if (user == null) {
+				ILoginProcessor processor = LoginProcessor.getInstance(context);
 				RestMethodResult<JSONObjResource> result = processor.login(phone, pwd);
+				int status = result.getStatusCode();
+				if(status != RestStatus.SC_OK){
+					return result.getStatusMsg();
+				}
 				JSONObjResource resource = result.getResource();
 				if (resource.getBoolean(LoginConst.LOGIN_RESULT_AUTHED)) {
 					user = UserUtils.createFromJSONObject(resource

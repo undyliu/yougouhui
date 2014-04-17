@@ -3,6 +3,8 @@ package com.seekon.yougouhui.func.sale;
 import android.content.Intent;
 
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.spi.IChannelProcessor;
+import com.seekon.yougouhui.func.spi.ISaleProcessor;
 import com.seekon.yougouhui.service.AbstractService;
 import com.seekon.yougouhui.service.ServiceConst;
 
@@ -27,7 +29,7 @@ public class SaleService extends AbstractService {
 			if (method.equalsIgnoreCase(ServiceConst.METHOD_GET)) {
 				String parentId = requestIntent
 						.getStringExtra(DataConst.COL_NAME_PARENT_ID);
-				ChannelProcessor processor = ChannelProcessor
+				IChannelProcessor processor = ChannelProcessor
 						.getInstance(getApplicationContext());
 				processor.getChannels(makeProcessorCallback(), parentId);
 			} else {
@@ -38,7 +40,7 @@ public class SaleService extends AbstractService {
 			if (method.equalsIgnoreCase(ServiceConst.METHOD_GET)) {
 				String channelId = requestIntent
 						.getStringExtra(SaleConst.COL_NAME_CHANNEL_ID);
-				SaleProcessor processor = SaleProcessor
+				ISaleProcessor processor = SaleProcessor
 						.getInstance(getApplicationContext());
 				processor.getSalesByChannel(makeProcessorCallback(), channelId);
 			} else {

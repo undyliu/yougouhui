@@ -5,16 +5,27 @@ import java.util.Map;
 
 import android.content.Context;
 
+import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.rest.resource.Resource;
 import com.seekon.yougouhui.sercurity.AuthorizationManager;
 import com.seekon.yougouhui.sercurity.RequestSigner;
+import com.seekon.yougouhui.service.ConnectionDetector;
+import com.seekon.yougouhui.util.Logger;
 
 public abstract class AbstractRestMethod<T extends Resource> implements
 		RestMethod<T> {
 
+	private static final String TAG = AbstractRestMethod.class.getSimpleName();
+
 	private static final String DEFAULT_ENCODING = "UTF-8";
 
 	public RestMethodResult<T> execute() {
+
+		ConnectionDetector detector = ConnectionDetector.getInstance(getContext());
+		if (!detector.isConnectingToInternet()) {// 检测网络是否开启，可用
+			return new RestMethodResult<T>(RestStatus.NETWORK_NOT_OPENED,
+					getContext().getString(R.string.network_not_open), null);
+		}
 
 		Request request = buildRequest();
 		if (requiresAuthorization()) {
@@ -46,9 +57,9 @@ public abstract class AbstractRestMethod<T extends Resource> implements
 					getCharacterEncoding(response.getHeaders()));
 			resource = parseResponseBody(responseBody);
 		} catch (Exception ex) {
-			// TODO Should we set some custom status code?
-			status = 506; // spec only defines up to 505
-			statusMsg = ex.getMessage();
+			Logger.warn(TAG, ex.getMessage());
+			status = RestStatus.SERVER_NOT_AVAILABLE;
+			statusMsg = getContext().getString(R.string.server_not_available);
 		}
 		return new RestMethodResult<T>(status, statusMsg, resource);
 	}

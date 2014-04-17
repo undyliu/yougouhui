@@ -6,22 +6,27 @@ import android.content.Context;
 
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.sale.SaleEntity;
+import com.seekon.yougouhui.func.spi.ISaleFavoritProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.rest.resource.Resource;
 import com.seekon.yougouhui.service.ContentProcessor;
+import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.JSONUtils;
 
-public class SaleFavoritProcessor extends ContentProcessor {
+public class SaleFavoritProcessor extends ContentProcessor implements
+		ISaleFavoritProcessor {
 
-	private static SaleFavoritProcessor instance = null;
+	private static ISaleFavoritProcessor instance = null;
 	private static Object lock = new Object();
 
-	public static SaleFavoritProcessor getInstance(Context mContext) {
+	public static ISaleFavoritProcessor getInstance(Context mContext) {
 		synchronized (lock) {
 			if (instance == null) {
-				instance = new SaleFavoritProcessor(mContext);
+				ProcessorProxy proxy = new ProcessorProxy();
+				instance = (ISaleFavoritProcessor) proxy.bind(new SaleFavoritProcessor(
+						mContext));
 			}
 		}
 		return instance;

@@ -6,7 +6,8 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.seekon.yougouhui.func.DataConst;
-import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.profile.contact.FriendConst.Type;
+import com.seekon.yougouhui.func.spi.IFriendProcessor;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserData;
 import com.seekon.yougouhui.func.user.UserEntity;
@@ -16,40 +17,43 @@ import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.rest.resource.Resource;
 import com.seekon.yougouhui.service.ContentProcessor;
+import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.Logger;
 
-public class FriendProcessor extends ContentProcessor {
-
-	enum Type {
-		DELETE, ADD, GET
-	}
+public class FriendProcessor extends ContentProcessor implements
+		IFriendProcessor {
 
 	private static final String TAG = FriendProcessor.class.getSimpleName();
 
-	private UserEntity user;
-
-	private Type type;
-
-	public FriendProcessor(Context mContext, UserEntity friend) {
+	private static IFriendProcessor instance = null;
+	private final static Object lock = new Object();
+	
+	public static IFriendProcessor getInstance(Context mContext){
+		synchronized (lock) {
+			if(instance == null){
+				ProcessorProxy proxy = new ProcessorProxy();
+				instance = (IFriendProcessor) proxy.bind(new FriendProcessor(mContext));
+			}
+		}
+		return instance;
+	}
+	
+	private FriendProcessor(Context mContext) {
 		super(mContext, FriendData.COL_NAMES, FriendConst.CONTENT_URI);
-		this.user = friend;
 	}
 
-	public RestMethodResult<JSONObjResource> addFriend() {
-		type = Type.ADD;
+	public RestMethodResult<JSONObjResource> addFriend(UserEntity friend) {
 		return (RestMethodResult) this.execMethod(new AddFriendMethod(mContext,
-				user.getUuid()));
+				friend));
 	}
 
-	public RestMethodResult<JSONObjResource> deleteFriend() {
-		type = Type.DELETE;
+	public RestMethodResult<JSONObjResource> deleteFriend(UserEntity friend) {
 		return (RestMethodResult) this.execMethod(new DeleteFriendMethod(mContext,
-				user.getUuid()));
+				friend));
 	}
 
-	public RestMethodResult<JSONArrayResource> getFriends() {
-		type = Type.GET;
+	public RestMethodResult<JSONArrayResource> getFriends(UserEntity user) {
 		return (RestMethodResult) this.execMethod(new GetFriendsMethod(mContext,
 				user.getUuid()));
 	}
@@ -62,7 +66,7 @@ public class FriendProcessor extends ContentProcessor {
 		}
 
 		try {
-			if (type == Type.GET) {
+			if (result.getResource() instanceof JSONArrayResource) {
 				JSONArrayResource resource = (JSONArrayResource) result.getResource();
 				for (int i = 0; i < resource.length(); i++) {
 					JSONObject friend = resource.getJSONObject(i);
@@ -75,17 +79,14 @@ public class FriendProcessor extends ContentProcessor {
 				return;
 			}
 
-			JSONObjResource reource = (JSONObjResource) result.getResource();
+			JSONObjResource resource = (JSONObjResource) result.getResource();
+			FriendConst.Type type = (Type) resource.get(DataConst.NAME_TYPE);
 			if (type == Type.DELETE) {
-				this.deleteContentProvider(reource, contentUri);
+				this.deleteContentProvider(resource, contentUri);
 			} else {
-				JSONUtils.putJSONValue(reource, FriendConst.COL_NAME_USER_ID, RunEnv
-						.getInstance().getUser().getUuid());
-				JSONUtils.putJSONValue(reource, FriendConst.COL_NAME_FRIEND_ID,
-						user.getUuid());
-				super.updateContentProvider(reource, colNames, contentUri);
+				super.updateContentProvider(resource, colNames, contentUri);
 			}
-			updateFriendUser();
+			updateFriendUser(type, resource);
 		} catch (JSONException e) {
 			Logger.error(TAG, e.getMessage(), e);
 		}
@@ -96,14 +97,17 @@ public class FriendProcessor extends ContentProcessor {
 	 * 
 	 * @throws JSONException
 	 */
-	private void updateFriendUser() throws JSONException {
+	private void updateFriendUser(FriendConst.Type type, JSONObject jsonObj)
+			throws JSONException {
 		if (type == Type.DELETE) {
 			JSONObjResource resource = new JSONObjResource();
-			JSONUtils.putJSONValue(resource, DataConst.COL_NAME_UUID, user.getUuid());
-			this.deleteContentProvider(resource, UserConst.CONTENT_URI);
+			JSONUtils.putJSONValue(resource, DataConst.COL_NAME_UUID, JSONUtils
+					.getJSONStringValue(resource, FriendConst.COL_NAME_FRIEND_ID));
+			this.deleteContentProvider(jsonObj, UserConst.CONTENT_URI);
 		} else {
-			this.updateContentProvider(UserUtils.toJSONObject(user),
-					UserData.COL_NAMES, UserConst.CONTENT_URI);
+			UserEntity user = (UserEntity) jsonObj.get(UserConst.DATA_KEY_USER);
+			this.updateContentProvider(UserUtils.toJSONObject(user), UserData.COL_NAMES,
+					UserConst.CONTENT_URI);
 		}
 	}
 }

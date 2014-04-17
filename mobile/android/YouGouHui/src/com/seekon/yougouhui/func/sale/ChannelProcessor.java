@@ -2,20 +2,23 @@ package com.seekon.yougouhui.func.sale;
 
 import android.content.Context;
 
+import com.seekon.yougouhui.func.spi.IChannelProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.service.ContentProcessor;
 import com.seekon.yougouhui.service.ProcessorCallback;
+import com.seekon.yougouhui.service.ProcessorProxy;
 
-public class ChannelProcessor extends ContentProcessor {
+public class ChannelProcessor extends ContentProcessor implements IChannelProcessor{
 
-	private static ChannelProcessor instance = null;
+	private static IChannelProcessor instance = null;
 	private static Object lock = new Object();
 
-	public static ChannelProcessor getInstance(Context mContext) {
+	public static IChannelProcessor getInstance(Context mContext) {
 		synchronized (lock) {
 			if (instance == null) {
-				instance = new ChannelProcessor(mContext);
+				ProcessorProxy proxy = new ProcessorProxy();
+				instance = (IChannelProcessor) proxy.bind(new ChannelProcessor(mContext));
 			}
 		}
 		return instance;

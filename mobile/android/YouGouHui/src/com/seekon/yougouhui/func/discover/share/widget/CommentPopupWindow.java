@@ -26,6 +26,7 @@ import com.seekon.yougouhui.func.discover.share.CommentEntity;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareEntity;
 import com.seekon.yougouhui.func.discover.share.ShareProcessor;
+import com.seekon.yougouhui.func.spi.IShareProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.ContentValuesUtils;
@@ -73,7 +74,7 @@ public class CommentPopupWindow extends PopupWindow {
 					protected RestMethodResult<JSONObjResource> doInBackground(
 							Void... params) {
 
-						ShareProcessor processor = ShareProcessor.getInstance(activity);
+						IShareProcessor processor = ShareProcessor.getInstance(activity);
 						return processor.postComment(commentMap);
 					}
 

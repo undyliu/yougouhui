@@ -8,24 +8,25 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.seekon.yougouhui.func.DataConst;
-import com.seekon.yougouhui.func.profile.shop.ShopConst;
-import com.seekon.yougouhui.func.profile.shop.ShopProcessor;
+import com.seekon.yougouhui.func.spi.ISaleProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.service.ContentProcessor;
 import com.seekon.yougouhui.service.ProcessorCallback;
+import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.Logger;
 
-public class SaleProcessor extends ContentProcessor {
+public class SaleProcessor extends ContentProcessor implements ISaleProcessor{
 
-	private static SaleProcessor instance = null;
+	private static ISaleProcessor instance = null;
 	private static Object lock = new Object();
 
-	public static SaleProcessor getInstance(Context mContext) {
+	public static ISaleProcessor getInstance(Context mContext) {
 		synchronized (lock) {
 			if (instance == null) {
-				instance = new SaleProcessor(mContext);
+				ProcessorProxy proxy = new ProcessorProxy();
+				instance = (ISaleProcessor) proxy.bind(new SaleProcessor(mContext));
 			}
 		}
 		return instance;

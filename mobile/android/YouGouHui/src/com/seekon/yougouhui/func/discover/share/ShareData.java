@@ -2,7 +2,7 @@ package com.seekon.yougouhui.func.discover.share;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
-import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_ACTIVITY_ID;
+import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_SALE_ID;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_DATE;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISH_TIME;
@@ -26,7 +26,7 @@ public class ShareData extends AbstractDBHelper {
 
 	public static final String[] COL_NAMES = new String[] { COL_NAME_UUID,
 			COL_NAME_CONTENT, COL_NAME_PUBLISH_TIME, COL_NAME_PUBLISHER,
-			COL_NAME_ACTIVITY_ID, COL_NAME_PUBLISH_DATE, COL_NAME_SHOP_ID };
+			COL_NAME_SALE_ID, COL_NAME_PUBLISH_DATE, COL_NAME_SHOP_ID };
 
 	public ShareData(Context context) {
 		super(context);
@@ -39,7 +39,7 @@ public class ShareData extends AbstractDBHelper {
 				+ COL_NAME_UUID + " TEXT PRIMARY KEY, " + COL_NAME_CONTENT + " TEXT, "
 				+ COL_NAME_PUBLISHER + " TEXT, " + COL_NAME_PUBLISH_TIME + " TEXT, "
 				+ COL_NAME_PUBLISH_DATE + " TEXT, " + COL_NAME_SHOP_ID + " TEXT, "
-				+ COL_NAME_ACTIVITY_ID + " TEXT)");
+				+ COL_NAME_SALE_ID + " TEXT)");
 	}
 
 	@Override

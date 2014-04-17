@@ -28,7 +28,6 @@ import android.view.ViewGroup;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.fragment.listener.ChannelTabChangeListener;
-import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.sale.ChannelConst;
 import com.seekon.yougouhui.func.sale.ChannelEntity;
 import com.seekon.yougouhui.func.sale.SaleServiceHelper;
@@ -192,7 +191,7 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 	}
 
 	private void updateChannelsRemote() {
-		if (requestId == null && RunEnv.getInstance().isConnectedToInternet()) {
+		if (requestId == null) {
 			Logger.debug(TAG, "updateChannelsRemote");
 			AsyncTask<Void, Void, Long> task = new AsyncTask<Void, Void, Long>() {
 				@Override

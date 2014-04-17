@@ -13,7 +13,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 
-import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.service.RequestServiceHelper;
 import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.util.ViewUtils;
@@ -96,8 +95,7 @@ public abstract class RequestListFragment extends ListFragment {
 			@Override
 			protected void onPostExecute(List<Map<String, ?>> result) {
 				updated = true;
-				if (result.size() == 0 && requestId == null
-						&& RunEnv.getInstance().isConnectedToInternet()) {
+				if (result.size() == 0 && requestId == null) {
 					Logger.debug(TAG, "getListItemsFromRemote");
 					initRequestId();
 				} else {

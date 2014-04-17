@@ -2,6 +2,7 @@ package com.seekon.yougouhui.func.discover.share;
 
 import android.content.Intent;
 
+import com.seekon.yougouhui.func.spi.IShareProcessor;
 import com.seekon.yougouhui.service.AbstractService;
 import com.seekon.yougouhui.service.ServiceConst;
 
@@ -24,7 +25,7 @@ public class ShareService extends AbstractService {
 				.getStringExtra(ShareConst.MIN_COMMENT_PUB_TIME);
 
 		if (method.equalsIgnoreCase(ServiceConst.METHOD_GET)) {
-			ShareProcessor shareProcessor = ShareProcessor
+			IShareProcessor shareProcessor = ShareProcessor
 					.getInstance(getApplicationContext());
 			shareProcessor.getShares(makeProcessorCallback(), lastPublishTime,
 					minPublishTime, lastCommentPublishTime, minCommentPublishTime);

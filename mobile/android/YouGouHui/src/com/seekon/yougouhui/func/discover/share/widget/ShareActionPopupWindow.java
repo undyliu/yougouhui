@@ -29,6 +29,7 @@ import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareEntity;
 import com.seekon.yougouhui.func.discover.share.ShareImgConst;
 import com.seekon.yougouhui.func.discover.share.ShareProcessor;
+import com.seekon.yougouhui.func.spi.IShareProcessor;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
@@ -113,7 +114,7 @@ public class ShareActionPopupWindow extends PopupWindow {
 						@Override
 						protected RestMethodResult<JSONObjResource> doInBackground(
 								String... params) {
-							ShareProcessor processor = ShareProcessor.getInstance(activity);
+							IShareProcessor processor = ShareProcessor.getInstance(activity);
 							return processor.deleteShare(params[0]);
 						}
 

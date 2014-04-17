@@ -8,22 +8,27 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
+import com.seekon.yougouhui.func.spi.IShopTradeProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.service.ContentProcessor;
+import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.Logger;
 
-public class ShopTradeProcessor extends ContentProcessor {
+public class ShopTradeProcessor extends ContentProcessor implements
+		IShopTradeProcessor {
 
-	private static ShopTradeProcessor instance = null;
+	private static IShopTradeProcessor instance = null;
 
 	private static Object lock = new Object();
 
-	public static ShopTradeProcessor getInstance(Context mContext) {
+	public static IShopTradeProcessor getInstance(Context mContext) {
 		synchronized (lock) {
 			if (instance == null) {
-				instance = new ShopTradeProcessor(mContext);
+				ProcessorProxy proxy = new ProcessorProxy();
+				instance = (IShopTradeProcessor) proxy.bind(new ShopTradeProcessor(
+						mContext));
 			}
 		}
 		return instance;

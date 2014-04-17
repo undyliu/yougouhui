@@ -29,6 +29,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.profile.shop.ChooseShopActivity;
 import com.seekon.yougouhui.activity.user.RegisterActivity;
 import com.seekon.yougouhui.func.login.LoginConst;
 import com.seekon.yougouhui.func.user.UserConst;
@@ -211,6 +212,7 @@ public class LoginActivity extends Activity {
 			showProgress(true);
 			mAuthTask = new UserLoginTask();
 			mAuthTask.execute((Void) null);
+			ViewUtils.hideInputMethodWindow(this);
 		}
 	}
 
@@ -242,21 +244,27 @@ public class LoginActivity extends Activity {
 		@Override
 		protected void onPostExecute(final String errorType) {
 			mAuthTask = null;
-			
+
 			boolean success = LoginConst.AUTH_SUCCESS.equals(errorType);
 
 			if (success) {
 				startHomeActivity();
+				return;
 			} else {
-				if (AUTH_ERROR_PASS.equals(errorType)) {
-					mPasswordView.setError(getString(R.string.error_incorrect_password));
-					mPasswordView.requestFocus();
-				} else if (AUTH_ERROR_USER.equals(errorType)) {
-					mPhoneView.setError(getString(R.string.error_incorrect_phone));
-					mPhoneView.requestFocus();
+				if (errorType != null && errorType.length() > 0) {
+					if (AUTH_ERROR_PASS.equals(errorType)) {
+						mPasswordView
+								.setError(getString(R.string.error_incorrect_password));
+						mPasswordView.requestFocus();
+					} else if (AUTH_ERROR_USER.equals(errorType)) {
+						mPhoneView.setError(getString(R.string.error_incorrect_phone));
+						mPhoneView.requestFocus();
+					}else{
+						ViewUtils.showToast(errorType);
+					}
 				} else {
-					mPasswordView.setError(getString(R.string.error_disconnect_server));
-					mPasswordView.requestFocus();
+					ViewUtils.showToast(getString(R.string.error_disconnect_server));
+					
 				}
 			}
 			showProgress(false);
@@ -290,7 +298,7 @@ public class LoginActivity extends Activity {
 						UserConst.KEY_REGISTER_USER);
 				mPhoneView.setError(null);
 				mPasswordView.setError(null);
-				
+
 				mPhoneView.setText(user.getAsString(UserConst.COL_NAME_PHONE));
 				mPasswordView.setText("");
 				rememberPwdView.setChecked(false);

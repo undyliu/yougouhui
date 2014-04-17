@@ -5,25 +5,28 @@ import org.json.JSONException;
 import android.content.Context;
 
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.spi.ISaleDiscussProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.rest.resource.Resource;
 import com.seekon.yougouhui.service.ContentProcessor;
+import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.Logger;
 
-public class SaleDiscussProcessor extends ContentProcessor {
+public class SaleDiscussProcessor extends ContentProcessor implements ISaleDiscussProcessor{
 	
 	private static final String TAG = SaleDiscussProcessor.class.getSimpleName();
 	
-	private static SaleDiscussProcessor instance = null;
+	private static ISaleDiscussProcessor instance = null;
 	private static Object lock = new Object();
 
-	public static SaleDiscussProcessor getInstance(Context mContext) {
+	public static ISaleDiscussProcessor getInstance(Context mContext) {
 		synchronized (lock) {
 			if (instance == null) {
-				instance = new SaleDiscussProcessor(mContext);
+				ProcessorProxy proxy = new ProcessorProxy();
+				instance = (ISaleDiscussProcessor) proxy.bind(new SaleDiscussProcessor(mContext));
 			}
 		}
 		return instance;

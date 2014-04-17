@@ -10,8 +10,6 @@ public class RunEnv {
 
 	private static Object lock = new Object();
 
-	private boolean isConnectedToInternet = false;
-
 	private UserEntity user = null;
 
 	private ContentValues loginSetting = null;
@@ -26,14 +24,6 @@ public class RunEnv {
 			}
 		}
 		return instance;
-	}
-
-	public void setConnectedToInternet(boolean isConnectedToInternet) {
-		this.isConnectedToInternet = isConnectedToInternet;
-	}
-
-	public boolean isConnectedToInternet() {
-		return this.isConnectedToInternet;
 	}
 
 	public UserEntity getUser() {
