@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50511
 File Encoding         : 65001
 
-Date: 2014-04-16 17:27:41
+Date: 2014-04-17 10:24:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,9 +27,9 @@ CREATE TABLE `e_channel` (
   `ord_index` int(11) DEFAULT NULL,
   `parent_id` varchar(36) DEFAULT NULL,
   `creator` varchar(36) DEFAULT NULL,
-  `create_time` float(16,0) DEFAULT NULL,
+  `create_time` varchar(16) DEFAULT NULL,
   `last_modifier` varchar(36) DEFAULT NULL,
-  `last_modify_time` float(16,0) DEFAULT NULL,
+  `last_modify_time` varchar(16) DEFAULT NULL,
   `is_used` varchar(1) DEFAULT '1',
   PRIMARY KEY (`uuid`),
   UNIQUE KEY `u_channel_code` (`code`)
@@ -71,7 +71,7 @@ DROP TABLE IF EXISTS `e_log`;
 CREATE TABLE `e_log` (
   `uuid` varchar(36) NOT NULL,
   `user_id` varchar(36) DEFAULT NULL,
-  `act_time` float(16,0) DEFAULT NULL,
+  `act_time` varchar(16) DEFAULT NULL,
   `action` varchar(32) DEFAULT NULL,
   `act_cotent` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`uuid`)
@@ -111,7 +111,7 @@ CREATE TABLE `e_message` (
   `sender` varchar(36) NOT NULL,
   `receiver` varchar(36) NOT NULL,
   `content` varchar(500) DEFAULT NULL,
-  `send_time` float(16,0) DEFAULT NULL,
+  `send_time` varchar(16) DEFAULT NULL,
   `type` int(1) DEFAULT NULL,
   `status` int(1) DEFAULT NULL,
   `reply_mess_id` varchar(36) DEFAULT NULL,
@@ -137,9 +137,9 @@ CREATE TABLE `e_module` (
   `type` varchar(32) DEFAULT NULL,
   `is_used` int(1) DEFAULT '1',
   `creator` varchar(36) DEFAULT NULL,
-  `create_time` float(16,0) DEFAULT NULL,
+  `create_time` varchar(16) DEFAULT NULL,
   `last_modifier` varchar(36) DEFAULT NULL,
-  `last_modify_time` float(16,0) DEFAULT NULL,
+  `last_modify_time` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`uuid`),
   KEY `U_discover_code` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -168,16 +168,16 @@ CREATE TABLE `e_sale` (
   `uuid` varchar(36) NOT NULL,
   `title` varchar(128) NOT NULL,
   `content` varchar(2000) DEFAULT NULL,
-  `start_date` float(16,0) DEFAULT NULL,
-  `end_date` float(16,0) DEFAULT NULL,
+  `start_date` varchar(16) DEFAULT NULL,
+  `end_date` varchar(16) DEFAULT NULL,
   `shop_id` varchar(36) DEFAULT NULL,
   `trade_id` varchar(36) DEFAULT NULL,
   `img` varchar(128) DEFAULT NULL,
   `publisher` varchar(36) DEFAULT NULL,
-  `publish_time` float(16,0) DEFAULT NULL,
+  `publish_time` varchar(16) DEFAULT NULL,
   `publish_date` varchar(10) DEFAULT NULL,
   `last_modifier` varchar(36) DEFAULT NULL,
-  `last_modify_time` float(16,0) DEFAULT NULL,
+  `last_modify_time` varchar(16) DEFAULT NULL,
   `price` double(16,2) DEFAULT '0.00',
   `discount` double(16,2) DEFAULT '0.00',
   `visit_count` int(11) DEFAULT '0',
@@ -189,7 +189,7 @@ CREATE TABLE `e_sale` (
 -- ----------------------------
 -- Records of e_sale
 -- ----------------------------
-INSERT INTO `e_sale` VALUES ('f1385b00-92b7-413b-98d6-61e3fd471a05', '五月优惠大酬宾', '五月每周二中午套餐一律25元，不限量。', '1398873653248', '1401465602048', 'a7b21d66-5681-421d-96c4-6c560471eee8', '1', '-1400089674_1397637457444.png', '95982f2a-df27-42a2-bfeb-98332233d498', '1397637513216', '2014-04-16', null, null, '0.00', '0.00', '11', '0', '0');
+INSERT INTO `e_sale` VALUES ('f1385b00-92b7-413b-98d6-61e3fd471a05', '五月优惠大酬宾', '五月每周二中午套餐一律25元，不限量。', '1398873653248', '1401465602048', 'a7b21d66-5681-421d-96c4-6c560471eee8', '1', '-1400089674_1397637457444.png', '95982f2a-df27-42a2-bfeb-98332233d498', '1397637513216', '2014-04-16', null, null, '0.00', '0.00', '12', '0', '0');
 
 -- ----------------------------
 -- Table structure for `e_sale_discuss`
@@ -201,7 +201,7 @@ CREATE TABLE `e_sale_discuss` (
   `discuss_id` varchar(36) DEFAULT NULL COMMENT '用于点评的记录别人还可点评',
   `content` varchar(2000) DEFAULT NULL,
   `publisher` varchar(36) DEFAULT NULL,
-  `publish_time` float(16,0) DEFAULT NULL,
+  `publish_time` varchar(16) DEFAULT NULL,
   `is_deleted` int(11) DEFAULT '0',
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -218,7 +218,7 @@ CREATE TABLE `e_sale_favorit` (
   `uuid` varchar(36) NOT NULL,
   `user_id` varchar(36) NOT NULL,
   `sale_id` varchar(36) NOT NULL,
-  `last_modify_time` float(16,0) DEFAULT NULL,
+  `last_modify_time` varchar(16) DEFAULT NULL,
   `is_deleted` int(1) DEFAULT '0',
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -254,7 +254,7 @@ CREATE TABLE `e_sale_visit` (
   `uuid` varchar(36) NOT NULL,
   `user_id` varchar(36) NOT NULL,
   `sale_id` varchar(36) NOT NULL,
-  `visit_time` float(16,0) NOT NULL,
+  `visit_time` varchar(16) NOT NULL,
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -265,6 +265,7 @@ INSERT INTO `e_sale_visit` VALUES ('09830bc3-a792-41de-8a1c-495a771bc277', '9598
 INSERT INTO `e_sale_visit` VALUES ('40d88f0f-89d3-46b4-ada3-9d2368c493a8', '7248db2e-c8d2-4d26-8047-79c8082fb80f', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397639741440');
 INSERT INTO `e_sale_visit` VALUES ('6a6db16c-0339-4e21-882e-49115ca77a1b', '7248db2e-c8d2-4d26-8047-79c8082fb80f', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397639741440');
 INSERT INTO `e_sale_visit` VALUES ('76bccbbe-61db-4836-8f89-e6f705052c70', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397637513216');
+INSERT INTO `e_sale_visit` VALUES ('812b4326-d9b0-4cc7-9253-efc9afd011f0', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397700689920');
 INSERT INTO `e_sale_visit` VALUES ('b4367258-3732-4216-b85c-b0e9dc8be1e7', '7248db2e-c8d2-4d26-8047-79c8082fb80f', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397638430720');
 INSERT INTO `e_sale_visit` VALUES ('bb9a751d-046f-46b7-9297-377493cc7f62', '7248db2e-c8d2-4d26-8047-79c8082fb80f', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397638299648');
 INSERT INTO `e_sale_visit` VALUES ('d66d22af-51d3-447a-b6a5-4fcbc672a878', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397637644288');
@@ -281,7 +282,7 @@ CREATE TABLE `e_share` (
   `uuid` varchar(36) NOT NULL,
   `content` varchar(2000) DEFAULT NULL,
   `publisher` varchar(36) DEFAULT NULL,
-  `publish_time` float(16,0) DEFAULT NULL,
+  `publish_time` varchar(16) DEFAULT NULL,
   `publish_date` varchar(10) DEFAULT NULL,
   `sale_id` varchar(36) DEFAULT NULL,
   `is_deleted` int(1) DEFAULT '0',
@@ -304,7 +305,7 @@ CREATE TABLE `e_share_comment` (
   `comment_id` varchar(36) DEFAULT NULL,
   `content` varchar(2000) DEFAULT NULL,
   `publisher` varchar(36) DEFAULT NULL,
-  `publish_time` float(16,0) DEFAULT NULL,
+  `publish_time` varchar(16) DEFAULT NULL,
   `is_deleted` int(1) DEFAULT '0',
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -347,10 +348,10 @@ CREATE TABLE `e_shop` (
   `credit_rank` int(11) DEFAULT NULL,
   `owner` varchar(36) DEFAULT NULL,
   `creator` varchar(36) DEFAULT NULL,
-  `create_time` float(16,0) DEFAULT NULL,
+  `create_time` varchar(16) DEFAULT NULL,
   `last_modifier` varchar(36) DEFAULT NULL,
-  `last_modify_time` float(16,0) DEFAULT NULL,
-  `register_time` float(16,0) DEFAULT NULL,
+  `last_modify_time` varchar(16) DEFAULT NULL,
+  `register_time` varchar(16) DEFAULT NULL,
   `status` int(1) DEFAULT '0' COMMENT '0:注册未审核，1:已审核，2:已注销',
   `barcode` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`uuid`)
@@ -371,9 +372,9 @@ CREATE TABLE `e_shop_emp` (
   `user_id` varchar(36) DEFAULT NULL,
   `pwd` varchar(36) DEFAULT NULL,
   `creator` varchar(36) DEFAULT NULL,
-  `create_time` float(16,0) DEFAULT NULL,
+  `create_time` varchar(16) DEFAULT NULL,
   `last_modifier` varchar(36) DEFAULT NULL,
-  `last_modify_time` float(16,0) DEFAULT NULL,
+  `last_modify_time` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -390,7 +391,7 @@ CREATE TABLE `e_shop_favorit` (
   `uuid` varchar(36) NOT NULL,
   `user_id` varchar(36) NOT NULL,
   `shop_id` varchar(36) NOT NULL,
-  `last_modify_time` float(16,0) DEFAULT NULL,
+  `last_modify_time` varchar(16) DEFAULT NULL,
   `is_deleted` int(1) DEFAULT '0',
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -452,8 +453,8 @@ CREATE TABLE `e_user` (
   `photo` varchar(64) DEFAULT NULL,
   `birthday` varchar(16) DEFAULT NULL,
   `last_modifier` varchar(36) DEFAULT NULL,
-  `last_modify_time` float(16,0) DEFAULT NULL,
-  `register_time` float(16,0) DEFAULT NULL,
+  `last_modify_time` varchar(16) DEFAULT NULL,
+  `register_time` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`uuid`),
   UNIQUE KEY `u_e_user_phone` (`phone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

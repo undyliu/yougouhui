@@ -1,31 +1,24 @@
 (ns yougou.handler
   (:use [compojure.core]
-	[yougou.sale]
-	[yougou.module]
-	[yougou.auth]
-	[yougou.share]
-	[yougou.user]
-	[yougou.friend]
-	[yougou.shop]
-  [yougou.favorit]
-	)
+	      [yougou.sale]
+	      [yougou.module]
+	      [yougou.auth]
+	      [yougou.share]
+	      [yougou.user]
+	      [yougou.friend]
+	      [yougou.shop]
+        [yougou.favorit]
+        )
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
-	     [clojure.data.json :as json]
-			 [clojure.java.io :as io]
-			 [ring.util.response :as response]
-			 (ring.middleware [multipart-params :as mp])
-			 [yougou.file :as file]
+	          [clojure.data.json :as json]
+			     [clojure.java.io :as io]
+			     [ring.util.response :as response]
+			     (ring.middleware [multipart-params :as mp])
+			     [yougou.file :as file]
+            [ring.middleware.cookies]
 	))
 
-(defroutes default-routes
-  (GET "/hello" [] "你好.")
-  (route/resources "/")
-  (route/not-found "Not Found"))
-
-(defroutes login-routes
-	(POST "/login" {{phone :phone, pwd :pwd} :params} (json/write-str (login phone pwd)))
-)
 
 (defroutes channel-routes
 	(GET "/getChannels" [] (json/write-str (get-channels nil)))
@@ -265,7 +258,27 @@
 	)
  )
 
+(def app-routes
+  (routes channel-routes sale-routes module-routes share-routes file-routes user-routes friend-routes shop-routes favorit-routes)
+  )
+
+(defroutes login-routes
+	(POST "/login" request
+        {:status 200
+         ;:headers {"Set-Cookie" '("yo=hi") "Content-Type" "text/html"}
+         :body (json/write-str (login request))
+         }
+        )
+)
+
+(defroutes auth-routes
+  (authenticated? app-routes)
+  (route/resources "/")
+  (route/not-found "Not Found")
+)
+
 (def app
-  (-> (routes login-routes channel-routes sale-routes module-routes share-routes file-routes user-routes friend-routes shop-routes favorit-routes default-routes)
+  (-> (routes login-routes auth-routes)
       (handler/site :session)
+      (ring.middleware.cookies/wrap-cookies)
       ))

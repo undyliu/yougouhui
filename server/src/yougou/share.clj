@@ -56,7 +56,7 @@
     (if (< publish-time 0)
        {}
 			(exec (-> (select* shares)
-							(fields :uuid :content :publisher :publish_time :publish_date :activity_id :shop_id)
+							(fields :uuid :content :publisher :publish_time :publish_date :sale_id :shop_id)
 							(where {:publish_time [> publish-time] :is_deleted [not= 1]})
 							(where (or {:publisher user-id} {:publisher [in (subselect friends (fields :friend_id) (where {:user_id user-id}))]}))
 							(order :publish_time)
