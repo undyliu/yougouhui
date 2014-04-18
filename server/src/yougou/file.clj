@@ -8,13 +8,14 @@
 	(let [path "upload/images"
 				file (io/file path file-name)]
 		(io/copy tempfile file)
-		(println (str "save file:" (.getAbsolutePath file)))
+		;(println (str "save file:" (.getAbsolutePath file)))
 	)
 )
 
 (defn get-image-file [file-name]
 	(let [path "upload/images"
-				file (io/file path file-name)]				
+				file (io/file path file-name)]
+    ;(println (str "get file:" (.getAbsolutePath file)))
 	file)
 )
 
@@ -26,8 +27,8 @@
 				(if entry-name
 					(cond
 						(instance? java.util.Map entry-name) (del-image-files (vals entry-name))
-						(instance? java.lang.String entry-name) 
-							(let [file-name entry-name] 
+						(instance? java.lang.String entry-name)
+							(let [file-name entry-name]
 								(try
 									(.delete (io/file path file-name))
 									(println (str "delete file:" (.getAbsolutePath (io/file path file-name))))
@@ -36,7 +37,7 @@
 							)
 						:else (println (str "del-image-file args type:" (class entry-name)))
 					)
-				)	
+				)
 				(if (> (count file-names) 0)
 					(recur (rest file-names) (first (rest file-names)))
 				)
