@@ -6,11 +6,11 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_ADDRESS;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BARCODE;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_BUSI_LICENSE;
+import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_LOCATION;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_OWNER;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_REGISTER_TIME;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_SHOP_IMAGE;
 import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_STATUS;
-import static com.seekon.yougouhui.func.profile.shop.ShopConst.COL_NAME_LOCATION;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 

@@ -7,7 +7,6 @@ import java.util.List;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -22,6 +21,7 @@ import android.widget.TextView;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.PicContainerActivity;
 import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.profile.shop.GetShopTaskCallback;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.profile.shop.ShopUtils;
 import com.seekon.yougouhui.func.profile.shop.TradeEntity;
@@ -29,8 +29,9 @@ import com.seekon.yougouhui.func.sale.SaleConst;
 import com.seekon.yougouhui.func.sale.SaleEntity;
 import com.seekon.yougouhui.func.sale.SaleProcessor;
 import com.seekon.yougouhui.func.sale.widget.SaleTradeListAdapter;
-import com.seekon.yougouhui.func.widget.TaskCallback;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.DateUtils;
 import com.seekon.yougouhui.util.ViewUtils;
@@ -61,7 +62,7 @@ public abstract class SalePromoteActivity extends PicContainerActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		shopId = this.getIntent().getStringExtra(SaleConst.COL_NAME_SHOP_ID);
 
 		initViews();
@@ -106,49 +107,38 @@ public abstract class SalePromoteActivity extends PicContainerActivity {
 	private void loadShopData() {
 		shopTradeList = ShopUtils.getShopTradeList(this, shopId);
 		if (shopTradeList.isEmpty()) {
-			ShopUtils.loadDataFromRemote(this, shopId,
-					new TaskCallback<RestMethodResult<JSONObjResource>>() {
+			ShopUtils.loadDataFromRemote(new GetShopTaskCallback(this, shopId) {
 
-						@Override
-						public void onPostExecute(RestMethodResult<JSONObjResource> result) {
-							shopTradeList = ShopUtils.getShopTradeList(
-									SalePromoteActivity.this, shopId);
-							updateViews();
-						}
-
-						@Override
-						public void onCancelled() {
-
-						}
-					});
+				@Override
+				public void onSuccess(RestMethodResult<JSONObjResource> result) {
+					shopTradeList = ShopUtils.getShopTradeList(SalePromoteActivity.this,
+							shopId);
+					updateViews();
+				}
+			});
 		} else {
 			updateViews();
 		}
 	}
 
-	protected void updateViews(){
+	protected void updateViews() {
 		ShopEntity shop = ShopUtils.loadDataFromLocal(this, shopId);
-		if(shop == null){
-			ShopUtils.loadDataFromRemote(this, shopId,
-					new TaskCallback<RestMethodResult<JSONObjResource>>() {
-						@Override
-						public void onCancelled() {
+		if (shop == null) {
+			ShopUtils.loadDataFromRemote(new GetShopTaskCallback(this, shopId) {
 
-						}
-
-						@Override
-						public void onPostExecute(RestMethodResult<JSONObjResource> result) {
-							ShopEntity shop = ShopUtils.loadDataFromLocal(SalePromoteActivity.this,
-									shopId);
-							shopNameView.setText(shop.getName());
-						}
-					});
-		}else{
+				@Override
+				public void onSuccess(RestMethodResult<JSONObjResource> result) {
+					ShopEntity shop = ShopUtils.loadDataFromLocal(
+							SalePromoteActivity.this, shopId);
+					shopNameView.setText(shop.getName());
+				}
+			});
+		} else {
 			shopNameView.setText(shop.getName());
 		}
 		saleTradeListAdapter.updateData(shopTradeList);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.common_save, menu);
@@ -263,7 +253,7 @@ public abstract class SalePromoteActivity extends PicContainerActivity {
 
 		ShopEntity shop = new ShopEntity();
 		shop.setUuid(shopId);
-		
+
 		final SaleEntity sale = new SaleEntity();
 		sale.setTitle(title);
 		sale.setContent(content);
@@ -274,47 +264,48 @@ public abstract class SalePromoteActivity extends PicContainerActivity {
 		sale.setEndDate(DateUtils.getDate_yyyyMMdd(endDate).getTime());
 		sale.setImages(imageFileUriList);
 
-		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return SaleProcessor.getInstance(SalePromoteActivity.this).publishSale(
-						sale);
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				showProgress(false);
-				item.setEnabled(true);
-				if (result.getStatusCode() == 200) {
-					Intent intent = new Intent();
-					intent.putExtra(SaleConst.DATA_REQUEST_PUBLISH_RESULT, true);
-					setResult(RESULT_OK, intent);
-					finish();
-				} else {
-					ViewUtils.showToast("发布活动信息失败.");
-				}
-			}
-
-			@Override
-			protected void onCancelled() {
-				showProgress(false);
-				item.setEnabled(true);
-				super.onCancelled();
-			}
-		};
-
 		showProgress(true);
 		item.setEnabled(false);
-		task.execute((Void) null);
+
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+						"发布活动信息失败.") {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return SaleProcessor.getInstance(SalePromoteActivity.this)
+								.publishSale(sale);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						Intent intent = new Intent();
+						intent.putExtra(SaleConst.DATA_REQUEST_PUBLISH_RESULT, true);
+						setResult(RESULT_OK, intent);
+						finish();
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						super.onFailed(errorMessage);
+						onCancelled();
+					}
+
+					@Override
+					public void onCancelled() {
+						showProgress(false);
+						item.setEnabled(true);
+						super.onCancelled();
+					}
+				});
 	}
 
 	@Override
 	public GridView getPicContainer() {
 		return (GridView) findViewById(R.id.sale_pic_container);
 	}
-	
-	private void showProgress(boolean show){
+
+	private void showProgress(boolean show) {
 		ViewUtils.showProgress(this, findViewById(R.id.sale_promite_main), show);
 	}
 }

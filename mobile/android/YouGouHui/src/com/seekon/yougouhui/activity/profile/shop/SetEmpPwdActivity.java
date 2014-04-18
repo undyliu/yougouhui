@@ -3,7 +3,6 @@ package com.seekon.yougouhui.activity.profile.shop;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -17,7 +16,9 @@ import com.seekon.yougouhui.func.profile.shop.ShopConst;
 import com.seekon.yougouhui.func.profile.shop.ShopEmpProcessor;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.ViewUtils;
 
@@ -118,38 +119,41 @@ public class SetEmpPwdActivity extends Activity {
 			return;
 		}
 
-		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return ShopEmpProcessor.getInstance(SetEmpPwdActivity.this)
-						.setShopEmpPwd(shopId, emp.getUuid(), password);
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				if (result.getStatusCode() == 200) {
-					emp.setPwd(password);
-					Intent intent = new Intent();
-					intent.putExtra(UserConst.DATA_KEY_USER, emp);
-					setResult(RESULT_OK, intent);
-					finish();
-				} else {
-					ViewUtils.showToast("设置密码失败.");
-				}
-			}
-
-			@Override
-			protected void onCancelled() {
-				item.setEnabled(true);
-				showProgress(false);
-				super.onCancelled();
-			}
-		};
-
 		item.setEnabled(false);
 		showProgress(true);
-		task.execute((Void) null);
+
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+						"设置密码失败.") {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return ShopEmpProcessor.getInstance(SetEmpPwdActivity.this)
+								.setShopEmpPwd(shopId, emp.getUuid(), password);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						emp.setPwd(password);
+						Intent intent = new Intent();
+						intent.putExtra(UserConst.DATA_KEY_USER, emp);
+						setResult(RESULT_OK, intent);
+						finish();
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						onCancelled();
+						super.onFailed(errorMessage);
+					}
+
+					@Override
+					public void onCancelled() {
+						item.setEnabled(true);
+						showProgress(false);
+						super.onCancelled();
+					}
+				});
 	}
 
 	protected void showProgress(final boolean show) {

@@ -8,11 +8,11 @@ import com.seekon.yougouhui.rest.JSONArrayResourceMethod;
 import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
 
-public class GetSaleFavoritesMethod extends JSONArrayResourceMethod{
-	
+public class GetSaleFavoritesMethod extends JSONArrayResourceMethod {
+
 	private static final String GET_SALE_FAVORITES_URI = Const.SERVER_APP_URL
 			+ "/getSaleFavoritesByUser/";
-	
+
 	private String userId;
 
 	public GetSaleFavoritesMethod(Context context, String userId) {
@@ -25,5 +25,5 @@ public class GetSaleFavoritesMethod extends JSONArrayResourceMethod{
 		String uri = GET_SALE_FAVORITES_URI + userId;
 		return new BaseRequest(Method.GET, uri, null, null);
 	}
-	
+
 }

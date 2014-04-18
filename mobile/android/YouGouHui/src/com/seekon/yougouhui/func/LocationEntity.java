@@ -4,13 +4,14 @@ import java.io.Serializable;
 
 /**
  * 地理位置
+ * 
  * @author undyliu
- *
+ * 
  */
-public class LocationEntity implements Serializable{
+public class LocationEntity implements Serializable {
 
 	private static final long serialVersionUID = -5370688690944750615L;
-	
+
 	private double latitude;
 	private double lontitude;
 	private double radius;
@@ -58,5 +59,5 @@ public class LocationEntity implements Serializable{
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
+
 }

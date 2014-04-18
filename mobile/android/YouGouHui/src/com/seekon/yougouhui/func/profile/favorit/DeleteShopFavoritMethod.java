@@ -10,7 +10,7 @@ import com.seekon.yougouhui.rest.Request;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.JSONUtils;
 
-public class DeleteShopFavoritMethod extends JSONObjResourceMethod{
+public class DeleteShopFavoritMethod extends JSONObjResourceMethod {
 	private static final String DEL_SHOP_FAVORIT_URI = Const.SERVER_APP_URL
 			+ "/deleteShopFavorit/";
 
@@ -28,7 +28,7 @@ public class DeleteShopFavoritMethod extends JSONObjResourceMethod{
 		String uri = DEL_SHOP_FAVORIT_URI + userId + "/" + shopId;
 		return new BaseRequest(Method.DELETE, uri, null, null);
 	}
-	
+
 	@Override
 	protected JSONObjResource parseResponseBody(String responseBody)
 			throws Exception {

@@ -32,8 +32,24 @@ public abstract class AbstractRestMethod<T extends Resource> implements
 			RequestSigner signer = AuthorizationManager.getInstance(getContext());
 			signer.authorize(request);
 		}
-		Response response = doRequest(request);
-		return buildResult(response);
+
+		Response response = null;
+		try {
+			response = doRequest(request);
+		} catch (Exception ex) {
+			Logger.warn(TAG, ex.getMessage());
+			int status = RestStatus.SERVER_NOT_AVAILABLE;
+			String statusMsg = getContext().getString(R.string.server_not_available);
+			return new RestMethodResult<T>(status, statusMsg, null);
+		}
+		try {
+			return buildResult(response);
+		} catch (Exception e) {
+			Logger.warn(TAG, e.getMessage());
+			int status = RestStatus.RUNTIME_ERROR;
+			String statusMsg = getContext().getString(R.string.runtime_error);
+			return new RestMethodResult<T>(status, statusMsg, null);
+		}
 	}
 
 	protected abstract Context getContext();
@@ -45,22 +61,17 @@ public abstract class AbstractRestMethod<T extends Resource> implements
 	 * @param response
 	 * @return
 	 */
-	protected RestMethodResult<T> buildResult(Response response) {
+	protected RestMethodResult<T> buildResult(Response response) throws Exception {
 
 		int status = response.getStatus();
 		String statusMsg = "";
 		String responseBody = null;
 		T resource = null;
 
-		try {
-			responseBody = new String(response.getBody(),
-					getCharacterEncoding(response.getHeaders()));
-			resource = parseResponseBody(responseBody);
-		} catch (Exception ex) {
-			Logger.warn(TAG, ex.getMessage());
-			status = RestStatus.SERVER_NOT_AVAILABLE;
-			statusMsg = getContext().getString(R.string.server_not_available);
-		}
+		responseBody = new String(response.getBody(),
+				getCharacterEncoding(response.getHeaders()));
+		resource = parseResponseBody(responseBody);
+
 		return new RestMethodResult<T>(status, statusMsg, resource);
 	}
 
@@ -72,7 +83,7 @@ public abstract class AbstractRestMethod<T extends Resource> implements
 
 	protected abstract T parseResponseBody(String responseBody) throws Exception;
 
-	protected abstract Response doRequest(Request request);
+	protected abstract Response doRequest(Request request) throws Exception;
 
 	private String getCharacterEncoding(Map<String, List<String>> headers) {
 		return DEFAULT_ENCODING;

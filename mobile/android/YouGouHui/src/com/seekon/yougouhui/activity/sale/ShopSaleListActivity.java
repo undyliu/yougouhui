@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,12 +18,13 @@ import com.seekon.yougouhui.func.sale.SaleConst;
 import com.seekon.yougouhui.func.sale.SaleData;
 import com.seekon.yougouhui.func.sale.SaleProcessor;
 import com.seekon.yougouhui.func.sale.widget.ShopSaleListAdapter;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.func.widget.DateIndexedEntity;
 import com.seekon.yougouhui.func.widget.DateIndexedListAdapter;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.util.DateUtils;
-import com.seekon.yougouhui.util.ViewUtils;
 
 public class ShopSaleListActivity extends DateIndexedListActivity {
 
@@ -138,25 +138,20 @@ public class ShopSaleListActivity extends DateIndexedListActivity {
 	}
 
 	private void loadDataFormRemote() {
-		AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>>() {
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>(
+						"获取活动数据失败.") {
 
-			@Override
-			protected RestMethodResult<JSONArrayResource> doInBackground(
-					Void... params) {
-				return SaleProcessor.getInstance(ShopSaleListActivity.this)
-						.getSalesByShop(shopId);
-			}
+					@Override
+					public RestMethodResult<JSONArrayResource> doInBackground() {
+						return SaleProcessor.getInstance(ShopSaleListActivity.this)
+								.getSalesByShop(shopId);
+					}
 
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONArrayResource> result) {
-				if (result.getStatusCode() == 200) {
-					doFilterData("");
-				} else {
-					ViewUtils.showToast("获取活动数据失败.");
-				}
-			}
-
-		};
-		task.execute((Void) null);
+					@Override
+					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+						doFilterData("");
+					}
+				});
 	}
 }

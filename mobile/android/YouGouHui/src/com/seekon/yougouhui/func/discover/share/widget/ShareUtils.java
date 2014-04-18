@@ -14,7 +14,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -108,7 +107,7 @@ public class ShareUtils {
 		// 设置评论信息
 		ListView commentView = (ListView) shareView.findViewById(R.id.comment_list);
 		List<CommentEntity> comments = share.getComments();
-		final BaseAdapter commentAdapter = new CommentListAdapter(activity,
+		final CommentListAdapter commentAdapter = new CommentListAdapter(activity,
 				comments);
 		commentView.setAdapter(commentAdapter);
 
@@ -123,7 +122,7 @@ public class ShareUtils {
 	}
 
 	private static void showPopupWindow(final ShareEntity share,
-			Activity activity, final BaseAdapter commentAdapter, View v) {
+			Activity activity, final CommentListAdapter commentAdapter, View v) {
 		ShareActionPopupWindow popupWindow = new ShareActionPopupWindow();
 		popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 		popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);

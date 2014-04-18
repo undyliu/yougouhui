@@ -13,7 +13,8 @@ public class FavoritEntity extends PinyinEntity implements Serializable {
 	private String code;
 	private String image;
 
-	public FavoritEntity(String uuid, String userId, String code, String name, String image) {
+	public FavoritEntity(String uuid, String userId, String code, String name,
+			String image) {
 		super(name);
 		this.uuid = uuid;
 		this.userId = userId;
@@ -77,5 +78,5 @@ public class FavoritEntity extends PinyinEntity implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }

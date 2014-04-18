@@ -6,7 +6,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.ContentResolver;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +18,11 @@ import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.discover.share.CommentConst;
 import com.seekon.yougouhui.func.discover.share.CommentEntity;
 import com.seekon.yougouhui.func.discover.share.ShareProcessor;
-import com.seekon.yougouhui.func.spi.IShareProcessor;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.util.ViewUtils;
 
 /**
  * 分享信息评论列表adapter
@@ -82,34 +81,29 @@ public class CommentListAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
 
-						@Override
-						protected RestMethodResult<JSONObjResource> doInBackground(
-								Void... params) {
-							IShareProcessor processor = ShareProcessor.getInstance(context);
-							return processor.deleteComment(commentId);
-						}
+					RestUtils
+							.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+									"删除评论失败.") {
 
-						@Override
-						protected void onPostExecute(
-								RestMethodResult<JSONObjResource> result) {
-							int status = result.getStatusCode();
-							if (status == 200) {
-								ContentResolver resolver = context.getContentResolver();
-								String where = COL_NAME_UUID + "=?";
-								String[] selectionArgs = new String[] { commentId };
-								resolver.delete(CommentConst.CONTENT_URI, where, selectionArgs);
+								@Override
+								public RestMethodResult<JSONObjResource> doInBackground() {
+									return ShareProcessor.getInstance(context).deleteComment(
+											commentId);
+								}
 
-								commentList.remove(comment);
-								CommentListAdapter.this.notifyDataSetChanged();
-							} else {
-								ViewUtils.showToast("删除失败.");
-							}
-						}
-					};
+								@Override
+								public void onSuccess(RestMethodResult<JSONObjResource> result) {
+									ContentResolver resolver = context.getContentResolver();
+									String where = COL_NAME_UUID + "=?";
+									String[] selectionArgs = new String[] { commentId };
+									resolver.delete(CommentConst.CONTENT_URI, where,
+											selectionArgs);
 
-					task.execute((Void) null);
+									commentList.remove(comment);
+									CommentListAdapter.this.notifyDataSetChanged();
+								}
+							});
 				}
 			});
 		} else {
@@ -132,6 +126,11 @@ public class CommentListAdapter extends BaseAdapter {
 	@Override
 	public long getItemId(int position) {
 		return position;
+	}
+
+	public void addComment(CommentEntity comment) {
+		this.commentList.add(comment);
+		this.notifyDataSetChanged();
 	}
 
 	class ViewHolder {

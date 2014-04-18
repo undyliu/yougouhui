@@ -7,7 +7,8 @@ import com.seekon.yougouhui.service.ContentProcessor;
 import com.seekon.yougouhui.service.ProcessorCallback;
 import com.seekon.yougouhui.service.ProcessorProxy;
 
-public class ModuleProcessor extends ContentProcessor implements IModuleProcessor {
+public class ModuleProcessor extends ContentProcessor implements
+		IModuleProcessor {
 
 	private static IModuleProcessor instance = null;
 	private static Object lock = new Object();

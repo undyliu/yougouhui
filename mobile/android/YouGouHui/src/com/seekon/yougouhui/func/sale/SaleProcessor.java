@@ -17,7 +17,7 @@ import com.seekon.yougouhui.service.ProcessorCallback;
 import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.Logger;
 
-public class SaleProcessor extends ContentProcessor implements ISaleProcessor{
+public class SaleProcessor extends ContentProcessor implements ISaleProcessor {
 
 	private static ISaleProcessor instance = null;
 	private static Object lock = new Object();
@@ -51,12 +51,13 @@ public class SaleProcessor extends ContentProcessor implements ISaleProcessor{
 					updateContentProvider(image, SaleImgData.COL_NAMES,
 							SaleImgConst.CONTENT_URI);
 				}
-//				if (jsonObj.has(ShopConst.DATA_SHOP_KEY)) {
-//					JSONObject shopObj = jsonObj.getJSONObject(ShopConst.DATA_SHOP_KEY);
-//					RestMethodResult<JSONObjResource> restResult = new RestMethodResult<JSONObjResource>(
-//							200, "", new JSONObjResource(shopObj.toString()));
-//					ShopProcessor.getInstance(mContext).updateContentProvider(restResult);
-//				}
+				// if (jsonObj.has(ShopConst.DATA_SHOP_KEY)) {
+				// JSONObject shopObj = jsonObj.getJSONObject(ShopConst.DATA_SHOP_KEY);
+				// RestMethodResult<JSONObjResource> restResult = new
+				// RestMethodResult<JSONObjResource>(
+				// 200, "", new JSONObjResource(shopObj.toString()));
+				// ShopProcessor.getInstance(mContext).updateContentProvider(restResult);
+				// }
 			}
 		} catch (Exception e) {
 			Logger.warn(TAG, e.getMessage());

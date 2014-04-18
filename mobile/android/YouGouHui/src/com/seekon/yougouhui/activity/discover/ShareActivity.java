@@ -5,10 +5,7 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.JSONException;
-
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -29,9 +26,10 @@ import com.seekon.yougouhui.func.profile.shop.ShopConst;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.spi.IShareProcessor;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.util.ViewUtils;
 
 public class ShareActivity extends PicContainerActivity {
@@ -71,13 +69,14 @@ public class ShareActivity extends PicContainerActivity {
 		});
 
 		choosedShopNameView = (EditText) findViewById(R.id.share_shop_barcode);
-		
-		ShopEntity shop = (ShopEntity) this.getIntent().getSerializableExtra(ShopConst.DATA_SHOP_KEY);
-		if(shop != null){
+
+		ShopEntity shop = (ShopEntity) this.getIntent().getSerializableExtra(
+				ShopConst.DATA_SHOP_KEY);
+		if (shop != null) {
 			choosedShopId = shop.getUuid();
 			choosedShopNameView.setText(shop.getName());
 		}
-		
+
 		super.onCreate(savedInstanceState);
 	}
 
@@ -140,59 +139,51 @@ public class ShareActivity extends PicContainerActivity {
 			return;
 		}
 
-		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				UserEntity user = RunEnv.getInstance().getUser();
-				Map share = new HashMap();
-				share.put(ShareConst.COL_NAME_PUBLISHER, user.getUuid());
-				share.put(COL_NAME_CONTENT, shareContent);
-				share.put(ShareConst.DATA_IMAGE_KEY, imageFileUriList);
-				share.put(ShareConst.COL_NAME_SHOP_ID, choosedShopId);
-
-				IShareProcessor processor = ShareProcessor
-						.getInstance(ShareActivity.this);
-				return processor.postShare(share);
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				showProgress(false);
-
-				if (result == null) {
-					ViewUtils.showToast("发布信息失败.");
-					return;
-				}
-				if (result.getStatusCode() == 200) {
-					Intent intent = new Intent();
-					intent.putExtra(COL_NAME_CONTENT, shareContent);
-
-					setResult(RESULT_OK, intent);
-					clean();
-					finish();
-				} else {
-					item.setEnabled(true);
-					try {
-						ViewUtils.showToast(result.getResource().getString("error"));
-					} catch (JSONException e) {
-						Logger.error(TAG, e.getMessage());
-						ViewUtils.showToast("发布信息失败.");
-					}
-					return;
-				}
-			}
-
-			@Override
-			protected void onCancelled() {
-				item.setEnabled(true);
-				showProgress(false);
-				super.onCancelled();
-			}
-		};
 		item.setEnabled(false);
 		showProgress(true);
-		task.execute((Void) null);
+
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+						"发布信息失败.") {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						UserEntity user = RunEnv.getInstance().getUser();
+						Map share = new HashMap();
+						share.put(ShareConst.COL_NAME_PUBLISHER, user.getUuid());
+						share.put(COL_NAME_CONTENT, shareContent);
+						share.put(ShareConst.DATA_IMAGE_KEY, imageFileUriList);
+						share.put(ShareConst.COL_NAME_SHOP_ID, choosedShopId);
+
+						IShareProcessor processor = ShareProcessor
+								.getInstance(ShareActivity.this);
+						return processor.postShare(share);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						Intent intent = new Intent();
+						intent.putExtra(COL_NAME_CONTENT, shareContent);
+
+						setResult(RESULT_OK, intent);
+						clean();
+						finish();
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						showProgress(false);
+						item.setEnabled(true);
+						super.onFailed(errorMessage);
+					}
+
+					@Override
+					public void onCancelled() {
+						item.setEnabled(true);
+						showProgress(false);
+						super.onCancelled();
+					}
+				});
 	}
 
 	private void showProgress(boolean show) {

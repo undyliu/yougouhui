@@ -11,10 +11,9 @@ import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.profile.favorit.FavoritEntity;
 import com.seekon.yougouhui.func.widget.CatalogListAdapter;
 
-public class FavoritListAdapter extends CatalogListAdapter{
+public class FavoritListAdapter extends CatalogListAdapter {
 
-	public FavoritListAdapter(Context mContext,
-			List<FavoritEntity> contactList) {
+	public FavoritListAdapter(Context mContext, List<FavoritEntity> contactList) {
 		super(mContext, contactList);
 	}
 
@@ -25,11 +24,10 @@ public class FavoritListAdapter extends CatalogListAdapter{
 
 		viewHolder.imageView.setLayoutParams(new LinearLayout.LayoutParams(80, 80));
 		FavoritEntity mContent = (FavoritEntity) dataList.get(position);
-		
+
 		String image = mContent.getImage();
 		if (image != null && image.length() > 0) {
-			ImageLoader.getInstance().displayImage(image, viewHolder.imageView,
-					true);
+			ImageLoader.getInstance().displayImage(image, viewHolder.imageView, true);
 		}
 		return view;
 	}

@@ -14,6 +14,8 @@ public class RunEnv {
 
 	private ContentValues loginSetting = null;
 
+	private String sessionId = null;// 键值对格式:key=value
+
 	private RunEnv() {
 	}
 
@@ -40,6 +42,14 @@ public class RunEnv {
 
 	public void setLoginSetting(ContentValues loginSetting) {
 		this.loginSetting = loginSetting;
+	}
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 
 }

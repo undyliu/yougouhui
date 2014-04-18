@@ -29,9 +29,9 @@ public abstract class ChangeImageInfoActivity extends Activity {
 	protected ImageView photoView = null;
 
 	protected String imageUri = null;
-	
+
 	private boolean showLocalImage = false;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -121,18 +121,19 @@ public abstract class ChangeImageInfoActivity extends Activity {
 		final ImageButton iconPreview = (ImageButton) findViewById(R.id.image_icon_preview);
 		iconPreview.setVisibility(View.VISIBLE);
 		iconPreview.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(ChangeImageInfoActivity.this,
 						ImagePreviewActivity.class);
 				intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, imageUri);
-				intent.putExtra(ImagePreviewActivity.SHOW_BY_LOCAL_FILE, showLocalImage);
+				intent
+						.putExtra(ImagePreviewActivity.SHOW_BY_LOCAL_FILE, showLocalImage);
 				intent.putExtra(ImagePreviewActivity.IMAGE_DELETE_FLAG, false);
 				startActivity(intent);
 			}
 		});
-		
+
 		final ImageButton iconDel = (ImageButton) findViewById(R.id.image_icon_del);
 		iconDel.setVisibility(View.VISIBLE);
 		iconDel.setOnClickListener(new View.OnClickListener() {

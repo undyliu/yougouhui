@@ -4,16 +4,16 @@
     <item
         android:id="@+id/menu_share_publish"
         android:showAsAction="always|withText"
-        android:title="@string/title_action_share_publish"/>
+        android:title="@string/title_action_share_publish" android:enabled="false"/>
     <item
         android:id="@+id/menu_sale_favorit"
         android:showAsAction="always|withText"
         android:title="@string/title_action_favorit"
-        android:visible="false"/>
+        android:visible="false" android:enabled="false"/>
     <item
         android:id="@+id/menu_sale_favorit_cancel"
         android:showAsAction="always|withText"
         android:title="@string/title_action_favorit_cancel"
-        android:visible="false"/>
+        android:visible="false" android:enabled="false"/>
 
 </menu>

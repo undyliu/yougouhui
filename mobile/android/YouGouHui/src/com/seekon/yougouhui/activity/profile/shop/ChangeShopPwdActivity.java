@@ -1,7 +1,6 @@
 package com.seekon.yougouhui.activity.profile.shop;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -13,10 +12,11 @@ import com.seekon.yougouhui.func.login.LoginConst;
 import com.seekon.yougouhui.func.profile.shop.ShopConst;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.profile.shop.ShopProcessor;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.JSONUtils;
-import com.seekon.yougouhui.util.ViewUtils;
 
 public class ChangeShopPwdActivity extends ChangePasswordActivity {
 
@@ -44,47 +44,49 @@ public class ChangeShopPwdActivity extends ChangePasswordActivity {
 	protected void doSavePassword(final MenuItem item) {
 		final String oldPwd = pwdOldView.getText().toString();
 		final String pwd = pwdNewView.getText().toString();
-		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return ShopProcessor.getInstance(ChangeShopPwdActivity.this)
-						.changeShopEmpPwd(shop.getUuid(),
-								RunEnv.getInstance().getUser().getUuid(), oldPwd, pwd);
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				showProgress(false);
-				int status = result.getStatusCode();
-				if (status == 200) {
-					JSONObjResource resource = result.getResource();
-					String errorType = JSONUtils.getJSONStringValue(resource,
-							LoginConst.LOGIN_RESULT_ERROR_TYPE);
-					if (errorType != null) {
-						pwdOldView.setError("原密码不正确.");
-						pwdOldView.requestFocus();
-					} else {
-						finish();
-					}
-				} else {
-					ViewUtils.showToast("修改密码失败.");
-				}
-
-				item.setEnabled(true);
-			}
-
-			@Override
-			protected void onCancelled() {
-				showProgress(false);
-				item.setEnabled(true);
-				super.onCancelled();
-			}
-		};
 
 		showProgress(true);
 		item.setEnabled(false);
-		task.execute((Void) null);
+
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+						"修改密码失败.") {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return ShopProcessor.getInstance(ChangeShopPwdActivity.this)
+								.changeShopEmpPwd(shop.getUuid(),
+										RunEnv.getInstance().getUser().getUuid(), oldPwd, pwd);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						showProgress(false);
+						JSONObjResource resource = result.getResource();
+						String errorType = JSONUtils.getJSONStringValue(resource,
+								LoginConst.LOGIN_RESULT_ERROR_TYPE);
+						if (errorType != null) {
+							pwdOldView.setError("原密码不正确.");
+							pwdOldView.requestFocus();
+						} else {
+							finish();
+						}
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						showProgress(false);
+						item.setEnabled(true);
+						super.onFailed(errorMessage);
+					}
+
+					@Override
+					public void onCancelled() {
+						showProgress(false);
+						item.setEnabled(true);
+						super.onCancelled();
+					}
+				});
 	}
 
 }

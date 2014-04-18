@@ -49,19 +49,6 @@ public class ModuleListFragment extends RequestListFragment {
 
 	@Override
 	protected void initRequestId() {
-		// AsyncTask<Void, Void, Long> task = new AsyncTask<Void, Void, Long>() {
-		// @Override
-		// protected Long doInBackground(Void... params) {
-		// return ModuleServiceHelper.getInstance(attachedActivity).getModules(
-		// type, requestResultType);
-		// }
-		//
-		// @Override
-		// protected void onPostExecute(Long result) {
-		// requestId = result;
-		// }
-		// };
-		// task.execute((Void) null);
 		requestId = ModuleServiceHelper.getInstance(attachedActivity).getModules(
 				type, requestResultType);
 	}

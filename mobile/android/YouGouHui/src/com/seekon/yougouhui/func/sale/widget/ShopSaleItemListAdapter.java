@@ -85,7 +85,7 @@ public class ShopSaleItemListAdapter extends BaseAdapter {
 		TextView publisherView = (TextView) view.findViewById(R.id.sale_publisher);
 		publisherView.setText(sale.getPublisher().getName());
 		publisherView.getPaint().setFakeBoldText(true);
-		
+
 		return view;
 	}
 

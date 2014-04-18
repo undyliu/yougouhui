@@ -29,7 +29,7 @@ public interface SaleConst extends DataConst {
 
 	public static final String COL_NAME_VISIT_COUNT = "visit_count";
 	public static final String COL_NAME_DISCUSS_COUNT = "discuss_count";
-	
+
 	public static final String DATA_SALE_KEY = "sale";
 	public static final String DATA_IMAGES_KEY = "images";
 

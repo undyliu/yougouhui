@@ -17,7 +17,7 @@ import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.Logger;
 
-public class ShopProcessor extends ContentProcessor implements IShopProcessor{
+public class ShopProcessor extends ContentProcessor implements IShopProcessor {
 
 	private static final String TAG = ShopProcessor.class.getSimpleName();
 
@@ -39,10 +39,10 @@ public class ShopProcessor extends ContentProcessor implements IShopProcessor{
 		super(mContext, ShopData.COL_NAMES, ShopConst.CONTENT_URI);
 	}
 
-	public void updateContentProvider(RestMethodResult result){
+	public void updateContentProvider(RestMethodResult result) {
 		updateContentProvider(result, colNames);
 	}
-	
+
 	@Override
 	protected void updateContentProvider(RestMethodResult<Resource> result,
 			String[] colNames) {

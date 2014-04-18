@@ -7,6 +7,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
+import com.seekon.yougouhui.func.widget.AsyncRestRequestTask;
+
 public class RestUtils {
 
 	private RestUtils() {
@@ -19,7 +22,7 @@ public class RestUtils {
 	 * @return
 	 * @throws IOException
 	 */
-	public static byte[] readStream(InputStream in) throws IOException {
+	static byte[] readStream(InputStream in) throws IOException {
 		byte[] buf = new byte[1024];
 		int count = 0;
 		ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
@@ -34,7 +37,7 @@ public class RestUtils {
 	 * @param params
 	 * @return
 	 */
-	public static byte[] wrapRequestBody(Map<String, String> params) {
+	static byte[] wrapRequestBody(Map<String, String> params) {
 		if (params == null || params.isEmpty()) {
 			return null;
 		}
@@ -46,5 +49,10 @@ public class RestUtils {
 			result.append("&" + entry.getKey() + "=" + entry.getValue());
 		}
 		return result.substring(1).getBytes();
+	}
+
+	public static void executeAsyncRestTask(AbstractRestTaskCallback<?> callback) {
+		AsyncRestRequestTask<?> task = new AsyncRestRequestTask(callback);
+		task.execute((Void) null);
 	}
 }

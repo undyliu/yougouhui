@@ -20,6 +20,6 @@ public interface IShopProcessor {
 			String userId, String oldPwd, String pwd);
 
 	public RestMethodResult<JSONObjResource> createShopBarcode(ShopEntity shop);
-	
+
 	public RestMethodResult<JSONArrayResource> searchShops(String searchWord);
 }

@@ -7,7 +7,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +21,15 @@ import com.seekon.yougouhui.func.sale.SaleDiscussConst;
 import com.seekon.yougouhui.func.sale.SaleDiscussEntity;
 import com.seekon.yougouhui.func.sale.SaleDiscussProcessor;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.util.ViewUtils;
 
 public class SaleDiscussListAdapter extends BaseAdapter {
 
 	private Context context;
-	
+
 	private List<SaleDiscussEntity> discussList;
 
 	public SaleDiscussListAdapter(Context context,
@@ -54,16 +54,16 @@ public class SaleDiscussListAdapter extends BaseAdapter {
 		return position;
 	}
 
-	public void addSaleDiscuss(SaleDiscussEntity discuss){
+	public void addSaleDiscuss(SaleDiscussEntity discuss) {
 		this.discussList.add(discuss);
 		this.notifyDataSetChanged();
 	}
-	
-	public void updateData(List<SaleDiscussEntity> discussList){
+
+	public void updateData(List<SaleDiscussEntity> discussList) {
 		this.discussList = discussList;
 		this.notifyDataSetChanged();
 	}
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
@@ -90,8 +90,8 @@ public class SaleDiscussListAdapter extends BaseAdapter {
 				.findViewById(R.id.share_comment_publisher);
 		publisherView.getPaint().setFakeBoldText(true);// TODO:使用样式表来处理
 		publisherView.setText(publisher.getName());
-		publisherView.setOnClickListener(new UserClickListener(publisher, (Activity)context,
-				-1));
+		publisherView.setOnClickListener(new UserClickListener(publisher,
+				(Activity) context, -1));
 
 		// 设置评论的删除监听
 		ImageView commentDelete = (ImageView) convertView
@@ -102,34 +102,28 @@ public class SaleDiscussListAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
+					RestUtils
+							.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+									"删除评论失败.") {
 
-						@Override
-						protected RestMethodResult<JSONObjResource> doInBackground(
-								Void... params) {
-							
-							return SaleDiscussProcessor.getInstance(context).deleteDiscuss(discussId);
-						}
+								@Override
+								public RestMethodResult<JSONObjResource> doInBackground() {
+									return SaleDiscussProcessor.getInstance(context)
+											.deleteDiscuss(discussId);
+								}
 
-						@Override
-						protected void onPostExecute(
-								RestMethodResult<JSONObjResource> result) {
-							int status = result.getStatusCode();
-							if (status == 200) {
-								ContentResolver resolver = context.getContentResolver();
-								String where = COL_NAME_UUID + "=?";
-								String[] selectionArgs = new String[] { discussId };
-								resolver.delete(SaleDiscussConst.CONTENT_URI, where, selectionArgs);
+								@Override
+								public void onSuccess(RestMethodResult<JSONObjResource> result) {
+									ContentResolver resolver = context.getContentResolver();
+									String where = COL_NAME_UUID + "=?";
+									String[] selectionArgs = new String[] { discussId };
+									resolver.delete(SaleDiscussConst.CONTENT_URI, where,
+											selectionArgs);
 
-								discussList.remove(discuss);
-								SaleDiscussListAdapter.this.notifyDataSetChanged();
-							} else {
-								ViewUtils.showToast("删除失败.");
-							}
-						}
-					};
-
-					task.execute((Void) null);
+									discussList.remove(discuss);
+									SaleDiscussListAdapter.this.notifyDataSetChanged();
+								}
+							});
 				}
 			});
 		} else {

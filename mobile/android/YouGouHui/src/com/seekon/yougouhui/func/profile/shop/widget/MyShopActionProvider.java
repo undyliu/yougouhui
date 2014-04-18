@@ -81,9 +81,9 @@ public class MyShopActionProvider extends ActionProvider {
 		Menu menu = mPopupMenu.getMenu();
 		MenuInflater inflater = mPopupMenu.getMenuInflater();
 		inflater.inflate(R.menu.my_shop_pop, menu);
-		
+
 		String status = shop.getStatus();
-		if(!status.equals(ShopConst.STATUS_AUDITED)){
+		if (!status.equals(ShopConst.STATUS_AUDITED)) {
 			menu.findItem(R.id.menu_publish_new_sale).setVisible(false);
 		}
 		mPopupMenu.show();

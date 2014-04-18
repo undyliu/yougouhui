@@ -28,32 +28,32 @@ import com.seekon.yougouhui.func.profile.favorit.widget.FavoritListAdapter;
 import com.seekon.yougouhui.util.PinyinUtils;
 import com.seekon.yougouhui.widget.ClearEditText;
 
-public abstract class CatalogListFragement extends Fragment{
-	
+public abstract class CatalogListFragement extends Fragment {
+
 	protected View mainView;
-	
+
 	protected ListView sortListView;
 	protected SideBar sideBar;
 	private TextView dialog;
 	protected FavoritListAdapter adapter;
 	private ClearEditText mClearEditText;
 	protected Activity activity;
-	
+
 	private PinyinComparator pinyinComparator;
 	protected List<? extends PinyinEntity> dataList;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		mainView = inflater.inflate(R.layout.catalog_list, container, false);
 		initViews();
-		
+
 		return mainView;
 	}
-	
-	protected void initViews(){
+
+	protected void initViews() {
 		activity = this.getActivity();
-		
+
 		pinyinComparator = new PinyinComparator();
 
 		sideBar = (SideBar) mainView.findViewById(R.id.contact_sidebar);
@@ -92,7 +92,8 @@ public abstract class CatalogListFragement extends Fragment{
 		adapter = getCatalogListAdapter();
 		sortListView.setAdapter(adapter);
 
-		mClearEditText = (ClearEditText) mainView.findViewById(R.id.contact_filter_edit);
+		mClearEditText = (ClearEditText) mainView
+				.findViewById(R.id.contact_filter_edit);
 
 		// 根据输入框输入值的改变来过滤搜索
 		mClearEditText.addTextChangedListener(new TextWatcher() {
@@ -114,18 +115,18 @@ public abstract class CatalogListFragement extends Fragment{
 			}
 		});
 	}
-	
+
 	public abstract List<FavoritEntity> getCatalogListData();
-	
+
 	public abstract FavoritListAdapter getCatalogListAdapter();
-	
+
 	public abstract void doItemCheckAction(int position);
-	
-	protected void updateViews(List catalogDataList){
+
+	protected void updateViews(List catalogDataList) {
 		Collections.sort(catalogDataList, pinyinComparator);
 		adapter.updateListView(catalogDataList);
 	}
-	
+
 	private void filterData(String filterStr) {
 		List filterDateList = new ArrayList();
 
@@ -141,7 +142,7 @@ public abstract class CatalogListFragement extends Fragment{
 				}
 			}
 		}
-		
+
 		updateViews(filterDateList);
 
 	}

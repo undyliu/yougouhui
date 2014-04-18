@@ -1,7 +1,6 @@
 package com.seekon.yougouhui.func.sale.widget;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -14,7 +13,9 @@ import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.sale.SaleDiscussEntity;
 import com.seekon.yougouhui.func.sale.SaleDiscussProcessor;
 import com.seekon.yougouhui.func.sale.SaleEntity;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.ViewUtils;
 
@@ -49,48 +50,49 @@ public class DiscussPopupWindow extends PopupWindow {
 
 				discuss.setPublisher(RunEnv.getInstance().getUser());
 
-				AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-					@Override
-					protected RestMethodResult<JSONObjResource> doInBackground(
-							Void... params) {
-						return SaleDiscussProcessor.getInstance(activity).postDiscuss(
-								discuss);
-					}
-
-					@Override
-					protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-						showProgress(activity, false);
-						int statusCode = result.getStatusCode();
-						if (statusCode == 200) {
-							DiscussPopupWindow.this.dismiss();
-							if (discussAdapter instanceof SaleDiscussListAdapter) {
-								((SaleDiscussListAdapter) discussAdapter)
-										.addSaleDiscuss(discuss);
-							} else {
-								discussAdapter.notifyDataSetChanged();
-							}
-						} else {
-							ViewUtils.showToast("发送活动评论数据失败.");
-						}
-					}
-
-					@Override
-					protected void onCancelled() {
-						showProgress(activity, false);
-						super.onCancelled();
-					}
-
-				};
-
 				showProgress(activity, true);
-				task.execute((Void) null);
+
+				RestUtils
+						.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+								"发送活动评论数据失败.") {
+
+							@Override
+							public RestMethodResult<JSONObjResource> doInBackground() {
+								return SaleDiscussProcessor.getInstance(activity).postDiscuss(
+										discuss);
+							}
+
+							@Override
+							public void onSuccess(RestMethodResult<JSONObjResource> result) {
+								DiscussPopupWindow.this.dismiss();
+								if (discussAdapter instanceof SaleDiscussListAdapter) {
+									((SaleDiscussListAdapter) discussAdapter)
+											.addSaleDiscuss(discuss);
+								} else {
+									discussAdapter.notifyDataSetChanged();
+								}
+								onCancelled();
+							}
+
+							@Override
+							public void onFailed(String errorMessage) {
+								onCancelled();
+								super.onFailed(errorMessage);
+							}
+
+							@Override
+							public void onCancelled() {
+								showProgress(activity, false);
+								super.onCancelled();
+							}
+
+						});
 			}
 		});
 	}
 
 	private void showProgress(Activity activity, boolean show) {
-		ViewUtils.showProgress(activity, activity.findViewById(R.id.sale_detail_main),
-				show);
+		ViewUtils.showProgress(activity,
+				activity.findViewById(R.id.sale_detail_main), show);
 	}
 }

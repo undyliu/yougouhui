@@ -3,6 +3,7 @@ package com.seekon.yougouhui.sercurity;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -82,7 +83,7 @@ public class AuthorizationManager implements RequestSigner {
 				ILoginProcessor processor = LoginProcessor.getInstance(context);
 				RestMethodResult<JSONObjResource> result = processor.login(phone, pwd);
 				int status = result.getStatusCode();
-				if(status != RestStatus.SC_OK){
+				if (status != RestStatus.SC_OK) {
 					return result.getStatusMsg();
 				}
 				JSONObjResource resource = result.getResource();
@@ -130,8 +131,21 @@ public class AuthorizationManager implements RequestSigner {
 	 * 请求添加认证信息token
 	 */
 	@Override
-	public void authorize(Request request) {
-
+	public boolean authorize(Request request) {
+		String sessionId = RunEnv.getInstance().getSessionId();
+		if (sessionId == null || sessionId.length() == 0) {
+			// 尝试先登录
+			UserEntity user = RunEnv.getInstance().getUser();
+			LoginProcessor.getInstance(context).login(user.getPhone(), user.getPwd());
+			sessionId = RunEnv.getInstance().getSessionId();
+			if (sessionId == null || sessionId.length() == 0) {
+				return false;
+			}
+		}
+		List<String> cookies = new ArrayList<String>();
+		cookies.add(sessionId);
+		request.addHeader("cookie", cookies);
+		return true;
 	}
 
 }

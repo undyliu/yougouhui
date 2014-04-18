@@ -28,17 +28,17 @@ public class FriendProcessor extends ContentProcessor implements
 
 	private static IFriendProcessor instance = null;
 	private final static Object lock = new Object();
-	
-	public static IFriendProcessor getInstance(Context mContext){
+
+	public static IFriendProcessor getInstance(Context mContext) {
 		synchronized (lock) {
-			if(instance == null){
+			if (instance == null) {
 				ProcessorProxy proxy = new ProcessorProxy();
 				instance = (IFriendProcessor) proxy.bind(new FriendProcessor(mContext));
 			}
 		}
 		return instance;
 	}
-	
+
 	private FriendProcessor(Context mContext) {
 		super(mContext, FriendData.COL_NAMES, FriendConst.CONTENT_URI);
 	}
@@ -106,8 +106,13 @@ public class FriendProcessor extends ContentProcessor implements
 			this.deleteContentProvider(jsonObj, UserConst.CONTENT_URI);
 		} else {
 			UserEntity user = (UserEntity) jsonObj.get(UserConst.DATA_KEY_USER);
-			this.updateContentProvider(UserUtils.toJSONObject(user), UserData.COL_NAMES,
-					UserConst.CONTENT_URI);
+			this.updateContentProvider(UserUtils.toJSONObject(user),
+					UserData.COL_NAMES, UserConst.CONTENT_URI);
 		}
+	}
+
+	@Override
+	public RestMethodResult<JSONArrayResource> searchFriends(String searchWord) {
+		return new SearchUserMethod(mContext, searchWord).execute();
 	}
 }

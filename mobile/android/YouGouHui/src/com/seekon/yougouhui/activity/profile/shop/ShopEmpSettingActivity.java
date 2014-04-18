@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +26,9 @@ import com.seekon.yougouhui.func.profile.shop.widget.ShopEmpListAdapter;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.user.UserUtils;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.Logger;
@@ -163,114 +164,112 @@ public class ShopEmpSettingActivity extends Activity implements
 		if (checkedEmpList.isEmpty()) {
 			ViewUtils.showToast("请选择人员.");
 		}
-		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return ShopEmpProcessor.getInstance(ShopEmpSettingActivity.this)
-						.deleteShopEmps(shopId, checkedEmpList);
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				addEmp.setEnabled(true);
-				delEmp.setEnabled(true);
-
-				if (result.getStatusCode() == 200) {
-					empList.removeAll(checkedEmpList);
-					shopEmpListAdapter.updateEmpList(empList);
-				} else {
-					ViewUtils.showToast("删除失败.");
-				}
-			}
-
-			@Override
-			protected void onCancelled() {
-				addEmp.setEnabled(true);
-				delEmp.setEnabled(true);
-				super.onCancelled();
-			}
-
-		};
 
 		addEmp.setEnabled(false);
 		delEmp.setEnabled(false);
-		task.execute((Void) null);
+
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+						"删除职员失败.") {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return ShopEmpProcessor.getInstance(ShopEmpSettingActivity.this)
+								.deleteShopEmps(shopId, checkedEmpList);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						empList.removeAll(checkedEmpList);
+						shopEmpListAdapter.updateEmpList(empList);
+						onCancelled();
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						super.onFailed(errorMessage);
+						onCancelled();
+					}
+
+					@Override
+					public void onCancelled() {
+						addEmp.setEnabled(true);
+						delEmp.setEnabled(true);
+						super.onCancelled();
+					}
+				});
 	}
 
 	private void loadShopEmpsData() {
-		AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>>() {
 
-			@Override
-			protected RestMethodResult<JSONArrayResource> doInBackground(
-					Void... params) {
-				return ShopEmpProcessor.getInstance(ShopEmpSettingActivity.this)
-						.getShopEmps(shopId);
-			}
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>(
+						"获取商铺职员信息失败.") {
 
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONArrayResource> result) {
-				int status = result.getStatusCode();
-				if (status == 200) {
-					try {
-						empList.clear();
-						JSONArrayResource resource = result.getResource();
-						for (int i = 0; i < resource.length(); i++) {
-							empList.add(UserUtils.createFromJSONObject(resource
-									.getJSONObject(i)));
-						}
-						shopEmpListAdapter.updateEmpList(empList);
-					} catch (Exception e) {
-						Logger.warn(TAG, e.getMessage());
-						ViewUtils.showToast("获取商铺职员信息失败.");
+					@Override
+					public RestMethodResult<JSONArrayResource> doInBackground() {
+						return ShopEmpProcessor.getInstance(ShopEmpSettingActivity.this)
+								.getShopEmps(shopId);
 					}
-				} else {
-					ViewUtils.showToast("获取商铺职员信息失败.");
-				}
-			}
 
-		};
-
-		task.execute((Void) null);
+					@Override
+					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+						try {
+							empList.clear();
+							JSONArrayResource resource = result.getResource();
+							for (int i = 0; i < resource.length(); i++) {
+								empList.add(UserUtils.createFromJSONObject(resource
+										.getJSONObject(i)));
+							}
+							shopEmpListAdapter.updateEmpList(empList);
+						} catch (Exception e) {
+							Logger.warn(TAG, e.getMessage());
+							ViewUtils.showToast(failedShowMsg
+									+ "原因:"
+									+ ShopEmpSettingActivity.this
+											.getString(R.string.runtime_error));
+						}
+					}
+				});
 	}
 
 	private void addEmpsResult(final List<UserEntity> selectedUserList) {
 		final MenuItem addEmp = menu.findItem(R.id.menu_shop_add_emp);
 		final MenuItem delEmp = menu.findItem(R.id.menu_shop_del_emp);
 
-		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return ShopEmpProcessor.getInstance(ShopEmpSettingActivity.this)
-						.addShopEmps(shopId, selectedUserList);
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				addEmp.setEnabled(true);
-				delEmp.setEnabled(true);
-
-				if (result.getStatusCode() == 200) {
-					empList.addAll(selectedUserList);
-					shopEmpListAdapter.updateEmpList(empList);
-				} else {
-					ViewUtils.showToast("添加失败.");
-				}
-			}
-
-			@Override
-			protected void onCancelled() {
-				addEmp.setEnabled(true);
-				delEmp.setEnabled(true);
-				super.onCancelled();
-			}
-
-		};
-
 		addEmp.setEnabled(false);
 		delEmp.setEnabled(false);
-		task.execute((Void) null);
+
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+						"添加职员失败.") {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return ShopEmpProcessor.getInstance(ShopEmpSettingActivity.this)
+								.addShopEmps(shopId, selectedUserList);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						empList.addAll(selectedUserList);
+						shopEmpListAdapter.updateEmpList(empList);
+						onCancelled();
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						super.onFailed(errorMessage);
+						onCancelled();
+					}
+
+					@Override
+					public void onCancelled() {
+						addEmp.setEnabled(true);
+						delEmp.setEnabled(true);
+						super.onCancelled();
+					}
+				});
 	}
 
 	@Override

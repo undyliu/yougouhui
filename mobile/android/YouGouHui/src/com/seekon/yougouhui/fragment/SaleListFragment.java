@@ -111,7 +111,7 @@ public class SaleListFragment extends Fragment implements IXListViewListener {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				SaleEntity sale = saleList.get(position - 1 );
+				SaleEntity sale = saleList.get(position - 1);
 				Intent intent = new Intent(attachedActivity, SaleDetailActivity.class);
 				intent.putExtra(DataConst.COL_NAME_UUID, sale.getUuid());
 				attachedActivity.startActivity(intent);
@@ -138,17 +138,10 @@ public class SaleListFragment extends Fragment implements IXListViewListener {
 	}
 
 	protected void initRequestId() {
-		AsyncTask<Void, Void, Long> task = new AsyncTask<Void, Void, Long>() {
-			@Override
-			protected Long doInBackground(Void... params) {
-				requestId = SaleServiceHelper.getInstance(attachedActivity)
-						.getMessages(channel.getUuid(), requestResultType);
-				return requestId;
-			}
+		requestId = SaleServiceHelper.getInstance(attachedActivity).getMessages(
+				channel.getUuid(), requestResultType);
 
-		};
 		currentOffset = 0;
-		task.execute((Void) null);
 	}
 
 	protected List<SaleEntity> getListItemsFromLocal() {
@@ -183,8 +176,7 @@ public class SaleListFragment extends Fragment implements IXListViewListener {
 			@Override
 			protected void onPostExecute(List<SaleEntity> result) {
 
-				if (result.size() == 0 && requestId == null
-						) {
+				if (result.size() == 0 && requestId == null) {
 					Logger.debug(TAG, "getListItemsFromRemote");
 					initRequestId();
 				} else {

@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -24,7 +23,9 @@ import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.profile.shop.ShopProcessor;
 import com.seekon.yougouhui.func.profile.shop.ShopUtils;
 import com.seekon.yougouhui.func.profile.shop.widget.ChooseShopListAdapter;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.util.ViewUtils;
@@ -112,41 +113,36 @@ public class ChooseShopActivity extends Activity {
 
 	private void filterData(final String word) {
 		searchWord = word;
-		AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>>() {
 
-			@Override
-			protected RestMethodResult<JSONArrayResource> doInBackground(
-					Void... params) {
-				return ShopProcessor.getInstance(ChooseShopActivity.this).searchShops(
-						word);
-			}
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>(
+						"获取商家数据失败.") {
 
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONArrayResource> result) {
-				String errorMessage = "获取商家数据失败.";
-				if (result.getStatusCode() == 200) {
-					try {
-						List<ShopEntity> shopList = new ArrayList<ShopEntity>();
-						JSONArrayResource resource = result.getResource();
-						for (int i = 0; i < resource.length(); i++) {
-							JSONObject data = resource.getJSONObject(i);
-							shopList.add(ShopUtils.createFromJSONObject(data));
-						}
-						chooseShopListAdapter.updateData(shopList);
-						if (shopList.isEmpty()) {
-							ViewUtils.showToast("没找到符合条件的商家.");
-						}
-						return;
-					} catch (Exception e) {
-						Logger.warn(TAG, e.getMessage());
+					@Override
+					public RestMethodResult<JSONArrayResource> doInBackground() {
+						return ShopProcessor.getInstance(ChooseShopActivity.this)
+								.searchShops(word);
 					}
-				}
-				ViewUtils.showToast(errorMessage);
-			}
 
-		};
-
-		task.execute((Void) null);
+					@Override
+					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+						try {
+							List<ShopEntity> shopList = new ArrayList<ShopEntity>();
+							JSONArrayResource resource = result.getResource();
+							for (int i = 0; i < resource.length(); i++) {
+								JSONObject data = resource.getJSONObject(i);
+								shopList.add(ShopUtils.createFromJSONObject(data));
+							}
+							chooseShopListAdapter.updateData(shopList);
+							if (shopList.isEmpty()) {
+								ViewUtils.showToast("没找到符合条件的商家.");
+							}
+							return;
+						} catch (Exception e) {
+							Logger.warn(TAG, e.getMessage());
+						}
+					}
+				});
 	}
 
 	private void shopChooseConfirm() {

@@ -8,7 +8,7 @@ import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.service.ContentProcessor;
 import com.seekon.yougouhui.service.ProcessorProxy;
 
-public class TradeProcessor extends ContentProcessor implements ITradeProcessor{
+public class TradeProcessor extends ContentProcessor implements ITradeProcessor {
 
 	private static ITradeProcessor instance = null;
 

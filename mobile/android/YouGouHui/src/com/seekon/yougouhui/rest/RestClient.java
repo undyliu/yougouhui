@@ -16,7 +16,6 @@ public abstract class RestClient {
 
 			URL url = request.getRequestUri().toURL();
 			conn = (HttpURLConnection) url.openConnection();
-
 			processHttpConnection(conn, request);
 
 			status = conn.getResponseCode();

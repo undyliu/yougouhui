@@ -23,14 +23,15 @@ import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.profile.favorit.ShopFavoritProcessor;
+import com.seekon.yougouhui.func.profile.shop.GetShopTaskCallback;
 import com.seekon.yougouhui.func.profile.shop.ShopConst;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.profile.shop.ShopUtils;
 import com.seekon.yougouhui.func.profile.shop.TradeEntity;
-import com.seekon.yougouhui.func.widget.TaskCallback;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.util.ViewUtils;
 
 public class ShopBaseInfoActivity extends Activity {
 
@@ -105,20 +106,14 @@ public class ShopBaseInfoActivity extends Activity {
 	}
 
 	private void loadDataFromRemote(final String shopId) {
-		ShopUtils.loadDataFromRemote(this, shopId,
-				new TaskCallback<RestMethodResult<JSONObjResource>>() {
-					@Override
-					public void onCancelled() {
+		ShopUtils.loadDataFromRemote(new GetShopTaskCallback(this, shopId) {
 
-					}
-
-					@Override
-					public void onPostExecute(RestMethodResult<JSONObjResource> result) {
-						shop = ShopUtils.loadDataFromLocal(ShopBaseInfoActivity.this,
-								shopId);
-						updateViews();
-					}
-				});
+			@Override
+			public void onSuccess(RestMethodResult<JSONObjResource> result) {
+				shop = ShopUtils.loadDataFromLocal(ShopBaseInfoActivity.this, shopId);
+				updateViews();
+			}
+		});
 	}
 
 	private void updateViews() {
@@ -290,14 +285,14 @@ public class ShopBaseInfoActivity extends Activity {
 		getMenuInflater().inflate(R.menu.shop_base_info, menu);
 		this.menu = menu;
 		updateMenuStatus();
-		
+
 		return true;
 	}
 
 	private void updateMenuStatus() {
 		MenuItem item = menu.findItem(R.id.menu_shop_favorit_cancel);
 		item.setVisible(shopFavorited);
-		
+
 		item = menu.findItem(R.id.menu_shop_favorit);
 		item.setVisible(!shopFavorited);
 	}
@@ -324,64 +319,77 @@ public class ShopBaseInfoActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void publishShare(){
+	private void publishShare() {
 		Intent intent = new Intent(this, ShareActivity.class);
 		intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
 		startActivity(intent);
 	}
-	
+
 	private void addShopFavorit(final MenuItem item) {
-		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return ShopFavoritProcessor.getInstance(ShopBaseInfoActivity.this)
-						.addShopFavorit(shop, RunEnv.getInstance().getUser().getUuid());
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				if (result.getStatusCode() == 200) {
-					shopFavorited = true;
-					updateMenuStatus();
-				} else {
-					ViewUtils.showToast("收藏商铺失败.");
-				}
-				item.setEnabled(true);
-			}
-
-		};
-
 		item.setEnabled(false);
-		task.execute((Void) null);
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+						"收藏商铺失败.") {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return ShopFavoritProcessor.getInstance(ShopBaseInfoActivity.this)
+								.addShopFavorit(shop, RunEnv.getInstance().getUser().getUuid());
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						shopFavorited = true;
+						updateMenuStatus();
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						onCancelled();
+						super.onFailed(errorMessage);
+					}
+
+					@Override
+					public void onCancelled() {
+						item.setEnabled(true);
+						super.onCancelled();
+					}
+				});
 	}
 
-	private void cancelShopFavorit(final MenuItem item){
-		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return ShopFavoritProcessor.getInstance(ShopBaseInfoActivity.this)
-						.deleteShopFavorit(shop.getUuid(), RunEnv.getInstance().getUser().getUuid());
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				if (result.getStatusCode() == 200) {
-					shopFavorited = false;
-					updateMenuStatus();
-				} else {
-					ViewUtils.showToast("取消收藏商铺失败.");
-				}
-				item.setEnabled(true);
-			}
-
-		};
-
+	private void cancelShopFavorit(final MenuItem item) {
 		item.setEnabled(false);
-		task.execute((Void) null);
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+						"取消收藏商铺失败.") {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return ShopFavoritProcessor.getInstance(ShopBaseInfoActivity.this)
+								.deleteShopFavorit(shop.getUuid(),
+										RunEnv.getInstance().getUser().getUuid());
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						shopFavorited = false;
+						updateMenuStatus();
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						onCancelled();
+						super.onFailed(errorMessage);
+					}
+
+					@Override
+					public void onCancelled() {
+						item.setEnabled(true);
+						super.onCancelled();
+					}
+				});
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {

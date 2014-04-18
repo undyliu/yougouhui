@@ -3,13 +3,13 @@ package com.seekon.yougouhui.func.sale;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
+import android.database.Cursor;
+
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.profile.favorit.SaleFavoritConst;
 import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.util.ViewUtils;
-
-import android.content.Context;
-import android.database.Cursor;
 
 public class SaleUtils {
 
@@ -68,5 +68,5 @@ public class SaleUtils {
 		}
 		return false;
 	}
-	
+
 }

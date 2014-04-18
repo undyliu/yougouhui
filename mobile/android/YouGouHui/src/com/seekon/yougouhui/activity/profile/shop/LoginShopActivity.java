@@ -17,7 +17,6 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -28,13 +27,15 @@ import android.widget.TextView;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.login.LoginConst;
+import com.seekon.yougouhui.func.profile.shop.GetTradesTaskCallback;
 import com.seekon.yougouhui.func.profile.shop.ShopConst;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.profile.shop.ShopProcessor;
 import com.seekon.yougouhui.func.profile.shop.TradeConst;
-import com.seekon.yougouhui.func.profile.shop.widget.GetTradesTask;
-import com.seekon.yougouhui.func.widget.TaskCallback;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
+import com.seekon.yougouhui.func.widget.AsyncRestRequestTask;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.ContentUtils;
@@ -127,80 +128,79 @@ public class LoginShopActivity extends Activity {
 			return;
 		}
 
-		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return ShopProcessor.getInstance(LoginShopActivity.this).loginShop(
-						RunEnv.getInstance().getUser().getUuid(), password);
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				String errorMessage = "登录失败.";
-				int status = result.getStatusCode();
-				if (status == 200) {
-					JSONObjResource jsonObj = result.getResource();
-					try {
-						boolean authed = jsonObj.getBoolean(LoginConst.LOGIN_RESULT_AUTHED);
-						if (authed) {
-							ArrayList<ShopEntity> shopEntityList = new ArrayList<ShopEntity>();
-							JSONArray shopList = jsonObj
-									.getJSONArray(ShopConst.NAME_SHOP_LIST);
-							for (int i = 0; i < shopList.length(); i++) {
-								JSONObject json = shopList.getJSONObject(i);
-								ShopEntity shop = new ShopEntity();
-								shop.setUuid(json.getString(COL_NAME_UUID));
-								shop.setName(json.getString(COL_NAME_NAME));
-								shop.setShopImage(json.getString(COL_NAME_SHOP_IMAGE));
-								shop.setOwner(json.getString(COL_NAME_OWNER));
-								shop.setStatus(json.getString(COL_NAME_STATUS));
-								shopEntityList.add(shop);
-
-								ContentValues values = new ContentValues();
-								values.put(COL_NAME_STATUS, json.getString(COL_NAME_STATUS));
-
-								getContentResolver().update(
-										ContentUtils.withAppendedId(ShopConst.CONTENT_URI,
-												json.getString(COL_NAME_UUID)), values, null, null);// 修改状态
-							}
-							showShopMain(shopEntityList);
-							return;
-						} else {
-							String errorType = jsonObj
-									.getString(LoginConst.LOGIN_RESULT_ERROR_TYPE);
-							if (LoginConst.AUTH_ERROR_PASS.equals(errorType)) {
-								ViewUtils
-										.showToast(getString(R.string.error_incorrect_password));
-							} else if (LoginConst.AUTH_ERROR_USER.equals(errorType)) {
-								ViewUtils.showToast("此账号还未注册商铺.");
-							} else {
-								ViewUtils.showToast(errorMessage);
-							}
-						}
-					} catch (JSONException e) {
-						ViewUtils.showToast(errorMessage);
-					}
-
-				} else {
-					ViewUtils.showToast(errorMessage);
-				}
-				showProgress(false);
-				bLogin.setEnabled(true);
-				super.onPostExecute(result);
-			}
-
-			@Override
-			protected void onCancelled() {
-				showProgress(false);
-				bLogin.setEnabled(true);
-				super.onCancelled();
-			}
-		};
-
 		showProgress(true);
 		bLogin.setEnabled(false);
-		task.execute((Void) null);
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+						"登录失败.") {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return ShopProcessor.getInstance(LoginShopActivity.this).loginShop(
+								RunEnv.getInstance().getUser().getUuid(), password);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						JSONObjResource jsonObj = result.getResource();
+						try {
+							boolean authed = jsonObj
+									.getBoolean(LoginConst.LOGIN_RESULT_AUTHED);
+							if (authed) {
+								ArrayList<ShopEntity> shopEntityList = new ArrayList<ShopEntity>();
+								JSONArray shopList = jsonObj
+										.getJSONArray(ShopConst.NAME_SHOP_LIST);
+								for (int i = 0; i < shopList.length(); i++) {
+									JSONObject json = shopList.getJSONObject(i);
+									ShopEntity shop = new ShopEntity();
+									shop.setUuid(json.getString(COL_NAME_UUID));
+									shop.setName(json.getString(COL_NAME_NAME));
+									shop.setShopImage(json.getString(COL_NAME_SHOP_IMAGE));
+									shop.setOwner(json.getString(COL_NAME_OWNER));
+									shop.setStatus(json.getString(COL_NAME_STATUS));
+									shopEntityList.add(shop);
+
+									ContentValues values = new ContentValues();
+									values.put(COL_NAME_STATUS, json.getString(COL_NAME_STATUS));
+
+									getContentResolver().update(
+											ContentUtils.withAppendedId(ShopConst.CONTENT_URI,
+													json.getString(COL_NAME_UUID)), values, null, null);// 修改状态
+								}
+								showShopMain(shopEntityList);
+								return;
+							} else {
+								String errorType = jsonObj
+										.getString(LoginConst.LOGIN_RESULT_ERROR_TYPE);
+								if (LoginConst.AUTH_ERROR_PASS.equals(errorType)) {
+									ViewUtils
+											.showToast(getString(R.string.error_incorrect_password));
+								} else if (LoginConst.AUTH_ERROR_USER.equals(errorType)) {
+									ViewUtils.showToast("此账号还未注册商铺.");
+								} else {
+									ViewUtils.showToast(failedShowMsg);
+								}
+							}
+						} catch (JSONException e) {
+							ViewUtils.showToast(failedShowMsg + "原因:"
+									+ LoginShopActivity.this.getString(R.string.runtime_error));
+						}
+						onCancelled();
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						onCancelled();
+						super.onFailed(errorMessage);
+					}
+
+					@Override
+					public void onCancelled() {
+						showProgress(false);
+						bLogin.setEnabled(true);
+						super.onCancelled();
+					}
+				});
 	}
 
 	private void showProgress(final boolean show) {
@@ -223,23 +223,20 @@ public class LoginShopActivity extends Activity {
 		}
 
 		if (loadTrade) {
-			new GetTradesTask(LoginShopActivity.this,
-					new TaskCallback<RestMethodResult<JSONArrayResource>>() {
+			new AsyncRestRequestTask<JSONArrayResource>(new GetTradesTaskCallback(
+					this) {
 
-						@Override
-						public void onPostExecute(RestMethodResult<JSONArrayResource> result) {
-							if (result.getStatusCode() == 200) {
-								_showShopMain(shopIdList);
-							} else {
-								ViewUtils.showToast("登录失败，获取主营业务数据出错.");
-							}
-						}
+				@Override
+				public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+					_showShopMain(shopIdList);
+				}
 
-						@Override
-						public void onCancelled() {
+				@Override
+				public void onFailed(String errorMessage) {
+					ViewUtils.showToast("登录失败，加载主营业务数据出错.原因:" + errorMessage);
+				}
 
-						}
-					}).execute((Void) null);
+			}).execute((Void) null);
 		} else {
 			_showShopMain(shopIdList);
 		}

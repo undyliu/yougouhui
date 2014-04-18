@@ -25,7 +25,7 @@ import com.seekon.yougouhui.fragment.listener.TabFragmentPagerAdapter;
 public class FavoritMainActivity extends FragmentActivity {
 
 	private ViewPager viewPager;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,42 +33,43 @@ public class FavoritMainActivity extends FragmentActivity {
 		setContentView(R.layout.favorit_main);
 
 		viewPager = (ViewPager) findViewById(R.id.favorit_pager);
-		
+
 		final ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		
-    Tab tabSale = actionBar.newTab().setText(R.string.title_favorit_tab_sale);
-    Tab tabShop = actionBar.newTab().setText(R.string.title_favorit_tab_shop);
-       
-    tabSale.setTabListener(new MyTabListener());
-    tabShop.setTabListener(new MyTabListener());
-    
-    actionBar.addTab(tabSale);
-    actionBar.addTab(tabShop);
-    
-    List<Fragment> fragements = new ArrayList<Fragment>();
-    fragements.add(new SaleFavoritFragment());
-    fragements.add(new ShopFavoritFragment());
-    
-    TabFragmentPagerAdapter adapter = new TabFragmentPagerAdapter(getSupportFragmentManager(), fragements);
-    viewPager.setAdapter(adapter);
-    
-    viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-			
+
+		Tab tabSale = actionBar.newTab().setText(R.string.title_favorit_tab_sale);
+		Tab tabShop = actionBar.newTab().setText(R.string.title_favorit_tab_shop);
+
+		tabSale.setTabListener(new MyTabListener());
+		tabShop.setTabListener(new MyTabListener());
+
+		actionBar.addTab(tabSale);
+		actionBar.addTab(tabShop);
+
+		List<Fragment> fragements = new ArrayList<Fragment>();
+		fragements.add(new SaleFavoritFragment());
+		fragements.add(new ShopFavoritFragment());
+
+		TabFragmentPagerAdapter adapter = new TabFragmentPagerAdapter(
+				getSupportFragmentManager(), fragements);
+		viewPager.setAdapter(adapter);
+
+		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
 			@Override
 			public void onPageSelected(int arg0) {
 				actionBar.setSelectedNavigationItem(arg0);
 			}
-			
+
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
-				
+
 			}
-			
+
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
-				
+
 			}
 		});
 	}
@@ -85,7 +86,7 @@ public class FavoritMainActivity extends FragmentActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	class MyTabListener implements TabListener {
 
 		public void onTabReselected(Tab tab, FragmentTransaction ft) {
@@ -93,11 +94,11 @@ public class FavoritMainActivity extends FragmentActivity {
 		}
 
 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
-			
+
 		}
 
 		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-			
+
 		}
 	}
 }

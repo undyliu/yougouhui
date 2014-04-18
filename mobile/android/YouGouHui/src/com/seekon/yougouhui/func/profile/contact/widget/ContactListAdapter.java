@@ -25,9 +25,9 @@ public class ContactListAdapter extends CatalogListAdapter {
 
 		viewHolder.imageView.setLayoutParams(new LinearLayout.LayoutParams(80, 80));
 		viewHolder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-		
+
 		UserEntity mContent = (UserEntity) dataList.get(position);
-		
+
 		String userPhoto = mContent.getPhoto();
 		if (userPhoto != null && userPhoto.length() > 0) {
 			ImageLoader.getInstance().displayImage(userPhoto, viewHolder.imageView,

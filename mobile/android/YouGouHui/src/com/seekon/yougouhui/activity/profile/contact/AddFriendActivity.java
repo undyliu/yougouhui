@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -21,11 +20,13 @@ import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.RunEnv;
-import com.seekon.yougouhui.func.profile.contact.SearchUserMethod;
+import com.seekon.yougouhui.func.profile.contact.FriendProcessor;
 import com.seekon.yougouhui.func.profile.contact.widget.SearchFriendResultListAdapter;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.user.UserUtils;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.util.ViewUtils;
@@ -116,39 +117,38 @@ public class AddFriendActivity extends Activity {
 			return;
 		}
 
-		AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONArrayResource> doInBackground(
-					Void... params) {
-				SearchUserMethod method = new SearchUserMethod(AddFriendActivity.this,
-						searchWord);
-				return method.execute();
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONArrayResource> result) {
-				showProgress(false);
-				searchButton.setEnabled(true);
-				int status = result.getStatusCode();
-				if (status == 200) {
-					updateSearchResultView(result.getResource());
-				} else {
-					ViewUtils.showToast("获取数据失败.");
-				}
-			}
-
-			@Override
-			protected void onCancelled() {
-				showProgress(false);
-				searchButton.setEnabled(true);
-				super.onCancelled();
-			}
-		};
-
 		searchButton.setEnabled(false);
 		showProgress(true);
-		task.execute((Void) null);
+
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>(
+						"获取数据失败.") {
+
+					@Override
+					public RestMethodResult<JSONArrayResource> doInBackground() {
+						return FriendProcessor.getInstance(AddFriendActivity.this)
+								.searchFriends(searchWord);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+						showProgress(false);
+						updateSearchResultView(result.getResource());
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						showProgress(false);
+						super.onFailed(errorMessage);
+					}
+
+					@Override
+					public void onCancelled() {
+						showProgress(false);
+						searchButton.setEnabled(true);
+						super.onCancelled();
+					}
+				});
 	}
 
 	private void showProgress(final boolean show) {

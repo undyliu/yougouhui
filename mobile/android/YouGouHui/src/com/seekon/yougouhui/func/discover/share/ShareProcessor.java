@@ -1,7 +1,9 @@
 package com.seekon.yougouhui.func.discover.share;
 
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_IMG;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
+import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
 import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_SHARE_ID;
 
 import java.io.File;
@@ -19,14 +21,16 @@ import android.net.Uri;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.spi.IShareProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestStatus;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.rest.resource.Resource;
 import com.seekon.yougouhui.service.ContentProcessor;
 import com.seekon.yougouhui.service.ProcessorCallback;
 import com.seekon.yougouhui.service.ProcessorProxy;
+import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.Logger;
 
-public class ShareProcessor extends ContentProcessor implements IShareProcessor{
+public class ShareProcessor extends ContentProcessor implements IShareProcessor {
 
 	private static IShareProcessor instance = null;
 	private static Object lock = new Object();
@@ -204,11 +208,42 @@ public class ShareProcessor extends ContentProcessor implements IShareProcessor{
 
 	public RestMethodResult<JSONObjResource> postComment(
 			Map<String, String> comment) {
-		return new PostCommentMethod(mContext, comment).execute();
+		RestMethodResult<JSONObjResource> result = new PostCommentMethod(mContext,
+				comment).execute();
+		if (result.getStatusCode() == RestStatus.SC_OK) {
+			JSONObjResource resource = result.getResource();
+			JSONUtils.putJSONValue(resource, COL_NAME_SHARE_ID,
+					comment.get(COL_NAME_SHARE_ID));
+			JSONUtils.putJSONValue(resource, COL_NAME_CONTENT,
+					comment.get(COL_NAME_CONTENT));
+			JSONUtils.putJSONValue(resource, COL_NAME_PUBLISHER,
+					comment.get(COL_NAME_PUBLISHER));
+
+			try {
+				updateContentProvider(resource, CommentData.COL_NAMES,
+						CommentConst.CONTENT_URI);
+			} catch (JSONException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return result;
 	}
 
 	public RestMethodResult<JSONObjResource> deleteShare(String shareId) {
-		return new DeleteShareMethod(mContext, shareId).execute();
+		RestMethodResult<JSONObjResource> resource = new DeleteShareMethod(
+				mContext, shareId).execute();
+
+		String selection = COL_NAME_UUID + "=?";
+		String[] selectionArgs = new String[] { shareId };
+
+		ContentResolver resolver = mContext.getContentResolver();
+		resolver.delete(ShareConst.CONTENT_URI, selection, selectionArgs);
+
+		selection = COL_NAME_SHARE_ID + "=?";
+		resolver.delete(ShareImgConst.CONTENT_URI, selection, selectionArgs);
+		resolver.delete(CommentConst.CONTENT_URI, selection, selectionArgs);
+
+		return resource;
 	}
 
 	public RestMethodResult<JSONObjResource> deleteComment(String commentId) {

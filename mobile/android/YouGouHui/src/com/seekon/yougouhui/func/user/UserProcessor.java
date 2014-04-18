@@ -18,7 +18,7 @@ import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.Logger;
 
-public class UserProcessor extends ContentProcessor implements IUserProcessor{
+public class UserProcessor extends ContentProcessor implements IUserProcessor {
 
 	private static final String TAG = UserProcessor.class.getSimpleName();
 

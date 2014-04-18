@@ -12,7 +12,7 @@ public interface SaleDiscussConst extends DataConst {
 
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
 			+ "/" + TABLE_NAME);
-	
+
 	public static final String COL_NAME_SALE_ID = "sale_id";
-	
+
 }

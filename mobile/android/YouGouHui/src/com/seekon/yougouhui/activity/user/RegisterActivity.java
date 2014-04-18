@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -32,7 +31,9 @@ import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserProcessor;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.ContentValuesUtils;
 import com.seekon.yougouhui.util.ViewUtils;
@@ -210,43 +211,41 @@ public class RegisterActivity extends Activity {
 		user.put(COL_NAME_PWD, password);
 		user.put(COL_NAME_USER_ICON, userIconUri);
 
-		AsyncTask<Map<String, String>, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Map<String, String>, Void, RestMethodResult<JSONObjResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(
-					Map<String, String>... params) {
-				return UserProcessor.getInstance(RegisterActivity.this).registerUser(
-						params[0]);
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				showProgress(false);
-				int status = result.getStatusCode();
-				if (status == 200) {
-					Intent intent = new Intent();
-					intent.putExtra(UserConst.KEY_REGISTER_USER,
-							ContentValuesUtils.fromMap(user, null));
-					setResult(RESULT_OK, intent);
-					finish();
-				} else {
-					ViewUtils.showToast("注册失败.");
-				}
-				item.setEnabled(true);
-				super.onPostExecute(result);
-			}
-
-			@Override
-			protected void onCancelled() {
-				item.setEnabled(true);
-				showProgress(false);
-				super.onCancelled();
-			}
-		};
-
 		item.setEnabled(false);
 		showProgress(true);
-		task.execute(user);
+
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+						"注册失败.") {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return UserProcessor.getInstance(RegisterActivity.this)
+								.registerUser(user);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						Intent intent = new Intent();
+						intent.putExtra(UserConst.KEY_REGISTER_USER,
+								ContentValuesUtils.fromMap(user, null));
+						setResult(RESULT_OK, intent);
+						finish();
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						onCancelled();
+						super.onFailed(errorMessage);
+					}
+
+					@Override
+					public void onCancelled() {
+						item.setEnabled(true);
+						showProgress(false);
+						super.onCancelled();
+					}
+				});
 	}
 
 	private void showProgress(final boolean show) {

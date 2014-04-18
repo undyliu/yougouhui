@@ -13,7 +13,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.AsyncTask;
 
 import com.seekon.yougouhui.activity.sale.SaleDetailActivity;
 import com.seekon.yougouhui.fragment.CatalogListFragement;
@@ -23,13 +22,15 @@ import com.seekon.yougouhui.func.profile.favorit.FavoritEntity;
 import com.seekon.yougouhui.func.profile.favorit.SaleFavoritConst;
 import com.seekon.yougouhui.func.profile.favorit.SaleFavoritProcessor;
 import com.seekon.yougouhui.func.profile.favorit.widget.FavoritListAdapter;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 
 public class SaleFavoritFragment extends CatalogListFragement {
 
 	private static final int OPEN_SALE_REQUEST_CODE = 1;
-	
+
 	@Override
 	public List<FavoritEntity> getCatalogListData() {
 		List<FavoritEntity> result = getFavoritEntitiesFromLocal();
@@ -73,25 +74,23 @@ public class SaleFavoritFragment extends CatalogListFragement {
 	}
 
 	private void loadDataFromRemote() {
-		AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>>() {
 
-			@Override
-			protected RestMethodResult<JSONArrayResource> doInBackground(
-					Void... params) {
-				return SaleFavoritProcessor.getInstance(activity)
-						.getSaleFavoritesByUser(RunEnv.getInstance().getUser().getUuid());
-			}
-			
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONArrayResource> result) {
-				if(result.getStatusCode() == 200){
-					dataList = getFavoritEntitiesFromLocal();
-					updateViews(dataList);
-				}
-			}
-			
-		};
-		task.execute((Void) null);
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>() {
+
+					@Override
+					public RestMethodResult<JSONArrayResource> doInBackground() {
+						return SaleFavoritProcessor.getInstance(activity)
+								.getSaleFavoritesByUser(
+										RunEnv.getInstance().getUser().getUuid());
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+						dataList = getFavoritEntitiesFromLocal();
+						updateViews(dataList);
+					}
+				});
 	}
 
 	@Override
@@ -101,13 +100,13 @@ public class SaleFavoritFragment extends CatalogListFragement {
 		intent.putExtra(DataConst.COL_NAME_UUID, saleId);
 		startActivityForResult(intent, OPEN_SALE_REQUEST_CODE);
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 		case OPEN_SALE_REQUEST_CODE:
-			if(resultCode == Activity.RESULT_OK && data != null){
-				
+			if (resultCode == Activity.RESULT_OK && data != null) {
+
 			}
 			break;
 
@@ -116,5 +115,5 @@ public class SaleFavoritFragment extends CatalogListFragement {
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-	
+
 }

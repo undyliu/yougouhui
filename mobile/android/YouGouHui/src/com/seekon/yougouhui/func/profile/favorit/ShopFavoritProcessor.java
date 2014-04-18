@@ -15,7 +15,8 @@ import com.seekon.yougouhui.service.ContentProcessor;
 import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.JSONUtils;
 
-public class ShopFavoritProcessor extends ContentProcessor implements IShopFavoritProcessor{
+public class ShopFavoritProcessor extends ContentProcessor implements
+		IShopFavoritProcessor {
 
 	private static IShopFavoritProcessor instance = null;
 	private static Object lock = new Object();
@@ -24,7 +25,8 @@ public class ShopFavoritProcessor extends ContentProcessor implements IShopFavor
 		synchronized (lock) {
 			if (instance == null) {
 				ProcessorProxy proxy = new ProcessorProxy();
-				instance = (IShopFavoritProcessor) proxy.bind(new ShopFavoritProcessor(mContext));
+				instance = (IShopFavoritProcessor) proxy.bind(new ShopFavoritProcessor(
+						mContext));
 			}
 		}
 		return instance;

@@ -43,9 +43,11 @@ public class PostShopFavoritMethod extends JSONObjResourceMethod {
 	protected JSONObjResource parseResponseBody(String responseBody)
 			throws Exception {
 		JSONObjResource resource = super.parseResponseBody(responseBody);
-		JSONUtils.putJSONValue(resource, ShopFavoritConst.COL_NAME_SHOP_ID, shop.getUuid());
+		JSONUtils.putJSONValue(resource, ShopFavoritConst.COL_NAME_SHOP_ID,
+				shop.getUuid());
 		JSONUtils.putJSONValue(resource, DataConst.COL_NAME_TITLE, shop.getName());
-		JSONUtils.putJSONValue(resource, DataConst.COL_NAME_IMG, shop.getShopImage());
+		JSONUtils.putJSONValue(resource, DataConst.COL_NAME_IMG,
+				shop.getShopImage());
 		JSONUtils.putJSONValue(resource, ShopFavoritConst.COL_NAME_USER_ID, userId);
 		return resource;
 	}

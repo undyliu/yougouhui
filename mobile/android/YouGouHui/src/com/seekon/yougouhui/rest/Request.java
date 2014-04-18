@@ -12,6 +12,8 @@ public interface Request {
 
 	public Map<String, List<String>> getHeaders();
 
+	public void addHeader(String key, List<String> value);
+
 	public byte[] getBody();
 
 	public Map<String, String> getParameters();

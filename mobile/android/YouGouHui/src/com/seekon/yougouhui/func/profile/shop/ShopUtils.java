@@ -21,16 +21,14 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.os.AsyncTask;
 
 import com.seekon.yougouhui.func.profile.favorit.ShopFavoritConst;
-import com.seekon.yougouhui.func.widget.TaskCallback;
-import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
+import com.seekon.yougouhui.func.widget.AsyncRestRequestTask;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.LocationUtils;
 import com.seekon.yougouhui.util.Logger;
-import com.seekon.yougouhui.util.ViewUtils;
 
 public class ShopUtils {
 	private static final String TAG = ShopUtils.class.getSimpleName();
@@ -142,38 +140,10 @@ public class ShopUtils {
 		return shop;
 	}
 
-	public static void loadDataFromRemote(final Context context,
-			final String shopId,
-			final TaskCallback<RestMethodResult<JSONObjResource>> taskCallback) {
-		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return ShopProcessor.getInstance(context).getShop(shopId);
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				int status = result.getStatusCode();
-				if (status == 200) {
-					if (taskCallback != null) {
-						taskCallback.onPostExecute(result);
-					}
-
-				} else {
-					ViewUtils.showToast("获取商铺信息失败.");
-				}
-			}
-
-			@Override
-			protected void onCancelled() {
-				if (taskCallback != null) {
-					taskCallback.onCancelled();
-				}
-				super.onCancelled();
-			}
-
-		};
+	public static void loadDataFromRemote(
+			final AbstractRestTaskCallback<JSONObjResource> taskCallback) {
+		AsyncRestRequestTask<JSONObjResource> task = new AsyncRestRequestTask<JSONObjResource>(
+				taskCallback);
 		task.execute((Void) null);
 	}
 

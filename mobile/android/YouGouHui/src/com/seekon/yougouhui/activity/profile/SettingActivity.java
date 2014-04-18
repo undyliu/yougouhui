@@ -59,7 +59,7 @@ public class SettingActivity extends Activity {
 				RunEnv.getInstance().setUser(null);
 				Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
 				startActivity(intent);
-				finish();//TODO:获取activity堆栈销毁活动的activity
+				finish();// TODO:获取activity堆栈销毁活动的activity
 			}
 		});
 	}

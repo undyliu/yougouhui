@@ -60,11 +60,11 @@ public class SaleDiscussData extends AbstractDBHelper {
 				UserEntity user = new UserEntity(cursor.getString(i++), null,
 						cursor.getString(i++), null, cursor.getString(i++), null);
 				discuss.setPublisher(user);
-				
+
 				SaleEntity sale = new SaleEntity();
 				sale.setUuid(cursor.getString(i++));
 				discuss.setSale(sale);
-				
+
 				result.add(discuss);
 			}
 		} finally {

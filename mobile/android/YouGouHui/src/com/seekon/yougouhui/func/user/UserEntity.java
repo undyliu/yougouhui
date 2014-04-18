@@ -1,11 +1,9 @@
 package com.seekon.yougouhui.func.user;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.seekon.yougouhui.func.PinyinEntity;
-import com.seekon.yougouhui.util.PinyinUtils;
 
 /**
  * 用户对象

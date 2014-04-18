@@ -9,10 +9,10 @@ import com.seekon.yougouhui.service.ProcessorCallback;
 public interface ISaleProcessor {
 
 	public void getSalesByChannel(ProcessorCallback callback, String channelId);
-	
+
 	public RestMethodResult<JSONArrayResource> getSalesByShop(String shopId);
-	
+
 	public RestMethodResult<JSONObjResource> publishSale(SaleEntity sale);
-	
+
 	public RestMethodResult<JSONObjResource> getSale(String saleId);
 }

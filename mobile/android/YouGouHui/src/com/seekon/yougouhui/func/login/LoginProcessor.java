@@ -15,7 +15,7 @@ import com.seekon.yougouhui.service.ContentProcessor;
 import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.Logger;
 
-public class LoginProcessor extends ContentProcessor implements ILoginProcessor{
+public class LoginProcessor extends ContentProcessor implements ILoginProcessor {
 
 	private static final String TAG = LoginProcessor.class.getSimpleName();
 

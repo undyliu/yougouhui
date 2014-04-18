@@ -25,7 +25,7 @@ public interface DataConst {
 	public static final String COL_NAME_DESC = "desc";
 
 	public static final String LAST_MODIFY_TIME = "last_modify_time";
-	
+
 	public static final String NAME_COUNT = "count";
 
 	public static final String NAME_SEARCH_WORD = "search-word";
@@ -41,6 +41,8 @@ public interface DataConst {
 	public static final String NAME_CHECKED = "checked";
 
 	public static final String NAME_READONLY = "readonly";
+
+	public static final String NAME_ERROR = "error";
 
 	// 一下的action常量用于广播
 	// public static final String KEY_ACTION_ID = "key.action.id";

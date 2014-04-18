@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
@@ -24,7 +23,8 @@ public class CatalogListAdapter extends BaseAdapter implements SectionIndexer {
 	private Map<String, Integer> catalogMap = new HashMap<String, Integer>();
 	protected Context mContext;
 
-	public CatalogListAdapter(Context mContext, List<? extends PinyinEntity> contactList) {
+	public CatalogListAdapter(Context mContext,
+			List<? extends PinyinEntity> contactList) {
 		this.mContext = mContext;
 		this.dataList = contactList;
 		initCatalogList();
@@ -104,7 +104,7 @@ public class CatalogListAdapter extends BaseAdapter implements SectionIndexer {
 
 	}
 
-	 public static class ViewHolder {
+	public static class ViewHolder {
 		public TextView tvLetter;
 		public TextView tvTitle;
 		public ImageView imageView;

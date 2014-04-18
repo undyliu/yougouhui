@@ -50,9 +50,10 @@ public class PostDiscussMethod extends JSONObjResourceMethod {
 				.getUuid());
 		JSONUtils.putJSONValue(resource, COL_NAME_PUBLISHER, discuss.getPublisher()
 				.getUuid());
-		
-		discuss.setUuid(JSONUtils.getJSONStringValue(resource, DataConst.COL_NAME_UUID));
-		
+
+		discuss.setUuid(JSONUtils.getJSONStringValue(resource,
+				DataConst.COL_NAME_UUID));
+
 		return resource;
 	}
 

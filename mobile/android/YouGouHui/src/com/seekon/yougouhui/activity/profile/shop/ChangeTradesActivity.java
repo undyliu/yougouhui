@@ -13,7 +13,6 @@ import java.util.Map;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,15 +21,17 @@ import android.widget.GridView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.profile.shop.GetTradesTaskCallback;
 import com.seekon.yougouhui.func.profile.shop.ShopConst;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.profile.shop.ShopTradeProcessor;
 import com.seekon.yougouhui.func.profile.shop.TradeConst;
 import com.seekon.yougouhui.func.profile.shop.TradeEntity;
-import com.seekon.yougouhui.func.profile.shop.widget.GetTradesTask;
 import com.seekon.yougouhui.func.profile.shop.widget.TradeListAdapter;
-import com.seekon.yougouhui.func.widget.TaskCallback;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
+import com.seekon.yougouhui.func.widget.AsyncRestRequestTask;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.ViewUtils;
@@ -118,23 +119,15 @@ public class ChangeTradesActivity extends TradeCheckedChangeActivity {
 	}
 
 	private void loadTradeListFromRemote() {
-		GetTradesTask task = new GetTradesTask(this,
-				new TaskCallback<RestMethodResult<JSONArrayResource>>() {
+		AsyncRestRequestTask<JSONArrayResource> task = new AsyncRestRequestTask<JSONArrayResource>(
+				new GetTradesTaskCallback(this) {
 
 					@Override
-					public void onPostExecute(RestMethodResult<JSONArrayResource> result) {
-						if (result.getStatusCode() == 200) {
-							loadTradeListFromLocal();
-							updateViews();
-						} else {
-							ViewUtils.showToast("加载主营业务数据失败.");
-						}
+					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+						loadTradeListFromLocal();
+						updateViews();
 					}
 
-					@Override
-					public void onCancelled() {
-
-					}
 				});
 		task.execute((Void) null);
 	}
@@ -164,40 +157,41 @@ public class ChangeTradesActivity extends TradeCheckedChangeActivity {
 			return;
 		}
 
-		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return ShopTradeProcessor.getInstance(ChangeTradesActivity.this)
-						.saveShopTrades(shop.getUuid(), checkedTradeList);
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				showProgress(false);
-				if (result.getStatusCode() == 200) {
-					shop.setTrades(checkedTradeList);
-					Intent intent = new Intent();
-					intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
-					setResult(RESULT_OK, intent);
-					finish();
-				} else {
-					ViewUtils.showToast("保存失败.");
-				}
-			}
-
-			@Override
-			protected void onCancelled() {
-				item.setEnabled(true);
-				showProgress(false);
-
-				super.onCancelled();
-			}
-		};
-
 		item.setEnabled(false);
 		showProgress(true);
-		task.execute((Void) null);
+
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+						"修改主营业务失败.") {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return ShopTradeProcessor.getInstance(ChangeTradesActivity.this)
+								.saveShopTrades(shop.getUuid(), checkedTradeList);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						shop.setTrades(checkedTradeList);
+						Intent intent = new Intent();
+						intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
+						setResult(RESULT_OK, intent);
+						finish();
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						super.onFailed(errorMessage);
+						onCancelled();
+					}
+
+					@Override
+					public void onCancelled() {
+						item.setEnabled(true);
+						showProgress(false);
+					}
+
+				});
 	}
 
 	private void showProgress(boolean show) {

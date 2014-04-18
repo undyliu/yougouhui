@@ -8,9 +8,10 @@ import com.seekon.yougouhui.rest.resource.JSONObjResource;
 public interface IFriendProcessor {
 
 	public RestMethodResult<JSONObjResource> addFriend(UserEntity user);
-	
+
 	public RestMethodResult<JSONObjResource> deleteFriend(UserEntity user);
-	
+
 	public RestMethodResult<JSONArrayResource> getFriends(UserEntity user);
-	
+
+	public RestMethodResult<JSONArrayResource> searchFriends(String searchWord);
 }

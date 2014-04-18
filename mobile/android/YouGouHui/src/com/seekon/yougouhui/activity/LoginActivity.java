@@ -9,7 +9,6 @@ import static com.seekon.yougouhui.func.login.LoginConst.LOGIN_SETTING_REMEMBER_
 import org.json.JSONObject;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -29,7 +28,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.activity.profile.shop.ChooseShopActivity;
 import com.seekon.yougouhui.activity.user.RegisterActivity;
 import com.seekon.yougouhui.func.login.LoginConst;
 import com.seekon.yougouhui.func.user.UserConst;
@@ -259,12 +257,12 @@ public class LoginActivity extends Activity {
 					} else if (AUTH_ERROR_USER.equals(errorType)) {
 						mPhoneView.setError(getString(R.string.error_incorrect_phone));
 						mPhoneView.requestFocus();
-					}else{
+					} else {
 						ViewUtils.showToast(errorType);
 					}
 				} else {
 					ViewUtils.showToast(getString(R.string.error_disconnect_server));
-					
+
 				}
 			}
 			showProgress(false);

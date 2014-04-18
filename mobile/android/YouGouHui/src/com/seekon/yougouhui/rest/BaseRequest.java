@@ -1,6 +1,7 @@
 package com.seekon.yougouhui.rest;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class BaseRequest implements Request {
 		this.parameters = parameters;
 		this.method = method;
 	}
-	
+
 	public BaseRequest(Method method, URI requestUri,
 			Map<String, List<String>> headers, Map<String, String> parameters) {
 		super();
@@ -52,6 +53,14 @@ public class BaseRequest implements Request {
 	@Override
 	public Map<String, String> getParameters() {
 		return parameters;
+	}
+
+	@Override
+	public void addHeader(String key, List<String> value) {
+		if (headers == null) {
+			headers = new HashMap<String, List<String>>();
+		}
+		headers.put(key, value);
 	}
 
 }

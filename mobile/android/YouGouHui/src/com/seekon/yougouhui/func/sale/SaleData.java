@@ -161,8 +161,7 @@ public class SaleData extends AbstractDBHelper {
 	public SaleEntity getSale(String uuid) {
 		SaleEntity sale = null;
 		String sql = " select sa.uuid, title, content, start_date, end_date, trade_id, visit_count, discuss_count, sa.status, sa.img "
-				+ ", shop_id, shop_name"
-				+ " from e_sale sa where sa.uuid = ? ";
+				+ ", shop_id, shop_name" + " from e_sale sa where sa.uuid = ? ";
 		Cursor cursor = null;
 		try {
 			cursor = this.getReadableDatabase().rawQuery(sql, new String[] { uuid });
@@ -179,7 +178,7 @@ public class SaleData extends AbstractDBHelper {
 				sale.setDiscussCount(cursor.getInt(i++));
 				sale.setStatus(cursor.getString(i++));
 				sale.setImg(cursor.getString(i++));
-				
+
 				ShopEntity shop = new ShopEntity();
 				shop.setUuid(cursor.getString(i++));
 				shop.setName(cursor.getString(i++));
@@ -202,8 +201,7 @@ public class SaleData extends AbstractDBHelper {
 			selectionArgs = new String[] { channelId };
 		}
 		String sql = " select sa.uuid, title, content, start_date, end_date, trade_id, visit_count, discuss_count, sa.status, sa.img "
-				+ ", shop_id, shop_name "
-				+ " from e_sale sa  ";
+				+ ", shop_id, shop_name " + " from e_sale sa  ";
 		if (selection != null) {
 			sql += " where " + selection;
 		}

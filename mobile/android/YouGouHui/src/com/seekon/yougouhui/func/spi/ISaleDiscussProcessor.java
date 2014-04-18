@@ -8,8 +8,8 @@ import com.seekon.yougouhui.rest.resource.JSONObjResource;
 public interface ISaleDiscussProcessor {
 
 	public RestMethodResult<JSONObjResource> deleteDiscuss(String uuid);
-	
+
 	public RestMethodResult<JSONObjResource> postDiscuss(SaleDiscussEntity discuss);
-	
+
 	public RestMethodResult<JSONArrayResource> getDiscusses(String saleId);
 }

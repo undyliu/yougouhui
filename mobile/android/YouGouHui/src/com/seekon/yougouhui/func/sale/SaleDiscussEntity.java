@@ -13,35 +13,45 @@ public class SaleDiscussEntity implements Serializable {
 	private String content;
 	private UserEntity publisher;
 	private long publishTime;
+
 	public String getUuid() {
 		return uuid;
 	}
+
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
+
 	public SaleEntity getSale() {
 		return sale;
 	}
+
 	public void setSale(SaleEntity sale) {
 		this.sale = sale;
 	}
+
 	public String getContent() {
 		return content;
 	}
+
 	public void setContent(String content) {
 		this.content = content;
 	}
+
 	public UserEntity getPublisher() {
 		return publisher;
 	}
+
 	public void setPublisher(UserEntity publisher) {
 		this.publisher = publisher;
 	}
+
 	public long getPublishTime() {
 		return publishTime;
 	}
+
 	public void setPublishTime(long publishTime) {
 		this.publishTime = publishTime;
 	}
-	
+
 }

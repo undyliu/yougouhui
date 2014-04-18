@@ -9,6 +9,6 @@ public interface RequestSigner {
 	 * 
 	 * @param conn
 	 */
-	public void authorize(Request request);
+	public boolean authorize(Request request);
 
 }

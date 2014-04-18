@@ -11,11 +11,11 @@ import com.seekon.yougouhui.rest.JSONObjResourceMethod;
 import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
 
-public class GetSaleMethod extends JSONObjResourceMethod{
-	
+public class GetSaleMethod extends JSONObjResourceMethod {
+
 	private static final String GET_SALE_URI = Const.SERVER_APP_URL
 			+ "/getSaleData/";
-	
+
 	private String saleId;
 
 	public GetSaleMethod(Context context, String saleId) {
@@ -25,8 +25,9 @@ public class GetSaleMethod extends JSONObjResourceMethod{
 
 	@Override
 	protected Request buildRequest() {
-		String uri = GET_SALE_URI + saleId + "/" + RunEnv.getInstance().getUser().getUuid();
+		String uri = GET_SALE_URI + saleId + "/"
+				+ RunEnv.getInstance().getUser().getUuid();
 		return new BaseRequest(Method.GET, URI.create(uri), null, null);
 	}
-	
+
 }

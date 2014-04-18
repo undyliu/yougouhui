@@ -15,10 +15,11 @@ import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.Logger;
 
-public class SaleDiscussProcessor extends ContentProcessor implements ISaleDiscussProcessor{
-	
+public class SaleDiscussProcessor extends ContentProcessor implements
+		ISaleDiscussProcessor {
+
 	private static final String TAG = SaleDiscussProcessor.class.getSimpleName();
-	
+
 	private static ISaleDiscussProcessor instance = null;
 	private static Object lock = new Object();
 
@@ -26,7 +27,8 @@ public class SaleDiscussProcessor extends ContentProcessor implements ISaleDiscu
 		synchronized (lock) {
 			if (instance == null) {
 				ProcessorProxy proxy = new ProcessorProxy();
-				instance = (ISaleDiscussProcessor) proxy.bind(new SaleDiscussProcessor(mContext));
+				instance = (ISaleDiscussProcessor) proxy.bind(new SaleDiscussProcessor(
+						mContext));
 			}
 		}
 		return instance;
@@ -40,11 +42,12 @@ public class SaleDiscussProcessor extends ContentProcessor implements ISaleDiscu
 	protected void updateContentProvider(RestMethodResult<Resource> result,
 			String[] colNames) {
 		super.updateContentProvider(result, colNames);
-		if(result.getResource() instanceof JSONObjResource){
+		if (result.getResource() instanceof JSONObjResource) {
 			JSONObjResource resource = (JSONObjResource) result.getResource();
-			if(resource.has(DataConst.COL_NAME_IS_DELETED)){
-				String isDeleted = JSONUtils.getJSONStringValue(resource, DataConst.COL_NAME_IS_DELETED);
-				if(isDeleted != null && "1".equals(isDeleted)){
+			if (resource.has(DataConst.COL_NAME_IS_DELETED)) {
+				String isDeleted = JSONUtils.getJSONStringValue(resource,
+						DataConst.COL_NAME_IS_DELETED);
+				if (isDeleted != null && "1".equals(isDeleted)) {
 					try {
 						super.deleteContentProvider(resource, contentUri);
 					} catch (JSONException e) {
@@ -54,7 +57,7 @@ public class SaleDiscussProcessor extends ContentProcessor implements ISaleDiscu
 			}
 		}
 	}
-	
+
 	public RestMethodResult<JSONObjResource> deleteDiscuss(String uuid) {
 		return (RestMethodResult) this.execMethod(new DeleteDiscussMethod(mContext,
 				uuid));
@@ -64,8 +67,9 @@ public class SaleDiscussProcessor extends ContentProcessor implements ISaleDiscu
 		return (RestMethodResult) this.execMethod(new PostDiscussMethod(mContext,
 				discuss));
 	}
-	
-	public RestMethodResult<JSONArrayResource> getDiscusses(String saleId){
-		return (RestMethodResult)this.execMethod(new GetDiscussesMethod(mContext, saleId));
+
+	public RestMethodResult<JSONArrayResource> getDiscusses(String saleId) {
+		return (RestMethodResult) this.execMethod(new GetDiscussesMethod(mContext,
+				saleId));
 	}
 }

@@ -16,7 +16,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -43,16 +42,18 @@ import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.LocationEntity;
 import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.profile.shop.GetTradesTaskCallback;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.profile.shop.ShopProcessor;
 import com.seekon.yougouhui.func.profile.shop.TradeConst;
 import com.seekon.yougouhui.func.profile.shop.TradeEntity;
-import com.seekon.yougouhui.func.profile.shop.widget.GetTradesTask;
 import com.seekon.yougouhui.func.profile.shop.widget.RegisterPagerAdapter;
 import com.seekon.yougouhui.func.profile.shop.widget.TradeListAdapter;
 import com.seekon.yougouhui.func.user.UserEntity;
-import com.seekon.yougouhui.func.widget.TaskCallback;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
+import com.seekon.yougouhui.func.widget.AsyncRestRequestTask;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.ViewUtils;
@@ -102,9 +103,9 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 
 	private LocationClient mLocationClient = null;
 	private BDLocationListener myListener = new MyLocationListener();
-	
+
 	private LocationEntity locationEntity = new LocationEntity();
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -119,10 +120,9 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 		mLocationClient.registerLocationListener(myListener); // 注册监听函数
 		setLocationOption();
 		mLocationClient.start();// 开始定位
-		
+
 		initViews();
 
-		
 	}
 
 	@Override
@@ -241,26 +241,16 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 	}
 
 	private void loadTradesFromRemote() {
-		GetTradesTask task = new GetTradesTask(RegisterShopActivity.this,
-				new TaskCallback<RestMethodResult<JSONArrayResource>>() {
+		AsyncRestRequestTask<JSONArrayResource> task = new AsyncRestRequestTask<JSONArrayResource>(
+				new GetTradesTaskCallback(this) {
 
 					@Override
-					public void onPostExecute(RestMethodResult<JSONArrayResource> result) {
-						int status = result.getStatusCode();
-						if (status == 200) {
-							loadTradeFromLocal();
-							tradeAdapter.updateData(getTradeList());
-						} else {
-							ViewUtils.showToast("获取主营业务数据失败.");
-						}
+					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+						loadTradeFromLocal();
+						tradeAdapter.updateData(getTradeList());
 					}
 
-					@Override
-					public void onCancelled() {
-
-					}
 				});
-
 		task.execute((Void) null);
 	}
 
@@ -408,56 +398,55 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 			return;
 		}
 
-		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				ShopEntity shop = new ShopEntity();
-				shop.setAddress(address);
-				shop.setName(name);
-				shop.setDesc(desc);
-				shop.setShopImage(shopImage);
-				shop.setBusiLicense(busiLicense);
-				shop.setTrades(selectedTrades);
-				shop.setLocation(locationEntity);
-				
-				UserEntity currentUser = RunEnv.getInstance().getUser();
-				shop.setOwner(currentUser.getUuid());
-				UserEntity emp = currentUser.clone();
-				if (emp != null) {
-					emp.setPwd(password);
-					shop.addEmployee(emp);
-				}
-
-				return ShopProcessor.getInstance(RegisterShopActivity.this)
-						.registerShop(shop);
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				showProgress(false);
-				item.setEnabled(true);
-				int status = result.getStatusCode();
-				if (status == 200) {
-					Intent intent = new Intent();
-					setResult(RESULT_OK, intent);
-					finish();
-				} else {
-					ViewUtils.showToast("注册商铺失败.");
-				}
-			}
-
-			@Override
-			protected void onCancelled() {
-				showProgress(false);
-				item.setEnabled(true);
-				super.onCancelled();
-			}
-		};
-
 		showProgress(true);
 		item.setEnabled(false);
-		task.execute((Void) null);
+
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+						"注册商铺失败.") {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						ShopEntity shop = new ShopEntity();
+						shop.setAddress(address);
+						shop.setName(name);
+						shop.setDesc(desc);
+						shop.setShopImage(shopImage);
+						shop.setBusiLicense(busiLicense);
+						shop.setTrades(selectedTrades);
+						shop.setLocation(locationEntity);
+
+						UserEntity currentUser = RunEnv.getInstance().getUser();
+						shop.setOwner(currentUser.getUuid());
+						UserEntity emp = currentUser.clone();
+						if (emp != null) {
+							emp.setPwd(password);
+							shop.addEmployee(emp);
+						}
+
+						return ShopProcessor.getInstance(RegisterShopActivity.this)
+								.registerShop(shop);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						Intent intent = new Intent();
+						setResult(RESULT_OK, intent);
+						finish();
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						onCancelled();
+						super.onFailed(errorMessage);
+					}
+
+					@Override
+					public void onCancelled() {
+						showProgress(false);
+						item.setEnabled(true);
+					}
+				});
 	}
 
 	private void showProgress(final boolean show) {
@@ -492,7 +481,7 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 	public void onPageSelected(int position) {
 
 	}
-	
+
 	private void setLocationOption() {
 		LocationClientOption option = new LocationClientOption();
 		option.setOpenGps(true);
@@ -506,22 +495,22 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 		option.setPoiExtraInfo(true); // 是否需要POI的电话和地址等详细信息
 		mLocationClient.setLocOption(option);
 	}
-	
-	class MyLocationListener implements BDLocationListener{
+
+	class MyLocationListener implements BDLocationListener {
 
 		@Override
 		public void onReceiveLocation(BDLocation location) {
-			if(location == null){
+			if (location == null) {
 				return;
 			}
-			
+
 			double latitude = location.getLatitude();
 			double longitude = location.getLongitude();
-			if (location.getLocType() == BDLocation.TypeNetWorkLocation){
+			if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
 				addrView.setText(location.getAddrStr());
 				locationEntity.setAddress(location.getAddrStr());
 			}
-			
+
 			locationEntity.setLatitude(location.getLatitude());
 			locationEntity.setLontitude(location.getLongitude());
 			locationEntity.setRadius(location.getRadius());
@@ -529,15 +518,15 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 
 		@Override
 		public void onReceivePoi(BDLocation poiLocation) {
-			
+
 		}
-		
+
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		if(this.mLocationClient != null && this.mLocationClient.isStarted()){
+		if (this.mLocationClient != null && this.mLocationClient.isStarted()) {
 			this.mLocationClient.stop();
 			this.mLocationClient = null;
 		}

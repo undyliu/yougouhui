@@ -40,17 +40,19 @@ public class ShopSaleListAdapter extends DateIndexedListAdapter {
 					public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 							long arg3) {
 						SaleEntity sale = (SaleEntity) subItemDataList.get(position);
-						
+
 						Class startActivity = null;
 						UserEntity publisher = sale.getPublisher();
-						if(publisher != null && publisher.equals(RunEnv.getInstance().getUser())){
+						if (publisher != null
+								&& publisher.equals(RunEnv.getInstance().getUser())) {
 							startActivity = SaleEditActivity.class;
-						}else{
+						} else {
 							startActivity = SaleDetailActivity.class;
 						}
-						
+
 						Intent intent = new Intent(context, startActivity);
-						intent.putExtra(SaleConst.COL_NAME_SHOP_ID, sale.getShop().getUuid());
+						intent.putExtra(SaleConst.COL_NAME_SHOP_ID, sale.getShop()
+								.getUuid());
 						intent.putExtra(DataConst.COL_NAME_UUID, sale.getUuid());
 						((Activity) context).startActivityForResult(intent,
 								ShopSaleListActivity.SALE_PROMOTE_REQUEST_CODE);

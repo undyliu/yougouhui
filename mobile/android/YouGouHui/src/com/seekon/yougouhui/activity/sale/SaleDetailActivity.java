@@ -33,18 +33,19 @@ import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.profile.favorit.SaleFavoritProcessor;
 import com.seekon.yougouhui.func.profile.shop.ShopConst;
+import com.seekon.yougouhui.func.sale.GetSaleTaskCallback;
 import com.seekon.yougouhui.func.sale.SaleDiscussData;
 import com.seekon.yougouhui.func.sale.SaleDiscussEntity;
 import com.seekon.yougouhui.func.sale.SaleDiscussProcessor;
 import com.seekon.yougouhui.func.sale.SaleEntity;
 import com.seekon.yougouhui.func.sale.SaleUtils;
 import com.seekon.yougouhui.func.sale.widget.DiscussPopupWindow;
-import com.seekon.yougouhui.func.sale.widget.GetSaleTask;
 import com.seekon.yougouhui.func.sale.widget.SaleDiscussListAdapter;
-import com.seekon.yougouhui.func.widget.TaskCallback;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.layout.XListView;
 import com.seekon.yougouhui.layout.XListView.IXListViewListener;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.DateUtils;
@@ -215,35 +216,39 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 
 			}
 		});
+		if (this.menu != null) {
+			for (int i = 0; i < this.menu.size(); i++) {
+				this.menu.getItem(i).setEnabled(true);
+			}
+		}
 	}
 
 	private void loadSaleData() {
 		final String saleId = this.getIntent().getStringExtra(
 				DataConst.COL_NAME_UUID);
-		GetSaleTask task = new GetSaleTask(this,
-				new TaskCallback<RestMethodResult<JSONObjResource>>() {
 
-					@Override
-					public void onPostExecute(RestMethodResult<JSONObjResource> result) {
-						showProgress(false);
-						if (result.getStatusCode() == 200) {
-							sale = SaleUtils.getSale(SaleDetailActivity.this, saleId);
-							sale.getImages().remove(sale.getImg());
+		RestUtils.executeAsyncRestTask(new GetSaleTaskCallback(this, saleId) {
 
-							updateViews();
-						} else {
-							ViewUtils.showToast("获取活动数据失败.");
-						}
+			@Override
+			public void onSuccess(RestMethodResult<JSONObjResource> result) {
+				showProgress(false);
+				sale = SaleUtils.getSale(SaleDetailActivity.this, saleId);
+				sale.getImages().remove(sale.getImg());
 
-					}
+				updateViews();
+			}
 
-					@Override
-					public void onCancelled() {
-						showProgress(false);
-					}
-				}, saleId);
+			@Override
+			public void onFailed(String errorMessage) {
+				showProgress(false);
+				super.onFailed(errorMessage);
+			}
 
-		task.execute((Void) null);
+			@Override
+			public void onCancelled() {
+				showProgress(false);
+			}
+		});
 
 		AsyncTask<Void, Void, Boolean> favoritTask = new AsyncTask<Void, Void, Boolean>() {
 
@@ -270,25 +275,23 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 	private void loadDiscussData(final String saleId) {
 		discussList = saleDiscussData.getDiscussList(saleId);
 		if (discussList.isEmpty()) {
-			AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONArrayResource>>() {
+			RestUtils
+					.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>(
+							"获取评论数据失败.") {
 
-				@Override
-				protected RestMethodResult<JSONArrayResource> doInBackground(
-						Void... params) {
-					return SaleDiscussProcessor.getInstance(SaleDetailActivity.this)
-							.getDiscusses(saleId);
-				}
+						@Override
+						public RestMethodResult<JSONArrayResource> doInBackground() {
+							return SaleDiscussProcessor.getInstance(SaleDetailActivity.this)
+									.getDiscusses(saleId);
+						}
 
-				@Override
-				protected void onPostExecute(RestMethodResult<JSONArrayResource> result) {
-					if (result.getStatusCode() == 200) {
-						discussList = saleDiscussData.getDiscussList(saleId);
-						discussListAdapter.updateData(discussList);
-					}
-				}
+						@Override
+						public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+							discussList = saleDiscussData.getDiscussList(saleId);
+							discussListAdapter.updateData(discussList);
+						}
 
-			};
-			task.execute((Void) null);
+					});
 		} else {
 			discussListAdapter.updateData(discussList);
 		}
@@ -335,62 +338,63 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void publishShare(){
+	private void publishShare() {
 		Intent intent = new Intent(this, ShareActivity.class);
 		intent.putExtra(ShopConst.DATA_SHOP_KEY, sale.getShop());
 		startActivity(intent);
 	}
-	
+
 	private void favoritSale(final MenuItem item) {
-		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return SaleFavoritProcessor.getInstance(SaleDetailActivity.this)
-						.addSaleFavorit(sale, RunEnv.getInstance().getUser().getUuid());
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				item.setEnabled(true);
-				if (result.getStatusCode() == 200) {
-					saleFavorited = true;
-					updateMenuStatus();
-				} else {
-					ViewUtils.showToast("收藏失败.");
-				}
-			}
-
-		};
-
 		item.setEnabled(false);
-		task.execute((Void) null);
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+						"收藏失败.") {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return SaleFavoritProcessor.getInstance(SaleDetailActivity.this)
+								.addSaleFavorit(sale, RunEnv.getInstance().getUser().getUuid());
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						saleFavorited = true;
+						updateMenuStatus();
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						item.setEnabled(true);
+						super.onFailed(errorMessage);
+					}
+				});
 	}
 
 	private void cancelFavoritSale(final MenuItem item) {
-		AsyncTask<Void, Void, RestMethodResult<JSONObjResource>> task = new AsyncTask<Void, Void, RestMethodResult<JSONObjResource>>() {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return SaleFavoritProcessor.getInstance(SaleDetailActivity.this)
-						.deleteSaleFavorit(sale.getUuid(), RunEnv.getInstance().getUser().getUuid());
-			}
-
-			@Override
-			protected void onPostExecute(RestMethodResult<JSONObjResource> result) {
-				item.setEnabled(true);
-				if (result.getStatusCode() == 200) {
-					saleFavorited = false;
-					updateMenuStatus();
-				} else {
-					ViewUtils.showToast("取消收藏失败.");
-				}
-			}
-
-		};
-
 		item.setEnabled(false);
-		task.execute((Void) null);
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+						"取消收藏失败.") {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return SaleFavoritProcessor.getInstance(SaleDetailActivity.this)
+								.deleteSaleFavorit(sale.getUuid(),
+										RunEnv.getInstance().getUser().getUuid());
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						saleFavorited = false;
+						updateMenuStatus();
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						super.onFailed(errorMessage);
+						item.setEnabled(true);
+					}
+				});
 	}
 
 	private void showProgress(boolean show) {

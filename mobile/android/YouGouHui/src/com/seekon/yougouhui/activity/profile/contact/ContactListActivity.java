@@ -154,7 +154,7 @@ public class ContactListActivity extends Activity {
 			}
 		});
 
-		//updateSideBar();
+		// updateSideBar();
 	}
 
 	// 根据联系人数据重新设置sidebar
@@ -225,7 +225,7 @@ public class ContactListActivity extends Activity {
 				contactDateList = getContactListData();
 				Collections.sort(contactDateList, pinyinComparator);
 				adapter.updateListView(contactDateList);
-				//updateSideBar();
+				// updateSideBar();
 			}
 			break;
 

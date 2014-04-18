@@ -13,7 +13,7 @@ import com.seekon.yougouhui.util.Logger;
 public class ProcessorProxy implements InvocationHandler {
 
 	private static final String TAG = ProcessorProxy.class.getSimpleName();
-	
+
 	private Object target;
 
 	public Object bind(Object target) {
@@ -28,9 +28,9 @@ public class ProcessorProxy implements InvocationHandler {
 		Object result = null;
 		try {
 			result = method.invoke(target, args);
-		} catch (Throwable e) {//处理运行过程中抛出的异常
+		} catch (Throwable e) {// 处理运行过程中抛出的异常
 			Logger.warn(TAG, e.getMessage());
-			
+
 			Class clazz = method.getReturnType();
 			if (clazz.isAssignableFrom(RestMethodResult.class)) {
 				result = new RestMethodResult(RestStatus.RUNTIME_ERROR, YouGouHuiApp

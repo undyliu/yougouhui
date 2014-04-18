@@ -64,7 +64,7 @@ public class ChannelSaleListAdapter extends BaseAdapter {
 		TextView titleView = (TextView) view.findViewById(R.id.sale_title);
 		titleView.setText(sale.getTitle());
 		titleView.getPaint().setFakeBoldText(true);
-		
+
 		ImageView saleImageView = (ImageView) view.findViewById(R.id.sale_img);
 		saleImageView.setLayoutParams(new LinearLayout.LayoutParams(
 				SALE_IMAGE_WIDTH, SALE_IMAGE_WIDTH));
@@ -89,11 +89,11 @@ public class ChannelSaleListAdapter extends BaseAdapter {
 		TextView publisherView = (TextView) view.findViewById(R.id.sale_publisher);
 		publisherView.setText(sale.getShop().getName());
 		publisherView.getPaint().setFakeBoldText(true);
-		
+
 		TextView distanceView = (TextView) view.findViewById(R.id.shop_distance);
 		distanceView.setText("500");
 		distanceView.getPaint().setFakeBoldText(true);
-		
+
 		return view;
 	}
 

@@ -193,19 +193,8 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 	private void updateChannelsRemote() {
 		if (requestId == null) {
 			Logger.debug(TAG, "updateChannelsRemote");
-			AsyncTask<Void, Void, Long> task = new AsyncTask<Void, Void, Long>() {
-				@Override
-				protected Long doInBackground(Void... params) {
-					return SaleServiceHelper.getInstance(attachedActivity).getChannels(
-							null, SaleServiceHelper.CHANNEL_REQUEST_RESULT);
-				}
-
-				@Override
-				protected void onPostExecute(Long result) {
-					requestId = result;
-				}
-			};
-			task.execute((Void) null);
+			requestId = SaleServiceHelper.getInstance(attachedActivity).getChannels(
+					null, SaleServiceHelper.CHANNEL_REQUEST_RESULT);
 		}
 	}
 
