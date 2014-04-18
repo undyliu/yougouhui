@@ -15,9 +15,11 @@
 (defn authenticated? [handler]
   (fn [request]
     ;(println request)
-    (if (logged-in? request)
-      (handler request)
-      {:status 999 :body (json/write-str{:error "请先登录."})}
+    (let [uri (:uri request)]
+      (if (or (logged-in? request) (.endsWith uri ".png"))
+        (handler request)
+        {:status 200 :body (json/write-str{:error "请先登录."})}
+      )
       )
     )
   )
