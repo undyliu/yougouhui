@@ -68,7 +68,7 @@ public class MyShareItemListAdapter extends BaseAdapter {
 		ImageView imageView = (ImageView) view.findViewById(R.id.share_item_image);
 		List<String> imageUrls = share.getImages();
 		if (imageUrls.size() > 0) {
-			imageView.setScaleType(ImageView.ScaleType.CENTER);
+			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 			imageView.setLayoutParams(new LinearLayout.LayoutParams(
 					SHARE_IMAGE_WIDHT, SHARE_IMAGE_WIDHT));
 			imageView.setVisibility(View.VISIBLE);

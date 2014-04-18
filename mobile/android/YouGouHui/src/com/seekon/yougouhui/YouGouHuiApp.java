@@ -3,6 +3,7 @@ package com.seekon.yougouhui;
 import android.app.Application;
 import android.content.Context;
 
+import com.seekon.yougouhui.file.FileCache;
 import com.seekon.yougouhui.util.Logger;
 
 public class YouGouHuiApp extends Application {
@@ -17,6 +18,8 @@ public class YouGouHuiApp extends Application {
 
 		Logger.setAppTag(getString(R.string.app_log_tag));
 		Logger.setLevel(Logger.DEBUG);
+		
+		FileCache.getInstance().clear();
 	}
 
 	public static Context getAppContext() {

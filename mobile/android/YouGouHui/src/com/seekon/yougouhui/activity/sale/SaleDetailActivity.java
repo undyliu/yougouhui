@@ -191,7 +191,8 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 
 			@Override
 			public void onClick(View v) {
-				discussView.setVisibility(View.VISIBLE);
+				int visibility = discussView.getVisibility();
+				discussView.setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
 			}
 		});
 

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import android.graphics.Bitmap;
+import android.os.Build;
 
 import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.file.FileHelper;
@@ -43,7 +44,7 @@ public class MultipartClient extends RestClient {
 			throw new Exception("request必须为MultipartRequest类型.");
 		}
 
-		setConnectionProperties(conn);
+		setConnectionProperties(conn, request);
 
 		DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
 
@@ -64,7 +65,15 @@ public class MultipartClient extends RestClient {
 	 * @param conn
 	 * @throws Exception
 	 */
-	private void setConnectionProperties(HttpURLConnection conn) throws Exception {
+	private void setConnectionProperties(HttpURLConnection conn, Request request)
+			throws Exception {
+		if (request.getHeaders() != null) {
+			for (String header : request.getHeaders().keySet()) {
+				for (String value : request.getHeaders().get(header)) {
+					conn.addRequestProperty(header, value);
+				}
+			}
+		}
 		conn.setReadTimeout(readTimeOut);
 		conn.setConnectTimeout(connectTimeout);
 		conn.setDoInput(true); // 允许输入流
@@ -72,12 +81,16 @@ public class MultipartClient extends RestClient {
 		conn.setUseCaches(false); // 不允许使用缓存
 		conn.setRequestMethod("POST"); // 请求方式
 		conn.setRequestProperty("Charset", CHARSET); // 设置编码
-		conn.setRequestProperty("connection", "keep-alive");
-		conn.setRequestProperty("user-agent",
-				"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
+		// conn.setRequestProperty("connection", "keep-alive");
+		// conn.setRequestProperty("user-agent",
+		// "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
 		conn.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary="
 				+ BOUNDARY);
 		conn.setConnectTimeout(30 * 1000);// 30秒
+
+		if (Build.VERSION.SDK != null && Build.VERSION.SDK_INT > 13) {
+			conn.setRequestProperty("Connection", "close");
+		}
 	}
 
 	/**

@@ -132,14 +132,14 @@ public class AddFriendActivity extends Activity {
 
 					@Override
 					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
-						showProgress(false);
 						updateSearchResultView(result.getResource());
+						onCancelled();
 					}
 
 					@Override
 					public void onFailed(String errorMessage) {
-						showProgress(false);
 						super.onFailed(errorMessage);
+						onCancelled();
 					}
 
 					@Override

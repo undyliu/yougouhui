@@ -57,7 +57,7 @@ public class ShareImageAdapter extends BaseAdapter {
 
 			imageView.setLayoutParams(lp);
 			imageView.setAdjustViewBounds(false);
-			imageView.setScaleType(ImageView.ScaleType.CENTER);
+			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 			imageView.setPadding(8, 8, 8, 8);
 		} else {
 			imageView = (ImageView) convertView;

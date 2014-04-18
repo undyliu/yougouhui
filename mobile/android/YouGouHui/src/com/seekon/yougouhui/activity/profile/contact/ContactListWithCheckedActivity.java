@@ -57,7 +57,7 @@ public class ContactListWithCheckedActivity extends ContactListActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		boolean result = super.onCreateOptionsMenu(menu);
-		menu.findItem(R.id.menu_contact_add).setVisible(false);
+		//menu.findItem(R.id.menu_contact_add).setVisible(false);
 		menu.findItem(R.id.menu_contact_confirm).setVisible(true);
 		return result;
 	}
@@ -90,7 +90,7 @@ public class ContactListWithCheckedActivity extends ContactListActivity
 		int id = buttonView.getId();
 		if (isChecked) {
 			UserEntity emp = this.contactDateList.get(id);
-			// emp.setPwd(null);
+			emp.setPwd(null);
 			checkedUserList.add(emp);
 		} else {
 			checkedUserList.remove(this.contactDateList.get(id));

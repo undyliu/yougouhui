@@ -2,6 +2,8 @@ package com.seekon.yougouhui.rest;
 
 import java.net.HttpURLConnection;
 
+import android.os.Build;
+
 public class BaseRestClient extends RestClient {
 
 	@Override
@@ -15,6 +17,10 @@ public class BaseRestClient extends RestClient {
 			}
 		}
 
+		if (Build.VERSION.SDK != null && Build.VERSION.SDK_INT > 13) {
+			conn.setRequestProperty("Connection", "close");
+		}
+		
 		conn.setConnectTimeout(5 * 1000);// 超时时间3秒
 		//conn.setReadTimeout(5 * 1000);
 

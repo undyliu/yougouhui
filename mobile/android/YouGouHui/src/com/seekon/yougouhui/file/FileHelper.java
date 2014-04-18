@@ -164,12 +164,15 @@ public class FileHelper {
 			}
 
 			BitmapFactory.Options o2 = new BitmapFactory.Options();
-			o2.inSampleSize = scale;
-			return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
-		} catch (FileNotFoundException e) {
+			if (scale < 1) {
+				o2.inSampleSize = scale;
+			}
+			return BitmapFactory.decodeFile(f.getPath(), o2);
+			//return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
+		} catch (Throwable e) {
 			Logger.error(TAG, e.getMessage(), e);
+			return null;
 		}
-		return null;
 	}
 
 	public static Drawable getDrawableFromFileCache(String fileName) {
