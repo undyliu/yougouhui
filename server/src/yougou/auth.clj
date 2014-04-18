@@ -14,7 +14,7 @@
 
 (defn authenticated? [handler]
   (fn [request]
-    (println (:session request))
+    ;(println request)
     (if (logged-in? request)
       (handler request)
       {:status 999 :body (json/write-str{:error "请先登录."})}
@@ -33,12 +33,20 @@
   (let [{{phone :phone, password :pwd} :params} request
         user (get-user phone)
         no-error (and (:uuid user) (password-is-valid? password (:pwd user)))]
-    (if no-error
-      (let [result {:authed true :user user}]
-        (assoc-in request [:session :user] user)
-        result
+
+     (if no-error
+       (let [result {:authed true :user user}]
+         {
+          :status 200
+          :session (assoc (request :session) :user user)
+          :body (json/write-str result)
+          }
         )
-      {:authed false, :error-type (if (:uuid user) :pass-error :user-error)}
-    )
+       {
+        :status 200
+         :body (json/write-str {:authed false, :error-type (if (:uuid user) :pass-error :user-error)})
+        }
+       )
+
   )
 )
