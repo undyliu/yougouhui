@@ -38,6 +38,7 @@
 
      (if no-error
        (let [result {:authed true :user user}]
+         ;(println result)
          {
           :status 200
           :session (assoc (request :session) :user user)

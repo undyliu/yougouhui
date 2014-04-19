@@ -12,7 +12,7 @@
 
 (def sale-select-base
   (-> (select* sales)
-      (fields :uuid :title :content :img :start_date :end_date :visit_count :discuss_count :shop_id [:e_shop.name :shop_name] :trade_id :publisher :publish_time :publish_date :e_mapping_ct.channel_id)
+      (fields :uuid :title :content :img :start_date :end_date :visit_count :discuss_count :shop_id [:e_shop.name :shop_name] :e_shop.location :trade_id :publisher :publish_time :publish_date :e_mapping_ct.channel_id)
       (join channel-trades (= :e_mapping_ct.trade_id :trade_id))
       (join shops (= :e_shop.uuid :shop_id))
   )
