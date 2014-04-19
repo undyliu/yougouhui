@@ -10,6 +10,8 @@
         android:id="@+id/sale_promite_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical" >
 
         <ScrollView
@@ -56,8 +58,25 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_sale_discuss_count"
                 android:textSize="12sp" />
+            <ImageView
+                android:id="@+id/img_sale_discuss_expand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/arrow_down" />
         </LinearLayout>
+		<LinearLayout
+            android:id="@+id/discuss_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" >
 
+            <com.seekon.yougouhui.layout.XListView
+                android:id="@+id/listview_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawSelectorOnTop="false" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

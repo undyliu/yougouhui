@@ -181,6 +181,9 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 	}
 
 	private void updateDistanceView(){
+		if(sale  == null){
+			return;
+		}
 		LocationEntity currentLocation = RunEnv.getInstance().getLocationEntity();
 		LocationEntity shopLocation = sale.getShop().getLocation();
 		if(currentLocation != null && shopLocation != null){

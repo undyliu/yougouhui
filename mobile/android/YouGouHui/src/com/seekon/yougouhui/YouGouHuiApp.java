@@ -53,8 +53,8 @@ public class YouGouHuiApp extends Application {
 		option.setIsNeedAddress(true);// 返回的定位结果包含地址信息
 		option.setAddrType("all");// 返回的定位结果包含地址信息
 		option.setCoorType("bd09ll");// 返回的定位结果是百度经纬度,默认值gcj02
-		option.setScanSpan(5000);// 设置发起定位请求的间隔时间为5000ms
-		option.disableCache(true);// 禁止启用缓存定位
+		option.setScanSpan(60* 1000);// 设置发起定位请求的间隔时间为5000ms
+		//option.disableCache(true);// 禁止启用缓存定位
 		option.setPoiNumber(5); // 最多返回POI个数
 		option.setPoiDistance(1000); // poi查询距离
 		option.setPoiExtraInfo(true); // 是否需要POI的电话和地址等详细信息
