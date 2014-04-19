@@ -1,60 +1,84 @@
 package com.seekon.yougouhui.fragment;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CODE;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_IMG;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_ORD_INDEX;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_TYPE;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SimpleAdapter;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.module.ModuleConst;
-import com.seekon.yougouhui.func.module.ModuleServiceHelper;
+import com.seekon.yougouhui.func.module.ModuleEntity;
+import com.seekon.yougouhui.func.module.ModuleProcessor;
+import com.seekon.yougouhui.func.module.widget.ModuleListAdapter;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.util.RUtils;
 
-@SuppressLint("ValidFragment")
-public class ModuleListFragment extends RequestListFragment {
+public abstract class ModuleListFragment extends ListFragment {
 
-	private String type;
+	protected String type;
 
-	protected List<Map<String, ?>> modules = new LinkedList<Map<String, ?>>();
+	protected Activity attachedActivity;
 
-	public ModuleListFragment(String requestResultType, String type) {
-		super(requestResultType);
-		this.type = type;
+	protected List<ModuleEntity> modules = new LinkedList<ModuleEntity>();
+
+	private ModuleListAdapter moduleListAdapter;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		attachedActivity = this.getActivity();
+		
+		moduleListAdapter = new ModuleListAdapter(attachedActivity, modules);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
+		
 		attachedActivity.getActionBar().setNavigationMode(
 				ActionBar.NAVIGATION_MODE_STANDARD);
-		return inflater.inflate(R.layout.base_listview, container, false);
+		
+		View view = inflater.inflate(R.layout.base_listview,
+				container, false);
+		updateViews();
+
+		return view;
 	}
 
-	@Override
-	protected void initRequestId() {
-		requestId = ModuleServiceHelper.getInstance(attachedActivity).getModules(
-				type, requestResultType);
+	protected void updateViews() {
+		this.setListAdapter(moduleListAdapter);
+		if (modules.isEmpty()) {
+			loadModuleList();
+		}
 	}
 
-	@Override
-	protected List<Map<String, ?>> getListItemsFromLocal() {
+	private void loadModuleList() {
+		loadModuleListFromLocal();
+		if (modules.isEmpty()) {
+			loadModuleListFromRemote();
+		} else {
+			moduleListAdapter.updateData(modules);
+		}
+	}
+
+	private void loadModuleListFromLocal() {
 		if (modules.size() == 0) {
 			Cursor cursor = null;
 			try {
@@ -63,36 +87,43 @@ public class ModuleListFragment extends RequestListFragment {
 						new String[] { COL_NAME_UUID, COL_NAME_CODE, COL_NAME_NAME },
 						COL_NAME_TYPE + "= ? ", new String[] { type }, COL_NAME_ORD_INDEX);
 				while (cursor.moveToNext()) {
-					Map values = new HashMap();
+
 					String code = cursor.getString(1);
 					int img = RUtils.getDrawableImg(code);
 					if (img == -1) {
 						img = R.drawable.default_module;
 					}
-					values.put(COL_NAME_UUID, cursor.getInt(0));
-					values.put(COL_NAME_CODE, code);
-					values.put(COL_NAME_NAME, cursor.getString(2));
-					values.put(COL_NAME_IMG, img);
-					modules.add(values);
+
+					modules.add(new ModuleEntity(cursor.getString(0), code, cursor
+							.getString(2), img));
 				}
 			} finally {
 				cursor.close();
 			}
 		}
-		return modules;
 	}
 
-	@Override
-	protected void updateListView(List<Map<String, ?>> data) {
-		SimpleAdapter adapter = new SimpleAdapter(attachedActivity, modules,
-				R.layout.module_item, new String[] { COL_NAME_IMG, COL_NAME_NAME },
-				new int[] { R.id.img, R.id.title });
+	private void loadModuleListFromRemote() {
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>() {
 
-		this.setListAdapter(adapter);
+					@Override
+					public RestMethodResult<JSONArrayResource> doInBackground() {
+						return ModuleProcessor.getInstance(attachedActivity).getModules(
+								type);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+						loadModuleListFromLocal();
+						moduleListAdapter.updateData(modules);
+					}
+				});
 	}
 
 	protected String getModuleCode(int position) {
-		Map module = modules.get(position);
-		return (String) module.get(COL_NAME_CODE);
+		ModuleEntity module = modules.get(position);
+		return module.getCode();
 	}
+	
 }

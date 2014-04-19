@@ -90,9 +90,6 @@
             android:enabled="true"
             android:process=":remote" >
         </service>
-        <service android:name="com.seekon.yougouhui.func.sale.SaleService" />
-        <service android:name=".func.module.ModuleService" />
-        <service android:name=".func.discover.share.ShareService" />
 
         <provider
             android:name="com.seekon.yougouhui.func.sale.ChannelProvider"

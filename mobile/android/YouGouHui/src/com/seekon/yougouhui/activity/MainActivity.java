@@ -1,6 +1,9 @@
 package com.seekon.yougouhui.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,11 +16,14 @@ import android.widget.ImageView;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
+import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.user.UserProfileActivity;
 import com.seekon.yougouhui.fragment.ChannelFragment;
 import com.seekon.yougouhui.fragment.DiscoverFragment;
 import com.seekon.yougouhui.fragment.ProfileFragment;
+import com.seekon.yougouhui.func.LocationEntity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.user.UserEntity;
 
@@ -28,12 +34,14 @@ import com.seekon.yougouhui.func.user.UserEntity;
  * 
  */
 public class MainActivity extends FragmentActivity {
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
 		initView();
+		
 	}
 
 	@Override
@@ -67,7 +75,7 @@ public class MainActivity extends FragmentActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+	
 	private void initView() {
 		FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
@@ -103,4 +111,5 @@ public class MainActivity extends FragmentActivity {
 		Intent intent = new Intent(this, UserProfileActivity.class);
 		this.startActivity(intent);
 	}
+
 }

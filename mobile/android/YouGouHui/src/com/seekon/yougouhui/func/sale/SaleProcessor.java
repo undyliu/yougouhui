@@ -13,7 +13,6 @@ import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.service.ContentProcessor;
-import com.seekon.yougouhui.service.ProcessorCallback;
 import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.Logger;
 
@@ -64,10 +63,9 @@ public class SaleProcessor extends ContentProcessor implements ISaleProcessor {
 		}
 	}
 
-	public void getSalesByChannel(ProcessorCallback callback, String channelId) {
-		GetSalesByChannelMethod method = new GetSalesByChannelMethod(mContext,
-				channelId);
-		this.execMethodWithCallback(method, callback);
+	public RestMethodResult<JSONArrayResource> getSalesByChannel(String channelId) {
+		return (RestMethodResult) this.execMethod(new GetSalesByChannelMethod(
+				mContext, channelId));
 	}
 
 	public RestMethodResult<JSONArrayResource> getSalesByShop(String shopId) {

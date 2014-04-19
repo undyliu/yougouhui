@@ -3,8 +3,9 @@ package com.seekon.yougouhui.func.module;
 import android.content.Context;
 
 import com.seekon.yougouhui.func.spi.IModuleProcessor;
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.service.ContentProcessor;
-import com.seekon.yougouhui.service.ProcessorCallback;
 import com.seekon.yougouhui.service.ProcessorProxy;
 
 public class ModuleProcessor extends ContentProcessor implements
@@ -27,9 +28,9 @@ public class ModuleProcessor extends ContentProcessor implements
 		super(mContext, ModuleData.COL_NAMES, ModuleConst.CONTENT_URI);
 	}
 
-	public void getModules(ProcessorCallback callback, String type) {
-		GetModulesMethod method = new GetModulesMethod(mContext, type);
-		this.execMethodWithCallback(method, callback);
+	@Override
+	public RestMethodResult<JSONArrayResource> getModules(String type) {
+		return (RestMethodResult)this.execMethod(new GetModulesMethod(mContext, type));
 	}
 
 }

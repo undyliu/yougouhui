@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -17,36 +16,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import com.baidu.location.BDLocation;
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.sale.SaleDetailActivity;
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.LocationEntity;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.sale.ChannelEntity;
 import com.seekon.yougouhui.func.sale.SaleData;
 import com.seekon.yougouhui.func.sale.SaleEntity;
-import com.seekon.yougouhui.func.sale.SaleServiceHelper;
+import com.seekon.yougouhui.func.sale.SaleProcessor;
 import com.seekon.yougouhui.func.sale.widget.ChannelSaleListAdapter;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.layout.XListView;
 import com.seekon.yougouhui.layout.XListView.IXListViewListener;
-import com.seekon.yougouhui.service.RequestServiceHelper;
-import com.seekon.yougouhui.util.Logger;
-import com.seekon.yougouhui.util.ViewUtils;
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 
 public class SaleListFragment extends Fragment implements IXListViewListener {
-
-	private static final String TAG = SaleListFragment.class.getSimpleName();
 
 	private ChannelEntity channel;
 
 	private List<SaleEntity> saleList = new LinkedList<SaleEntity>();
 
-	private Long requestId;
-
-	private BroadcastReceiver requestReceiver;
-
 	protected Activity attachedActivity = null;
-
-	protected String requestResultType;
 
 	private XListView listView;
 
@@ -56,12 +51,14 @@ public class SaleListFragment extends Fragment implements IXListViewListener {
 
 	private Handler mHandler;
 
+	private BroadcastReceiver locationReceiver;
+
 	private int currentOffset = 0;// 分页用的当前的数据偏移
 
+	private boolean updateLocation = true;
+	
 	public void setChannel(ChannelEntity channel) {
 		this.channel = channel;
-		requestResultType = SaleServiceHelper.SALE_REQUEST_RESULT + "_"
-				+ channel.hashCode();
 	}
 
 	@Override
@@ -73,27 +70,33 @@ public class SaleListFragment extends Fragment implements IXListViewListener {
 		saleListAdapter = new ChannelSaleListAdapter(attachedActivity, saleList);
 		mHandler = new Handler();
 
-		requestReceiver = new BroadcastReceiver() {
+		locationReceiver = new BroadcastReceiver() {
+
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				Logger.debug(TAG, intent);
-				long resultRequestId = intent.getLongExtra(
-						RequestServiceHelper.EXTRA_REQUEST_ID, 0);
-				if (resultRequestId == requestId) {
-					int resultCode = intent.getIntExtra(
-							RequestServiceHelper.EXTRA_RESULT_CODE, 0);
-					if (resultCode == 200) {
-						updateListItems();
-					} else {
-						ViewUtils.showToast("获取活动数据失败.");
-					}
-				} else {
-					Logger.debug(TAG, "Result is NOT for our request ID");
+				LocationEntity locationEntity = new LocationEntity();
+				BDLocation location = intent
+						.getParcelableExtra(Const.DATA_BROAD_LOCATION);
+				if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
+					locationEntity.setAddress(location.getAddrStr());
 				}
 
+				locationEntity.setLatitude(location.getLatitude());
+				locationEntity.setLontitude(location.getLongitude());
+				locationEntity.setRadius(location.getRadius());
+
+				LocationEntity currentLocation = RunEnv.getInstance()
+						.getLocationEntity();
+				if (currentLocation == null || !currentLocation.equals(locationEntity)) {
+					RunEnv.getInstance().setLocationEntity(locationEntity);			
+					updateLocation = true;
+				}
+				if(updateLocation){
+					saleListAdapter.notifyDataSetChanged();
+					updateLocation = false;
+				}
 			}
 		};
-		updateListItems();
 	}
 
 	@Override
@@ -101,6 +104,25 @@ public class SaleListFragment extends Fragment implements IXListViewListener {
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.base_xlistview, container, false);
+
+		updateViews(view);
+		return view;
+	}
+
+	@Override
+	public void onResume() {
+		attachedActivity.registerReceiver(locationReceiver, new IntentFilter(
+				Const.KEY_BROAD_LOCATION));
+		super.onResume();
+	}
+
+	@Override
+	public void onPause() {
+		attachedActivity.unregisterReceiver(locationReceiver);
+		super.onPause();
+	}
+
+	private void updateViews(View view) {
 		listView = (XListView) view.findViewById(R.id.listview_main);
 		listView.setAdapter(saleListAdapter);
 		listView.setPullLoadEnable(true);
@@ -119,32 +141,46 @@ public class SaleListFragment extends Fragment implements IXListViewListener {
 
 		});
 
-		return view;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		attachedActivity.registerReceiver(requestReceiver, new IntentFilter(
-				requestResultType));
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		if (attachedActivity != null && requestReceiver != null) {
-			attachedActivity.unregisterReceiver(requestReceiver);
+		if (saleList.isEmpty() && channel != null) {
+			loadSaleList();
 		}
 	}
 
-	protected void initRequestId() {
-		requestId = SaleServiceHelper.getInstance(attachedActivity).getMessages(
-				channel.getUuid(), requestResultType);
-
-		currentOffset = 0;
+	private void loadSaleList() {
+		saleList.addAll(getSaleListFromLocal());
+		if (saleList.isEmpty()) {
+			loadSaleListFromRemote();
+		} else {
+			updateListView();
+		}
 	}
 
-	protected List<SaleEntity> getListItemsFromLocal() {
+	private void loadSaleListFromRemote() {
+		if (channel == null) {
+			return;
+		}
+
+		saleList.clear();
+		currentOffset = 0;
+
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>() {
+
+					@Override
+					public RestMethodResult<JSONArrayResource> doInBackground() {
+						return SaleProcessor.getInstance(attachedActivity)
+								.getSalesByChannel(channel.getUuid());
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+						saleList.addAll(getSaleListFromLocal());
+						updateListView();
+					}
+				});
+	}
+
+	private List<SaleEntity> getSaleListFromLocal() {
 		String channelId = channel.getUuid();
 		if (channelId.equals("0")) {
 			channelId = null;
@@ -164,43 +200,13 @@ public class SaleListFragment extends Fragment implements IXListViewListener {
 		saleListAdapter.updateData(saleList);
 	}
 
-	protected void updateListItems() {
-
-		AsyncTask<Void, Void, List<SaleEntity>> task = new AsyncTask<Void, Void, List<SaleEntity>>() {
-			@Override
-			protected List<SaleEntity> doInBackground(Void... params) {
-				Logger.debug(TAG, "getListItemsFromLocal");
-				return getListItemsFromLocal();
-			}
-
-			@Override
-			protected void onPostExecute(List<SaleEntity> result) {
-
-				if (result.size() == 0 && requestId == null) {
-					Logger.debug(TAG, "getListItemsFromRemote");
-					initRequestId();
-				} else {
-					saleList = result;
-					updateListView();
-				}
-			}
-
-			@Override
-			protected void onCancelled() {
-
-			}
-		};
-
-		task.execute((Void) null);
-	}
-
 	@Override
 	public void onRefresh() {
 		mHandler.postDelayed(new Runnable() {
 
 			@Override
 			public void run() {
-				initRequestId();
+				loadSaleListFromRemote();
 			}
 		}, 2000);
 	}
@@ -211,7 +217,7 @@ public class SaleListFragment extends Fragment implements IXListViewListener {
 
 			@Override
 			public void run() {
-				saleList.addAll(getListItemsFromLocal());
+				saleList.addAll(getSaleListFromLocal());
 				updateListView();
 			}
 		}, 2000);

@@ -12,12 +12,12 @@ import com.seekon.yougouhui.activity.profile.favorit.FavoritMainActivity;
 import com.seekon.yougouhui.activity.profile.shop.LoginShopActivity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.module.ModuleConst;
-import com.seekon.yougouhui.func.module.ModuleServiceHelper;
 
 public class ProfileFragment extends ModuleListFragment {
 
 	public ProfileFragment() {
-		super(ModuleServiceHelper.PROFILE_REQUEST_RESULT, "me");
+		super();
+		this.type = "me";
 	}
 
 	@Override

@@ -1,8 +1,9 @@
 package com.seekon.yougouhui.func.spi;
 
-import com.seekon.yougouhui.service.ProcessorCallback;
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 
 public interface IModuleProcessor {
 
-	public void getModules(ProcessorCallback callback, String type);
+	public RestMethodResult<JSONArrayResource> getModules(String type);
 }

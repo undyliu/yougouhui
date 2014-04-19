@@ -22,6 +22,7 @@ import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.spi.IShareProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestStatus;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.rest.resource.Resource;
 import com.seekon.yougouhui.service.ContentProcessor;
@@ -54,12 +55,12 @@ public class ShareProcessor extends ContentProcessor implements IShareProcessor 
 	 * 
 	 * @param callback
 	 */
-	public void getShares(ProcessorCallback callback, String lastPublishTime,
+	public RestMethodResult<JSONArrayResource> getShares(String lastPublishTime,
 			String minPublishTime, String lastCommentPublishTime,
 			String minCommentPublishTime) {
 		GetSharesMethod method = new GetSharesMethod(mContext, lastPublishTime,
 				minPublishTime, lastCommentPublishTime, minCommentPublishTime);
-		this.execMethodWithCallback(method, callback);
+		return (RestMethodResult)this.execMethod(method);
 	}
 
 	@Override

@@ -12,12 +12,7 @@ import java.util.List;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -30,19 +25,16 @@ import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.fragment.listener.ChannelTabChangeListener;
 import com.seekon.yougouhui.func.sale.ChannelConst;
 import com.seekon.yougouhui.func.sale.ChannelEntity;
-import com.seekon.yougouhui.func.sale.SaleServiceHelper;
+import com.seekon.yougouhui.func.sale.ChannelProcessor;
 import com.seekon.yougouhui.func.sale.widget.TabSaleFragmentPagerAdapter;
-import com.seekon.yougouhui.util.Logger;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 
 public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 
-	private static String TAG = ChannelFragment.class.getSimpleName();
-
 	public static final int TAB_SHOW_COUNT = 4;
-
-	private Long requestId;
-
-	private BroadcastReceiver requestReceiver;
 
 	private FragmentActivity attachedActivity = null;
 
@@ -56,6 +48,8 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 
 	private ChannelTabChangeListener channelTabChangeListener = null;
 
+	private List<ChannelEntity> channels = new LinkedList<ChannelEntity>();
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,27 +61,6 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 		actionBar = attachedActivity.getActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
 
-		requestReceiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				long resultRequestId = intent.getLongExtra(
-						SaleServiceHelper.EXTRA_REQUEST_ID, 0);
-				if (resultRequestId == requestId) {
-					int resultCode = intent.getIntExtra(
-							SaleServiceHelper.EXTRA_RESULT_CODE, 0);
-					if (resultCode == 200) {
-						updateTabs();
-					} else {
-						// showToast(getString(R.string.disconnected_server));
-					}
-				} else {
-					Logger.debug(TAG, "Result is NOT for our request ID");
-				}
-
-			}
-		};
-
-		updateTabs();
 	}
 
 	@Override
@@ -96,15 +69,12 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 		mViewPager = (ViewPager) inflater.inflate(R.layout.channel_viewpager,
 				container, false);
 
+		updateViews();
+
 		return mViewPager;
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		attachedActivity.registerReceiver(requestReceiver, new IntentFilter(
-				SaleServiceHelper.CHANNEL_REQUEST_RESULT));
-
+	private void updateViews() {
 		if (mAdapter != null) {
 			mViewPager.setAdapter(mAdapter);
 		}
@@ -112,90 +82,83 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 
 		subChannelViewBuilder.setViewPager(mViewPager);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);// 设置为页签导航模式
+
+		if (channels.isEmpty()) {
+			loadChannels();
+		}
 	}
 
-	@Override
-	public void onPause() {
-		super.onDestroy();
-		Logger.debug(TAG, " onPause channelFragement");
-		attachedActivity.unregisterReceiver(requestReceiver);
+	private void loadChannels() {
+		loadChannelsFromLocal();
+		if (channels.isEmpty()) {
+			loadChannelsFromRemote();
+		} else {
+			updateTabs();
+		}
+	}
+
+	private void loadChannelsFromLocal() {
+		Cursor cursor = null;
+		try {
+			cursor = attachedActivity.getContentResolver().query(
+					ChannelConst.CONTENT_URI,
+					new String[] { COL_NAME_UUID, COL_NAME_CODE, COL_NAME_NAME,
+							COL_NAME_ORD_INDEX }, COL_NAME_PARENT_ID + " is null ", null,
+					COL_NAME_ORD_INDEX);
+			while (cursor.moveToNext()) {
+				int i = 0;
+				channels.add(new ChannelEntity(cursor.getString(i++), cursor
+						.getString(i++), cursor.getString(i++), cursor.getInt(i++)));
+			}
+		} finally {
+			cursor.close();
+		}
 	}
 
 	private void updateTabs() {
-		AsyncTask<Void, Void, List<ChannelEntity>> task = new AsyncTask<Void, Void, List<ChannelEntity>>() {
-			@Override
-			protected List<ChannelEntity> doInBackground(Void... params) {
-				Logger.debug(TAG, "get channels from local db.");
+		int index = 0;
+		List<ChannelEntity> subChannels = channels.subList(TAB_SHOW_COUNT,
+				channels.size());
+		for (ChannelEntity channel : channels) {
 
-				List<ChannelEntity> channels = new LinkedList<ChannelEntity>();
-				Cursor cursor = null;
-				try {
-					cursor = attachedActivity.getContentResolver().query(
-							ChannelConst.CONTENT_URI,
-							new String[] { COL_NAME_UUID, COL_NAME_CODE, COL_NAME_NAME,
-									COL_NAME_ORD_INDEX }, COL_NAME_PARENT_ID + " is null ", null,
-							COL_NAME_ORD_INDEX);
-					while (cursor.moveToNext()) {
-						int i = 0;
-						channels.add(new ChannelEntity(cursor.getString(i++), cursor
-								.getString(i++), cursor.getString(i++), cursor.getInt(i++)));
-					}
-				} finally {
-					cursor.close();
-				}
-				return channels;
+			if (index < TAB_SHOW_COUNT) {
+				ActionBar.Tab channelTab = actionBar.newTab();
+				channelTab.setTabListener(ChannelFragment.this);
+				channelTab.setText(channel.getName());
+				actionBar.addTab(channelTab);
+			} else if (index == TAB_SHOW_COUNT) {
+				ActionBar.Tab channelTab = actionBar.newTab();
+				channelTab.setTabListener(ChannelFragment.this);
+				channelTab.setCustomView(subChannelViewBuilder
+						.getSpinnerView(subChannels));
+				actionBar.addTab(channelTab);
 			}
 
-			@Override
-			protected void onPostExecute(List<ChannelEntity> channels) {
-				if (channels.size() == 0) {
-					updateChannelsRemote();
-					return;
-				}
+			index++;
+		}
 
-				if (mViewPager == null) {
-					mViewPager = (ViewPager) attachedActivity
-							.findViewById(R.id.tabChannelViewPager);
-				}
-
-				int index = 0;
-				List<ChannelEntity> subChannels = channels.subList(TAB_SHOW_COUNT,
-						channels.size());
-				for (ChannelEntity channel : channels) {
-
-					if (index < TAB_SHOW_COUNT) {
-						ActionBar.Tab channelTab = actionBar.newTab();
-						channelTab.setTabListener(ChannelFragment.this);
-						channelTab.setText(channel.getName());
-						actionBar.addTab(channelTab);
-					} else if (index == TAB_SHOW_COUNT) {
-						ActionBar.Tab channelTab = actionBar.newTab();
-						channelTab.setTabListener(ChannelFragment.this);
-						channelTab.setCustomView(subChannelViewBuilder
-								.getSpinnerView(subChannels));
-						actionBar.addTab(channelTab);
-					}
-
-					index++;
-				}
-
-				subChannelViewBuilder.setViewPager(mViewPager);
-				mAdapter = new TabSaleFragmentPagerAdapter(
-						ChannelFragment.this.getChildFragmentManager(), channels);
-				mViewPager.setAdapter(mAdapter);
-				// mViewPager.setCurrentItem(0);
-			}
-		};
-
-		task.execute((Void) null);
+		subChannelViewBuilder.setViewPager(mViewPager);
+		mAdapter = new TabSaleFragmentPagerAdapter(
+				ChannelFragment.this.getChildFragmentManager(), channels);
+		mViewPager.setAdapter(mAdapter);
 	}
 
-	private void updateChannelsRemote() {
-		if (requestId == null) {
-			Logger.debug(TAG, "updateChannelsRemote");
-			requestId = SaleServiceHelper.getInstance(attachedActivity).getChannels(
-					null, SaleServiceHelper.CHANNEL_REQUEST_RESULT);
-		}
+	private void loadChannelsFromRemote() {
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>() {
+
+					@Override
+					public RestMethodResult<JSONArrayResource> doInBackground() {
+						return ChannelProcessor.getInstance(attachedActivity).getChannels(
+								null);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+						loadChannelsFromLocal();
+						updateTabs();
+					}
+				});
 	}
 
 	public SubChannelViewBuilder getSubChannelViewBuilder() {

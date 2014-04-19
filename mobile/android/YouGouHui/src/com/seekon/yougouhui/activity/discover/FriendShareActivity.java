@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -15,7 +16,6 @@ import android.view.MenuItem;
 
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.activity.RequestListActivity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.discover.share.CommentConst;
 import com.seekon.yougouhui.func.discover.share.CommentData;
@@ -23,12 +23,16 @@ import com.seekon.yougouhui.func.discover.share.CommentEntity;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareData;
 import com.seekon.yougouhui.func.discover.share.ShareEntity;
-import com.seekon.yougouhui.func.discover.share.ShareServiceHelper;
+import com.seekon.yougouhui.func.discover.share.ShareProcessor;
 import com.seekon.yougouhui.func.discover.share.widget.ShareListAdapter;
 import com.seekon.yougouhui.func.discover.share.widget.ShareUtils;
 import com.seekon.yougouhui.func.update.UpdateData;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.layout.XListView;
 import com.seekon.yougouhui.layout.XListView.IXListViewListener;
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.util.DateUtils;
 
 /**
@@ -37,8 +41,7 @@ import com.seekon.yougouhui.util.DateUtils;
  * @author undyliu
  * 
  */
-public class FriendShareActivity extends RequestListActivity implements
-		IXListViewListener {
+public class FriendShareActivity extends Activity implements IXListViewListener {
 
 	private static final int SHARE_ACTIVITY_REQUEST_CODE = 100;
 
@@ -66,17 +69,21 @@ public class FriendShareActivity extends RequestListActivity implements
 
 	private String lastCommentPublishTime = null;
 
-	private String minCommnetPublishTime = null;
-
-	public FriendShareActivity() {
-		super(ShareServiceHelper.SHARE_GET_REQUEST_RESULT);
-	}
+	private String minCommentPublishTime = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.base_xlistview);
 
+		initViews();
+
+		if (shares.isEmpty()) {
+			loadShareListData();
+		}
+	}
+
+	private void initViews() {
 		shareListView = (XListView) findViewById(R.id.listview_main);
 		shareListView.setPullLoadEnable(true);
 		shareListView.setXListViewListener(this);
@@ -98,10 +105,34 @@ public class FriendShareActivity extends RequestListActivity implements
 		minPublishTime = this.getMinPublishTime();
 
 		lastCommentPublishTime = this.getLastCommentPublishTime();
-		minCommnetPublishTime = this.getMinCommentPublishTime();
+		minCommentPublishTime = this.getMinCommentPublishTime();
+	}
 
-		shares.addAll(this.getBackShareListFromLocal());
-		updateListView();
+	private void loadShareListData() {
+		shares.addAll(getShareListFromLocal());
+		if (shares.isEmpty()) {
+			loadShareDataFromRemote();
+		} else {
+			this.updateListView();
+		}
+	}
+
+	private void loadShareDataFromRemote() {
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>() {
+
+					@Override
+					public RestMethodResult<JSONArrayResource> doInBackground() {
+						return ShareProcessor.getInstance(FriendShareActivity.this)
+								.getShares(lastPublishTime, minPublishTime,
+										lastCommentPublishTime, minCommentPublishTime);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+						updateListItemByRemoteCall();
+					}
+				});
 	}
 
 	@Override
@@ -138,13 +169,6 @@ public class FriendShareActivity extends RequestListActivity implements
 	private void openShareActivity() {
 		Intent share = new Intent(this, ShareActivity.class);
 		startActivityForResult(share, SHARE_ACTIVITY_REQUEST_CODE);
-	}
-
-	@Override
-	protected void initRequestId() {
-		requestId = ShareServiceHelper.getInstance(FriendShareActivity.this)
-				.getShares(lastPublishTime, minPublishTime, lastCommentPublishTime,
-						minCommnetPublishTime, requestResultType);
 	}
 
 	private String getLastPublishTime() {
@@ -217,24 +241,15 @@ public class FriendShareActivity extends RequestListActivity implements
 		return result;
 	}
 
-	/**
-	 * 根据偏移获取偏移位置之后的数据
-	 */
-	private List<ShareEntity> getBackShareListFromLocal() {
+	private List<ShareEntity> getShareListFromLocal() {
 		String limitSql = " limit " + Const.PAGE_SIZE + " offset " + currentOffset;
-		List<ShareEntity> shares = getShareListFromLocal(null, null, limitSql);
-		currentOffset += shares.size();
-		return shares;
-	}
-
-	public List<ShareEntity> getShareListFromLocal(String selection,
-			String[] selectionArgs, String limitSql) {
 		List<ShareEntity> result = shareData.getShareData(limitSql);
 		for (ShareEntity share : result) {
 			share
 					.setImages(ShareUtils.getShareImagesFromLocal(this, share.getUuid()));
 			share.setComments(getCommentsFromLocal(share.getUuid()));
 		}
+		currentOffset += result.size();
 		return result;
 	}
 
@@ -242,7 +257,6 @@ public class FriendShareActivity extends RequestListActivity implements
 		return commentData.getCommentData(shareId);
 	}
 
-	@Override
 	protected void updateListItemByRemoteCall() {
 		lastUpdateTime = String.valueOf(System.currentTimeMillis());
 		lastPublishTime = this.getLastPublishTime();
@@ -252,15 +266,15 @@ public class FriendShareActivity extends RequestListActivity implements
 		minPublishTime = this.getMinPublishTime();
 
 		lastCommentPublishTime = this.getLastCommentPublishTime();
-		minCommnetPublishTime = this.getMinCommentPublishTime();
+		minCommentPublishTime = this.getMinCommentPublishTime();
 
 		updateData.updateData(ShareConst.TABLE_NAME, lastUpdateTime);
 		updateData.updateData(CommentConst.TABLE_NAME, lastUpdateTime);
 
 		this.currentOffset = 0;
 		shares.clear();
-		shares.addAll(this.getBackShareListFromLocal());
-		// shares.addAll(0, this.getHeadShareListFromLocal());
+		shares.addAll(this.getShareListFromLocal());
+
 		updateListView();
 	}
 
@@ -287,7 +301,7 @@ public class FriendShareActivity extends RequestListActivity implements
 
 			@Override
 			public void run() {
-				initRequestId();
+				loadShareDataFromRemote();
 			}
 		}, 2000);
 	}
@@ -298,7 +312,7 @@ public class FriendShareActivity extends RequestListActivity implements
 
 			@Override
 			public void run() {
-				shares.addAll(getBackShareListFromLocal());
+				shares.addAll(getShareListFromLocal());
 				updateListView();
 			}
 		}, 2000);

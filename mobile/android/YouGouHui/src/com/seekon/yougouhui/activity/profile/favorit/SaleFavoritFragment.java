@@ -3,7 +3,7 @@ package com.seekon.yougouhui.activity.profile.favorit;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_IMG;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_TITLE;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
-import static com.seekon.yougouhui.func.DataConst.LAST_MODIFY_TIME;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_LAST_MODIFY_TIME;
 import static com.seekon.yougouhui.func.profile.favorit.SaleFavoritConst.COL_NAME_SALE_ID;
 import static com.seekon.yougouhui.func.profile.favorit.SaleFavoritConst.COL_NAME_USER_ID;
 
@@ -57,7 +57,7 @@ public class SaleFavoritFragment extends CatalogListFragement {
 		try {
 			cursor = activity.getContentResolver().query(
 					SaleFavoritConst.CONTENT_URI, projection, selection, selectionArgs,
-					LAST_MODIFY_TIME);
+					COL_NAME_LAST_MODIFY_TIME);
 			while (cursor.moveToNext()) {
 				int i = 0;
 				FavoritEntity facorit = new FavoritEntity(cursor.getString(i++),

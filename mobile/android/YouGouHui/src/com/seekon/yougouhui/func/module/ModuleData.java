@@ -14,7 +14,7 @@ import com.seekon.yougouhui.db.AbstractDBHelper;
 public class ModuleData extends AbstractDBHelper {
 
 	public static final String[] COL_NAMES = new String[] { COL_NAME_UUID,
-			COL_NAME_CODE, COL_NAME_NAME, COL_NAME_TYPE };
+			COL_NAME_CODE, COL_NAME_NAME, COL_NAME_TYPE, COL_NAME_IMG };
 
 	public ModuleData(Context context) {
 		super(context);

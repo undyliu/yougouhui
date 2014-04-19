@@ -18,7 +18,7 @@ public class BaseRestClient extends RestClient {
 		}
 
 		if (Build.VERSION.SDK != null && Build.VERSION.SDK_INT > 13) {
-			conn.setRequestProperty("Connection", "close");
+			//conn.setRequestProperty("Connection", "close");
 		}
 		
 		conn.setConnectTimeout(5 * 1000);// 超时时间3秒

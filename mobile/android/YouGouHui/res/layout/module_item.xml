@@ -7,7 +7,7 @@
     >
 
     <ImageView
-        android:id="@+id/img"
+        android:id="@+id/module_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
@@ -17,7 +17,7 @@
         android:contentDescription=""/>
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/module_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"

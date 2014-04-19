@@ -2,6 +2,7 @@ package com.seekon.yougouhui.func.sale;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_IMG;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_LOCATION;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_TITLE;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.sale.SaleConst.COL_NAME_CHANNEL_ID;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,15 +33,19 @@ import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.widget.DateIndexedEntity;
 import com.seekon.yougouhui.util.DateUtils;
+import com.seekon.yougouhui.util.LocationUtils;
+import com.seekon.yougouhui.util.Logger;
 
 public class SaleData extends AbstractDBHelper {
-
+	
+	private final static String TAG = SaleData.class.getSimpleName();
+	
 	public static final String[] COL_NAMES = new String[] { COL_NAME_UUID,
 			COL_NAME_TITLE, COL_NAME_CONTENT, COL_NAME_IMG, COL_NAME_SHOP_ID,
 			COL_NAME_SHOP_NAME, COL_NAME_START_DATE, COL_NAME_END_DATE,
 			COL_NAME_PUBLISHER, COL_NAME_PUBLISH_TIME, COL_NAME_PUBLISH_DATE,
 			COL_NAME_TRADE_ID, COL_NAME_STATUS, COL_NAME_DISCUSS_COUNT,
-			COL_NAME_VISIT_COUNT, COL_NAME_CHANNEL_ID };
+			COL_NAME_VISIT_COUNT, COL_NAME_CHANNEL_ID, COL_NAME_LOCATION };
 
 	public SaleData(Context context) {
 		super(context);
@@ -55,8 +62,8 @@ public class SaleData extends AbstractDBHelper {
 				+ COL_NAME_PUBLISH_TIME + " TEXT, " + COL_NAME_PUBLISHER + " TEXT, "
 				+ COL_NAME_TRADE_ID + " TEXT, " + COL_NAME_PUBLISH_DATE + " TEXT, "
 				+ COL_NAME_STATUS + " TEXT, " + COL_NAME_CHANNEL_ID + " TEXT, "
-				+ COL_NAME_DISCUSS_COUNT + " INTEGER, " + COL_NAME_VISIT_COUNT
-				+ " INTEGER)");
+				+ COL_NAME_LOCATION + " TEXT, " + COL_NAME_DISCUSS_COUNT + " INTEGER, "
+				+ COL_NAME_VISIT_COUNT + " INTEGER)");
 	}
 
 	@Override
@@ -117,7 +124,7 @@ public class SaleData extends AbstractDBHelper {
 
 		List<SaleEntity> result = new ArrayList<SaleEntity>();
 		String sql = " select s.uuid, title, img, content, visit_count, discuss_count, publisher, u.name as user_name"
-				+ ",  shop_id, shop_name "
+				+ ",  shop_id, shop_name, location "
 				+ " from e_sale s join e_user u on s.publisher = u.uuid "
 				+ " where publish_date = ?  ";
 		if (where != null && where.length() > 0) {
@@ -148,6 +155,12 @@ public class SaleData extends AbstractDBHelper {
 				ShopEntity shop = new ShopEntity();
 				shop.setUuid(cursor.getString(i++));
 				shop.setName(cursor.getString(i++));
+				try{
+					shop.setLocation(LocationUtils.fromJSONObject(new JSONObject(cursor.getString(i++))));
+				}catch(Exception e){
+					Logger.warn(TAG, e.getMessage(), e);
+				}
+				
 				sale.setShop(shop);
 
 				result.add(sale);
@@ -161,7 +174,7 @@ public class SaleData extends AbstractDBHelper {
 	public SaleEntity getSale(String uuid) {
 		SaleEntity sale = null;
 		String sql = " select sa.uuid, title, content, start_date, end_date, trade_id, visit_count, discuss_count, sa.status, sa.img "
-				+ ", shop_id, shop_name" + " from e_sale sa where sa.uuid = ? ";
+				+ ", shop_id, shop_name, location" + " from e_sale sa where sa.uuid = ? ";
 		Cursor cursor = null;
 		try {
 			cursor = this.getReadableDatabase().rawQuery(sql, new String[] { uuid });
@@ -182,6 +195,11 @@ public class SaleData extends AbstractDBHelper {
 				ShopEntity shop = new ShopEntity();
 				shop.setUuid(cursor.getString(i++));
 				shop.setName(cursor.getString(i++));
+				try{
+					shop.setLocation(LocationUtils.fromJSONObject(new JSONObject(cursor.getString(i++))));
+				}catch(Exception e){
+					Logger.warn(TAG, e.getMessage(), e);
+				}
 				sale.setShop(shop);
 			}
 		} finally {
@@ -201,7 +219,7 @@ public class SaleData extends AbstractDBHelper {
 			selectionArgs = new String[] { channelId };
 		}
 		String sql = " select sa.uuid, title, content, start_date, end_date, trade_id, visit_count, discuss_count, sa.status, sa.img "
-				+ ", shop_id, shop_name " + " from e_sale sa  ";
+				+ ", shop_id, shop_name, location " + " from e_sale sa  ";
 		if (selection != null) {
 			sql += " where " + selection;
 		}
@@ -232,6 +250,11 @@ public class SaleData extends AbstractDBHelper {
 				ShopEntity shop = new ShopEntity();
 				shop.setUuid(cursor.getString(i++));
 				shop.setName(cursor.getString(i++));
+				try{
+					shop.setLocation(LocationUtils.fromJSONObject(new JSONObject(cursor.getString(i++))));
+				}catch(Exception e){
+					Logger.warn(TAG, e.getMessage(), e);
+				}
 				sale.setShop(shop);
 
 				result.add(sale);

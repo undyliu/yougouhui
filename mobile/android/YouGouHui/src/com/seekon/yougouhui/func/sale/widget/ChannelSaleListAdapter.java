@@ -13,7 +13,10 @@ import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.ImageLoader;
+import com.seekon.yougouhui.func.LocationEntity;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.sale.SaleEntity;
+import com.seekon.yougouhui.util.LocationUtils;
 
 public class ChannelSaleListAdapter extends BaseAdapter {
 	private static final int SALE_IMAGE_WIDTH = 150;
@@ -91,7 +94,13 @@ public class ChannelSaleListAdapter extends BaseAdapter {
 		publisherView.getPaint().setFakeBoldText(true);
 
 		TextView distanceView = (TextView) view.findViewById(R.id.shop_distance);
-		distanceView.setText("500");
+		LocationEntity currentLocation = RunEnv.getInstance().getLocationEntity();
+		LocationEntity shopLocation = sale.getShop().getLocation();
+		if(currentLocation != null && shopLocation != null){
+			distanceView.setText(String.valueOf(LocationUtils.distance(currentLocation, shopLocation)));
+		}else{
+			distanceView.setText("未知");
+		}
 		distanceView.getPaint().setFakeBoldText(true);
 
 		return view;

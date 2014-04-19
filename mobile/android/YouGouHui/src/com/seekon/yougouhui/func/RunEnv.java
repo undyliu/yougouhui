@@ -16,6 +16,8 @@ public class RunEnv {
 
 	private String sessionId = null;// 键值对格式:key=value
 
+	private LocationEntity locationEntity;
+	
 	private RunEnv() {
 	}
 
@@ -50,6 +52,14 @@ public class RunEnv {
 
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
+	}
+
+	public LocationEntity getLocationEntity() {
+		return locationEntity;
+	}
+
+	public void setLocationEntity(LocationEntity locationEntity) {
+		this.locationEntity = locationEntity;
 	}
 
 }

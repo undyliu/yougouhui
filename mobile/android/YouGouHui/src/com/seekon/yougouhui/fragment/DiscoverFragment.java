@@ -7,12 +7,12 @@ import android.widget.ListView;
 import com.seekon.yougouhui.activity.discover.FriendShareActivity;
 import com.seekon.yougouhui.activity.discover.RadarActivity;
 import com.seekon.yougouhui.func.module.ModuleConst;
-import com.seekon.yougouhui.func.module.ModuleServiceHelper;
 
 public class DiscoverFragment extends ModuleListFragment {
 
 	public DiscoverFragment() {
-		super(ModuleServiceHelper.DISCOVER_REQUEST_RESULT, "discover");
+		super();
+		this.type = "discover";
 	}
 
 	@Override

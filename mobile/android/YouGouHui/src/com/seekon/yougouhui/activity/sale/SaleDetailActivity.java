@@ -6,7 +6,10 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,12 +27,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
+import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.ImagePreviewActivity;
 import com.seekon.yougouhui.activity.discover.ShareActivity;
 import com.seekon.yougouhui.activity.profile.shop.ShopBaseInfoActivity;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.LocationEntity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.profile.favorit.SaleFavoritProcessor;
 import com.seekon.yougouhui.func.profile.shop.ShopConst;
@@ -49,6 +55,7 @@ import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.DateUtils;
+import com.seekon.yougouhui.util.LocationUtils;
 import com.seekon.yougouhui.util.ViewUtils;
 import com.seekon.yougouhui.widget.ImageListRemoteAdapter;
 
@@ -80,7 +87,8 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 
 	private Menu menu;
 	private boolean saleFavorited = false;
-
+	private BroadcastReceiver locationReceiver;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -96,9 +104,47 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 		saleDiscussData = new SaleDiscussData(this);
 
 		initViews();
+		locationReceiver = new BroadcastReceiver() {
+			
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				LocationEntity locationEntity = new LocationEntity();
+				BDLocation location = intent
+						.getParcelableExtra(Const.DATA_BROAD_LOCATION);
+				if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
+					locationEntity.setAddress(location.getAddrStr());
+				}
+
+				locationEntity.setLatitude(location.getLatitude());
+				locationEntity.setLontitude(location.getLongitude());
+				locationEntity.setRadius(location.getRadius());
+
+				LocationEntity currentLocation = RunEnv.getInstance()
+						.getLocationEntity();
+				if (currentLocation == null || !currentLocation.equals(locationEntity)) {
+					RunEnv.getInstance().setLocationEntity(locationEntity);			
+				}
+				
+				updateDistanceView();
+			}
+		};
+		
 		loadSaleData();
 	}
 
+	@Override
+	public void onResume() {
+		this.registerReceiver(locationReceiver, new IntentFilter(
+				Const.KEY_BROAD_LOCATION));
+		super.onResume();
+	}
+
+	@Override
+	public void onPause() {
+		this.unregisterReceiver(locationReceiver);
+		super.onPause();
+	}
+	
 	private void initViews() {
 		titleView = (TextView) findViewById(R.id.sale_title);
 		contentView = (TextView) findViewById(R.id.sale_content);
@@ -134,6 +180,17 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 		discussButton = (Button) findViewById(R.id.b_discuss);
 	}
 
+	private void updateDistanceView(){
+		LocationEntity currentLocation = RunEnv.getInstance().getLocationEntity();
+		LocationEntity shopLocation = sale.getShop().getLocation();
+		if(currentLocation != null && shopLocation != null){
+			distanceView.setText(String.valueOf(LocationUtils.distance(currentLocation, shopLocation)));
+		}else{
+			distanceView.setText("未知");
+		}
+		distanceView.getPaint().setFakeBoldText(true);
+	}
+	
 	private void updateViews() {
 		if (sale == null) {
 			return;
@@ -157,8 +214,7 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 			}
 		});
 
-		distanceView.setText("500");
-		distanceView.getPaint().setFakeBoldText(true);
+		updateDistanceView();
 
 		endDateView.setText(DateUtils.getDateString_yyyyMMdd(new Date(sale
 				.getEndDate())));
