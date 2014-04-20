@@ -12,10 +12,7 @@ import java.util.Map;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -37,7 +34,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
-import com.seekon.yougouhui.Const;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.DataConst;
@@ -57,6 +55,7 @@ import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
+import com.seekon.yougouhui.util.LocationUtils;
 import com.seekon.yougouhui.util.ViewUtils;
 
 /**
@@ -103,8 +102,8 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 	private TextView pwdConfView;
 
 	private LocationEntity locationEntity = new LocationEntity();
-	private BroadcastReceiver locationReceiver;
-
+	private LocationClient mLocationClient = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -117,24 +116,9 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 
 		initViews();
 
-		locationReceiver = new BroadcastReceiver() {
-
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				BDLocation location = intent
-						.getParcelableExtra(Const.DATA_BROAD_LOCATION);
-				
-				if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
-					addrView.setText(location.getAddrStr());
-					locationEntity.setAddress(location.getAddrStr());
-				}
-
-				locationEntity.setLatitude(location.getLatitude());
-				locationEntity.setLontitude(location.getLongitude());
-				locationEntity.setRadius(location.getRadius());
-			}
-
-		};
+		mLocationClient = new LocationClient(getApplicationContext()); // 声明LocationClient类
+		mLocationClient.registerLocationListener(new MyLocationListener());
+		mLocationClient.setLocOption(LocationUtils.getDefaultLocationOption());
 
 	}
 
@@ -160,18 +144,6 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
-	protected void onResume() {
-		this.registerReceiver(locationReceiver, new IntentFilter(
-				Const.KEY_BROAD_LOCATION));
-		super.onResume();
-	}
-
-	@Override
-	protected void onPause() {
-		this.unregisterReceiver(locationReceiver);
-		super.onPause();
-	}
 
 	private void initViews() {
 		licenseInfoView = mInflater.inflate(R.layout.shop_register_license, null);
@@ -280,6 +252,30 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 		task.execute((Void) null);
 	}
 
+	@Override
+	protected void onStart() {
+		mLocationClient.start();// 开始定位
+		super.onStart();
+	}
+	
+	@Override
+	protected void onStop() {
+		if (mLocationClient != null && this.mLocationClient.isStarted()) {
+			mLocationClient.stop();
+			mLocationClient = null;
+		}
+		
+		super.onStop();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		if(mLocationClient != null){
+			mLocationClient = null;
+		}
+		super.onDestroy();
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
@@ -508,4 +504,28 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 
 	}
 
+	class MyLocationListener implements BDLocationListener {
+
+		@Override
+		public void onReceiveLocation(BDLocation location) {
+			if (location == null) {
+				return;
+			}
+
+			if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
+				addrView.setText(location.getAddrStr());
+				locationEntity.setAddress(location.getAddrStr());
+			}
+
+			locationEntity.setLatitude(location.getLatitude());
+			locationEntity.setLontitude(location.getLongitude());
+			locationEntity.setRadius(location.getRadius());
+		}
+
+		@Override
+		public void onReceivePoi(BDLocation poiLocation) {
+
+		}
+
+	}
 }
