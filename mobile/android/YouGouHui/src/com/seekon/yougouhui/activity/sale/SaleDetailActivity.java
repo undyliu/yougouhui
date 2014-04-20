@@ -33,6 +33,7 @@ import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.ImagePreviewActivity;
 import com.seekon.yougouhui.activity.discover.ShareActivity;
 import com.seekon.yougouhui.activity.profile.shop.ShopBaseInfoActivity;
+import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.LocationEntity;
@@ -234,7 +235,7 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 			public void onClick(View v) {
 				Intent intent = new Intent(SaleDetailActivity.this,
 						ImagePreviewActivity.class);
-				intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, sale.getImg());
+				intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, new FileEntity(null, sale.getImg()));
 				intent.putExtra(ImagePreviewActivity.IMAGE_INDEX_IN_CONTAINER, 0);
 				intent.putExtra(ImagePreviewActivity.IMAGE_DELETE_FLAG, false);
 
@@ -293,7 +294,7 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 			public void onSuccess(RestMethodResult<JSONObjResource> result) {
 				showProgress(false);
 				sale = SaleUtils.getSale(SaleDetailActivity.this, saleId);
-				sale.getImages().remove(sale.getImg());
+				//sale.getImages().remove(sale.getImg());
 
 				updateViews();
 			}

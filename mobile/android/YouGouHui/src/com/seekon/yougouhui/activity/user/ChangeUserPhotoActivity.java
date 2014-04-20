@@ -5,6 +5,7 @@ import android.view.MenuItem;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.ChangeImageInfoActivity;
+import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.user.UserProcessor;
 import com.seekon.yougouhui.func.widget.AbstractChangeInfoTask;
@@ -22,7 +23,7 @@ public class ChangeUserPhotoActivity extends ChangeImageInfoActivity {
 
 	@Override
 	protected void doChangeImage(final MenuItem item) {
-		if (imageUri.equals(RunEnv.getInstance().getUser().getPhoto())) {
+		if (imageFile.equals(RunEnv.getInstance().getUser().getPhoto())) {
 			ViewUtils.showToast("头像未做修改，不需要保存更新.");
 			return;
 		}
@@ -32,7 +33,7 @@ public class ChangeUserPhotoActivity extends ChangeImageInfoActivity {
 			@Override
 			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
 				return UserProcessor.getInstance(ChangeUserPhotoActivity.this)
-						.updateUserPhoto(imageUri);
+						.updateUserPhoto(imageFile);
 			}
 
 			@Override
@@ -54,8 +55,9 @@ public class ChangeUserPhotoActivity extends ChangeImageInfoActivity {
 	}
 
 	@Override
-	protected String getImageFileName() {
-		return RunEnv.getInstance().getUser().getPhoto();
+	protected FileEntity getImageFile() {
+		String aliasName = RunEnv.getInstance().getUser().getPhoto();
+		return new FileEntity(null, aliasName);
 	}
 
 	@Override

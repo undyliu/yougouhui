@@ -21,6 +21,7 @@ import com.seekon.yougouhui.activity.profile.shop.ChooseShopActivity;
 import com.seekon.yougouhui.barcode.MipcaActivityCapture;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
+import com.seekon.yougouhui.func.discover.share.ShareEntity;
 import com.seekon.yougouhui.func.discover.share.ShareProcessor;
 import com.seekon.yougouhui.func.profile.shop.ShopConst;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
@@ -148,13 +149,13 @@ public class ShareActivity extends PicContainerActivity {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
-						UserEntity user = RunEnv.getInstance().getUser();
-						Map share = new HashMap();
-						share.put(ShareConst.COL_NAME_PUBLISHER, user.getUuid());
-						share.put(COL_NAME_CONTENT, shareContent);
-						share.put(ShareConst.DATA_IMAGE_KEY, imageFileUriList);
-						share.put(ShareConst.COL_NAME_SHOP_ID, choosedShopId);
-
+						
+						ShareEntity share = new ShareEntity();
+						share.setContent(shareContent);
+						share.setShopId(choosedShopId);
+						share.setPublisher(RunEnv.getInstance().getUser());
+						share.setImages(imageFileUriList);
+						
 						IShareProcessor processor = ShareProcessor
 								.getInstance(ShareActivity.this);
 						return processor.postShare(share);

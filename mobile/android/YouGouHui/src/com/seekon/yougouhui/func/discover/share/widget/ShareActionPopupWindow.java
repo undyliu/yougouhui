@@ -1,6 +1,5 @@
 package com.seekon.yougouhui.func.discover.share.widget;
 
-import java.io.File;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -16,6 +15,7 @@ import android.widget.PopupWindow;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.discover.FriendShareActivity;
 import com.seekon.yougouhui.activity.profile.ShareDetailActivity;
+import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
@@ -121,10 +121,9 @@ public class ShareActionPopupWindow extends PopupWindow {
 										ShareListAdapter adapter = ((FriendShareActivity) activity)
 												.getShareListAdapter();
 
-										List<String> images = share.getImages();
-										for (String image : images) {
-											File file = FileHelper.getFileFromCache(image);
-											file.delete();
+										List<FileEntity> images = share.getImages();
+										for (FileEntity image : images) {
+											FileHelper.deleteCacheFile(image);
 										}
 
 										((FriendShareActivity) activity).getShares().remove(share);

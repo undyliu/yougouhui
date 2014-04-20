@@ -8,6 +8,7 @@ import org.json.JSONException;
 
 import android.content.Context;
 
+import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.spi.IUserProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
@@ -109,7 +110,7 @@ public class UserProcessor extends ContentProcessor implements IUserProcessor {
 	 * @param photoUri
 	 * @return
 	 */
-	public RestMethodResult<JSONObjResource> updateUserPhoto(String photoUri) {
+	public RestMethodResult<JSONObjResource> updateUserPhoto(FileEntity photoUri) {
 		return (RestMethodResult) this.execMethod(new PostUserPhotoMethod(mContext,
 				photoUri));
 	}

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.file.ImageLoader;
 
 /**
@@ -26,9 +27,9 @@ public class ImagePreviewActivity extends Activity {
 
 	public static final String IMAGE_DELETE_FLAG = "image.delete.flag";
 
-	public static final String SHOW_BY_LOCAL_FILE = "show.by.local.file";
+	// public static final String SHOW_BY_LOCAL_FILE = "show.by.local.file";
 
-	String imageFileName = null;
+	FileEntity imageFile = null;
 
 	int imageIndex = 0;
 
@@ -45,16 +46,18 @@ public class ImagePreviewActivity extends Activity {
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		Intent intent = this.getIntent();
-		imageFileName = intent.getExtras().getString(IMAGE_SRC_KEY);
+		imageFile = (FileEntity) intent.getExtras().getSerializable(IMAGE_SRC_KEY);
 		imageIndex = intent.getExtras().getInt(IMAGE_INDEX_IN_CONTAINER);
 		showDeleteMenuItem = intent.getExtras().getBoolean(IMAGE_DELETE_FLAG);
-		showByLocalFile = intent.getExtras().getBoolean(SHOW_BY_LOCAL_FILE);
+		// showByLocalFile = intent.getExtras().getBoolean(SHOW_BY_LOCAL_FILE);
+		showByLocalFile = imageFile.getFileUri() != null;
 
 		ImageView view = (ImageView) this.findViewById(R.id.image_preview_id);
 		if (showByLocalFile) {
-			view.setImageURI(Uri.parse(imageFileName));
+			view.setImageURI(Uri.parse(imageFile.getFileUri()));
 		} else {
-			ImageLoader.getInstance().displayImage(imageFileName, view, false);
+			ImageLoader.getInstance().displayImage(imageFile.getAliasName(), view,
+					false);
 		}
 	}
 
@@ -86,7 +89,7 @@ public class ImagePreviewActivity extends Activity {
 	private void deleteImage() {
 		Intent intent = new Intent();
 		intent.putExtra(IMAGE_DELETE_FLAG, true);
-		intent.putExtra(IMAGE_SRC_KEY, imageFileName);
+		intent.putExtra(IMAGE_SRC_KEY, imageFile);
 		intent.putExtra(IMAGE_INDEX_IN_CONTAINER, imageIndex);
 		this.setResult(RESULT_OK, intent);
 		this.finish();

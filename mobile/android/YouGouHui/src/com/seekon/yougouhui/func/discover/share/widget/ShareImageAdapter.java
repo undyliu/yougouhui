@@ -12,6 +12,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.seekon.yougouhui.activity.ImagePreviewActivity;
+import com.seekon.yougouhui.file.FileEntity;
+import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.file.ImageLoader;
 
 public class ShareImageAdapter extends BaseAdapter {
@@ -20,14 +22,14 @@ public class ShareImageAdapter extends BaseAdapter {
 
 	private Context mContext;
 
-	private List<String> images;
+	private List<FileEntity> images;
 
-	public ShareImageAdapter(Context mContext, List<String> images) {
+	public ShareImageAdapter(Context mContext, List<FileEntity> images) {
 		super();
 		this.mContext = mContext;
 		this.images = images;
 		if (images == null) {
-			this.images = new ArrayList<String>();
+			this.images = new ArrayList<FileEntity>();
 		}
 	}
 
@@ -63,8 +65,16 @@ public class ShareImageAdapter extends BaseAdapter {
 			imageView = (ImageView) convertView;
 		}
 
-		final String image = (String) this.getItem(position);
-		ImageLoader.getInstance().displayImage(image, imageView, true);
+		final FileEntity image = (FileEntity) this.getItem(position);
+		String fileUri = image.getFileUri();
+		if (fileUri != null) {
+			imageView.setImageBitmap(FileHelper.decodeFile(fileUri, true,
+					IMAGE_VIEW_WIDTH, IMAGE_VIEW_WIDTH));
+		} else {
+			ImageLoader.getInstance().displayImage(image.getAliasName(), imageView,
+					true);
+		}
+
 		imageView.setOnClickListener(new View.OnClickListener() {
 
 			@Override

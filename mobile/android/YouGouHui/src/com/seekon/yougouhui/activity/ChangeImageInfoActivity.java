@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.util.ViewUtils;
@@ -28,9 +29,7 @@ public abstract class ChangeImageInfoActivity extends Activity {
 
 	protected ImageView photoView = null;
 
-	protected String imageUri = null;
-
-	private boolean showLocalImage = false;
+	protected FileEntity imageFile = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +44,9 @@ public abstract class ChangeImageInfoActivity extends Activity {
 				ICON_WIDTH));
 		photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-		imageUri = getImageFileName();
-		if (imageUri != null && imageUri.length() > 0) {
-			addUserIconToView(true);
+		imageFile = getImageFile();
+		if (imageFile != null) {
+			addUserIconToView();
 		} else {
 			photoView.setImageResource(R.drawable.add_camera);
 		}
@@ -99,23 +98,24 @@ public abstract class ChangeImageInfoActivity extends Activity {
 							null, null, null);
 					cursor.moveToFirst();
 					int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-					showLocalImage = true;
-					imageUri = cursor.getString(columnIndex);
+					String fileUrl = cursor.getString(columnIndex);
+					imageFile = new FileEntity(fileUrl, FileHelper.getAliasName(fileUrl));
 				} finally {
 					cursor.close();
 				}
-				addUserIconToView(false);
+				addUserIconToView();
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	private void addUserIconToView(boolean fileName) {
-		if (fileName) {
-			ImageLoader.getInstance().displayImage(imageUri, photoView, true);
-		} else {
-			photoView.setImageBitmap(FileHelper.decodeFile(imageUri, true,
+	private void addUserIconToView() {
+		String fileUrl = imageFile.getFileUri();
+		if(fileUrl != null && fileUrl.trim().length() > 0){
+			photoView.setImageBitmap(FileHelper.decodeFile(fileUrl, true,
 					ICON_WIDTH, ICON_WIDTH));
+		}else{
+			ImageLoader.getInstance().displayImage(imageFile.getAliasName(), photoView, true);
 		}
 
 		final ImageButton iconPreview = (ImageButton) findViewById(R.id.image_icon_preview);
@@ -126,9 +126,9 @@ public abstract class ChangeImageInfoActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(ChangeImageInfoActivity.this,
 						ImagePreviewActivity.class);
-				intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, imageUri);
-				intent
-						.putExtra(ImagePreviewActivity.SHOW_BY_LOCAL_FILE, showLocalImage);
+				intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, imageFile);
+//				intent
+//						.putExtra(ImagePreviewActivity.SHOW_BY_LOCAL_FILE, showLocalImage);
 				intent.putExtra(ImagePreviewActivity.IMAGE_DELETE_FLAG, false);
 				startActivity(intent);
 			}
@@ -143,7 +143,7 @@ public abstract class ChangeImageInfoActivity extends Activity {
 				photoView.setImageResource(R.drawable.add_camera);
 				iconDel.setVisibility(View.GONE);
 				iconPreview.setVisibility(View.GONE);
-				imageUri = "";
+				imageFile = null;
 			}
 		});
 	}
@@ -157,5 +157,5 @@ public abstract class ChangeImageInfoActivity extends Activity {
 
 	protected abstract int getImageLabel();
 
-	protected abstract String getImageFileName();
+	protected abstract FileEntity getImageFile();
 }

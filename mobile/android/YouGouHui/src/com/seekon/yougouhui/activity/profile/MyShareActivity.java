@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.activity.DateIndexedListActivity;
+import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareData;
@@ -57,10 +58,9 @@ public class MyShareActivity extends DateIndexedListActivity {
 
 				ShareEntity share = (ShareEntity) data
 						.getSerializableExtra(ShareConst.DATA_SHARE_KEY);
-				List<String> images = share.getImages();
-				for (String image : images) {
-					File file = FileHelper.getFileFromCache(image);
-					file.delete();
+				List<FileEntity> images = share.getImages();
+				for (FileEntity image : images) {
+					FileHelper.deleteCacheFile(image);
 				}
 
 				DateIndexedEntity entity = dataList.get(position);

@@ -1,5 +1,6 @@
 package com.seekon.yougouhui.activity.profile.shop;
 
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.ImagePreviewActivity;
+import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.profile.shop.ShopConst;
@@ -85,7 +87,7 @@ public class SetShopBarcodeActivity extends Activity {
 				public void onClick(View v) {
 					Intent intent = new Intent(SetShopBarcodeActivity.this,
 							ImagePreviewActivity.class);
-					intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, barcode);
+					intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, new FileEntity(null, barcode));
 					intent.putExtra(ImagePreviewActivity.IMAGE_DELETE_FLAG, false);
 					startActivity(intent);
 				}

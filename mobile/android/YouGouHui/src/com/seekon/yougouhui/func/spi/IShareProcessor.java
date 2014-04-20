@@ -2,6 +2,7 @@ package com.seekon.yougouhui.func.spi;
 
 import java.util.Map;
 
+import com.seekon.yougouhui.func.discover.share.ShareEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
@@ -12,7 +13,7 @@ public interface IShareProcessor {
 			String minPublishTime, String lastCommentPublishTime,
 			String minCommentPublishTime);
 
-	public RestMethodResult<JSONObjResource> postShare(Map share);
+	public RestMethodResult<JSONObjResource> postShare(ShareEntity share);
 
 	public RestMethodResult<JSONObjResource> postComment(
 			Map<String, String> comment);

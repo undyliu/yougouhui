@@ -3,7 +3,6 @@ package com.seekon.yougouhui.file;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -45,6 +44,11 @@ public class FileHelper {
 		return new File(FileCache.getInstance().getCacheDir(), fileName);
 	}
 
+	public static void deleteCacheFile(FileEntity file){
+		if(file.getFileUri() != null){
+			deleteCacheFile(file.getFileUri());
+		}
+	}
 	/**
 	 * 删除cache目录下制定路径的文件
 	 * 
@@ -168,7 +172,7 @@ public class FileHelper {
 				o2.inSampleSize = scale;
 			}
 			return BitmapFactory.decodeFile(f.getPath(), o2);
-			//return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
+			// return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
 		} catch (Throwable e) {
 			Logger.error(TAG, e.getMessage(), e);
 			return null;
@@ -178,5 +182,10 @@ public class FileHelper {
 	public static Drawable getDrawableFromFileCache(String fileName) {
 		File file = getFileFromCache(fileName);
 		return Drawable.createFromPath(file.getParent());
+	}
+
+	public static String getAliasName(String fileUri) {
+		return new File(fileUri).getPath().hashCode() + "_"
+				+ System.currentTimeMillis() + ".png";
 	}
 }

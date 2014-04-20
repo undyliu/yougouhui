@@ -11,6 +11,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.seekon.yougouhui.activity.ImagePreviewActivity;
+import com.seekon.yougouhui.file.FileEntity;
+import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.file.ImageLoader;
 
 /**
@@ -22,10 +24,10 @@ import com.seekon.yougouhui.file.ImageLoader;
 public class ImageListRemoteAdapter extends BaseAdapter {
 
 	private Context context;
-	private List<String> imageList;
+	private List<FileEntity> imageList;
 	private int iconWidth = 0;
 
-	public ImageListRemoteAdapter(Context context, List<String> imageList,
+	public ImageListRemoteAdapter(Context context, List<FileEntity> imageList,
 			int iconWidth) {
 		super();
 		this.context = context;
@@ -49,12 +51,19 @@ public class ImageListRemoteAdapter extends BaseAdapter {
 		holder.imageView.setLayoutParams(new AbsListView.LayoutParams(iconWidth,
 				iconWidth));
 		holder.imageView.setAdjustViewBounds(false);
-		holder.imageView.setScaleType(ImageView.ScaleType.CENTER);
+		holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-		final String image = imageList.get(position);
-		if (image != null && image.trim().length() > 0) {
+		final FileEntity image = imageList.get(position);
+		String fileUrl = image.getFileUri();
+		String aliasName = image.getAliasName();
+
+		if (fileUrl != null && fileUrl.trim().length() > 0) {
 			holder.imageView.setVisibility(ImageView.VISIBLE);
-			ImageLoader.getInstance().displayImage(image, holder.imageView, true);
+			holder.imageView.setImageBitmap(FileHelper.decodeFile(fileUrl, true,
+					iconWidth, iconWidth));
+		} else if (aliasName != null && aliasName.trim().length() > 0) {
+			holder.imageView.setVisibility(ImageView.VISIBLE);
+			ImageLoader.getInstance().displayImage(aliasName, holder.imageView, true);
 		} else {
 			holder.imageView.setVisibility(ImageView.INVISIBLE);
 		}

@@ -30,27 +30,22 @@ public class PostUserPhotoMethod extends MultipartRestMethod<JSONObjResource> {
 	private static final URI SAVE_USER_PHOTO_URI = URI
 			.create(Const.SERVER_APP_URL + "/saveUserPhoto");
 
-	private String photoUri;
+	private FileEntity photo;
 
-	public PostUserPhotoMethod(Context context, String photoUri) {
+	public PostUserPhotoMethod(Context context, FileEntity photo) {
 		super(context);
-		this.photoUri = photoUri;
+		this.photo = photo;
 	}
 
 	@Override
 	protected Request buildRequest() {
 		UserEntity user = RunEnv.getInstance().getUser();
 		List<FileEntity> files = new ArrayList<FileEntity>();
-		String photoName = "";
-
-		if (photoUri != null && photoUri.length() > 0) {
-			photoName = user.getPhone() + "_" + System.currentTimeMillis() + ".png";
-			files.add(new FileEntity(photoUri, photoName));
-		}
+		files.add(photo);
 
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(COL_NAME_UUID, user.getUuid());
-		params.put(COL_NAME_USER_ICON, photoName);
+		params.put(COL_NAME_USER_ICON, photo.getAliasName());
 
 		return new MultipartRequest(SAVE_USER_PHOTO_URI, null, params, files);
 	}

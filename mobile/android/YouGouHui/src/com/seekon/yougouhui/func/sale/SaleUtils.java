@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.profile.favorit.SaleFavoritConst;
 import com.seekon.yougouhui.util.Logger;
@@ -34,9 +35,10 @@ public class SaleUtils {
 					new String[] { DataConst.COL_NAME_IMG },
 					SaleImgConst.COL_NAME_SALE_ID + "=?",
 					new String[] { sale.getUuid() }, DataConst.COL_NAME_ORD_INDEX);
-			List<String> images = new ArrayList<String>();
+			List<FileEntity> images = new ArrayList<FileEntity>();
 			while (cursor.moveToNext()) {
-				images.add(cursor.getString(0));
+				FileEntity file = new FileEntity(null, cursor.getString(0));
+				images.add(file);
 			}
 			sale.setImages(images);
 		} finally {

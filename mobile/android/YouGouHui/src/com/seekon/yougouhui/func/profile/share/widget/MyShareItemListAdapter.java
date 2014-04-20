@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.profile.MyShareActivity;
 import com.seekon.yougouhui.activity.profile.ShareDetailActivity;
+import com.seekon.yougouhui.file.FileEntity;
+import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.discover.share.ShareConst;
 import com.seekon.yougouhui.func.discover.share.ShareEntity;
@@ -66,16 +68,23 @@ public class MyShareItemListAdapter extends BaseAdapter {
 		TextView imageCountView = (TextView) view
 				.findViewById(R.id.share_item_image_count);
 		ImageView imageView = (ImageView) view.findViewById(R.id.share_item_image);
-		List<String> imageUrls = share.getImages();
-		if (imageUrls.size() > 0) {
+		List<FileEntity> imageFiles = share.getImages();
+		if (imageFiles.size() > 0) {
 			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 			imageView.setLayoutParams(new LinearLayout.LayoutParams(
 					SHARE_IMAGE_WIDHT, SHARE_IMAGE_WIDHT));
 			imageView.setVisibility(View.VISIBLE);
-			ImageLoader.getInstance().displayImage(imageUrls.get(0), imageView, true);
+			String fileUri = imageFiles.get(0).getFileUri();
+			if (fileUri != null) {
+				imageView.setImageBitmap(FileHelper.decodeFile(fileUri, true,
+						SHARE_IMAGE_WIDHT, SHARE_IMAGE_WIDHT));
+			} else {
+				ImageLoader.getInstance().displayImage(
+						imageFiles.get(0).getAliasName(), imageView, true);
+			}
 
 			imageCountView.setVisibility(View.VISIBLE);
-			imageCountView.setText("共" + imageUrls.size() + "张");
+			imageCountView.setText("共" + imageFiles.size() + "张");
 		} else {
 			imageView.setVisibility(View.GONE);
 			imageCountView.setVisibility(View.GONE);

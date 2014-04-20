@@ -203,7 +203,7 @@ public class ShareProcessor extends ContentProcessor implements IShareProcessor 
 	/**
 	 * 保存发布分享的信息
 	 */
-	public RestMethodResult<JSONObjResource> postShare(Map share) {
+	public RestMethodResult<JSONObjResource> postShare(ShareEntity share) {
 		return new PostShareMethod(share, mContext).execute();
 	}
 

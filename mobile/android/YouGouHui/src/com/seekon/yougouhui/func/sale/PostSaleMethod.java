@@ -1,16 +1,12 @@
 package com.seekon.yougouhui.func.sale;
 
-import java.io.File;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
 
 import com.seekon.yougouhui.Const;
-import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.rest.MultipartRequest;
 import com.seekon.yougouhui.rest.MultipartRestMethod;
@@ -40,18 +36,8 @@ public class PostSaleMethod extends MultipartRestMethod<JSONObjResource> {
 				String.valueOf(sale.getStartDate()));
 		params.put(SaleConst.COL_NAME_END_DATE, String.valueOf(sale.getEndDate()));
 		params.put(SaleConst.COL_NAME_PUBLISHER, sale.getPublisher().getUuid());
-
-		List<String> images = sale.getImages();
-		List<FileEntity> fileEntities = new ArrayList<FileEntity>();
-		if (images != null && !images.isEmpty()) {
-			for (String fileUri : images) {
-				String aliasName = new File(fileUri).getPath().hashCode() + "_"
-						+ System.currentTimeMillis() + ".png";
-				fileEntities.add(new FileEntity(fileUri, aliasName));
-			}
-		}
-
-		return new MultipartRequest(ADD_SALE_URI, null, params, fileEntities);
+	
+		return new MultipartRequest(ADD_SALE_URI, null, params, sale.getImages());
 	}
 
 	@Override

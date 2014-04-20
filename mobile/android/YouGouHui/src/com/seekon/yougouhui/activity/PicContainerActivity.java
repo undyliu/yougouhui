@@ -27,7 +27,9 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.file.FileHelper;
+import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.util.Logger;
 
 /**
@@ -53,7 +55,7 @@ public abstract class PicContainerActivity extends Activity {
 
 	private Uri currentCameraFileUri = null;// 当前拍照的文件存放的路径
 
-	protected List<String> imageFileUriList = new ArrayList<String>();
+	protected List<FileEntity> imageFileUriList = new ArrayList<FileEntity>();
 
 	protected BaseAdapter imageAdapter;
 
@@ -178,12 +180,12 @@ public abstract class PicContainerActivity extends Activity {
 				boolean imageDeleted = data.getExtras().getBoolean(
 						ImagePreviewActivity.IMAGE_DELETE_FLAG);
 				if (imageDeleted) {
-					String fileUri = data.getExtras().getString(
+					FileEntity imageFile = (FileEntity) data.getExtras().getSerializable(
 							ImagePreviewActivity.IMAGE_SRC_KEY);
-					imageFileUriList.remove(fileUri);
+					imageFileUriList.remove(imageFile);
 					imageAdapter.notifyDataSetChanged();
 
-					FileHelper.deleteCacheFile(fileUri);
+					FileHelper.deleteCacheFile(imageFile);
 				}
 			}
 			break;
@@ -194,15 +196,19 @@ public abstract class PicContainerActivity extends Activity {
 	}
 
 	private void addBitmapToImageView(String fileUri) {
-		imageFileUriList.add(fileUri);
+		FileEntity file = new FileEntity(fileUri, FileHelper.getAliasName(fileUri));
+		imageFileUriList.add(file);
 		imageAdapter.notifyDataSetChanged();
 	}
 
 	protected void clean() {
 		// 清理临时的图片文件
 		if (imageFileUriList != null && !imageFileUriList.isEmpty()) {
-			for (String fileName : imageFileUriList) {
-				FileHelper.deleteCacheFile(fileName);
+			for (FileEntity file : imageFileUriList) {
+				String fileUrl = file.getFileUri();
+				if (fileUrl != null && fileUrl.length() > 0) {
+					FileHelper.deleteCacheFile(fileUrl);
+				}
 			}
 		}
 		imageFileUriList.clear();
@@ -252,10 +258,15 @@ public abstract class PicContainerActivity extends Activity {
 					}
 				});
 			} else {
-				final String image = (String) this.getItem(position);
+				final FileEntity image = (FileEntity) this.getItem(position);
 				imageView.setBackgroundResource(0);
-				imageView.setImageBitmap(FileHelper.decodeFile(image, true,
-						IMAGE_VIEW_WIDTH, IMAGE_VIEW_WIDTH));
+				if (image.getFileUri() != null) {
+					imageView.setImageBitmap(FileHelper.decodeFile(image.getFileUri(),
+							true, IMAGE_VIEW_WIDTH, IMAGE_VIEW_WIDTH));
+				} else {
+					ImageLoader.getInstance().displayImage(image.getAliasName(),
+							imageView, true);
+				}
 
 				imageView.setOnClickListener(new View.OnClickListener() {
 					@Override
@@ -266,7 +277,6 @@ public abstract class PicContainerActivity extends Activity {
 						intent.putExtra(ImagePreviewActivity.IMAGE_INDEX_IN_CONTAINER,
 								position);
 						intent.putExtra(ImagePreviewActivity.IMAGE_DELETE_FLAG, true);
-						intent.putExtra(ImagePreviewActivity.SHOW_BY_LOCAL_FILE, true);
 
 						PicContainerActivity.this.startActivityForResult(intent,
 								PREVIEW_IMAGE_ACTIVITY_REQUEST_CODE);

@@ -6,6 +6,7 @@ import android.view.MenuItem;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.ChangeImageInfoActivity;
+import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.profile.shop.ShopConst;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
@@ -40,7 +41,7 @@ public class ChangeShopImageActivity extends ChangeImageInfoActivity {
 
 	@Override
 	protected void doChangeImage(MenuItem item) {
-		if (imageUri.equals(ShopUtils.getFieldValue(shop, fieldName))) {
+		if (imageFile.equals(ShopUtils.getFieldValue(shop, fieldName))) {
 			ViewUtils.showToast("数据未修改不需要保存.");
 			return;
 		}
@@ -49,7 +50,7 @@ public class ChangeShopImageActivity extends ChangeImageInfoActivity {
 
 			@Override
 			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				ShopUtils.setFieldValue(shop, fieldName, imageUri);
+				ShopUtils.setFieldValue(shop, fieldName, imageFile.getAliasName());
 				return ShopProcessor.getInstance(ChangeShopImageActivity.this)
 						.changeShop(shop, fieldName);
 			}
@@ -74,8 +75,8 @@ public class ChangeShopImageActivity extends ChangeImageInfoActivity {
 	}
 
 	@Override
-	protected String getImageFileName() {
-		return ShopUtils.getFieldValue(shop, fieldName);
+	protected FileEntity getImageFile() {
+		return new FileEntity(null, ShopUtils.getFieldValue(shop, fieldName));
 	}
 
 	@Override

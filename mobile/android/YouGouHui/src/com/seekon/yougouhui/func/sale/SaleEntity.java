@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.func.profile.shop.ShopEntity;
 import com.seekon.yougouhui.func.user.UserEntity;
 
@@ -24,7 +25,7 @@ public class SaleEntity implements Serializable {
 	private long publishTime;
 	private String status;
 	private String img;
-	private List<String> images = new ArrayList<String>();
+	private List<FileEntity> images = new ArrayList<FileEntity>();
 
 	public String getUuid() {
 		return uuid;
@@ -130,11 +131,11 @@ public class SaleEntity implements Serializable {
 		this.img = img;
 	}
 
-	public List<String> getImages() {
+	public List<FileEntity> getImages() {
 		return images;
 	}
 
-	public void setImages(List<String> images) {
+	public void setImages(List<FileEntity> images) {
 		this.images = images;
 	}
 

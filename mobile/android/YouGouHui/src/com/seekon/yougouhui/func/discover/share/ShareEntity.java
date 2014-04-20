@@ -3,6 +3,7 @@ package com.seekon.yougouhui.func.discover.share;
 import java.io.Serializable;
 import java.util.List;
 
+import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.func.user.UserEntity;
 
 public class ShareEntity implements Serializable {
@@ -19,7 +20,7 @@ public class ShareEntity implements Serializable {
 
 	private String shopId;
 
-	private List<String> images;
+	private List<FileEntity> images;
 
 	private List<CommentEntity> comments;
 
@@ -73,11 +74,11 @@ public class ShareEntity implements Serializable {
 		this.shopId = shopId;
 	}
 
-	public List<String> getImages() {
+	public List<FileEntity> getImages() {
 		return images;
 	}
 
-	public void setImages(List<String> images) {
+	public void setImages(List<FileEntity> images) {
 		this.images = images;
 	}
 

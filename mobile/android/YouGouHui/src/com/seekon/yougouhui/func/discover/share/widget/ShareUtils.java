@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.discover.share.CommentEntity;
 import com.seekon.yougouhui.func.discover.share.ShareEntity;
@@ -32,9 +33,9 @@ public class ShareUtils {
 
 	public static final int PUBLISHER_IMAGE_WIDTH = 60;
 
-	public static List<String> getShareImagesFromLocal(Context context,
+	public static List<FileEntity> getShareImagesFromLocal(Context context,
 			String shareId) {
-		List<String> imageUrls = new ArrayList<String>();
+		List<FileEntity> imageUrls = new ArrayList<FileEntity>();
 		Cursor cursor = null;
 		try {
 			cursor = context.getContentResolver().query(ShareImgConst.CONTENT_URI,
@@ -45,7 +46,7 @@ public class ShareUtils {
 				if (image == null || image.trim().length() == 0) {
 					continue;
 				}
-				imageUrls.add(image);
+				imageUrls.add(new FileEntity(null, image));
 			}
 		} finally {
 			cursor.close();
@@ -94,7 +95,7 @@ public class ShareUtils {
 		publishTimeView.setText(DateUtils.formatTime_MMdd(publishTime));
 
 		// 设置上传的图片
-		List<String> images = share.getImages();
+		List<FileEntity> images = share.getImages();
 		GridView picContainer = (GridView) shareView
 				.findViewById(R.id.share_pic_container);
 		// 设置GridView的列数
