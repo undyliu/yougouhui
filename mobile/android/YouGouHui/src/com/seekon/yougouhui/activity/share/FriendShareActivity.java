@@ -84,7 +84,7 @@ public class FriendShareActivity extends Activity implements IXListViewListener 
 
 		mHandler = new Handler();
 
-		updateData = new SyncData(this);
+		updateData = SyncData.getInstance(this);
 		shareData = new ShareData(this);
 		commentData = new CommentData(this);
 
@@ -102,7 +102,8 @@ public class FriendShareActivity extends Activity implements IXListViewListener 
 
 	private void loadShareDataFromRemote() {
 		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>() {
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+						"获取分享数据失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
@@ -112,12 +113,26 @@ public class FriendShareActivity extends Activity implements IXListViewListener 
 
 					@Override
 					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						updateTime = getUpdateTime();
 						currentOffset = 0;
 						shares.clear();
 						shares.addAll(getShareListFromLocal());
 
 						updateListView();
 					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						onPostLoad();
+						super.onFailed(errorMessage);
+					}
+
+					@Override
+					public void onCancelled() {
+						onPostLoad();
+						super.onCancelled();
+					}
+
 				});
 	}
 
@@ -146,8 +161,11 @@ public class FriendShareActivity extends Activity implements IXListViewListener 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == SHARE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-			// TODO:增加刷新的进度显示
-			this.onRefresh();
+			currentOffset = 0;
+			shares.clear();
+			shares.addAll(getShareListFromLocal());
+
+			updateListView();
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
@@ -163,7 +181,8 @@ public class FriendShareActivity extends Activity implements IXListViewListener 
 	 * @return
 	 */
 	private String getUpdateTime() {
-		String result = updateData.getUpdateTime(ShareConst.TABLE_NAME);
+		String result = updateData.getUpdateTime(ShareConst.TABLE_NAME, RunEnv
+				.getInstance().getUser().getUuid());
 		if (result == null) {
 			result = RunEnv.getInstance().getUser().getRegisterTime();
 		}

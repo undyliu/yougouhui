@@ -78,10 +78,10 @@
       )
    )
 	(POST "/saveShare" {params :params}
-		;(println params)
+		(println params)
 		(try
 			(json/write-str (save-share params))
-			(catch Exception e {:status  200 :body (json/write-str{:error "保存失败."})})
+			(catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str{:error "保存失败."})})
 		)
 	)
 	(POST "/saveComment" {{share-id :share_id content :content, user :publisher} :params}

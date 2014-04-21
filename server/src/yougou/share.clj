@@ -24,7 +24,7 @@
     (if (< publish-time 0)
        {}
 			(exec (-> (select* shares)
-							(fields :uuid :content :publisher :publish_time :publish_date :sale_id :shop_id)
+							(fields :uuid :content :publisher :publish_time :publish_date :sale_id :shop_id :is_deleted)
 							(where {:last_modify_time [> publish-time]})
 							(where (or {:publisher user-id} {:publisher [in (subselect friends (fields :friend_id) (where {:user_id user-id}))]}))
 							(order :publish_time)
@@ -45,7 +45,7 @@
 				(if (== 0 (count share-list))
 					result
           (let [rest-shares (rest share-list)
-                is-del (:is_deleted share)
+                is-del (= 1 (:is_deleted share))
                 ]
             (recur rest-shares
                    (first rest-shares)
@@ -69,7 +69,8 @@
 			(insert share-images (values {:uuid uuid :img img-name :share_id share-id :ord_index ord-index :last_modify_time (str (System/currentTimeMillis))}))
 			(file/save-image-file img-name (:tempfile (req-params img-name)))
 		)
-	uuid)
+	  {:uuid uuid :img img-name}
+    )
 )
 
 (defn save-share-imgs [share-id image-names req-params]
@@ -85,9 +86,12 @@
 				(if (== (count name-list) 0)
 					 result
 					(recur (rest name-list)
-							(first (rest name-list))
-							(inc ord-index)
-							(conj result (save-share-img share-id img-name req-params ord-index))
+                 (first (rest name-list))
+                 (inc ord-index)
+                 (if (and img-name (> (count (clojure.string/trim img-name)) 0))
+                   (conj result (save-share-img share-id img-name req-params ord-index))
+                   result
+                   )
 					)
 				)
 		)
@@ -100,16 +104,18 @@
 				image-names (java.net.URLDecoder/decode (:fileNameList req-params) "utf-8")
 			  publisher (:publisher req-params)
         shop-id (:shop_id req-params)
-				current-time (str (System/currentTimeMillis))
+				current-time (System/currentTimeMillis)
+        share {:uuid uuid :publish_time current-time :publish_date (date/formatDate current-time)}
 			]
 		;(println publisher)
 		;;(transaction
 			(insert shares (values {:uuid uuid :content content :shop_id shop-id :publisher publisher :publish_time current-time :publish_date (date/formatDate current-time) :last_modify_time current-time}))
 			(if image-names
-				(save-share-imgs uuid (clojure.string/split image-names #"[|]") req-params)
+				(assoc share :images (save-share-imgs uuid (clojure.string/split image-names #"[|]") req-params))
+        share
 			)
 		;;)
-	{:uuid uuid})
+  )
 )
 
 (defn save-comment [share-id content publisher]

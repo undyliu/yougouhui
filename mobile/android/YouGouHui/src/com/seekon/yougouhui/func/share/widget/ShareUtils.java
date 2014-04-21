@@ -50,7 +50,9 @@ public class ShareUtils {
 				imageUrls.add(new FileEntity(null, image));
 			}
 		} finally {
-			cursor.close();
+			if (cursor != null) {
+				cursor.close();
+			}
 		}
 		return imageUrls;
 	}

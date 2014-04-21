@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/menu_contact_add"
-        android:actionProviderClass="com.seekon.yougouhui.func.profile.contact.widget.FriendProfileActionProvider"
+        android:actionProviderClass="com.seekon.yougouhui.func.contact.widget.FriendProfileActionProvider"
         android:showAsAction="always"
         android:title=""/>
 

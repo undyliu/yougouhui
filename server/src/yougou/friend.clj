@@ -9,11 +9,15 @@
 )
 
 (defn add-friend [user-id friend-id]
-	(let [uuid (str (java.util.UUID/randomUUID))
+	(if-let [friend (first (select friends (fields :uuid) (where {:user_id user-id :friend_id friend-id})))]
+    friend
+    (let [uuid (str (java.util.UUID/randomUUID))
         currentTime (System/currentTimeMillis)
-        ]
-		(insert friends (values {:uuid uuid :user_id user-id :friend_id friend-id :last_modify_time currentTime}))
-	{:uuid uuid})
+          ]
+      (insert friends (values {:uuid uuid :user_id user-id :friend_id friend-id :last_modify_time currentTime}))
+	    {:uuid uuid}
+      )
+		)
 )
 
 (defn del-friend [user-id friend-id]

@@ -19,7 +19,6 @@ import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.SyncSupportProcessor;
 import com.seekon.yougouhui.func.spi.IShareProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
-import com.seekon.yougouhui.rest.RestStatus;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.service.ProcessorProxy;
 
@@ -40,7 +39,7 @@ public class ShareProcessor extends SyncSupportProcessor implements
 	}
 
 	private ShareProcessor(Context mContext) {
-		super(mContext, ShareData.COL_NAMES, ShareConst.CONTENT_URI);
+		super(mContext, ShareData.COL_NAMES, ShareConst.CONTENT_URI, ShareConst.TABLE_NAME);
 	}
 
 	/**
@@ -120,7 +119,7 @@ public class ShareProcessor extends SyncSupportProcessor implements
 	 * 保存发布分享的信息
 	 */
 	public RestMethodResult<JSONObjResource> postShare(ShareEntity share) {
-		return new PostShareMethod(share, mContext).execute();
+		return (RestMethodResult)this.execMethod(new PostShareMethod(share, mContext));
 	}
 
 	public RestMethodResult<JSONObjResource> deleteShare(String shareId) {

@@ -6,15 +6,22 @@ import static com.seekon.yougouhui.func.share.ShareConst.COL_NAME_SHOP_ID;
 
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.content.Context;
 
 import com.seekon.yougouhui.Const;
+import com.seekon.yougouhui.file.FileEntity;
+import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.rest.MultipartRequest;
 import com.seekon.yougouhui.rest.MultipartRestMethod;
 import com.seekon.yougouhui.rest.Request;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
+import com.seekon.yougouhui.util.JSONUtils;
 
 public class PostShareMethod extends MultipartRestMethod<JSONObjResource> {
 
@@ -38,15 +45,6 @@ public class PostShareMethod extends MultipartRestMethod<JSONObjResource> {
 		params.put(COL_NAME_PUBLISHER, share.getPublisher().getUuid());
 		params.put(COL_NAME_SHOP_ID, share.getShopId());
 
-		// List<String> files = (List<String>) share.get(ShareConst.DATA_IMAGE_KEY);
-		// List<FileEntity> fileEntities = new ArrayList<FileEntity>();
-		// if (files != null && !files.isEmpty()) {
-		// for (String fileUri : files) {
-		// String aliasName = new File(fileUri).getPath().hashCode() + "_"
-		// + System.currentTimeMillis() + ".png";
-		// fileEntities.add(new FileEntity(fileUri, aliasName));
-		// }
-		// }
 		MultipartRequest request = new MultipartRequest(URI.create(POST_SHARE_URI),
 				null, params, share.getImages());
 		return request;
@@ -55,7 +53,26 @@ public class PostShareMethod extends MultipartRestMethod<JSONObjResource> {
 	@Override
 	protected JSONObjResource parseResponseBody(String responseBody)
 			throws Exception {
-		return new JSONObjResource(responseBody);
+		JSONObjResource resource = new JSONObjResource(responseBody);
+		if (resource.has(DataConst.COL_NAME_UUID)) {
+			JSONUtils.putJSONValue(resource, COL_NAME_CONTENT, share.getContent());
+			JSONUtils.putJSONValue(resource, COL_NAME_PUBLISHER, share.getPublisher()
+					.getUuid());
+			JSONUtils.putJSONValue(resource, COL_NAME_SHOP_ID, share.getShopId());
+
+			List<FileEntity> images = share.getImages();
+			if (images.size() > 0) {
+				String shareId = JSONUtils.getJSONStringValue(resource,
+						DataConst.COL_NAME_UUID);
+				JSONArray imgArray = resource.getJSONArray(ShareConst.DATA_IMAGE_KEY);
+				for (int i = 0; i < imgArray.length(); i++) {
+					JSONObject image = imgArray.getJSONObject(i);
+					JSONUtils.putJSONValue(image, ShareConst.COL_NAME_SHARE_ID, shareId);
+					JSONUtils.putJSONValue(image, DataConst.COL_NAME_ORD_INDEX, i);
+				}
+			}
+		}
+		return resource;
 	}
 
 }

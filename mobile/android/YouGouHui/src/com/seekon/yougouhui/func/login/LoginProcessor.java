@@ -53,25 +53,17 @@ public class LoginProcessor extends ContentProcessor implements ILoginProcessor 
 			try {
 				authed = ((JSONObjResource) resource)
 						.getBoolean(LoginConst.LOGIN_RESULT_AUTHED);
-			} catch (JSONException e) {
-				Logger.debug(TAG, e.getMessage());
-			}
-
-			if (authed) {
-				JSONObject user = null;
-				try {
+				if (authed) {
+					JSONObject user = null;
 					user = ((JSONObjResource) resource)
 							.getJSONObject(LoginConst.LOGIN_RESULT_USER);
-				} catch (JSONException e) {
-					Logger.debug(TAG, e.getMessage());
-				}
-				if (user != null) {
-					try {
+					if (user != null) {
 						super.updateContentProvider(user, colNames, contentUri);
-					} catch (JSONException e) {
-						Logger.error(TAG, e.getMessage(), e);
 					}
 				}
+			} catch (JSONException e) {
+				Logger.error(TAG, e.getMessage(), e);
+				throw new RuntimeException(e);
 			}
 		}
 	}

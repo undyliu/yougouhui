@@ -31,7 +31,7 @@ public class SyncProvider extends SQLiteContentProvider {
 		uriMatcher.addURI(SyncConst.AUTHORITY, SyncConst.TABLE_NAME + "/*",
 				UPDATE_ID);
 
-		syncDatas = new SyncData(getContext());
+		syncDatas = SyncData.getInstance(getContext());
 		syncDatas.onCreate(syncDatas.getWritableDatabase());// TODO:
 		return true;
 	}
