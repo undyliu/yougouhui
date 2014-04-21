@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.DataConst;
-import com.seekon.yougouhui.func.profile.shop.TradeEntity;
 import com.seekon.yougouhui.func.sale.GetSaleTaskCallback;
 import com.seekon.yougouhui.func.sale.SaleDiscussData;
 import com.seekon.yougouhui.func.sale.SaleDiscussEntity;
@@ -20,6 +19,7 @@ import com.seekon.yougouhui.func.sale.SaleDiscussProcessor;
 import com.seekon.yougouhui.func.sale.SaleEntity;
 import com.seekon.yougouhui.func.sale.SaleUtils;
 import com.seekon.yougouhui.func.sale.widget.SaleDiscussListAdapter;
+import com.seekon.yougouhui.func.shop.TradeEntity;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.func.widget.AsyncRestRequestTask;
 import com.seekon.yougouhui.layout.XListView;

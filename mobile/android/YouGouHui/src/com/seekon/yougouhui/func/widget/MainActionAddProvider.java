@@ -12,8 +12,8 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.activity.discover.ShareActivity;
-import com.seekon.yougouhui.activity.profile.contact.AddFriendActivity;
+import com.seekon.yougouhui.activity.contact.AddFriendActivity;
+import com.seekon.yougouhui.activity.share.ShareActivity;
 
 public class MainActionAddProvider extends ActionProvider {
 

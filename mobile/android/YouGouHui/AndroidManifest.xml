@@ -37,9 +37,7 @@
     <!-- 允许应用读取低级别的系统日志文件 -->
     <uses-permission android:name="android.permission.READ_LOGS" >
     </uses-permission>
-    <!-- 
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-     -->
+<!--     <uses-permission android:name="android.permission.WRITE_SETTINGS" /> -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_OWNER_DATA" />
     <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
@@ -55,9 +53,10 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        
-        <meta-data android:name="com.baidu.lbsapi.API_KEY" android:value="LLXisvq0MtLdgBST7umNcuVT"/>
-        
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="LLXisvq0MtLdgBST7umNcuVT" />
+
         <activity
             android:name=".activity.Splash"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -80,7 +79,7 @@
             android:windowSoftInputMode="stateVisible" >
         </activity>
         <activity
-            android:name=".activity.profile.SettingActivity"
+            android:name=".activity.setting.SettingMainActivity"
             android:label="@string/title_profie_setting"
             android:screenOrientation="portrait" >
         </activity>
@@ -92,7 +91,7 @@
         </service>
 
         <provider
-            android:name="com.seekon.yougouhui.func.sale.ChannelProvider"
+            android:name=".func.sale.ChannelProvider"
             android:authorities="com.seekon.yougouhui.channels"
             android:exported="false" />
         <provider
@@ -100,19 +99,19 @@
             android:authorities="com.seekon.yougouhui.modules"
             android:exported="false" />
         <provider
-            android:name="com.seekon.yougouhui.func.sale.SaleProvider"
+            android:name=".func.sale.SaleProvider"
             android:authorities="com.seekon.yougouhui.sales"
             android:exported="false" />
         <provider
-            android:name=".func.discover.share.ShareProvider"
+            android:name=".func.share.ShareProvider"
             android:authorities="com.seekon.yougouhui.shares"
             android:exported="false" />
         <provider
-            android:name=".func.discover.share.CommentProvider"
+            android:name=".func.share.CommentProvider"
             android:authorities="com.seekon.yougouhui.shares.comment"
             android:exported="false" />
         <provider
-            android:name=".func.discover.share.ShareImgProvider"
+            android:name=".func.share.ShareImgProvider"
             android:authorities="com.seekon.yougouhui.shares.image"
             android:exported="false" />
         <provider
@@ -120,45 +119,45 @@
             android:authorities="com.seekon.yougouhui.users"
             android:exported="false" />
         <provider
-            android:name=".func.profile.contact.FriendProvider"
+            android:name=".func.contact.FriendProvider"
             android:authorities="com.seekon.yougouhui.friends"
             android:exported="false" />
         <provider
-            android:name=".func.profile.shop.TradeProvider"
+            android:name=".func.shop.TradeProvider"
             android:authorities="com.seekon.yougouhui.trades"
             android:exported="false" />
         <provider
-            android:name=".func.profile.shop.ShopProvider"
+            android:name=".func.shop.ShopProvider"
             android:authorities="com.seekon.yougouhui.shops"
             android:exported="false" />
         <provider
-            android:name=".func.profile.shop.ShopTradeProvider"
+            android:name=".func.shop.ShopTradeProvider"
             android:authorities="com.seekon.yougouhui.shopTrades"
             android:exported="false" />
         <provider
-            android:name="com.seekon.yougouhui.func.sale.SaleImgProvider"
+            android:name=".func.sale.SaleImgProvider"
             android:authorities="com.seekon.yougouhui.sale.images"
             android:exported="false" />
         <provider
-            android:name="com.seekon.yougouhui.func.profile.favorit.SaleFavoritProvider"
+            android:name=".func.favorit.SaleFavoritProvider"
             android:authorities="com.seekon.yougouhui.sale.favorites"
             android:exported="false" />
         <provider
-            android:name="com.seekon.yougouhui.func.profile.favorit.ShopFavoritProvider"
+            android:name=".func.favorit.ShopFavoritProvider"
             android:authorities="com.seekon.yougouhui.shop.favorites"
             android:exported="false" />
         <provider
-            android:name="com.seekon.yougouhui.func.sale.SaleDiscussProvider"
+            android:name=".func.sale.SaleDiscussProvider"
             android:authorities="com.seekon.yougouhui.sale.discusses"
             android:exported="false" />
 
         <activity
-            android:name=".activity.discover.FriendShareActivity"
+            android:name=".activity.share.FriendShareActivity"
             android:label="@string/title_discover_friends"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.discover.ShareActivity"
+            android:name=".activity.share.ShareActivity"
             android:label="@string/title_activity_share"
             android:screenOrientation="portrait" >
         </activity>
@@ -168,7 +167,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.discover.RadarActivity"
+            android:name=".activity.share.RadarActivity"
             android:label="@string/title_discover_radar"
             android:screenOrientation="portrait" >
         </activity>
@@ -189,7 +188,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.seekon.yougouhui.activity.user.RegisterActivity"
+            android:name=".activity.user.RegisterActivity"
             android:label="@string/title_register"
             android:screenOrientation="portrait" >
         </activity>
@@ -209,105 +208,105 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.contact.FriendProfileActivity"
+            android:name=".activity.contact.FriendProfileActivity"
             android:label="@string/title_friend_profile"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.MyShareActivity"
+            android:name=".activity.share.MyShareActivity"
             android:label="@string/title_my_share"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.ShareDetailActivity"
+            android:name=".activity.share.ShareDetailActivity"
             android:label="@string/title_share_detail"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.shop.LoginShopActivity"
+            android:name=".activity.shop.LoginShopActivity"
             android:label="@string/title_shop_login"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.shop.RegisterShopActivity"
+            android:name=".activity.shop.RegisterShopActivity"
             android:label="@string/title_shop_register"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.contact.ContactListActivity"
+            android:name=".activity.contact.ContactListActivity"
             android:label="@string/title_contact_list"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.contact.AddFriendActivity"
+            android:name=".activity.contact.AddFriendActivity"
             android:label="@string/title_add_friend"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.shop.ShopMainActivity"
+            android:name=".activity.shop.ShopMainActivity"
             android:label="@string/title_shop_main"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.shop.ShopBaseInfoActivity"
+            android:name=".activity.shop.ShopBaseInfoActivity"
             android:label="@string/title_shop_base_info"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.shop.ShopEmpSettingActivity"
+            android:name=".activity.shop.ShopEmpSettingActivity"
             android:label="@string/title_shop_emp_setting"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.seekon.yougouhui.activity.sale.ShopSaleListActivity"
+            android:name=".activity.sale.ShopSaleListActivity"
             android:label="@string/title_shop_sale_info"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.shop.ShareInteractAcitivity"
+            android:name=".activity.shop.ShareInteractAcitivity"
             android:label="@string/title_shop_share_interact"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.shop.ChangeShopTextActivity"
+            android:name=".activity.shop.ChangeShopTextActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.shop.ChangeShopImageActivity"
+            android:name=".activity.shop.ChangeShopImageActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.shop.ChangeShopPwdActivity"
+            android:name=".activity.shop.ChangeShopPwdActivity"
             android:label="@string/title_shop_change_pwd"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.shop.ChangeTradesActivity"
+            android:name=".activity.shop.ChangeTradesActivity"
             android:label="@string/title_shop_change_trades"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.shop.SetShopBarcodeActivity"
+            android:name=".activity.shop.SetShopBarcodeActivity"
             android:label="@string/title_shop_set_barcode"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.shop.SetEmpPwdActivity"
+            android:name=".activity.shop.SetEmpPwdActivity"
             android:label="@string/title_shop_set_emp_pwd"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.contact.ContactListWithCheckedActivity"
+            android:name=".activity.contact.ContactListWithCheckedActivity"
             android:label="@string/title_contact_list"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.seekon.yougouhui.activity.profile.shop.ChooseShopActivity"
+            android:name=".activity.shop.ChooseShopActivity"
             android:label="@string/title_choose_shop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.seekon.yougouhui.activity.sale.SalePublishActivity"
+            android:name=".activity.sale.SalePublishActivity"
             android:label="@string/title_shop_sale_publish"
             android:screenOrientation="portrait" >
         </activity>
@@ -322,7 +321,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.profile.favorit.FavoritMainActivity"
+            android:name=".activity.favorit.FavoritMainActivity"
             android:label="@string/title_my_favorit" >
         </activity>
     </application>

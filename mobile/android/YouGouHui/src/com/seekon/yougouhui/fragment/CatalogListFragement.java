@@ -21,10 +21,10 @@ import android.widget.TextView;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.PinyinComparator;
 import com.seekon.yougouhui.func.PinyinEntity;
-import com.seekon.yougouhui.func.profile.contact.widget.SideBar;
-import com.seekon.yougouhui.func.profile.contact.widget.SideBar.OnTouchingLetterChangedListener;
-import com.seekon.yougouhui.func.profile.favorit.FavoritEntity;
-import com.seekon.yougouhui.func.profile.favorit.widget.FavoritListAdapter;
+import com.seekon.yougouhui.func.contact.widget.SideBar;
+import com.seekon.yougouhui.func.contact.widget.SideBar.OnTouchingLetterChangedListener;
+import com.seekon.yougouhui.func.favorit.FavoritEntity;
+import com.seekon.yougouhui.func.favorit.widget.FavoritListAdapter;
 import com.seekon.yougouhui.util.PinyinUtils;
 import com.seekon.yougouhui.widget.ClearEditText;
 

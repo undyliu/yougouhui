@@ -16,12 +16,12 @@ import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.RunEnv;
-import com.seekon.yougouhui.func.discover.share.widget.UserClickListener;
 import com.seekon.yougouhui.func.sale.SaleDiscussConst;
 import com.seekon.yougouhui.func.sale.SaleDiscussEntity;
 import com.seekon.yougouhui.func.sale.SaleDiscussProcessor;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
+import com.seekon.yougouhui.func.widget.UserClickListener;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;

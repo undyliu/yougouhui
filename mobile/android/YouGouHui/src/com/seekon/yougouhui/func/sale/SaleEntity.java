@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.seekon.yougouhui.file.FileEntity;
-import com.seekon.yougouhui.func.profile.shop.ShopEntity;
+import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.user.UserEntity;
 
 public class SaleEntity implements Serializable {

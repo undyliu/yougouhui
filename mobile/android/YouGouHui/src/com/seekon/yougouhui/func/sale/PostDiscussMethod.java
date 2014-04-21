@@ -1,8 +1,8 @@
 package com.seekon.yougouhui.func.sale;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
-import static com.seekon.yougouhui.func.discover.share.ShareConst.COL_NAME_PUBLISHER;
 import static com.seekon.yougouhui.func.sale.SaleDiscussConst.COL_NAME_SALE_ID;
+import static com.seekon.yougouhui.func.share.ShareConst.COL_NAME_PUBLISHER;
 
 import java.net.URI;
 import java.util.HashMap;

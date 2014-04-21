@@ -37,7 +37,7 @@
             android:textSize="30.0dip"
             android:visibility="invisible" />
 
-        <com.seekon.yougouhui.func.profile.contact.widget.SideBar
+        <com.seekon.yougouhui.func.contact.widget.SideBar
             android:id="@+id/contact_sidebar"
             android:layout_width="40.0dip"
             android:layout_height="wrap_content"

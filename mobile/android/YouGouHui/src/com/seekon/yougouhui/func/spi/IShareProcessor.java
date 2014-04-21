@@ -2,7 +2,7 @@ package com.seekon.yougouhui.func.spi;
 
 import java.util.Map;
 
-import com.seekon.yougouhui.func.discover.share.ShareEntity;
+import com.seekon.yougouhui.func.share.ShareEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;

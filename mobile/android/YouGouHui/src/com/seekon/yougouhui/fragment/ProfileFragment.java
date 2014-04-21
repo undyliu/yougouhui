@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ListView;
 
-import com.seekon.yougouhui.activity.profile.MyShareActivity;
-import com.seekon.yougouhui.activity.profile.SettingActivity;
-import com.seekon.yougouhui.activity.profile.contact.ContactListActivity;
-import com.seekon.yougouhui.activity.profile.favorit.FavoritMainActivity;
-import com.seekon.yougouhui.activity.profile.shop.LoginShopActivity;
+import com.seekon.yougouhui.activity.contact.ContactListActivity;
+import com.seekon.yougouhui.activity.favorit.FavoritMainActivity;
+import com.seekon.yougouhui.activity.setting.SettingMainActivity;
+import com.seekon.yougouhui.activity.share.MyShareActivity;
+import com.seekon.yougouhui.activity.shop.LoginShopActivity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.module.ModuleConst;
 
@@ -25,7 +25,7 @@ public class ProfileFragment extends ModuleListFragment {
 		Intent intent = null;
 		String moduleCode = getModuleCode(position);
 		if (ModuleConst.CODE_SETTING.equalsIgnoreCase(moduleCode)) {
-			intent = new Intent(attachedActivity, SettingActivity.class);
+			intent = new Intent(attachedActivity, SettingMainActivity.class);
 		} else if (ModuleConst.CODE_MY_SHARE.equalsIgnoreCase(moduleCode)) {
 			intent = new Intent(attachedActivity, MyShareActivity.class);
 			intent.putExtra(COL_NAME_UUID, RunEnv.getInstance().getUser().getUuid());

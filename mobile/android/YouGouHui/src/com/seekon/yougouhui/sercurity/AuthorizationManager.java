@@ -10,10 +10,10 @@ import android.content.ContentValues;
 import android.content.Context;
 
 import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.contact.GetFriendsTask;
 import com.seekon.yougouhui.func.login.EnvHelper;
 import com.seekon.yougouhui.func.login.LoginConst;
 import com.seekon.yougouhui.func.login.LoginProcessor;
-import com.seekon.yougouhui.func.profile.contact.GetFriendsTask;
 import com.seekon.yougouhui.func.spi.ILoginProcessor;
 import com.seekon.yougouhui.func.user.UserData;
 import com.seekon.yougouhui.func.user.UserEntity;

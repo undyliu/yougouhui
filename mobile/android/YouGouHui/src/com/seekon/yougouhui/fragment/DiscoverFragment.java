@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ListView;
 
-import com.seekon.yougouhui.activity.discover.FriendShareActivity;
-import com.seekon.yougouhui.activity.discover.RadarActivity;
+import com.seekon.yougouhui.activity.radar.RadarMainActivity;
+import com.seekon.yougouhui.activity.share.FriendShareActivity;
 import com.seekon.yougouhui.func.module.ModuleConst;
 
 public class DiscoverFragment extends ModuleListFragment {
@@ -22,7 +22,7 @@ public class DiscoverFragment extends ModuleListFragment {
 		if (ModuleConst.CODE_FRIENDS.equalsIgnoreCase(moduleCode)) {
 			intent = new Intent(attachedActivity, FriendShareActivity.class);
 		} else if (ModuleConst.CODE_RADAR.equalsIgnoreCase(moduleCode)) {
-			intent = new Intent(attachedActivity, RadarActivity.class);
+			intent = new Intent(attachedActivity, RadarMainActivity.class);
 		}
 
 		if (intent != null) {

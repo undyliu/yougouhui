@@ -1,6 +1,6 @@
 package com.seekon.yougouhui.func.spi;
 
-import com.seekon.yougouhui.func.profile.shop.ShopEntity;
+import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;

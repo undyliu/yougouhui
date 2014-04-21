@@ -8,7 +8,7 @@ import android.database.Cursor;
 
 import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.func.DataConst;
-import com.seekon.yougouhui.func.profile.favorit.SaleFavoritConst;
+import com.seekon.yougouhui.func.favorit.SaleFavoritConst;
 import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.util.ViewUtils;
 

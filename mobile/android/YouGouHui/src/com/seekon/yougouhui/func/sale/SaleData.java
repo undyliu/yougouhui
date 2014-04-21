@@ -29,7 +29,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.seekon.yougouhui.db.AbstractDBHelper;
-import com.seekon.yougouhui.func.profile.shop.ShopEntity;
+import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.widget.DateIndexedEntity;
 import com.seekon.yougouhui.util.DateUtils;

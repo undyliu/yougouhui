@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 
-import com.seekon.yougouhui.func.profile.shop.TradeEntity;
+import com.seekon.yougouhui.func.shop.TradeEntity;
 
 /**
  * 促销信息发布时，选择所属业务的列表
