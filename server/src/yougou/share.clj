@@ -9,45 +9,13 @@
 	)
 )
 
-(defn get-deleted-shares [min-pub-time user-id]
-  (let [publish-time (Long/valueOf min-pub-time)]
-    (if (< publish-time 0)
-      {}
-      (exec (-> (select* shares )
-							(fields :uuid)
-							(where {:publish_time [>= publish-time] :is_deleted [= 1]})
-							(where (or {:publisher user-id} {:publisher [in (subselect friends (fields :friend_id) (where {:user_id user-id}))]}))
-						)
-			)
-    )
+(defn get-share-images [update-time share-id]
+  (select share-images (where {:share_id share-id :last_modify_time [> update-time]})
   )
 )
 
-(defn get-deleted-comments [min-pub-time user-id]
-  (let [publish-time (Long/valueOf min-pub-time)]
-    (if (< publish-time 0)
-      {}
-      (exec (-> (select* share-comments)
-							(fields :uuid)
-							(where {:publish_time [>= publish-time] :is_deleted [= 1]})
-							(where (or {:publisher user-id} {:publisher [in (subselect friends (fields :friend_id) (where {:user_id user-id}))]}))
-						)
-			)
-    )
-  )
-)
-
-(defn get-newest-comments [last-pub-time user-id]
-  (let [publish-time (Long/valueOf last-pub-time)]
-    (if (< publish-time 0)
-      {}
-			(exec (-> (select* share-comments )
-							(where {:publish_time [> publish-time] :is_deleted [not= 1]})
-							(where (or {:publisher user-id} {:publisher [in (subselect friends (fields :friend_id) (where {:user_id user-id}))]}))
-							(order :publish_time)
-						)
-			)
-    )
+(defn get-comments [update-time share-id]
+  (select share-comments (where {:share_id share-id :last_modify_time [> update-time]})
   )
 )
 
@@ -57,7 +25,7 @@
        {}
 			(exec (-> (select* shares)
 							(fields :uuid :content :publisher :publish_time :publish_date :sale_id :shop_id)
-							(where {:publish_time [> publish-time] :is_deleted [not= 1]})
+							(where {:last_modify_time [> publish-time]})
 							(where (or {:publisher user-id} {:publisher [in (subselect friends (fields :friend_id) (where {:user_id user-id}))]}))
 							(order :publish_time)
 						)
@@ -66,18 +34,8 @@
   )
 )
 
-(defn get-share-images [share-id]
-  (select share-images (where {:share_id share-id})
-  )
-)
-
-(defn get-comments [share-id]
-  (select share-comments (where {:share_id share-id :is_deleted [not= 1]})
-  )
-)
-
-(defn get-newest-share-data [last-pub-time user-id]
-  (let [shares (get-friend-shares last-pub-time user-id)
+(defn get-friend-share-data [update-time user-id]
+  (let [shares (get-friend-shares update-time user-id)
 				first-share (first shares)
 			 ]
 		(loop [share-list shares
@@ -86,32 +44,29 @@
 					]
 				(if (== 0 (count share-list))
 					result
-					(recur (rest share-list)
-						 (first (rest share-list))
-						 (conj result
-							(assoc
-								(assoc share :images
-										(get-share-images (:uuid share)))
-										:comments (get-comments (:uuid share))))
-					)
-				)
-		)
-	)
-)
-
-(defn get-friend-share-data [last-pub-time min-pub-time last-comm-pub-time min-comm-pub-time user-id]
-  {:newest-shares (get-newest-share-data last-pub-time user-id)
-   :newest-comments (get-newest-comments last-comm-pub-time user-id)
-   :deleted-shares (get-deleted-shares min-pub-time user-id)
-   :deleted-comments (get-deleted-comments min-comm-pub-time user-id)
-  }
-)
+          (let [rest-shares (rest share-list)
+                is-del (:is_deleted share)
+                ]
+            (recur rest-shares
+                   (first rest-shares)
+                   (if is-del
+                     (conj result share)
+                     (conj result
+                           (assoc share :images (get-share-images update-time (:uuid share))
+                             :comments (get-comments update-time (:uuid share))))
+                     )
+					    )
+            )
+				  )
+		  )
+	  )
+  )
 
 (defn save-share-img [share-id img-name req-params ord-index]
 	(let [ uuid (str (java.util.UUID/randomUUID))
 			]
 		(when (and img-name (> (count (clojure.string/trim img-name)) 0))
-			(insert share-images (values {:uuid uuid :img img-name :share_id share-id :ord_index ord-index}))
+			(insert share-images (values {:uuid uuid :img img-name :share_id share-id :ord_index ord-index :last_modify_time (str (System/currentTimeMillis))}))
 			(file/save-image-file img-name (:tempfile (req-params img-name)))
 		)
 	uuid)
@@ -145,11 +100,11 @@
 				image-names (java.net.URLDecoder/decode (:fileNameList req-params) "utf-8")
 			  publisher (:publisher req-params)
         shop-id (:shop_id req-params)
-				currentTime (System/currentTimeMillis)
+				current-time (str (System/currentTimeMillis))
 			]
 		;(println publisher)
 		;;(transaction
-			(insert shares (values {:uuid uuid :content content :shop_id shop-id :publisher publisher :publish_time (str currentTime) :publish_date (date/formatDate currentTime)}))
+			(insert shares (values {:uuid uuid :content content :shop_id shop-id :publisher publisher :publish_time current-time :publish_date (date/formatDate current-time) :last_modify_time current-time}))
 			(if image-names
 				(save-share-imgs uuid (clojure.string/split image-names #"[|]") req-params)
 			)
@@ -159,16 +114,19 @@
 
 (defn save-comment [share-id content publisher]
 	(let [uuid (str (java.util.UUID/randomUUID))
-				publish-time (str  (System/currentTimeMillis))
+				publish-time (str (System/currentTimeMillis))
 			]
-			(insert share-comments (values {:uuid uuid :share_id share-id :content content :publisher publisher :publish_time publish-time}))
-	{:uuid uuid :publish_time publish-time})
+		(insert share-comments (values {:uuid uuid :share_id share-id :content content :publisher publisher :publish_time publish-time :last_modify_time publish-time}))
+    (update shares (set-fields {:last_modify_time publish-time})
+            (where {:uuid [in (subselect share-comments (fields :share_id) (where {:e_share_comment.uuid uuid}))]}))
+	  {:uuid uuid :publish_time publish-time})
 )
 
 (defn del-share [share-id]
 	(if share-id
 		;(delete shares (where {:uuid share-id}))
-		(update shares (set-fields {:is_deleted 1}) (where {:uuid share-id}))
+		(update shares (set-fields {:is_deleted 1 :last_modify_time (str (System/currentTimeMillis))})
+            (where {:uuid share-id}))
 	)
 )
 
@@ -180,7 +138,8 @@
 )
 
 (defn del-comments [share-id]
-	(update share-comments (set-fields {:is_deleted 1}) (where {:share_id share-id}))
+	(update share-comments (set-fields {:is_deleted 1 :last_modify_time (str (System/currentTimeMillis))})
+          (where {:share_id share-id}))
 )
 
 (defn del-share-data [share-id]
@@ -192,8 +151,16 @@
 )
 
 (defn del-comment [comment-id]
-	(if comment-id
-		(update share-comments (set-fields {:is_deleted 1}) (where {:uuid comment-id}))
+	(when comment-id
+		(update share-comments (set-fields {:is_deleted 1 :last_modify_time (str (System/currentTimeMillis))})
+            (where {:uuid comment-id}))
+    (update shares (set-fields {:last_modify_time (str (System/currentTimeMillis))})
+            (where {:uuid [in (subselect share-comments (fields :share_id) (where {:e_share_comment.uuid comment-id}))]}))
 	)
 	{:uuid comment-id}
 )
+
+(defn get-shares-by-shop [shop-id]
+  (
+   )
+  )

@@ -8,6 +8,7 @@
 	      [yougou.friend]
 	      [yougou.shop]
         [yougou.favorit]
+        [yougou.setting]
         )
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
@@ -19,6 +20,10 @@
             [ring.middleware.cookies]
 	))
 
+;;对返回结果包装最后更新时间的信息
+(defn wrapper-update-data [result update-time]
+  (json/write-str (assoc {} :data result :update_time update-time))
+  )
 
 (defroutes channel-routes
 	(GET "/getChannels" [] (json/write-str (get-channels nil)))
@@ -54,6 +59,12 @@
 		)
 	)
   (GET "/getSaleDiscusses/:sale-id" [sale-id] (json/write-str (get-sale-discusses sale-id)))
+  (PUT "/cancelSale" {{sale-id :sale_id} :params}
+		(try
+			(json/write-str (cancel-sale sale-id))
+			(catch Exception e {:status  200 :body (json/write-str{:error "作废活动失败."})})
+		)
+	)
 )
 
 (defroutes module-routes
@@ -61,8 +72,11 @@
 )
 
 (defroutes share-routes
-	(POST "/getFriendShares" {{last-pub-time :last-pub-time, min-pub-time :min-pub-time, last-comm-pub-time :last-comm-pub-time min-comm-pub-time :min-comm-pub-time user-id :user_id} :params}
-		(json/write-str (get-friend-share-data last-pub-time min-pub-time last-comm-pub-time min-comm-pub-time user-id)))
+	(POST "/getFriendShares" {{update-time :update_time user-id :user_id} :params}
+		(let [current-time (str (System/currentTimeMillis)) ]
+     (wrapper-update-data (get-friend-share-data update-time user-id) current-time)
+      )
+   )
 	(POST "/saveShare" {params :params}
 		;(println params)
 		(try
@@ -258,8 +272,12 @@
 	)
  )
 
+(defroutes setting-routes
+	(GET "/getSettings" [] (json/write-str (get-settings)))
+)
+
 (def app-routes
-  (routes channel-routes sale-routes module-routes share-routes file-routes user-routes friend-routes shop-routes favorit-routes)
+  (routes channel-routes sale-routes module-routes share-routes file-routes user-routes friend-routes shop-routes favorit-routes setting-routes)
   )
 
 (defroutes login-routes

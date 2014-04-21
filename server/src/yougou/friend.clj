@@ -9,18 +9,22 @@
 )
 
 (defn add-friend [user-id friend-id]
-	(let [uuid (str (java.util.UUID/randomUUID))]
-		(insert friends (values {:uuid uuid :user_id user-id :friend_id friend-id}))
+	(let [uuid (str (java.util.UUID/randomUUID))
+        currentTime (System/currentTimeMillis)
+        ]
+		(insert friends (values {:uuid uuid :user_id user-id :friend_id friend-id :last_modify_time currentTime}))
 	{:uuid uuid})
 )
 
 (defn del-friend [user-id friend-id]
-	(update friends (set-fields {:is_deleted 1}) (where {:user_id user-id :friend_id friend-id}))
-	(first (select friends (fields :uuid) (where {:user_id user-id :friend_id friend-id})))
+  (let [del-friends (select friends (fields :uuid) (where {:user_id user-id :friend_id friend-id}))]
+    (delete friends (where {:user_id user-id :friend_id friend-id}))
+    (first del-friends)
+   )
 )
 
 (defn get-friends [user-id]
-	(let [user-friends (select friends (fields :uuid :user_id :friend_id) (where {:user_id user-id :is_deleted [not= 1]}))]
+	(let [user-friends (select friends (fields :uuid :user_id :friend_id) (where {:user_id user-id}))]
 		(loop [friend-list user-friends
 					result []
 					]
