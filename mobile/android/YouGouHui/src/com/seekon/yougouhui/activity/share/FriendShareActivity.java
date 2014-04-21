@@ -1,14 +1,11 @@
 package com.seekon.yougouhui.activity.share;
 
-import static com.seekon.yougouhui.func.share.ShareConst.COL_NAME_PUBLISH_TIME;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -17,7 +14,6 @@ import android.view.MenuItem;
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.RunEnv;
-import com.seekon.yougouhui.func.share.CommentConst;
 import com.seekon.yougouhui.func.share.CommentData;
 import com.seekon.yougouhui.func.share.CommentEntity;
 import com.seekon.yougouhui.func.share.ShareConst;
@@ -26,13 +22,13 @@ import com.seekon.yougouhui.func.share.ShareEntity;
 import com.seekon.yougouhui.func.share.ShareProcessor;
 import com.seekon.yougouhui.func.share.widget.ShareListAdapter;
 import com.seekon.yougouhui.func.share.widget.ShareUtils;
-import com.seekon.yougouhui.func.update.UpdateData;
+import com.seekon.yougouhui.func.sync.SyncData;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.layout.XListView;
 import com.seekon.yougouhui.layout.XListView.IXListViewListener;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
-import com.seekon.yougouhui.rest.resource.JSONArrayResource;
+import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.DateUtils;
 
 /**
@@ -53,7 +49,7 @@ public class FriendShareActivity extends Activity implements IXListViewListener 
 
 	private Handler mHandler;
 
-	private UpdateData updateData = null;
+	private SyncData updateData = null;
 
 	private ShareData shareData = null;
 
@@ -61,15 +57,7 @@ public class FriendShareActivity extends Activity implements IXListViewListener 
 
 	private int currentOffset = 0;// 分页用的当前的数据偏移
 
-	private String lastPublishTime = null;// 数据中分享记录最新发布的时间
-
-	private String lastUpdateTime = null;// 分享数据最新的更新时间，用于更新新增加的分享和评论数据
-
-	private String minPublishTime = null;// 数据中分享记录最小的发布时间, 用于获取已经删除了的分享和评论数据
-
-	private String lastCommentPublishTime = null;
-
-	private String minCommentPublishTime = null;
+	private String updateTime = null;// 数据中分享记录最新发布的时间
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -96,16 +84,11 @@ public class FriendShareActivity extends Activity implements IXListViewListener 
 
 		mHandler = new Handler();
 
-		updateData = new UpdateData(this);
+		updateData = new SyncData(this);
 		shareData = new ShareData(this);
 		commentData = new CommentData(this);
 
-		lastPublishTime = this.getLastPublishTime();
-		lastUpdateTime = updateData.getUpdateTime(ShareConst.TABLE_NAME);
-		minPublishTime = this.getMinPublishTime();
-
-		lastCommentPublishTime = this.getLastCommentPublishTime();
-		minCommentPublishTime = this.getMinCommentPublishTime();
+		updateTime = this.getUpdateTime();
 	}
 
 	private void loadShareListData() {
@@ -119,18 +102,21 @@ public class FriendShareActivity extends Activity implements IXListViewListener 
 
 	private void loadShareDataFromRemote() {
 		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>() {
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>() {
 
 					@Override
-					public RestMethodResult<JSONArrayResource> doInBackground() {
+					public RestMethodResult<JSONObjResource> doInBackground() {
 						return ShareProcessor.getInstance(FriendShareActivity.this)
-								.getShares(lastPublishTime, minPublishTime,
-										lastCommentPublishTime, minCommentPublishTime);
+								.getShares(updateTime);
 					}
 
 					@Override
-					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
-						updateListItemByRemoteCall();
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						currentOffset = 0;
+						shares.clear();
+						shares.addAll(getShareListFromLocal());
+
+						updateListView();
 					}
 				});
 	}
@@ -171,72 +157,15 @@ public class FriendShareActivity extends Activity implements IXListViewListener 
 		startActivityForResult(share, SHARE_ACTIVITY_REQUEST_CODE);
 	}
 
-	private String getLastPublishTime() {
-		String result = null;
-		String col = " max(" + COL_NAME_PUBLISH_TIME + ")";
-		Cursor cursor = null;
-		try {
-			cursor = getContentResolver().query(ShareConst.CONTENT_URI,
-					new String[] { col }, null, null, null);
-			if (cursor.moveToNext()) {
-				result = cursor.getString(0);
-			}
-		} finally {
-			cursor.close();
-		}
+	/**
+	 * 获取分享数据的最近更新时间，若为null，则默认为用户的注册时间
+	 * 
+	 * @return
+	 */
+	private String getUpdateTime() {
+		String result = updateData.getUpdateTime(ShareConst.TABLE_NAME);
 		if (result == null) {
-			result = RunEnv.getInstance().getUser().getRegisterTime();// updateData.getUpdateTime(ShareConst.TABLE_NAME);
-		}
-		return result;
-	}
-
-	private String getMinPublishTime() {
-		String result = null;
-		String col = " min(" + COL_NAME_PUBLISH_TIME + ")";
-		Cursor cursor = null;
-		try {
-			cursor = getContentResolver().query(ShareConst.CONTENT_URI,
-					new String[] { col }, null, null, null);
-			if (cursor.moveToNext()) {
-				result = cursor.getString(0);
-			}
-		} finally {
-			cursor.close();
-		}
-		return result;
-	}
-
-	private String getMinCommentPublishTime() {
-		String result = null;
-		String col = " min(" + COL_NAME_PUBLISH_TIME + ")";
-		Cursor cursor = null;
-		try {
-			cursor = getContentResolver().query(CommentConst.CONTENT_URI,
-					new String[] { col }, null, null, null);
-			if (cursor.moveToNext()) {
-				result = cursor.getString(0);
-			}
-		} finally {
-			cursor.close();
-		}
-		return result;
-	}
-
-	private String getLastCommentPublishTime() {
-		String result = null;
-		String col = " max(" + COL_NAME_PUBLISH_TIME + ")";
-		Cursor cursor = null;
-		try {
-			cursor = getContentResolver().query(CommentConst.CONTENT_URI,
-					new String[] { col }, null, null, null);
-			if (cursor.moveToNext()) {
-				result = cursor.getString(0);
-			}
-		} finally {
-			cursor.close();
-		}
-		if (result == null) {
-			result = RunEnv.getInstance().getUser().getRegisterTime();// updateData.getUpdateTime(CommentConst.TABLE_NAME);
+			result = RunEnv.getInstance().getUser().getRegisterTime();
 		}
 		return result;
 	}
@@ -257,27 +186,6 @@ public class FriendShareActivity extends Activity implements IXListViewListener 
 		return commentData.getCommentData(shareId);
 	}
 
-	protected void updateListItemByRemoteCall() {
-		lastUpdateTime = String.valueOf(System.currentTimeMillis());
-		lastPublishTime = this.getLastPublishTime();
-		if (lastPublishTime == null) {
-			lastPublishTime = lastUpdateTime;
-		}
-		minPublishTime = this.getMinPublishTime();
-
-		lastCommentPublishTime = this.getLastCommentPublishTime();
-		minCommentPublishTime = this.getMinCommentPublishTime();
-
-		updateData.updateData(ShareConst.TABLE_NAME, lastUpdateTime);
-		updateData.updateData(CommentConst.TABLE_NAME, lastUpdateTime);
-
-		this.currentOffset = 0;
-		shares.clear();
-		shares.addAll(this.getShareListFromLocal());
-
-		updateListView();
-	}
-
 	protected void updateListView() {
 		listAdapter.notifyDataSetChanged();
 		onPostLoad();
@@ -286,10 +194,10 @@ public class FriendShareActivity extends Activity implements IXListViewListener 
 	private void onPostLoad() {
 		shareListView.stopRefresh();
 		shareListView.stopLoadMore();
-		if (lastUpdateTime != null) {
+		if (updateTime != null) {
 			try {
 				shareListView.setRefreshTime(DateUtils.formartTime(Long
-						.valueOf(lastUpdateTime)));
+						.valueOf(updateTime)));
 			} catch (Exception e) {
 			}
 		}

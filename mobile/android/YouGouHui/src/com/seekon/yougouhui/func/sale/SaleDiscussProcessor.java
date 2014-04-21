@@ -39,9 +39,8 @@ public class SaleDiscussProcessor extends ContentProcessor implements
 	}
 
 	@Override
-	protected void updateContentProvider(RestMethodResult<Resource> result,
-			String[] colNames) {
-		super.updateContentProvider(result, colNames);
+	protected void updateContentProvider(RestMethodResult<Resource> result) {
+		super.updateContentProvider(result);
 		if (result.getResource() instanceof JSONObjResource) {
 			JSONObjResource resource = (JSONObjResource) result.getResource();
 			if (resource.has(DataConst.COL_NAME_IS_DELETED)) {

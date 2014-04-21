@@ -1,13 +1,10 @@
 package com.seekon.yougouhui.func.share;
 
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_IMG;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
-import static com.seekon.yougouhui.func.share.ShareConst.COL_NAME_PUBLISHER;
 import static com.seekon.yougouhui.func.share.ShareConst.COL_NAME_SHARE_ID;
 
 import java.io.File;
-import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,19 +16,15 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.seekon.yougouhui.file.FileHelper;
+import com.seekon.yougouhui.func.SyncSupportProcessor;
 import com.seekon.yougouhui.func.spi.IShareProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestStatus;
-import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.rest.resource.Resource;
-import com.seekon.yougouhui.service.ContentProcessor;
-import com.seekon.yougouhui.service.ProcessorCallback;
 import com.seekon.yougouhui.service.ProcessorProxy;
-import com.seekon.yougouhui.util.JSONUtils;
-import com.seekon.yougouhui.util.Logger;
 
-public class ShareProcessor extends ContentProcessor implements IShareProcessor {
+public class ShareProcessor extends SyncSupportProcessor implements
+		IShareProcessor {
 
 	private static IShareProcessor instance = null;
 	private static Object lock = new Object();
@@ -55,62 +48,9 @@ public class ShareProcessor extends ContentProcessor implements IShareProcessor 
 	 * 
 	 * @param callback
 	 */
-	public RestMethodResult<JSONArrayResource> getShares(String lastPublishTime,
-			String minPublishTime, String lastCommentPublishTime,
-			String minCommentPublishTime) {
-		GetSharesMethod method = new GetSharesMethod(mContext, lastPublishTime,
-				minPublishTime, lastCommentPublishTime, minCommentPublishTime);
-		return (RestMethodResult)this.execMethod(method);
-	}
-
-	@Override
-	protected void updateContentProvider(RestMethodResult<Resource> result,
-			String[] colNames) {
-		if (result == null) {
-			return;
-		}
-		try {
-			Resource resource = result.getResource();
-			if (resource != null && resource instanceof JSONObjResource) {
-				JSONObjResource jsonObjRes = (JSONObjResource) resource;
-
-				try {
-					JSONArray shares = jsonObjRes.getJSONArray("newest-shares");
-					updateShares(shares);
-				} catch (Exception e) {
-				}
-
-				try {
-					JSONArray comments = jsonObjRes.getJSONArray("newest-comments");
-					updateComments(comments);
-				} catch (Exception e) {
-				}
-
-				try {
-					JSONArray shares = jsonObjRes.getJSONArray("deleted-shares");
-					deleteShares(shares);
-				} catch (Exception e) {
-				}
-
-				try {
-					JSONArray comments = jsonObjRes.getJSONArray("deleted-comments");
-					deleteComments(comments);
-				} catch (Exception e) {
-				}
-			}
-		} catch (Exception e) {
-			Logger.error(TAG, e.getMessage(), e);
-		}
-	}
-
-	private void updateShares(JSONArray shares) throws JSONException {
-		int size = shares.length();
-		if (size > 0) {
-			for (int i = 0; i < size; i++) {
-				JSONObject jsonObj = shares.getJSONObject(i);
-				this.updateContentProvider(jsonObj, colNames, contentUri);
-			}
-		}
+	public RestMethodResult<JSONObjResource> getShares(String updateTime) {
+		return (RestMethodResult) this.execMethod(new GetSharesMethod(mContext,
+				updateTime));
 	}
 
 	/**
@@ -124,50 +64,30 @@ public class ShareProcessor extends ContentProcessor implements IShareProcessor 
 		// 更新分享的图片
 		try {
 			JSONArray images = jsonObj.getJSONArray(ShareConst.DATA_IMAGE_KEY);
-			updateShareImages(images);
+			this.updateContentProvider(images, ShareImgData.COL_NAMES,
+					ShareImgConst.CONTENT_URI);
 		} catch (Exception e) {
 		}
 
 		// 更新分享的评论
 		try {
 			JSONArray comments = jsonObj.getJSONArray(ShareConst.DATA_COMMENT_KEY);
-			updateComments(comments);
+			updateContentProvider(comments, CommentData.COL_NAMES,
+					CommentConst.CONTENT_URI);
 		} catch (Exception e) {
 		}
 	}
 
-	private void updateShareImages(JSONArray images) throws JSONException {
-		if (images != null && images.length() > 0) {
-			for (int i = 0; i < images.length(); i++) {
-				JSONObject image = images.getJSONObject(i);
-				updateContentProvider(image, ShareImgData.COL_NAMES,
-						ShareImgConst.CONTENT_URI);
-			}
-		}
-	}
-
-	private void updateComments(JSONArray comments) throws JSONException {
-		if (comments != null && comments.length() > 0) {
-			for (int i = 0; i < comments.length(); i++) {
-				JSONObject comment = comments.getJSONObject(i);
-				updateContentProvider(comment, CommentData.COL_NAMES,
-						CommentConst.CONTENT_URI);
-			}
-		}
-	}
-
-	private void deleteShares(JSONArray shares) throws JSONException {
-		if (shares == null) {
-			return;
-		}
-		int size = shares.length();
-		for (int i = 0; i < size; i++) {
-			JSONObject jsonObj = shares.getJSONObject(i);
-			this.deleteContentProvider(jsonObj, ShareConst.CONTENT_URI);
-
-			deleteShareImages(jsonObj);
-			deleteComments(jsonObj);
-		}
+	/**
+	 * 重载删除操作，当删除share的时候，同时将image和comment删除掉
+	 */
+	@Override
+	protected void deleteContentProvider(JSONObject jsonObj, Uri contentUri)
+			throws JSONException {
+		super.deleteContentProvider(jsonObj, contentUri);
+		// TODO:需进行判断是否在删除share
+		deleteShareImages(jsonObj);
+		deleteComments(jsonObj);
 	}
 
 	private void deleteShareImages(JSONObject share) throws JSONException {
@@ -196,10 +116,6 @@ public class ShareProcessor extends ContentProcessor implements IShareProcessor 
 		resolver.delete(CommentConst.CONTENT_URI, where, args);
 	}
 
-	private void deleteComments(JSONArray comments) throws JSONException {
-		this.deleteContentProvider(comments, CommentConst.CONTENT_URI);
-	}
-
 	/**
 	 * 保存发布分享的信息
 	 */
@@ -207,47 +123,9 @@ public class ShareProcessor extends ContentProcessor implements IShareProcessor 
 		return new PostShareMethod(share, mContext).execute();
 	}
 
-	public RestMethodResult<JSONObjResource> postComment(
-			Map<String, String> comment) {
-		RestMethodResult<JSONObjResource> result = new PostCommentMethod(mContext,
-				comment).execute();
-		if (result.getStatusCode() == RestStatus.SC_OK) {
-			JSONObjResource resource = result.getResource();
-			JSONUtils.putJSONValue(resource, COL_NAME_SHARE_ID,
-					comment.get(COL_NAME_SHARE_ID));
-			JSONUtils.putJSONValue(resource, COL_NAME_CONTENT,
-					comment.get(COL_NAME_CONTENT));
-			JSONUtils.putJSONValue(resource, COL_NAME_PUBLISHER,
-					comment.get(COL_NAME_PUBLISHER));
-
-			try {
-				updateContentProvider(resource, CommentData.COL_NAMES,
-						CommentConst.CONTENT_URI);
-			} catch (JSONException e) {
-				throw new RuntimeException(e);
-			}
-		}
-		return result;
-	}
-
 	public RestMethodResult<JSONObjResource> deleteShare(String shareId) {
-		RestMethodResult<JSONObjResource> resource = new DeleteShareMethod(
-				mContext, shareId).execute();
-
-		String selection = COL_NAME_UUID + "=?";
-		String[] selectionArgs = new String[] { shareId };
-
-		ContentResolver resolver = mContext.getContentResolver();
-		resolver.delete(ShareConst.CONTENT_URI, selection, selectionArgs);
-
-		selection = COL_NAME_SHARE_ID + "=?";
-		resolver.delete(ShareImgConst.CONTENT_URI, selection, selectionArgs);
-		resolver.delete(CommentConst.CONTENT_URI, selection, selectionArgs);
-
-		return resource;
+		return (RestMethodResult) this.execMethod(new DeleteShareMethod(mContext,
+				shareId));
 	}
 
-	public RestMethodResult<JSONObjResource> deleteComment(String commentId) {
-		return new DeleteCommentMethod(mContext, commentId).execute();
-	}
 }

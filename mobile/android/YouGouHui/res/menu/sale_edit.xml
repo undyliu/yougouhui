@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_sale_cancel"
+        android:showAsAction="always|withText"
+        android:title="@string/title_action_cancel"/>
+    <item
+        android:id="@+id/menu_sale_publish"
+        android:enabled="false"
+        android:showAsAction="always|withText"
+        android:title="@string/title_action_publish"
+        android:visible="false"/>
+
+</menu>

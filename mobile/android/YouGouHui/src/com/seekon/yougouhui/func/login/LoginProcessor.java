@@ -43,8 +43,7 @@ public class LoginProcessor extends ContentProcessor implements ILoginProcessor 
 	}
 
 	@Override
-	protected void updateContentProvider(RestMethodResult<Resource> result,
-			String[] colNames) {
+	protected void updateContentProvider(RestMethodResult<Resource> result) {
 		if (result == null) {
 			return;
 		}

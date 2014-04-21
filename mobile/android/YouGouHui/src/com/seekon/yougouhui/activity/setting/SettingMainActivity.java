@@ -1,24 +1,34 @@
 package com.seekon.yougouhui.activity.setting;
 
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_CODE;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_IMG;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_ORD_INDEX;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_VALUE;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.ContentValues;
+import android.app.ListActivity;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Switch;
+import android.widget.ListView;
 
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.activity.LoginActivity;
-import com.seekon.yougouhui.func.RunEnv;
-import com.seekon.yougouhui.func.login.EnvHelper;
-import com.seekon.yougouhui.func.login.LoginConst;
-import com.seekon.yougouhui.sercurity.AuthorizationManager;
-import com.seekon.yougouhui.util.ViewUtils;
+import com.seekon.yougouhui.func.setting.SettingConst;
+import com.seekon.yougouhui.func.setting.SettingEntity;
+import com.seekon.yougouhui.func.setting.SettingProcessor;
+import com.seekon.yougouhui.func.setting.widget.SettingListAdapter;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 
 /**
  * 系统设置：设置登录配置信息
@@ -26,48 +36,24 @@ import com.seekon.yougouhui.util.ViewUtils;
  * @author undyliu
  * 
  */
-public class SettingMainActivity extends Activity {
+public class SettingMainActivity extends ListActivity {
 
-	private Switch autoLoginView;
-	private Switch rememberPwdView;
+	private List<SettingEntity> settingList = new ArrayList<SettingEntity>();
+
+	private SettingListAdapter settingListAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.profile_setting);
+		this.setContentView(R.layout.base_listview);
 
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		ContentValues loginSetting = RunEnv.getInstance().getLoginSetting();
-		autoLoginView = (Switch) findViewById(R.id.auto_login);
-		autoLoginView.setChecked(loginSetting
-				.getAsBoolean(LoginConst.LOGIN_SETTING_AUTO_LOGIN));
+		settingListAdapter = new SettingListAdapter(this, settingList);
+		this.setListAdapter(settingListAdapter);
 
-		rememberPwdView = (Switch) findViewById(R.id.remember_pwd);
-		rememberPwdView.setChecked(loginSetting
-				.getAsBoolean(LoginConst.LOGIN_SETTING_REMEMBER_PWD));
-
-		Button logoutButton = (Button) findViewById(R.id.logout);
-		logoutButton.setOnClickListener(new Button.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				String phone = RunEnv.getInstance().getUser().getPhone();
-				AuthorizationManager.getInstance(SettingMainActivity.this).getEnvHelper()
-						.deleteLoginSetting(phone);
-				RunEnv.getInstance().setUser(null);
-				Intent intent = new Intent(SettingMainActivity.this, LoginActivity.class);
-				startActivity(intent);
-				finish();// TODO:获取activity堆栈销毁活动的activity
-			}
-		});
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.profile_setting, menu);
-		return true;
+		loadSettingList();
 	}
 
 	@Override
@@ -77,53 +63,75 @@ public class SettingMainActivity extends Activity {
 		case android.R.id.home:
 			this.finish();
 			break;
-		case R.id.menu_setting:
-			saveSetting();
-			break;
 		default:
 			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void showProgress(boolean show) {
-		ViewUtils.showProgress(this, this.findViewById(R.id.view_login_setting),
-				show, R.string.default_progress_status_message);
+	private void loadSettingList() {
+		loadSettingListFromLocal();
+		if (settingList.isEmpty()) {
+			loadSettingListFromRemote();
+		} else {
+			settingListAdapter.updateData(settingList);
+		}
 	}
 
-	private void saveSetting() {
-		showProgress(true);
-
-		AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
-			@Override
-			protected Boolean doInBackground(Void... params) {
-				ContentValues loginSetting = RunEnv.getInstance().getLoginSetting();
-				loginSetting.put(LoginConst.LOGIN_SETTING_AUTO_LOGIN,
-						autoLoginView.isChecked());
-				loginSetting.put(LoginConst.LOGIN_SETTING_REMEMBER_PWD,
-						rememberPwdView.isChecked());
-				EnvHelper envHelper = AuthorizationManager.getInstance(
-						SettingMainActivity.this).getEnvHelper();
-				envHelper.updateLoginSetting(loginSetting);
-				return true;
+	private void loadSettingListFromLocal() {
+		String[] projection = new String[] { COL_NAME_UUID, COL_NAME_CODE,
+				COL_NAME_NAME, COL_NAME_IMG, COL_NAME_VALUE };
+		Cursor cursor = null;
+		try {
+			cursor = this.getContentResolver().query(SettingConst.CONTENT_URI,
+					projection, null, null, COL_NAME_ORD_INDEX);
+			while (cursor.moveToNext()) {
+				int i = 0;
+				SettingEntity settings = new SettingEntity(cursor.getString(i++),
+						cursor.getString(i++), cursor.getString(i++), cursor.getString(i++));
+				settings.setValue(cursor.getString(i++));
+				settingList.add(settings);
 			}
-
-			@Override
-			protected void onPostExecute(Boolean result) {
-				if (result) {
-					ViewUtils.showToast("修改成功.");
-				}
-				showProgress(false);
+		} finally {
+			if (cursor != null) {
+				cursor.close();
 			}
-
-			@Override
-			protected void onCancelled() {
-				showProgress(false);
-				super.onCancelled();
-			}
-		};
-
-		task.execute((Void) null);
+		}
 	}
 
+	private void loadSettingListFromRemote() {
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>() {
+
+					@Override
+					public RestMethodResult<JSONArrayResource> doInBackground() {
+						return SettingProcessor.getInstance(SettingMainActivity.this)
+								.getSettings();
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+						loadSettingListFromLocal();
+						settingListAdapter.updateData(settingList);
+					}
+				});
+	}
+	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		Class<? extends Activity> clazz = null;
+		String code = settingList.get(position).getCode();
+		if(code.equals(SettingConst.SETTING_CODE_LOGIN)){
+			clazz = LoginSettingActivity.class;
+		}else if(code.equals(SettingConst.SETTING_CODE_RADAR)){
+			clazz = RadarSettingActivity.class;
+		}else if(code.equals(SettingConst.SETTING_CODE_CACHE)){
+			clazz = CacheSettingActivity.class;
+		}
+		
+		if(clazz != null){
+			Intent intent = new Intent(this, clazz);
+			startActivity(intent);
+		}
+	}
 }

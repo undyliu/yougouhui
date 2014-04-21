@@ -14,4 +14,6 @@ public interface ISaleProcessor {
 	public RestMethodResult<JSONObjResource> publishSale(SaleEntity sale);
 
 	public RestMethodResult<JSONObjResource> getSale(String saleId);
+	
+	public RestMethodResult<JSONObjResource> cancelSale(SaleEntity sale);
 }

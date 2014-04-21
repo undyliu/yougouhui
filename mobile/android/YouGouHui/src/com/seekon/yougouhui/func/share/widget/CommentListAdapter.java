@@ -17,6 +17,7 @@ import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.share.CommentConst;
 import com.seekon.yougouhui.func.share.CommentEntity;
+import com.seekon.yougouhui.func.share.CommentProcessor;
 import com.seekon.yougouhui.func.share.ShareProcessor;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
@@ -89,7 +90,7 @@ public class CommentListAdapter extends BaseAdapter {
 
 								@Override
 								public RestMethodResult<JSONObjResource> doInBackground() {
-									return ShareProcessor.getInstance(context).deleteComment(
+									return CommentProcessor.getInstance(context).deleteComment(
 											commentId);
 								}
 

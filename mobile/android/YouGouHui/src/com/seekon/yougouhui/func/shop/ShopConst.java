@@ -32,8 +32,4 @@ public interface ShopConst extends DataConst {
 
 	public static final String MAP_SHOP_KEY = "map.shop";
 
-	public static final String STATUS_REGISTERED = "0";
-	public static final String STATUS_AUDITED = "1";
-	public static final String STATUS_CANCELED = "2";
-
 }

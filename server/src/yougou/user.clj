@@ -1,5 +1,5 @@
 (ns yougou.user
-  (:use 
+  (:use
 		[korma.core]
 		[yougou.db]
 	)
@@ -19,18 +19,18 @@
 )
 
 (defn update-user-name [uuid name]
-	(update users (set-fields {:name name}) (where {:uuid uuid}))
+	(update users (set-fields {:name name :last_modify_time (str (System/currentTimeMillis))}) (where {:uuid uuid}))
 	{:uuid uuid :name name}
 )
 
 (defn update-user-pwd [uuid pwd]
-	(update users (set-fields {:pwd pwd}) (where {:uuid uuid}))
+	(update users (set-fields {:pwd pwd :last_modify_time (str (System/currentTimeMillis))}) (where {:uuid uuid}))
 	{:uuid uuid :pwd pwd}
 )
 
 (defn save-user-photo [uuid photo temp-file]
 	(let [photos (select users (fields :photo) (where {:uuid uuid}))]
-		(update users (set-fields {:photo photo}) (where {:uuid uuid}))
+		(update users (set-fields {:photo photo :last_modify_time (str (System/currentTimeMillis))}) (where {:uuid uuid}))
 		(file/del-image-files photos)
 		(if temp-file
 			(file/save-image-file photo temp-file)

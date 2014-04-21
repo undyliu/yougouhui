@@ -123,7 +123,7 @@ public class SaleData extends AbstractDBHelper {
 		args.add(publishDate);
 
 		List<SaleEntity> result = new ArrayList<SaleEntity>();
-		String sql = " select s.uuid, title, img, content, visit_count, discuss_count, publisher, u.name as user_name"
+		String sql = " select s.uuid, title, img, content, visit_count, discuss_count, status, publisher, u.name as user_name"
 				+ ",  shop_id, shop_name, location "
 				+ " from e_sale s join e_user u on s.publisher = u.uuid "
 				+ " where publish_date = ?  ";
@@ -146,7 +146,8 @@ public class SaleData extends AbstractDBHelper {
 				sale.setContent(cursor.getString(i++));
 				sale.setVisitCount(cursor.getInt(i++));
 				sale.setDiscussCount(cursor.getInt(i++));
-
+				sale.setStatus(cursor.getString(i++));
+				
 				UserEntity publisher = new UserEntity();
 				publisher.setUuid(cursor.getString(i++));
 				publisher.setName(cursor.getString(i++));
@@ -219,9 +220,9 @@ public class SaleData extends AbstractDBHelper {
 			selectionArgs = new String[] { channelId };
 		}
 		String sql = " select sa.uuid, title, content, start_date, end_date, trade_id, visit_count, discuss_count, sa.status, sa.img "
-				+ ", shop_id, shop_name, location " + " from e_sale sa  ";
+				+ ", shop_id, shop_name, location " + " from e_sale sa  where status != '0'";
 		if (selection != null) {
-			sql += " where " + selection;
+			sql += " and " + selection;
 		}
 
 		sql += " order by sa.publish_time desc ";// TODO根据距离进行排序处理

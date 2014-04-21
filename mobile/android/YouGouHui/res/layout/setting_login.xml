@@ -40,44 +40,4 @@
             android:text="@string/action_logout"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/view_info_ageing"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/content_shape"
-        android:orientation="vertical" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="分享信息本地保留" />
-
-            <NumberPicker
-                android:id="@+id/np_share_age"
-                android:layout_width="wrap_content"
-                android:layout_height="120dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:text="天" />
-        </LinearLayout>
-    </LinearLayout>
-
 </LinearLayout>

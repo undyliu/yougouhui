@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_login_setting">登录设置</string>
+    <string name="title_cache_setting">缓存信息</string>
+    <string name="title_radar_setting">雷达设置</string>
+</resources>

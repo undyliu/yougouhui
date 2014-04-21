@@ -18,6 +18,7 @@ import android.widget.PopupWindow;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.share.CommentEntity;
+import com.seekon.yougouhui.func.share.CommentProcessor;
 import com.seekon.yougouhui.func.share.ShareConst;
 import com.seekon.yougouhui.func.share.ShareEntity;
 import com.seekon.yougouhui.func.share.ShareProcessor;
@@ -71,7 +72,7 @@ public class CommentPopupWindow extends PopupWindow {
 
 							@Override
 							public RestMethodResult<JSONObjResource> doInBackground() {
-								return ShareProcessor.getInstance(activity).postComment(
+								return CommentProcessor.getInstance(activity).postComment(
 										commentMap);
 							}
 

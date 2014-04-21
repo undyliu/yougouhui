@@ -12,7 +12,7 @@
 
 (def sale-select-base
   (-> (select* sales)
-      (fields :uuid :title :content :img :start_date :end_date :visit_count :discuss_count :shop_id [:e_shop.name :shop_name] :e_shop.location :trade_id :publisher :publish_time :publish_date :e_mapping_ct.channel_id)
+      (fields :uuid :title :content :img :start_date :end_date :visit_count :discuss_count :shop_id [:e_shop.name :shop_name] :e_shop.location :trade_id :publisher :publish_time :publish_date :e_mapping_ct.channel_id :status)
       (join channel-trades (= :e_mapping_ct.trade_id :trade_id))
       (join shops (= :e_shop.uuid :shop_id))
   )
@@ -28,6 +28,7 @@
      ;     (order :publish_time)
    ;)
   (exec (-> sale-select-base
+            (where {:status [not= "0"]})
             (order :publish_time)
          )
    )
@@ -42,10 +43,10 @@
 
 (defn save-sale-visit [user-id sale-id visit-count]
   (let [uuid (str (java.util.UUID/randomUUID))
-        currentTime (System/currentTimeMillis)
+        current-time (System/currentTimeMillis)
         ]
-    (update sales (set-fields {:visit_count visit-count}) (where {:uuid sale-id}))
-    (insert sale-visites (values {:uuid uuid :user_id user-id :sale_id sale-id :visit_time currentTime}))
+    (update sales (set-fields {:visit_count visit-count :last_modify_time current-time}) (where {:uuid sale-id}))
+    (insert sale-visites (values {:uuid uuid :user_id user-id :sale_id sale-id :visit_time current-time}))
     )
   )
 
@@ -71,10 +72,10 @@
 
 (defn save-sale [title content start-date end-date shop-id trade-id publisher image]
   (let [uuid (str (java.util.UUID/randomUUID))
-        currentTime (System/currentTimeMillis)
+        current-time (System/currentTimeMillis)
         ]
-    (insert sales (values {:uuid uuid :title title :content content :start_date start-date :end_date end-date :shop_id shop-id :trade_id trade-id :publisher publisher :publish_time currentTime :publish_date (date/formatDate currentTime) :img image}))
-    {:uuid uuid :publish_time currentTime :publish_date (date/formatDate currentTime) :img image :status 0}
+    (insert sales (values {:uuid uuid :title title :content content :start_date start-date :end_date end-date :shop_id shop-id :trade_id trade-id :publisher publisher :publish_time current-time :publish_date (date/formatDate current-time) :img image :last_modify_time current-time}))
+    {:uuid uuid :publish_time current-time :publish_date (date/formatDate current-time) :img image :status 0}
     )
   )
 
@@ -106,12 +107,12 @@
 
 (defn save-sale-discuss [sale-id publisher content]
   (let [uuid (str (java.util.UUID/randomUUID))
-        currentTime (System/currentTimeMillis)
+        current-time (System/currentTimeMillis)
         discuss-count (:discuss_count (first (select sales (fields :discuss_count) (where {:uuid sale-id}))))
         ]
-    (insert sale-discusses (values {:uuid uuid :sale_id sale-id :content content :publisher publisher :publish_time currentTime}))
-    (update sales (set-fields {:discuss_count (+ 1 discuss-count)}) (where {:uuid sale-id}))
-    {:uuid uuid :publish_time currentTime}
+    (insert sale-discusses (values {:uuid uuid :sale_id sale-id :content content :publisher publisher :publish_time current-time :last_modify_time current-time}))
+    (update sales (set-fields {:discuss_count (+ 1 discuss-count)} :last_modify_time current-time) (where {:uuid sale-id}))
+    {:uuid uuid :publish_time current-time}
    )
  )
 
@@ -121,9 +122,10 @@
                                   ))
         discuss-count (:discuss_count sale)
         sale-id (:uuid sale)
+        current-time (System/currentTimeMillis)
         ]
-    (update sale-discusses (set-fields {:is_deleted 1}) (where {:uuid uuid}))
-    (update sales (set-fields {:discuss_count (- discuss-count 1)}) (where {:uuid sale-id}))
+    (update sale-discusses (set-fields {:is_deleted 1 :last_modify_time current-time}) (where {:uuid uuid}))
+    (update sales (set-fields {:discuss_count (- discuss-count 1) :last_modify_time current-time}) (where {:uuid sale-id}))
     {:uuid uuid :is_deleted 1}
     )
   )
@@ -135,4 +137,7 @@
         ]
     discusses
    )
+  )
+(defn cancel-sale [sale-id]
+  (update sales (set-fields {:status 2 :last_modify_time (System/currentTimeMillis)}) (where {:uuid sale-id}))
   )

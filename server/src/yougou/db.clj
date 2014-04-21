@@ -112,3 +112,8 @@
   (table :e_sale_favorit)
   (pk :uuid)
   )
+
+(defentity settings
+  (table :e_setting)
+  (pk :uuid)
+  )

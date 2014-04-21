@@ -4,12 +4,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.spi.ISaleProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestStatus;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.service.ContentProcessor;
@@ -81,5 +83,21 @@ public class SaleProcessor extends ContentProcessor implements ISaleProcessor {
 	public RestMethodResult<JSONObjResource> getSale(String saleId) {
 		return (RestMethodResult) this.execMethod(new GetSaleMethod(mContext,
 				saleId));
+	}
+
+	@Override
+	public RestMethodResult<JSONObjResource> cancelSale(SaleEntity sale) {
+		RestMethodResult<JSONObjResource> result = new CancelSaleMethod(mContext,
+				sale).execute();
+		if (result.getStatusCode() == RestStatus.SC_OK) {
+			ContentValues values = new ContentValues();
+			values.put(SaleConst.COL_NAME_STATUS, DataConst.STATUS_CANCELED);
+			String where = DataConst.COL_NAME_UUID + "=?";
+			String[] selectionArgs = new String[] { sale.getUuid() };
+			mContext.getContentResolver().update(contentUri, values, where,
+					selectionArgs);
+			sale.setStatus(DataConst.STATUS_CANCELED);
+		}
+		return result;
 	}
 }

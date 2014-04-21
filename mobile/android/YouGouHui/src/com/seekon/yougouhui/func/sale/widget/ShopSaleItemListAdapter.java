@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.ImageLoader;
+import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.sale.SaleEntity;
 
 public class ShopSaleItemListAdapter extends BaseAdapter {
@@ -85,7 +86,20 @@ public class ShopSaleItemListAdapter extends BaseAdapter {
 		TextView publisherView = (TextView) view.findViewById(R.id.sale_publisher);
 		publisherView.setText(sale.getPublisher().getName());
 		publisherView.getPaint().setFakeBoldText(true);
-
+		
+		String status = sale.getStatus();
+		TextView statusView = (TextView) view.findViewById(R.id.sale_status);
+		if(DataConst.STATUS_AUDITED.equals(status)){
+			statusView.setText(R.string.label_sale_status_audited);
+		}else if(DataConst.STATUS_CANCELED.equals(status)){
+			statusView.setText(R.string.label_sale_status_canceled);
+		}else if(DataConst.STATUS_ENDED.equals(status)){
+			statusView.setText(R.string.label_sale_status_ended);
+		}else if(DataConst.STATUS_REGISTERED.equals(status)){
+			statusView.setText(R.string.label_sale_status_registered);
+		}else{
+			statusView.setText(R.string.label_sale_status_registered);
+		}
 		return view;
 	}
 

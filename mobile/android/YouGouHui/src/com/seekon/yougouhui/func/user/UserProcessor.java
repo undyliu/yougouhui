@@ -1,22 +1,18 @@
 package com.seekon.yougouhui.func.user;
 
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
-
 import java.util.Map;
 
-import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
 
 import com.seekon.yougouhui.file.FileEntity;
-import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.spi.IUserProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestStatus;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.rest.resource.Resource;
 import com.seekon.yougouhui.service.ContentProcessor;
 import com.seekon.yougouhui.service.ProcessorProxy;
-import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.Logger;
 
 public class UserProcessor extends ContentProcessor implements IUserProcessor {
@@ -41,35 +37,6 @@ public class UserProcessor extends ContentProcessor implements IUserProcessor {
 		super(mContext, UserData.COL_NAMES, UserConst.CONTENT_URI);
 	}
 
-	@Override
-	protected void updateContentProvider(RestMethodResult<Resource> result,
-			String[] colNames) {
-		String[] newColNames = null;
-		UserEntity user = RunEnv.getInstance().getUser();
-		if (user != null) {
-			String uuid = user.getUuid();
-			if (uuid != null && uuid.length() > 0) {
-				Resource resource = result.getResource();
-				if (resource instanceof JSONObjResource) {
-					JSONObjResource jsonRes = (JSONObjResource) resource;
-					try {
-						if (uuid.equals(jsonRes.getString(COL_NAME_UUID))) {
-							newColNames = JSONUtils.getKeys(jsonRes);
-							user = UserUtils.updateUserEntity(user, jsonRes);
-							RunEnv.getInstance().setUser(user);// 更新系统环境中的user对象
-						}
-					} catch (JSONException e) {
-						Logger.warn(TAG, e.getMessage());
-					}
-				}
-			}
-		}
-		if (newColNames == null || newColNames.length == 0) {
-			newColNames = colNames;
-		}
-		super.updateContentProvider(result, newColNames);
-	}
-
 	/**
 	 * 注册新用户
 	 * 
@@ -89,8 +56,12 @@ public class UserProcessor extends ContentProcessor implements IUserProcessor {
 	 * @return
 	 */
 	public RestMethodResult<JSONObjResource> updateUserName(String name) {
-		return (RestMethodResult) this.execMethod(new PutUserNameMethod(mContext,
-				name));
+		RestMethodResult<JSONObjResource> result = new PutUserNameMethod(mContext,
+				name).execute();
+		if (result.getStatusCode() == RestStatus.SC_OK) {
+			updateLocalDatabase(UserConst.COL_NAME_USER_NAME, name);
+		}
+		return result;
 	}
 
 	/**
@@ -100,8 +71,12 @@ public class UserProcessor extends ContentProcessor implements IUserProcessor {
 	 * @return
 	 */
 	public RestMethodResult<JSONObjResource> updateUserPwd(String pwd) {
-		return (RestMethodResult) this.execMethod(new PutUserPwdMethod(mContext,
-				pwd));
+		RestMethodResult<JSONObjResource> result = new PutUserPwdMethod(mContext,
+				pwd).execute();
+		if (result.getStatusCode() == RestStatus.SC_OK) {
+			updateLocalDatabase(UserConst.COL_NAME_PWD, pwd);
+		}
+		return result;
 	}
 
 	/**
@@ -111,7 +86,24 @@ public class UserProcessor extends ContentProcessor implements IUserProcessor {
 	 * @return
 	 */
 	public RestMethodResult<JSONObjResource> updateUserPhoto(FileEntity photoUri) {
-		return (RestMethodResult) this.execMethod(new PostUserPhotoMethod(mContext,
-				photoUri));
+		RestMethodResult<JSONObjResource> result = new PostUserPhotoMethod(
+				mContext, photoUri).execute();
+		if (result.getStatusCode() == RestStatus.SC_OK) {
+			updateLocalDatabase(UserConst.COL_NAME_USER_ICON, photoUri.getAliasName());
+		}
+		return result;
+	}
+
+	private void updateLocalDatabase(String fieldName, String value) {
+		try {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put(fieldName, value);
+			this.updateContentProvider(jsonObj, new String[] { fieldName },
+					contentUri);
+
+		} catch (Exception e) {
+			Logger.warn(TAG, e.getMessage(), e);
+			throw new RuntimeException(e);
+		}
 	}
 }

@@ -1,12 +1,8 @@
-package com.seekon.yougouhui.func.update;
+package com.seekon.yougouhui.func.sync;
 
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
-import static com.seekon.yougouhui.func.update.UpdateConst.COL_NAME_TABLE_NAME;
-import static com.seekon.yougouhui.func.update.UpdateConst.COL_NAME_UPDATE_TIME;
-import static com.seekon.yougouhui.func.update.UpdateConst.TABLE_NAME;
-
-import java.util.UUID;
-
+import static com.seekon.yougouhui.func.sync.SyncConst.COL_NAME_TABLE_NAME;
+import static com.seekon.yougouhui.func.sync.SyncConst.COL_NAME_UPDATE_TIME;
+import static com.seekon.yougouhui.func.sync.SyncConst.TABLE_NAME;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -20,9 +16,12 @@ import com.seekon.yougouhui.db.AbstractDBHelper;
  * @author undyliu
  * 
  */
-public class UpdateData extends AbstractDBHelper {
+public class SyncData extends AbstractDBHelper {
 
-	public UpdateData(Context context) {
+	public static final String[] COL_NAMES = new String[] { COL_NAME_TABLE_NAME,
+			COL_NAME_UPDATE_TIME };
+
+	public SyncData(Context context) {
 		super(context);
 	}
 
@@ -30,8 +29,8 @@ public class UpdateData extends AbstractDBHelper {
 	public void onCreate(SQLiteDatabase db) {
 		// db.execSQL(" drop table if EXISTS " + TABLE_NAME);
 		db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
-				+ COL_NAME_UUID + " TEXT PRIMARY KEY, " + COL_NAME_TABLE_NAME
-				+ " TEXT, " + COL_NAME_UPDATE_TIME + " TEXT)");
+				+ COL_NAME_TABLE_NAME + " TEXT PRIMARY KEY, " + COL_NAME_UPDATE_TIME
+				+ " TEXT)");
 	}
 
 	@Override
@@ -55,7 +54,7 @@ public class UpdateData extends AbstractDBHelper {
 				new String[] { tableName });
 		if (count == 0) {
 			values.put(COL_NAME_TABLE_NAME, tableName);
-			values.put(COL_NAME_UUID, UUID.randomUUID().toString());
+			//values.put(COL_NAME_UUID, UUID.randomUUID().toString());
 			db.insert(TABLE_NAME, null, values);
 		}
 	}

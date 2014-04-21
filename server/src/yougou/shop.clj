@@ -39,9 +39,10 @@
       result
       (let [uuid (str (java.util.UUID/randomUUID))
             trade-id (first trade-list)
+            current-time (str (System/currentTimeMillis))
             ]
         (if trade-id
-          (insert shop-trades (values {:uuid uuid :shop_id shop-id :trade_id trade-id}))
+          (insert shop-trades (values {:uuid uuid :shop_id shop-id :trade_id trade-id :last_modify_time current-time}))
         )
         (recur (rest trade-list) (conj result {:uuid uuid :trade_id trade-id}))
         )
@@ -51,23 +52,23 @@
 
 (defn save-shop-emp [shop-id user-id pwd]
   (let [uuid (str (java.util.UUID/randomUUID))
+        current-time (str  (System/currentTimeMillis))
         ]
-    ;(println str uuid "," shop-id "," user-id "," pwd)
-    (insert shop-emps (values {:uuid uuid :shop_id shop-id :user_id user-id :pwd pwd}))
+    (insert shop-emps (values {:uuid uuid :shop_id shop-id :user_id user-id :pwd pwd :last_modify_time current-time}))
     {:uuid uuid}
     )
   )
 
 (defn save-shop [name desc location address shop-img busi-license owner files]
 	(let [uuid (str (java.util.UUID/randomUUID))
-        register-time (str  (System/currentTimeMillis))
+        current-time (str  (System/currentTimeMillis))
         ]
     (insert shops
-      (values {:uuid uuid :name name :desc desc :location location :address address :shop_img shop-img :busi_license busi-license :register_time register-time :owner owner})
+      (values {:uuid uuid :name name :desc desc :location location :address address :shop_img shop-img :busi_license busi-license :register_time current-time :owner owner :last_modify_time current-time})
     )
     (file/save-image-file shop-img (files shop-img))
     (file/save-image-file busi-license (files busi-license))
-    {:uuid uuid :register_time register-time :status 0}
+    {:uuid uuid :register_time current-time :status 0}
    )
 )
 
@@ -99,23 +100,25 @@
   )
 
 (defn update-shop [field-name value shop-id temp-file]
+  (let [current-time (str (System/currentTimeMillis))]
   (cond
    (= field-name "shop_img")
      (let [old-images (select shops (fields :shop_img) (where {:uuid shop-id}))]
-        (update shops (set-fields {:shop_img value}) (where {:uuid shop-id}))
+        (update shops (set-fields {:shop_img value :last_modify_time current-time}) (where {:uuid shop-id}))
         (file/del-image-files old-images)
         (file/save-image-file value temp-file)
       )
    (= field-name "busi_license")
      (let [old-images (select shops (fields :busi_license) (where {:uuid shop-id}))]
-        (update shops (set-fields {:busi_license value}) (where {:uuid shop-id}))
+        (update shops (set-fields {:busi_license value :last_modify_time current-time}) (where {:uuid shop-id}))
         (file/del-image-files old-images)
         (file/save-image-file value temp-file)
       )
-   (= field-name "desc") (update shops (set-fields {:desc value}) (where {:uuid shop-id}))
-   :else (update shops (set-fields {(str field-name) value}) (where {:uuid shop-id}))
+   (= field-name "desc") (update shops (set-fields {:desc value :last_modify_time current-time}) (where {:uuid shop-id}))
+   :else (update shops (set-fields {(str field-name) value :last_modify_time current-time}) (where {:uuid shop-id}))
    )
   {:uuid shop-id}
+    )
  )
 
 (defn validate-shop-emp-pwd [shop-id user-id pwd]
@@ -124,7 +127,7 @@
     )
    )
 (defn set-shop-emp-pwd [shop-id user-id new-pwd]
-  {:rows (update shop-emps (set-fields {:pwd new-pwd}) (where {:shop_id shop-id :user_id user-id}))}
+  {:rows (update shop-emps (set-fields {:pwd new-pwd :last_modify_time (str (System/currentTimeMillis))}) (where {:shop_id shop-id :user_id user-id}))}
  )
 
 (defn update-shop-emp-pwd [shop-id user-id old-pwd new-pwd]
@@ -148,11 +151,13 @@
         width 300
         ]
       (if (qrcode/encode-qrcode-image content image-path width width logo-path)
-        (let [old-barcode (:barcode shop)]
+        (let [old-barcode (:barcode shop)
+              current-time (str  (System/currentTimeMillis))
+              ]
          (if old-barcode
            (file/del-image-files (list old-barcode))
            )
-         (update shops (set-fields {:barcode barcode}) (where {:uuid shop-id}))
+         (update shops (set-fields {:barcode barcode :last_modify_time current-time}) (where {:uuid shop-id}))
          {:barcode barcode})
         {:barcode ""}
        )
@@ -169,11 +174,12 @@
       (if (> (count emps) 0)
         (let [emp-id (first emps)
               uuid (str (java.util.UUID/randomUUID))
+              current-time (str  (System/currentTimeMillis))
               ]
           (if emp-id
             (if del-flag
               (delete shop-emps (where {:shop_id shop-id :user_id emp-id}))
-              (insert shop-emps (values {:uuid uuid :shop_id shop-id :user_id emp-id}))
+              (insert shop-emps (values {:uuid uuid :shop_id shop-id :user_id emp-id :last_modify_time current-time}))
               )
             )
           (recur (rest emps))

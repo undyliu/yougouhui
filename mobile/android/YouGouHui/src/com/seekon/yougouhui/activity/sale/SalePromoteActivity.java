@@ -193,7 +193,7 @@ public abstract class SalePromoteActivity extends PicContainerActivity {
 				DateUtils.getDayOfMoth(date));
 	}
 
-	private void publishSaleInfo(final MenuItem item) {
+	protected void publishSaleInfo(final MenuItem item) {
 		titleView.setError(null);
 		contentView.setError(null);
 		startDateView.setError(null);
@@ -305,7 +305,7 @@ public abstract class SalePromoteActivity extends PicContainerActivity {
 		return (GridView) findViewById(R.id.sale_pic_container);
 	}
 
-	private void showProgress(boolean show) {
+	protected void showProgress(boolean show) {
 		ViewUtils.showProgress(this, findViewById(R.id.sale_promite_main), show);
 	}
 }

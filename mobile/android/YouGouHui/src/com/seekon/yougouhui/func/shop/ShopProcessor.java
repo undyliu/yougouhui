@@ -39,14 +39,9 @@ public class ShopProcessor extends ContentProcessor implements IShopProcessor {
 		super(mContext, ShopData.COL_NAMES, ShopConst.CONTENT_URI);
 	}
 
-	public void updateContentProvider(RestMethodResult result) {
-		updateContentProvider(result, colNames);
-	}
-
 	@Override
-	protected void updateContentProvider(RestMethodResult<Resource> result,
-			String[] colNames) {
-		super.updateContentProvider(result, colNames);
+	protected void updateContentProvider(RestMethodResult<Resource> result) {
+		super.updateContentProvider(result);
 
 		if (result.getResource() instanceof JSONObjResource) {
 			JSONObjResource resource = (JSONObjResource) result.getResource();

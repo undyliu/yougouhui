@@ -150,7 +150,15 @@
             android:name=".func.sale.SaleDiscussProvider"
             android:authorities="com.seekon.yougouhui.sale.discusses"
             android:exported="false" />
-
+		<provider
+            android:name=".func.setting.SettingProvider"
+            android:authorities="com.seekon.yougouhui.settings"
+            android:exported="false" />
+		<provider
+            android:name=".func.sync.SyncProvider"
+            android:authorities="com.seekon.yougouhui.syncs"
+            android:exported="false" />
+		
         <activity
             android:name=".activity.share.FriendShareActivity"
             android:label="@string/title_discover_friends"
@@ -324,6 +332,9 @@
             android:name=".activity.favorit.FavoritMainActivity"
             android:label="@string/title_my_favorit" >
         </activity>
+        <activity android:label="@string/title_login_setting" android:name=".activity.setting.LoginSettingActivity"></activity>
+        <activity android:label="@string/title_cache_setting" android:name=".activity.setting.CacheSettingActivity"></activity>
+        <activity android:label="@string/title_radar_setting" android:name=".activity.setting.RadarSettingActivity"></activity>
     </application>
 
 </manifest>

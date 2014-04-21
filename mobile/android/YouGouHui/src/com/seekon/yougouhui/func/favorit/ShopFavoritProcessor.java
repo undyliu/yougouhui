@@ -37,8 +37,7 @@ public class ShopFavoritProcessor extends ContentProcessor implements
 	}
 
 	@Override
-	protected void updateContentProvider(RestMethodResult<Resource> result,
-			String[] colNames) {
+	protected void updateContentProvider(RestMethodResult<Resource> result) {
 		if (result.getResource() instanceof JSONObjResource) {
 			JSONObjResource resource = (JSONObjResource) result.getResource();
 			if (resource.has(DataConst.COL_NAME_IS_DELETED)) {
@@ -55,7 +54,7 @@ public class ShopFavoritProcessor extends ContentProcessor implements
 				return;
 			}
 		}
-		super.updateContentProvider(result, colNames);
+		super.updateContentProvider(result);
 
 	}
 
