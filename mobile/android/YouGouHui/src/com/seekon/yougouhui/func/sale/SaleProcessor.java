@@ -10,11 +10,11 @@ import android.net.Uri;
 
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.SyncSupportProcessor;
+import com.seekon.yougouhui.func.sale.SaleConst.RequetsType;
 import com.seekon.yougouhui.func.spi.ISaleProcessor;
 import com.seekon.yougouhui.func.sync.SyncData;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestStatus;
-import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.Logger;
@@ -62,24 +62,40 @@ public class SaleProcessor extends SyncSupportProcessor implements
 	}
 
 	/**
-	 * 重载同步时间，user_id为*
+	 * 重载同步时间
 	 * 
 	 */
 	@Override
-	protected void recordUpdateTime(String updateTime) {
-		SyncData syncData = SyncData.getInstance(mContext);
-		syncData.updateData(syncTableName, "*", updateTime);
+	protected void recordUpdateTime(String updateTime, JSONObjResource resource) {
+		if (resource.has(DataConst.NAME_TYPE)) {
+			try {
+				SaleConst.RequetsType type = (RequetsType) resource
+						.get(DataConst.COL_NAME_TYPE);
+				if (type == SaleConst.RequetsType.CHANNEL_SALE) {
+					SyncData syncData = SyncData.getInstance(mContext);
+					syncData.updateData(syncTableName, "*", updateTime);
+				} else if (type == SaleConst.RequetsType.SHOP_SALE) {
+					String shopId = resource.getString(SaleConst.COL_NAME_SHOP_ID);
+					SyncData syncData = SyncData.getInstance(mContext);
+					syncData.updateData(SaleConst.NAME_SHOP_SALE, shopId, updateTime);
+				}
+			} catch (Exception e) {
+				Logger.warn(TAG, e.getMessage(), e);
+				throw new RuntimeException();
+			}
+		}
 	}
-	
-	public RestMethodResult<JSONObjResource> getSalesByChannel(
-			String channelId, String updateTime) {
+
+	public RestMethodResult<JSONObjResource> getSalesByChannel(String channelId,
+			String updateTime) {
 		return (RestMethodResult) this.execMethod(new GetSalesByChannelMethod(
 				mContext, channelId, updateTime));
 	}
 
-	public RestMethodResult<JSONArrayResource> getSalesByShop(String shopId) {
+	public RestMethodResult<JSONObjResource> getSalesByShop(String shopId,
+			String updateTime) {
 		return (RestMethodResult) this.execMethod(new GetSalesByShopMethod(
-				mContext, shopId));
+				mContext, shopId, updateTime));
 	}
 
 	public RestMethodResult<JSONObjResource> publishSale(SaleEntity sale) {

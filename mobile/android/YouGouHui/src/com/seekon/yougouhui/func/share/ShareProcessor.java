@@ -19,7 +19,9 @@ import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.SyncSupportProcessor;
 import com.seekon.yougouhui.func.spi.IShareProcessor;
+import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.service.ProcessorProxy;
 
@@ -130,4 +132,8 @@ public class ShareProcessor extends SyncSupportProcessor implements
 				shareId));
 	}
 
+	public RestMethodResult<JSONArrayResource> getUserShares(UserEntity publisher) {
+		return (RestMethodResult) this.execMethod(new GetUserSharesMethod(mContext,
+				publisher));
+	}
 }

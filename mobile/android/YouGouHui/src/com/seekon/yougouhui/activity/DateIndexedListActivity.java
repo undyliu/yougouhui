@@ -13,11 +13,17 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.func.widget.DateIndexedEntity;
 import com.seekon.yougouhui.func.widget.DateIndexedListAdapter;
 import com.seekon.yougouhui.layout.XListView;
 import com.seekon.yougouhui.layout.XListView.IXListViewListener;
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
+import com.seekon.yougouhui.rest.resource.JSONObjResource;
+import com.seekon.yougouhui.util.DateUtils;
 import com.seekon.yougouhui.util.ViewUtils;
 import com.seekon.yougouhui.widget.ClearEditText;
 
@@ -32,9 +38,13 @@ public abstract class DateIndexedListActivity extends Activity implements
 
 	protected DateIndexedListAdapter listAdapter = null;
 
-	protected String searchWord = "";
+	private String searchWord = "";
 
 	private Handler mHandler;
+
+	private int currentOffset = 0;
+
+	private String updateTime;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +56,10 @@ public abstract class DateIndexedListActivity extends Activity implements
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		initViews();
+		loadDataList();
 	}
 
 	protected void initViews() {
-		dataList = this.getDateIndexedEntityList();
 		mHandler = new Handler();
 
 		listView = (XListView) findViewById(R.id.listview_main);
@@ -117,17 +127,78 @@ public abstract class DateIndexedListActivity extends Activity implements
 	private void filterData(String word) {
 		ViewUtils.hideInputMethodWindow(DateIndexedListActivity.this);
 		searchWord = word;
-		doFilterData(word);
+		
+		currentOffset = 0;
+		searchWord = word;
+		dataList.clear();
+		loadDataListFromLocal();
+		
+		listAdapter.updateData(dataList);
 	}
 
-	protected void updateListView() {
-		listAdapter.notifyDataSetChanged();
-		onPostLoad();
+	protected void loadDataList() {
+		currentOffset = 0;
+		dataList.clear();
+		loadDataListFromLocal();
+		if (dataList.isEmpty()) {
+			loadDataListFromRemote();
+		} else {
+			listAdapter.updateData(dataList);
+		}
 	}
 
-	private void onPostLoad() {
+	private void loadDataListFromLocal() {
+		String limitSql = " limit " + Const.PAGE_SIZE + " offset " + currentOffset;
+		List<DateIndexedEntity> result = this.getDataListFromLocal(searchWord, limitSql);
+		currentOffset += result.size();
+		dataList.addAll(result);
+	}
+
+	private void loadDataListFromRemote() {
+		updateTime = getUpdateTime();
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
+						"获取数据失败.") {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return getRemoteData(updateTime);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						currentOffset = 0;
+						dataList.clear();
+						loadDataListFromLocal();
+						updateTime = getUpdateTime();
+						listAdapter.updateData(dataList);
+						onPostLoad();
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						onPostLoad();
+						super.onFailed(errorMessage);
+					}
+
+					@Override
+					public void onCancelled() {
+						onPostLoad();
+						super.onCancelled();
+					}
+				});
+	}
+
+	protected void onPostLoad() {
 		listView.stopRefresh();
 		listView.stopLoadMore();
+		if (updateTime != null) {
+			try {
+				listView
+						.setRefreshTime(DateUtils.formartTime(Long.valueOf(updateTime)));
+			} catch (Exception e) {
+			}
+		}
 	}
 
 	@Override
@@ -136,6 +207,7 @@ public abstract class DateIndexedListActivity extends Activity implements
 
 			@Override
 			public void run() {
+				loadDataListFromRemote();
 				onPostLoad();
 			}
 		}, 2000);
@@ -147,16 +219,20 @@ public abstract class DateIndexedListActivity extends Activity implements
 
 			@Override
 			public void run() {
-				dataList.addAll(getDateIndexedEntityList());
-				updateListView();
+				loadDataListFromLocal();
+				onPostLoad();
 			}
 		}, 2000);
 	}
 
-	public abstract void doFilterData(String word);
-
 	public abstract DateIndexedListAdapter getListAdapter();
 
-	public abstract List<DateIndexedEntity> getDateIndexedEntityList();
+	protected abstract List<DateIndexedEntity> getDataListFromLocal(
+			String searchWord, String limitSql);
+
+	protected abstract RestMethodResult<JSONObjResource> getRemoteData(
+			String updateTime);
+
+	protected abstract String getUpdateTime();
 
 }

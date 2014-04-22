@@ -39,9 +39,10 @@
     )
 )
 
-(defn get-sales-by-shop [shop-id]
+(defn get-sales-by-shop [shop-id update-time]
   (exec (-> sale-select-base
             (where {:shop_id shop-id})
+            (where {:last_modify_time [> update-time]})
          )
         )
   )

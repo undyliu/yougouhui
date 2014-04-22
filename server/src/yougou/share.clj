@@ -10,12 +10,12 @@
 )
 
 (defn get-share-images [update-time share-id]
-  (select share-images (where {:share_id share-id :last_modify_time [> update-time]})
+  (select share-images (where (if update-time {:share_id share-id :last_modify_time [> update-time]} {:share_id share-id}))
   )
 )
 
 (defn get-comments [update-time share-id]
-  (select share-comments (where {:share_id share-id :last_modify_time [> update-time]})
+  (select share-comments (where (if update-time {:share_id share-id :last_modify_time [> update-time]} {:share_id share-id}))
   )
 )
 
@@ -34,12 +34,9 @@
   )
 )
 
-(defn get-friend-share-data [update-time user-id]
-  (let [shares (get-friend-shares update-time user-id)
-				first-share (first shares)
-			 ]
-		(loop [share-list shares
-					share first-share
+(defn assemble-share-data [shares update-time user-id]
+  (loop [share-list shares
+					share (first shares)
 					result []
 					]
 				(if (== 0 (count share-list))
@@ -59,7 +56,10 @@
             )
 				  )
 		  )
-	  )
+  )
+
+(defn get-friend-share-data [update-time user-id]
+  (assemble-share-data (get-friend-shares update-time user-id) update-time user-id)
   )
 
 (defn save-share-img [share-id img-name req-params ord-index]
@@ -165,6 +165,15 @@
 	)
 	{:uuid comment-id}
 )
+
+(defn get-shares-by-publisher [user-id]
+  (select shares (fields :uuid :content :publisher :publish_time :publish_date :sale_id :shop_id :is_deleted)
+          (where {:publisher user-id}))
+  )
+
+(defn get-user-share-data [user-id]
+  (assemble-share-data (get-shares-by-publisher user-id) nil user-id)
+ )
 
 (defn get-shares-by-shop [shop-id]
   (

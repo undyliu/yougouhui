@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.DateIndexedListActivity;
 import com.seekon.yougouhui.func.DataConst;
@@ -18,12 +18,12 @@ import com.seekon.yougouhui.func.sale.SaleConst;
 import com.seekon.yougouhui.func.sale.SaleData;
 import com.seekon.yougouhui.func.sale.SaleProcessor;
 import com.seekon.yougouhui.func.sale.widget.ShopSaleListAdapter;
-import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
+import com.seekon.yougouhui.func.shop.ShopConst;
+import com.seekon.yougouhui.func.sync.SyncData;
 import com.seekon.yougouhui.func.widget.DateIndexedEntity;
 import com.seekon.yougouhui.func.widget.DateIndexedListAdapter;
 import com.seekon.yougouhui.rest.RestMethodResult;
-import com.seekon.yougouhui.rest.RestUtils;
-import com.seekon.yougouhui.rest.resource.JSONArrayResource;
+import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.DateUtils;
 
 public class ShopSaleListActivity extends DateIndexedListActivity {
@@ -33,8 +33,6 @@ public class ShopSaleListActivity extends DateIndexedListActivity {
 	private String shopId;
 
 	private SaleData saleData;
-
-	private int currentOffset = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +56,7 @@ public class ShopSaleListActivity extends DateIndexedListActivity {
 				boolean salePublish = data.getBooleanExtra(
 						SaleConst.DATA_REQUEST_PUBLISH_RESULT, false);
 				if (salePublish) {
-					doFilterData(searchWord);
+					loadDataList();
 				}
 			}
 			break;
@@ -88,33 +86,14 @@ public class ShopSaleListActivity extends DateIndexedListActivity {
 		startActivityForResult(intent, SALE_PROMOTE_REQUEST_CODE);
 	}
 
-	/**
-	 * 搜索过滤数据仅在本地的数据库中进行
-	 */
-	@Override
-	public void doFilterData(String word) {
-		currentOffset = 0;
-		searchWord = word;
-		dataList.clear();
-		dataList.addAll(getDataFromLocal());
-		updateListView();
-	}
-
 	@Override
 	public DateIndexedListAdapter getListAdapter() {
 		return new ShopSaleListAdapter(dataList, this);
 	}
 
 	@Override
-	public List<DateIndexedEntity> getDateIndexedEntityList() {
-		List<DateIndexedEntity> result = this.getDataFromLocal();
-		if (result.isEmpty()) {
-			loadDataFormRemote();
-		}
-		return result == null ? new ArrayList<DateIndexedEntity>() : result;
-	}
-
-	private List<DateIndexedEntity> getDataFromLocal() {
+	protected List<DateIndexedEntity> getDataListFromLocal(String searchWord,
+			String limitSql) {
 		String where = COL_NAME_SHOP_ID + "=?";
 		List<String> argList = new ArrayList<String>();
 		argList.add(shopId);
@@ -125,7 +104,6 @@ public class ShopSaleListActivity extends DateIndexedListActivity {
 		}
 
 		String[] whereArgs = argList.toArray(new String[argList.size()]);
-		String limitSql = " limit " + Const.PAGE_SIZE + " offset " + currentOffset;
 		List<DateIndexedEntity> result = saleData.getSaleCountByPublishDate(where,
 				whereArgs, limitSql);
 		for (DateIndexedEntity entity : result) {
@@ -133,25 +111,41 @@ public class ShopSaleListActivity extends DateIndexedListActivity {
 			entity.setSubItemList(saleData.getSaleListByPublishDate(where, whereArgs,
 					publishDate));
 		}
-		currentOffset += result.size();
 		return result;
 	}
 
-	private void loadDataFormRemote() {
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>(
-						"获取活动数据失败.") {
+	@Override
+	protected RestMethodResult<JSONObjResource> getRemoteData(String updateTime) {
+		return SaleProcessor.getInstance(this).getSalesByShop(shopId, updateTime);
+	}
 
-					@Override
-					public RestMethodResult<JSONArrayResource> doInBackground() {
-						return SaleProcessor.getInstance(ShopSaleListActivity.this)
-								.getSalesByShop(shopId);
-					}
+	@Override
+	protected String getUpdateTime() {
+		String result = SyncData.getInstance(this).getUpdateTime(
+				SaleConst.NAME_SHOP_SALE, shopId);
+		if (result == null) {
+			result = getShopRegisterTime();
+		}
+		return result;
+	}
 
-					@Override
-					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
-						doFilterData("");
-					}
-				});
+	private String getShopRegisterTime() {
+		String registerTime = null;
+		Cursor cursor = null;
+		try {
+			String selection = DataConst.COL_NAME_UUID + "=?";
+			String[] selectionArgs = new String[] { shopId };
+			cursor = this.getContentResolver().query(ShopConst.CONTENT_URI,
+					new String[] { ShopConst.COL_NAME_REGISTER_TIME }, selection,
+					selectionArgs, null);
+			if (cursor.moveToNext()) {
+				registerTime = cursor.getString(0);
+			}
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
+		return registerTime;
 	}
 }

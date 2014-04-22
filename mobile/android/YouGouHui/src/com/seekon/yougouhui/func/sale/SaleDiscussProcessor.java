@@ -65,7 +65,7 @@ public class SaleDiscussProcessor extends SyncSupportProcessor implements
 	 * 
 	 */
 	@Override
-	protected void recordUpdateTime(String updateTime) {
+	protected void recordUpdateTime(String updateTime, JSONObjResource resource) {
 		SyncData syncData = SyncData.getInstance(mContext);
 		syncData.updateData(syncTableName, "*", updateTime);
 	}

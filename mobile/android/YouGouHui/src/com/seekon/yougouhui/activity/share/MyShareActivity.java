@@ -2,23 +2,25 @@ package com.seekon.yougouhui.activity.share;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 
-import java.io.File;
 import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.activity.DateIndexedListActivity;
 import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.file.FileHelper;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.share.ShareConst;
 import com.seekon.yougouhui.func.share.ShareData;
 import com.seekon.yougouhui.func.share.ShareEntity;
+import com.seekon.yougouhui.func.share.ShareProcessor;
 import com.seekon.yougouhui.func.share.widget.MyShareListAdapter;
 import com.seekon.yougouhui.func.share.widget.ShareUtils;
 import com.seekon.yougouhui.func.widget.DateIndexedEntity;
 import com.seekon.yougouhui.func.widget.DateIndexedListAdapter;
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.DateUtils;
 
 /**
@@ -34,8 +36,6 @@ public class MyShareActivity extends DateIndexedListActivity {
 	private String userId = null;
 
 	private ShareData shareData = null;
-
-	private int currentOffset = 0;// 分页用的当前的数据偏移
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,21 +76,13 @@ public class MyShareActivity extends DateIndexedListActivity {
 	}
 
 	@Override
-	public void doFilterData(String word) {
-		currentOffset = 0;
-		searchWord = word;
-		dataList.clear();
-		dataList.addAll(getDateIndexedEntityList());
-		updateListView();
-	}
-
-	@Override
 	public DateIndexedListAdapter getListAdapter() {
 		return new MyShareListAdapter(dataList, this);
 	}
 
 	@Override
-	public List<DateIndexedEntity> getDateIndexedEntityList() {
+	protected List<DateIndexedEntity> getDataListFromLocal(String searchWord,
+			String limitSql) {
 		String where = null;
 		String[] whereArgs = null;
 		if (searchWord != null && searchWord.trim().length() > 0) {
@@ -98,7 +90,6 @@ public class MyShareActivity extends DateIndexedListActivity {
 			whereArgs = new String[] { "%" + searchWord + "%" };
 		}
 
-		String limitSql = " limit " + Const.PAGE_SIZE + " offset " + currentOffset;
 		List<DateIndexedEntity> shareCountList = shareData
 				.getShareCountByPublishDate(where, whereArgs, userId, limitSql);
 		for (DateIndexedEntity shareCount : shareCountList) {
@@ -112,7 +103,22 @@ public class MyShareActivity extends DateIndexedListActivity {
 			}
 			shareCount.setSubItemList(shareList);
 		}
-		currentOffset += shareCountList.size();
 		return shareCountList;
+	}
+
+	@Override
+	protected RestMethodResult<JSONObjResource> getRemoteData(String updateTime) {
+		return (RestMethodResult) ShareProcessor.getInstance(this).getUserShares(
+				RunEnv.getInstance().getUser());
+	}
+
+	@Override
+	protected String getUpdateTime() {
+		return null;
+	}
+	
+	@Override
+	public void onRefresh() {
+		this.onPostLoad();
 	}
 }

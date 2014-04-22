@@ -34,4 +34,10 @@ public interface SaleConst extends DataConst {
 	public static final String DATA_IMAGES_KEY = "images";
 
 	public static final String DATA_REQUEST_PUBLISH_RESULT = "publish.result";
+	
+	public static final String NAME_SHOP_SALE = "shop_sale";
+	
+	enum RequetsType{
+		CHANNEL_SALE, SHOP_SALE
+	}
 }

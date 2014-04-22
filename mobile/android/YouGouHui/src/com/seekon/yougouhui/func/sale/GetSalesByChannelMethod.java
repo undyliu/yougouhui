@@ -5,10 +5,12 @@ import java.net.URI;
 import android.content.Context;
 
 import com.seekon.yougouhui.Const;
+import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.rest.BaseRequest;
 import com.seekon.yougouhui.rest.JSONObjResourceMethod;
 import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
+import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
 public class GetSalesByChannelMethod extends JSONObjResourceMethod {
 
@@ -32,4 +34,12 @@ public class GetSalesByChannelMethod extends JSONObjResourceMethod {
 		return new BaseRequest(Method.GET, uri, null, null);
 	}
 
+	@Override
+	protected JSONObjResource parseResponseBody(String responseBody)
+			throws Exception {
+		JSONObjResource resource = super.parseResponseBody(responseBody);
+		resource.put(DataConst.NAME_TYPE, SaleConst.RequetsType.CHANNEL_SALE);
+		return resource;
+	}
+	
 }
