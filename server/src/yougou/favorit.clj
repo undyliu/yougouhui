@@ -6,21 +6,27 @@
 )
 
 (defn save-sale-favorit [user-id sale-id]
-  (let [uuid (str (java.util.UUID/randomUUID))
+  (if-let [favorit (first (select sale-favorites (fields :uuid) (where {:sale_id sale-id :user_id user-id})))]
+    favorit
+    (let [uuid (str (java.util.UUID/randomUUID))
         currentTime (System/currentTimeMillis)
         ]
-    (insert sale-favorites (values {:uuid uuid :user_id user-id :sale_id sale-id :last_modify_time currentTime}))
-    {:uuid uuid :last_modify_time currentTime}
+      (insert sale-favorites (values {:uuid uuid :user_id user-id :sale_id sale-id :last_modify_time currentTime}))
+      {:uuid uuid}
+    )
     )
   )
 
 (defn save-shop-favorit [user-id shop-id]
-  (let [uuid (str (java.util.UUID/randomUUID))
+  (if-let [favorit (first (select shop-favorites (fields :uuid) (where {:shop_id shop-id :user_id user-id})))]
+     favorit
+     (let [uuid (str (java.util.UUID/randomUUID))
         currentTime (System/currentTimeMillis)
         ]
-    (insert shop-favorites (values {:uuid uuid :user_id user-id :shop_id shop-id :last_modify_time currentTime}))
-    {:uuid uuid :last_modify_time currentTime}
+      (insert shop-favorites (values {:uuid uuid :user_id user-id :shop_id shop-id :last_modify_time currentTime}))
+      {:uuid uuid}
     )
+   )
   )
 
 (defn del-sale-favorit [user-id sale-id]

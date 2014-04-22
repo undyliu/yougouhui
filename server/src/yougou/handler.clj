@@ -31,7 +31,11 @@
 )
 
 (defroutes sale-routes
-	(GET "/getSalesByChannel/:channel-id" [channel-id] (json/write-str (get-sales-by-channel channel-id)))
+	(GET "/getSalesByChannel/:channel-id/:update-time" [channel-id update-time]
+       (let [current-time (str (System/currentTimeMillis)) ]
+         (wrapper-update-data (get-sales-by-channel channel-id update-time) current-time)
+         )
+       )
   (GET "/getSalesByShop/:shop-id" [shop-id] (json/write-str (get-sales-by-shop shop-id)))
 	(GET "/getSaleData/:id/:user-id" [id user-id] (json/write-str (get-sale-data id user-id)))
   (POST "/addSale" {{title :title content :content start-date :start_date end-date :end_date shop-id :shop_id trade-id :trade_id publisher :publisher :as params} :params}
@@ -49,7 +53,7 @@
   (POST "/addSaleDiscuss" {{sale-id :sale_id user-id :publisher content :content} :params}
 		(try
 			(json/write-str (save-sale-discuss sale-id user-id content))
-			(catch Exception e {:status  200 :body (json/write-str{:error "添加评论失败."})})
+			(catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str{:error "添加评论失败."})})
 		)
 	)
   (DELETE "/deleteSaleDiscuss/:uuid" [uuid]
@@ -58,7 +62,12 @@
 			(catch Exception e {:status  200 :body (json/write-str{:error "删除评论失败."})})
 		)
 	)
-  (GET "/getSaleDiscusses/:sale-id" [sale-id] (json/write-str (get-sale-discusses sale-id)))
+  (GET "/getSaleDiscusses/:sale-id/:update-time" [sale-id update-time]
+       (let [current-time (str (System/currentTimeMillis)) ]
+         (wrapper-update-data (get-sale-discusses sale-id update-time) current-time)
+         )
+       )
+
   (PUT "/cancelSale" {{sale-id :sale_id} :params}
 		(try
 			(json/write-str (cancel-sale sale-id))
@@ -72,7 +81,7 @@
 )
 
 (defroutes share-routes
-	(POST "/getFriendShares" {{update-time :update_time user-id :user_id} :params}
+	(GET "/getFriendShares/:user-id/:update-time" [user-id update-time]
 		(let [current-time (str (System/currentTimeMillis)) ]
      (wrapper-update-data (get-friend-share-data update-time user-id) current-time)
       )
