@@ -1,11 +1,12 @@
 package com.seekon.yougouhui.func.widget;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class DateIndexedEntity implements Serializable {
+import com.seekon.yougouhui.func.Entity;
+
+public class DateIndexedEntity extends Entity {
 
 	private static final long serialVersionUID = 9027364238896522863L;
 
@@ -19,6 +20,9 @@ public class DateIndexedEntity implements Serializable {
 
 	public void setDate(Date date) {
 		this.date = date;
+		if (date != null) {
+			setUuid(String.valueOf(date.getTime()));
+		}
 	}
 
 	public int getItemCount() {

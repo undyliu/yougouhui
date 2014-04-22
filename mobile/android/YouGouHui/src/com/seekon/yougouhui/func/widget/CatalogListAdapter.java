@@ -9,7 +9,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.SectionIndexer;
@@ -18,29 +17,35 @@ import android.widget.TextView;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.PinyinEntity;
 
-public class CatalogListAdapter extends BaseAdapter implements SectionIndexer {
-	protected List<? extends PinyinEntity> dataList;
+public class CatalogListAdapter<T extends PinyinEntity> extends EntityListAdapter<T> implements SectionIndexer {
 	private Map<String, Integer> catalogMap = new HashMap<String, Integer>();
-	protected Context mContext;
-
-	public CatalogListAdapter(Context mContext,
-			List<? extends PinyinEntity> contactList) {
-		this.mContext = mContext;
-		this.dataList = contactList;
+	
+	public CatalogListAdapter(Context context, List<T> dataList) {
+		super(context, dataList);
 		initCatalogList();
 	}
-
-	/**
-	 * 当ListView数据发生变化时,调用此方法来更新ListView
-	 * 
-	 * @param list
-	 */
-	public void updateListView(List<? extends PinyinEntity> contactList) {
-		this.dataList = contactList;
+	
+	@Override
+	public void updateData(List<T> dataList) {
 		initCatalogList();
-		notifyDataSetChanged();
+		super.updateData(dataList);
 	}
-
+	
+	@Override
+	public void addEntity(T entity) {
+		//TODO:
+	}
+	
+	@Override
+	public void removeEntity(T entity) {
+	//TODO:
+	}
+	
+	@Override
+	public void updateEntity(T entity, int position) {
+	//TODO:
+	}
+	
 	private void initCatalogList() {
 		catalogMap.clear();
 		int size = dataList.size();
@@ -58,27 +63,12 @@ public class CatalogListAdapter extends BaseAdapter implements SectionIndexer {
 	}
 
 	@Override
-	public int getCount() {
-		return this.dataList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return dataList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
-
-	@Override
 	public View getView(final int position, View view, ViewGroup arg2) {
 		ViewHolder viewHolder = null;
 		final PinyinEntity mContent = dataList.get(position);
 		if (view == null) {
 			viewHolder = new ViewHolder();
-			view = LayoutInflater.from(mContext).inflate(R.layout.catalog_list_item,
+			view = LayoutInflater.from(context).inflate(R.layout.catalog_list_item,
 					null);
 			viewHolder.tvTitle = (TextView) view.findViewById(R.id.contact_user_name);
 			viewHolder.tvLetter = (TextView) view
@@ -89,7 +79,10 @@ public class CatalogListAdapter extends BaseAdapter implements SectionIndexer {
 		} else {
 			viewHolder = (ViewHolder) view.getTag();
 		}
-
+		
+		if(catalogMap.isEmpty()){
+			initCatalogList();
+		}
 		String firstLetter = mContent.getFirstLetter().toUpperCase();
 		int catalogIndex = catalogMap.get(firstLetter);
 		if (position == catalogIndex) {

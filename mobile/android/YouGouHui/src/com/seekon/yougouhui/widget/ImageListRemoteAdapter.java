@@ -7,13 +7,13 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.seekon.yougouhui.activity.ImagePreviewActivity;
 import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.file.ImageLoader;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
 /**
  * 包含有Image的ListView的Adapter适配器 通过多线程的方式远程下载Image
@@ -21,17 +21,13 @@ import com.seekon.yougouhui.file.ImageLoader;
  * @author undyliu
  * 
  */
-public class ImageListRemoteAdapter extends BaseAdapter {
+public class ImageListRemoteAdapter extends EntityListAdapter<FileEntity> {
 
-	private Context context;
-	private List<FileEntity> imageList;
 	private int iconWidth = 0;
 
 	public ImageListRemoteAdapter(Context context, List<FileEntity> imageList,
 			int iconWidth) {
-		super();
-		this.context = context;
-		this.imageList = imageList;
+		super(context, imageList);
 		this.iconWidth = iconWidth;
 	}
 
@@ -53,7 +49,7 @@ public class ImageListRemoteAdapter extends BaseAdapter {
 		holder.imageView.setAdjustViewBounds(false);
 		holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-		final FileEntity image = imageList.get(position);
+		final FileEntity image = (FileEntity) getItem(position);
 		String fileUrl = image.getFileUri();
 		String aliasName = image.getAliasName();
 
@@ -82,21 +78,6 @@ public class ImageListRemoteAdapter extends BaseAdapter {
 		});
 
 		return holder.imageView;
-	}
-
-	@Override
-	public int getCount() {
-		return imageList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return imageList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
 	}
 
 	class ViewHolder {

@@ -6,44 +6,19 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.setting.SettingEntity;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
-public class SettingListAdapter extends BaseAdapter {
-	private Context context;
-	
-	private List<SettingEntity> settingList;
+public class SettingListAdapter extends EntityListAdapter<SettingEntity> {
 
-	public SettingListAdapter(Context context, List<SettingEntity> settingList) {
-		super();
-		this.context = context;
-		this.settingList = settingList;
+	public SettingListAdapter(Context context, List<SettingEntity> dataList) {
+		super(context, dataList);
 	}
 
-	@Override
-	public int getCount() {
-		return settingList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return settingList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
-
-	public void updateData(List<SettingEntity> settingList){
-		this.settingList = settingList;
-		this.notifyDataSetChanged();
-	}
-	
 	@Override
 	public View getView(int position, View view, ViewGroup arg2) {
 		ViewHolder holder = null;
@@ -55,7 +30,7 @@ public class SettingListAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
-		SettingEntity settings = settingList.get(position);
+		SettingEntity settings = (SettingEntity) getItem(position);
 		holder.nameView.setText(settings.getName());
 		
 		return view;

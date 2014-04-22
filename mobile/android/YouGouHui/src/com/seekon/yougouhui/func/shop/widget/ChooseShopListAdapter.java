@@ -8,7 +8,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -17,47 +16,23 @@ import android.widget.TextView;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.shop.ShopEntity;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
-public class ChooseShopListAdapter extends BaseAdapter {
+public class ChooseShopListAdapter extends EntityListAdapter<ShopEntity> {
 
 	private static final int USER_SHOP_WIDTH = 80;
 
-	private Context context;
-	private List<ShopEntity> shopList;
-
 	private Map<Integer, Boolean> states = new HashMap<Integer, Boolean>();
 
-	public ChooseShopListAdapter(Context context, List<ShopEntity> shopList) {
-		super();
-		this.context = context;
-		this.shopList = shopList;
-	}
-
-	@Override
-	public int getCount() {
-		return shopList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return shopList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
-
-	public void updateData(List<ShopEntity> shopList) {
-		this.shopList = shopList;
-		this.notifyDataSetChanged();
+	public ChooseShopListAdapter(Context context, List<ShopEntity> dataList) {
+		super(context, dataList);
 	}
 
 	public ShopEntity getCheckedShop() {
 		ShopEntity shop = null;
 		for (Integer key : states.keySet()) {
 			if (states.get(key) == true) {
-				shop = this.shopList.get(key);
+				shop = dataList.get(key);
 				break;
 			}
 		}

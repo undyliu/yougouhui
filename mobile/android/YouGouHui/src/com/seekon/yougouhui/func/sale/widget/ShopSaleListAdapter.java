@@ -24,7 +24,7 @@ public class ShopSaleListAdapter extends DateIndexedListAdapter {
 
 	public ShopSaleListAdapter(List<DateIndexedEntity> dateIndexedList,
 			Context context) {
-		super(dateIndexedList, context);
+		super(context, dateIndexedList);
 	}
 
 	@Override

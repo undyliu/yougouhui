@@ -61,7 +61,7 @@
 
 (defn get-sale-discusses [sale-id update-time]
   (select sale-discusses
-          (fields :uuid :content :sale_id :publisher :publish_time [:e_user.name :user_name] :e_user.phone :e_user.photo)
+          (fields :uuid :content :sale_id :is_deleted :publisher :publish_time [:e_user.name :user_name] :e_user.phone :e_user.photo)
           (join users (= :e_user.uuid :publisher))
           (where {:sale_id sale-id :last_modify_time [> update-time]})
   )

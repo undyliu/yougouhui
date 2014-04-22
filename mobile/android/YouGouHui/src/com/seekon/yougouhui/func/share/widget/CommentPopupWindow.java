@@ -21,7 +21,6 @@ import com.seekon.yougouhui.func.share.CommentEntity;
 import com.seekon.yougouhui.func.share.CommentProcessor;
 import com.seekon.yougouhui.func.share.ShareConst;
 import com.seekon.yougouhui.func.share.ShareEntity;
-import com.seekon.yougouhui.func.share.ShareProcessor;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
@@ -85,7 +84,7 @@ public class CommentPopupWindow extends PopupWindow {
 								commentEntity.setPublishTime(Long.valueOf(JSONUtils
 										.getJSONStringValue(resource, COL_NAME_PUBLISH_TIME)));
 								commentEntity.setPublisher(RunEnv.getInstance().getUser());
-								commentAdapter.addComment(commentEntity);
+								commentAdapter.addEntity(commentEntity);
 								onCancelled();
 							}
 

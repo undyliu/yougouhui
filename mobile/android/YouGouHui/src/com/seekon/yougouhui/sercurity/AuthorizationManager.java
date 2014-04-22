@@ -90,19 +90,19 @@ public class AuthorizationManager implements RequestSigner {
 				if (resource.getBoolean(LoginConst.LOGIN_RESULT_AUTHED)) {
 					user = UserUtils.createFromJSONObject(resource
 							.getJSONObject(LoginConst.LOGIN_RESULT_USER));
-
-					List<UserEntity> friends = this.getUserHelper().getUserFriends(
-							user.getUuid());
-					if (friends == null || friends.isEmpty()) {
-						new GetFriendsTask(context, user).execute((Void) null);
-					} else {
-						user.setFriends(friends);
-					}
 				} else {
 					errorType = resource.getString(LoginConst.LOGIN_RESULT_ERROR_TYPE);
 				}
 			}
 			if (user != null) {
+				List<UserEntity> friends = this.getUserHelper().getUserFriends(
+						user.getUuid());
+				if (friends == null || friends.isEmpty()) {
+					new GetFriendsTask(context, user).execute((Void) null);
+				} else {
+					user.setFriends(friends);
+				}
+				
 				errorType = LoginConst.AUTH_SUCCESS;
 				RunEnv.getInstance().setUser(user);
 				loginData.put(COL_NAME_PWD, user.getPwd());

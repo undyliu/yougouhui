@@ -1,13 +1,11 @@
 package com.seekon.yougouhui.func.share.widget;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
@@ -15,44 +13,21 @@ import com.seekon.yougouhui.activity.ImagePreviewActivity;
 import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.file.ImageLoader;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
-public class ShareImageAdapter extends BaseAdapter {
+public class ShareImageAdapter extends EntityListAdapter<FileEntity> {
 
 	public static final int IMAGE_VIEW_WIDTH = 100;
 
-	private Context mContext;
-
-	private List<FileEntity> images;
-
-	public ShareImageAdapter(Context mContext, List<FileEntity> images) {
-		super();
-		this.mContext = mContext;
-		this.images = images;
-		if (images == null) {
-			this.images = new ArrayList<FileEntity>();
-		}
-	}
-
-	@Override
-	public int getCount() {
-		return images.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return images.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
+	public ShareImageAdapter(Context context, List<FileEntity> dataList) {
+		super(context, dataList);
 	}
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		ImageView imageView;
 		if (convertView == null) {
-			imageView = new ImageView(mContext);
+			imageView = new ImageView(context);
 
 			GridView.LayoutParams lp = new GridView.LayoutParams(IMAGE_VIEW_WIDTH,
 					IMAGE_VIEW_WIDTH);
@@ -79,13 +54,13 @@ public class ShareImageAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(mContext, ImagePreviewActivity.class);
+				Intent intent = new Intent(context, ImagePreviewActivity.class);
 				intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, image);
 				intent
 						.putExtra(ImagePreviewActivity.IMAGE_INDEX_IN_CONTAINER, position);
 				intent.putExtra(ImagePreviewActivity.IMAGE_DELETE_FLAG, false);
 
-				mContext.startActivity(intent);
+				context.startActivity(intent);
 			}
 		});
 

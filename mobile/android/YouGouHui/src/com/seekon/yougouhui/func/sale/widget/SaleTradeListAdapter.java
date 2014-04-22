@@ -5,11 +5,11 @@ import java.util.List;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 
 import com.seekon.yougouhui.func.shop.TradeEntity;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
 /**
  * 促销信息发布时，选择所属业务的列表
@@ -17,31 +17,12 @@ import com.seekon.yougouhui.func.shop.TradeEntity;
  * @author undyliu
  * 
  */
-public class SaleTradeListAdapter extends BaseAdapter {
+public class SaleTradeListAdapter extends EntityListAdapter<TradeEntity> {
 
-	private Context context;
-	private List<TradeEntity> tradeList;
 	private TradeEntity checkedTrade = null;
 
-	public SaleTradeListAdapter(Context context, List<TradeEntity> tradeList) {
-		super();
-		this.context = context;
-		this.tradeList = tradeList;
-	}
-
-	@Override
-	public int getCount() {
-		return this.tradeList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return this.tradeList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
+	public SaleTradeListAdapter(Context context, List<TradeEntity> dataList) {
+		super(context, dataList);
 	}
 
 	public void setDefaultCheckedTrade(TradeEntity defaultCheckedTrade) {
@@ -51,11 +32,6 @@ public class SaleTradeListAdapter extends BaseAdapter {
 
 	public TradeEntity getCheckedTrade() {
 		return checkedTrade;
-	}
-
-	public void updateData(List<TradeEntity> tradeList) {
-		this.tradeList = tradeList;
-		this.notifyDataSetChanged();
 	}
 
 	@Override
@@ -70,7 +46,8 @@ public class SaleTradeListAdapter extends BaseAdapter {
 			holder = (ViewHolder) view.getTag();
 		}
 
-		holder.view.setText(tradeList.get(position).getName());
+		final TradeEntity trade = (TradeEntity) getItem(position);
+		holder.view.setText(trade.getName());
 		holder.view
 				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -78,16 +55,16 @@ public class SaleTradeListAdapter extends BaseAdapter {
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
 						if (isChecked) {
-							checkedTrade = tradeList.get(position);
+							checkedTrade = trade;
 						}
 					}
 				});
 		if (getCount() == 1) {
 			holder.view.setChecked(true);
-			checkedTrade = tradeList.get(0);
+			checkedTrade = dataList.get(0);
 		}
 
-		if (checkedTrade.equals(tradeList.get(position))) {
+		if (checkedTrade.equals(trade)) {
 			holder.view.setChecked(true);
 		} else {
 			holder.view.setChecked(false);

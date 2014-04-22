@@ -6,7 +6,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
@@ -16,46 +15,21 @@ import android.widget.TextView;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
-public class ShopEmpListAdapter extends BaseAdapter {
+public class ShopEmpListAdapter extends EntityListAdapter<UserEntity> {
 
 	private static final int USER_ICON_WIDTH = 80;
-
-	private List<UserEntity> empList = null;
-
-	private Context context;
 
 	private OnCheckedChangeListener onCheckedChangeListener = null;
 
 	private String ownerId = null;
 
-	public ShopEmpListAdapter(List<UserEntity> empList, Context context,
+	public ShopEmpListAdapter(Context context, List<UserEntity> dataList,
 			OnCheckedChangeListener onCheckedChangeListener, String ownerId) {
-		super();
-		this.empList = empList;
-		this.context = context;
+		super(context, dataList);
 		this.onCheckedChangeListener = onCheckedChangeListener;
 		this.ownerId = ownerId;
-	}
-
-	@Override
-	public int getCount() {
-		return empList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return empList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
-
-	public void updateEmpList(List<UserEntity> empList) {
-		this.empList = empList;
-		this.notifyDataSetChanged();
 	}
 
 	@Override

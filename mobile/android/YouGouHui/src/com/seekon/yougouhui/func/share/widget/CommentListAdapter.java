@@ -6,10 +6,10 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,9 +18,9 @@ import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.share.CommentConst;
 import com.seekon.yougouhui.func.share.CommentEntity;
 import com.seekon.yougouhui.func.share.CommentProcessor;
-import com.seekon.yougouhui.func.share.ShareProcessor;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 import com.seekon.yougouhui.func.widget.UserClickListener;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
@@ -32,16 +32,10 @@ import com.seekon.yougouhui.rest.resource.JSONObjResource;
  * @author undyliu
  * 
  */
-public class CommentListAdapter extends BaseAdapter {
+public class CommentListAdapter extends EntityListAdapter<CommentEntity> {
 
-	private Activity context;
-
-	private List<CommentEntity> commentList = null;
-
-	public CommentListAdapter(Activity context, List<CommentEntity> commentList) {
-		super();
-		this.context = context;
-		this.commentList = commentList;
+	public CommentListAdapter(Context context, List<CommentEntity> dataList) {
+		super(context, dataList);
 	}
 
 	@Override
@@ -71,9 +65,10 @@ public class CommentListAdapter extends BaseAdapter {
 				.findViewById(R.id.share_comment_publisher);
 		publisherView.getPaint().setFakeBoldText(true);// TODO:使用样式表来处理
 		publisherView.setText(publisher.getName());
-		publisherView.setOnClickListener(new UserClickListener(publisher, context,
-				-1));
-
+		if (context instanceof Activity) {
+			publisherView.setOnClickListener(new UserClickListener(publisher,
+					(Activity) context, -1));
+		}
 		// 设置评论的删除监听
 		ImageView commentDelete = (ImageView) convertView
 				.findViewById(R.id.b_comment_delete);
@@ -102,8 +97,7 @@ public class CommentListAdapter extends BaseAdapter {
 									resolver.delete(CommentConst.CONTENT_URI, where,
 											selectionArgs);
 
-									commentList.remove(comment);
-									CommentListAdapter.this.notifyDataSetChanged();
+									removeEntity(comment);
 								}
 							});
 				}
@@ -113,26 +107,6 @@ public class CommentListAdapter extends BaseAdapter {
 		}
 
 		return convertView;
-	}
-
-	@Override
-	public int getCount() {
-		return commentList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return commentList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
-
-	public void addComment(CommentEntity comment) {
-		this.commentList.add(comment);
-		this.notifyDataSetChanged();
 	}
 
 	class ViewHolder {

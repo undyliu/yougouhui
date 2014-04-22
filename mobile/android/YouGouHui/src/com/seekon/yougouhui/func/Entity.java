@@ -7,6 +7,15 @@ public class Entity implements Serializable{
 	private static final long serialVersionUID = -531630295394533551L;
 	
 	private String uuid;
+	
+	public Entity() {
+		super();
+	}
+
+	public Entity(String uuid) {
+		super();
+		this.uuid = uuid;
+	}
 
 	public String getUuid() {
 		return uuid;

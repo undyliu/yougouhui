@@ -111,7 +111,7 @@ public class ShopEmpSettingActivity extends Activity implements
 		setPwdConfirm.setTitle("设置密码确认");
 		setPwdConfirm.setMessage("此职员已经设置了密码，是否重新设置？");
 
-		shopEmpListAdapter = new ShopEmpListAdapter(empList, this, this, ownerId);
+		shopEmpListAdapter = new ShopEmpListAdapter(this, empList, this, ownerId);
 		empListView.setAdapter(shopEmpListAdapter);
 	}
 
@@ -181,7 +181,7 @@ public class ShopEmpSettingActivity extends Activity implements
 					@Override
 					public void onSuccess(RestMethodResult<JSONObjResource> result) {
 						empList.removeAll(checkedEmpList);
-						shopEmpListAdapter.updateEmpList(empList);
+						shopEmpListAdapter.updateData(empList);
 						onCancelled();
 					}
 
@@ -221,7 +221,7 @@ public class ShopEmpSettingActivity extends Activity implements
 								empList.add(UserUtils.createFromJSONObject(resource
 										.getJSONObject(i)));
 							}
-							shopEmpListAdapter.updateEmpList(empList);
+							shopEmpListAdapter.updateData(empList);
 						} catch (Exception e) {
 							Logger.warn(TAG, e.getMessage());
 							ViewUtils.showToast(failedShowMsg
@@ -253,7 +253,7 @@ public class ShopEmpSettingActivity extends Activity implements
 					@Override
 					public void onSuccess(RestMethodResult<JSONObjResource> result) {
 						empList.addAll(selectedUserList);
-						shopEmpListAdapter.updateEmpList(empList);
+						shopEmpListAdapter.updateData(empList);
 						onCancelled();
 					}
 
@@ -294,7 +294,7 @@ public class ShopEmpSettingActivity extends Activity implements
 						break;
 					}
 				}
-				shopEmpListAdapter.updateEmpList(empList);
+				shopEmpListAdapter.updateData(empList);
 			}
 			break;
 		default:

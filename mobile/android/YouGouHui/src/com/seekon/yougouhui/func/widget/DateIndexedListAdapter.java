@@ -7,24 +7,18 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.util.DateUtils;
 
-public abstract class DateIndexedListAdapter extends BaseAdapter {
+public abstract class DateIndexedListAdapter extends
+		EntityListAdapter<DateIndexedEntity> {
 
-	protected List<DateIndexedEntity> dateIndexedList = null;
-
-	protected Context context;
-
-	public DateIndexedListAdapter(List<DateIndexedEntity> dateIndexedList,
-			Context context) {
-		super();
-		this.dateIndexedList = dateIndexedList;
-		this.context = context;
+	public DateIndexedListAdapter(Context context,
+			List<DateIndexedEntity> dataList) {
+		super(context, dataList);
 	}
 
 	@Override
@@ -41,7 +35,7 @@ public abstract class DateIndexedListAdapter extends BaseAdapter {
 			holder = (ViewHolder) view.getTag();
 		}
 
-		DateIndexedEntity dateIndexedEntity = this.dateIndexedList.get(position);
+		DateIndexedEntity dateIndexedEntity = (DateIndexedEntity) getItem(position);
 
 		Date date = dateIndexedEntity.getDate();
 		TextView dateView = (TextView) view.findViewById(R.id.item_day_field);
@@ -60,21 +54,6 @@ public abstract class DateIndexedListAdapter extends BaseAdapter {
 		initSubItemListView(subItemListView, dateIndexedEntity.getSubItemList());
 
 		return view;
-	}
-
-	@Override
-	public int getCount() {
-		return dateIndexedList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return dateIndexedList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
 	}
 
 	public abstract void initSubItemListView(ListView subItemListView,

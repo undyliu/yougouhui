@@ -14,6 +14,7 @@ import android.os.Bundle;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.login.EnvHelper;
+import com.seekon.yougouhui.func.login.LoginConst;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserData;
 import com.seekon.yougouhui.func.user.UserEntity;
@@ -85,18 +86,26 @@ public class Splash extends Activity {
 	 */
 	private boolean auth(JSONObject loginSetting) {
 		boolean authed = false;
-		UserData userHelper = AuthorizationManager.getInstance(this)
-				.getUserHelper();
+		// UserData userHelper = AuthorizationManager.getInstance(this)
+		// .getUserHelper();
+		// try {
+		// String phone = loginSetting.getString(UserConst.COL_NAME_PHONE);
+		// String pwd = loginSetting.getString(UserConst.COL_NAME_PWD);
+		// UserEntity user = userHelper.auth(phone, pwd);
+		// authed = user != null;
+		// if (authed) {
+		// RunEnv.getInstance().setLoginSetting(
+		// ContentValuesUtils.fromJSONObject(loginSetting, null));
+		// RunEnv.getInstance().setUser(user);
+		// }
+		// } catch (JSONException e) {
+		// Logger.debug(TAG, e.getMessage(), e);
+		// authed = false;
+		// }
 		try {
-			String phone = loginSetting.getString(UserConst.COL_NAME_PHONE);
-			String pwd = loginSetting.getString(UserConst.COL_NAME_PWD);
-			UserEntity user = userHelper.auth(phone, pwd);
-			authed = user != null;
-			if (authed) {
-				RunEnv.getInstance().setLoginSetting(
-						ContentValuesUtils.fromJSONObject(loginSetting, null));
-				RunEnv.getInstance().setUser(user);
-			}
+			String errorType = AuthorizationManager.getInstance(this).login(
+					ContentValuesUtils.fromJSONObject(loginSetting, null));
+			authed = LoginConst.AUTH_SUCCESS.equals(errorType);
 		} catch (JSONException e) {
 			Logger.debug(TAG, e.getMessage(), e);
 			authed = false;

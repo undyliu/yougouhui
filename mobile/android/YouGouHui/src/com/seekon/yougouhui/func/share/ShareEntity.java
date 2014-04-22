@@ -1,16 +1,14 @@
 package com.seekon.yougouhui.func.share;
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.seekon.yougouhui.file.FileEntity;
+import com.seekon.yougouhui.func.Entity;
 import com.seekon.yougouhui.func.user.UserEntity;
 
-public class ShareEntity implements Serializable {
+public class ShareEntity extends Entity {
 
 	private static final long serialVersionUID = -8373446115846393776L;
-
-	private String uuid;
 
 	private String content;
 
@@ -29,17 +27,8 @@ public class ShareEntity implements Serializable {
 	}
 
 	public ShareEntity(String uuid, String content) {
-		super();
-		this.uuid = uuid;
+		super(uuid);
 		this.content = content;
-	}
-
-	public String getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
 	}
 
 	public String getContent() {
@@ -88,31 +77,6 @@ public class ShareEntity implements Serializable {
 
 	public void setComments(List<CommentEntity> comments) {
 		this.comments = comments;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ShareEntity other = (ShareEntity) obj;
-		if (uuid == null) {
-			if (other.uuid != null)
-				return false;
-		} else if (!uuid.equals(other.uuid))
-			return false;
-		return true;
 	}
 
 }

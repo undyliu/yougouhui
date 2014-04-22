@@ -3,11 +3,11 @@ package com.seekon.yougouhui.func.share.widget;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,19 +20,14 @@ import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.share.ShareConst;
 import com.seekon.yougouhui.func.share.ShareEntity;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
-public class MyShareItemListAdapter extends BaseAdapter {
+public class MyShareItemListAdapter extends EntityListAdapter<ShareEntity> {
 
 	private static final int SHARE_IMAGE_WIDHT = 100;
 
-	private Activity activity;
-
-	private List<ShareEntity> shareList;
-
-	public MyShareItemListAdapter(Activity activity, List<ShareEntity> shareList) {
-		super();
-		this.activity = activity;
-		this.shareList = shareList;
+	public MyShareItemListAdapter(Context context, List<ShareEntity> dataList) {
+		super(context, dataList);
 	}
 
 	@Override
@@ -41,8 +36,8 @@ public class MyShareItemListAdapter extends BaseAdapter {
 		ViewHolder holder = null;
 		if (view == null) {
 			holder = new ViewHolder();
-			view = LayoutInflater.from(activity).inflate(R.layout.my_share_item,
-					null, false);
+			view = LayoutInflater.from(context).inflate(R.layout.my_share_item, null,
+					false);
 			holder.view = view;
 			view.setTag(holder);
 		} else {
@@ -54,10 +49,14 @@ public class MyShareItemListAdapter extends BaseAdapter {
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(activity, ShareDetailActivity.class);
+				Intent intent = new Intent(context, ShareDetailActivity.class);
 				intent.putExtra(ShareConst.COL_NAME_SHARE_ID, share.getUuid());
-				activity.startActivityForResult(intent,
-						MyShareActivity.SHARE_DETAIL_REQUEST_RESULT_CODE);
+				if (context instanceof Activity) {
+					((Activity) context).startActivityForResult(intent,
+							MyShareActivity.SHARE_DETAIL_REQUEST_RESULT_CODE);
+				} else {
+					context.startActivity(intent);
+				}
 			}
 		});
 
@@ -91,21 +90,6 @@ public class MyShareItemListAdapter extends BaseAdapter {
 		}
 
 		return view;
-	}
-
-	@Override
-	public int getCount() {
-		return shareList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return shareList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
 	}
 
 	class ViewHolder {

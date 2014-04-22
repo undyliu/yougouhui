@@ -1,12 +1,11 @@
 package com.seekon.yougouhui.func.sale;
 
-import java.io.Serializable;
+import com.seekon.yougouhui.func.Entity;
 
-public class ChannelEntity implements Serializable {
+public class ChannelEntity extends Entity {
 
 	private static final long serialVersionUID = 3244087502079025830L;
 
-	private String uuid;
 	private String code;
 	private String name;
 	private int ordIndex;
@@ -16,19 +15,10 @@ public class ChannelEntity implements Serializable {
 	}
 
 	public ChannelEntity(String uuid, String code, String name, int ordIndex) {
-		super();
-		this.uuid = uuid;
+		super(uuid);
 		this.code = code;
 		this.name = name;
 		this.ordIndex = ordIndex;
-	}
-
-	public String getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
 	}
 
 	public String getCode() {
@@ -53,31 +43,6 @@ public class ChannelEntity implements Serializable {
 
 	public void setOrdIndex(int ordIndex) {
 		this.ordIndex = ordIndex;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ChannelEntity other = (ChannelEntity) obj;
-		if (uuid == null) {
-			if (other.uuid != null)
-				return false;
-		} else if (!uuid.equals(other.uuid))
-			return false;
-		return true;
 	}
 
 }

@@ -6,44 +6,19 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.module.ModuleEntity;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
-public class ModuleListAdapter extends BaseAdapter {
+public class ModuleListAdapter extends EntityListAdapter<ModuleEntity> {
 
-	private Context context;
-	private List<ModuleEntity> moduleList;
-
-	public ModuleListAdapter(Context context, List<ModuleEntity> moduleList) {
-		super();
-		this.context = context;
-		this.moduleList = moduleList;
+	public ModuleListAdapter(Context context, List<ModuleEntity> dataList) {
+		super(context, dataList);
 	}
 
-	@Override
-	public int getCount() {
-		return moduleList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return moduleList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
-	
-	public void updateData(List<ModuleEntity> moduleList){
-		this.moduleList = moduleList;
-		this.notifyDataSetChanged();
-	}
-	
 	@Override
 	public View getView(int position, View view, ViewGroup arg2) {
 		ViewHolder holder = null;
@@ -59,7 +34,7 @@ public class ModuleListAdapter extends BaseAdapter {
 			holder = (ViewHolder) view.getTag();
 		}
 
-		ModuleEntity module = moduleList.get(position);
+		ModuleEntity module = (ModuleEntity) getItem(position);
 		holder.imageView.setImageResource(module.getImageResourceId());
 		holder.nameView.setText(module.getName());
 

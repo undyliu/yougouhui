@@ -3,6 +3,7 @@ package com.seekon.yougouhui.func.contact;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
@@ -30,6 +31,7 @@ public class GetFriendsTask extends
 		if (result.getStatusCode() == 200) {
 			user.setFriends(AuthorizationManager.getInstance(context).getUserHelper()
 					.getUserFriends(user.getUuid()));
+			RunEnv.getInstance().setUser(user);
 		}
 		super.onPostExecute(result);
 	}

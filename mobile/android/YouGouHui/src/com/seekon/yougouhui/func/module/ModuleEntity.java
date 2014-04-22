@@ -1,31 +1,20 @@
 package com.seekon.yougouhui.func.module;
 
-import java.io.Serializable;
+import com.seekon.yougouhui.func.Entity;
 
-public class ModuleEntity implements Serializable {
+public class ModuleEntity extends Entity {
 
 	private static final long serialVersionUID = 4177014469142742441L;
 
-	private String uuid;
 	private String code;
 	private String name;
 	private int imageResourceId;
 	
- 
 	public ModuleEntity(String uuid, String code, String name, int imageResourceId) {
-		super();
-		this.uuid = uuid;
+		super(uuid);
 		this.code = code;
 		this.name = name;
 		this.imageResourceId = imageResourceId;
-	}
-
-	public String getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
 	}
 
 	public String getCode() {

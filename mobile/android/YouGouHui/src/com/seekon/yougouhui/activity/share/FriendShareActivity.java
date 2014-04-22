@@ -1,35 +1,15 @@
 package com.seekon.yougouhui.activity.share;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.func.RunEnv;
-import com.seekon.yougouhui.func.share.CommentData;
-import com.seekon.yougouhui.func.share.CommentEntity;
-import com.seekon.yougouhui.func.share.ShareConst;
-import com.seekon.yougouhui.func.share.ShareData;
-import com.seekon.yougouhui.func.share.ShareEntity;
-import com.seekon.yougouhui.func.share.ShareProcessor;
 import com.seekon.yougouhui.func.share.widget.ShareListAdapter;
-import com.seekon.yougouhui.func.share.widget.ShareUtils;
-import com.seekon.yougouhui.func.sync.SyncData;
-import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
-import com.seekon.yougouhui.layout.XListView;
-import com.seekon.yougouhui.layout.XListView.IXListViewListener;
-import com.seekon.yougouhui.rest.RestMethodResult;
-import com.seekon.yougouhui.rest.RestUtils;
-import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.util.DateUtils;
+import com.seekon.yougouhui.func.share.widget.ShareListView;
 
 /**
  * 朋友圈 activity
@@ -37,103 +17,28 @@ import com.seekon.yougouhui.util.DateUtils;
  * @author undyliu
  * 
  */
-public class FriendShareActivity extends Activity implements IXListViewListener {
+public class FriendShareActivity extends Activity {
 
 	private static final int SHARE_ACTIVITY_REQUEST_CODE = 100;
 
-	private List<ShareEntity> shares = new ArrayList<ShareEntity>();
-
-	private XListView shareListView = null;
-
-	private ShareListAdapter listAdapter = null;
-
-	private Handler mHandler;
-
-	private SyncData updateData = null;
-
-	private ShareData shareData = null;
-
-	private CommentData commentData = null;
-
-	private int currentOffset = 0;// 分页用的当前的数据偏移
-
-	private String updateTime = null;// 数据中分享记录最新发布的时间
+	private ShareListView shareListView = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.base_xlistview);
+		this.setContentView(R.layout.discover_friends_list);
 
 		initViews();
-
-		if (shares.isEmpty()) {
-			loadShareListData();
-		}
+		shareListView.loadData();
 	}
 
 	private void initViews() {
-		shareListView = (XListView) findViewById(R.id.listview_main);
-		shareListView.setPullLoadEnable(true);
-		shareListView.setXListViewListener(this);
-
-		listAdapter = new ShareListAdapter(this, shares);
-		shareListView.setAdapter(listAdapter);
+		shareListView = (ShareListView) findViewById(R.id.listview_main);
+		shareListView.init();
 
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		mHandler = new Handler();
-
-		updateData = SyncData.getInstance(this);
-		shareData = new ShareData(this);
-		commentData = new CommentData(this);
-
-		updateTime = this.getUpdateTime();
-	}
-
-	private void loadShareListData() {
-		shares.addAll(getShareListFromLocal());
-		if (shares.isEmpty()) {
-			loadShareDataFromRemote();
-		} else {
-			this.updateListView();
-		}
-	}
-
-	private void loadShareDataFromRemote() {
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"获取分享数据失败.") {
-
-					@Override
-					public RestMethodResult<JSONObjResource> doInBackground() {
-						return ShareProcessor.getInstance(FriendShareActivity.this)
-								.getShares(updateTime);
-					}
-
-					@Override
-					public void onSuccess(RestMethodResult<JSONObjResource> result) {
-						updateTime = getUpdateTime();
-						currentOffset = 0;
-						shares.clear();
-						shares.addAll(getShareListFromLocal());
-
-						updateListView();
-					}
-
-					@Override
-					public void onFailed(String errorMessage) {
-						onPostLoad();
-						super.onFailed(errorMessage);
-					}
-
-					@Override
-					public void onCancelled() {
-						onPostLoad();
-						super.onCancelled();
-					}
-
-				});
 	}
 
 	@Override
@@ -161,11 +66,7 @@ public class FriendShareActivity extends Activity implements IXListViewListener 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == SHARE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-			currentOffset = 0;
-			shares.clear();
-			shares.addAll(getShareListFromLocal());
-
-			updateListView();
+			shareListView.loadData();
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
@@ -175,81 +76,7 @@ public class FriendShareActivity extends Activity implements IXListViewListener 
 		startActivityForResult(share, SHARE_ACTIVITY_REQUEST_CODE);
 	}
 
-	/**
-	 * 获取分享数据的最近更新时间，若为null，则默认为用户的注册时间
-	 * 
-	 * @return
-	 */
-	private String getUpdateTime() {
-		String result = updateData.getUpdateTime(ShareConst.TABLE_NAME, RunEnv
-				.getInstance().getUser().getUuid());
-		if (result == null) {
-			result = RunEnv.getInstance().getUser().getRegisterTime();
-		}
-		return result;
-	}
-
-	private List<ShareEntity> getShareListFromLocal() {
-		String limitSql = " limit " + Const.PAGE_SIZE + " offset " + currentOffset;
-		List<ShareEntity> result = shareData.getShareData(limitSql);
-		for (ShareEntity share : result) {
-			share
-					.setImages(ShareUtils.getShareImagesFromLocal(this, share.getUuid()));
-			share.setComments(getCommentsFromLocal(share.getUuid()));
-		}
-		currentOffset += result.size();
-		return result;
-	}
-
-	private List<CommentEntity> getCommentsFromLocal(String shareId) {
-		return commentData.getCommentData(shareId);
-	}
-
-	protected void updateListView() {
-		listAdapter.notifyDataSetChanged();
-		onPostLoad();
-	}
-
-	private void onPostLoad() {
-		shareListView.stopRefresh();
-		shareListView.stopLoadMore();
-		if (updateTime != null) {
-			try {
-				shareListView.setRefreshTime(DateUtils.formartTime(Long
-						.valueOf(updateTime)));
-			} catch (Exception e) {
-			}
-		}
-	}
-
-	@Override
-	public void onRefresh() {
-		mHandler.postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				loadShareDataFromRemote();
-			}
-		}, 2000);
-	}
-
-	@Override
-	public void onLoadMore() {
-		mHandler.postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				shares.addAll(getShareListFromLocal());
-				updateListView();
-			}
-		}, 2000);
-	}
-
 	public ShareListAdapter getShareListAdapter() {
-		return this.listAdapter;
-	}
-
-	public List<ShareEntity> getShares() {
-		return shares;
+		return (ShareListAdapter) shareListView.getEntityListAdapter();
 	}
 }

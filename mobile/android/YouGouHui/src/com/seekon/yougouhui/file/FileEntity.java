@@ -1,9 +1,10 @@
 package com.seekon.yougouhui.file;
 
 import java.io.File;
-import java.io.Serializable;
 
-public class FileEntity implements Serializable {
+import com.seekon.yougouhui.func.Entity;
+
+public class FileEntity extends Entity {
 
 	private static final long serialVersionUID = -6835455636138044256L;
 
@@ -12,7 +13,7 @@ public class FileEntity implements Serializable {
 	private String aliasName;// 文件的别名
 
 	public FileEntity(String fileUri, String aliasName) {
-		super();
+		super(aliasName);
 		this.fileUri = fileUri;
 		this.aliasName = aliasName;
 	}
@@ -33,6 +34,7 @@ public class FileEntity implements Serializable {
 	}
 
 	public void setAliasName(String aliasName) {
+		setUuid(aliasName);
 		this.aliasName = aliasName;
 	}
 

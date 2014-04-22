@@ -13,7 +13,7 @@ public class MyShareListAdapter extends DateIndexedListAdapter {
 
 	public MyShareListAdapter(List<DateIndexedEntity> dateIndexedList,
 			Context context) {
-		super(dateIndexedList, context);
+		super(context, dateIndexedList);
 	}
 
 	@Override

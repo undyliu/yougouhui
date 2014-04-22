@@ -11,7 +11,7 @@ import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.favorit.FavoritEntity;
 import com.seekon.yougouhui.func.widget.CatalogListAdapter;
 
-public class FavoritListAdapter extends CatalogListAdapter {
+public class FavoritListAdapter extends CatalogListAdapter<FavoritEntity> {
 
 	public FavoritListAdapter(Context mContext, List<FavoritEntity> contactList) {
 		super(mContext, contactList);

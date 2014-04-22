@@ -6,7 +6,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,32 +13,12 @@ import android.widget.TextView;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.shop.ShopEntity;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
-public class ShopChooseAdapter extends BaseAdapter {
+public class ShopChooseAdapter extends EntityListAdapter<ShopEntity> {
 
-	private Context context;
-
-	private List<ShopEntity> shopList;
-
-	public ShopChooseAdapter(Context context, List<ShopEntity> shopList) {
-		super();
-		this.context = context;
-		this.shopList = shopList;
-	}
-
-	@Override
-	public int getCount() {
-		return shopList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return shopList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
+	public ShopChooseAdapter(Context context, List<ShopEntity> dataList) {
+		super(context, dataList);
 	}
 
 	@Override

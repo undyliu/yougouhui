@@ -124,7 +124,7 @@ public abstract class CatalogListFragement extends Fragment {
 
 	protected void updateViews(List catalogDataList) {
 		Collections.sort(catalogDataList, pinyinComparator);
-		adapter.updateListView(catalogDataList);
+		adapter.updateData(catalogDataList);
 	}
 
 	private void filterData(String filterStr) {

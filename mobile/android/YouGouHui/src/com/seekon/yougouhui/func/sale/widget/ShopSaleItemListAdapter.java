@@ -6,7 +6,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,37 +14,18 @@ import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.sale.SaleEntity;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
-public class ShopSaleItemListAdapter extends BaseAdapter {
+public class ShopSaleItemListAdapter extends EntityListAdapter<SaleEntity> {
+
+	public ShopSaleItemListAdapter(Context context, List<SaleEntity> dataList) {
+		super(context, dataList);
+	}
 
 	private static final int SALE_IMAGE_WIDTH = 150;
 
-	private Context context;
-	private List<SaleEntity> saleList;
-
-	public ShopSaleItemListAdapter(Context context, List<SaleEntity> saleList) {
-		super();
-		this.context = context;
-		this.saleList = saleList;
-	}
-
 	@Override
-	public int getCount() {
-		return saleList.size();
-	}
-
-	@Override
-	public Object getItem(int arg0) {
-		return saleList.get(arg0);
-	}
-
-	@Override
-	public long getItemId(int arg0) {
-		return arg0;
-	}
-
-	@Override
-	public View getView(int postition, View view, ViewGroup arg2) {
+	public View getView(int position, View view, ViewGroup arg2) {
 		ViewHolder holder = null;
 		if (view == null) {
 			holder = new ViewHolder();
@@ -57,7 +37,7 @@ public class ShopSaleItemListAdapter extends BaseAdapter {
 			holder = (ViewHolder) view.getTag();
 		}
 
-		SaleEntity sale = saleList.get(postition);
+		SaleEntity sale = (SaleEntity) getItem(position);
 
 		TextView titleView = (TextView) view.findViewById(R.id.sale_title);
 		titleView.setText(sale.getTitle());

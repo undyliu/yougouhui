@@ -208,7 +208,7 @@ public class ContactListActivity extends Activity {
 
 		// 根据a-z进行排序
 		Collections.sort(filterDateList, pinyinComparator);
-		adapter.updateListView(filterDateList);
+		adapter.updateData(filterDateList);
 	}
 
 	private void addFriend() {
@@ -224,7 +224,7 @@ public class ContactListActivity extends Activity {
 			if (resultCode == RESULT_OK) {
 				contactDateList = getContactListData();
 				Collections.sort(contactDateList, pinyinComparator);
-				adapter.updateListView(contactDateList);
+				adapter.updateData(contactDateList);
 				// updateSideBar();
 			}
 			break;

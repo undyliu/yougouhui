@@ -125,9 +125,8 @@ public class ShareActionPopupWindow extends PopupWindow {
 										for (FileEntity image : images) {
 											FileHelper.deleteCacheFile(image);
 										}
-
-										((FriendShareActivity) activity).getShares().remove(share);
-										adapter.notifyDataSetChanged();
+										
+										adapter.removeEntity(share);
 									} else if (activity instanceof ShareDetailActivity) {
 										Intent intent = new Intent();
 										intent.putExtra("position", activity.getIntent()

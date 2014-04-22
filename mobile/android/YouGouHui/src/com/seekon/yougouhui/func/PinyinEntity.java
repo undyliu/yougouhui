@@ -1,10 +1,8 @@
 package com.seekon.yougouhui.func;
 
-import java.io.Serializable;
-
 import com.seekon.yougouhui.util.PinyinUtils;
 
-public class PinyinEntity implements Serializable {
+public class PinyinEntity extends Entity {
 
 	private static final long serialVersionUID = 2288876020358229018L;
 
@@ -16,8 +14,8 @@ public class PinyinEntity implements Serializable {
 		super();
 	}
 
-	public PinyinEntity(String name) {
-		super();
+	public PinyinEntity(String uuid, String name) {
+		super(uuid);
 		this.name = name;
 
 		pinyinName = PinyinUtils.getPinYin(name);

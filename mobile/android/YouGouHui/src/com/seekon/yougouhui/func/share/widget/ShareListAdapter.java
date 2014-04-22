@@ -3,13 +3,14 @@ package com.seekon.yougouhui.func.share.widget;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.share.ShareEntity;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
 /**
  * 分享列表adapter
@@ -17,16 +18,10 @@ import com.seekon.yougouhui.func.share.ShareEntity;
  * @author undyliu
  * 
  */
-public class ShareListAdapter extends BaseAdapter {
+public class ShareListAdapter extends EntityListAdapter<ShareEntity> {
 
-	private Activity activity = null;
-
-	private List<ShareEntity> shareList = null;
-
-	public ShareListAdapter(Activity activity, List<ShareEntity> shareList) {
-		super();
-		this.activity = activity;
-		this.shareList = shareList;
+	public ShareListAdapter(Context context, List<ShareEntity> dataList) {
+		super(context, dataList);
 	}
 
 	@Override
@@ -35,7 +30,7 @@ public class ShareListAdapter extends BaseAdapter {
 		ViewHolder holder = null;
 		if (convertView == null) {
 			holder = new ViewHolder();
-			convertView = LayoutInflater.from(activity).inflate(
+			convertView = LayoutInflater.from(context).inflate(
 					R.layout.discover_friends_item, null, false);
 			holder.view = convertView;
 			convertView.setTag(holder);
@@ -43,25 +38,11 @@ public class ShareListAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		ShareEntity share = (ShareEntity) getItem(position);
-		ShareUtils.updateShareDetailView(share, activity, convertView);
-
+		if (context instanceof Activity) {
+			ShareEntity share = (ShareEntity) getItem(position);
+			ShareUtils.updateShareDetailView(share, (Activity) context, convertView);
+		}
 		return convertView;
-	}
-
-	@Override
-	public int getCount() {
-		return shareList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return shareList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
 	}
 
 	class ViewHolder {

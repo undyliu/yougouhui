@@ -3,10 +3,10 @@ package com.seekon.yougouhui.func.contact.widget;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,35 +18,14 @@ import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.contact.AddFriendTask;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 import com.seekon.yougouhui.func.widget.UserClickListener;
 
-public class SearchFriendResultListAdapter extends BaseAdapter {
-	private final String TAG = SearchFriendResultListAdapter.class
-			.getSimpleName();
+public class SearchFriendResultListAdapter extends EntityListAdapter<UserEntity> {
 
-	private Activity context;
-	private List<UserEntity> searchResultList = null;
-
-	public SearchFriendResultListAdapter(Activity context,
-			List<UserEntity> searchResultList) {
-		super();
-		this.context = context;
-		this.searchResultList = searchResultList;
-	}
-
-	@Override
-	public int getCount() {
-		return searchResultList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return searchResultList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
+	public SearchFriendResultListAdapter(Context context,
+			List<UserEntity> dataList) {
+		super(context, dataList);
 	}
 
 	@Override
@@ -68,14 +47,11 @@ public class SearchFriendResultListAdapter extends BaseAdapter {
 			isFriend = true;
 		}
 
-		UserClickListener userListener = new UserClickListener(user, context,
-				AddFriendActivity.OPEN_FRIEND_REQUEST_CODE);
-
 		TextView userNameView = (TextView) view
 				.findViewById(R.id.contact_user_name);
 		userNameView.setText(user.getName());
-		userNameView.setOnClickListener(userListener);
 
+		
 		final Button addFriend = (Button) view.findViewById(R.id.b_add_friend);
 		addFriend.setVisibility(View.VISIBLE);
 		addFriend.setOnClickListener(new View.OnClickListener() {
@@ -95,13 +71,18 @@ public class SearchFriendResultListAdapter extends BaseAdapter {
 		ImageView userPhotoView = (ImageView) view
 				.findViewById(R.id.contact_user_photo);
 		userPhotoView.setLayoutParams(new LinearLayout.LayoutParams(60, 60));
-		userPhotoView.setOnClickListener(userListener);
 
 		String userPhoto = user.getPhoto();
 		if (userPhoto != null && userPhoto.length() > 0) {
 			ImageLoader.getInstance().displayImage(userPhoto, userPhotoView, true);
 		}
 
+		if(context instanceof Activity){
+			UserClickListener userListener = new UserClickListener(user, (Activity) context,
+					AddFriendActivity.OPEN_FRIEND_REQUEST_CODE);
+			userNameView.setOnClickListener(userListener);
+			userPhotoView.setOnClickListener(userListener);
+		}
 		return view;
 	}
 

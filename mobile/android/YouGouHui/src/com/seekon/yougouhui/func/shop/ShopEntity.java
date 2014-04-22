@@ -1,17 +1,16 @@
 package com.seekon.yougouhui.func.shop;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.seekon.yougouhui.func.Entity;
 import com.seekon.yougouhui.func.LocationEntity;
 import com.seekon.yougouhui.func.user.UserEntity;
 
-public class ShopEntity implements Serializable {
+public class ShopEntity extends Entity {
 
 	private static final long serialVersionUID = -7361233046679253011L;
-
-	private String uuid;
+	
 	private String name;
 	private String address;
 	private String desc;
@@ -24,14 +23,6 @@ public class ShopEntity implements Serializable {
 	private LocationEntity location;
 	private List<TradeEntity> trades = new ArrayList<TradeEntity>();
 	private List<UserEntity> employees = new ArrayList<UserEntity>();
-
-	public String getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
 
 	public String getName() {
 		return name;
