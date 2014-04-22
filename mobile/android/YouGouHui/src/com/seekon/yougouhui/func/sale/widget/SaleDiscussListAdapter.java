@@ -33,6 +33,17 @@ public class SaleDiscussListAdapter extends EntityListAdapter<SaleDiscussEntity>
 		super(context, dataList);
 	}
 
+	/**
+	 * 重载此方法，当评论数据变化时，同时更新activity中的评论计数
+	 */
+	@Override
+	public void notifyDataSetChanged() {
+		if(context instanceof SaleDiscussChangeListener){//TODO:很别扭的方式
+			((SaleDiscussChangeListener)context).onChange(dataList);
+		}
+		super.notifyDataSetChanged();
+	}
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;

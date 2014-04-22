@@ -25,7 +25,7 @@ public class ChannelSaleListAdapter extends EntityListAdapter<SaleEntity> {
 	public ChannelSaleListAdapter(Context context, List<SaleEntity> dataList) {
 		super(context, dataList);
 	}
-
+	
 	@Override
 	public View getView(int position, View view, ViewGroup arg2) {
 		ViewHolder holder = null;

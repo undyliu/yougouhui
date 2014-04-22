@@ -103,6 +103,11 @@ public class MainActivity extends FragmentActivity {
 		super.onDestroy();
 	}
 	
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+		super.onActivityResult(arg0, arg1, arg2);
+	}
+	
 	private void initView() {
 		FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);

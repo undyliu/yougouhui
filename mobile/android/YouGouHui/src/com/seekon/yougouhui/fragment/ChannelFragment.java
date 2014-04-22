@@ -12,6 +12,7 @@ import java.util.List;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -49,7 +50,7 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 	private ChannelTabChangeListener channelTabChangeListener = null;
 
 	private List<ChannelEntity> channels = new LinkedList<ChannelEntity>();
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,6 +75,17 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 		return mViewPager;
 	}
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(mAdapter != null && mViewPager != null){
+			Fragment fg = mAdapter.getItem(mViewPager.getCurrentItem());
+			if(fg != null){
+				fg.onActivityResult(requestCode, resultCode, data);
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
 	private void updateViews() {
 		if (mAdapter != null) {
 			mViewPager.setAdapter(mAdapter);

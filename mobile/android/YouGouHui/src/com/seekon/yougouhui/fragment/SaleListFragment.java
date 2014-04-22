@@ -38,7 +38,7 @@ public class SaleListFragment extends Fragment {
 
 	private boolean updateLocation = true;
 
-	private SaleEntity selectedSale = null;
+	private int selectedPosition = -1;
 	
 	public void setChannel(ChannelEntity channel) {
 		this.channel = channel;
@@ -109,10 +109,11 @@ public class SaleListFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				selectedSale = listView.getDataEntity(position - 1);
+				selectedPosition = position - 1;
+				SaleEntity selectedSale = listView.getDataEntity(selectedPosition);
 				Intent intent = new Intent(attachedActivity, SaleDetailActivity.class);
 				intent.putExtra(DataConst.COL_NAME_UUID, selectedSale.getUuid());
-				attachedActivity.startActivityForResult(intent, SALE_DETAIL_REQUEST_CODE);
+				getParentFragment().startActivityForResult(intent, SALE_DETAIL_REQUEST_CODE);
 			}
 
 		});
@@ -126,9 +127,9 @@ public class SaleListFragment extends Fragment {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 		case SALE_DETAIL_REQUEST_CODE:
-			if(resultCode == Activity.RESULT_OK && data != null && selectedSale != null){
-				selectedSale = (SaleEntity) data.getSerializableExtra(SaleConst.DATA_SALE_KEY);
-				listView.getEntityListAdapter().notifyDataSetChanged();
+			if(resultCode == Activity.RESULT_OK && data != null && selectedPosition != -1){
+				SaleEntity sale = (SaleEntity) data.getSerializableExtra(SaleConst.DATA_SALE_KEY);
+				listView.getEntityListAdapter().updateEntity(sale, selectedPosition);
 			}
 			break;
 

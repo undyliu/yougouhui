@@ -1,6 +1,7 @@
 package com.seekon.yougouhui.activity.sale;
 
 import java.util.Date;
+import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -38,9 +39,11 @@ import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.favorit.SaleFavoritProcessor;
 import com.seekon.yougouhui.func.sale.GetSaleTaskCallback;
 import com.seekon.yougouhui.func.sale.SaleConst;
+import com.seekon.yougouhui.func.sale.SaleDiscussEntity;
 import com.seekon.yougouhui.func.sale.SaleEntity;
 import com.seekon.yougouhui.func.sale.SaleUtils;
 import com.seekon.yougouhui.func.sale.widget.DiscussPopupWindow;
+import com.seekon.yougouhui.func.sale.widget.SaleDiscussChangeListener;
 import com.seekon.yougouhui.func.sale.widget.SaleDiscussListView;
 import com.seekon.yougouhui.func.shop.ShopConst;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
@@ -52,7 +55,7 @@ import com.seekon.yougouhui.util.LocationUtils;
 import com.seekon.yougouhui.util.ViewUtils;
 import com.seekon.yougouhui.widget.ImageListRemoteAdapter;
 
-public class SaleDetailActivity extends Activity {
+public class SaleDetailActivity extends Activity implements SaleDiscussChangeListener{
 
 	private static final int SALE_IMAGE_WIDTH = 200;
 
@@ -447,6 +450,14 @@ public class SaleDetailActivity extends Activity {
 
 	private void showProgress(boolean show) {
 		ViewUtils.showProgress(this, findViewById(R.id.sale_detail_main), show);
+	}
+
+	@Override
+	public void onChange(List<SaleDiscussEntity> dataList) {
+		if(sale != null){
+			sale.setDiscussCount(dataList.size());
+			this.updateViews();
+		}
 	}
 
 }
