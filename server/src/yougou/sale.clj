@@ -18,20 +18,25 @@
   )
 )
 
-(defn get-sales-by-channel [channel-id]
-  ;(select sales
-   ;       (with shops)
-    ;      (fields :uuid :title :content :start_date :end_date :visit_count :discuss_count :shop_id [:e_shop.name :shop_name])
-          ;(if (not= channel-id 0)
-          ;  (where {:trade_id [in (subselect channel-trades (fields :trade_id) (where {:channel_id channel-id}))]})
-          ; )
-     ;     (order :publish_time)
-   ;)
-  (exec (-> sale-select-base
+;此函数抽象的不够，需重构
+(defn get-sales-by-channel [channel-id update-time]
+  (if (= channel-id 0);全部
+    (exec (-> sale-select-base
             (where {:status [not= "0"]})
+            (where {:last_modify_time [> update-time]})
             (order :publish_time)
          )
-   )
+     )
+    (exec (-> (select* sales)
+            (fields :uuid :title :content :img :start_date :end_date :visit_count :discuss_count :shop_id [:e_shop.name :shop_name] :e_shop.location :trade_id :publisher :publish_time :publish_date :e_mapping_ct.channel_id :status)
+            (join channel-trades (and (= :e_mapping_ct.trade_id :trade_id) (= :e_mapping_ct.channel_id channel-id)))
+            (join shops (= :e_shop.uuid :shop_id))
+            (where {:status [not= "0"]})
+            (where {:last_modify_time [> update-time]})
+            (order :publish_time)
+          )
+     )
+    )
 )
 
 (defn get-sales-by-shop [shop-id]
@@ -54,19 +59,23 @@
   (select sale-images (fields :uuid :img :ord_index) (where {:sale_id sale-id}))
   )
 
-(defn get-sale-discusses [sale-id]
-  (select sale-discusses (where {:sale_id sale-id})
+(defn get-sale-discusses [sale-id update-time]
+  (select sale-discusses
+          (fields :uuid :content :sale_id :publisher :publish_time [:e_user.name :user_name] :e_user.phone :e_user.photo)
+          (join users (= :e_user.uuid :publisher))
+          (where {:sale_id sale-id :last_modify_time [> update-time]})
   )
 )
 
+;评论和商铺数据单独获取
 (defn get-sale-data [id user-id]
   (let [[sale] (exec (-> sale-select-base (where {:uuid id})))
-         discusses (get-sale-discusses id)
+         ;discusses (get-sale-discusses id)
          images (get-sale-images id)
          ;shop (shop/get-shop (:shop_id sale))
 	    ]
     (save-sale-visit user-id id (+ 1 (:visit_count sale)))
-    (assoc sale :discusses discusses :images images )
+    (assoc sale :images images)
   )
 )
 
@@ -111,7 +120,7 @@
         discuss-count (:discuss_count (first (select sales (fields :discuss_count) (where {:uuid sale-id}))))
         ]
     (insert sale-discusses (values {:uuid uuid :sale_id sale-id :content content :publisher publisher :publish_time current-time :last_modify_time current-time}))
-    (update sales (set-fields {:discuss_count (+ 1 discuss-count)} :last_modify_time current-time) (where {:uuid sale-id}))
+    (update sales (set-fields {:discuss_count (+ 1 discuss-count) :last_modify_time current-time}) (where {:uuid sale-id}))
     {:uuid uuid :publish_time current-time}
    )
  )
@@ -130,14 +139,6 @@
     )
   )
 
-(defn get-sale-discusses [sale-id]
-  (let [discusses (select sale-discusses
-                          (fields :uuid :sale_id :content :publisher :publish_time)
-                          (where {:is_deleted 0}))
-        ]
-    discusses
-   )
-  )
 (defn cancel-sale [sale-id]
   (update sales (set-fields {:status 2 :last_modify_time (System/currentTimeMillis)}) (where {:uuid sale-id}))
   )
