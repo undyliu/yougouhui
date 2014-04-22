@@ -6,31 +6,29 @@ import android.content.Context;
 
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.rest.BaseRequest;
-import com.seekon.yougouhui.rest.JSONArrayResourceMethod;
+import com.seekon.yougouhui.rest.JSONObjResourceMethod;
 import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
 
-public class GetSalesByChannelMethod extends JSONArrayResourceMethod {
+public class GetSalesByChannelMethod extends JSONObjResourceMethod {
 
 	private static final String GET_SALES_URI = Const.SERVER_APP_URL
-			+ "/getSalesByChannel";
+			+ "/getSalesByChannel/";
 
 	private String channelId;
 
-	public GetSalesByChannelMethod(Context context, String channelId) {
+	private String updateTime;
+	
+	public GetSalesByChannelMethod(Context context, String channelId,
+			String updateTime) {
 		super(context);
 		this.channelId = channelId;
+		this.updateTime = updateTime;
 	}
-
+	
 	@Override
 	protected Request buildRequest() {
-		URI uri = null;
-		if (channelId != null) {
-			uri = URI.create(GET_SALES_URI + "/" + channelId);
-		} else {
-			uri = URI.create(GET_SALES_URI);
-		}
-
+		URI uri = URI.create(GET_SALES_URI + channelId + "/" + updateTime);
 		return new BaseRequest(Method.GET, uri, null, null);
 	}
 

@@ -14,7 +14,7 @@ public class UserUtils {
 	public static UserEntity createFromJSONObject(JSONObject jsonObj) {
 		UserEntity user = new UserEntity();
 		user.setName(JSONUtils.getJSONStringValue(jsonObj,
-				UserConst.COL_NAME_USER_NAME));
+				UserConst.COL_NAME_NAME));
 		user.setUuid(JSONUtils.getJSONStringValue(jsonObj, DataConst.COL_NAME_UUID));
 		user.setPhone(JSONUtils.getJSONStringValue(jsonObj,
 				UserConst.COL_NAME_PHONE));
@@ -31,9 +31,9 @@ public class UserUtils {
 			return user;
 		}
 		List<String> keys = JSONUtils.getKeyList(jsonObj);
-		if (keys.contains(UserConst.COL_NAME_USER_NAME)) {
+		if (keys.contains(UserConst.COL_NAME_NAME)) {
 			user.setName(JSONUtils.getJSONStringValue(jsonObj,
-					UserConst.COL_NAME_USER_NAME));
+					UserConst.COL_NAME_NAME));
 		}
 		if (keys.contains(UserConst.COL_NAME_PHONE)) {
 			user.setPhone(JSONUtils.getJSONStringValue(jsonObj,
@@ -53,7 +53,7 @@ public class UserUtils {
 		JSONObject jsonObj = new JSONObject();
 		JSONUtils.putJSONValue(jsonObj, DataConst.COL_NAME_UUID, user.getUuid());
 		JSONUtils.putJSONValue(jsonObj, UserConst.COL_NAME_PHONE, user.getPhone());
-		JSONUtils.putJSONValue(jsonObj, UserConst.COL_NAME_USER_NAME,
+		JSONUtils.putJSONValue(jsonObj, UserConst.COL_NAME_NAME,
 				user.getName());
 		JSONUtils.putJSONValue(jsonObj, UserConst.COL_NAME_PWD, user.getPwd());
 		JSONUtils.putJSONValue(jsonObj, UserConst.COL_NAME_USER_ICON,

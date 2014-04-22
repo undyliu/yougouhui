@@ -71,7 +71,7 @@
             android:orientation="vertical"
             android:visibility="gone" >
 
-            <com.seekon.yougouhui.layout.XListView
+            <com.seekon.yougouhui.func.sale.widget.SaleDiscussListView
                 android:id="@+id/listview_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

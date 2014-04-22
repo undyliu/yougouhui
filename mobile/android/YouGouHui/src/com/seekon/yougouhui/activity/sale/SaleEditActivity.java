@@ -1,8 +1,6 @@
 package com.seekon.yougouhui.activity.sale;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,36 +14,28 @@ import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.sale.GetSaleTaskCallback;
 import com.seekon.yougouhui.func.sale.SaleDiscussData;
-import com.seekon.yougouhui.func.sale.SaleDiscussEntity;
-import com.seekon.yougouhui.func.sale.SaleDiscussProcessor;
 import com.seekon.yougouhui.func.sale.SaleEntity;
 import com.seekon.yougouhui.func.sale.SaleProcessor;
 import com.seekon.yougouhui.func.sale.SaleUtils;
-import com.seekon.yougouhui.func.sale.widget.SaleDiscussListAdapter;
+import com.seekon.yougouhui.func.sale.widget.SaleDiscussListView;
 import com.seekon.yougouhui.func.shop.TradeEntity;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.func.widget.AsyncRestRequestTask;
-import com.seekon.yougouhui.layout.XListView;
-import com.seekon.yougouhui.layout.XListView.IXListViewListener;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
-import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.DateUtils;
 
-public class SaleEditActivity extends SalePromoteActivity implements
-		IXListViewListener {
+public class SaleEditActivity extends SalePromoteActivity {
 
 	private SaleEntity sale;
-	private List<SaleDiscussEntity> discussList = new ArrayList<SaleDiscussEntity>();
 
 	private SaleDiscussData saleDiscussData;
 	private Handler mHandler;
 
 	View discussView;
-	XListView discussListView;
+	SaleDiscussListView discussListView;
 	ImageView discussExpandView;
-	SaleDiscussListAdapter discussListAdapter;
 	private Menu menu;
 
 	@Override
@@ -55,16 +45,9 @@ public class SaleEditActivity extends SalePromoteActivity implements
 		mHandler = new Handler();
 		saleDiscussData = new SaleDiscussData(this);
 
-		discussListAdapter = new SaleDiscussListAdapter(this,
-				new ArrayList<SaleDiscussEntity>());
-
 		discussView = findViewById(R.id.discuss_view);
-
-		discussListView = (XListView) findViewById(R.id.listview_main);
-		discussListView.setPullLoadEnable(true);
-		discussListView.setXListViewListener(this);
-		discussListView.setAdapter(discussListAdapter);
-
+		discussListView = (SaleDiscussListView) findViewById(R.id.listview_main);
+		discussListView.init();
 		discussExpandView = (ImageView) findViewById(R.id.img_sale_discuss_expand);
 
 		loadSale();
@@ -76,9 +59,9 @@ public class SaleEditActivity extends SalePromoteActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.sale_edit, menu);
 		this.menu = menu;
-		if(sale != null){
+		if (sale != null) {
 			String status = sale.getStatus();
-			if(DataConst.STATUS_CANCELED.equals(status)){
+			if (DataConst.STATUS_CANCELED.equals(status)) {
 				menu.findItem(R.id.menu_sale_cancel).setEnabled(false);
 			}
 		}
@@ -93,7 +76,7 @@ public class SaleEditActivity extends SalePromoteActivity implements
 			cancelSale(item);
 			break;
 		case R.id.menu_sale_publish:
-			//publishSaleInfo(item);//不支持重新发布
+			// publishSaleInfo(item);//不支持重新发布
 		default:
 			break;
 		}
@@ -114,32 +97,6 @@ public class SaleEditActivity extends SalePromoteActivity implements
 				});
 		task.execute((Void) null);
 
-		loadDiscussData(saleId);
-	}
-
-	private void loadDiscussData(final String saleId) {
-		discussList = saleDiscussData.getDiscussList(saleId);
-		if (discussList.isEmpty()) {
-			RestUtils
-					.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>(
-							"获取评论数据失败.") {
-
-						@Override
-						public RestMethodResult<JSONArrayResource> doInBackground() {
-							return SaleDiscussProcessor.getInstance(SaleEditActivity.this)
-									.getDiscusses(saleId);
-						}
-
-						@Override
-						public void onSuccess(RestMethodResult<JSONArrayResource> result) {
-							discussList = saleDiscussData.getDiscussList(saleId);
-							discussListAdapter.updateData(discussList);
-						}
-
-					});
-		} else {
-			discussListAdapter.updateData(discussList);
-		}
 	}
 
 	@Override
@@ -184,13 +141,16 @@ public class SaleEditActivity extends SalePromoteActivity implements
 				int visibility = discussView.getVisibility();
 				discussView.setVisibility(visibility == View.VISIBLE ? View.GONE
 						: View.VISIBLE);
+				if (visibility == View.VISIBLE && sale != null) {
+					discussListView.loadDiscussData(sale);
+				}
 			}
 		});
 
 		updateViewsWidthStatus();
 	}
 
-	private void updateViewsWidthStatus(){
+	private void updateViewsWidthStatus() {
 		this.contentView.setEnabled(false);
 		this.titleView.setEnabled(false);
 		this.startDateChooseView.setEnabled(false);
@@ -198,78 +158,57 @@ public class SaleEditActivity extends SalePromoteActivity implements
 
 		if (menu != null) {
 			String status = sale.getStatus();
-			if(DataConst.STATUS_CANCELED.equals(status)){
+			if (DataConst.STATUS_CANCELED.equals(status)) {
 				menu.findItem(R.id.menu_sale_cancel).setEnabled(false);
 			}
-//			if (DataConst.STATUS_AUDITED.equals(status)) {
-//				//menu.findItem(R.id.menu_sale_cancel).setEnabled(true);
-//				//menu.findItem(R.id.menu_sale_cancel).setVisible(true);
-//			} else if (DataConst.STATUS_REGISTERED.equals(status)) {
-//				//menu.findItem(R.id.menu_sale_cancel).setEnabled(true);
-//				//menu.findItem(R.id.menu_sale_cancel).setVisible(true);
-//				//menu.findItem(R.id.menu_sale_publish).setEnabled(true);
-//				//menu.findItem(R.id.menu_sale_publish).setVisible(true);
-//				
-//				//this.contentView.setEnabled(true);
-//				//this.titleView.setEnabled(true);
-//				//this.startDateChooseView.setEnabled(true);
-//				//this.endDateChooseView.setEnabled(true);
-//			}
+			// if (DataConst.STATUS_AUDITED.equals(status)) {
+			// //menu.findItem(R.id.menu_sale_cancel).setEnabled(true);
+			// //menu.findItem(R.id.menu_sale_cancel).setVisible(true);
+			// } else if (DataConst.STATUS_REGISTERED.equals(status)) {
+			// //menu.findItem(R.id.menu_sale_cancel).setEnabled(true);
+			// //menu.findItem(R.id.menu_sale_cancel).setVisible(true);
+			// //menu.findItem(R.id.menu_sale_publish).setEnabled(true);
+			// //menu.findItem(R.id.menu_sale_publish).setVisible(true);
+			//
+			// //this.contentView.setEnabled(true);
+			// //this.titleView.setEnabled(true);
+			// //this.startDateChooseView.setEnabled(true);
+			// //this.endDateChooseView.setEnabled(true);
+			// }
 		}
 	}
-	
-	private void cancelSale(final MenuItem item){
+
+	private void cancelSale(final MenuItem item) {
 		item.setEnabled(false);
-		
-		RestUtils.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>() {
 
-			@Override
-			public RestMethodResult<JSONObjResource> doInBackground() {
-				return SaleProcessor.getInstance(SaleEditActivity.this).cancelSale(sale);
-			}
+		RestUtils
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>() {
 
-			@Override
-			public void onSuccess(RestMethodResult<JSONObjResource> result) {
-				updateViewsWidthStatus();
-				onCancelled();
-			}
-			@Override
-			public void onFailed(String errorMessage) {
-				super.onFailed(errorMessage);
-				onCancelled();
-			}
-			
-			@Override
-			public void onCancelled() {
-				showProgress(false);
-				item.setEnabled(true);
-				super.onCancelled();
-			}
-		});
-	}
-	
-	@Override
-	public void onRefresh() {
-		mHandler.postDelayed(new Runnable() {
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return SaleProcessor.getInstance(SaleEditActivity.this).cancelSale(
+								sale);
+					}
 
-			@Override
-			public void run() {
-				discussListView.stopRefresh();
-				discussListView.stopLoadMore();
-			}
-		}, 2000);
-	}
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						updateViewsWidthStatus();
+						onCancelled();
+					}
 
-	@Override
-	public void onLoadMore() {
-		mHandler.postDelayed(new Runnable() {
+					@Override
+					public void onFailed(String errorMessage) {
+						super.onFailed(errorMessage);
+						onCancelled();
+					}
 
-			@Override
-			public void run() {
-				discussListView.stopRefresh();
-				discussListView.stopLoadMore();
-			}
-		}, 2000);
+					@Override
+					public void onCancelled() {
+						showProgress(false);
+						item.setEnabled(true);
+						super.onCancelled();
+					}
+				});
 	}
 
 }

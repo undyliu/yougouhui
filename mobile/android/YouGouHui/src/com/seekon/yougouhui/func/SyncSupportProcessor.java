@@ -23,7 +23,7 @@ import com.seekon.yougouhui.util.Logger;
  */
 public abstract class SyncSupportProcessor extends ContentProcessor {
 
-	private String syncTableName;
+	protected String syncTableName;
 
 	public SyncSupportProcessor(Context mContext, String[] colNames,
 			Uri contentUri, String syncTableName) {
@@ -50,9 +50,7 @@ public abstract class SyncSupportProcessor extends ContentProcessor {
 						throw new RuntimeException("远程调用返回值data不符合要求.");
 					}
 
-					SyncData syncData = SyncData.getInstance(mContext);
-					syncData.updateData(syncTableName, RunEnv.getInstance().getUser()
-							.getUuid(), updateTime);
+					recordUpdateTime(updateTime);
 				} catch (Exception e) {
 					Logger.warn(TAG, e.getMessage(), e);
 					throw new RuntimeException(e);
@@ -63,4 +61,9 @@ public abstract class SyncSupportProcessor extends ContentProcessor {
 		}
 	}
 
+	protected void recordUpdateTime(String updateTime){
+		SyncData syncData = SyncData.getInstance(mContext);
+		syncData.updateData(syncTableName, RunEnv.getInstance().getUser()
+				.getUuid(), updateTime);
+	}
 }

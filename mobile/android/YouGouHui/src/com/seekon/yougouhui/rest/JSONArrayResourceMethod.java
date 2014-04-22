@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.util.Logger;
 
@@ -45,6 +46,7 @@ public abstract class JSONArrayResourceMethod extends
 							result = new RestMethodResult<JSONArrayResource>(
 									RestStatus.SERVER_REMOTE_ERROR, statusMsg,
 									result.getResource());
+							RunEnv.getInstance().setSessionId(null);//todo: why?
 							break;
 						}
 					}

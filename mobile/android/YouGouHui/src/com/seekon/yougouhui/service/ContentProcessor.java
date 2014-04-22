@@ -98,18 +98,23 @@ public class ContentProcessor {
 		if (isDel != null && "1".equals(isDel)) {
 			this.deleteContentProvider(jsonObj, contentUri);
 		} else {
-			ContentValues values = ContentValuesUtils.fromJSONObject(jsonObj,
-					colNames);
-			ContentResolver resolver = mContext.getContentResolver();
-			String id = values.getAsString(COL_NAME_UUID);
-			int count = resolver.update(ContentUtils.withAppendedId(contentUri, id),
-					values, null, null);
-			if (count == 0) {
-				resolver.insert(contentUri, values);
-			}
+			this.modifyContentProvider(jsonObj, colNames, contentUri);
 		}
 	}
 
+	protected void modifyContentProvider(JSONObject jsonObj, String[] colNames,
+			Uri contentUri) throws JSONException {
+		ContentValues values = ContentValuesUtils.fromJSONObject(jsonObj,
+				colNames);
+		ContentResolver resolver = mContext.getContentResolver();
+		String id = values.getAsString(COL_NAME_UUID);
+		int count = resolver.update(ContentUtils.withAppendedId(contentUri, id),
+				values, null, null);
+		if (count == 0) {
+			resolver.insert(contentUri, values);
+		}
+	}
+	
 	protected void deleteContentProvider(JSONObject jsonObj, Uri contentUri)
 			throws JSONException {
 		if (jsonObj == null) {

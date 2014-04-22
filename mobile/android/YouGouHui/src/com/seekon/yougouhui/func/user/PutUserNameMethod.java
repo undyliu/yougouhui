@@ -1,7 +1,7 @@
 package com.seekon.yougouhui.func.user;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
-import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_NAME;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -38,7 +38,7 @@ public class PutUserNameMethod extends JSONObjResourceMethod {
 	protected Request buildRequest() {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(COL_NAME_UUID, RunEnv.getInstance().getUser().getUuid());
-		params.put(COL_NAME_USER_NAME, nickName);
+		params.put(COL_NAME_NAME, nickName);
 
 		return new BaseRequest(Method.PUT, PUT_USER_NAME_URI, null, params);
 	}

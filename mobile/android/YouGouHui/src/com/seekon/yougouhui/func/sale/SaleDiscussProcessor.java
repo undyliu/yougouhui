@@ -1,24 +1,27 @@
 package com.seekon.yougouhui.func.sale;
 
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
+import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
+import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_ICON;
+
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
+import android.net.Uri;
 
-import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.SyncSupportProcessor;
 import com.seekon.yougouhui.func.spi.ISaleDiscussProcessor;
+import com.seekon.yougouhui.func.sync.SyncData;
+import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.rest.RestMethodResult;
-import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.rest.resource.Resource;
-import com.seekon.yougouhui.service.ContentProcessor;
 import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.JSONUtils;
-import com.seekon.yougouhui.util.Logger;
 
-public class SaleDiscussProcessor extends ContentProcessor implements
+public class SaleDiscussProcessor extends SyncSupportProcessor implements
 		ISaleDiscussProcessor {
-
-	private static final String TAG = SaleDiscussProcessor.class.getSimpleName();
 
 	private static ISaleDiscussProcessor instance = null;
 	private static Object lock = new Object();
@@ -35,26 +38,36 @@ public class SaleDiscussProcessor extends ContentProcessor implements
 	}
 
 	private SaleDiscussProcessor(Context mContext) {
-		super(mContext, SaleDiscussData.COL_NAMES, SaleDiscussConst.CONTENT_URI);
+		super(mContext, SaleDiscussData.COL_NAMES, SaleDiscussConst.CONTENT_URI,
+				SaleDiscussConst.TABLE_NAME);
 	}
 
+	/**
+	 * 重载更新评论的方法，同时，更新发布者
+	 */
 	@Override
-	protected void updateContentProvider(RestMethodResult<Resource> result) {
-		super.updateContentProvider(result);
-		if (result.getResource() instanceof JSONObjResource) {
-			JSONObjResource resource = (JSONObjResource) result.getResource();
-			if (resource.has(DataConst.COL_NAME_IS_DELETED)) {
-				String isDeleted = JSONUtils.getJSONStringValue(resource,
-						DataConst.COL_NAME_IS_DELETED);
-				if (isDeleted != null && "1".equals(isDeleted)) {
-					try {
-						super.deleteContentProvider(resource, contentUri);
-					} catch (JSONException e) {
-						Logger.warn(TAG, e.getMessage());
-					}
-				}
-			}
+	protected void modifyContentProvider(JSONObject jsonObj, String[] colNames,
+			Uri contentUri) throws JSONException {
+		super.modifyContentProvider(jsonObj, colNames, contentUri);
+		if (jsonObj.has(COL_NAME_PHONE)) {// 包含有手机号
+			JSONObject user = JSONUtils.cloneJSONObject(jsonObj, new String[] {
+					COL_NAME_PHONE, COL_NAME_USER_ICON });
+			user.put(COL_NAME_UUID, jsonObj.getString(SaleConst.COL_NAME_PUBLISHER));
+			user.put(COL_NAME_NAME, jsonObj.get(UserConst.NAME_USER_NAME));
+			super.modifyContentProvider(user, new String[] { COL_NAME_UUID,
+					COL_NAME_NAME, COL_NAME_PHONE, COL_NAME_USER_ICON },
+					UserConst.CONTENT_URI);
 		}
+	}
+
+	/**
+	 * 重载同步时间，user_id为*
+	 * 
+	 */
+	@Override
+	protected void recordUpdateTime(String updateTime) {
+		SyncData syncData = SyncData.getInstance(mContext);
+		syncData.updateData(syncTableName, "*", updateTime);
 	}
 
 	public RestMethodResult<JSONObjResource> deleteDiscuss(String uuid) {
@@ -67,8 +80,9 @@ public class SaleDiscussProcessor extends ContentProcessor implements
 				discuss));
 	}
 
-	public RestMethodResult<JSONArrayResource> getDiscusses(String saleId) {
+	public RestMethodResult<JSONObjResource> getDiscusses(String saleId,
+			String updateTime) {
 		return (RestMethodResult) this.execMethod(new GetDiscussesMethod(mContext,
-				saleId));
+				saleId, updateTime));
 	}
 }

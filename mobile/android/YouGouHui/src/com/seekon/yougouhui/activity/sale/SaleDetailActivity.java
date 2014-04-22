@@ -1,8 +1,6 @@
 package com.seekon.yougouhui.activity.sale;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -13,7 +11,6 @@ import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.Menu;
@@ -40,33 +37,26 @@ import com.seekon.yougouhui.func.LocationEntity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.favorit.SaleFavoritProcessor;
 import com.seekon.yougouhui.func.sale.GetSaleTaskCallback;
-import com.seekon.yougouhui.func.sale.SaleDiscussData;
-import com.seekon.yougouhui.func.sale.SaleDiscussEntity;
-import com.seekon.yougouhui.func.sale.SaleDiscussProcessor;
+import com.seekon.yougouhui.func.sale.SaleConst;
 import com.seekon.yougouhui.func.sale.SaleEntity;
 import com.seekon.yougouhui.func.sale.SaleUtils;
 import com.seekon.yougouhui.func.sale.widget.DiscussPopupWindow;
-import com.seekon.yougouhui.func.sale.widget.SaleDiscussListAdapter;
+import com.seekon.yougouhui.func.sale.widget.SaleDiscussListView;
 import com.seekon.yougouhui.func.shop.ShopConst;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
-import com.seekon.yougouhui.layout.XListView;
-import com.seekon.yougouhui.layout.XListView.IXListViewListener;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
-import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.DateUtils;
 import com.seekon.yougouhui.util.LocationUtils;
 import com.seekon.yougouhui.util.ViewUtils;
 import com.seekon.yougouhui.widget.ImageListRemoteAdapter;
 
-public class SaleDetailActivity extends Activity implements IXListViewListener {
+public class SaleDetailActivity extends Activity {
 
 	private static final int SALE_IMAGE_WIDTH = 200;
 
 	private SaleEntity sale = null;
-
-	private List<SaleDiscussEntity> discussList = new ArrayList<SaleDiscussEntity>();
 
 	TextView titleView;
 	TextView contentView;
@@ -78,18 +68,17 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 	ImageView saleImageView;
 	GridView saleImagesView;
 	View discussView;
-	XListView discussListView;
+	SaleDiscussListView discussListView;
 	ImageView discussExpandView;
-	SaleDiscussListAdapter discussListAdapter;
+	ImageView statusImgView;
+	TextView statusView;
+	
 	Button discussButton;
-
-	private Handler mHandler;
-	private SaleDiscussData saleDiscussData;
 
 	private Menu menu;
 	private boolean saleFavorited = false;
 	private BroadcastReceiver locationReceiver;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -101,12 +90,9 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 
 		showProgress(true);
 
-		mHandler = new Handler();
-		saleDiscussData = new SaleDiscussData(this);
-
 		initViews();
 		locationReceiver = new BroadcastReceiver() {
-			
+
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				LocationEntity locationEntity = new LocationEntity();
@@ -123,13 +109,13 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 				LocationEntity currentLocation = RunEnv.getInstance()
 						.getLocationEntity();
 				if (currentLocation == null || !currentLocation.equals(locationEntity)) {
-					RunEnv.getInstance().setLocationEntity(locationEntity);			
+					RunEnv.getInstance().setLocationEntity(locationEntity);
 				}
-				
+
 				updateDistanceView();
 			}
 		};
-		
+
 		loadSaleData();
 	}
 
@@ -145,12 +131,12 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 		this.unregisterReceiver(locationReceiver);
 		super.onPause();
 	}
-	
+
 	private void initViews() {
 		titleView = (TextView) findViewById(R.id.sale_title);
 		contentView = (TextView) findViewById(R.id.sale_content);
-		shopView = (TextView) findViewById(R.id.shop_name);
-		distanceView = (TextView) findViewById(R.id.shop_distance);
+		shopView = (TextView) findViewById(R.id.d_shop_name);
+		distanceView = (TextView) findViewById(R.id.d_shop_distance);
 		endDateView = (TextView) findViewById(R.id.sale_end_date);
 		visitCountView = (TextView) findViewById(R.id.sale_visit_count);
 		discussCountView = (TextView) findViewById(R.id.sale_discuss_count);
@@ -168,33 +154,33 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 
 		discussExpandView = (ImageView) findViewById(R.id.img_sale_discuss_expand);
 
-		discussListAdapter = new SaleDiscussListAdapter(this,
-				new ArrayList<SaleDiscussEntity>());
-
 		discussView = findViewById(R.id.discuss_view);
 
-		discussListView = (XListView) findViewById(R.id.listview_main);
-		discussListView.setPullLoadEnable(true);
-		discussListView.setXListViewListener(this);
-		discussListView.setAdapter(discussListAdapter);
+		discussListView = (SaleDiscussListView) findViewById(R.id.listview_main);
+		discussListView.init();
 
 		discussButton = (Button) findViewById(R.id.b_discuss);
+		
+		statusImgView = (ImageView) findViewById(R.id.sale_status_img);
+		statusView = (TextView) findViewById(R.id.sale_status);
+		statusView.getPaint().setFakeBoldText(true);
 	}
 
-	private void updateDistanceView(){
-		if(sale  == null){
+	private void updateDistanceView() {
+		if (sale == null) {
 			return;
 		}
 		LocationEntity currentLocation = RunEnv.getInstance().getLocationEntity();
 		LocationEntity shopLocation = sale.getShop().getLocation();
-		if(currentLocation != null && shopLocation != null){
-			distanceView.setText(String.valueOf(LocationUtils.distance(currentLocation, shopLocation)));
-		}else{
+		if (currentLocation != null && shopLocation != null) {
+			distanceView.setText(String.valueOf(LocationUtils.distance(
+					currentLocation, shopLocation)));
+		} else {
 			distanceView.setText("未知");
 		}
 		distanceView.getPaint().setFakeBoldText(true);
 	}
-	
+
 	private void updateViews() {
 		if (sale == null) {
 			return;
@@ -235,7 +221,8 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 			public void onClick(View v) {
 				Intent intent = new Intent(SaleDetailActivity.this,
 						ImagePreviewActivity.class);
-				intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, new FileEntity(null, sale.getImg()));
+				intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, new FileEntity(
+						null, sale.getImg()));
 				intent.putExtra(ImagePreviewActivity.IMAGE_INDEX_IN_CONTAINER, 0);
 				intent.putExtra(ImagePreviewActivity.IMAGE_DELETE_FLAG, false);
 
@@ -252,7 +239,11 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 			@Override
 			public void onClick(View v) {
 				int visibility = discussView.getVisibility();
-				discussView.setVisibility(visibility == View.VISIBLE ? View.GONE : View.VISIBLE);
+				discussView.setVisibility(visibility == View.VISIBLE ? View.GONE
+						: View.VISIBLE);
+				if (visibility == View.GONE && sale != null) {
+					discussListView.loadDiscussData(sale);
+				}
 			}
 		});
 
@@ -267,7 +258,8 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 				DiscussPopupWindow popupWindow = new DiscussPopupWindow();
 				popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 				popupWindow.setWidth(WindowManager.LayoutParams.FILL_PARENT);
-				popupWindow.init(activity, sale.getUuid(), discussListAdapter);
+				popupWindow.init(activity, sale.getUuid(),
+						discussListView.getEntityListAdapter());
 				popupWindow.setBackgroundDrawable(new BitmapDrawable());
 				popupWindow.setOutsideTouchable(true);
 				popupWindow.setFocusable(true);
@@ -282,6 +274,18 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 				this.menu.getItem(i).setEnabled(true);
 			}
 		}
+		
+		String status = sale.getStatus();
+		if(DataConst.STATUS_AUDITED.equals(status)){
+			statusImgView.setImageResource(R.drawable.valid);
+			statusView.setText(R.string.label_sale_status_valid);
+		}else if(DataConst.STATUS_ENDED.equals(status)){
+			statusImgView.setImageResource(R.drawable.closed);
+			statusView.setText(R.string.label_sale_status_ended);
+		}else{//其他的都显示为作废
+			statusImgView.setImageResource(R.drawable.cancel);
+			statusView.setText(R.string.label_sale_status_canceled);
+		}
 	}
 
 	private void loadSaleData() {
@@ -294,7 +298,7 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 			public void onSuccess(RestMethodResult<JSONObjResource> result) {
 				showProgress(false);
 				sale = SaleUtils.getSale(SaleDetailActivity.this, saleId);
-				//sale.getImages().remove(sale.getImg());
+				// sale.getImages().remove(sale.getImg());
 
 				updateViews();
 			}
@@ -330,32 +334,6 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 
 		favoritTask.execute((Void) null);
 
-		loadDiscussData(saleId);
-	}
-
-	private void loadDiscussData(final String saleId) {
-		discussList = saleDiscussData.getDiscussList(saleId);
-		if (discussList.isEmpty()) {
-			RestUtils
-					.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>(
-							"获取评论数据失败.") {
-
-						@Override
-						public RestMethodResult<JSONArrayResource> doInBackground() {
-							return SaleDiscussProcessor.getInstance(SaleDetailActivity.this)
-									.getDiscusses(saleId);
-						}
-
-						@Override
-						public void onSuccess(RestMethodResult<JSONArrayResource> result) {
-							discussList = saleDiscussData.getDiscussList(saleId);
-							discussListAdapter.updateData(discussList);
-						}
-
-					});
-		} else {
-			discussListAdapter.updateData(discussList);
-		}
 	}
 
 	@Override
@@ -382,7 +360,7 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 		int itemId = item.getItemId();
 		switch (itemId) {
 		case android.R.id.home:
-			this.finish();
+			this.back();
 			break;
 		case R.id.menu_sale_favorit:
 			favoritSale(item);
@@ -399,6 +377,15 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 		return super.onOptionsItemSelected(item);
 	}
 
+	private void back(){
+		if(sale != null){
+			Intent intent = new Intent();
+			intent.putExtra(SaleConst.DATA_SALE_KEY, sale);
+			setResult(RESULT_OK, intent);
+		}
+		this.finish();
+	}
+	
 	private void publishShare() {
 		Intent intent = new Intent(this, ShareActivity.class);
 		intent.putExtra(ShopConst.DATA_SHOP_KEY, sale.getShop());
@@ -462,27 +449,4 @@ public class SaleDetailActivity extends Activity implements IXListViewListener {
 		ViewUtils.showProgress(this, findViewById(R.id.sale_detail_main), show);
 	}
 
-	@Override
-	public void onRefresh() {
-		mHandler.postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				discussListView.stopRefresh();
-				discussListView.stopLoadMore();
-			}
-		}, 2000);
-	}
-
-	@Override
-	public void onLoadMore() {
-		mHandler.postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				discussListView.stopRefresh();
-				discussListView.stopLoadMore();
-			}
-		}, 2000);
-	}
 }

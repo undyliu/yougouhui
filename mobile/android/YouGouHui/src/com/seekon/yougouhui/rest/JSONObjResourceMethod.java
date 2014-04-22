@@ -3,6 +3,7 @@ package com.seekon.yougouhui.rest;
 import android.content.Context;
 
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
 public abstract class JSONObjResourceMethod extends
@@ -35,6 +36,7 @@ public abstract class JSONObjResourceMethod extends
 					}
 					result = new RestMethodResult<JSONObjResource>(
 							RestStatus.SERVER_REMOTE_ERROR, statusMsg, result.getResource());
+					RunEnv.getInstance().setSessionId(null);//todo: why?
 				}
 			}
 		}

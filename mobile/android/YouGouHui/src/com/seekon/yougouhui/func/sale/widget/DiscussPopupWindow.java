@@ -66,8 +66,7 @@ public class DiscussPopupWindow extends PopupWindow {
 							public void onSuccess(RestMethodResult<JSONObjResource> result) {
 								DiscussPopupWindow.this.dismiss();
 								if (discussAdapter instanceof SaleDiscussListAdapter) {
-									((SaleDiscussListAdapter) discussAdapter)
-											.addSaleDiscuss(discuss);
+									((SaleDiscussListAdapter) discussAdapter).addEntity(discuss);
 								} else {
 									discussAdapter.notifyDataSetChanged();
 								}

@@ -3,7 +3,7 @@ package com.seekon.yougouhui.activity.user;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_ICON;
-import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_NAME;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -207,7 +207,7 @@ public class RegisterActivity extends Activity {
 
 		final Map<String, String> user = new HashMap<String, String>();
 		user.put(COL_NAME_PHONE, phone);
-		user.put(COL_NAME_USER_NAME, name);
+		user.put(COL_NAME_NAME, name);
 		user.put(COL_NAME_PWD, password);
 		user.put(COL_NAME_USER_ICON, userIconUri);
 

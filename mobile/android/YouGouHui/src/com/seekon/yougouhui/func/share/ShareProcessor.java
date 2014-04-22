@@ -16,6 +16,7 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.seekon.yougouhui.file.FileHelper;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.SyncSupportProcessor;
 import com.seekon.yougouhui.func.spi.IShareProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
@@ -39,7 +40,8 @@ public class ShareProcessor extends SyncSupportProcessor implements
 	}
 
 	private ShareProcessor(Context mContext) {
-		super(mContext, ShareData.COL_NAMES, ShareConst.CONTENT_URI, ShareConst.TABLE_NAME);
+		super(mContext, ShareData.COL_NAMES, ShareConst.CONTENT_URI,
+				ShareConst.TABLE_NAME);
 	}
 
 	/**
@@ -49,7 +51,7 @@ public class ShareProcessor extends SyncSupportProcessor implements
 	 */
 	public RestMethodResult<JSONObjResource> getShares(String updateTime) {
 		return (RestMethodResult) this.execMethod(new GetSharesMethod(mContext,
-				updateTime));
+				RunEnv.getInstance().getUser().getUuid(), updateTime));
 	}
 
 	/**
@@ -119,7 +121,8 @@ public class ShareProcessor extends SyncSupportProcessor implements
 	 * 保存发布分享的信息
 	 */
 	public RestMethodResult<JSONObjResource> postShare(ShareEntity share) {
-		return (RestMethodResult)this.execMethod(new PostShareMethod(share, mContext));
+		return (RestMethodResult) this.execMethod(new PostShareMethod(share,
+				mContext));
 	}
 
 	public RestMethodResult<JSONObjResource> deleteShare(String shareId) {

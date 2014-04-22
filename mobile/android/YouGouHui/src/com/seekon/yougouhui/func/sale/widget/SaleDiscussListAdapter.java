@@ -10,7 +10,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,47 +20,17 @@ import com.seekon.yougouhui.func.sale.SaleDiscussEntity;
 import com.seekon.yougouhui.func.sale.SaleDiscussProcessor;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 import com.seekon.yougouhui.func.widget.UserClickListener;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
-public class SaleDiscussListAdapter extends BaseAdapter {
-
-	private Context context;
-
-	private List<SaleDiscussEntity> discussList;
+public class SaleDiscussListAdapter extends EntityListAdapter<SaleDiscussEntity> {
 
 	public SaleDiscussListAdapter(Context context,
-			List<SaleDiscussEntity> discussList) {
-		super();
-		this.context = context;
-		this.discussList = discussList;
-	}
-
-	@Override
-	public int getCount() {
-		return discussList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return discussList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
-
-	public void addSaleDiscuss(SaleDiscussEntity discuss) {
-		this.discussList.add(discuss);
-		this.notifyDataSetChanged();
-	}
-
-	public void updateData(List<SaleDiscussEntity> discussList) {
-		this.discussList = discussList;
-		this.notifyDataSetChanged();
+			List<SaleDiscussEntity> dataList) {
+		super(context, dataList);
 	}
 
 	@Override
@@ -120,7 +89,7 @@ public class SaleDiscussListAdapter extends BaseAdapter {
 									resolver.delete(SaleDiscussConst.CONTENT_URI, where,
 											selectionArgs);
 
-									discussList.remove(discuss);
+									dataList.remove(discuss);
 									SaleDiscussListAdapter.this.notifyDataSetChanged();
 								}
 							});

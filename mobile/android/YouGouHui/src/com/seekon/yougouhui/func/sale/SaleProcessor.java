@@ -9,16 +9,18 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.SyncSupportProcessor;
 import com.seekon.yougouhui.func.spi.ISaleProcessor;
+import com.seekon.yougouhui.func.sync.SyncData;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestStatus;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.service.ContentProcessor;
 import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.Logger;
 
-public class SaleProcessor extends ContentProcessor implements ISaleProcessor {
+public class SaleProcessor extends SyncSupportProcessor implements
+		ISaleProcessor {
 
 	private static ISaleProcessor instance = null;
 	private static Object lock = new Object();
@@ -34,13 +36,14 @@ public class SaleProcessor extends ContentProcessor implements ISaleProcessor {
 	}
 
 	private SaleProcessor(Context mContext) {
-		super(mContext, SaleData.COL_NAMES, SaleConst.CONTENT_URI);
+		super(mContext, SaleData.COL_NAMES, SaleConst.CONTENT_URI,
+				SaleConst.TABLE_NAME);
 	}
 
 	@Override
-	protected void updateContentProvider(JSONObject jsonObj, String[] colNames,
+	protected void modifyContentProvider(JSONObject jsonObj, String[] colNames,
 			Uri contentUri) throws JSONException {
-		super.updateContentProvider(jsonObj, colNames, contentUri);
+		super.modifyContentProvider(jsonObj, colNames, contentUri);
 
 		try {
 			if (jsonObj.has(SaleConst.DATA_IMAGES_KEY)) {
@@ -49,25 +52,29 @@ public class SaleProcessor extends ContentProcessor implements ISaleProcessor {
 				for (int i = 0; i < images.length(); i++) {
 					JSONObject image = images.getJSONObject(i);
 					image.put(SaleImgConst.COL_NAME_SALE_ID, saleId);
-					updateContentProvider(image, SaleImgData.COL_NAMES,
+					modifyContentProvider(image, SaleImgData.COL_NAMES,
 							SaleImgConst.CONTENT_URI);
 				}
-				// if (jsonObj.has(ShopConst.DATA_SHOP_KEY)) {
-				// JSONObject shopObj = jsonObj.getJSONObject(ShopConst.DATA_SHOP_KEY);
-				// RestMethodResult<JSONObjResource> restResult = new
-				// RestMethodResult<JSONObjResource>(
-				// 200, "", new JSONObjResource(shopObj.toString()));
-				// ShopProcessor.getInstance(mContext).updateContentProvider(restResult);
-				// }
 			}
 		} catch (Exception e) {
 			Logger.warn(TAG, e.getMessage());
 		}
 	}
 
-	public RestMethodResult<JSONArrayResource> getSalesByChannel(String channelId) {
+	/**
+	 * 重载同步时间，user_id为*
+	 * 
+	 */
+	@Override
+	protected void recordUpdateTime(String updateTime) {
+		SyncData syncData = SyncData.getInstance(mContext);
+		syncData.updateData(syncTableName, "*", updateTime);
+	}
+	
+	public RestMethodResult<JSONObjResource> getSalesByChannel(
+			String channelId, String updateTime) {
 		return (RestMethodResult) this.execMethod(new GetSalesByChannelMethod(
-				mContext, channelId));
+				mContext, channelId, updateTime));
 	}
 
 	public RestMethodResult<JSONArrayResource> getSalesByShop(String shopId) {

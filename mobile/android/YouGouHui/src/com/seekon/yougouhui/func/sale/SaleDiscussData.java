@@ -40,12 +40,15 @@ public class SaleDiscussData extends AbstractDBHelper {
 
 	}
 
-	public List<SaleDiscussEntity> getDiscussList(String saleId) {
+	public List<SaleDiscussEntity> getDiscussList(String saleId, String limitSql) {
 		List<SaleDiscussEntity> result = new ArrayList<SaleDiscussEntity>();
 		String sql = " select d.uuid, content, d.publish_time, publisher, u.name user_name, u.photo, sale_id "
 				+ " from e_sale_discuss d"
 				+ " join e_user u on d.publisher = u.uuid "
 				+ " where d.sale_id = ? ";
+		if(limitSql != null){
+			sql += limitSql;
+		}
 		Cursor cursor = null;
 		try {
 			cursor = this.getReadableDatabase()

@@ -1,15 +1,11 @@
 package com.seekon.yougouhui.fragment;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,38 +20,25 @@ import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.LocationEntity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.sale.ChannelEntity;
-import com.seekon.yougouhui.func.sale.SaleData;
+import com.seekon.yougouhui.func.sale.SaleConst;
 import com.seekon.yougouhui.func.sale.SaleEntity;
-import com.seekon.yougouhui.func.sale.SaleProcessor;
-import com.seekon.yougouhui.func.sale.widget.ChannelSaleListAdapter;
-import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
-import com.seekon.yougouhui.layout.XListView;
-import com.seekon.yougouhui.layout.XListView.IXListViewListener;
-import com.seekon.yougouhui.rest.RestMethodResult;
-import com.seekon.yougouhui.rest.RestUtils;
-import com.seekon.yougouhui.rest.resource.JSONArrayResource;
+import com.seekon.yougouhui.func.sale.widget.ChannelSaleListView;
 
-public class SaleListFragment extends Fragment implements IXListViewListener {
+public class SaleListFragment extends Fragment {
 
+	private static final int SALE_DETAIL_REQUEST_CODE = 1;
+	
 	private ChannelEntity channel;
-
-	private List<SaleEntity> saleList = new LinkedList<SaleEntity>();
 
 	protected Activity attachedActivity = null;
 
-	private XListView listView;
-
-	private SaleData saleData;
-
-	private ChannelSaleListAdapter saleListAdapter;
-
-	private Handler mHandler;
+	private ChannelSaleListView listView;
 
 	private BroadcastReceiver locationReceiver;
 
-	private int currentOffset = 0;// 分页用的当前的数据偏移
-
 	private boolean updateLocation = true;
+
+	private SaleEntity selectedSale = null;
 	
 	public void setChannel(ChannelEntity channel) {
 		this.channel = channel;
@@ -66,10 +49,6 @@ public class SaleListFragment extends Fragment implements IXListViewListener {
 		super.onCreate(savedInstanceState);
 
 		attachedActivity = this.getActivity();
-		saleData = new SaleData(attachedActivity);
-		saleListAdapter = new ChannelSaleListAdapter(attachedActivity, saleList);
-		mHandler = new Handler();
-
 		locationReceiver = new BroadcastReceiver() {
 
 			@Override
@@ -88,11 +67,11 @@ public class SaleListFragment extends Fragment implements IXListViewListener {
 				LocationEntity currentLocation = RunEnv.getInstance()
 						.getLocationEntity();
 				if (currentLocation == null || !currentLocation.equals(locationEntity)) {
-					RunEnv.getInstance().setLocationEntity(locationEntity);			
+					RunEnv.getInstance().setLocationEntity(locationEntity);
 					updateLocation = true;
 				}
-				if(updateLocation){
-					saleListAdapter.notifyDataSetChanged();
+				if (updateLocation && listView != null) {
+					listView.getEntityListAdapter().notifyDataSetChanged();
 					updateLocation = false;
 				}
 			}
@@ -103,7 +82,7 @@ public class SaleListFragment extends Fragment implements IXListViewListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		View view = inflater.inflate(R.layout.base_xlistview, container, false);
+		View view = inflater.inflate(R.layout.channel_sale_list, container, false);
 
 		updateViews(view);
 		return view;
@@ -123,103 +102,40 @@ public class SaleListFragment extends Fragment implements IXListViewListener {
 	}
 
 	private void updateViews(View view) {
-		listView = (XListView) view.findViewById(R.id.listview_main);
-		listView.setAdapter(saleListAdapter);
-		listView.setPullLoadEnable(true);
-		listView.setXListViewListener(this);
+		listView = (ChannelSaleListView) view.findViewById(R.id.listview_main);
 
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				SaleEntity sale = saleList.get(position - 1);
+				selectedSale = listView.getDataEntity(position - 1);
 				Intent intent = new Intent(attachedActivity, SaleDetailActivity.class);
-				intent.putExtra(DataConst.COL_NAME_UUID, sale.getUuid());
-				attachedActivity.startActivity(intent);
+				intent.putExtra(DataConst.COL_NAME_UUID, selectedSale.getUuid());
+				attachedActivity.startActivityForResult(intent, SALE_DETAIL_REQUEST_CODE);
 			}
 
 		});
 
-		if (saleList.isEmpty() && channel != null) {
-			loadSaleList();
+		if (channel != null) {
+			listView.loadData(channel);
 		}
-	}
-
-	private void loadSaleList() {
-		saleList.addAll(getSaleListFromLocal());
-		if (saleList.isEmpty()) {
-			loadSaleListFromRemote();
-		} else {
-			updateListView();
-		}
-	}
-
-	private void loadSaleListFromRemote() {
-		if (channel == null) {
-			return;
-		}
-
-		saleList.clear();
-		currentOffset = 0;
-
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>() {
-
-					@Override
-					public RestMethodResult<JSONArrayResource> doInBackground() {
-						return SaleProcessor.getInstance(attachedActivity)
-								.getSalesByChannel(channel.getUuid());
-					}
-
-					@Override
-					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
-						saleList.addAll(getSaleListFromLocal());
-						updateListView();
-					}
-				});
-	}
-
-	private List<SaleEntity> getSaleListFromLocal() {
-		String channelId = channel.getUuid();
-		if (channelId.equals("0")) {
-			channelId = null;
-		}
-		String limitSql = " limit " + Const.PAGE_SIZE + " offset " + currentOffset;
-
-		List<SaleEntity> result = saleData
-				.getSaleListByChannel(channelId, limitSql);
-		currentOffset += result.size();
-		return result;
-	}
-
-	protected void updateListView() {
-		listView.stopRefresh();
-		listView.stopLoadMore();
-
-		saleListAdapter.updateData(saleList);
 	}
 
 	@Override
-	public void onRefresh() {
-		mHandler.postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				loadSaleListFromRemote();
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case SALE_DETAIL_REQUEST_CODE:
+			if(resultCode == Activity.RESULT_OK && data != null && selectedSale != null){
+				selectedSale = (SaleEntity) data.getSerializableExtra(SaleConst.DATA_SALE_KEY);
+				listView.getEntityListAdapter().notifyDataSetChanged();
 			}
-		}, 2000);
-	}
+			break;
 
-	@Override
-	public void onLoadMore() {
-		mHandler.postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				saleList.addAll(getSaleListFromLocal());
-				updateListView();
-			}
-		}, 2000);
+		default:
+			break;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
+	
 }

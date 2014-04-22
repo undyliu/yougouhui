@@ -174,7 +174,7 @@ public class SaleData extends AbstractDBHelper {
 
 	public SaleEntity getSale(String uuid) {
 		SaleEntity sale = null;
-		String sql = " select sa.uuid, title, content, start_date, end_date, trade_id, visit_count, discuss_count, sa.status, sa.img "
+		String sql = " select sa.uuid, title, content, start_date, end_date, trade_id, visit_count, discuss_count, sa.status, sa.img, publish_time "
 				+ ", shop_id, shop_name, location" + " from e_sale sa where sa.uuid = ? ";
 		Cursor cursor = null;
 		try {
@@ -192,7 +192,8 @@ public class SaleData extends AbstractDBHelper {
 				sale.setDiscussCount(cursor.getInt(i++));
 				sale.setStatus(cursor.getString(i++));
 				sale.setImg(cursor.getString(i++));
-
+				sale.setPublishTime(cursor.getLong(i++));
+				
 				ShopEntity shop = new ShopEntity();
 				shop.setUuid(cursor.getString(i++));
 				shop.setName(cursor.getString(i++));

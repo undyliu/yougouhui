@@ -29,7 +29,7 @@ public class ProcessorProxy implements InvocationHandler {
 		try {
 			result = method.invoke(target, args);
 		} catch (Throwable e) {// 处理运行过程中抛出的异常
-			Logger.warn(TAG, e.getMessage());
+			Logger.warn(TAG, e.getMessage(), e);
 
 			Class clazz = method.getReturnType();
 			if (clazz.isAssignableFrom(RestMethodResult.class)) {

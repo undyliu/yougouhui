@@ -12,6 +12,7 @@
     
     <string name="label_sale_status_registered">未审核</string>
     <string name="label_sale_status_audited">已审核</string>
+    <string name="label_sale_status_valid">有效</string>
     <string name="label_sale_status_canceled">已作废</string>
     <string name="label_sale_status_ended">已结束</string>
     

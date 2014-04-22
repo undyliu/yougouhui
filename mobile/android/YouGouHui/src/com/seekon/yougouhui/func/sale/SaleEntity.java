@@ -1,18 +1,17 @@
 package com.seekon.yougouhui.func.sale;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.seekon.yougouhui.file.FileEntity;
+import com.seekon.yougouhui.func.Entity;
 import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.user.UserEntity;
 
-public class SaleEntity implements Serializable {
+public class SaleEntity extends Entity {
 
 	private static final long serialVersionUID = 2136211534116509932L;
 
-	private String uuid;
 	private String title;
 	private String content;
 	private long startDate;
@@ -26,14 +25,6 @@ public class SaleEntity implements Serializable {
 	private String status;
 	private String img;
 	private List<FileEntity> images = new ArrayList<FileEntity>();
-
-	public String getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
 
 	public String getTitle() {
 		return title;

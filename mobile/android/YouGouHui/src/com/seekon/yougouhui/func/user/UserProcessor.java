@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.seekon.yougouhui.file.FileEntity;
+import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.spi.IUserProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestStatus;
@@ -59,7 +60,7 @@ public class UserProcessor extends ContentProcessor implements IUserProcessor {
 		RestMethodResult<JSONObjResource> result = new PutUserNameMethod(mContext,
 				name).execute();
 		if (result.getStatusCode() == RestStatus.SC_OK) {
-			updateLocalDatabase(UserConst.COL_NAME_USER_NAME, name);
+			updateLocalDatabase(DataConst.COL_NAME_NAME, name);
 		}
 		return result;
 	}

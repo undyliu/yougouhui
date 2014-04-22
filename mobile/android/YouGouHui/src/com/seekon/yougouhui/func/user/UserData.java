@@ -5,7 +5,7 @@ import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_REGISTER_TIME;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_ICON;
-import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_NAME;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
 import static com.seekon.yougouhui.func.user.UserConst.TABLE_NAME;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import com.seekon.yougouhui.db.AbstractDBHelper;
 public class UserData extends AbstractDBHelper {
 
 	public static final String[] COL_NAMES = new String[] { COL_NAME_UUID,
-			COL_NAME_PHONE, COL_NAME_USER_NAME, COL_NAME_USER_ICON, COL_NAME_PWD,
+			COL_NAME_PHONE, COL_NAME_NAME, COL_NAME_USER_ICON, COL_NAME_PWD,
 			COL_NAME_REGISTER_TIME };
 
 	public UserData(Context context) {
@@ -32,7 +32,7 @@ public class UserData extends AbstractDBHelper {
 	public void onCreate(SQLiteDatabase db) {
 		String sql = " create table IF NOT EXISTS " + TABLE_NAME + " ("
 				+ COL_NAME_UUID + " text primary key, " + COL_NAME_PHONE
-				+ " integer not null, " + COL_NAME_USER_NAME + " text, "
+				+ " integer not null, " + COL_NAME_NAME + " text, "
 				+ COL_NAME_REGISTER_TIME + " text, " + COL_NAME_USER_ICON + " text, "
 				+ COL_NAME_PWD + " text " + ")";
 		db.execSQL(sql);
@@ -50,7 +50,7 @@ public class UserData extends AbstractDBHelper {
 		try {
 			cursor = this.getReadableDatabase().query(
 					TABLE_NAME,
-					new String[] { COL_NAME_UUID, COL_NAME_USER_NAME, COL_NAME_PWD,
+					new String[] { COL_NAME_UUID, COL_NAME_NAME, COL_NAME_PWD,
 							COL_NAME_USER_ICON, COL_NAME_REGISTER_TIME },
 					COL_NAME_PHONE + "= ? ", new String[] { phone }, null, null, null);
 			if (cursor.getCount() > 0) {

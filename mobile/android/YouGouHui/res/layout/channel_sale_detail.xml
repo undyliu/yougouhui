@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/sale_detail_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -25,53 +25,60 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:orientation="vertical" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal" >
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/sale_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="18sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="right"
+                        android:orientation="horizontal" >
+
+                        <ImageView
+                            android:id="@+id/sale_status_img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/sale_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:textSize="12sp" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right" >
-
+                    
                     <TextView
-                        android:id="@+id/shop_name"
+                        android:id="@+id/d_shop_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/sale_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginTop="3dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="left" >
+                    
+                     <LinearLayout
+                         android:layout_width="wrap_content"
+                         android:layout_height="match_parent"
+                         android:layout_marginLeft="10dp"
+                         android:gravity="right" >
 
                         <TextView
-                            android:id="@+id/shop_distance"
+                            android:id="@+id/d_shop_distance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="14sp" />
@@ -82,10 +89,23 @@
                             android:text="米"
                             android:textSize="12sp" />
                     </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/sale_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="3dp" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" >
 
                     <LinearLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
                         android:gravity="right" >
 
                         <TextView
@@ -99,7 +119,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
-                </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -179,7 +199,7 @@
                     android:textColor="@color/white" />
             </LinearLayout>
 
-            <com.seekon.yougouhui.layout.XListView
+            <com.seekon.yougouhui.func.sale.widget.SaleDiscussListView
                 android:id="@+id/listview_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

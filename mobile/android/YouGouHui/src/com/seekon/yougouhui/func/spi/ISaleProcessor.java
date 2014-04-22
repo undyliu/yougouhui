@@ -7,7 +7,7 @@ import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
 public interface ISaleProcessor {
 
-	public RestMethodResult<JSONArrayResource> getSalesByChannel(String channelId);
+	public RestMethodResult<JSONObjResource> getSalesByChannel(String channelId, String updateTime);
 
 	public RestMethodResult<JSONArrayResource> getSalesByShop(String shopId);
 
