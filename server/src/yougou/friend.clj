@@ -35,7 +35,7 @@
 			(if (= 0 (count friend-list))
 				result
 				(let [friend (first friend-list)
-							user (user/get-user-by-id (:friend_id friend))
+							user (user/get-user-without-pwd (:friend_id friend))
 						]
 					(recur (rest friend-list) (conj result (assoc friend :user user)))
 				)
