@@ -62,6 +62,14 @@ public abstract class PagedXListView<T extends Entity> extends XListView
 
 		this.entityListAdapter = listAdapter;
 		this.setAdapter(listAdapter);
+		
+		updateTime = getUpdateTime();
+		if (updateTime != null) {
+			try {
+				this.setRefreshTime(DateUtils.formartTime(Long.valueOf(updateTime)));
+			} catch (Exception e) {
+			}
+		}
 	}
 
 	protected void loadDataList() {
@@ -88,13 +96,13 @@ public abstract class PagedXListView<T extends Entity> extends XListView
 	protected abstract String getUpdateTime();
 
 	private void loadDataListFromRemote() {
-		updateTime = getUpdateTime();
 		RestUtils
 				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
 						"获取数据失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
+						updateTime = getUpdateTime();
 						return getRemoteData(updateTime);
 					}
 

@@ -109,6 +109,13 @@ public abstract class DateIndexedListActivity extends Activity implements
 			}
 		});
 
+		updateTime = getUpdateTime();
+		if (updateTime != null) {
+			try {
+				listView.setRefreshTime(DateUtils.formartTime(Long.valueOf(updateTime)));
+			} catch (Exception e) {
+			}
+		}
 	}
 
 	@Override
