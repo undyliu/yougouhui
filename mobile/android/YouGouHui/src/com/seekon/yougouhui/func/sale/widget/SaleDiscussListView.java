@@ -62,7 +62,7 @@ public class SaleDiscussListView extends PagedXListView<SaleDiscussEntity>{
 		String result = SyncData.getInstance(context).getUpdateTime(
 				SaleDiscussConst.TABLE_NAME, "*");
 		if (result == null) {
-			result = String.valueOf(sale.getPublishTime());
+			result = sale != null ? String.valueOf(sale.getPublishTime()) : null;
 		}
 		return result;
 	}

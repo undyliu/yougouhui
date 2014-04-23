@@ -15,5 +15,14 @@
     <string name="button_comment">评论</string>
     <string name="button_praise">赞</string>
     <string name="button_delete">删除</string>
-
+	
+    <string name="label_share_reply_no">未反馈</string>
+    <string name="label_share_reply_status_draft">反馈未生效</string>
+    <string name="label_share_reply_status_valid">反馈已生效</string>
+    
+    <string name="label_share_reply_grive_grade">赠送积分</string>
+    <string name="hit_share_reply_griv_grade">购物晒单送0~20积分</string>
+    <string name="label_share_reply_grive">赠送:</string>
+    <string name="label_share_reply_grade">积分</string>
+    <string name="label_share_reply">反馈:</string>
 </resources>

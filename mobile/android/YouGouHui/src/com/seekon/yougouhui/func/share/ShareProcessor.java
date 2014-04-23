@@ -16,14 +16,20 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.seekon.yougouhui.file.FileHelper;
+import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.SyncSupportProcessor;
+import com.seekon.yougouhui.func.share.ShareConst.RequestType;
 import com.seekon.yougouhui.func.spi.IShareProcessor;
+import com.seekon.yougouhui.func.sync.SyncData;
+import com.seekon.yougouhui.func.user.UserConst;
+import com.seekon.yougouhui.func.user.UserData;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.service.ProcessorProxy;
+import com.seekon.yougouhui.util.Logger;
 
 public class ShareProcessor extends SyncSupportProcessor implements
 		IShareProcessor {
@@ -47,13 +53,28 @@ public class ShareProcessor extends SyncSupportProcessor implements
 	}
 
 	/**
-	 * 获取朋友分享信息
+	 * 重载同步时间
 	 * 
-	 * @param callback
 	 */
-	public RestMethodResult<JSONObjResource> getShares(String updateTime) {
-		return (RestMethodResult) this.execMethod(new GetSharesMethod(mContext,
-				RunEnv.getInstance().getUser().getUuid(), updateTime));
+	@Override
+	protected void recordUpdateTime(String updateTime, JSONObjResource resource) {
+		if (resource.has(DataConst.NAME_TYPE)) {
+			try {
+				RequestType type = (RequestType) resource.get(DataConst.COL_NAME_TYPE);
+				if (type == RequestType.FRIEND_SHARE) {
+					SyncData syncData = SyncData.getInstance(mContext);
+					syncData.updateData(syncTableName, RunEnv.getInstance().getUser()
+							.getUuid(), updateTime);
+				} else if (type == RequestType.SHOP_SHARE) {
+					String shopId = resource.getString(ShareConst.COL_NAME_SHOP_ID);
+					SyncData syncData = SyncData.getInstance(mContext);
+					syncData.updateData(ShareConst.NAME_SHOP_SHARE, shopId, updateTime);
+				}
+			} catch (Exception e) {
+				Logger.warn(TAG, e.getMessage(), e);
+				throw new RuntimeException();
+			}
+		}
 	}
 
 	/**
@@ -65,19 +86,43 @@ public class ShareProcessor extends SyncSupportProcessor implements
 		super.updateContentProvider(jsonObj, colNames, contentUri);
 
 		// 更新分享的图片
-		try {
-			JSONArray images = jsonObj.getJSONArray(ShareConst.DATA_IMAGE_KEY);
-			this.updateContentProvider(images, ShareImgData.COL_NAMES,
-					ShareImgConst.CONTENT_URI);
-		} catch (Exception e) {
+		if (jsonObj.has(ShareConst.DATA_IMAGE_KEY)) {
+			try {
+				JSONArray images = jsonObj.getJSONArray(ShareConst.DATA_IMAGE_KEY);
+				this.updateContentProvider(images, ShareImgData.COL_NAMES,
+						ShareImgConst.CONTENT_URI);
+			} catch (Exception e) {
+			}
 		}
 
 		// 更新分享的评论
-		try {
-			JSONArray comments = jsonObj.getJSONArray(ShareConst.DATA_COMMENT_KEY);
-			updateContentProvider(comments, CommentData.COL_NAMES,
-					CommentConst.CONTENT_URI);
-		} catch (Exception e) {
+		if (jsonObj.has(ShareConst.DATA_COMMENT_KEY)) {
+			try {
+				JSONArray comments = jsonObj.getJSONArray(ShareConst.DATA_COMMENT_KEY);
+				updateContentProvider(comments, CommentData.COL_NAMES,
+						CommentConst.CONTENT_URI);
+			} catch (Exception e) {
+			}
+		}
+		
+		//更新发布者
+		if(jsonObj.has(UserConst.DATA_KEY_USER)){
+			try{
+				JSONObject user = jsonObj.getJSONObject(UserConst.DATA_KEY_USER);
+				updateContentProvider(user, UserData.COL_NAMES_WITHOUT_PWD, UserConst.CONTENT_URI);
+			}catch (Exception e) {
+			}
+		}
+		
+		//更新商户的反馈
+		if(jsonObj.has(ShareConst.DATA_SHOP_REPLY_KEY)){
+			try{
+				JSONObject reply = jsonObj.getJSONObject(ShareConst.DATA_SHOP_REPLY_KEY);
+				if(reply != null && reply.length() > 0){
+					updateContentProvider(reply, ShopReplyData.COL_NAMES, ShopReplyConst.CONTENT_URI);
+				}
+			}catch(Exception e){
+			}
 		}
 	}
 
@@ -135,5 +180,21 @@ public class ShareProcessor extends SyncSupportProcessor implements
 	public RestMethodResult<JSONArrayResource> getUserShares(UserEntity publisher) {
 		return (RestMethodResult) this.execMethod(new GetUserSharesMethod(mContext,
 				publisher));
+	}
+
+	/**
+	 * 获取朋友分享信息
+	 * 
+	 * @param callback
+	 */
+	public RestMethodResult<JSONObjResource> getFriendShares(String updateTime) {
+		return (RestMethodResult) this.execMethod(new GetFriendSharesMethod(
+				mContext, RunEnv.getInstance().getUser().getUuid(), updateTime));
+	}
+
+	public RestMethodResult<JSONObjResource> getShopShares(String shopId,
+			String updateTime) {
+		return (RestMethodResult) this.execMethod(new GetShopSharesMethod(mContext,
+				shopId, updateTime));
 	}
 }

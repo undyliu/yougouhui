@@ -5,10 +5,12 @@ import java.net.URI;
 import android.content.Context;
 
 import com.seekon.yougouhui.Const;
+import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.rest.BaseRequest;
 import com.seekon.yougouhui.rest.JSONObjResourceMethod;
 import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
+import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
 /**
  * 根据最新的发布时间获取最新的分享和评论数据 同时，根据最早的发布书剑获取已经删除了的分享和评论数据
@@ -16,7 +18,7 @@ import com.seekon.yougouhui.rest.Request;
  * @author undyliu
  * 
  */
-public class GetSharesMethod extends JSONObjResourceMethod {
+public class GetFriendSharesMethod extends JSONObjResourceMethod {
 
 	private static final String GET_FRIEND_SHARES_URI = Const.SERVER_APP_URL
 			+ "/getFriendShares/";
@@ -25,7 +27,7 @@ public class GetSharesMethod extends JSONObjResourceMethod {
 
 	private String userId;
 
-	public GetSharesMethod(Context context, String userId, String updateTime) {
+	public GetFriendSharesMethod(Context context, String userId, String updateTime) {
 		super(context);
 		this.userId = userId;
 		this.updateTime = updateTime;
@@ -40,4 +42,11 @@ public class GetSharesMethod extends JSONObjResourceMethod {
 		return new BaseRequest(Method.GET, uri, null, null);
 	}
 
+	@Override
+	protected JSONObjResource parseResponseBody(String responseBody)
+			throws Exception {
+		JSONObjResource resource = super.parseResponseBody(responseBody);
+		resource.put(DataConst.NAME_TYPE, ShareConst.RequestType.FRIEND_SHARE);
+		return resource;
+	}
 }

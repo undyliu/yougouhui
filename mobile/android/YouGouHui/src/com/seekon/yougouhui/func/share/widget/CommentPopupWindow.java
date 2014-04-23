@@ -35,7 +35,7 @@ import com.seekon.yougouhui.util.ViewUtils;
  * 
  */
 public class CommentPopupWindow extends PopupWindow {
-	private final static String TAG = CommentPopupWindow.class.getSimpleName();
+	// private final static String TAG = CommentPopupWindow.class.getSimpleName();
 
 	public void init(final Activity activity, final ShareEntity share,
 			final CommentListAdapter commentAdapter) {

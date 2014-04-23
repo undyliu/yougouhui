@@ -158,6 +158,10 @@
             android:name=".func.sync.SyncProvider"
             android:authorities="com.seekon.yougouhui.syncs"
             android:exported="false" />
+		<provider
+            android:name=".func.share.ShopReplyProvider"
+            android:authorities="com.seekon.yougouhui.shares.shopReply"
+            android:exported="false" />
 		
         <activity
             android:name=".activity.share.FriendShareActivity"
@@ -335,6 +339,7 @@
         <activity android:label="@string/title_login_setting" android:name=".activity.setting.LoginSettingActivity"></activity>
         <activity android:label="@string/title_cache_setting" android:name=".activity.setting.CacheSettingActivity"></activity>
         <activity android:label="@string/title_radar_setting" android:name=".activity.setting.RadarSettingActivity"></activity>
+        <activity android:name=".activity.shop.ShareReplyActivity" android:label="@string/title_share_reply"></activity>
     </application>
 
 </manifest>

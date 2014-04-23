@@ -5,19 +5,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.SyncSupportProcessor;
 import com.seekon.yougouhui.func.spi.IShopProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.rest.resource.Resource;
-import com.seekon.yougouhui.service.ContentProcessor;
 import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.Logger;
 
-public class ShopProcessor extends ContentProcessor implements IShopProcessor {
+public class ShopProcessor extends SyncSupportProcessor implements
+		IShopProcessor {
 
 	private static final String TAG = ShopProcessor.class.getSimpleName();
 
@@ -36,20 +37,20 @@ public class ShopProcessor extends ContentProcessor implements IShopProcessor {
 	}
 
 	private ShopProcessor(Context mContext) {
-		super(mContext, ShopData.COL_NAMES, ShopConst.CONTENT_URI);
+		super(mContext, ShopData.COL_NAMES, ShopConst.CONTENT_URI, null);
 	}
 
 	@Override
-	protected void updateContentProvider(RestMethodResult<Resource> result) {
-		super.updateContentProvider(result);
+	protected void updateContentProvider(JSONObject jsonObj, String[] colNames,
+			Uri contentUri) throws JSONException {
+		super.updateContentProvider(jsonObj, colNames, contentUri);
 
-		if (result.getResource() instanceof JSONObjResource) {
-			JSONObjResource resource = (JSONObjResource) result.getResource();
-			String shopId = JSONUtils.getJSONStringValue(resource,
+		if (jsonObj.has(ShopConst.NAME_REQUEST_PARAMETER_TRADES)) {// 设置tradelist主营业务
+			String shopId = JSONUtils.getJSONStringValue(jsonObj,
 					DataConst.COL_NAME_UUID);
 			try {
-				JSONArray tradeList = resource
-						.getJSONArray(ShopConst.NAME_REQUEST_PARAMETER_TRADES);// 设置tradelist主营业务
+				JSONArray tradeList = jsonObj
+						.getJSONArray(ShopConst.NAME_REQUEST_PARAMETER_TRADES);
 				if (tradeList != null && tradeList.length() > 0) {
 					for (int i = 0; i < tradeList.length(); i++) {
 						JSONObject trade = tradeList.getJSONObject(i);
@@ -65,8 +66,14 @@ public class ShopProcessor extends ContentProcessor implements IShopProcessor {
 		}
 	}
 
+	@Override
+	protected void recordUpdateTime(String updateTime, JSONObjResource resource) {
+		// do nothing
+	}
+
 	public RestMethodResult<JSONObjResource> loginShop(String userId, String pwd) {
-		return new LoginShopMethod(mContext, userId, pwd).execute();
+		return (RestMethodResult) this.execMethod(new LoginShopMethod(mContext,
+				userId, pwd));
 	}
 
 	public RestMethodResult<JSONObjResource> registerShop(ShopEntity shop) {

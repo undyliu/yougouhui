@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.favorit.ShopFavoritConst;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.func.widget.AsyncRestRequestTask;
@@ -195,5 +196,25 @@ public class ShopUtils {
 			}
 		}
 		return false;
+	}
+
+	public static String getShopRegisterTime(Context context, String shopId) {
+		String registerTime = null;
+		Cursor cursor = null;
+		try {
+			String selection = DataConst.COL_NAME_UUID + "=?";
+			String[] selectionArgs = new String[] { shopId };
+			cursor = context.getContentResolver().query(ShopConst.CONTENT_URI,
+					new String[] { ShopConst.COL_NAME_REGISTER_TIME }, selection,
+					selectionArgs, null);
+			if (cursor.moveToNext()) {
+				registerTime = cursor.getString(0);
+			}
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
+		return registerTime;
 	}
 }

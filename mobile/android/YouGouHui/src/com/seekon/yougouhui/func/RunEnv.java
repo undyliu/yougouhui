@@ -62,4 +62,11 @@ public class RunEnv {
 		this.locationEntity = locationEntity;
 	}
 
+	public void clean(){
+		this.user = null;
+		this.sessionId = null;
+		this.locationEntity = null;
+		this.loginSetting = null;
+		instance = null;
+	}
 }

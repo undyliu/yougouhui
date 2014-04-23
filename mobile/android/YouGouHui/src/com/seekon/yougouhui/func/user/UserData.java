@@ -24,6 +24,10 @@ public class UserData extends AbstractDBHelper {
 			COL_NAME_PHONE, COL_NAME_NAME, COL_NAME_USER_ICON, COL_NAME_PWD,
 			COL_NAME_REGISTER_TIME };
 
+	public static final String[] COL_NAMES_WITHOUT_PWD = new String[] {
+			COL_NAME_UUID, COL_NAME_PHONE, COL_NAME_NAME, COL_NAME_USER_ICON,
+			COL_NAME_REGISTER_TIME };
+
 	public UserData(Context context) {
 		super(context);
 	}

@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.LoginActivity;
 import com.seekon.yougouhui.func.setting.SettingConst;
 import com.seekon.yougouhui.func.setting.SettingEntity;
 import com.seekon.yougouhui.func.setting.SettingProcessor;
@@ -29,6 +30,7 @@ import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
+import com.seekon.yougouhui.sercurity.AuthorizationManager;
 
 /**
  * 系统设置：设置登录配置信息
@@ -116,22 +118,30 @@ public class SettingMainActivity extends ListActivity {
 					}
 				});
 	}
-	
+
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Class<? extends Activity> clazz = null;
 		String code = settingList.get(position).getCode();
-		if(code.equals(SettingConst.SETTING_CODE_LOGIN)){
+		if (code.equals(SettingConst.SETTING_CODE_LOGIN)) {
 			clazz = LoginSettingActivity.class;
-		}else if(code.equals(SettingConst.SETTING_CODE_RADAR)){
+		} else if (code.equals(SettingConst.SETTING_CODE_RADAR)) {
 			clazz = RadarSettingActivity.class;
-		}else if(code.equals(SettingConst.SETTING_CODE_CACHE)){
+		} else if (code.equals(SettingConst.SETTING_CODE_CACHE)) {
 			clazz = CacheSettingActivity.class;
 		}
-		
-		if(clazz != null){
+
+		if (clazz != null) {
 			Intent intent = new Intent(this, clazz);
 			startActivity(intent);
+		}
+
+		if (code.equals(SettingConst.SETTING_CODE_LOGOUT)) {
+			AuthorizationManager.getInstance(this).logout();
+			
+			Intent intent = new Intent(this, LoginActivity.class);
+			startActivity(intent);
+			finish();
 		}
 	}
 }

@@ -7,7 +7,6 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.seekon.yougouhui.func.sync.SyncConst;
-import com.seekon.yougouhui.func.sync.SyncData;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.rest.resource.Resource;
@@ -61,9 +60,5 @@ public abstract class SyncSupportProcessor extends ContentProcessor {
 		}
 	}
 
-	protected void recordUpdateTime(String updateTime, JSONObjResource resource){
-		SyncData syncData = SyncData.getInstance(mContext);
-		syncData.updateData(syncTableName, RunEnv.getInstance().getUser()
-				.getUuid(), updateTime);
-	}
+	protected abstract void recordUpdateTime(String updateTime, JSONObjResource resource);
 }

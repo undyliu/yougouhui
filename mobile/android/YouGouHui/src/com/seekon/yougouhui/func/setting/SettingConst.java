@@ -18,4 +18,5 @@ public interface SettingConst extends DataConst{
 	public static final String SETTING_CODE_LOGIN = "login";
 	public static final String SETTING_CODE_RADAR = "radar";
 	public static final String SETTING_CODE_CACHE = "cache";
+	public static final String SETTING_CODE_LOGOUT = "logout";
 }

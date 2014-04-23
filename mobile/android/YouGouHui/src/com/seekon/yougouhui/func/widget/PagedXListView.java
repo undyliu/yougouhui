@@ -62,7 +62,9 @@ public abstract class PagedXListView<T extends Entity> extends XListView
 
 		this.entityListAdapter = listAdapter;
 		this.setAdapter(listAdapter);
-		
+	}
+
+	protected void loadDataList() {
 		updateTime = getUpdateTime();
 		if (updateTime != null) {
 			try {
@@ -70,9 +72,7 @@ public abstract class PagedXListView<T extends Entity> extends XListView
 			} catch (Exception e) {
 			}
 		}
-	}
-
-	protected void loadDataList() {
+		
 		loadDataListFromLocal();
 		if (dataList.isEmpty()) {
 			loadDataListFromRemote();

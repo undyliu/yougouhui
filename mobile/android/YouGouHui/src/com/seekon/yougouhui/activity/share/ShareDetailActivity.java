@@ -76,7 +76,7 @@ public class ShareDetailActivity extends Activity {
 	 */
 
 	private void updateView() {
-		ShareUtils.updateShareDetailView(share, this,
+		ShareUtils.updateUserShareDetailView(share, this,
 				findViewById(R.id.share_detail));
 	}
 }

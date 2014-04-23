@@ -1,10 +1,6 @@
 package com.seekon.yougouhui.activity.share;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -20,13 +16,11 @@ import com.seekon.yougouhui.activity.PicContainerActivity;
 import com.seekon.yougouhui.activity.shop.ChooseShopActivity;
 import com.seekon.yougouhui.barcode.MipcaActivityCapture;
 import com.seekon.yougouhui.func.RunEnv;
-import com.seekon.yougouhui.func.share.ShareConst;
 import com.seekon.yougouhui.func.share.ShareEntity;
 import com.seekon.yougouhui.func.share.ShareProcessor;
 import com.seekon.yougouhui.func.shop.ShopConst;
 import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.spi.IShareProcessor;
-import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
@@ -152,7 +146,11 @@ public class ShareActivity extends PicContainerActivity {
 						
 						ShareEntity share = new ShareEntity();
 						share.setContent(shareContent);
-						share.setShopId(choosedShopId);
+						
+						ShopEntity shop = new ShopEntity();
+						shop.setUuid(choosedShopId);
+						share.setShop(shop);
+						
 						share.setPublisher(RunEnv.getInstance().getUser());
 						share.setImages(imageFileUriList);
 						

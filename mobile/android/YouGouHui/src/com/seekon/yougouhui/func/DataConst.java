@@ -23,6 +23,8 @@ public interface DataConst {
 	public static final String COL_NAME_IS_DELETED = "is_deleted";
 
 	public static final String COL_NAME_DESC = "desc";
+	
+	public static final String COL_NAME_STATUS = "status";
 
 	public static final String COL_NAME_LAST_MODIFY_TIME = "last_modify_time";
 

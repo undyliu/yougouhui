@@ -72,7 +72,7 @@ public class FriendProcessor extends ContentProcessor implements
 					super.updateContentProvider(friend, colNames, contentUri);
 
 					JSONObject user = friend.getJSONObject(UserConst.DATA_KEY_USER);
-					super.updateContentProvider(user, UserData.COL_NAMES,
+					super.updateContentProvider(user, UserData.COL_NAMES_WITHOUT_PWD,
 							UserConst.CONTENT_URI);
 				}
 				return;
@@ -106,7 +106,7 @@ public class FriendProcessor extends ContentProcessor implements
 		} else {
 			UserEntity user = (UserEntity) jsonObj.get(UserConst.DATA_KEY_USER);
 			this.updateContentProvider(UserUtils.toJSONObject(user),
-					UserData.COL_NAMES, UserConst.CONTENT_URI);
+					UserData.COL_NAMES_WITHOUT_PWD, UserConst.CONTENT_URI);
 		}
 	}
 

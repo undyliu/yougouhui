@@ -3,17 +3,13 @@ package com.seekon.yougouhui.activity.setting;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Switch;
 
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.activity.LoginActivity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.login.EnvHelper;
 import com.seekon.yougouhui.func.login.LoginConst;
@@ -45,22 +41,6 @@ public class LoginSettingActivity extends Activity {
 		rememberPwdView = (Switch) findViewById(R.id.remember_pwd);
 		rememberPwdView.setChecked(loginSetting
 				.getAsBoolean(LoginConst.LOGIN_SETTING_REMEMBER_PWD));
-
-		Button logoutButton = (Button) findViewById(R.id.logout);
-		logoutButton.setOnClickListener(new Button.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				String phone = RunEnv.getInstance().getUser().getPhone();
-				AuthorizationManager.getInstance(LoginSettingActivity.this)
-						.getEnvHelper().deleteLoginSetting(phone);
-				RunEnv.getInstance().setUser(null);
-				Intent intent = new Intent(LoginSettingActivity.this,
-						LoginActivity.class);
-				startActivity(intent);
-				finish();// TODO:获取activity堆栈销毁活动的activity
-			}
-		});
 	}
 
 	@Override

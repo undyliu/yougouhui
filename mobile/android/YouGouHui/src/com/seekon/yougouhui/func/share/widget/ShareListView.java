@@ -52,7 +52,7 @@ public class ShareListView extends PagedXListView<ShareEntity> {
 
 	@Override
 	protected List<ShareEntity> getDataListFromLocal(String limitSql) {
-		List<ShareEntity> result = shareData.getShareData(limitSql);
+		List<ShareEntity> result = shareData.getFriendSharesData(limitSql);
 		for (ShareEntity share : result) {
 			share.setImages(ShareUtils.getShareImagesFromLocal(context,
 					share.getUuid()));
@@ -63,7 +63,7 @@ public class ShareListView extends PagedXListView<ShareEntity> {
 
 	@Override
 	protected RestMethodResult<JSONObjResource> getRemoteData(String updateTime) {
-		return ShareProcessor.getInstance(context).getShares(updateTime);
+		return ShareProcessor.getInstance(context).getFriendShares(updateTime);
 	}
 
 	@Override

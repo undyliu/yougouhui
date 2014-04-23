@@ -7,6 +7,7 @@ import static com.seekon.yougouhui.func.share.ShareConst.COL_NAME_PUBLISH_DATE;
 import static com.seekon.yougouhui.func.share.ShareConst.COL_NAME_PUBLISH_TIME;
 import static com.seekon.yougouhui.func.share.ShareConst.COL_NAME_SALE_ID;
 import static com.seekon.yougouhui.func.share.ShareConst.COL_NAME_SHOP_ID;
+import static com.seekon.yougouhui.func.share.ShareConst.COL_NAME_SHOP_NAME;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +19,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.seekon.yougouhui.db.AbstractDBHelper;
 import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.widget.DateIndexedEntity;
 import com.seekon.yougouhui.util.DateUtils;
@@ -26,7 +28,8 @@ public class ShareData extends AbstractDBHelper {
 
 	public static final String[] COL_NAMES = new String[] { COL_NAME_UUID,
 			COL_NAME_CONTENT, COL_NAME_PUBLISH_TIME, COL_NAME_PUBLISHER,
-			COL_NAME_SALE_ID, COL_NAME_PUBLISH_DATE, COL_NAME_SHOP_ID };
+			COL_NAME_SALE_ID, COL_NAME_PUBLISH_DATE, COL_NAME_SHOP_ID,
+			COL_NAME_SHOP_NAME };
 
 	public ShareData(Context context) {
 		super(context);
@@ -39,12 +42,18 @@ public class ShareData extends AbstractDBHelper {
 				+ COL_NAME_UUID + " TEXT PRIMARY KEY, " + COL_NAME_CONTENT + " TEXT, "
 				+ COL_NAME_PUBLISHER + " TEXT, " + COL_NAME_PUBLISH_TIME + " TEXT, "
 				+ COL_NAME_PUBLISH_DATE + " TEXT, " + COL_NAME_SHOP_ID + " TEXT, "
-				+ COL_NAME_SALE_ID + " TEXT)");
+				+ COL_NAME_SHOP_NAME + " TEXT, " + COL_NAME_SALE_ID + " TEXT)");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+	}
+
+	private String getShareDataSqlPartWithShopConditon() {
+		String sql = getShareDataSqlPart();
+		sql += " where s.shop_id = ? ";
+		return sql;
 	}
 
 	private String getShareDataSqlPartWithFriendsCondition() {
@@ -54,8 +63,13 @@ public class ShareData extends AbstractDBHelper {
 	}
 
 	private String getShareDataSqlPart() {
-		return " select s.uuid, s.content, s.publish_time, s.publisher, u.name as publisher_name, u.photo publisher_photo "
-				+ " from e_share s inner join e_user u on s.publisher = u.uuid ";
+		StringBuffer sb = new StringBuffer();
+		sb.append(" select s.uuid, s.content, s.publish_time, s.shop_id, s.shop_name, s.publisher, u.name as publisher_name, u.photo publisher_photo ");
+		sb.append(" , r.uuid as reply_id, r.replier, r.reply_time, r.grade, r.content as reply_content, r.status as reply_status ");
+		sb.append(" from e_share s ");
+		sb.append(" inner join e_user u on s.publisher = u.uuid ");
+		sb.append(" left join e_share_shop_reply r on s.shop_id = r.shop_id and s.uuid = r.share_id ");
+		return sb.toString();
 	}
 
 	private ShareEntity assembleShareEntity(Cursor cursor) {
@@ -63,19 +77,67 @@ public class ShareData extends AbstractDBHelper {
 		ShareEntity share = new ShareEntity(cursor.getString(i++),
 				cursor.getString(i++));
 		share.setPublishTime(cursor.getLong(i++));
+		
+		ShopEntity shop = new ShopEntity();
+		shop.setUuid(cursor.getString(i++));
+		shop.setName(cursor.getString(i++));
+		share.setShop(shop);
+		
 		UserEntity publisher = new UserEntity(cursor.getString(i++), null,
 				cursor.getString(i++), null, cursor.getString(i++), null);
 		share.setPublisher(publisher);
+
+		String replyId = cursor.getString(i++);
+		if (replyId != null && replyId.trim().length() > 0) {
+			ShopReplyEntity reply = new ShopReplyEntity();
+			reply.setShareId(share.getUuid());
+			reply.setShopId(share.getShop().getUuid());
+			reply.setUuid(replyId);
+			reply.setReplier(cursor.getString(i++));
+			reply.setReplyTime(cursor.getLong(i++));
+			reply.setGrade(cursor.getInt(i++));
+			reply.setContent(cursor.getString(i++));
+			reply.setStatus(cursor.getString(i++));
+			share.setShopReply(reply);
+		}
 		return share;
 	}
 
 	/**
-	 * 获取分享数据，包含用户名和用户头像
+	 * 获取商铺相关的分享数据
+	 * 
+	 * @param shopId
+	 * @param limitSql
+	 * @return
+	 */
+	public List<ShareEntity> getShopSharesData(String shopId, String limitSql) {
+		List<ShareEntity> result = new ArrayList<ShareEntity>();
+		String sql = getShareDataSqlPartWithShopConditon()
+				+ " order by s.publish_time desc";
+		if (limitSql != null) {
+			sql += limitSql;
+		}
+
+		Cursor cursor = null;
+		try {
+			cursor = this.getReadableDatabase()
+					.rawQuery(sql, new String[] { shopId });
+			while (cursor.moveToNext()) {
+				result.add(assembleShareEntity(cursor));
+			}
+		} finally {
+			cursor.close();
+		}
+		return result;
+	}
+
+	/**
+	 * 获取朋友分享数据，包含用户名和用户头像
 	 * 
 	 * @param limitSql
 	 * @return
 	 */
-	public List<ShareEntity> getShareData(String limitSql) {
+	public List<ShareEntity> getFriendSharesData(String limitSql) {
 		List<ShareEntity> result = new ArrayList<ShareEntity>();
 		String sql = getShareDataSqlPartWithFriendsCondition()
 				+ " order by s.publish_time desc";

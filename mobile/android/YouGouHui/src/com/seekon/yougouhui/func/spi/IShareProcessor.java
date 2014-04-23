@@ -8,11 +8,14 @@ import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
 public interface IShareProcessor {
 
-	public RestMethodResult<JSONObjResource> getShares(String updateTime);
+	public RestMethodResult<JSONObjResource> getFriendShares(String updateTime);
 
 	public RestMethodResult<JSONObjResource> postShare(ShareEntity share);
 
 	public RestMethodResult<JSONObjResource> deleteShare(String shareId);
 
 	public RestMethodResult<JSONArrayResource> getUserShares(UserEntity publisher);
+
+	public RestMethodResult<JSONObjResource> getShopShares(String shopId,
+			String updateTime);
 }

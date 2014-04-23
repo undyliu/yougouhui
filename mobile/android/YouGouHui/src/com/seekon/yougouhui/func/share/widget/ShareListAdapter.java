@@ -40,7 +40,7 @@ public class ShareListAdapter extends EntityListAdapter<ShareEntity> {
 
 		if (context instanceof Activity) {
 			ShareEntity share = (ShareEntity) getItem(position);
-			ShareUtils.updateShareDetailView(share, (Activity) context, convertView);
+			ShareUtils.updateFriendShareItemView(share, (Activity) context, convertView);
 		}
 		return convertView;
 	}

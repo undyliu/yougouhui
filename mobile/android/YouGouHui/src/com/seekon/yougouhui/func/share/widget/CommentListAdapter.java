@@ -33,9 +33,13 @@ import com.seekon.yougouhui.rest.resource.JSONObjResource;
  * 
  */
 public class CommentListAdapter extends EntityListAdapter<CommentEntity> {
-
-	public CommentListAdapter(Context context, List<CommentEntity> dataList) {
+	
+	private boolean readonly = false;
+	
+	public CommentListAdapter(Context context, List<CommentEntity> dataList,
+			boolean readonly) {
 		super(context, dataList);
+		this.readonly = readonly;
 	}
 
 	@Override
@@ -72,7 +76,7 @@ public class CommentListAdapter extends EntityListAdapter<CommentEntity> {
 		// 设置评论的删除监听
 		ImageView commentDelete = (ImageView) convertView
 				.findViewById(R.id.b_comment_delete);
-		if (publisher.equals(RunEnv.getInstance().getUser())) {
+		if (!readonly && publisher.equals(RunEnv.getInstance().getUser())) {
 			commentDelete.setVisibility(View.VISIBLE);
 			commentDelete.setOnClickListener(new View.OnClickListener() {
 

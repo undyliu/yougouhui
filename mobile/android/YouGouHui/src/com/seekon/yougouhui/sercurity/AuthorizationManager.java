@@ -102,7 +102,7 @@ public class AuthorizationManager implements RequestSigner {
 				} else {
 					user.setFriends(friends);
 				}
-				
+
 				errorType = LoginConst.AUTH_SUCCESS;
 				RunEnv.getInstance().setUser(user);
 				loginData.put(COL_NAME_PWD, user.getPwd());
@@ -124,7 +124,9 @@ public class AuthorizationManager implements RequestSigner {
 	}
 
 	public void logout() {
-
+		String phone = RunEnv.getInstance().getUser().getPhone();
+		this.getEnvHelper().deleteLoginSetting(phone);
+		RunEnv.getInstance().clean();
 	}
 
 	/**

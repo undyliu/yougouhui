@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +17,7 @@ import com.seekon.yougouhui.func.sale.SaleConst;
 import com.seekon.yougouhui.func.sale.SaleData;
 import com.seekon.yougouhui.func.sale.SaleProcessor;
 import com.seekon.yougouhui.func.sale.widget.ShopSaleListAdapter;
-import com.seekon.yougouhui.func.shop.ShopConst;
+import com.seekon.yougouhui.func.shop.ShopUtils;
 import com.seekon.yougouhui.func.sync.SyncData;
 import com.seekon.yougouhui.func.widget.DateIndexedEntity;
 import com.seekon.yougouhui.func.widget.DateIndexedListAdapter;
@@ -124,28 +123,9 @@ public class ShopSaleListActivity extends DateIndexedListActivity {
 		String result = SyncData.getInstance(this).getUpdateTime(
 				SaleConst.NAME_SHOP_SALE, shopId);
 		if (result == null) {
-			result = getShopRegisterTime();
+			result = ShopUtils.getShopRegisterTime(this, shopId);
 		}
 		return result;
 	}
 
-	private String getShopRegisterTime() {
-		String registerTime = null;
-		Cursor cursor = null;
-		try {
-			String selection = DataConst.COL_NAME_UUID + "=?";
-			String[] selectionArgs = new String[] { shopId };
-			cursor = this.getContentResolver().query(ShopConst.CONTENT_URI,
-					new String[] { ShopConst.COL_NAME_REGISTER_TIME }, selection,
-					selectionArgs, null);
-			if (cursor.moveToNext()) {
-				registerTime = cursor.getString(0);
-			}
-		} finally {
-			if (cursor != null) {
-				cursor.close();
-			}
-		}
-		return registerTime;
-	}
 }

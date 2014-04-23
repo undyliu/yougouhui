@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.func.Entity;
+import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.user.UserEntity;
 
 public class ShareEntity extends Entity {
@@ -16,12 +17,14 @@ public class ShareEntity extends Entity {
 
 	private long publishTime;
 
-	private String shopId;
+	private ShopEntity shop;
 
 	private List<FileEntity> images;
 
 	private List<CommentEntity> comments;
-
+	
+	private ShopReplyEntity shopReply;
+	
 	public ShareEntity() {
 		super();
 	}
@@ -55,12 +58,12 @@ public class ShareEntity extends Entity {
 		this.publishTime = publishTime;
 	}
 
-	public String getShopId() {
-		return shopId;
+	public ShopEntity getShop() {
+		return shop;
 	}
 
-	public void setShopId(String shopId) {
-		this.shopId = shopId;
+	public void setShop(ShopEntity shop) {
+		this.shop = shop;
 	}
 
 	public List<FileEntity> getImages() {
@@ -79,4 +82,15 @@ public class ShareEntity extends Entity {
 		this.comments = comments;
 	}
 
+	public ShopReplyEntity getShopReply() {
+		return shopReply;
+	}
+
+	public void setShopReply(ShopReplyEntity shopReply) {
+		this.shopReply = shopReply;
+	}
+	
+	public String getShopId(){
+		return shop != null ? shop.getUuid() : null;
+	}
 }

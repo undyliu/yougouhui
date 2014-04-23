@@ -14,7 +14,6 @@ import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -25,6 +24,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.login.LoginConst;
 import com.seekon.yougouhui.func.shop.GetTradesTaskCallback;
@@ -38,7 +38,6 @@ import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.util.ContentUtils;
 import com.seekon.yougouhui.util.ViewUtils;
 
 /**
@@ -149,7 +148,7 @@ public class LoginShopActivity extends Activity {
 							if (authed) {
 								ArrayList<ShopEntity> shopEntityList = new ArrayList<ShopEntity>();
 								JSONArray shopList = jsonObj
-										.getJSONArray(ShopConst.NAME_SHOP_LIST);
+										.getJSONArray(DataConst.NAME_DATA);
 								for (int i = 0; i < shopList.length(); i++) {
 									JSONObject json = shopList.getJSONObject(i);
 									ShopEntity shop = new ShopEntity();
@@ -159,14 +158,8 @@ public class LoginShopActivity extends Activity {
 									shop.setOwner(json.getString(COL_NAME_OWNER));
 									shop.setStatus(json.getString(COL_NAME_STATUS));
 									shopEntityList.add(shop);
-
-									ContentValues values = new ContentValues();
-									values.put(COL_NAME_STATUS, json.getString(COL_NAME_STATUS));
-
-									getContentResolver().update(
-											ContentUtils.withAppendedId(ShopConst.CONTENT_URI,
-													json.getString(COL_NAME_UUID)), values, null, null);// 修改状态
 								}
+
 								showShopMain(shopEntityList);
 								return;
 							} else {

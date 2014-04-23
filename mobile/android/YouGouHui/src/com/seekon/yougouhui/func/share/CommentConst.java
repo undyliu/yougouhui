@@ -15,5 +15,4 @@ public interface CommentConst extends DataConst {
 
 	public static final String COL_NAME_COMMENT_ID = "comment_id";
 
-	public static final String COL_NAME_SHARE_ID = "";
 }
