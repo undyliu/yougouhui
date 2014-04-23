@@ -90,10 +90,23 @@
      (wrapper-update-data (get-friend-share-data update-time user-id) current-time)
       )
    )
+  (GET "/getShopShares/:shop-id/:update-time" [shop-id update-time]
+		(let [current-time (str (System/currentTimeMillis)) ]
+     (wrapper-update-data (get-shop-share-data shop-id update-time) current-time)
+      )
+   )
+
 	(POST "/saveShare" {params :params}
-		(println params)
+		;(println params)
 		(try
 			(json/write-str (save-share params))
+			(catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str{:error "保存失败."})})
+		)
+	)
+  (POST "/saveShareReply" {{share-id :share_id shop-id :shop_id content :content grade :grade replier :replier} :params}
+		;(println params)
+		(try
+			(json/write-str (save-share-shop-reply share-id shop-id content grade replier))
 			(catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str{:error "保存失败."})})
 		)
 	)

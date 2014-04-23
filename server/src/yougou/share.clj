@@ -6,7 +6,15 @@
 	(:require
 		[yougou.file :as file]
 		[yougou.date :as date]
+    [yougou.user :as user]
 	)
+)
+
+(def share-select-base
+  (-> (select* shares)
+      (fields :uuid :content :publisher :publish_time :publish_date :sale_id :shop_id [:e_shop.name :shop_name] :is_deleted)
+      (join :left shops (= :e_shop.uuid :shop_id))
+  )
 )
 
 (defn get-share-images [update-time share-id]
@@ -19,12 +27,18 @@
   )
 )
 
+(defn get-shop-reply [share-id]
+  (if-let [reply (first (select share-shop-replies (where {:share_id share-id}) ))]
+    reply
+    {}
+   )
+  )
+
 (defn get-friend-shares [last-pub-time user-id]
   (let [publish-time (Long/valueOf last-pub-time)]
     (if (< publish-time 0)
        {}
-			(exec (-> (select* shares)
-							(fields :uuid :content :publisher :publish_time :publish_date :sale_id :shop_id :is_deleted)
+			(exec (-> share-select-base
 							(where {:last_modify_time [> publish-time]})
 							(where (or {:publisher user-id} {:publisher [in (subselect friends (fields :friend_id) (where {:user_id user-id}))]}))
 							(order :publish_time)
@@ -34,7 +48,7 @@
   )
 )
 
-(defn assemble-share-data [shares update-time user-id]
+(defn assemble-share-data [shares update-time]
   (loop [share-list shares
 					share (first shares)
 					result []
@@ -43,14 +57,17 @@
 					result
           (let [rest-shares (rest share-list)
                 is-del (= 1 (:is_deleted share))
+                share-id (:uuid share)
                 ]
             (recur rest-shares
                    (first rest-shares)
                    (if is-del
                      (conj result share)
                      (conj result
-                           (assoc share :images (get-share-images update-time (:uuid share))
-                             :comments (get-comments update-time (:uuid share))))
+                           (assoc share :images (get-share-images update-time share-id)
+                             :comments (get-comments update-time share-id)
+                             :user (user/get-user-without-pwd (:publisher share))
+                             :shop_reply (get-shop-reply share-id)))
                      )
 					    )
             )
@@ -59,7 +76,7 @@
   )
 
 (defn get-friend-share-data [update-time user-id]
-  (assemble-share-data (get-friend-shares update-time user-id) update-time user-id)
+  (assemble-share-data (get-friend-shares update-time user-id) update-time)
   )
 
 (defn save-share-img [share-id img-name req-params ord-index]
@@ -167,15 +184,31 @@
 )
 
 (defn get-shares-by-publisher [user-id]
-  (select shares (fields :uuid :content :publisher :publish_time :publish_date :sale_id :shop_id :is_deleted)
-          (where {:publisher user-id}))
+  (exec (-> share-select-base
+            (where {:publisher user-id}))
+        )
   )
 
 (defn get-user-share-data [user-id]
-  (assemble-share-data (get-shares-by-publisher user-id) nil user-id)
+  (assemble-share-data (get-shares-by-publisher user-id) nil)
  )
 
-(defn get-shares-by-shop [shop-id]
-  (
+(defn get-shop-shares [shop-id update-time]
+  (exec (-> share-select-base
+            (where {:shop_id shop-id :last_modify_time [> update-time]})
+          )
    )
+  )
+
+(defn get-shop-share-data [shop-id update-time]
+  (assemble-share-data (get-shop-shares shop-id update-time) update-time)
+  )
+
+(defn save-share-shop-reply [share-id shop-id content grade replier]
+  (let [uuid (str (java.util.UUID/randomUUID))
+				reply-time (str (System/currentTimeMillis))]
+    (insert share-shop-replies (values {:uuid uuid :shop_id shop-id :share_id share-id
+                                        :content content :grade grade :replier replier :reply_time reply-time }))
+    {:uuid uuid :reply_time reply-time :status "0"}
+    )
   )

@@ -57,6 +57,10 @@
   (pk :uuid)
   (belongs-to shares {:fk :share_id})
 )
+(defentity share-shop-replies
+  (table :e_share_shop_reply)
+  (pk :uuid)
+  )
 
 ;;shop tables
 (defentity shop-trades

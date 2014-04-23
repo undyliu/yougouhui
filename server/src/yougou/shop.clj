@@ -83,7 +83,7 @@
   )
 
 (defn login-shop [user-id pwd]
-  (let [shop-list (select shops (fields :uuid :name :shop_img :owner :status)
+  (let [shop-list (select shops (fields :uuid :name :location :address :desc :shop_img :busi_license :register_time :owner :status :barcode)
                           (join shop-emps (= :e_shop_emp.shop_id :uuid))
                           (where {:e_shop_emp.user_id user-id :e_shop_emp.pwd pwd}))
         ]
@@ -94,7 +94,7 @@
           {:authed false :error-type :pass-error}
           )
        )
-      {:authed true :shopList shop-list}
+      {:authed true :data shop-list :update_time (str  (System/currentTimeMillis))}
       )
     )
   )
