@@ -1,6 +1,5 @@
 package com.seekon.yougouhui.func.sale.widget;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -70,6 +69,6 @@ public class SaleDiscussListView extends PagedXListView<SaleDiscussEntity>{
 
 	@Override
 	public EntityListAdapter<SaleDiscussEntity> getEntityListAdapter() {
-		return new SaleDiscussListAdapter(context, new ArrayList<SaleDiscussEntity>());
+		return new SaleDiscussListAdapter(context, dataList);
 	}
 }

@@ -100,8 +100,7 @@ public class SaleDiscussListAdapter extends EntityListAdapter<SaleDiscussEntity>
 									resolver.delete(SaleDiscussConst.CONTENT_URI, where,
 											selectionArgs);
 
-									dataList.remove(discuss);
-									SaleDiscussListAdapter.this.notifyDataSetChanged();
+									removeEntity(discuss);
 								}
 							});
 				}

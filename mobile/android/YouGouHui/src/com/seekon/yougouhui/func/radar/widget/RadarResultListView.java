@@ -56,12 +56,12 @@ public abstract class RadarResultListView<T extends Entity> extends XListView
 		inited = true;
 	}
 
-	public void loadDataList(LocationEntity location) {
+	public void loadDataList(LocationEntity location, boolean reload) {
 		if (!inited) {
 			init();
 		}
 
-		if (this.dataList.isEmpty()) {
+		if (this.dataList.isEmpty() || reload) {
 			updateTime = getUpdateTime();
 			if (updateTime != null) {
 				try {
@@ -74,7 +74,7 @@ public abstract class RadarResultListView<T extends Entity> extends XListView
 			loadNewestDataList();
 		}
 	}
-
+	
 	private String getUpdateTime() {
 		return String.valueOf(System.currentTimeMillis());
 	}

@@ -454,7 +454,7 @@ public class SaleDetailActivity extends Activity implements SaleDiscussChangeLis
 
 	@Override
 	public void onChange(List<SaleDiscussEntity> dataList) {
-		if(sale != null){
+		if(sale != null && !dataList.isEmpty()){
 			sale.setDiscussCount(dataList.size());
 			this.updateViews();
 		}

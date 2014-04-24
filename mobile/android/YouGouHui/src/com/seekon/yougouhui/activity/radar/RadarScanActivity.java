@@ -13,14 +13,19 @@ import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
+import android.widget.NumberPicker.OnValueChangeListener;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -33,13 +38,12 @@ import com.seekon.yougouhui.func.radar.widget.RadarSaleListView;
 import com.seekon.yougouhui.func.radar.widget.RadarShopListView;
 import com.seekon.yougouhui.func.setting.SettingEntity;
 import com.seekon.yougouhui.func.setting.SettingUtils;
-import com.seekon.yougouhui.layout.XListView.IXListViewListener;
 import com.seekon.yougouhui.util.LocationUtils;
 import com.seekon.yougouhui.util.ViewUtils;
 import com.seekon.yougouhui.widget.BasePagerAdapter;
 
 public class RadarScanActivity extends Activity implements
-		OnPageChangeListener, IXListViewListener {
+		OnPageChangeListener, OnValueChangeListener {
 
 	private ViewPager viewPager;
 	private EditText distanceView;
@@ -70,6 +74,13 @@ public class RadarScanActivity extends Activity implements
 
 		distanceView = (EditText) findViewById(R.id.radar_distance);
 		ViewUtils.setEditTextReadOnly(distanceView);
+		distanceView.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				showNumberPickerDialog();
+			}
+		});
 
 		targetView = (EditText) findViewById(R.id.radar_target);
 		ViewUtils.setEditTextReadOnly(targetView);
@@ -156,12 +167,44 @@ public class RadarScanActivity extends Activity implements
 		}
 	}
 
-	private void doLoadData() {
+	private void doLoadData(boolean reload) {
 		if (locationEntity != null) {
 			RadarResultListView resultView = resultViewList.get(viewPager
 					.getCurrentItem());
-			resultView.loadDataList(locationEntity);
+				resultView.loadDataList(locationEntity, reload);	
 		}
+	}
+
+	public void showNumberPickerDialog() {
+
+		final Dialog d = new Dialog(this);
+		d.setTitle(R.string.title_number_picker);
+		d.setContentView(R.layout.base_numberpicker_dialog);
+		Button cancelButton = (Button) d.findViewById(R.id.b_cancel);
+		Button setButton = (Button) d.findViewById(R.id.b_set);
+		final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker);
+		np.setMaxValue(10000);
+		np.setMinValue(0);
+		np.setValue(Integer.valueOf(distanceView.getText().toString()));
+		np.setWrapSelectorWheel(false);
+		np.setOnValueChangedListener(this);
+		setButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				np.clearFocus();
+				distanceView.setText(String.valueOf(np.getValue()));
+				doLoadData(true);
+				d.dismiss();
+			}
+		});
+		cancelButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				d.dismiss();
+			}
+		});
+		d.show();
+
 	}
 
 	@Override
@@ -188,6 +231,12 @@ public class RadarScanActivity extends Activity implements
 		super.onDestroy();
 	}
 
+
+	@Override
+	public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+		////distanceView.setText(String.valueOf(newVal));
+	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
@@ -203,29 +252,17 @@ public class RadarScanActivity extends Activity implements
 
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onPageSelected(int arg0) {
-		doLoadData();
-	}
-
-	@Override
-	public void onRefresh() {
-
-	}
-
-	@Override
-	public void onLoadMore() {
-
+		doLoadData(false);
 	}
 
 	class MyLocationListener implements BDLocationListener {
@@ -246,7 +283,7 @@ public class RadarScanActivity extends Activity implements
 			newLocation.setRadius(location.getRadius());
 			if (locationEntity == null || !newLocation.equals(locationEntity)) {
 				locationEntity = newLocation;
-				doLoadData();
+				doLoadData(false);
 			}
 		}
 

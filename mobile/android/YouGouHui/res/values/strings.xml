@@ -21,6 +21,7 @@
 	<string name="title_discover_radar">雷达</string>
 	
 	<string name="title_image_preview">图片查看</string>
+	<string name="title_number_picker">数值选择器</string>
 	
 	<string name="title_action_search">搜索</string>
 	<string name="title_action_share_publish">晒单</string>
