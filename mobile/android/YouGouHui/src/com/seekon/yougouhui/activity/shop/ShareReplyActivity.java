@@ -2,6 +2,7 @@ package com.seekon.yougouhui.activity.shop;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +40,7 @@ public class ShareReplyActivity extends Activity {
 		int id = item.getItemId();
 		switch (id) {
 		case android.R.id.home:
-			finish();
+			back();
 			break;
 
 		default:
@@ -51,5 +52,12 @@ public class ShareReplyActivity extends Activity {
 	public void updateView(ShareEntity share) {
 		this.share = share;
 		ShareUtils.updateShopShareReplyView(share, this, mainView);
+	}
+	
+	private void back(){
+		Intent intent = new Intent();
+		intent.putExtra(ShareConst.DATA_SHARE_KEY, share);
+		setResult(RESULT_OK, intent);
+		finish();
 	}
 }
