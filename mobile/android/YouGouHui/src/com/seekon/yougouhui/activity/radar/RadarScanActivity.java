@@ -21,9 +21,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
 
@@ -39,13 +44,23 @@ import com.seekon.yougouhui.func.radar.widget.RadarShopListView;
 import com.seekon.yougouhui.func.setting.SettingEntity;
 import com.seekon.yougouhui.func.setting.SettingUtils;
 import com.seekon.yougouhui.util.LocationUtils;
+import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.util.ViewUtils;
 import com.seekon.yougouhui.widget.BasePagerAdapter;
 
 public class RadarScanActivity extends Activity implements
 		OnPageChangeListener, OnValueChangeListener {
-
+	
+	private static final String TAG = RadarScanActivity.class.getSimpleName();
+	
 	private ViewPager viewPager;
+	private View saleView;
+	private RadarSaleListView saleListView;
+	private View shopView;
+	private RadarShopListView shopListView;
+	private View friendView;
+	private RadarFriendListView friendListView;
+	
 	private EditText distanceView;
 	private EditText targetView;
 	private List<RadarResultListView> resultViewList = new ArrayList<RadarResultListView>();
@@ -53,6 +68,10 @@ public class RadarScanActivity extends Activity implements
 	private SettingEntity settings;
 	private LocationClient mLocationClient = null;
 	private LocationEntity locationEntity = null;
+
+	boolean saleCheck = false;
+	boolean shopCheck = false;
+	boolean friendCheck = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,11 +103,18 @@ public class RadarScanActivity extends Activity implements
 
 		targetView = (EditText) findViewById(R.id.radar_target);
 		ViewUtils.setEditTextReadOnly(targetView);
+		targetView.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				showRadarTargetDialog();
+			}
+		});
 
 		LayoutInflater mInflater = LayoutInflater.from(this);
 
-		View saleView = mInflater.inflate(R.layout.radar_scan_sale, null);
-		RadarSaleListView saleListView = (RadarSaleListView) saleView
+		saleView = mInflater.inflate(R.layout.radar_scan_sale, null);
+		saleListView = (RadarSaleListView) saleView
 				.findViewById(R.id.listview_main);
 		saleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -99,8 +125,8 @@ public class RadarScanActivity extends Activity implements
 			}
 		});
 
-		View shopView = mInflater.inflate(R.layout.radar_scan_shop, null);
-		RadarShopListView shopListView = (RadarShopListView) shopView
+		shopView = mInflater.inflate(R.layout.radar_scan_shop, null);
+		shopListView = (RadarShopListView) shopView
 				.findViewById(R.id.listview_main);
 		shopListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -111,8 +137,8 @@ public class RadarScanActivity extends Activity implements
 			}
 		});
 
-		View friendView = mInflater.inflate(R.layout.radar_scan_friend, null);
-		RadarFriendListView friendListView = (RadarFriendListView) friendView
+		friendView = mInflater.inflate(R.layout.radar_scan_friend, null);
+		friendListView = (RadarFriendListView) friendView
 				.findViewById(R.id.listview_main);
 		friendListView
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -132,46 +158,50 @@ public class RadarScanActivity extends Activity implements
 			JSONObject settingValue = SettingUtils.parseSettingValue(settings);
 			if (settingValue != null) {
 				distanceView.setText(settingValue.getString(RADAR_VAL_FIELD_DISTANCE));
-				boolean saleCheck = settingValue.getBoolean(RADAR_VAL_FIELD_SALE);
-				boolean shopCheck = settingValue.getBoolean(RADAR_VAL_FIELD_SHOP);
-				boolean friendCheck = settingValue.getBoolean(RADAR_VAL_FIELD_FRIEND);
+				saleCheck = settingValue.getBoolean(RADAR_VAL_FIELD_SALE);
+				shopCheck = settingValue.getBoolean(RADAR_VAL_FIELD_SHOP);
+				friendCheck = settingValue.getBoolean(RADAR_VAL_FIELD_FRIEND);
 
-				List<String> pageTitles = new ArrayList<String>();
-				List<View> pageViews = new ArrayList<View>();
-				if (saleCheck) {
-					pageViews.add(saleView);
-					pageTitles.add(getString(R.string.label_radar_sale));
-					resultViewList.add(saleListView);
-				}
-				if (shopCheck) {
-					pageViews.add(shopView);
-					pageTitles.add(getString(R.string.label_radar_shop));
-					resultViewList.add(shopListView);
-				}
-				if (friendCheck) {
-					pageViews.add(friendView);
-					pageTitles.add(getString(R.string.label_radar_friends));
-					resultViewList.add(friendListView);
-				}
-				viewPager.setAdapter(new BasePagerAdapter(pageViews, pageTitles));
-
-				String radarTaget = "";
-				for (String title : pageTitles) {
-					radarTaget += "-" + title;
-				}
-				targetView.setText(radarTaget.length() > 0 ? radarTaget.substring(1)
-						: "");
+				updateViewpager();
 			}
 		} catch (JSONException e) {
-
+			Logger.warn(TAG, e.getMessage(),e);
 		}
 	}
 
+	private void updateViewpager(){
+		List<String> pageTitles = new ArrayList<String>();
+		List<View> pageViews = new ArrayList<View>();
+		if (saleCheck) {
+			pageViews.add(saleView);
+			pageTitles.add(getString(R.string.label_radar_sale));
+			resultViewList.add(saleListView);
+		}
+		if (shopCheck) {
+			pageViews.add(shopView);
+			pageTitles.add(getString(R.string.label_radar_shop));
+			resultViewList.add(shopListView);
+		}
+		if (friendCheck) {
+			pageViews.add(friendView);
+			pageTitles.add(getString(R.string.label_radar_friends));
+			resultViewList.add(friendListView);
+		}
+		viewPager.setAdapter(new BasePagerAdapter(pageViews, pageTitles));
+
+		String radarTaget = "";
+		for (String title : pageTitles) {
+			radarTaget += "-" + title;
+		}
+		targetView.setText(radarTaget.length() > 0 ? radarTaget.substring(1)
+				: "");
+	}
+	
 	private void doLoadData(boolean reload) {
 		if (locationEntity != null) {
 			RadarResultListView resultView = resultViewList.get(viewPager
 					.getCurrentItem());
-				resultView.loadDataList(locationEntity, reload);	
+			resultView.loadDataList(locationEntity, reload);
 		}
 	}
 
@@ -179,10 +209,17 @@ public class RadarScanActivity extends Activity implements
 
 		final Dialog d = new Dialog(this);
 		d.setTitle(R.string.title_number_picker);
-		d.setContentView(R.layout.base_numberpicker_dialog);
+		View view = LayoutInflater.from(this).inflate(R.layout.base_dialog, null);
+		d.setContentView(view);
+
 		Button cancelButton = (Button) d.findViewById(R.id.b_cancel);
 		Button setButton = (Button) d.findViewById(R.id.b_set);
-		final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker);
+
+		final NumberPicker np = new NumberPicker(this);
+		np.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
+		((LinearLayout) view.findViewById(R.id.content_main)).addView(np);
+
 		np.setMaxValue(10000);
 		np.setMinValue(0);
 		np.setValue(Integer.valueOf(distanceView.getText().toString()));
@@ -205,6 +242,87 @@ public class RadarScanActivity extends Activity implements
 		});
 		d.show();
 
+	}
+
+	private void showRadarTargetDialog() {
+		final Dialog d = new Dialog(this);
+		d.setTitle(R.string.title_radar_choose_target);
+		View view = LayoutInflater.from(this).inflate(R.layout.base_dialog, null);
+		d.setContentView(view);
+
+		LinearLayout contentView = (LinearLayout) view
+				.findViewById(R.id.content_main);
+		
+		final CheckBox saleCheckBox = new CheckBox(this);
+		saleCheckBox.setText(R.string.label_radar_sale);
+		saleCheckBox.setChecked(saleCheck);
+		saleCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				saleCheck = isChecked;
+			}
+		});
+		saleCheckBox.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
+		contentView.addView(saleCheckBox);
+		
+		CheckBox shopCheckBox = new CheckBox(this);
+		shopCheckBox.setText(R.string.label_radar_shop);
+		shopCheckBox.setChecked(shopCheck);
+		shopCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				shopCheck = isChecked;
+			}
+		});
+		shopCheckBox.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
+		contentView.addView(shopCheckBox);
+
+		CheckBox friendCheckBox = new CheckBox(this);
+		friendCheckBox.setText(R.string.label_radar_friends);
+		friendCheckBox.setChecked(friendCheck);
+		friendCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				friendCheck = isChecked;
+			}
+		});
+		friendCheckBox.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
+		contentView.addView(friendCheckBox);
+
+		Button cancelButton = (Button) d.findViewById(R.id.b_cancel);
+		Button setButton = (Button) d.findViewById(R.id.b_set);
+		setButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(!saleCheck && !shopCheck && !friendCheck){
+					//saleCheckBox.setError("请至少选择一个扫描目标.");
+					ViewUtils.showToast("请至少选择一个扫描目标.");
+					return;
+				}
+				updateViewpager();
+				d.dismiss();
+			}
+		});
+		cancelButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try {
+					JSONObject settingValue = SettingUtils.parseSettingValue(settings);
+					if (settingValue != null) {
+						saleCheck = settingValue.getBoolean(RADAR_VAL_FIELD_SALE);
+						shopCheck = settingValue.getBoolean(RADAR_VAL_FIELD_SHOP);
+						friendCheck = settingValue.getBoolean(RADAR_VAL_FIELD_FRIEND);
+					}
+				} catch (JSONException e) {
+					Logger.warn(TAG, e.getMessage(),e);
+				}
+				d.dismiss();
+			}
+		});
+		d.show();
 	}
 
 	@Override
@@ -231,12 +349,11 @@ public class RadarScanActivity extends Activity implements
 		super.onDestroy();
 	}
 
-
 	@Override
 	public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-		////distanceView.setText(String.valueOf(newVal));
+		// //distanceView.setText(String.valueOf(newVal));
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();

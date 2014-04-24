@@ -32,6 +32,8 @@
 	<string name="title_action_favorit">收藏</string>
 	<string name="title_action_favorit_cancel">取消收藏</string>
 	<string name="title_action_setting">设置</string>
+	<string name="title_action_ok">确定</string>
+	<string name="title_action_canceled">取消</string>
 	
 	<string name="default_progress_status_message">正在处理，请稍后...</string>
 	

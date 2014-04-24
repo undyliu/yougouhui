@@ -5,5 +5,5 @@
     <string name="title_radar_setting">雷达设置</string>
     
     <string name="label_radar_scan_distace">扫描范围</string>
-    <string name="label_radar_scan_target">扫描对象</string>
+    <string name="label_radar_scan_target">扫描目标</string>
 </resources>

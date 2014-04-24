@@ -2,33 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="5dp"
     android:gravity="center_horizontal"
     android:orientation="vertical" >
 
     <include layout="@layout/progressbar" />
 
-    <LinearLayout
+    <TableLayout
         android:id="@+id/view_login_setting"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/content_shape"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content" >
 
-        <Switch
-            android:id="@+id/auto_login"
-            android:layout_width="wrap_content"
+        <TableRow
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="@string/action_auto_login" />
+            android:layout_margin="0.5dip"
+            android:background="#ffffffff"
+            android:gravity="center" >
 
-        <Switch
-            android:id="@+id/remember_pwd"
-            android:layout_width="wrap_content"
+            <Switch
+                android:id="@+id/auto_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:text="@string/action_auto_login" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/action_remember_pwd" />
-    </LinearLayout>
+            android:layout_margin="0.5dip"
+            android:background="#ffffffff"
+            android:gravity="center" >
+
+            <Switch
+                android:id="@+id/remember_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:text="@string/action_remember_pwd" />
+
+        </TableRow>
+    </TableLayout>
 
 </LinearLayout>
