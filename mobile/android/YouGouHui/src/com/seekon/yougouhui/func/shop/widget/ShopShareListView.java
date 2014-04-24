@@ -13,6 +13,7 @@ import com.seekon.yougouhui.func.share.ShareProcessor;
 import com.seekon.yougouhui.func.share.widget.ShareUtils;
 import com.seekon.yougouhui.func.shop.ShopUtils;
 import com.seekon.yougouhui.func.sync.SyncData;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 import com.seekon.yougouhui.func.widget.PagedXListView;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
@@ -22,6 +23,7 @@ public class ShopShareListView extends PagedXListView<ShareEntity>{
 	private ShareData shareData;
 	private CommentData commentData;
 	private String shopId;
+	private String searchWord;
 	
 	public ShopShareListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -38,7 +40,7 @@ public class ShopShareListView extends PagedXListView<ShareEntity>{
 	public void init(){
 		shareData = new ShareData(context);
 		commentData = new CommentData(context);
-		super.init(new ShopShareListAdapter(context, dataList));
+		super.init();
 	}
 	
 	public void loadData(String shopId){
@@ -46,9 +48,17 @@ public class ShopShareListView extends PagedXListView<ShareEntity>{
 		super.loadDataList();
 	}
 	
+	public void filterData(String searchWord){
+		this.searchWord = searchWord == null ? null : searchWord.trim();
+		currentOffset = 0;
+		dataList.clear();
+		
+		onLoadMore();
+	}
+	
 	@Override
 	protected List<ShareEntity> getDataListFromLocal(String limitSql) {
-		List<ShareEntity> result = shareData.getShopSharesData(shopId, limitSql);
+		List<ShareEntity> result = shareData.getShopSharesData(shopId, searchWord, limitSql);
 		for(ShareEntity share : result){
 			String shareId = share.getUuid();
 			share.setImages(ShareUtils.getShareImagesFromLocal(context, shareId));
@@ -70,6 +80,11 @@ public class ShopShareListView extends PagedXListView<ShareEntity>{
 			result = ShopUtils.getShopRegisterTime(context, shopId);
 		}
 		return result;
+	}
+
+	@Override
+	public EntityListAdapter<ShareEntity> getEntityListAdapter() {
+		return new ShopShareListAdapter(context, dataList);
 	}
 
 }

@@ -46,7 +46,6 @@ import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.shop.ShopProcessor;
 import com.seekon.yougouhui.func.shop.TradeConst;
 import com.seekon.yougouhui.func.shop.TradeEntity;
-import com.seekon.yougouhui.func.shop.widget.RegisterPagerAdapter;
 import com.seekon.yougouhui.func.shop.widget.TradeListAdapter;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
@@ -57,6 +56,7 @@ import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.LocationUtils;
 import com.seekon.yougouhui.util.ViewUtils;
+import com.seekon.yougouhui.widget.BasePagerAdapter;
 
 /**
  * 注册商铺
@@ -158,7 +158,7 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 		pageViews.add(licenseInfoView);
 		pageViews.add(baseInfoView);
 		pageViews.add(pwdInfoView);
-		viewPager.setAdapter(new RegisterPagerAdapter(pageViews, pageTitles));
+		viewPager.setAdapter(new BasePagerAdapter(pageViews, pageTitles));
 
 		GridView tradeView = (GridView) baseInfoView
 				.findViewById(R.id.shop_trade_view);

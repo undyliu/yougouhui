@@ -1,4 +1,4 @@
-package com.seekon.yougouhui.func.shop.widget;
+package com.seekon.yougouhui.widget;
 
 import java.util.List;
 
@@ -6,12 +6,12 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class RegisterPagerAdapter extends PagerAdapter {
+public class BasePagerAdapter extends PagerAdapter {
 
 	private List<String> titleList;
 	private List<View> pageViews;
 
-	public RegisterPagerAdapter(List<View> pageViews, List<String> titleList) {
+	public BasePagerAdapter(List<View> pageViews, List<String> titleList) {
 		super();
 		this.pageViews = pageViews;
 		this.titleList = titleList;

@@ -7,6 +7,7 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_ORD_INDEX;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_VALUE;
 import static com.seekon.yougouhui.func.setting.SettingConst.COL_NAME_USER_ID;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -34,5 +35,12 @@ public class SettingData extends AbstractDBHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+	}
+	
+	public int saveSettingValue(String uuid, String value){
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(COL_NAME_VALUE, value);
+		return db.update(SettingConst.TABLE_NAME, values, COL_NAME_UUID + "=?", new String[]{uuid});
 	}
 }

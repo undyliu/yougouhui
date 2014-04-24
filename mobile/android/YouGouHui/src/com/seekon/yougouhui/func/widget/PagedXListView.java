@@ -18,8 +18,9 @@ import com.seekon.yougouhui.util.DateUtils;
 
 /**
  * 具有分页功能、并进行远程访问的xlistview
+ * 
  * @author undyliu
- *
+ * 
  * @param <T>
  */
 public abstract class PagedXListView<T extends Entity> extends XListView
@@ -27,12 +28,13 @@ public abstract class PagedXListView<T extends Entity> extends XListView
 
 	protected List<T> dataList = new ArrayList<T>();
 
-	protected EntityListAdapter<T> entityListAdapter;
+	private EntityListAdapter<T> entityListAdapter;
 	private String updateTime;
-	private int currentOffset = 0;
+	protected int currentOffset = 0;
 	protected Context context;
 	private Handler mHandler;
-
+	protected boolean inited = false;
+	
 	public PagedXListView(Context context) {
 		super(context);
 		this.context = context;
@@ -48,20 +50,18 @@ public abstract class PagedXListView<T extends Entity> extends XListView
 		this.context = context;
 	}
 
-	public EntityListAdapter<T> getEntityListAdapter() {
-		return entityListAdapter;
-	}
-
-	public T getDataEntity(int position){
+	public T getDataEntity(int position) {
 		return dataList.get(position);
 	}
-	protected void init(EntityListAdapter<T> listAdapter) {
+
+	protected void init() {
 		mHandler = new Handler();
 		this.setPullLoadEnable(true);
 		this.setXListViewListener(this);
 
-		this.entityListAdapter = listAdapter;
-		this.setAdapter(listAdapter);
+		this.entityListAdapter = getEntityListAdapter();
+		this.setAdapter(this.entityListAdapter);
+		inited = true;
 	}
 
 	protected void loadDataList() {
@@ -72,7 +72,7 @@ public abstract class PagedXListView<T extends Entity> extends XListView
 			} catch (Exception e) {
 			}
 		}
-		
+
 		loadDataListFromLocal();
 		if (dataList.isEmpty()) {
 			loadDataListFromRemote();
@@ -84,8 +84,10 @@ public abstract class PagedXListView<T extends Entity> extends XListView
 	private void loadDataListFromLocal() {
 		String limitSql = " limit " + Const.PAGE_SIZE + " offset " + currentOffset;
 		List<T> result = this.getDataListFromLocal(limitSql);
-		currentOffset += result.size();
-		dataList.addAll(result);
+		if (result != null && !result.isEmpty()) {
+			currentOffset += result.size();
+			dataList.addAll(result);
+		}
 	}
 
 	protected abstract List<T> getDataListFromLocal(String limitSql);
@@ -95,6 +97,8 @@ public abstract class PagedXListView<T extends Entity> extends XListView
 
 	protected abstract String getUpdateTime();
 
+	public abstract EntityListAdapter<T> getEntityListAdapter();
+	
 	private void loadDataListFromRemote() {
 		RestUtils
 				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
@@ -160,6 +164,7 @@ public abstract class PagedXListView<T extends Entity> extends XListView
 			@Override
 			public void run() {
 				loadDataListFromLocal();
+				entityListAdapter.updateData(dataList);
 				onPostLoad();
 			}
 		}, 2000);

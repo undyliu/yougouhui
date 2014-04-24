@@ -75,10 +75,6 @@ public abstract class DateIndexedListActivity extends Activity implements
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_ENTER) {
 					String word = mClearEditText.getText().toString();
-					// if (TextUtils.isEmpty(word)) {
-					// mClearEditText.setError(getString(R.string.error_field_required));
-					// return false;
-					// }
 					if (!searchWord.equals(word)) {
 						filterData(word);
 					}
@@ -128,7 +124,6 @@ public abstract class DateIndexedListActivity extends Activity implements
 		searchWord = word;
 		
 		currentOffset = 0;
-		searchWord = word;
 		dataList.clear();
 		loadDataListFromLocal();
 		

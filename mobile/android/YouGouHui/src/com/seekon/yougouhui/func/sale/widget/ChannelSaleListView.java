@@ -12,6 +12,7 @@ import com.seekon.yougouhui.func.sale.SaleData;
 import com.seekon.yougouhui.func.sale.SaleEntity;
 import com.seekon.yougouhui.func.sale.SaleProcessor;
 import com.seekon.yougouhui.func.sync.SyncData;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 import com.seekon.yougouhui.func.widget.PagedXListView;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
@@ -36,7 +37,7 @@ public class ChannelSaleListView extends PagedXListView<SaleEntity> {
 	public void loadData(ChannelEntity channel) {
 		if(saleData == null){
 			saleData = new SaleData(context);
-			super.init(new ChannelSaleListAdapter(context, dataList));
+			super.init();
 		}
 		
 		this.channel = channel;
@@ -66,6 +67,11 @@ public class ChannelSaleListView extends PagedXListView<SaleEntity> {
 			result = RunEnv.getInstance().getUser().getRegisterTime();
 		}
 		return result;
+	}
+
+	@Override
+	public EntityListAdapter<SaleEntity> getEntityListAdapter() {
+		return new ChannelSaleListAdapter(context, dataList);
 	}
 
 }

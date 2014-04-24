@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="title_radar_scan">雷达搜索</string>
     
+    <string name="label_radar_search">使用雷达搜索附近的:</string>
+    <string name="label_radar_nearby">附近</string>
+    <string name="label_radar_sale">活动</string>
+    <string name="label_radar_shop">商铺</string>
+    <string name="label_radar_friends">朋友</string>
 </resources>

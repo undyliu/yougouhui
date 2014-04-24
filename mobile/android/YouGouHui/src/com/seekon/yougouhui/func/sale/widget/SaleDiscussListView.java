@@ -12,6 +12,7 @@ import com.seekon.yougouhui.func.sale.SaleDiscussEntity;
 import com.seekon.yougouhui.func.sale.SaleDiscussProcessor;
 import com.seekon.yougouhui.func.sale.SaleEntity;
 import com.seekon.yougouhui.func.sync.SyncData;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 import com.seekon.yougouhui.func.widget.PagedXListView;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
@@ -35,7 +36,7 @@ public class SaleDiscussListView extends PagedXListView<SaleDiscussEntity>{
 
 	public void init(){
 		saleDiscussData = new SaleDiscussData(context);
-		super.init(new SaleDiscussListAdapter(context, new ArrayList<SaleDiscussEntity>()));
+		super.init();
 	}
 
 	public void loadDiscussData(SaleEntity sale) {
@@ -65,5 +66,10 @@ public class SaleDiscussListView extends PagedXListView<SaleDiscussEntity>{
 			result = sale != null ? String.valueOf(sale.getPublishTime()) : null;
 		}
 		return result;
+	}
+
+	@Override
+	public EntityListAdapter<SaleDiscussEntity> getEntityListAdapter() {
+		return new SaleDiscussListAdapter(context, new ArrayList<SaleDiscussEntity>());
 	}
 }

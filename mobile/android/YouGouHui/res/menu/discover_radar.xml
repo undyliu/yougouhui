@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    
-
      <item
-        android:id="@+id/menu_discover_radar_scan"
-        android:icon="@drawable/scan"
-        android:showAsAction="always"
-        />
-     
+        android:id="@+id/menu_radar_setting"
+        android:showAsAction="always|withText"
+        android:title="@string/title_action_setting"/>
+
 </menu>

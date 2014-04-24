@@ -13,6 +13,7 @@ import com.seekon.yougouhui.func.share.ShareData;
 import com.seekon.yougouhui.func.share.ShareEntity;
 import com.seekon.yougouhui.func.share.ShareProcessor;
 import com.seekon.yougouhui.func.sync.SyncData;
+import com.seekon.yougouhui.func.widget.EntityListAdapter;
 import com.seekon.yougouhui.func.widget.PagedXListView;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
@@ -39,7 +40,7 @@ public class ShareListView extends PagedXListView<ShareEntity> {
 		shareData = new ShareData(context);
 		commentData = new CommentData(context);
 
-		super.init(new ShareListAdapter(context, dataList));
+		super.init();
 	}
 
 	public void loadData() {
@@ -74,6 +75,11 @@ public class ShareListView extends PagedXListView<ShareEntity> {
 			result = RunEnv.getInstance().getUser().getRegisterTime();
 		}
 		return result;
+	}
+
+	@Override
+	public EntityListAdapter<ShareEntity> getEntityListAdapter() {
+		return new ShareListAdapter(context, dataList);
 	}
 
 }

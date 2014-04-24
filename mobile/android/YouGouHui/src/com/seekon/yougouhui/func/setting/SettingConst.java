@@ -19,4 +19,11 @@ public interface SettingConst extends DataConst{
 	public static final String SETTING_CODE_RADAR = "radar";
 	public static final String SETTING_CODE_CACHE = "cache";
 	public static final String SETTING_CODE_LOGOUT = "logout";
+	
+	public static final String RADAR_VAL_FIELD_DISTANCE = "distance";
+	public static final String RADAR_VAL_FIELD_SALE = "sale";
+	public static final String RADAR_VAL_FIELD_SHOP = "shop";
+	public static final String RADAR_VAL_FIELD_FRIEND = "friend";
+	
+	public static final int RADAR_DEFAULT_DISTANCE = 2000;
 }

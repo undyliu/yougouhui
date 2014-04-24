@@ -61,8 +61,16 @@ public class LoginMethod extends BaseRestMethod<JSONObjResource> {
 		}
 
 		Request request = buildRequest();
-		Response response = doRequest(request);
-
+		Response response = null;
+		try {
+			response = doRequest(request);
+		} catch (Exception ex) {
+			Logger.warn(TAG, ex.getMessage());
+			int status = RestStatus.SERVER_NOT_AVAILABLE;
+			String statusMsg = getContext().getString(R.string.server_not_available);
+			return new RestMethodResult<JSONObjResource>(status, statusMsg, null);
+		}
+		
 		List<String> cookieValues = response.getHeaders().get("Set-Cookie");
 		if (cookieValues != null && cookieValues.size() > 0) {
 			String cookieValue = cookieValues.get(0);
