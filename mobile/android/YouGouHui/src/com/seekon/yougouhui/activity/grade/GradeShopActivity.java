@@ -1,13 +1,13 @@
 package com.seekon.yougouhui.activity.grade;
 
-import com.seekon.yougouhui.R;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-public class GradeShopActivity extends Activity{
+import com.seekon.yougouhui.R;
+
+public class GradeShopActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -16,12 +16,12 @@ public class GradeShopActivity extends Activity{
 
 		initViews();
 	}
-	
-	private void initViews(){
+
+	private void initViews() {
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();

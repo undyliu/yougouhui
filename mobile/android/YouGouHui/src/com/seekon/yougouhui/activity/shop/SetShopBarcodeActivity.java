@@ -1,6 +1,5 @@
 package com.seekon.yougouhui.activity.shop;
 
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -19,10 +18,10 @@ import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.shop.ShopConst;
 import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.shop.ShopProcessor;
-import com.seekon.yougouhui.func.widget.AbstractChangeInfoTask;
+import com.seekon.yougouhui.func.widget.ChangeTextInfoTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.util.ViewUtils;
 
 public class SetShopBarcodeActivity extends Activity {
 
@@ -87,7 +86,8 @@ public class SetShopBarcodeActivity extends Activity {
 				public void onClick(View v) {
 					Intent intent = new Intent(SetShopBarcodeActivity.this,
 							ImagePreviewActivity.class);
-					intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, new FileEntity(null, barcode));
+					intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, new FileEntity(
+							null, barcode));
 					intent.putExtra(ImagePreviewActivity.IMAGE_DELETE_FLAG, false);
 					startActivity(intent);
 				}
@@ -103,34 +103,25 @@ public class SetShopBarcodeActivity extends Activity {
 	}
 
 	private void createBarcode(final MenuItem item) {
-		AbstractChangeInfoTask task = new AbstractChangeInfoTask(item) {
+		item.setEnabled(false);
+
+		RestUtils.executeAsyncRestTask(this, new ChangeTextInfoTaskCallback(item) {
 
 			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
+			public RestMethodResult<JSONObjResource> doInBackground() {
 				return ShopProcessor.getInstance(SetShopBarcodeActivity.this)
 						.createShopBarcode(shop);
 			}
 
 			@Override
-			protected void showProgressInner(boolean show) {
-				showProgress(show);
-			}
-
-			@Override
-			protected void doSuccess(RestMethodResult<JSONObjResource> result) {
+			public void onSuccess(RestMethodResult<JSONObjResource> result) {
 				String barcode = shop.getBarcode();
 				if (barcode != null && barcode.length() > 0) {
 					ImageLoader.getInstance().displayImage(barcode, barCodeView, true);
 				}
 			}
-		};
 
-		item.setEnabled(false);
-		showProgress(true);
-		task.execute((Void) null);
+		});
 	}
 
-	private void showProgress(boolean show) {
-		ViewUtils.showProgress(this, barCodeView, show);
-	}
 }

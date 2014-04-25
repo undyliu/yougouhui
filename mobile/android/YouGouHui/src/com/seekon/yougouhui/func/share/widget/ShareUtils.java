@@ -96,7 +96,7 @@ public class ShareUtils {
 			replyStatus.setVisibility(View.GONE);
 		}
 		updateShopReplyView(share, shareView);
-		
+
 	}
 
 	public static void updateShopShareReplyView(final ShareEntity share,
@@ -118,7 +118,7 @@ public class ShareUtils {
 			}
 		}
 		updateShopReplyView(share, shareView);
-		
+
 		// 设置评论信息
 		ListView commentView = (ListView) shareView.findViewById(R.id.comment_list);
 		List<CommentEntity> comments = share.getComments();
@@ -154,27 +154,28 @@ public class ShareUtils {
 		}
 	}
 
-	private static void updateShopReplyView(ShareEntity share, View shareView){
+	private static void updateShopReplyView(ShareEntity share, View shareView) {
 		ShopReplyEntity reply = share.getShopReply();
 		View replyView = shareView.findViewById(R.id.shop_reply_main);
-		if(reply == null){
+		if (reply == null) {
 			replyView.setVisibility(View.GONE);
-		}else{
+		} else {
 			replyView.setVisibility(View.VISIBLE);
-			
+
 			TextView shopNameView = (TextView) shareView.findViewById(R.id.shop_name);
 			shopNameView.getPaint().setFakeBoldText(true);
 			shopNameView.setText(share.getShop().getName());
-			
+
 			TextView gradeView = (TextView) shareView.findViewById(R.id.reply_grade);
 			gradeView.getPaint().setFakeBoldText(true);
 			gradeView.setText(String.valueOf(reply.getGrade()));
-			
-			TextView contentView = (TextView) shareView.findViewById(R.id.reply_content);
+
+			TextView contentView = (TextView) shareView
+					.findViewById(R.id.reply_content);
 			contentView.setText(reply.getContent());
 		}
 	}
-	
+
 	private static void updateShareDetailView(final ShareEntity share,
 			final Activity activity, View shareView) {
 		if (share == null) {

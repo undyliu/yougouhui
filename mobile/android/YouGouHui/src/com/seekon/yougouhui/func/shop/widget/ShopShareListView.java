@@ -18,13 +18,13 @@ import com.seekon.yougouhui.func.widget.PagedXListView;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
-public class ShopShareListView extends PagedXListView<ShareEntity>{
-	
+public class ShopShareListView extends PagedXListView<ShareEntity> {
+
 	private ShareData shareData;
 	private CommentData commentData;
 	private String shopId;
 	private String searchWord;
-	
+
 	public ShopShareListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
@@ -37,29 +37,30 @@ public class ShopShareListView extends PagedXListView<ShareEntity>{
 		super(context);
 	}
 
-	public void init(){
+	public void init() {
 		shareData = new ShareData(context);
 		commentData = new CommentData(context);
 		super.init();
 	}
-	
-	public void loadData(String shopId){
+
+	public void loadData(String shopId) {
 		this.shopId = shopId;
 		super.loadDataList();
 	}
-	
-	public void filterData(String searchWord){
+
+	public void filterData(String searchWord) {
 		this.searchWord = searchWord == null ? null : searchWord.trim();
 		currentOffset = 0;
 		dataList.clear();
-		
+
 		onLoadMore();
 	}
-	
+
 	@Override
 	protected List<ShareEntity> getDataListFromLocal(String limitSql) {
-		List<ShareEntity> result = shareData.getShopSharesData(shopId, searchWord, limitSql);
-		for(ShareEntity share : result){
+		List<ShareEntity> result = shareData.getShopSharesData(shopId, searchWord,
+				limitSql);
+		for (ShareEntity share : result) {
 			String shareId = share.getUuid();
 			share.setImages(ShareUtils.getShareImagesFromLocal(context, shareId));
 			share.setComments(commentData.getCommentData(shareId));
@@ -69,7 +70,8 @@ public class ShopShareListView extends PagedXListView<ShareEntity>{
 
 	@Override
 	protected RestMethodResult<JSONObjResource> getRemoteData(String updateTime) {
-		return ShareProcessor.getInstance(context).getShopShares(shopId, updateTime);
+		return ShareProcessor.getInstance(context)
+				.getShopShares(shopId, updateTime);
 	}
 
 	@Override

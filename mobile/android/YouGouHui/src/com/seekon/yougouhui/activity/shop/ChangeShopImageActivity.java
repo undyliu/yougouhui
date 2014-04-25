@@ -12,8 +12,10 @@ import com.seekon.yougouhui.func.shop.ShopConst;
 import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.shop.ShopProcessor;
 import com.seekon.yougouhui.func.shop.ShopUtils;
-import com.seekon.yougouhui.func.widget.AbstractChangeInfoTask;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
+import com.seekon.yougouhui.func.widget.ChangeTextInfoTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.ViewUtils;
 
@@ -40,38 +42,32 @@ public class ChangeShopImageActivity extends ChangeImageInfoActivity {
 	}
 
 	@Override
-	protected void doChangeImage(MenuItem item) {
+	protected void doChangeImage(final MenuItem item) {
 		if (imageFile.equals(ShopUtils.getFieldValue(shop, fieldName))) {
 			ViewUtils.showToast("数据未修改不需要保存.");
 			return;
 		}
 
-		AbstractChangeInfoTask task = new AbstractChangeInfoTask(item) {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				ShopUtils.setFieldValue(shop, fieldName, imageFile.getAliasName());
-				return ShopProcessor.getInstance(ChangeShopImageActivity.this)
-						.changeShop(shop, fieldName);
-			}
-
-			@Override
-			protected void showProgressInner(boolean show) {
-				showProgress(show);
-			}
-
-			@Override
-			protected void doSuccess(RestMethodResult<JSONObjResource> result) {
-				Intent intent = new Intent();
-				intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
-				setResult(RESULT_OK, intent);
-				finish();
-			}
-		};
-
-		showProgress(true);
 		item.setEnabled(false);
-		task.execute((Void) null);
+
+		RestUtils.executeAsyncRestTask(this,
+				new ChangeTextInfoTaskCallback(item) {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return ShopProcessor.getInstance(ChangeShopImageActivity.this)
+								.changeShop(shop, fieldName);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						Intent intent = new Intent();
+						intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
+						setResult(RESULT_OK, intent);
+						finish();
+					}
+
+				});
 	}
 
 	@Override

@@ -10,7 +10,7 @@ import com.seekon.yougouhui.func.user.UserEntity;
 public class ShopEntity extends Entity {
 
 	private static final long serialVersionUID = -7361233046679253011L;
-	
+
 	private String name;
 	private String address;
 	private String desc;

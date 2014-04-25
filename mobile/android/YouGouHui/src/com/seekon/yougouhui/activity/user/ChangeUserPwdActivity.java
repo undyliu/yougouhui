@@ -9,8 +9,9 @@ import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.ChangePasswordActivity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.user.UserProcessor;
-import com.seekon.yougouhui.func.widget.AbstractChangeInfoTask;
+import com.seekon.yougouhui.func.widget.ChangeTextInfoTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
 public class ChangeUserPwdActivity extends ChangePasswordActivity {
@@ -24,30 +25,23 @@ public class ChangeUserPwdActivity extends ChangePasswordActivity {
 	}
 
 	protected void doSavePassword(final MenuItem item) {
+		item.setEnabled(false);
 
-		AbstractChangeInfoTask task = new AbstractChangeInfoTask(item) {
-
-			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				return UserProcessor.getInstance(ChangeUserPwdActivity.this)
-						.updateUserPwd(pwdNewView.getText().toString());
-			}
+		RestUtils.executeAsyncRestTask(this, new ChangeTextInfoTaskCallback(item) {
 
 			@Override
-			protected void showProgressInner(boolean show) {
-				showProgress(show);
-			}
-
-			@Override
-			protected void doSuccess(RestMethodResult<JSONObjResource> result) {
+			public void onSuccess(RestMethodResult<JSONObjResource> result) {
 				Intent intent = new Intent();
 				setResult(RESULT_OK, intent);
 				finish();
 			}
-		};
-		showProgress(true);
-		item.setEnabled(false);
-		task.execute((Void) null);
+
+			@Override
+			public RestMethodResult<JSONObjResource> doInBackground() {
+				return UserProcessor.getInstance(ChangeUserPwdActivity.this)
+						.updateUserPwd(pwdNewView.getText().toString());
+			}
+		});
 	}
 
 	@Override

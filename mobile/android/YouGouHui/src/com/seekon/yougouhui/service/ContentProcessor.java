@@ -79,9 +79,9 @@ public class ContentProcessor {
 			Logger.error(TAG, e.getMessage(), e);
 		}
 	}
-	
+
 	protected void updateContentProvider(JSONArray jsonArray, String[] colNames,
-			Uri contentUri) throws JSONException{
+			Uri contentUri) throws JSONException {
 		int size = jsonArray.length();
 		if (size > 0) {
 			for (int i = 0; i < size; i++) {
@@ -90,7 +90,7 @@ public class ContentProcessor {
 			}
 		}
 	}
-	
+
 	protected void updateContentProvider(JSONObject jsonObj, String[] colNames,
 			Uri contentUri) throws JSONException {
 		String isDel = JSONUtils.getJSONStringValue(jsonObj,
@@ -104,17 +104,19 @@ public class ContentProcessor {
 
 	protected void modifyContentProvider(JSONObject jsonObj, String[] colNames,
 			Uri contentUri) throws JSONException {
-		ContentValues values = ContentValuesUtils.fromJSONObject(jsonObj,
-				colNames);
+		ContentValues values = ContentValuesUtils.fromJSONObject(jsonObj, colNames);
 		ContentResolver resolver = mContext.getContentResolver();
 		String id = values.getAsString(COL_NAME_UUID);
+		if(id == null){
+			id = jsonObj.getString(COL_NAME_UUID);
+		}
 		int count = resolver.update(ContentUtils.withAppendedId(contentUri, id),
 				values, null, null);
 		if (count == 0) {
 			resolver.insert(contentUri, values);
 		}
 	}
-	
+
 	protected void deleteContentProvider(JSONObject jsonObj, Uri contentUri)
 			throws JSONException {
 		if (jsonObj == null) {

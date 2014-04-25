@@ -104,24 +104,27 @@ public class ShareProcessor extends SyncSupportProcessor implements
 			} catch (Exception e) {
 			}
 		}
-		
-		//更新发布者
-		if(jsonObj.has(UserConst.DATA_KEY_USER)){
-			try{
+
+		// 更新发布者
+		if (jsonObj.has(UserConst.DATA_KEY_USER)) {
+			try {
 				JSONObject user = jsonObj.getJSONObject(UserConst.DATA_KEY_USER);
-				updateContentProvider(user, UserData.COL_NAMES_WITHOUT_PWD, UserConst.CONTENT_URI);
-			}catch (Exception e) {
+				updateContentProvider(user, UserData.COL_NAMES_WITHOUT_PWD,
+						UserConst.CONTENT_URI);
+			} catch (Exception e) {
 			}
 		}
-		
-		//更新商户的反馈
-		if(jsonObj.has(ShareConst.DATA_SHOP_REPLY_KEY)){
-			try{
-				JSONObject reply = jsonObj.getJSONObject(ShareConst.DATA_SHOP_REPLY_KEY);
-				if(reply != null && reply.length() > 0){
-					updateContentProvider(reply, ShopReplyData.COL_NAMES, ShopReplyConst.CONTENT_URI);
+
+		// 更新商户的反馈
+		if (jsonObj.has(ShareConst.DATA_SHOP_REPLY_KEY)) {
+			try {
+				JSONObject reply = jsonObj
+						.getJSONObject(ShareConst.DATA_SHOP_REPLY_KEY);
+				if (reply != null && reply.length() > 0) {
+					updateContentProvider(reply, ShopReplyData.COL_NAMES,
+							ShopReplyConst.CONTENT_URI);
 				}
-			}catch(Exception e){
+			} catch (Exception e) {
 			}
 		}
 	}

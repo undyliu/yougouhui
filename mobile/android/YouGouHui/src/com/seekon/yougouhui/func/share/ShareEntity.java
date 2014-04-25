@@ -22,9 +22,9 @@ public class ShareEntity extends Entity {
 	private List<FileEntity> images;
 
 	private List<CommentEntity> comments;
-	
+
 	private ShopReplyEntity shopReply;
-	
+
 	public ShareEntity() {
 		super();
 	}
@@ -89,8 +89,8 @@ public class ShareEntity extends Entity {
 	public void setShopReply(ShopReplyEntity shopReply) {
 		this.shopReply = shopReply;
 	}
-	
-	public String getShopId(){
+
+	public String getShopId() {
 		return shop != null ? shop.getUuid() : null;
 	}
 }

@@ -1,7 +1,5 @@
 package com.seekon.yougouhui.func.favorit;
 
-import java.io.Serializable;
-
 import com.seekon.yougouhui.func.PinyinEntity;
 
 public class FavoritEntity extends PinyinEntity {

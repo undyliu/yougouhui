@@ -89,6 +89,7 @@ public class AddFriendActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				ViewUtils.hideInputMethodWindow(AddFriendActivity.this);
 				searchUsers();
 			}
 		});
@@ -103,7 +104,7 @@ public class AddFriendActivity extends Activity {
 		if (TextUtils.isEmpty(searchWord)) {
 			// searchWordView.setError(getString(R.string.error_field_required));
 			searchWordView.requestFocus();
-			updateSearchResultView(new JSONArrayResource());
+			updateSearchResultView(new JSONArrayResource(), true);
 			return;
 		}
 
@@ -113,16 +114,14 @@ public class AddFriendActivity extends Activity {
 			searchWordView
 					.setError(getString(R.string.error_no_need_add_self_to_friend));
 			searchWordView.requestFocus();
-			updateSearchResultView(new JSONArrayResource());
+			updateSearchResultView(new JSONArrayResource(), true);
 			return;
 		}
 
 		searchButton.setEnabled(false);
-		showProgress(true);
 
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>(
-						"获取数据失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONArrayResource>("获取数据失败.") {
 
 					@Override
 					public RestMethodResult<JSONArrayResource> doInBackground() {
@@ -132,7 +131,7 @@ public class AddFriendActivity extends Activity {
 
 					@Override
 					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
-						updateSearchResultView(result.getResource());
+						updateSearchResultView(result.getResource(), false);
 						onCancelled();
 					}
 
@@ -144,18 +143,13 @@ public class AddFriendActivity extends Activity {
 
 					@Override
 					public void onCancelled() {
-						showProgress(false);
 						searchButton.setEnabled(true);
 						super.onCancelled();
 					}
 				});
 	}
 
-	private void showProgress(final boolean show) {
-		ViewUtils.showProgress(this, this.findViewById(R.id.main_view), show);
-	}
-
-	private void updateSearchResultView(JSONArrayResource resource) {
+	private void updateSearchResultView(JSONArrayResource resource, boolean reset) {
 		searchResultList.clear();
 		UserEntity currentUser = RunEnv.getInstance().getUser();
 		for (int i = 0; i < resource.length(); i++) {
@@ -171,7 +165,9 @@ public class AddFriendActivity extends Activity {
 		}
 		if (searchResultList.isEmpty()) {
 			searchWordView.requestFocus();
-			ViewUtils.showToast("没有符合条件的数据.");
+			if (!reset) {
+				ViewUtils.showToast("没有符合条件的数据.");
+			}
 			addFriendChooseView.setVisibility(View.VISIBLE);
 		} else {
 			addFriendChooseView.setVisibility(View.GONE);

@@ -119,8 +119,9 @@ public class ShareInteractAcitivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 		case SHARE_REPLY_REQUEST_CODE:
-			if(resultCode == RESULT_OK && data != null && selectedPosition > 0){
-				ShareEntity share = (ShareEntity) data.getSerializableExtra(ShareConst.DATA_SHARE_KEY);
+			if (resultCode == RESULT_OK && data != null && selectedPosition > 0) {
+				ShareEntity share = (ShareEntity) data
+						.getSerializableExtra(ShareConst.DATA_SHARE_KEY);
 				listView.getEntityListAdapter().updateEntity(share, selectedPosition);
 			}
 			break;
@@ -130,7 +131,7 @@ public class ShareInteractAcitivity extends Activity {
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-	
+
 	private void filterData(String word) {
 		ViewUtils.hideInputMethodWindow(ShareInteractAcitivity.this);
 		searchWord = word;

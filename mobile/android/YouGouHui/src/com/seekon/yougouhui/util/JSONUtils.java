@@ -44,17 +44,18 @@ public class JSONUtils {
 		}
 		return null;
 	}
-	
-	public static JSONObject cloneJSONObject(JSONObject from, String[] keys) throws JSONException{
-		if(from == null){
+
+	public static JSONObject cloneJSONObject(JSONObject from, String[] keys)
+			throws JSONException {
+		if (from == null) {
 			return null;
 		}
-		
-		if(keys == null){
+
+		if (keys == null) {
 			keys = getKeys(from);
 		}
 		JSONObject obj = new JSONObject();
-		for(String key : keys){
+		for (String key : keys) {
 			obj.put(key, from.get(key));
 		}
 		return obj;

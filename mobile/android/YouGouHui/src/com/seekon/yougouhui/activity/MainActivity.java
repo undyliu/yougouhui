@@ -33,7 +33,7 @@ import com.seekon.yougouhui.util.LocationUtils;
  * 
  */
 public class MainActivity extends FragmentActivity {
-	
+
 	private LocationClient mLocationClient = null;
 
 	@Override
@@ -42,7 +42,7 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.main);
 
 		initView();
-		
+
 		mLocationClient = new LocationClient(getApplicationContext()); // 声明LocationClient类
 		mLocationClient.registerLocationListener(new MyLocationListener());
 		mLocationClient.setLocOption(LocationUtils.getDefaultLocationOption());
@@ -79,35 +79,35 @@ public class MainActivity extends FragmentActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	@Override
 	protected void onStart() {
 		mLocationClient.start();// 开始定位
 		super.onStart();
 	}
-	
+
 	@Override
 	protected void onStop() {
 		if (mLocationClient != null && this.mLocationClient.isStarted()) {
 			mLocationClient.stop();
 		}
-		
+
 		super.onStop();
 	}
-	
+
 	@Override
 	protected void onDestroy() {
-		if(mLocationClient != null){
+		if (mLocationClient != null) {
 			mLocationClient = null;
 		}
 		super.onDestroy();
 	}
-	
+
 	@Override
 	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
 		super.onActivityResult(arg0, arg1, arg2);
 	}
-	
+
 	private void initView() {
 		FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);

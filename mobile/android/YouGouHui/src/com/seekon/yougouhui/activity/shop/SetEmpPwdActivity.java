@@ -20,7 +20,6 @@ import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.util.ViewUtils;
 
 public class SetEmpPwdActivity extends Activity {
 
@@ -120,11 +119,9 @@ public class SetEmpPwdActivity extends Activity {
 		}
 
 		item.setEnabled(false);
-		showProgress(true);
 
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"设置密码失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>("设置密码失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
@@ -150,14 +147,9 @@ public class SetEmpPwdActivity extends Activity {
 					@Override
 					public void onCancelled() {
 						item.setEnabled(true);
-						showProgress(false);
 						super.onCancelled();
 					}
 				});
 	}
 
-	protected void showProgress(final boolean show) {
-		ViewUtils.showProgress(this, this.findViewById(R.id.set_password_view),
-				show);
-	}
 }

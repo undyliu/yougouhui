@@ -9,7 +9,7 @@ public class ModuleEntity extends Entity {
 	private String code;
 	private String name;
 	private int imageResourceId;
-	
+
 	public ModuleEntity(String uuid, String code, String name, int imageResourceId) {
 		super(uuid);
 		this.code = code;

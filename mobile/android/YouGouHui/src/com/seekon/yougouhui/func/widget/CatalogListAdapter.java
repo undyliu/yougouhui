@@ -17,35 +17,36 @@ import android.widget.TextView;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.PinyinEntity;
 
-public class CatalogListAdapter<T extends PinyinEntity> extends EntityListAdapter<T> implements SectionIndexer {
+public class CatalogListAdapter<T extends PinyinEntity> extends
+		EntityListAdapter<T> implements SectionIndexer {
 	private Map<String, Integer> catalogMap = new HashMap<String, Integer>();
-	
+
 	public CatalogListAdapter(Context context, List<T> dataList) {
 		super(context, dataList);
 		initCatalogList();
 	}
-	
+
 	@Override
 	public void updateData(List<T> dataList) {
 		initCatalogList();
 		super.updateData(dataList);
 	}
-	
+
 	@Override
 	public void addEntity(T entity) {
-		//TODO:
+		// TODO:
 	}
-	
+
 	@Override
 	public void removeEntity(T entity) {
-	//TODO:
+		// TODO:
 	}
-	
+
 	@Override
 	public void updateEntity(T entity, int position) {
-	//TODO:
+		// TODO:
 	}
-	
+
 	private void initCatalogList() {
 		catalogMap.clear();
 		int size = dataList.size();
@@ -79,8 +80,8 @@ public class CatalogListAdapter<T extends PinyinEntity> extends EntityListAdapte
 		} else {
 			viewHolder = (ViewHolder) view.getTag();
 		}
-		
-		if(catalogMap.isEmpty()){
+
+		if (catalogMap.isEmpty()) {
 			initCatalogList();
 		}
 		String firstLetter = mContent.getFirstLetter().toUpperCase();

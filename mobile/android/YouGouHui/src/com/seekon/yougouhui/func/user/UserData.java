@@ -1,11 +1,11 @@
 package com.seekon.yougouhui.func.user;
 
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_REGISTER_TIME;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_ICON;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
 import static com.seekon.yougouhui.func.user.UserConst.TABLE_NAME;
 
 import java.util.ArrayList;

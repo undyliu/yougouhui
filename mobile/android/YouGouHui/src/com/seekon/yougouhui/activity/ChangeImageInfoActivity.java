@@ -19,7 +19,6 @@ import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.file.FileHelper;
 import com.seekon.yougouhui.file.ImageLoader;
-import com.seekon.yougouhui.util.ViewUtils;
 
 public abstract class ChangeImageInfoActivity extends Activity {
 
@@ -111,11 +110,12 @@ public abstract class ChangeImageInfoActivity extends Activity {
 
 	private void addUserIconToView() {
 		String fileUrl = imageFile.getFileUri();
-		if(fileUrl != null && fileUrl.trim().length() > 0){
-			photoView.setImageBitmap(FileHelper.decodeFile(fileUrl, true,
-					ICON_WIDTH, ICON_WIDTH));
-		}else{
-			ImageLoader.getInstance().displayImage(imageFile.getAliasName(), photoView, true);
+		if (fileUrl != null && fileUrl.trim().length() > 0) {
+			photoView.setImageBitmap(FileHelper.decodeFile(fileUrl, true, ICON_WIDTH,
+					ICON_WIDTH));
+		} else {
+			ImageLoader.getInstance().displayImage(imageFile.getAliasName(),
+					photoView, true);
 		}
 
 		final ImageButton iconPreview = (ImageButton) findViewById(R.id.image_icon_preview);
@@ -127,8 +127,8 @@ public abstract class ChangeImageInfoActivity extends Activity {
 				Intent intent = new Intent(ChangeImageInfoActivity.this,
 						ImagePreviewActivity.class);
 				intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, imageFile);
-//				intent
-//						.putExtra(ImagePreviewActivity.SHOW_BY_LOCAL_FILE, showLocalImage);
+				// intent
+				// .putExtra(ImagePreviewActivity.SHOW_BY_LOCAL_FILE, showLocalImage);
 				intent.putExtra(ImagePreviewActivity.IMAGE_DELETE_FLAG, false);
 				startActivity(intent);
 			}
@@ -146,11 +146,6 @@ public abstract class ChangeImageInfoActivity extends Activity {
 				imageFile = null;
 			}
 		});
-	}
-
-	protected void showProgress(final boolean show) {
-		ViewUtils.showProgress(this,
-				this.findViewById(R.id.change_image_info_view), show);
 	}
 
 	protected abstract void doChangeImage(final MenuItem item);

@@ -89,7 +89,7 @@ public class MultipartClient extends RestClient {
 		conn.setConnectTimeout(60 * 1000);// 30秒
 
 		if (Build.VERSION.SDK != null && Build.VERSION.SDK_INT > 13) {
-			////conn.setRequestProperty("Connection", "close");
+			// //conn.setRequestProperty("Connection", "close");
 			conn.setRequestProperty("connection", "keep-alive");
 		}
 	}

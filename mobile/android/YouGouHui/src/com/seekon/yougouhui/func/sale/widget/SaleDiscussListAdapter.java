@@ -26,7 +26,8 @@ import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
-public class SaleDiscussListAdapter extends EntityListAdapter<SaleDiscussEntity> {
+public class SaleDiscussListAdapter extends
+		EntityListAdapter<SaleDiscussEntity> {
 
 	public SaleDiscussListAdapter(Context context,
 			List<SaleDiscussEntity> dataList) {
@@ -38,12 +39,12 @@ public class SaleDiscussListAdapter extends EntityListAdapter<SaleDiscussEntity>
 	 */
 	@Override
 	public void notifyDataSetChanged() {
-		if(context instanceof SaleDiscussChangeListener){//TODO:很别扭的方式
-			((SaleDiscussChangeListener)context).onChange(dataList);
+		if (context instanceof SaleDiscussChangeListener) {// TODO:很别扭的方式
+			((SaleDiscussChangeListener) context).onChange(dataList);
 		}
 		super.notifyDataSetChanged();
 	}
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
@@ -82,9 +83,8 @@ public class SaleDiscussListAdapter extends EntityListAdapter<SaleDiscussEntity>
 
 				@Override
 				public void onClick(View v) {
-					RestUtils
-							.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-									"删除评论失败.") {
+					RestUtils.executeAsyncRestTask(context,
+							new AbstractRestTaskCallback<JSONObjResource>("删除评论失败.") {
 
 								@Override
 								public RestMethodResult<JSONObjResource> doInBackground() {

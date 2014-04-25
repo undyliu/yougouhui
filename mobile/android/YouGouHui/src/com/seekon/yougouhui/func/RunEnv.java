@@ -17,7 +17,7 @@ public class RunEnv {
 	private String sessionId = null;// 键值对格式:key=value
 
 	private LocationEntity locationEntity;
-	
+
 	private RunEnv() {
 	}
 
@@ -62,7 +62,7 @@ public class RunEnv {
 		this.locationEntity = locationEntity;
 	}
 
-	public void clean(){
+	public void clean() {
 		this.user = null;
 		this.sessionId = null;
 		this.locationEntity = null;

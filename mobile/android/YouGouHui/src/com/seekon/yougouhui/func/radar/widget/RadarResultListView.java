@@ -74,7 +74,7 @@ public abstract class RadarResultListView<T extends Entity> extends XListView
 			loadNewestDataList();
 		}
 	}
-	
+
 	private String getUpdateTime() {
 		return String.valueOf(System.currentTimeMillis());
 	}

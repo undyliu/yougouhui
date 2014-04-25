@@ -36,7 +36,7 @@ public abstract class JSONObjResourceMethod extends
 					}
 					result = new RestMethodResult<JSONObjResource>(
 							RestStatus.SERVER_REMOTE_ERROR, statusMsg, result.getResource());
-					RunEnv.getInstance().setSessionId(null);//todo: why?
+					RunEnv.getInstance().setSessionId(null);// todo: why?
 				}
 			}
 		}

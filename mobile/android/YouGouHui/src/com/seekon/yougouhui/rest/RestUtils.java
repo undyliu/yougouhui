@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import android.content.Context;
+
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.func.widget.AsyncRestRequestTask;
 
@@ -51,8 +53,9 @@ public class RestUtils {
 		return result.substring(1).getBytes();
 	}
 
-	public static void executeAsyncRestTask(AbstractRestTaskCallback<?> callback) {
-		AsyncRestRequestTask<?> task = new AsyncRestRequestTask(callback);
+	public static void executeAsyncRestTask(Context context,
+			AbstractRestTaskCallback<?> callback) {
+		AsyncRestRequestTask<?> task = new AsyncRestRequestTask(context, callback);
 		task.execute((Void) null);
 	}
 }

@@ -26,7 +26,6 @@ import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.JSONUtils;
-import com.seekon.yougouhui.util.ViewUtils;
 
 /**
  * 评论录入的弹出框
@@ -63,11 +62,8 @@ public class CommentPopupWindow extends PopupWindow {
 				commentMap.put(COL_NAME_PUBLISHER, RunEnv.getInstance().getUser()
 						.getUuid());
 
-				showProgress(activity, true);
-
-				RestUtils
-						.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-								"发送评论失败.") {
+				RestUtils.executeAsyncRestTask(activity,
+						new AbstractRestTaskCallback<JSONObjResource>("发送评论失败.") {
 
 							@Override
 							public RestMethodResult<JSONObjResource> doInBackground() {
@@ -96,7 +92,6 @@ public class CommentPopupWindow extends PopupWindow {
 
 							@Override
 							public void onCancelled() {
-								showProgress(activity, false);
 								super.onCancelled();
 							}
 						});
@@ -104,8 +99,4 @@ public class CommentPopupWindow extends PopupWindow {
 		});
 	}
 
-	private void showProgress(Activity activity, boolean show) {
-		ViewUtils.showProgress(activity, activity.findViewById(R.id.listview_main),
-				show);
-	}
 }

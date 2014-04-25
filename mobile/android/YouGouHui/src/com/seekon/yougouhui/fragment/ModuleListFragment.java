@@ -44,19 +44,18 @@ public abstract class ModuleListFragment extends ListFragment {
 		super.onCreate(savedInstanceState);
 
 		attachedActivity = this.getActivity();
-		
+
 		moduleListAdapter = new ModuleListAdapter(attachedActivity, modules);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
+
 		attachedActivity.getActionBar().setNavigationMode(
 				ActionBar.NAVIGATION_MODE_STANDARD);
-		
-		View view = inflater.inflate(R.layout.base_listview,
-				container, false);
+
+		View view = inflater.inflate(R.layout.base_listview, container, false);
 		updateViews();
 
 		return view;
@@ -104,8 +103,8 @@ public abstract class ModuleListFragment extends ListFragment {
 	}
 
 	private void loadModuleListFromRemote() {
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>() {
+		RestUtils.executeAsyncRestTask(attachedActivity,
+				new AbstractRestTaskCallback<JSONArrayResource>() {
 
 					@Override
 					public RestMethodResult<JSONArrayResource> doInBackground() {
@@ -125,5 +124,5 @@ public abstract class ModuleListFragment extends ListFragment {
 		ModuleEntity module = modules.get(position);
 		return module.getCode();
 	}
-	
+
 }

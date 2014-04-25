@@ -44,11 +44,12 @@ public class FileHelper {
 		return new File(FileCache.getInstance().getCacheDir(), fileName);
 	}
 
-	public static void deleteCacheFile(FileEntity file){
-		if(file.getFileUri() != null){
+	public static void deleteCacheFile(FileEntity file) {
+		if (file.getFileUri() != null) {
 			deleteCacheFile(file.getFileUri());
 		}
 	}
+
 	/**
 	 * 删除cache目录下制定路径的文件
 	 * 

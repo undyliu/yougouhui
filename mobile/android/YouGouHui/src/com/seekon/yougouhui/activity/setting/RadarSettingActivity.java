@@ -67,23 +67,24 @@ public class RadarSettingActivity extends Activity {
 
 	private void loadData() {
 		settings = SettingUtils.getRadarSettingsWithDefaultValue(this);
-		if(settings == null){
-			RestUtils
-			.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>("获取设置信息失败.") {
+		if (settings == null) {
+			RestUtils.executeAsyncRestTask(this,
+					new AbstractRestTaskCallback<JSONArrayResource>("获取设置信息失败.") {
 
-				@Override
-				public RestMethodResult<JSONArrayResource> doInBackground() {
-					return SettingProcessor.getInstance(RadarSettingActivity.this)
-							.getSettings();
-				}
+						@Override
+						public RestMethodResult<JSONArrayResource> doInBackground() {
+							return SettingProcessor.getInstance(RadarSettingActivity.this)
+									.getSettings();
+						}
 
-				@Override
-				public void onSuccess(RestMethodResult<JSONArrayResource> result) {
-					settings = SettingUtils.getRadarSettingsWithDefaultValue(RadarSettingActivity.this);
-					updateViews();
-				}
-			});
-		}else{
+						@Override
+						public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+							settings = SettingUtils
+									.getRadarSettingsWithDefaultValue(RadarSettingActivity.this);
+							updateViews();
+						}
+					});
+		} else {
 			updateViews();
 		}
 	}

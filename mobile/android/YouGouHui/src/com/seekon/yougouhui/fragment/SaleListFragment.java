@@ -27,7 +27,7 @@ import com.seekon.yougouhui.func.sale.widget.ChannelSaleListView;
 public class SaleListFragment extends Fragment {
 
 	private static final int SALE_DETAIL_REQUEST_CODE = 1;
-	
+
 	private ChannelEntity channel;
 
 	protected Activity attachedActivity = null;
@@ -39,7 +39,7 @@ public class SaleListFragment extends Fragment {
 	private boolean updateLocation = true;
 
 	private int selectedPosition = -1;
-	
+
 	public void setChannel(ChannelEntity channel) {
 		this.channel = channel;
 	}
@@ -113,7 +113,8 @@ public class SaleListFragment extends Fragment {
 				SaleEntity selectedSale = listView.getDataEntity(selectedPosition);
 				Intent intent = new Intent(attachedActivity, SaleDetailActivity.class);
 				intent.putExtra(DataConst.COL_NAME_UUID, selectedSale.getUuid());
-				getParentFragment().startActivityForResult(intent, SALE_DETAIL_REQUEST_CODE);
+				getParentFragment().startActivityForResult(intent,
+						SALE_DETAIL_REQUEST_CODE);
 			}
 
 		});
@@ -127,8 +128,10 @@ public class SaleListFragment extends Fragment {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 		case SALE_DETAIL_REQUEST_CODE:
-			if(resultCode == Activity.RESULT_OK && data != null && selectedPosition != -1){
-				SaleEntity sale = (SaleEntity) data.getSerializableExtra(SaleConst.DATA_SALE_KEY);
+			if (resultCode == Activity.RESULT_OK && data != null
+					&& selectedPosition != -1) {
+				SaleEntity sale = (SaleEntity) data
+						.getSerializableExtra(SaleConst.DATA_SALE_KEY);
 				listView.getEntityListAdapter().updateEntity(sale, selectedPosition);
 			}
 			break;
@@ -138,5 +141,5 @@ public class SaleListFragment extends Fragment {
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-	
+
 }

@@ -50,7 +50,7 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 	private ChannelTabChangeListener channelTabChangeListener = null;
 
 	private List<ChannelEntity> channels = new LinkedList<ChannelEntity>();
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -77,15 +77,15 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(mAdapter != null && mViewPager != null){
+		if (mAdapter != null && mViewPager != null) {
 			Fragment fg = mAdapter.getItem(mViewPager.getCurrentItem());
-			if(fg != null){
+			if (fg != null) {
 				fg.onActivityResult(requestCode, resultCode, data);
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-	
+
 	private void updateViews() {
 		if (mAdapter != null) {
 			mViewPager.setAdapter(mAdapter);
@@ -156,8 +156,8 @@ public class ChannelFragment extends Fragment implements ActionBar.TabListener {
 	}
 
 	private void loadChannelsFromRemote() {
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>() {
+		RestUtils.executeAsyncRestTask(attachedActivity,
+				new AbstractRestTaskCallback<JSONArrayResource>() {
 
 					@Override
 					public RestMethodResult<JSONArrayResource> doInBackground() {

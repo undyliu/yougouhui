@@ -107,7 +107,7 @@ public abstract class SalePromoteActivity extends PicContainerActivity {
 	private void loadShopData() {
 		shopTradeList = ShopUtils.getShopTradeList(this, shopId);
 		if (shopTradeList.isEmpty()) {
-			ShopUtils.loadDataFromRemote(new GetShopTaskCallback(this, shopId) {
+			ShopUtils.loadDataFromRemote(this, new GetShopTaskCallback(this, shopId) {
 
 				@Override
 				public void onSuccess(RestMethodResult<JSONObjResource> result) {
@@ -124,7 +124,7 @@ public abstract class SalePromoteActivity extends PicContainerActivity {
 	protected void updateViews() {
 		ShopEntity shop = ShopUtils.loadDataFromLocal(this, shopId);
 		if (shop == null) {
-			ShopUtils.loadDataFromRemote(new GetShopTaskCallback(this, shopId) {
+			ShopUtils.loadDataFromRemote(this, new GetShopTaskCallback(this, shopId) {
 
 				@Override
 				public void onSuccess(RestMethodResult<JSONObjResource> result) {
@@ -264,12 +264,10 @@ public abstract class SalePromoteActivity extends PicContainerActivity {
 		sale.setEndDate(DateUtils.getDate_yyyyMMdd(endDate).getTime());
 		sale.setImages(imageFileUriList);
 
-		showProgress(true);
 		item.setEnabled(false);
 
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"发布活动信息失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>("发布活动信息失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
@@ -293,7 +291,6 @@ public abstract class SalePromoteActivity extends PicContainerActivity {
 
 					@Override
 					public void onCancelled() {
-						showProgress(false);
 						item.setEnabled(true);
 						super.onCancelled();
 					}
@@ -305,7 +302,4 @@ public abstract class SalePromoteActivity extends PicContainerActivity {
 		return (GridView) findViewById(R.id.sale_pic_container);
 	}
 
-	protected void showProgress(boolean show) {
-		ViewUtils.showProgress(this, findViewById(R.id.sale_promite_main), show);
-	}
 }

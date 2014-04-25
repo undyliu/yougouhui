@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.util.ViewUtils;
 
 public abstract class ChangeTextInfoActivity extends Activity {
 
@@ -59,10 +58,6 @@ public abstract class ChangeTextInfoActivity extends Activity {
 		}
 
 		doSaveTextInfo(item);
-	}
-
-	protected void showProgress(final boolean show) {
-		ViewUtils.showProgress(this, this.findViewById(R.id.text_info), show);
 	}
 
 	protected abstract void doSaveTextInfo(MenuItem item);

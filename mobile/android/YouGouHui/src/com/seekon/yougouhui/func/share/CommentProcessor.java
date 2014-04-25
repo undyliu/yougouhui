@@ -11,7 +11,6 @@ import org.json.JSONException;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.net.Uri;
 
 import com.seekon.yougouhui.func.spi.ICommentProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
@@ -21,22 +20,24 @@ import com.seekon.yougouhui.service.ContentProcessor;
 import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.JSONUtils;
 
-public class CommentProcessor extends ContentProcessor implements ICommentProcessor{
+public class CommentProcessor extends ContentProcessor implements
+		ICommentProcessor {
 
 	private static ICommentProcessor instance;
-	
+
 	private static final Object lock = new Object();
-	
-	public static ICommentProcessor getInstance(Context mContext){
+
+	public static ICommentProcessor getInstance(Context mContext) {
 		synchronized (lock) {
-			if(instance == null){
+			if (instance == null) {
 				ProcessorProxy proxy = new ProcessorProxy();
-				instance = (ICommentProcessor) proxy.bind(new CommentProcessor(mContext));
+				instance = (ICommentProcessor) proxy
+						.bind(new CommentProcessor(mContext));
 			}
 		}
 		return instance;
 	}
-	
+
 	private CommentProcessor(Context mContext) {
 		super(mContext, CommentData.COL_NAMES, CommentConst.CONTENT_URI);
 	}
@@ -51,7 +52,7 @@ public class CommentProcessor extends ContentProcessor implements ICommentProces
 		}
 		return result;
 	}
-	
+
 	public RestMethodResult<JSONObjResource> postComment(
 			Map<String, String> comment) {
 		RestMethodResult<JSONObjResource> result = new PostCommentMethod(mContext,

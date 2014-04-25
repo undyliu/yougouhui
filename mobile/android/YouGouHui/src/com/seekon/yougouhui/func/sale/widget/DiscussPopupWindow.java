@@ -17,7 +17,6 @@ import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.util.ViewUtils;
 
 public class DiscussPopupWindow extends PopupWindow {
 
@@ -50,11 +49,8 @@ public class DiscussPopupWindow extends PopupWindow {
 
 				discuss.setPublisher(RunEnv.getInstance().getUser());
 
-				showProgress(activity, true);
-
-				RestUtils
-						.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-								"发送活动评论数据失败.") {
+				RestUtils.executeAsyncRestTask(activity,
+						new AbstractRestTaskCallback<JSONObjResource>("发送活动评论数据失败.") {
 
 							@Override
 							public RestMethodResult<JSONObjResource> doInBackground() {
@@ -81,7 +77,6 @@ public class DiscussPopupWindow extends PopupWindow {
 
 							@Override
 							public void onCancelled() {
-								showProgress(activity, false);
 								super.onCancelled();
 							}
 
@@ -90,8 +85,4 @@ public class DiscussPopupWindow extends PopupWindow {
 		});
 	}
 
-	private void showProgress(Activity activity, boolean show) {
-		ViewUtils.showProgress(activity,
-				activity.findViewById(R.id.sale_detail_main), show);
-	}
 }

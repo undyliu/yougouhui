@@ -17,10 +17,13 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.RunEnv;
-import com.seekon.yougouhui.func.contact.AddFriendTask;
-import com.seekon.yougouhui.func.contact.DeleteFriendTask;
+import com.seekon.yougouhui.func.contact.FriendProcessor;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
+import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
 public class FriendProfileActionProvider extends ActionProvider {
 
@@ -109,11 +112,62 @@ public class FriendProfileActionProvider extends ActionProvider {
 		}
 	}
 
-	private void addFriend(MenuItem item) {
-		new AddFriendTask(context, friend, item).execute((Void) null);
+	private void addFriend(final MenuItem item) {
+		item.setEnabled(false);
+		RestUtils.executeAsyncRestTask(context,
+				new AbstractRestTaskCallback<JSONObjResource>("添加朋友失败.") {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return FriendProcessor.getInstance(context).addFriend(friend);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						RunEnv.getInstance().getUser().addFriend(friend);
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						item.setEnabled(true);
+						super.onFailed(errorMessage);
+					}
+
+					@Override
+					public void onCancelled() {
+						item.setEnabled(true);
+						super.onCancelled();
+					}
+				});
 	}
 
-	private void deleteFriend(MenuItem item) {
-		new DeleteFriendTask(context, friend, item).execute((Void) null);
+	private void deleteFriend(final MenuItem item) {
+
+		item.setEnabled(false);
+		RestUtils.executeAsyncRestTask(context,
+				new AbstractRestTaskCallback<JSONObjResource>("删除朋友失败.") {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return FriendProcessor.getInstance(context).deleteFriend(friend);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						RunEnv.getInstance().getUser().removeFriend(friend);
+					}
+
+					@Override
+					public void onFailed(String errorMessage) {
+						item.setEnabled(true);
+						super.onFailed(errorMessage);
+					}
+
+					@Override
+					public void onCancelled() {
+						item.setEnabled(true);
+						super.onCancelled();
+					}
+				});
 	}
 }

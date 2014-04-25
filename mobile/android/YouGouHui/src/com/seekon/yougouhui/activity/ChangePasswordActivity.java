@@ -115,11 +115,6 @@ public abstract class ChangePasswordActivity extends Activity {
 		doSavePassword(item);
 	}
 
-	protected void showProgress(final boolean show) {
-		ViewUtils.showProgress(this, this.findViewById(R.id.change_password_view),
-				show);
-	}
-
 	protected abstract boolean validateOldPassword();
 
 	protected abstract void doSavePassword(final MenuItem item);

@@ -27,12 +27,12 @@ import com.seekon.yougouhui.func.user.UserEntity;
 public class FriendProfileActivity extends Activity {
 
 	private final static int USER_ICON_WIDTH = 150;
-	
+
 	private UserEntity user = null;
 
 	private TextView shareCountView;
 	private TextView saleDiscussCountView;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,33 +54,34 @@ public class FriendProfileActivity extends Activity {
 		ImageView userPhotoView = (ImageView) findViewById(R.id.user_photo);
 		userPhotoView.setLayoutParams(new LinearLayout.LayoutParams(
 				USER_ICON_WIDTH, USER_ICON_WIDTH));
-		userPhotoView.setScaleType(ImageView.ScaleType.CENTER);
-		
+		userPhotoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
 		String photo = user.getPhoto();
 		if (photo != null && photo.length() > 0) {
 			ImageLoader.getInstance().displayImage(photo, userPhotoView, true);
 		}
-		
+
 		TextView userNameView = (TextView) findViewById(R.id.user_name);
 		userNameView.setText(user.getName());
-		
+
 		shareCountView = (TextView) findViewById(R.id.user_share_count);
-		shareCountView.setText("0");//TODO
+		shareCountView.setText("0");// TODO
 		shareCountView.getPaint().setFakeBoldText(true);
-		
+
 		shareCountView.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(FriendProfileActivity.this, MyShareActivity.class);
+				Intent intent = new Intent(FriendProfileActivity.this,
+						MyShareActivity.class);
 				intent.putExtra(DataConst.COL_NAME_UUID, user.getUuid());
 				intent.putExtra(DataConst.COL_NAME_TITLE, user.getName() + "的分享");
 				startActivity(intent);
 			}
 		});
-		
+
 		saleDiscussCountView = (TextView) findViewById(R.id.user_sale_discuss_count);
-		saleDiscussCountView.setText("0");//TODO
+		saleDiscussCountView.setText("0");// TODO
 		saleDiscussCountView.getPaint().setFakeBoldText(true);
 	}
 

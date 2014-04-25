@@ -34,7 +34,7 @@ public abstract class PagedXListView<T extends Entity> extends XListView
 	protected Context context;
 	private Handler mHandler;
 	protected boolean inited = false;
-	
+
 	public PagedXListView(Context context) {
 		super(context);
 		this.context = context;
@@ -98,11 +98,10 @@ public abstract class PagedXListView<T extends Entity> extends XListView
 	protected abstract String getUpdateTime();
 
 	public abstract EntityListAdapter<T> getEntityListAdapter();
-	
+
 	private void loadDataListFromRemote() {
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"获取数据失败.") {
+		RestUtils.executeAsyncRestTask(context,
+				new AbstractRestTaskCallback<JSONObjResource>("获取数据失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {

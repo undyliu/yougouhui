@@ -43,12 +43,12 @@ public class MyShareActivity extends DateIndexedListActivity {
 		Intent intent = this.getIntent();
 		userId = intent.getExtras().getString(COL_NAME_UUID);
 		shareData = new ShareData(this);
-		
+
 		String title = intent.getExtras().getString(DataConst.COL_NAME_TITLE);
-		if(title != null && title.trim().length() > 0){
+		if (title != null && title.trim().length() > 0) {
 			this.getActionBar().setTitle(title);
 		}
-		
+
 		super.onCreate(savedInstanceState);
 	}
 
@@ -122,7 +122,7 @@ public class MyShareActivity extends DateIndexedListActivity {
 	protected String getUpdateTime() {
 		return null;
 	}
-	
+
 	@Override
 	public void onRefresh() {
 		this.onPostLoad();

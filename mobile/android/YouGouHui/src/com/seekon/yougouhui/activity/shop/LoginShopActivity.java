@@ -127,11 +127,9 @@ public class LoginShopActivity extends Activity {
 			return;
 		}
 
-		showProgress(true);
 		bLogin.setEnabled(false);
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"登录失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>("登录失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
@@ -147,8 +145,7 @@ public class LoginShopActivity extends Activity {
 									.getBoolean(LoginConst.LOGIN_RESULT_AUTHED);
 							if (authed) {
 								ArrayList<ShopEntity> shopEntityList = new ArrayList<ShopEntity>();
-								JSONArray shopList = jsonObj
-										.getJSONArray(DataConst.NAME_DATA);
+								JSONArray shopList = jsonObj.getJSONArray(DataConst.NAME_DATA);
 								for (int i = 0; i < shopList.length(); i++) {
 									JSONObject json = shopList.getJSONObject(i);
 									ShopEntity shop = new ShopEntity();
@@ -189,15 +186,10 @@ public class LoginShopActivity extends Activity {
 
 					@Override
 					public void onCancelled() {
-						showProgress(false);
 						bLogin.setEnabled(true);
 						super.onCancelled();
 					}
 				});
-	}
-
-	private void showProgress(final boolean show) {
-		ViewUtils.showProgress(this, findViewById(R.id.shop_login_form), show);
 	}
 
 	private void showShopMain(final ArrayList<ShopEntity> shopIdList) {
@@ -216,27 +208,26 @@ public class LoginShopActivity extends Activity {
 		}
 
 		if (loadTrade) {
-			new AsyncRestRequestTask<JSONArrayResource>(new GetTradesTaskCallback(
-					this) {
+			new AsyncRestRequestTask<JSONArrayResource>(this,
+					new GetTradesTaskCallback(this) {
 
-				@Override
-				public void onSuccess(RestMethodResult<JSONArrayResource> result) {
-					_showShopMain(shopIdList);
-				}
+						@Override
+						public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+							_showShopMain(shopIdList);
+						}
 
-				@Override
-				public void onFailed(String errorMessage) {
-					ViewUtils.showToast("登录失败，加载主营业务数据出错.原因:" + errorMessage);
-				}
+						@Override
+						public void onFailed(String errorMessage) {
+							ViewUtils.showToast("登录失败，加载主营业务数据出错.原因:" + errorMessage);
+						}
 
-			}).execute((Void) null);
+					}).execute((Void) null);
 		} else {
 			_showShopMain(shopIdList);
 		}
 	}
 
 	private void _showShopMain(ArrayList<ShopEntity> shopIdList) {
-		showProgress(false);
 		Intent intent = new Intent(this, ShopMainActivity.class);
 		intent.putExtra(ShopConst.NAME_SHOP_LIST, shopIdList);
 		startActivity(intent);

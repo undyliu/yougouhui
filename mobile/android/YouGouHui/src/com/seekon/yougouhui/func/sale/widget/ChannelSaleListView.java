@@ -35,11 +35,11 @@ public class ChannelSaleListView extends PagedXListView<SaleEntity> {
 	}
 
 	public void loadData(ChannelEntity channel) {
-		if(saleData == null){
+		if (saleData == null) {
 			saleData = new SaleData(context);
 			super.init();
 		}
-		
+
 		this.channel = channel;
 		super.loadDataList();
 	}

@@ -102,8 +102,8 @@ public class SettingMainActivity extends ListActivity {
 	}
 
 	private void loadSettingListFromRemote() {
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>("获取设置信息失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONArrayResource>("获取设置信息失败.") {
 
 					@Override
 					public RestMethodResult<JSONArrayResource> doInBackground() {
@@ -138,7 +138,7 @@ public class SettingMainActivity extends ListActivity {
 
 		if (code.equals(SettingConst.SETTING_CODE_LOGOUT)) {
 			AuthorizationManager.getInstance(this).logout();
-			
+
 			Intent intent = new Intent(this, LoginActivity.class);
 			startActivity(intent);
 			finish();

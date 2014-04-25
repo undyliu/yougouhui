@@ -1,7 +1,7 @@
 package com.seekon.yougouhui.func.user;
 
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 
 import java.net.URI;
 import java.util.HashMap;

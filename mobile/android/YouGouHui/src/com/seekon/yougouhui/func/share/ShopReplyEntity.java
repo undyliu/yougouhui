@@ -5,7 +5,7 @@ import com.seekon.yougouhui.func.Entity;
 public class ShopReplyEntity extends Entity {
 
 	private static final long serialVersionUID = 2491967454387511463L;
-	
+
 	private String shareId;
 	private String shopId;
 	private String replier;

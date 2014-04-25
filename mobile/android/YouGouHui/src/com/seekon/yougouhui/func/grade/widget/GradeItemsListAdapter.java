@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.seekon.yougouhui.func.grade.GradeItemsEntity;
 import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
-public class GradeItemsListAdapter extends EntityListAdapter<GradeItemsEntity>{
+public class GradeItemsListAdapter extends EntityListAdapter<GradeItemsEntity> {
 
 	public GradeItemsListAdapter(Context context, List<GradeItemsEntity> dataList) {
 		super(context, dataList);
@@ -19,5 +19,5 @@ public class GradeItemsListAdapter extends EntityListAdapter<GradeItemsEntity>{
 	public View getView(int arg0, View arg1, ViewGroup arg2) {
 		return null;
 	}
-	
+
 }

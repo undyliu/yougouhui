@@ -1,9 +1,9 @@
 package com.seekon.yougouhui.activity.user;
 
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_ICON;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +36,6 @@ import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.ContentValuesUtils;
-import com.seekon.yougouhui.util.ViewUtils;
 
 /**
  * 帐号注册
@@ -212,11 +211,9 @@ public class RegisterActivity extends Activity {
 		user.put(COL_NAME_USER_ICON, userIconUri);
 
 		item.setEnabled(false);
-		showProgress(true);
 
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"注册失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>("注册失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
@@ -242,13 +239,9 @@ public class RegisterActivity extends Activity {
 					@Override
 					public void onCancelled() {
 						item.setEnabled(true);
-						showProgress(false);
 						super.onCancelled();
 					}
 				});
 	}
 
-	private void showProgress(final boolean show) {
-		ViewUtils.showProgress(this, findViewById(R.id.register_main), show);
-	}
 }

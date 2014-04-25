@@ -103,7 +103,7 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 
 	private LocationEntity locationEntity = new LocationEntity();
 	private LocationClient mLocationClient = null;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -143,7 +143,6 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
 
 	private void initViews() {
 		licenseInfoView = mInflater.inflate(R.layout.shop_register_license, null);
@@ -240,7 +239,7 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 
 	private void loadTradesFromRemote() {
 		AsyncRestRequestTask<JSONArrayResource> task = new AsyncRestRequestTask<JSONArrayResource>(
-				new GetTradesTaskCallback(this) {
+				this, new GetTradesTaskCallback(this) {
 
 					@Override
 					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
@@ -257,25 +256,25 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 		mLocationClient.start();// 开始定位
 		super.onStart();
 	}
-	
+
 	@Override
 	protected void onStop() {
 		if (mLocationClient != null && this.mLocationClient.isStarted()) {
 			mLocationClient.stop();
 			mLocationClient = null;
 		}
-		
+
 		super.onStop();
 	}
-	
+
 	@Override
 	protected void onDestroy() {
-		if(mLocationClient != null){
+		if (mLocationClient != null) {
 			mLocationClient = null;
 		}
 		super.onDestroy();
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
@@ -420,12 +419,10 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 			return;
 		}
 
-		showProgress(true);
 		item.setEnabled(false);
 
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"注册商铺失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>("注册商铺失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
@@ -465,14 +462,9 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 
 					@Override
 					public void onCancelled() {
-						showProgress(false);
 						item.setEnabled(true);
 					}
 				});
-	}
-
-	private void showProgress(final boolean show) {
-		ViewUtils.showProgress(this, viewPager, show);
 	}
 
 	@Override

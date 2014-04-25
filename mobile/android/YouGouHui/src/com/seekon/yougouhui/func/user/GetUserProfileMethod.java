@@ -23,8 +23,8 @@ public class GetUserProfileMethod extends JSONObjResourceMethod {
 
 	@Override
 	protected Request buildRequest() {
-		return new BaseRequest(Method.GET, GET_USER_PROFILE_URI + user.getUuid(), null,
-				null);
+		return new BaseRequest(Method.GET, GET_USER_PROFILE_URI + user.getUuid(),
+				null, null);
 	}
 
 	@Override

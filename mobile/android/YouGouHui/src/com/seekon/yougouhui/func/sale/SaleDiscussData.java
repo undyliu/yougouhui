@@ -46,7 +46,7 @@ public class SaleDiscussData extends AbstractDBHelper {
 				+ " from e_sale_discuss d"
 				+ " join e_user u on d.publisher = u.uuid "
 				+ " where d.sale_id = ? ";
-		if(limitSql != null){
+		if (limitSql != null) {
 			sql += limitSql;
 		}
 		Cursor cursor = null;

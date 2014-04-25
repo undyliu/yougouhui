@@ -36,7 +36,7 @@ public class PostSaleMethod extends MultipartRestMethod<JSONObjResource> {
 				String.valueOf(sale.getStartDate()));
 		params.put(SaleConst.COL_NAME_END_DATE, String.valueOf(sale.getEndDate()));
 		params.put(SaleConst.COL_NAME_PUBLISHER, sale.getPublisher().getUuid());
-	
+
 		return new MultipartRequest(ADD_SALE_URI, null, params, sale.getImages());
 	}
 

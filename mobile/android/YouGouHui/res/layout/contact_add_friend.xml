@@ -6,8 +6,6 @@
     android:gravity="center_horizontal"
     android:orientation="vertical" >
 
-    <include layout="@layout/progressbar" />
-
     <LinearLayout
         android:id="@+id/main_view"
         android:layout_width="wrap_content"

@@ -16,41 +16,42 @@ import com.seekon.yougouhui.func.grade.widget.GradeItemsListAdapter;
 import com.seekon.yougouhui.layout.XListView;
 import com.seekon.yougouhui.layout.XListView.IXListViewListener;
 
-public class GradeItemsActivity extends Activity implements IXListViewListener{
+public class GradeItemsActivity extends Activity implements IXListViewListener {
 
 	private TextView gradeItemsView;
 	private XListView listView;
 	private GradeItemsListAdapter listAdapter;
-	
+
 	private Handler mHandler;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.grade_items);
 
 		mHandler = new Handler();
-		
+
 		initViews();
 	}
-	
-	private void initViews(){
+
+	private void initViews() {
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		
+
 		gradeItemsView = (TextView) findViewById(R.id.grade_items_info);
-		
-		listAdapter = new GradeItemsListAdapter(this, new ArrayList<GradeItemsEntity>());
-		
+
+		listAdapter = new GradeItemsListAdapter(this,
+				new ArrayList<GradeItemsEntity>());
+
 		listView = (XListView) findViewById(R.id.listview_main);
 		listView.setPullLoadEnable(true);
 		listView.setXListViewListener(this);
 		listView.setAdapter(listAdapter);
-		
+
 		loadGradeItemsData();
 	}
-	
-	private void loadGradeItemsData(){
+
+	private void loadGradeItemsData() {
 		StringBuffer gradeInfo = new StringBuffer();
 		gradeInfo.append("<html><body>");
 		gradeInfo.append("您共有800积分,已消费300积分,剩余");
@@ -62,7 +63,7 @@ public class GradeItemsActivity extends Activity implements IXListViewListener{
 
 		gradeItemsView.setText(Html.fromHtml(gradeInfo.toString()));
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
@@ -87,7 +88,7 @@ public class GradeItemsActivity extends Activity implements IXListViewListener{
 
 			@Override
 			public void run() {
-				
+
 				onPostLoad();
 			}
 		}, 2000);

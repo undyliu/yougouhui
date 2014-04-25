@@ -6,8 +6,9 @@ import android.view.MenuItem;
 import com.seekon.yougouhui.activity.ChangeTextInfoActivity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.user.UserProcessor;
-import com.seekon.yougouhui.func.widget.AbstractChangeInfoTask;
+import com.seekon.yougouhui.func.widget.ChangeTextInfoTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.ViewUtils;
 
@@ -27,30 +28,24 @@ public class ChangeNickNameActivity extends ChangeTextInfoActivity {
 			return;
 		}
 
-		AbstractChangeInfoTask task = new AbstractChangeInfoTask(item) {
+		item.setEnabled(false);
+		
+		RestUtils.executeAsyncRestTask(this, new ChangeTextInfoTaskCallback(item){
 
 			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
+			public RestMethodResult<JSONObjResource> doInBackground() {
 				return UserProcessor.getInstance(ChangeNickNameActivity.this)
 						.updateUserName(nickName);
 			}
 
 			@Override
-			protected void showProgressInner(boolean show) {
-				showProgress(show);
-			}
-
-			@Override
-			protected void doSuccess(RestMethodResult<JSONObjResource> result) {
+			public void onSuccess(RestMethodResult<JSONObjResource> result) {
 				Intent intent = new Intent();
 				setResult(RESULT_OK, intent);
 				finish();
 			}
-		};
-
-		showProgress(true);
-		item.setEnabled(false);
-		task.execute((Void) null);
+			
+		});
 	}
 
 	@Override

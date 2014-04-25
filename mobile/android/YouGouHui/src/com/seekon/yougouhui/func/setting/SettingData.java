@@ -36,11 +36,12 @@ public class SettingData extends AbstractDBHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
 	}
-	
-	public int saveSettingValue(String uuid, String value){
+
+	public int saveSettingValue(String uuid, String value) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(COL_NAME_VALUE, value);
-		return db.update(SettingConst.TABLE_NAME, values, COL_NAME_UUID + "=?", new String[]{uuid});
+		return db.update(SettingConst.TABLE_NAME, values, COL_NAME_UUID + "=?",
+				new String[] { uuid });
 	}
 }

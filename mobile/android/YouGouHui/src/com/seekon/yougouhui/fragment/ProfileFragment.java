@@ -36,7 +36,7 @@ public class ProfileFragment extends ModuleListFragment {
 			intent = new Intent(attachedActivity, ContactListActivity.class);
 		} else if (ModuleConst.CODE_MY_FAVORIT.equalsIgnoreCase(moduleCode)) {
 			intent = new Intent(attachedActivity, FavoritMainActivity.class);
-		} else if(ModuleConst.CODE_MY_GRADE.equalsIgnoreCase(moduleCode)){
+		} else if (ModuleConst.CODE_MY_GRADE.equalsIgnoreCase(moduleCode)) {
 			intent = new Intent(attachedActivity, MyGradeActivity.class);
 		}
 

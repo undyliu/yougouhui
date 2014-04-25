@@ -106,7 +106,7 @@ public class ShopBaseInfoActivity extends Activity {
 	}
 
 	private void loadDataFromRemote(final String shopId) {
-		ShopUtils.loadDataFromRemote(new GetShopTaskCallback(this, shopId) {
+		ShopUtils.loadDataFromRemote(this, new GetShopTaskCallback(this, shopId) {
 
 			@Override
 			public void onSuccess(RestMethodResult<JSONObjResource> result) {
@@ -327,9 +327,8 @@ public class ShopBaseInfoActivity extends Activity {
 
 	private void addShopFavorit(final MenuItem item) {
 		item.setEnabled(false);
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"收藏商铺失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>("收藏商铺失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
@@ -359,9 +358,8 @@ public class ShopBaseInfoActivity extends Activity {
 
 	private void cancelShopFavorit(final MenuItem item) {
 		item.setEnabled(false);
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"取消收藏商铺失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>("取消收藏商铺失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {

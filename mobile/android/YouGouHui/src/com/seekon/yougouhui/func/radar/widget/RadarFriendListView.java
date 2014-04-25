@@ -10,7 +10,7 @@ import com.seekon.yougouhui.func.contact.widget.FriendListAdapter;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
-public class RadarFriendListView extends RadarResultListView<UserEntity>{
+public class RadarFriendListView extends RadarResultListView<UserEntity> {
 
 	public RadarFriendListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -34,5 +34,5 @@ public class RadarFriendListView extends RadarResultListView<UserEntity>{
 			LocationEntity location) {
 		return null;
 	}
-	
+
 }

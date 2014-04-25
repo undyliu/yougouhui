@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -53,6 +54,7 @@ public class LoginActivity extends Activity {
 	private View mLoginFormView;
 
 	private AuthorizationManager mAuthManager;
+	private ProgressDialog progressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -219,8 +221,12 @@ public class LoginActivity extends Activity {
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	private void showProgress(final boolean show) {
-		ViewUtils.showProgress(this, mLoginFormView, show,
-				R.string.login_progress_signing_in);
+		if (show) {
+			progressDialog = ProgressDialog.show(this, "",
+					getString(R.string.login_progress_signing_in, true, false));
+		} else {
+			progressDialog.dismiss();
+		}
 	}
 
 	/**

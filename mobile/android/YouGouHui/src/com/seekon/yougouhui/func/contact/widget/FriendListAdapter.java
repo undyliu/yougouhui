@@ -36,6 +36,7 @@ public class FriendListAdapter extends EntityListAdapter<UserEntity> {
 					.findViewById(R.id.contact_user_name);
 			viewHolder.userPhotoView = (ImageView) view
 					.findViewById(R.id.contact_user_photo);
+			viewHolder.userPhotoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 			viewHolder.userPhotoView.setLayoutParams(new LinearLayout.LayoutParams(
 					60, 60));
 			viewHolder.addFriend = (Button) view.findViewById(R.id.b_add_friend);

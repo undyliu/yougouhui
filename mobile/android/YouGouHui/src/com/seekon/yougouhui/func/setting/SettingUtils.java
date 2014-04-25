@@ -65,11 +65,11 @@ public class SettingUtils {
 				cursor.close();
 			}
 		}
-		
-		if(settings == null){
+
+		if (settings == null) {
 			return settings;
 		}
-		
+
 		String value = settings.getValue();
 		if (value == null || value.trim().length() == 0) {
 			settings.setValue(getDefaultRadarValue().toString());

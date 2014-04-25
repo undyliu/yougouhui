@@ -27,18 +27,18 @@ public class SyncData extends AbstractDBHelper {
 			COL_NAME_UPDATE_TIME, COL_NAME_TABLE_NAME, COL_NAME_USER_ID };
 
 	private static SyncData instance;
-	
+
 	private static final Object lock = new Object();
-	
-	public static SyncData getInstance(Context context){
+
+	public static SyncData getInstance(Context context) {
 		synchronized (lock) {
-			if(instance == null){
+			if (instance == null) {
 				instance = new SyncData(context);
 			}
 		}
 		return instance;
 	}
-	
+
 	private SyncData(Context context) {
 		super(context);
 	}

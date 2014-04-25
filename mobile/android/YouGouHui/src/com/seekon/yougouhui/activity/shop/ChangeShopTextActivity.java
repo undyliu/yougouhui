@@ -11,8 +11,9 @@ import com.seekon.yougouhui.func.shop.ShopConst;
 import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.shop.ShopProcessor;
 import com.seekon.yougouhui.func.shop.ShopUtils;
-import com.seekon.yougouhui.func.widget.AbstractChangeInfoTask;
+import com.seekon.yougouhui.func.widget.ChangeTextInfoTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.ViewUtils;
 
@@ -44,32 +45,24 @@ public class ChangeShopTextActivity extends ChangeTextInfoActivity {
 			return;
 		}
 
-		AbstractChangeInfoTask task = new AbstractChangeInfoTask(item) {
+		item.setEnabled(false);
+
+		RestUtils.executeAsyncRestTask(this, new ChangeTextInfoTaskCallback(item) {
 
 			@Override
-			protected RestMethodResult<JSONObjResource> doInBackground(Void... params) {
-				ShopUtils.setFieldValue(shop, fieldName, textValue);
+			public RestMethodResult<JSONObjResource> doInBackground() {
 				return ShopProcessor.getInstance(ChangeShopTextActivity.this)
 						.changeShop(shop, fieldName);
 			}
 
 			@Override
-			protected void showProgressInner(boolean show) {
-				showProgress(show);
-			}
-
-			@Override
-			protected void doSuccess(RestMethodResult<JSONObjResource> result) {
+			public void onSuccess(RestMethodResult<JSONObjResource> result) {
 				Intent intent = new Intent();
 				intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
 				setResult(RESULT_OK, intent);
 				finish();
 			}
-		};
-
-		showProgress(true);
-		item.setEnabled(false);
-		task.execute((Void) null);
+		});
 	}
 
 	@Override
