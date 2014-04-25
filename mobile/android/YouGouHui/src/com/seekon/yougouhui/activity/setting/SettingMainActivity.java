@@ -103,7 +103,7 @@ public class SettingMainActivity extends ListActivity {
 
 	private void loadSettingListFromRemote() {
 		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>() {
+				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>("获取设置信息失败.") {
 
 					@Override
 					public RestMethodResult<JSONArrayResource> doInBackground() {

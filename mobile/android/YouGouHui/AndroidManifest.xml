@@ -367,6 +367,16 @@
             android:label="@string/title_radar_scan"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activity.grade.GradeItemsActivity"
+            android:label="@string/title_grade_items"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.grade.GradeShopActivity"
+            android:label="@string/title_grade_shop"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
