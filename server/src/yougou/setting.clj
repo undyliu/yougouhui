@@ -6,5 +6,5 @@
 )
 
 (defn get-settings []
-	(select settings (fields :uuid :code :name :img :ord_index))
+	(select settings (fields :uuid :code :name :img :ord_index) (where {:is_used 1}))
 )

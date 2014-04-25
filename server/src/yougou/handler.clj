@@ -313,6 +313,7 @@
 )
 
 (defroutes auth-routes
+  (GET "/index.html" request (println request))
   (authenticated? app-routes)
   (route/resources "/")
   (route/not-found "Not Found")

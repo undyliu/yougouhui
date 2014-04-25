@@ -16,7 +16,7 @@
   (fn [request]
     ;(println request)
     (let [uri (:uri request)]
-      (if (or (logged-in? request) (.endsWith uri ".png"))
+      (if (or (logged-in? request) (.endsWith uri ".png") (.startsWith uri "/app"))
         (handler request)
         {:status 200 :body (json/write-str{:error "请先登录."})}
       )
