@@ -19,7 +19,8 @@ public class UserEntity extends PinyinEntity implements Cloneable {
 	private String pwd;
 	private String photo;
 	private String registerTime;
-
+	private String type  = UserConst.TYPE_USER_ANONYMOUS;//默认为匿名的账户
+	
 	private List<UserEntity> friends = new ArrayList<UserEntity>();
 
 	public UserEntity() {
@@ -65,6 +66,14 @@ public class UserEntity extends PinyinEntity implements Cloneable {
 
 	public void setRegisterTime(String registerTime) {
 		this.registerTime = registerTime;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public List<UserEntity> getFriends() {

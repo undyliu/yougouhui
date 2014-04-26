@@ -46,7 +46,7 @@ public class UserProcessor extends ContentProcessor implements IUserProcessor {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	public RestMethodResult<JSONObjResource> registerUser(Map<String, String> user) {
+	public RestMethodResult<JSONObjResource> registerUser(UserEntity user) {
 		return (RestMethodResult) this.execMethod(new RegisterUserMethod(mContext,
 				user));
 	}

@@ -32,7 +32,9 @@ import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.user.RegisterActivity;
 import com.seekon.yougouhui.func.login.LoginConst;
 import com.seekon.yougouhui.func.user.UserConst;
+import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.sercurity.AuthorizationManager;
+import com.seekon.yougouhui.util.DeviceUtils;
 import com.seekon.yougouhui.util.ViewUtils;
 
 public class LoginActivity extends Activity {
@@ -51,7 +53,6 @@ public class LoginActivity extends Activity {
 	private EditText mPasswordView;
 	private Switch autoLoginView;
 	private Switch rememberPwdView;
-	private View mLoginFormView;
 
 	private AuthorizationManager mAuthManager;
 	private ProgressDialog progressDialog;
@@ -80,6 +81,10 @@ public class LoginActivity extends Activity {
 			}
 		} catch (Exception e) {
 			Log.d("get loginSetting from intent", e.getMessage());
+		}
+
+		if (mPhone == null || mPhone.trim().length() == 0) {// 默认获取本机的手机号
+			mPhone = DeviceUtils.getTelephoneNumber();
 		}
 
 		mPhoneView = (EditText) findViewById(R.id.phone);
@@ -116,8 +121,6 @@ public class LoginActivity extends Activity {
 
 		rememberPwdView = (Switch) findViewById(R.id.remember_pwd);
 		rememberPwdView.setChecked(rememberPwd);
-
-		mLoginFormView = findViewById(R.id.login_form);
 
 		findViewById(R.id.sign_in_button).setOnClickListener(
 				new View.OnClickListener() {
@@ -298,13 +301,13 @@ public class LoginActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REGISTER_USER_REQUEST_CODE) {
 			if (resultCode == RESULT_OK && data != null) {
-				ContentValues user = data.getExtras().getParcelable(
+				UserEntity user = (UserEntity) data.getExtras().getSerializable(
 						UserConst.KEY_REGISTER_USER);
 				mPhoneView.setError(null);
 				mPasswordView.setError(null);
 
-				mPhoneView.setText(user.getAsString(UserConst.COL_NAME_PHONE));
-				mPasswordView.setText("");
+				mPhoneView.setText(user.getPhone());
+				mPasswordView.setText(user.getPwd());
 				rememberPwdView.setChecked(false);
 				autoLoginView.setChecked(false);
 			}

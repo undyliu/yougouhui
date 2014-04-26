@@ -235,7 +235,7 @@ public class RadarScanActivity extends Activity implements
 	public void showNumberPickerDialog() {
 
 		final Dialog d = new Dialog(this);
-		d.setTitle(R.string.title_number_picker);
+		d.setTitle(R.string.title_radar_choose_distance);
 		View view = LayoutInflater.from(this).inflate(R.layout.base_dialog, null);
 		d.setContentView(view);
 

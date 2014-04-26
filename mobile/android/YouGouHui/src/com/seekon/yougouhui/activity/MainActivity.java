@@ -1,5 +1,7 @@
 package com.seekon.yougouhui.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,6 +25,7 @@ import com.seekon.yougouhui.fragment.ChannelFragment;
 import com.seekon.yougouhui.fragment.DiscoverFragment;
 import com.seekon.yougouhui.fragment.ProfileFragment;
 import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.util.LocationUtils;
 
@@ -140,7 +143,7 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void openUserProfile() {
-		Intent intent = new Intent(this, UserProfileActivity.class);
+		Intent intent = new Intent(this, UserProfileActivity.class);		
 		this.startActivity(intent);
 	}
 

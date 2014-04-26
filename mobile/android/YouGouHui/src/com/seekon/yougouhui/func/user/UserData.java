@@ -2,6 +2,7 @@ package com.seekon.yougouhui.func.user;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_TYPE;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_REGISTER_TIME;
@@ -22,11 +23,11 @@ public class UserData extends AbstractDBHelper {
 
 	public static final String[] COL_NAMES = new String[] { COL_NAME_UUID,
 			COL_NAME_PHONE, COL_NAME_NAME, COL_NAME_USER_ICON, COL_NAME_PWD,
-			COL_NAME_REGISTER_TIME };
+			COL_NAME_REGISTER_TIME, COL_NAME_TYPE };
 
 	public static final String[] COL_NAMES_WITHOUT_PWD = new String[] {
 			COL_NAME_UUID, COL_NAME_PHONE, COL_NAME_NAME, COL_NAME_USER_ICON,
-			COL_NAME_REGISTER_TIME };
+			COL_NAME_REGISTER_TIME, COL_NAME_TYPE };
 
 	public UserData(Context context) {
 		super(context);
@@ -38,6 +39,7 @@ public class UserData extends AbstractDBHelper {
 				+ COL_NAME_UUID + " text primary key, " + COL_NAME_PHONE
 				+ " integer not null, " + COL_NAME_NAME + " text, "
 				+ COL_NAME_REGISTER_TIME + " text, " + COL_NAME_USER_ICON + " text, "
+				+ COL_NAME_TYPE + " text, "
 				+ COL_NAME_PWD + " text " + ")";
 		db.execSQL(sql);
 	}
@@ -55,7 +57,7 @@ public class UserData extends AbstractDBHelper {
 			cursor = this.getReadableDatabase().query(
 					TABLE_NAME,
 					new String[] { COL_NAME_UUID, COL_NAME_NAME, COL_NAME_PWD,
-							COL_NAME_USER_ICON, COL_NAME_REGISTER_TIME },
+							COL_NAME_USER_ICON, COL_NAME_REGISTER_TIME, COL_NAME_TYPE },
 					COL_NAME_PHONE + "= ? ", new String[] { phone }, null, null, null);
 			if (cursor.getCount() > 0) {
 				cursor.moveToNext();
@@ -63,6 +65,7 @@ public class UserData extends AbstractDBHelper {
 				user = new UserEntity(cursor.getString(i++), phone,
 						cursor.getString(i++), cursor.getString(i++),
 						cursor.getString(i++), cursor.getString(i++));
+				user.setType(cursor.getString(i++));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

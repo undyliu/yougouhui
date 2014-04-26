@@ -3,6 +3,7 @@
     <string name="title_login_or_register">登录/注册</string>
     <string name="title_login_sina_weibo">用新浪微博登录</string>
     <string name="title_login_qq_account">用QQ账号登录</string>
+    <string name="title_login_anonymous">匿名浏览</string>
     
     <string name="title_sso">集成登录</string>
 </resources>
