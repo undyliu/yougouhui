@@ -78,6 +78,9 @@
 			(catch Exception e {:status  200 :body (json/write-str{:error "作废活动失败."})})
 		)
 	)
+  (GET "/getSalesByDistance/:location/:distance" [location distance]
+       (json/write-str (get-sales-by-distance (json/read-str location) distance))
+       )
 )
 
 (defroutes module-routes
@@ -255,6 +258,12 @@
 			(catch Exception e {:status  200 :body (json/write-str{:error "添加收藏失败."})})
 		)
 	)
+  (GET "/getShopsByDistance/:lat/:lon/:distance" [lat lon distance]
+     (try
+       (json/write-str (get-shops-by-distance lat lon distance))
+       (catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str {:error "获取商铺数据失败."})})
+       )
+     )
 )
 
 (defroutes favorit-routes

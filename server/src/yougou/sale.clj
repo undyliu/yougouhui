@@ -146,3 +146,7 @@
 (defn cancel-sale [sale-id]
   (update sales (set-fields {:status 2 :last_modify_time (System/currentTimeMillis)}) (where {:uuid sale-id}))
   )
+
+(defn get-sales-by-distance [location distance]
+
+  )

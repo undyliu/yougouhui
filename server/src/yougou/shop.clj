@@ -196,3 +196,19 @@
            (where {:name [like search-word] :status "1"}))
    )
   )
+
+(defn get-shops-by-distance [lat lon dist]
+  ;(let [lon (:lontitude location)
+   ;     lat (:latitude location)]
+    ;(exec
+    ; (-> (select* shops)
+    ;     (fields :uuid :name :shop_img :barcode :owner
+    ;             )
+     ;    (where {:status "1"})
+     ;    (where {:latitude [< (+ lat 1)] :latitude [> (- lat 1)] :longitude [< (+ lon 1)] :longitude [> (- lon 1)]})
+     ;    (order (+ (sqlfn abs (- :longitude lon)) (sqlfn abs (- :latitude lat))))
+     ; )
+     ;)
+    (sqlfn "geodist" "e_shop" lon lat dist)
+   ; )
+  )
