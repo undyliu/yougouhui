@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.util.ViewUtils;
 
 public class UserProfileActivity extends Activity {
 
@@ -32,6 +34,10 @@ public class UserProfileActivity extends Activity {
 
 		setContentView(R.layout.user_profile);
 
+		initViews();
+	}
+
+	private void initViews(){
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -90,8 +96,14 @@ public class UserProfileActivity extends Activity {
 						startActivityForResult(intent, PHOTO_ACTIVITY_REQUEST_CODE);
 					}
 				});
+		
+		if(UserConst.TYPE_USER_ANONYMOUS.equals(user.getType())){//匿名用户不允许修改
+			nickNameView.setEnabled(false);
+			findViewById(R.id.password).setEnabled(false);
+			userIconView.setEnabled(false);
+		}
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();

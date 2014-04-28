@@ -37,7 +37,7 @@ public abstract class ModuleListFragment extends ListFragment {
 
 	protected List<ModuleEntity> modules = new LinkedList<ModuleEntity>();
 
-	private ModuleListAdapter moduleListAdapter;
+	protected ModuleListAdapter moduleListAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

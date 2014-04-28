@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ListView;
 
+import com.seekon.yougouhui.activity.MainActivity;
 import com.seekon.yougouhui.activity.contact.ContactListActivity;
 import com.seekon.yougouhui.activity.favorit.FavoritMainActivity;
 import com.seekon.yougouhui.activity.grade.MyGradeActivity;
@@ -21,9 +22,7 @@ import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
 
 public class ProfileFragment extends ModuleListFragment {
-	
-	private final static int REGISTER_USER_REQUEST_CODE = 1;
-	
+		
 	public ProfileFragment() {
 		super();
 		this.type = "me";
@@ -42,7 +41,7 @@ public class ProfileFragment extends ModuleListFragment {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					Intent intent = new Intent(attachedActivity, RegisterActivity.class);
-					startActivityForResult(intent, REGISTER_USER_REQUEST_CODE);
+					attachedActivity.startActivityForResult(intent, MainActivity.REGISTER_USER_REQUEST_CODE);
 				}
 			}).setNegativeButton("否", new DialogInterface.OnClickListener() {
 
@@ -57,12 +56,13 @@ public class ProfileFragment extends ModuleListFragment {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
-		case REGISTER_USER_REQUEST_CODE:
+		case MainActivity.REGISTER_USER_REQUEST_CODE:
 			if(resultCode == Activity.RESULT_OK && data != null){
 				UserEntity user = (UserEntity) data.getSerializableExtra(UserConst.KEY_REGISTER_USER);
 				RunEnv.getInstance().setUser(user);
 				
 				//更新UI
+				moduleListAdapter.updateData(modules);
 			}
 			break;
 

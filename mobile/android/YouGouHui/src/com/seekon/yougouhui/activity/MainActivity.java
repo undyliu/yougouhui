@@ -1,7 +1,5 @@
 package com.seekon.yougouhui.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,7 +35,12 @@ import com.seekon.yougouhui.util.LocationUtils;
  */
 public class MainActivity extends FragmentActivity {
 
+	public final static int REGISTER_USER_REQUEST_CODE = 1;
+
 	private LocationClient mLocationClient = null;
+
+	private FragmentTabHost mTabHost;
+	private Menu menu;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,16 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
+		this.menu = menu;
+		updateMenu();
+		return true;
+	}
+
+	private void updateMenu() {
+		if (menu == null) {
+			return;
+		}
+
 		UserEntity user = RunEnv.getInstance().getUser();
 		if (user != null) {
 			MenuItem item = menu.findItem(R.id.menu_user_profile);
@@ -64,8 +77,6 @@ public class MainActivity extends FragmentActivity {
 			String userName = user.getName();
 			item.setTitle(userName);
 		}
-
-		return true;
 	}
 
 	@Override
@@ -107,14 +118,30 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	@Override
-	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-		super.onActivityResult(arg0, arg1, arg2);
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case REGISTER_USER_REQUEST_CODE:
+			if (resultCode == RESULT_OK && data != null) {
+				UserEntity user = (UserEntity) data
+						.getSerializableExtra(UserConst.KEY_REGISTER_USER);
+				RunEnv.getInstance().setUser(user);
+				updateMenu();
+
+				View view = mTabHost.getCurrentView();
+				view.invalidate();
+			}
+			break;
+
+		default:
+			break;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	private void initView() {
-		FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
-
+		
 		Class<Fragment>[] fragmentArray = new Class[] { ChannelFragment.class,
 				DiscoverFragment.class, ProfileFragment.class };
 		int[] imgArray = new int[] { R.drawable.tab_home_btn,
@@ -143,7 +170,7 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void openUserProfile() {
-		Intent intent = new Intent(this, UserProfileActivity.class);		
+		Intent intent = new Intent(this, UserProfileActivity.class);
 		this.startActivity(intent);
 	}
 

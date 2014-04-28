@@ -22,6 +22,7 @@ public class UserUtils {
 		user.setPwd(JSONUtils.getJSONStringValue(jsonObj, UserConst.COL_NAME_PWD));
 		user.setRegisterTime(JSONUtils.getJSONStringValue(jsonObj,
 				UserConst.COL_NAME_REGISTER_TIME));
+		user.setType(JSONUtils.getJSONStringValue(jsonObj, DataConst.COL_NAME_TYPE));
 		return user;
 	}
 
