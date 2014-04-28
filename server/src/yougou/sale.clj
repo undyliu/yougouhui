@@ -11,27 +11,30 @@
 )
 
 (def sale-select-base
+  ;(println
   (-> (select* sales)
-      (fields :uuid :title :content :img :start_date :end_date :visit_count :discuss_count :shop_id [:e_shop.name :shop_name] :e_shop.location :trade_id :publisher :publish_time :publish_date :e_mapping_ct.channel_id :status)
-      (join channel-trades (= :e_mapping_ct.trade_id :trade_id))
-      (join shops (= :e_shop.uuid :shop_id))
+      (fields :uuid :title :content :img :start_date :end_date :visit_count :discuss_count :shop_id [:e_shop.name :shop_name] :e_shop.location :trade_id :publisher :publish_time :publish_date [:e_mapping_ct.channel_id :channel_id] :status)
+      (join :inner channel-trades (and (= :e_mapping_ct.trade_id :trade_id) (not= :e_mapping_ct.channel_id nil)))
+      (join :inner shops (= :e_shop.uuid :shop_id))
+      ;(as-sql)
   )
+   ;)
 )
 
 ;此函数抽象的不够，需重构
 (defn get-sales-by-channel [channel-id update-time]
-  (if (= channel-id 0);全部
+  (if (= channel-id "0");全部
     (exec (-> sale-select-base
-            (where {:status [not= "0"]})
+            (where {:status (if (< update-time 0) [= "1"] [not= "0"])})
             (where {:last_modify_time [> update-time]})
             (order :publish_time)
          )
      )
     (exec (-> (select* sales)
             (fields :uuid :title :content :img :start_date :end_date :visit_count :discuss_count :shop_id [:e_shop.name :shop_name] :e_shop.location :trade_id :publisher :publish_time :publish_date :e_mapping_ct.channel_id :status)
-            (join channel-trades (and (= :e_mapping_ct.trade_id :trade_id) (= :e_mapping_ct.channel_id channel-id)))
-            (join shops (= :e_shop.uuid :shop_id))
-            (where {:status [not= "0"]})
+            (join :inner channel-trades (and (= :e_mapping_ct.trade_id :trade_id) (= :e_mapping_ct.channel_id channel-id)))
+            (join :inner shops (= :e_shop.uuid :shop_id))
+            (where {:status (if (< update-time 0) [= "1"] [not= "0"])})
             (where {:last_modify_time [> update-time]})
             (order :publish_time)
           )
