@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50511
 File Encoding         : 65001
 
-Date: 2014-04-25 14:08:11
+Date: 2014-04-28 10:30:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -682,7 +682,7 @@ CREATE TABLE `e_user` (
   `name` varchar(64) NOT NULL,
   `pwd` varchar(64) DEFAULT NULL,
   `type` varchar(32) DEFAULT NULL COMMENT '用于区别商家与普通用户',
-  `phone` int(11) DEFAULT NULL,
+  `phone` varchar(11) DEFAULT NULL,
   `photo` varchar(64) DEFAULT NULL,
   `birthday` varchar(16) DEFAULT NULL,
   `last_modifier` varchar(36) DEFAULT NULL,
@@ -698,6 +698,7 @@ CREATE TABLE `e_user` (
 INSERT INTO `e_user` VALUES ('2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', '李四', '4444', null, '4', '4_1397634425877.png', null, null, null, '1397634498560');
 INSERT INTO `e_user` VALUES ('7248db2e-c8d2-4d26-8047-79c8082fb80f', '张三', '3333', null, '3', '3_1397638131573.png', null, null, null, '1397638168576');
 INSERT INTO `e_user` VALUES ('95982f2a-df27-42a2-bfeb-98332233d498', 'i依依', '1111', null, '1', '1_1397631232100.png', null, null, '1398406015031', '1397631221760');
+INSERT INTO `e_user` VALUES ('a2bbc1bb-324f-4036-be96-7bee5e357cc2', 'yy', '1111', '1', '13651083480', null, null, null, null, '1398650576859');
 
 -- ----------------------------
 -- Table structure for `e_user_profile`
