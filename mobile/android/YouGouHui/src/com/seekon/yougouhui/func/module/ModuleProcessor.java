@@ -30,7 +30,8 @@ public class ModuleProcessor extends ContentProcessor implements
 
 	@Override
 	public RestMethodResult<JSONArrayResource> getModules(String type) {
-		return (RestMethodResult)this.execMethod(new GetModulesMethod(mContext, type));
+		return (RestMethodResult) this.execMethod(new GetModulesMethod(mContext,
+				type));
 	}
 
 }

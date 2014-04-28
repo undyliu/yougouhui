@@ -62,12 +62,11 @@ public class ShopReplyProvider extends SQLiteContentProvider {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 		uriMatcher.addURI(ShopReplyConst.AUTHORITY, ShopReplyConst.TABLE_NAME,
 				SHOP_REPLIES);
-		uriMatcher.addURI(ShopReplyConst.AUTHORITY, ShopReplyConst.TABLE_NAME + "/*",
-				SHOP_REPLY_ID);
+		uriMatcher.addURI(ShopReplyConst.AUTHORITY, ShopReplyConst.TABLE_NAME
+				+ "/*", SHOP_REPLY_ID);
 		shopReplies = new ShopReplyData(getContext());
 		shopReplies.onCreate(shopReplies.getWritableDatabase());// TODO:
 		return true;
 	}
 
 }
-

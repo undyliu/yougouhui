@@ -23,15 +23,15 @@ public interface DataConst {
 	public static final String COL_NAME_IS_DELETED = "is_deleted";
 
 	public static final String COL_NAME_DESC = "desc";
-	
+
 	public static final String COL_NAME_STATUS = "status";
 
 	public static final String COL_NAME_LAST_MODIFY_TIME = "last_modify_time";
 
 	public static final String COL_NAME_LOCATION = "location";
-	
+
 	public static final String COL_NAME_VALUE = "value";
-	
+
 	public static final String NAME_COUNT = "count";
 
 	public static final String NAME_SEARCH_WORD = "search-word";
@@ -51,12 +51,12 @@ public interface DataConst {
 	public static final String NAME_ERROR = "error";
 
 	public static final String NAME_DATA = "data";
-	
-	public static final String STATUS_REGISTERED = "0";//已注册未审核
-	public static final String STATUS_AUDITED = "1";//已审核
-	public static final String STATUS_CANCELED = "2";//已作废
-	public static final String STATUS_ENDED = "3";//已结束
-	
+
+	public static final String STATUS_REGISTERED = "0";// 已注册未审核
+	public static final String STATUS_AUDITED = "1";// 已审核
+	public static final String STATUS_CANCELED = "2";// 已作废
+	public static final String STATUS_ENDED = "3";// 已结束
+
 	// 一下的action常量用于广播
 	// public static final String KEY_ACTION_ID = "key.action.id";
 	// public static final String KEY_ACTION_TYPE = "key.action.type";

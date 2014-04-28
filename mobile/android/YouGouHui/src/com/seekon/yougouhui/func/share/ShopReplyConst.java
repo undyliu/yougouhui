@@ -4,7 +4,7 @@ import android.net.Uri;
 
 import com.seekon.yougouhui.func.DataConst;
 
-public interface ShopReplyConst extends DataConst{
+public interface ShopReplyConst extends DataConst {
 
 	public static final String TABLE_NAME = "e_share_shop_reply";
 

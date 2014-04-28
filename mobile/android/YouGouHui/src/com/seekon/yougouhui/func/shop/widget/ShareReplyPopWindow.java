@@ -34,8 +34,8 @@ public class ShareReplyPopWindow extends PopupWindow {
 		this.setContentView(view);
 
 		final EditText gradeView = (EditText) view.findViewById(R.id.reply_grade);
-		gradeView.setFilters(new InputFilter[]{ new InputFilterMinMax(0, 20)});
-		
+		gradeView.setFilters(new InputFilter[] { new InputFilterMinMax(0, 20) });
+
 		final EditText contentView = (EditText) view
 				.findViewById(R.id.reply_content);
 		Button sendButton = (Button) view.findViewById(R.id.action_reply_send);
@@ -84,10 +84,9 @@ public class ShareReplyPopWindow extends PopupWindow {
 		reply.setReplier(RunEnv.getInstance().getUser().getUuid());
 		reply.setShareId(share.getUuid());
 		reply.setShopId(share.getShopId());
-		
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"提交反馈信息失败.") {
+
+		RestUtils.executeAsyncRestTask(context,
+				new AbstractRestTaskCallback<JSONObjResource>("提交反馈信息失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
@@ -98,8 +97,8 @@ public class ShareReplyPopWindow extends PopupWindow {
 					@Override
 					public void onSuccess(RestMethodResult<JSONObjResource> result) {
 						share.setShopReply(reply);
-						if(context instanceof ShareReplyActivity){
-							((ShareReplyActivity)context).updateView(share);
+						if (context instanceof ShareReplyActivity) {
+							((ShareReplyActivity) context).updateView(share);
 						}
 						ShareReplyPopWindow.this.dismiss();
 					}

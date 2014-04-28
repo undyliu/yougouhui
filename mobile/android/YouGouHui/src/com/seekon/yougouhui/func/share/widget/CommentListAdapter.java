@@ -33,9 +33,9 @@ import com.seekon.yougouhui.rest.resource.JSONObjResource;
  * 
  */
 public class CommentListAdapter extends EntityListAdapter<CommentEntity> {
-	
+
 	private boolean readonly = false;
-	
+
 	public CommentListAdapter(Context context, List<CommentEntity> dataList,
 			boolean readonly) {
 		super(context, dataList);
@@ -83,9 +83,8 @@ public class CommentListAdapter extends EntityListAdapter<CommentEntity> {
 				@Override
 				public void onClick(View v) {
 
-					RestUtils
-							.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-									"删除评论失败.") {
+					RestUtils.executeAsyncRestTask(context,
+							new AbstractRestTaskCallback<JSONObjResource>("删除评论失败.") {
 
 								@Override
 								public RestMethodResult<JSONObjResource> doInBackground() {

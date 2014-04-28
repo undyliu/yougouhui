@@ -20,14 +20,14 @@ public class GetSalesByChannelMethod extends JSONObjResourceMethod {
 	private String channelId;
 
 	private String updateTime;
-	
+
 	public GetSalesByChannelMethod(Context context, String channelId,
 			String updateTime) {
 		super(context);
 		this.channelId = channelId;
 		this.updateTime = updateTime;
 	}
-	
+
 	@Override
 	protected Request buildRequest() {
 		URI uri = URI.create(GET_SALES_URI + channelId + "/" + updateTime);
@@ -41,5 +41,5 @@ public class GetSalesByChannelMethod extends JSONObjResourceMethod {
 		resource.put(DataConst.NAME_TYPE, SaleConst.RequetsType.CHANNEL_SALE);
 		return resource;
 	}
-	
+
 }

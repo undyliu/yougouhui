@@ -1,13 +1,5 @@
 package com.seekon.yougouhui.activity.user;
 
-import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
-import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
-import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_USER_ICON;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -29,13 +21,16 @@ import android.widget.ImageView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.FileHelper;
+import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.user.UserConst;
+import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.user.UserProcessor;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
-import com.seekon.yougouhui.util.ContentValuesUtils;
+import com.seekon.yougouhui.util.DeviceUtils;
+import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.ViewUtils;
 
 /**
@@ -83,6 +78,8 @@ public class RegisterActivity extends Activity {
 			}
 		});
 
+		phoneView.setText(DeviceUtils.getTelephoneNumber());
+		ViewUtils.setEditTextReadOnly(phoneView);
 	}
 
 	@Override
@@ -205,18 +202,22 @@ public class RegisterActivity extends Activity {
 			return;
 		}
 
-		final Map<String, String> user = new HashMap<String, String>();
-		user.put(COL_NAME_PHONE, phone);
-		user.put(COL_NAME_NAME, name);
-		user.put(COL_NAME_PWD, password);
-		user.put(COL_NAME_USER_ICON, userIconUri);
+		// final Map<String, String> user = new HashMap<String, String>();
+		// user.put(COL_NAME_PHONE, phone);
+		// user.put(COL_NAME_NAME, name);
+		// user.put(COL_NAME_PWD, password);
+		// user.put(COL_NAME_USER_ICON, userIconUri);
+		final UserEntity user = new UserEntity();
+		user.setPhone(phone);
+		user.setName(name);
+		user.setPwd(password);
+		user.setPhoto(userIconUri);
+		user.setType(UserConst.TYPE_USER_APP);
 
 		item.setEnabled(false);
-		showProgress(true);
 
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"注册失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>("注册失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
@@ -226,9 +227,14 @@ public class RegisterActivity extends Activity {
 
 					@Override
 					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						JSONObjResource resource = result.getResource();
+						user.setRegisterTime(JSONUtils.getJSONStringValue(resource,
+								UserConst.COL_NAME_REGISTER_TIME));
+						user.setUuid(JSONUtils.getJSONStringValue(resource,
+								DataConst.COL_NAME_UUID));
+
 						Intent intent = new Intent();
-						intent.putExtra(UserConst.KEY_REGISTER_USER,
-								ContentValuesUtils.fromMap(user, null));
+						intent.putExtra(UserConst.KEY_REGISTER_USER, user);
 						setResult(RESULT_OK, intent);
 						finish();
 					}
@@ -242,13 +248,9 @@ public class RegisterActivity extends Activity {
 					@Override
 					public void onCancelled() {
 						item.setEnabled(true);
-						showProgress(false);
 						super.onCancelled();
 					}
 				});
 	}
 
-	private void showProgress(final boolean show) {
-		ViewUtils.showProgress(this, findViewById(R.id.register_main), show);
-	}
 }

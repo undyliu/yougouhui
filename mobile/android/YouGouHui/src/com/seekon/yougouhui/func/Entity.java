@@ -2,12 +2,12 @@ package com.seekon.yougouhui.func;
 
 import java.io.Serializable;
 
-public class Entity implements Serializable{
+public class Entity implements Serializable {
 
 	private static final long serialVersionUID = -531630295394533551L;
-	
+
 	private String uuid;
-	
+
 	public Entity() {
 		super();
 	}

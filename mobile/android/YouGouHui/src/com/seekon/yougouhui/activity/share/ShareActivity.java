@@ -135,25 +135,23 @@ public class ShareActivity extends PicContainerActivity {
 		}
 
 		item.setEnabled(false);
-		showProgress(true);
 
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"发布信息失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>("发布信息失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
-						
+
 						ShareEntity share = new ShareEntity();
 						share.setContent(shareContent);
-						
+
 						ShopEntity shop = new ShopEntity();
 						shop.setUuid(choosedShopId);
 						share.setShop(shop);
-						
+
 						share.setPublisher(RunEnv.getInstance().getUser());
 						share.setImages(imageFileUriList);
-						
+
 						IShareProcessor processor = ShareProcessor
 								.getInstance(ShareActivity.this);
 						return processor.postShare(share);
@@ -171,7 +169,6 @@ public class ShareActivity extends PicContainerActivity {
 
 					@Override
 					public void onFailed(String errorMessage) {
-						showProgress(false);
 						item.setEnabled(true);
 						super.onFailed(errorMessage);
 					}
@@ -179,15 +176,9 @@ public class ShareActivity extends PicContainerActivity {
 					@Override
 					public void onCancelled() {
 						item.setEnabled(true);
-						showProgress(false);
 						super.onCancelled();
 					}
 				});
-	}
-
-	private void showProgress(boolean show) {
-		ViewUtils.showProgress(this, findViewById(R.id.discover_share), show,
-				R.string.default_progress_status_message);
 	}
 
 	@Override

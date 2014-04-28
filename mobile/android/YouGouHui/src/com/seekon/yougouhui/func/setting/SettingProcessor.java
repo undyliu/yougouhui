@@ -31,7 +31,7 @@ public class SettingProcessor extends ContentProcessor implements
 
 	@Override
 	public RestMethodResult<JSONArrayResource> getSettings() {
-		return (RestMethodResult)this.execMethod(new GetSettingsMethod(mContext));
+		return (RestMethodResult) this.execMethod(new GetSettingsMethod(mContext));
 	}
 
 }

@@ -8,6 +8,7 @@ import android.content.Context;
 
 import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.spi.IUserProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestStatus;
@@ -45,7 +46,7 @@ public class UserProcessor extends ContentProcessor implements IUserProcessor {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	public RestMethodResult<JSONObjResource> registerUser(Map<String, String> user) {
+	public RestMethodResult<JSONObjResource> registerUser(UserEntity user) {
 		return (RestMethodResult) this.execMethod(new RegisterUserMethod(mContext,
 				user));
 	}
@@ -98,6 +99,7 @@ public class UserProcessor extends ContentProcessor implements IUserProcessor {
 	private void updateLocalDatabase(String fieldName, String value) {
 		try {
 			JSONObject jsonObj = new JSONObject();
+			jsonObj.put(DataConst.COL_NAME_UUID, RunEnv.getInstance().getUser().getUuid());
 			jsonObj.put(fieldName, value);
 			this.updateContentProvider(jsonObj, new String[] { fieldName },
 					contentUri);

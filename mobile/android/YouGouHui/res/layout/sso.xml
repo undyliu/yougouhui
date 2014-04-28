@@ -3,7 +3,6 @@
     android:layout_width="250dp"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:layout_marginTop="30dp"
     android:gravity="center"
     android:orientation="vertical" >
 
@@ -15,6 +14,16 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/button_shape"
         android:text="@string/title_login_or_register"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/b_login_anonymous"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_shape"
+        android:text="@string/title_login_anonymous"
         android:textColor="@color/white" />
 
     <Button

@@ -10,5 +10,6 @@ public interface ISaleDiscussProcessor {
 
 	public RestMethodResult<JSONObjResource> postDiscuss(SaleDiscussEntity discuss);
 
-	public RestMethodResult<JSONObjResource> getDiscusses(String saleId, String updateTime);
+	public RestMethodResult<JSONObjResource> getDiscusses(String saleId,
+			String updateTime);
 }

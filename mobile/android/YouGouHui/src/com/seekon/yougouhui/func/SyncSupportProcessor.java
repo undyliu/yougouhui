@@ -60,5 +60,6 @@ public abstract class SyncSupportProcessor extends ContentProcessor {
 		}
 	}
 
-	protected abstract void recordUpdateTime(String updateTime, JSONObjResource resource);
+	protected abstract void recordUpdateTime(String updateTime,
+			JSONObjResource resource);
 }

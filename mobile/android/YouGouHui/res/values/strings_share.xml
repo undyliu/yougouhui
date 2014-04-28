@@ -3,7 +3,7 @@
 
     <string name="title_my_share">我的分享</string>
     <string name="title_share_detail">分享详情</string>
-    <string name="title_activity_share">分享</string>
+    <string name="title_activity_share">晒单</string>
    	   	
     <string name="title_choose_shop">选择商家</string>
     <string name="hint_share_content">请分享下本次购物的体验吧</string>

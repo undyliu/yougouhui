@@ -77,12 +77,12 @@ public class ShareData extends AbstractDBHelper {
 		ShareEntity share = new ShareEntity(cursor.getString(i++),
 				cursor.getString(i++));
 		share.setPublishTime(cursor.getLong(i++));
-		
+
 		ShopEntity shop = new ShopEntity();
 		shop.setUuid(cursor.getString(i++));
 		shop.setName(cursor.getString(i++));
 		share.setShop(shop);
-		
+
 		UserEntity publisher = new UserEntity(cursor.getString(i++), null,
 				cursor.getString(i++), null, cursor.getString(i++), null);
 		share.setPublisher(publisher);
@@ -110,13 +110,14 @@ public class ShareData extends AbstractDBHelper {
 	 * @param limitSql
 	 * @return
 	 */
-	public List<ShareEntity> getShopSharesData(String shopId, String searchWord, String limitSql) {
+	public List<ShareEntity> getShopSharesData(String shopId, String searchWord,
+			String limitSql) {
 		List<ShareEntity> result = new ArrayList<ShareEntity>();
 		List<String> argsList = new ArrayList<String>();
 		String sql = getShareDataSqlPartWithShopConditon();
 		argsList.add(shopId);
-		
-		if(searchWord != null && searchWord.length() > 0){
+
+		if (searchWord != null && searchWord.length() > 0) {
 			sql += " and s.content like ? ";
 			argsList.add("%" + searchWord + "%");
 		}
@@ -127,8 +128,8 @@ public class ShareData extends AbstractDBHelper {
 
 		Cursor cursor = null;
 		try {
-			cursor = this.getReadableDatabase()
-					.rawQuery(sql, argsList.toArray(new String[argsList.size()]));
+			cursor = this.getReadableDatabase().rawQuery(sql,
+					argsList.toArray(new String[argsList.size()]));
 			while (cursor.moveToNext()) {
 				result.add(assembleShareEntity(cursor));
 			}

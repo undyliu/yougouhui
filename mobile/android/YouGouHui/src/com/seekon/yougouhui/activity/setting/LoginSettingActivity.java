@@ -48,7 +48,7 @@ public class LoginSettingActivity extends Activity {
 		getMenuInflater().inflate(R.menu.common_save, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
@@ -64,9 +64,8 @@ public class LoginSettingActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void saveLoginSetting() {
-		showProgress(true);
 
 		AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
 			@Override
@@ -85,14 +84,12 @@ public class LoginSettingActivity extends Activity {
 			@Override
 			protected void onPostExecute(Boolean result) {
 				if (result) {
-					ViewUtils.showToast("修改成功.");
+					ViewUtils.showToast("设置成功.");
 				}
-				showProgress(false);
 			}
 
 			@Override
 			protected void onCancelled() {
-				showProgress(false);
 				super.onCancelled();
 			}
 		};
@@ -100,8 +97,4 @@ public class LoginSettingActivity extends Activity {
 		task.execute((Void) null);
 	}
 
-	private void showProgress(boolean show) {
-		ViewUtils.showProgress(this, this.findViewById(R.id.view_login_setting),
-				show);
-	}
 }

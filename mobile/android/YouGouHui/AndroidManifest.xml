@@ -47,6 +47,8 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    
     <application
         android:name="com.seekon.yougouhui.YouGouHuiApp"
         android:allowBackup="true"
@@ -365,6 +367,16 @@
         <activity
             android:name=".activity.radar.RadarScanActivity"
             android:label="@string/title_radar_scan"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.grade.GradeItemsActivity"
+            android:label="@string/title_grade_items"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.grade.GradeShopActivity"
+            android:label="@string/title_grade_shop"
             android:screenOrientation="portrait" >
         </activity>
     </application>

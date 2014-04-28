@@ -120,7 +120,7 @@ public class ChangeTradesActivity extends TradeCheckedChangeActivity {
 
 	private void loadTradeListFromRemote() {
 		AsyncRestRequestTask<JSONArrayResource> task = new AsyncRestRequestTask<JSONArrayResource>(
-				new GetTradesTaskCallback(this) {
+				this, new GetTradesTaskCallback(this) {
 
 					@Override
 					public void onSuccess(RestMethodResult<JSONArrayResource> result) {
@@ -158,11 +158,9 @@ public class ChangeTradesActivity extends TradeCheckedChangeActivity {
 		}
 
 		item.setEnabled(false);
-		showProgress(true);
 
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"修改主营业务失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>("修改主营业务失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
@@ -188,14 +186,9 @@ public class ChangeTradesActivity extends TradeCheckedChangeActivity {
 					@Override
 					public void onCancelled() {
 						item.setEnabled(true);
-						showProgress(false);
 					}
 
 				});
-	}
-
-	private void showProgress(boolean show) {
-		ViewUtils.showProgress(this, findViewById(R.id.shop_trade_view), show);
 	}
 
 	@Override

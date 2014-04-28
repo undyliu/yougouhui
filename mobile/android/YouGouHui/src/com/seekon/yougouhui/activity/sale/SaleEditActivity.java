@@ -87,7 +87,7 @@ public class SaleEditActivity extends SalePromoteActivity {
 		final String saleId = this.getIntent().getStringExtra(
 				DataConst.COL_NAME_UUID);
 		AsyncRestRequestTask<JSONObjResource> task = new AsyncRestRequestTask<JSONObjResource>(
-				new GetSaleTaskCallback(this, saleId) {
+				this, new GetSaleTaskCallback(this, saleId) {
 
 					@Override
 					public void onSuccess(RestMethodResult<JSONObjResource> result) {
@@ -181,8 +181,8 @@ public class SaleEditActivity extends SalePromoteActivity {
 	private void cancelSale(final MenuItem item) {
 		item.setEnabled(false);
 
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>() {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>() {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
@@ -204,7 +204,6 @@ public class SaleEditActivity extends SalePromoteActivity {
 
 					@Override
 					public void onCancelled() {
-						showProgress(false);
 						item.setEnabled(true);
 						super.onCancelled();
 					}

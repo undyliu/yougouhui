@@ -122,11 +122,11 @@ public abstract class DateIndexedListActivity extends Activity implements
 	private void filterData(String word) {
 		ViewUtils.hideInputMethodWindow(DateIndexedListActivity.this);
 		searchWord = word;
-		
+
 		currentOffset = 0;
 		dataList.clear();
 		loadDataListFromLocal();
-		
+
 		listAdapter.updateData(dataList);
 	}
 
@@ -134,11 +134,12 @@ public abstract class DateIndexedListActivity extends Activity implements
 		updateTime = getUpdateTime();
 		if (updateTime != null) {
 			try {
-				listView.setRefreshTime(DateUtils.formartTime(Long.valueOf(updateTime)));
+				listView
+						.setRefreshTime(DateUtils.formartTime(Long.valueOf(updateTime)));
 			} catch (Exception e) {
 			}
 		}
-		
+
 		currentOffset = 0;
 		dataList.clear();
 		loadDataListFromLocal();
@@ -151,16 +152,16 @@ public abstract class DateIndexedListActivity extends Activity implements
 
 	private void loadDataListFromLocal() {
 		String limitSql = " limit " + Const.PAGE_SIZE + " offset " + currentOffset;
-		List<DateIndexedEntity> result = this.getDataListFromLocal(searchWord, limitSql);
+		List<DateIndexedEntity> result = this.getDataListFromLocal(searchWord,
+				limitSql);
 		currentOffset += result.size();
 		dataList.addAll(result);
 	}
 
 	private void loadDataListFromRemote() {
 		updateTime = getUpdateTime();
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"获取数据失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>("获取数据失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {

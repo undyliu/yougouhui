@@ -46,7 +46,7 @@ public abstract class JSONArrayResourceMethod extends
 							result = new RestMethodResult<JSONArrayResource>(
 									RestStatus.SERVER_REMOTE_ERROR, statusMsg,
 									result.getResource());
-							RunEnv.getInstance().setSessionId(null);//todo: why?
+							RunEnv.getInstance().setSessionId(null);// todo: why?
 							break;
 						}
 					}

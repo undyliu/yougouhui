@@ -70,7 +70,7 @@ public class LoginMethod extends BaseRestMethod<JSONObjResource> {
 			String statusMsg = getContext().getString(R.string.server_not_available);
 			return new RestMethodResult<JSONObjResource>(status, statusMsg, null);
 		}
-		
+
 		List<String> cookieValues = response.getHeaders().get("Set-Cookie");
 		if (cookieValues != null && cookieValues.size() > 0) {
 			String cookieValue = cookieValues.get(0);

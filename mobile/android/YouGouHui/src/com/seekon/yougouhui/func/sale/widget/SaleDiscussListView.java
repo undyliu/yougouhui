@@ -16,7 +16,7 @@ import com.seekon.yougouhui.func.widget.PagedXListView;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
-public class SaleDiscussListView extends PagedXListView<SaleDiscussEntity>{
+public class SaleDiscussListView extends PagedXListView<SaleDiscussEntity> {
 
 	private SaleDiscussData saleDiscussData;
 	private SaleEntity sale;
@@ -33,13 +33,13 @@ public class SaleDiscussListView extends PagedXListView<SaleDiscussEntity>{
 		super(context);
 	}
 
-	public void init(){
+	public void init() {
 		saleDiscussData = new SaleDiscussData(context);
 		super.init();
 	}
 
 	public void loadDiscussData(SaleEntity sale) {
-		if(sale == null){
+		if (sale == null) {
 			return;
 		}
 		this.sale = sale;
@@ -53,8 +53,8 @@ public class SaleDiscussListView extends PagedXListView<SaleDiscussEntity>{
 
 	@Override
 	protected RestMethodResult<JSONObjResource> getRemoteData(String updateTime) {
-		return SaleDiscussProcessor.getInstance(context)
-				.getDiscusses(sale.getUuid(), updateTime);
+		return SaleDiscussProcessor.getInstance(context).getDiscusses(
+				sale.getUuid(), updateTime);
 	}
 
 	@Override

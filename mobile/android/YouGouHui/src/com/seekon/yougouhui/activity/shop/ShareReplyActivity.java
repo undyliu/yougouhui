@@ -53,8 +53,8 @@ public class ShareReplyActivity extends Activity {
 		this.share = share;
 		ShareUtils.updateShopShareReplyView(share, this, mainView);
 	}
-	
-	private void back(){
+
+	private void back() {
 		Intent intent = new Intent();
 		intent.putExtra(ShareConst.DATA_SHARE_KEY, share);
 		setResult(RESULT_OK, intent);

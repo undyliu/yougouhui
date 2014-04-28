@@ -11,9 +11,13 @@ import android.widget.Button;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.contact.AddFriendActivity;
 import com.seekon.yougouhui.func.RunEnv;
-import com.seekon.yougouhui.func.contact.AddFriendTask;
+import com.seekon.yougouhui.func.contact.FriendProcessor;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.func.widget.UserClickListener;
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
+import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
 public class SearchFriendResultListAdapter extends FriendListAdapter {
 
@@ -59,6 +63,31 @@ public class SearchFriendResultListAdapter extends FriendListAdapter {
 	}
 
 	private void addFriend(final UserEntity friend, final Button addFriend) {
-		new AddFriendTask(context, friend, addFriend).execute((Void) null);
+		addFriend.setEnabled(false);
+		RestUtils.executeAsyncRestTask(context, new AbstractRestTaskCallback<JSONObjResource>("添加朋友失败.") {
+
+			@Override
+			public RestMethodResult<JSONObjResource> doInBackground() {
+				return FriendProcessor.getInstance(context).addFriend(friend);
+			}
+
+			@Override
+			public void onSuccess(RestMethodResult<JSONObjResource> result) {
+				RunEnv.getInstance().getUser().addFriend(friend);
+				addFriend.setText("已经添加");
+			}
+			
+			@Override
+			public void onFailed(String errorMessage) {
+				addFriend.setEnabled(true);
+				super.onFailed(errorMessage);
+			}
+			
+			@Override
+			public void onCancelled() {
+				addFriend.setEnabled(true);
+				super.onCancelled();
+			}
+		});
 	}
 }

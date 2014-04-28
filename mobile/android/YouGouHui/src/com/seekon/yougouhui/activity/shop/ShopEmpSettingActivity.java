@@ -168,9 +168,8 @@ public class ShopEmpSettingActivity extends Activity implements
 		addEmp.setEnabled(false);
 		delEmp.setEnabled(false);
 
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"删除职员失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>("删除职员失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
@@ -202,9 +201,8 @@ public class ShopEmpSettingActivity extends Activity implements
 
 	private void loadShopEmpsData() {
 
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>(
-						"获取商铺职员信息失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONArrayResource>("获取商铺职员信息失败.") {
 
 					@Override
 					public RestMethodResult<JSONArrayResource> doInBackground() {
@@ -240,9 +238,8 @@ public class ShopEmpSettingActivity extends Activity implements
 		addEmp.setEnabled(false);
 		delEmp.setEnabled(false);
 
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"添加职员失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>("添加职员失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {

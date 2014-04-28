@@ -5,8 +5,6 @@
     android:gravity="center_horizontal"
     android:orientation="vertical" >
 
-    <include layout="@layout/progressbar" />
-
     <TableLayout
         android:id="@+id/register_main"
         android:layout_width="match_parent"

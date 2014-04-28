@@ -20,7 +20,12 @@ import android.widget.NumberPicker;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.setting.SettingData;
 import com.seekon.yougouhui.func.setting.SettingEntity;
+import com.seekon.yougouhui.func.setting.SettingProcessor;
 import com.seekon.yougouhui.func.setting.SettingUtils;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.util.ViewUtils;
@@ -62,7 +67,26 @@ public class RadarSettingActivity extends Activity {
 
 	private void loadData() {
 		settings = SettingUtils.getRadarSettingsWithDefaultValue(this);
-		updateViews();
+		if (settings == null) {
+			RestUtils.executeAsyncRestTask(this,
+					new AbstractRestTaskCallback<JSONArrayResource>("获取设置信息失败.") {
+
+						@Override
+						public RestMethodResult<JSONArrayResource> doInBackground() {
+							return SettingProcessor.getInstance(RadarSettingActivity.this)
+									.getSettings();
+						}
+
+						@Override
+						public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+							settings = SettingUtils
+									.getRadarSettingsWithDefaultValue(RadarSettingActivity.this);
+							updateViews();
+						}
+					});
+		} else {
+			updateViews();
+		}
 	}
 
 	private void updateViews() {

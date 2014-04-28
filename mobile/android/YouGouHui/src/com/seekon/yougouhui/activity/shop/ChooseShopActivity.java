@@ -114,9 +114,8 @@ public class ChooseShopActivity extends Activity {
 	private void filterData(final String word) {
 		searchWord = word;
 
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>(
-						"获取商家数据失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONArrayResource>("获取商家数据失败.") {
 
 					@Override
 					public RestMethodResult<JSONArrayResource> doInBackground() {

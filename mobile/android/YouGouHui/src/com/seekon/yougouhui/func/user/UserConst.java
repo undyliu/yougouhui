@@ -21,7 +21,12 @@ public interface UserConst extends DataConst {
 	public static final String COL_NAME_PWD = "pwd";
 	public static final String COL_NAME_USER_ICON = "photo";
 	public static final String COL_NAME_REGISTER_TIME = "register_time";
-	
+
 	public static final String NAME_USER_NAME = "user_name";
 
+	public static final String TYPE_USER_APP = "1";
+	public static final String TYPE_USER_ANONYMOUS = "2";
+	public static final String TYPE_USER_WEIBO = "3";
+	public static final String TYPE_USER_QQ = "4";
+	
 }

@@ -66,18 +66,18 @@ public class ShopSaleItemListAdapter extends EntityListAdapter<SaleEntity> {
 		TextView publisherView = (TextView) view.findViewById(R.id.sale_publisher);
 		publisherView.setText(sale.getPublisher().getName());
 		publisherView.getPaint().setFakeBoldText(true);
-		
+
 		String status = sale.getStatus();
 		TextView statusView = (TextView) view.findViewById(R.id.sale_status);
-		if(DataConst.STATUS_AUDITED.equals(status)){
+		if (DataConst.STATUS_AUDITED.equals(status)) {
 			statusView.setText(R.string.label_sale_status_audited);
-		}else if(DataConst.STATUS_CANCELED.equals(status)){
+		} else if (DataConst.STATUS_CANCELED.equals(status)) {
 			statusView.setText(R.string.label_sale_status_canceled);
-		}else if(DataConst.STATUS_ENDED.equals(status)){
+		} else if (DataConst.STATUS_ENDED.equals(status)) {
 			statusView.setText(R.string.label_sale_status_ended);
-		}else if(DataConst.STATUS_REGISTERED.equals(status)){
+		} else if (DataConst.STATUS_REGISTERED.equals(status)) {
 			statusView.setText(R.string.label_sale_status_registered);
-		}else{
+		} else {
 			statusView.setText(R.string.label_sale_status_registered);
 		}
 		return view;

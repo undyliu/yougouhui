@@ -45,12 +45,10 @@ public class ChangeShopPwdActivity extends ChangePasswordActivity {
 		final String oldPwd = pwdOldView.getText().toString();
 		final String pwd = pwdNewView.getText().toString();
 
-		showProgress(true);
 		item.setEnabled(false);
 
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"修改密码失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>("修改密码失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
@@ -61,7 +59,6 @@ public class ChangeShopPwdActivity extends ChangePasswordActivity {
 
 					@Override
 					public void onSuccess(RestMethodResult<JSONObjResource> result) {
-						showProgress(false);
 						JSONObjResource resource = result.getResource();
 						String errorType = JSONUtils.getJSONStringValue(resource,
 								LoginConst.LOGIN_RESULT_ERROR_TYPE);
@@ -75,14 +72,12 @@ public class ChangeShopPwdActivity extends ChangePasswordActivity {
 
 					@Override
 					public void onFailed(String errorMessage) {
-						showProgress(false);
 						item.setEnabled(true);
 						super.onFailed(errorMessage);
 					}
 
 					@Override
 					public void onCancelled() {
-						showProgress(false);
 						item.setEnabled(true);
 						super.onCancelled();
 					}

@@ -48,11 +48,11 @@ public abstract class EntityListAdapter<T extends Entity> extends BaseAdapter {
 		this.dataList.remove(entity);
 		this.notifyDataSetChanged();
 	}
-	
-	public void updateEntity(T entity, int position){
-		if(this.dataList.contains(entity) && this.dataList.size() >= position){
+
+	public void updateEntity(T entity, int position) {
+		if (this.dataList.contains(entity) && this.dataList.size() >= position) {
 			T old = this.dataList.get(position);
-			if(old.equals(entity)){
+			if (old.equals(entity)) {
 				this.dataList.remove(position);
 				this.dataList.add(position, entity);
 				this.notifyDataSetChanged();

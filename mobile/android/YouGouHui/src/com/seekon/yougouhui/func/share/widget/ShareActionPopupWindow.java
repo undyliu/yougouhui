@@ -103,11 +103,9 @@ public class ShareActionPopupWindow extends PopupWindow {
 				public void onClick(View v) {
 					final String shareId = share.getUuid();
 					ShareActionPopupWindow.this.dismiss();
-					showProgress(activity, true);
 
-					RestUtils
-							.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-									"删除分享失败.") {
+					RestUtils.executeAsyncRestTask(activity,
+							new AbstractRestTaskCallback<JSONObjResource>("删除分享失败.") {
 
 								@Override
 								public RestMethodResult<JSONObjResource> doInBackground() {
@@ -125,7 +123,7 @@ public class ShareActionPopupWindow extends PopupWindow {
 										for (FileEntity image : images) {
 											FileHelper.deleteCacheFile(image);
 										}
-										
+
 										adapter.removeEntity(share);
 									} else if (activity instanceof ShareDetailActivity) {
 										Intent intent = new Intent();
@@ -135,20 +133,9 @@ public class ShareActionPopupWindow extends PopupWindow {
 										activity.setResult(Activity.RESULT_OK, intent);
 										activity.finish();
 									}
-									showProgress(activity, false);
+
 								}
 
-								@Override
-								public void onFailed(String errorMessage) {
-									showProgress(activity, false);
-									super.onFailed(errorMessage);
-								}
-
-								@Override
-								public void onCancelled() {
-									showProgress(activity, false);
-									super.onCancelled();
-								}
 							});
 				}
 
@@ -159,7 +146,4 @@ public class ShareActionPopupWindow extends PopupWindow {
 		}
 	}
 
-	private void showProgress(Activity activity, boolean show) {
-		ViewUtils.showProgress(activity, null, show);
-	}
 }

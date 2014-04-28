@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_my_grade">我的积分</string>
+    <string name="title_grade_items">积分明细</string>
+    <string name="title_grade_shop">积分商城</string>
+    
+    <string name="label_action_grade_item">积分明细</string>
+    <string name="label_action_grade_shop">积分商城</string>
 </resources>

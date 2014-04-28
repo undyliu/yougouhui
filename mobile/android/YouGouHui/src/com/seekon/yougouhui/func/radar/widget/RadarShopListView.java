@@ -10,7 +10,7 @@ import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.shop.widget.ShopListAdapter;
 import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
-public class RadarShopListView extends RadarResultListView<ShopEntity>{
+public class RadarShopListView extends RadarResultListView<ShopEntity> {
 
 	public RadarShopListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -34,6 +34,5 @@ public class RadarShopListView extends RadarResultListView<ShopEntity>{
 			LocationEntity location) {
 		return null;
 	}
-	
-	
+
 }

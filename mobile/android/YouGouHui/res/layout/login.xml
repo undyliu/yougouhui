@@ -2,10 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".LoginActivity" >
 
-    <!-- Login progress -->
-	<include layout="@layout/progressbar"/>
-    <!-- Login form -->
-
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"

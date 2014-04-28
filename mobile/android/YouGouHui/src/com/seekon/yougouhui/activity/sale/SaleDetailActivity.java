@@ -55,7 +55,8 @@ import com.seekon.yougouhui.util.LocationUtils;
 import com.seekon.yougouhui.util.ViewUtils;
 import com.seekon.yougouhui.widget.ImageListRemoteAdapter;
 
-public class SaleDetailActivity extends Activity implements SaleDiscussChangeListener{
+public class SaleDetailActivity extends Activity implements
+		SaleDiscussChangeListener {
 
 	private static final int SALE_IMAGE_WIDTH = 200;
 
@@ -75,7 +76,7 @@ public class SaleDetailActivity extends Activity implements SaleDiscussChangeLis
 	ImageView discussExpandView;
 	ImageView statusImgView;
 	TextView statusView;
-	
+
 	Button discussButton;
 
 	private Menu menu;
@@ -90,8 +91,6 @@ public class SaleDetailActivity extends Activity implements SaleDiscussChangeLis
 
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-
-		showProgress(true);
 
 		initViews();
 		locationReceiver = new BroadcastReceiver() {
@@ -163,7 +162,7 @@ public class SaleDetailActivity extends Activity implements SaleDiscussChangeLis
 		discussListView.init();
 
 		discussButton = (Button) findViewById(R.id.b_discuss);
-		
+
 		statusImgView = (ImageView) findViewById(R.id.sale_status_img);
 		statusView = (TextView) findViewById(R.id.sale_status);
 		statusView.getPaint().setFakeBoldText(true);
@@ -277,15 +276,15 @@ public class SaleDetailActivity extends Activity implements SaleDiscussChangeLis
 				this.menu.getItem(i).setEnabled(true);
 			}
 		}
-		
+
 		String status = sale.getStatus();
-		if(DataConst.STATUS_AUDITED.equals(status)){
+		if (DataConst.STATUS_AUDITED.equals(status)) {
 			statusImgView.setImageResource(R.drawable.valid);
 			statusView.setText(R.string.label_sale_status_valid);
-		}else if(DataConst.STATUS_ENDED.equals(status)){
+		} else if (DataConst.STATUS_ENDED.equals(status)) {
 			statusImgView.setImageResource(R.drawable.closed);
 			statusView.setText(R.string.label_sale_status_ended);
-		}else{//其他的都显示为作废
+		} else {// 其他的都显示为作废
 			statusImgView.setImageResource(R.drawable.cancel);
 			statusView.setText(R.string.label_sale_status_canceled);
 		}
@@ -295,26 +294,14 @@ public class SaleDetailActivity extends Activity implements SaleDiscussChangeLis
 		final String saleId = this.getIntent().getStringExtra(
 				DataConst.COL_NAME_UUID);
 
-		RestUtils.executeAsyncRestTask(new GetSaleTaskCallback(this, saleId) {
+		RestUtils.executeAsyncRestTask(this, new GetSaleTaskCallback(this, saleId) {
 
 			@Override
 			public void onSuccess(RestMethodResult<JSONObjResource> result) {
-				showProgress(false);
 				sale = SaleUtils.getSale(SaleDetailActivity.this, saleId);
 				// sale.getImages().remove(sale.getImg());
 
 				updateViews();
-			}
-
-			@Override
-			public void onFailed(String errorMessage) {
-				showProgress(false);
-				super.onFailed(errorMessage);
-			}
-
-			@Override
-			public void onCancelled() {
-				showProgress(false);
 			}
 		});
 
@@ -380,15 +367,15 @@ public class SaleDetailActivity extends Activity implements SaleDiscussChangeLis
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void back(){
-		if(sale != null){
+	private void back() {
+		if (sale != null) {
 			Intent intent = new Intent();
 			intent.putExtra(SaleConst.DATA_SALE_KEY, sale);
 			setResult(RESULT_OK, intent);
 		}
 		this.finish();
 	}
-	
+
 	private void publishShare() {
 		Intent intent = new Intent(this, ShareActivity.class);
 		intent.putExtra(ShopConst.DATA_SHOP_KEY, sale.getShop());
@@ -397,9 +384,8 @@ public class SaleDetailActivity extends Activity implements SaleDiscussChangeLis
 
 	private void favoritSale(final MenuItem item) {
 		item.setEnabled(false);
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"收藏失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>("收藏失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
@@ -423,9 +409,8 @@ public class SaleDetailActivity extends Activity implements SaleDiscussChangeLis
 
 	private void cancelFavoritSale(final MenuItem item) {
 		item.setEnabled(false);
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONObjResource>(
-						"取消收藏失败.") {
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>("取消收藏失败.") {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
@@ -448,13 +433,9 @@ public class SaleDetailActivity extends Activity implements SaleDiscussChangeLis
 				});
 	}
 
-	private void showProgress(boolean show) {
-		ViewUtils.showProgress(this, findViewById(R.id.sale_detail_main), show);
-	}
-
 	@Override
 	public void onChange(List<SaleDiscussEntity> dataList) {
-		if(sale != null && !dataList.isEmpty()){
+		if (sale != null && !dataList.isEmpty()) {
 			sale.setDiscussCount(dataList.size());
 			this.updateViews();
 		}

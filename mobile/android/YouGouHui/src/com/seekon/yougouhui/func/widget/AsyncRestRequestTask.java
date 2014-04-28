@@ -1,5 +1,7 @@
 package com.seekon.yougouhui.func.widget;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.seekon.yougouhui.R;
@@ -14,14 +16,28 @@ public class AsyncRestRequestTask<T extends Resource> extends
 
 	private final static String TAG = AsyncRestRequestTask.class.getSimpleName();
 
+	private Context context;
+
 	private AbstractRestTaskCallback<T> callback;
 
-	public AsyncRestRequestTask(AbstractRestTaskCallback<T> callback) {
+	private ProgressDialog progressDialog;
+
+	public AsyncRestRequestTask(Context context,
+			AbstractRestTaskCallback<T> callback) {
 		super();
+		this.context = context;
 		this.callback = callback;
 		if (callback == null) {
 			throw new RuntimeException("AsyncRestRequestTask构造函数必须传递callback参数.");
 		}
+	}
+
+	@Override
+	protected void onPreExecute() {
+		progressDialog = ProgressDialog.show(context, "",
+				context.getString(R.string.default_progress_status_message), true,
+				false);
+		super.onPreExecute();
 	}
 
 	@Override
@@ -37,6 +53,9 @@ public class AsyncRestRequestTask<T extends Resource> extends
 
 	@Override
 	protected void onPostExecute(RestMethodResult<T> result) {
+		if (progressDialog != null) {
+			progressDialog.dismiss();
+		}
 		int status = result.getStatusCode();
 		if (status == RestStatus.SC_OK) {
 			callback.onSuccess(result);
@@ -52,6 +71,9 @@ public class AsyncRestRequestTask<T extends Resource> extends
 
 	@Override
 	protected void onCancelled() {
+		if (progressDialog != null) {
+			progressDialog.dismiss();
+		}
 		callback.onCancelled();
 	}
 

@@ -1,9 +1,9 @@
 package com.seekon.yougouhui.activity.favorit;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_IMG;
+import static com.seekon.yougouhui.func.DataConst.COL_NAME_LAST_MODIFY_TIME;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_TITLE;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
-import static com.seekon.yougouhui.func.DataConst.COL_NAME_LAST_MODIFY_TIME;
 import static com.seekon.yougouhui.func.favorit.ShopFavoritConst.COL_NAME_SHOP_ID;
 import static com.seekon.yougouhui.func.favorit.ShopFavoritConst.COL_NAME_USER_ID;
 
@@ -75,8 +75,8 @@ public class ShopFavoritFragment extends CatalogListFragement {
 
 	private void loadDataFromRemote() {
 
-		RestUtils
-				.executeAsyncRestTask(new AbstractRestTaskCallback<JSONArrayResource>() {
+		RestUtils.executeAsyncRestTask(this.getActivity(),
+				new AbstractRestTaskCallback<JSONArrayResource>() {
 
 					@Override
 					public RestMethodResult<JSONArrayResource> doInBackground() {

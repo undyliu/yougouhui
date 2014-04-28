@@ -141,10 +141,10 @@ public class ShopUtils {
 		return shop;
 	}
 
-	public static void loadDataFromRemote(
+	public static void loadDataFromRemote(Context context,
 			final AbstractRestTaskCallback<JSONObjResource> taskCallback) {
 		AsyncRestRequestTask<JSONObjResource> task = new AsyncRestRequestTask<JSONObjResource>(
-				taskCallback);
+				context, taskCallback);
 		task.execute((Void) null);
 	}
 

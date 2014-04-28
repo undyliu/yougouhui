@@ -21,13 +21,14 @@ public class RadarMainActivity extends Activity {
 
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		
+
 		Button scanButton = (Button) findViewById(R.id.radar_scan);
 		scanButton.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(RadarMainActivity.this, RadarScanActivity.class);
+				Intent intent = new Intent(RadarMainActivity.this,
+						RadarScanActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -38,7 +39,7 @@ public class RadarMainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.discover_radar, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
@@ -55,7 +56,7 @@ public class RadarMainActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void radarSetting(){
+	private void radarSetting() {
 		Intent intent = new Intent(this, RadarSettingActivity.class);
 		startActivity(intent);
 	}

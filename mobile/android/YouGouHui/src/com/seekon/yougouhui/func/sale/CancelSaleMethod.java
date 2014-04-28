@@ -27,7 +27,7 @@ public class CancelSaleMethod extends JSONObjResourceMethod {
 	protected Request buildRequest() {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(SaleImgConst.COL_NAME_SALE_ID, sale.getUuid());
-		
+
 		return new BaseRequest(Method.PUT, CANCEL_SALE_URI, null, params);
 	}
 
