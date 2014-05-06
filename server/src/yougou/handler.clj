@@ -1,5 +1,6 @@
 (ns yougou.handler
   (:use [compojure.core]
+        [clojure.tools.logging]
 	      [yougou.sale]
 	      [yougou.module]
 	      [yougou.auth]
@@ -318,7 +319,15 @@
   )
 
 (defroutes login-routes
-	(POST "/login" request (login request))
+	(POST "/login" request
+      (let [phone (:phone (:params request))]
+        (try
+          (info "login phone:" phone)
+          (login request)
+          (catch Exception e (error e (str phone "登录失败.")))
+        )
+       )
+     )
   (POST "/registerUser" {{name :name phone :phone pwd :pwd photo :photo type :type :as params} :params}
 		(try
 			(if photo
