@@ -78,6 +78,9 @@
 			(catch Exception e {:status  200 :body (json/write-str{:error "作废活动失败."})})
 		)
 	)
+  (GET "/getSalesByDistance/:location/:distance" [location distance]
+       (json/write-str (get-sales-by-distance (json/read-str location) distance))
+       )
 )
 
 (defroutes module-routes
@@ -137,16 +140,6 @@
 )
 
 (defroutes user-routes
-	(POST "/registerUser" {{name :name phone :phone pwd :pwd photo :photo :as params} :params}
-	  ;(println params)
-		(try
-			(if photo
-				(json/write-str (register-user (java.net.URLDecoder/decode name "utf-8") phone pwd photo (:tempfile (params photo))))
-				(json/write-str (register-user (java.net.URLDecoder/decode name "utf-8") phone pwd photo nil))
-			)
-			(catch Exception e {:status  200 :body (json/write-str {:error "保存失败."})})
-		)
-	)
 	(PUT "/updateUserName" {{uuid :uuid name :name} :params}
 		(try
 			(json/write-str (update-user-name uuid (java.net.URLDecoder/decode name "utf-8")))
@@ -265,6 +258,12 @@
 			(catch Exception e {:status  200 :body (json/write-str{:error "添加收藏失败."})})
 		)
 	)
+  (GET "/getShopsByDistance/:lat/:lon/:distance" [lat lon distance]
+     (try
+       (json/write-str (get-shops-by-distance lat lon distance))
+       (catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str {:error "获取商铺数据失败."})})
+       )
+     )
 )
 
 (defroutes favorit-routes
@@ -309,7 +308,16 @@
   )
 
 (defroutes login-routes
-	(POST "/login" request (login request) )
+	(POST "/login" request (login request))
+  (POST "/registerUser" {{name :name phone :phone pwd :pwd photo :photo type :type :as params} :params}
+		(try
+			(if photo
+				(json/write-str (register-user (java.net.URLDecoder/decode name "utf-8") phone pwd type photo (:tempfile (params photo))))
+				(json/write-str (register-user (java.net.URLDecoder/decode name "utf-8") phone pwd type photo nil))
+			)
+			(catch Exception e {:status  200 :body (json/write-str {:error "保存失败."})})
+		)
+	)
 )
 
 (defroutes auth-routes
