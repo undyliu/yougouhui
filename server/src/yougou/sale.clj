@@ -10,6 +10,25 @@
 	)
 )
 
+(defn get-sales-by-distance [lat lon dist offset-val]
+  (exec (-> (select* sales)
+            (fields :uuid :title :content :img :start_date :end_date :visit_count :discuss_count :shop_id [:e_shop.name :shop_name]
+                    :e_shop.location :trade_id :publisher :publish_time :publish_date [:e_mapping_ct.channel_id :channel_id] :status
+                    [(sqlfn geodist_field lat lon :e_shop.latitude :e_shop.longitude) :distance])
+            (join :inner channel-trades (and (= :e_mapping_ct.trade_id :trade_id) (not= :e_mapping_ct.channel_id nil)))
+            (join :inner shops (and (= :e_shop.uuid :shop_id)
+                                    (< :e_shop.latitude (+ lat 1)) (> :e_shop.latitude (- lat 1))
+                                    (< :e_shop.longitude (+ lon 1)) (> :e_shop.longitude (- lon 1))
+                                    ))
+            (where {:status "1"})
+            (having {:distance [<= dist]})
+            (order :distance)
+            (limit def-page-size)
+            (offset offset-val)
+         )
+   )
+  )
+
 (def sale-select-base
   ;(println
   (-> (select* sales)
@@ -145,8 +164,4 @@
 
 (defn cancel-sale [sale-id]
   (update sales (set-fields {:status 2 :last_modify_time (System/currentTimeMillis)}) (where {:uuid sale-id}))
-  )
-
-(defn get-sales-by-distance [location distance]
-
   )
