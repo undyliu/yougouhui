@@ -16,13 +16,13 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.LoginActivity;
 import com.seekon.yougouhui.activity.MainActivity;
 import com.seekon.yougouhui.activity.contact.AddFriendActivity;
 import com.seekon.yougouhui.activity.share.ShareActivity;
 import com.seekon.yougouhui.activity.user.RegisterActivity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.user.UserConst;
-import com.seekon.yougouhui.func.user.UserEntity;
 
 public class MainActionAddProvider extends ActionProvider {
 
@@ -72,6 +72,9 @@ public class MainActionAddProvider extends ActionProvider {
 				case R.id.menu_register_user:
 					registerUser();
 					break;
+				case R.id.menu_login:
+					userLogin();
+					break;
 				default:
 					break;
 				}
@@ -79,32 +82,39 @@ public class MainActionAddProvider extends ActionProvider {
 			}
 
 		});
-		
+
 		Menu menu = mPopupMenu.getMenu();
 		MenuInflater inflater = mPopupMenu.getMenuInflater();
 		inflater.inflate(R.menu.main_more_pop, menu);
-		
+
 		String userType = RunEnv.getInstance().getUser().getType();
-		if(UserConst.TYPE_USER_ANONYMOUS.equals(userType)){
+		if (UserConst.TYPE_USER_ANONYMOUS.equals(userType)) {
 			menu.findItem(R.id.menu_add_friend).setVisible(false);
-		}else{
+		} else {
 			menu.findItem(R.id.menu_register_user).setVisible(false);
+			menu.findItem(R.id.menu_login).setVisible(false);
 		}
-		
+
 		mPopupMenu.show();
 	}
 
-	private void registerUser(){
+	private void userLogin() {
+		Intent intent = new Intent(context, LoginActivity.class);
+		context.startActivity(intent);
+	}
+
+	private void registerUser() {
 		Activity activity = getAttachedActivity();
-		if(activity != null){
+		if (activity != null) {
 			Intent intent = new Intent(activity, RegisterActivity.class);
-			activity.startActivityForResult(intent, MainActivity.REGISTER_USER_REQUEST_CODE);
-		}else{
+			activity.startActivityForResult(intent,
+					MainActivity.REGISTER_USER_REQUEST_CODE);
+		} else {
 			Intent intent = new Intent(context, RegisterActivity.class);
 			context.startActivity(intent);
 		}
 	}
-	
+
 	private void addFriend() {
 		Intent intent = new Intent(context, AddFriendActivity.class);
 		context.startActivity(intent);
@@ -114,7 +124,7 @@ public class MainActionAddProvider extends ActionProvider {
 		Intent intent = new Intent(context, ShareActivity.class);
 		context.startActivity(intent);
 	}
-	
+
 	private Activity getAttachedActivity() {
 		try {
 			Field field = context.getClass().getDeclaredField("mBase");

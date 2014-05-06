@@ -1,10 +1,13 @@
 package com.seekon.yougouhui.func.module;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.net.Uri;
 
 import com.seekon.yougouhui.func.DataConst;
 
-public interface ModuleConst extends DataConst {
+public class ModuleConst implements DataConst {
 
 	public static final String TABLE_NAME = "e_module";
 
@@ -22,4 +25,13 @@ public interface ModuleConst extends DataConst {
 	public static final String CODE_CONTACT_LIST = "contact_list";
 	public static final String CODE_MY_FAVORIT = "my_favorite";
 	public static final String CODE_MY_GRADE = "my_grade";
+
+	public static List<String> anonymousAccessModelList = new ArrayList<String>();
+
+	static {
+		anonymousAccessModelList.add(ModuleConst.CODE_FRIENDS);
+		anonymousAccessModelList.add(ModuleConst.CODE_RADAR);
+		anonymousAccessModelList.add(ModuleConst.CODE_SETTING);
+		//anonymousAccessModelList.add(ModuleConst.CODE_MY_SHOP);
+	}
 }

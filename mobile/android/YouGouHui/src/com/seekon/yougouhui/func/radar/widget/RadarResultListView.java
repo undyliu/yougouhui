@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.AttributeSet;
 
@@ -13,10 +14,14 @@ import com.seekon.yougouhui.func.widget.EntityListAdapter;
 import com.seekon.yougouhui.layout.XListView;
 import com.seekon.yougouhui.layout.XListView.IXListViewListener;
 import com.seekon.yougouhui.util.DateUtils;
+import com.seekon.yougouhui.util.Logger;
+import com.seekon.yougouhui.util.ViewUtils;
 
 public abstract class RadarResultListView<T extends Entity> extends XListView
 		implements IXListViewListener {
-
+	
+	protected static final String TAG = RadarResultListView.class.getSimpleName();
+	
 	protected List<T> dataList = new ArrayList<T>();
 
 	private EntityListAdapter<T> entityListAdapter;
@@ -26,6 +31,7 @@ public abstract class RadarResultListView<T extends Entity> extends XListView
 	private Handler mHandler;
 	protected boolean inited = false;
 	private LocationEntity location;
+	private int distance;
 
 	public RadarResultListView(Context context) {
 		super(context);
@@ -56,12 +62,12 @@ public abstract class RadarResultListView<T extends Entity> extends XListView
 		inited = true;
 	}
 
-	public void loadDataList(LocationEntity location, boolean reload) {
+	public void loadDataList(LocationEntity location, int distance, boolean reload) {
 		if (!inited) {
 			init();
 		}
 
-		if (this.dataList.isEmpty() || reload) {
+		if (this.dataList.isEmpty() || reload || this.distance != distance) {
 			updateTime = getUpdateTime();
 			if (updateTime != null) {
 				try {
@@ -70,6 +76,7 @@ public abstract class RadarResultListView<T extends Entity> extends XListView
 				}
 			}
 
+			this.distance = distance;
 			this.location = location;
 			loadNewestDataList();
 		}
@@ -79,30 +86,67 @@ public abstract class RadarResultListView<T extends Entity> extends XListView
 		return String.valueOf(System.currentTimeMillis());
 	}
 
-	private void loadNewestDataList() {
-		List<T> result = loadDataListFromRemote(currentOffset, location);
-		currentOffset = 0;
-		dataList.clear();
-		if (result != null) {
-			dataList.addAll(result);
-			currentOffset += result.size();
-			entityListAdapter.updateData(dataList);
-		}
+	private void loadNewestDataList() {		
+		AsyncTask<Void, Void, List<T>> task = new AsyncTask<Void, Void, List<T>>(){
+			@Override
+			protected List<T> doInBackground(Void... params) {
+				try{
+					return loadDataListFromRemote(0, location, distance);
+				}catch(Throwable e){
+					Logger.warn(TAG, e.getMessage(), e);
+				}
+				return null;
+			}
+			
+			@Override
+			protected void onPostExecute(List<T> result) {
+				if(result == null){
+					ViewUtils.showToast("加载数据失败.");
+				}else{
+					currentOffset = 0;
+					dataList.clear();
+					
+					dataList.addAll(result);
+					currentOffset += result.size();
+					entityListAdapter.updateData(dataList);
+				}
+			}			
+		};
+		
+		task.execute((Void)null);
 	}
 
 	private void loadMoreDataList() {
-		List<T> result = loadDataListFromRemote(currentOffset, location);
-		if (result != null) {
-			dataList.addAll(result);
-			currentOffset += result.size();
-			entityListAdapter.updateData(dataList);
-		}
+		AsyncTask<Void, Void, List<T>> task = new AsyncTask<Void, Void, List<T>>(){
+			@Override
+			protected List<T> doInBackground(Void... params) {
+				try{
+					return loadDataListFromRemote(currentOffset, location, distance);
+				}catch(Throwable e){
+					Logger.warn(TAG, e.getMessage(), e);
+				}
+				return null;
+			}
+			
+			@Override
+			protected void onPostExecute(List<T> result) {
+				if(result == null){
+					ViewUtils.showToast("加载数据失败.");
+				}else{
+					dataList.addAll(result);
+					currentOffset += result.size();
+					entityListAdapter.updateData(dataList);
+				}
+			}			
+		};
+		
+		task.execute((Void)null);
 	}
 
 	public abstract EntityListAdapter<T> getEntityListAdapter();
 
 	protected abstract List<T> loadDataListFromRemote(int currentOffset,
-			LocationEntity location);
+			LocationEntity location, int distance);
 
 	private void onPostLoad() {
 		this.stopRefresh();

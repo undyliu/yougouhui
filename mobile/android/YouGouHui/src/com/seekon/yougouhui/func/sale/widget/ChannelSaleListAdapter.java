@@ -1,5 +1,6 @@
 package com.seekon.yougouhui.func.sale.widget;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import android.content.Context;
@@ -19,10 +20,11 @@ import com.seekon.yougouhui.func.sale.SaleEntity;
 import com.seekon.yougouhui.func.widget.EntityListAdapter;
 import com.seekon.yougouhui.util.LocationUtils;
 
-public class ChannelSaleListAdapter extends EntityListAdapter<SaleEntity> {
+public class ChannelSaleListAdapter<T extends SaleEntity> extends
+		EntityListAdapter<T> {
 	private static final int SALE_IMAGE_WIDTH = 150;
 
-	public ChannelSaleListAdapter(Context context, List<SaleEntity> dataList) {
+	public ChannelSaleListAdapter(Context context, List<T> dataList) {
 		super(context, dataList);
 	}
 
@@ -81,8 +83,8 @@ public class ChannelSaleListAdapter extends EntityListAdapter<SaleEntity> {
 		LocationEntity currentLocation = RunEnv.getInstance().getLocationEntity();
 		LocationEntity shopLocation = sale.getShop().getLocation();
 		if (currentLocation != null && shopLocation != null) {
-			holder.distanceView.setText(String.valueOf(LocationUtils.distance(
-					currentLocation, shopLocation)));
+			holder.distanceView.setText(new DecimalFormat("###,###.##")
+					.format(LocationUtils.distance(currentLocation, shopLocation)));
 		} else {
 			holder.distanceView.setText("未知");
 		}
@@ -102,14 +104,14 @@ public class ChannelSaleListAdapter extends EntityListAdapter<SaleEntity> {
 		return view;
 	}
 
-	class ViewHolder {
+	final public class ViewHolder {
 		TextView titleView;
 		ImageView saleImageView;
 		TextView contentView;
 		TextView visitCountView;
 		TextView discussCountView;
 		TextView publisherView;
-		TextView distanceView;
+		public TextView distanceView;
 		ImageView statusImgView;
 		TextView statusView;
 	}

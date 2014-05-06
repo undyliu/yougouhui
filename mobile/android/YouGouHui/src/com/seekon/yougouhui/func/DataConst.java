@@ -52,6 +52,10 @@ public interface DataConst {
 
 	public static final String NAME_DATA = "data";
 
+	public static final String NAME_DISTANCE = "distance";
+	
+	public static final String NAME_OFFSET = "offset";
+	
 	public static final String STATUS_REGISTERED = "0";// 已注册未审核
 	public static final String STATUS_AUDITED = "1";// 已审核
 	public static final String STATUS_CANCELED = "2";// 已作废

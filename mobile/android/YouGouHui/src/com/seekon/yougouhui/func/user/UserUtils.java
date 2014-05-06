@@ -1,10 +1,12 @@
 package com.seekon.yougouhui.func.user;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.json.JSONObject;
 
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.util.DeviceUtils;
 import com.seekon.yougouhui.util.JSONUtils;
 
 public class UserUtils {
@@ -58,5 +60,16 @@ public class UserUtils {
 		JSONUtils.putJSONValue(jsonObj, UserConst.COL_NAME_USER_ICON,
 				user.getPhoto());
 		return jsonObj;
+	}
+	
+	public static UserEntity getAnonymousUser(){
+		String phone = DeviceUtils.getTelephoneNumber();
+
+		UserEntity user = new UserEntity();
+		user.setUuid(UUID.randomUUID().toString());
+		user.setPhone(phone);
+		user.setName("匿名" + phone);
+		user.setRegisterTime(String.valueOf(System.currentTimeMillis()));
+		return user;
 	}
 }

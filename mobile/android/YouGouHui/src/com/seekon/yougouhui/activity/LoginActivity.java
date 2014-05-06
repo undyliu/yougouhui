@@ -9,6 +9,7 @@ import static com.seekon.yougouhui.func.login.LoginConst.LOGIN_SETTING_REMEMBER_
 import org.json.JSONObject;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -62,6 +63,9 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.login);
+
+		ActionBar actionBar = this.getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		mAuthManager = AuthorizationManager.getInstance(this);
 

@@ -1,5 +1,6 @@
 package com.seekon.yougouhui.activity.sale;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -175,8 +176,8 @@ public class SaleDetailActivity extends Activity implements
 		LocationEntity currentLocation = RunEnv.getInstance().getLocationEntity();
 		LocationEntity shopLocation = sale.getShop().getLocation();
 		if (currentLocation != null && shopLocation != null) {
-			distanceView.setText(String.valueOf(LocationUtils.distance(
-					currentLocation, shopLocation)));
+			distanceView.setText(new DecimalFormat("###,###.##").format(LocationUtils
+					.distance(currentLocation, shopLocation)));
 		} else {
 			distanceView.setText("未知");
 		}

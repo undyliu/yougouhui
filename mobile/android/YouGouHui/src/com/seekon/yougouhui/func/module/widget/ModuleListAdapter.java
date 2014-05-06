@@ -19,15 +19,6 @@ import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
 public class ModuleListAdapter extends EntityListAdapter<ModuleEntity> {
 
-	private static List<String> anonymousAccessModelList = new ArrayList<String>();
-
-	static {
-		anonymousAccessModelList.add(ModuleConst.CODE_FRIENDS);
-		anonymousAccessModelList.add(ModuleConst.CODE_RADAR);
-		anonymousAccessModelList.add(ModuleConst.CODE_SETTING);
-		anonymousAccessModelList.add(ModuleConst.CODE_MY_SHOP);
-	}
-
 	public ModuleListAdapter(Context context, List<ModuleEntity> dataList) {
 		super(context, dataList);
 	}
@@ -55,12 +46,14 @@ public class ModuleListAdapter extends EntityListAdapter<ModuleEntity> {
 
 		String userType = RunEnv.getInstance().getUser().getType();
 		String code = module.getCode();
-		if (anonymousAccessModelList.contains(code)
+		if (ModuleConst.anonymousAccessModelList.contains(code)
 				|| !UserConst.TYPE_USER_ANONYMOUS.equals(userType)) {
 			holder.accessView.setVisibility(View.GONE);
 		} else {
 			holder.accessView.setVisibility(View.VISIBLE);
 			holder.accessView.setText(R.string.label_account_access);
+			holder.accessView.setEnabled(false);
+			holder.nameView.setEnabled(false);
 		}
 
 		return view;

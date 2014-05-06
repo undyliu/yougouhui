@@ -47,4 +47,5 @@
     <string name="title_action_add_emp">添加</string>
     <string name="title_action_del_emp">删除</string>
     <string name="title_action_publish_new_sale">发布新活动</string>
+    <string name="title_action_shop_sale_list">商铺活动</string>
 </resources>

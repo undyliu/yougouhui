@@ -1,7 +1,9 @@
 package com.seekon.yougouhui.func.spi;
 
+import com.seekon.yougouhui.func.LocationEntity;
 import com.seekon.yougouhui.func.sale.SaleEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
 public interface ISaleProcessor {
@@ -17,4 +19,7 @@ public interface ISaleProcessor {
 	public RestMethodResult<JSONObjResource> getSale(String saleId);
 
 	public RestMethodResult<JSONObjResource> cancelSale(SaleEntity sale);
+
+	public RestMethodResult<JSONArrayResource> getSalesByDistance(
+			LocationEntity location, int distance, int offset);
 }

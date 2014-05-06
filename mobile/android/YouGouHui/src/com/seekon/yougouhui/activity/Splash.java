@@ -1,8 +1,6 @@
 package com.seekon.yougouhui.activity;
 
 import static com.seekon.yougouhui.func.login.LoginConst.LOGIN_SETTING_AUTO_LOGIN;
-import static com.seekon.yougouhui.func.login.LoginConst.LOGIN_SETTING_KEY;
-import static com.seekon.yougouhui.func.login.LoginConst.LOGIN_SETTING_REMEMBER_PWD;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,6 +13,7 @@ import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.login.EnvHelper;
 import com.seekon.yougouhui.func.login.LoginConst;
+import com.seekon.yougouhui.func.user.UserUtils;
 import com.seekon.yougouhui.sercurity.AuthorizationManager;
 import com.seekon.yougouhui.util.ContentValuesUtils;
 import com.seekon.yougouhui.util.Logger;
@@ -35,26 +34,17 @@ public class Splash extends Activity {
 		this.setContentView(R.layout.splash);
 
 		boolean autoLogin = false;
-		boolean sso = false;
 
 		EnvHelper envHelper = AuthorizationManager.getInstance(this).getEnvHelper();
 		JSONObject loginSetting = envHelper.getLoginSetting();
 		if (loginSetting != null) {
 			try {
 				autoLogin = loginSetting.getBoolean(LOGIN_SETTING_AUTO_LOGIN);
-				sso = !loginSetting.getBoolean(LOGIN_SETTING_REMEMBER_PWD);// 不记住密码则进行sso的集成登录
+				// sso = !loginSetting.getBoolean(LOGIN_SETTING_REMEMBER_PWD);//
+				// 不记住密码则进行sso的集成登录
 			} catch (JSONException e) {
 				autoLogin = false;
 			}
-		} else {
-			sso = true;
-		}
-
-		if (sso) {
-			Intent intent = new Intent(this, SSOActivity.class);
-			startActivity(intent);
-			finish();
-			return;
 		}
 
 		boolean authed = false;
@@ -62,16 +52,23 @@ public class Splash extends Activity {
 			authed = auth(loginSetting);
 		}
 
-		if (authed) {
-			Intent main = new Intent(this, MainActivity.class);
-			startActivity(main);
-		} else {
-			Intent login = new Intent(this, LoginActivity.class);
-			if (loginSetting != null) {
-				login.putExtra(LOGIN_SETTING_KEY, loginSetting.toString());
-			}
-			startActivity(login);
+		if (!authed) {// 使用匿名用户访问
+			RunEnv.getInstance().setUser(UserUtils.getAnonymousUser());
 		}
+
+		Intent main = new Intent(this, MainActivity.class);
+		startActivity(main);
+
+		// if (authed) {
+		// Intent main = new Intent(this, MainActivity.class);
+		// startActivity(main);
+		// } else {
+		// Intent login = new Intent(this, LoginActivity.class);
+		// if (loginSetting != null) {
+		// login.putExtra(LOGIN_SETTING_KEY, loginSetting.toString());
+		// }
+		// startActivity(login);
+		// }
 		finish();
 	}
 
@@ -83,22 +80,6 @@ public class Splash extends Activity {
 	 */
 	private boolean auth(JSONObject loginSetting) {
 		boolean authed = false;
-		// UserData userHelper = AuthorizationManager.getInstance(this)
-		// .getUserHelper();
-		// try {
-		// String phone = loginSetting.getString(UserConst.COL_NAME_PHONE);
-		// String pwd = loginSetting.getString(UserConst.COL_NAME_PWD);
-		// UserEntity user = userHelper.auth(phone, pwd);
-		// authed = user != null;
-		// if (authed) {
-		// RunEnv.getInstance().setLoginSetting(
-		// ContentValuesUtils.fromJSONObject(loginSetting, null));
-		// RunEnv.getInstance().setUser(user);
-		// }
-		// } catch (JSONException e) {
-		// Logger.debug(TAG, e.getMessage(), e);
-		// authed = false;
-		// }
 		try {
 			String errorType = AuthorizationManager.getInstance(this).login(
 					ContentValuesUtils.fromJSONObject(loginSetting, null));

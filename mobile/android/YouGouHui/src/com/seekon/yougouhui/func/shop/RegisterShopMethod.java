@@ -8,6 +8,8 @@ import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_LOCATION;
 import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_OWNER;
 import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_SHOP_IMAGE;
 import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PWD;
+import static com.seekon.yougouhui.func.user.UserConst.COL_NAME_PHONE;
+import static com.seekon.yougouhui.func.user.UserConst.NAME_USER_NAME;
 
 import java.io.File;
 import java.net.URI;
@@ -20,6 +22,7 @@ import android.content.Context;
 
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.file.FileEntity;
+import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.rest.MultipartRequest;
 import com.seekon.yougouhui.rest.MultipartRestMethod;
 import com.seekon.yougouhui.rest.Request;
@@ -45,11 +48,21 @@ public class RegisterShopMethod extends MultipartRestMethod<JSONObjResource> {
 		params.put(COL_NAME_NAME, shop.getName());
 		params.put(COL_NAME_DESC, shop.getDesc());
 		params.put(COL_NAME_ADDRESS, shop.getAddress());
-		params.put(COL_NAME_OWNER, shop.getOwner());
-		params.put(COL_NAME_PWD, shop.getEmployees().get(0).getPwd());
 		params.put(COL_NAME_LOCATION, LocationUtils
 				.toJSONObject(shop.getLocation()).toString());
 
+		String owner = shop.getOwner();
+		if(owner != null){
+			params.put(COL_NAME_OWNER, shop.getOwner());
+			params.put(COL_NAME_PWD, shop.getEmployees().get(0).getPwd());
+		}else{
+			UserEntity emp = shop.getEmployees().get(0);
+			//params.put(COL_NAME_OWNER, "");
+			params.put(COL_NAME_PWD, emp.getPwd());
+			params.put(COL_NAME_PHONE, emp.getPhone());
+			params.put(NAME_USER_NAME, emp.getName());
+		}
+		
 		StringBuffer trades = new StringBuffer();
 		List<TradeEntity> tradeList = shop.getTrades();
 		for (TradeEntity trade : tradeList) {
