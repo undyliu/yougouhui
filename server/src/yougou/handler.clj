@@ -10,6 +10,7 @@
 	      [yougou.shop]
         [yougou.favorit]
         [yougou.setting]
+        [yougou.log]
         )
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
@@ -340,7 +341,7 @@
 )
 
 (defroutes auth-routes
-  (GET "/index.html" request (println request))
+  (GET "/index.html" request)
   (authenticated? app-routes)
   (route/resources "/")
   (route/not-found "Not Found")
@@ -350,4 +351,5 @@
   (-> (routes login-routes auth-routes)
       (handler/site :session)
       (ring.middleware.cookies/wrap-cookies)
+      (log-request)
       ))

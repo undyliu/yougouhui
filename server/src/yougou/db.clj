@@ -123,3 +123,8 @@
   (table :e_setting)
   (pk :uuid)
   )
+
+(defentity logs
+  (table :e_log)
+  (pk :uuid)
+  )
