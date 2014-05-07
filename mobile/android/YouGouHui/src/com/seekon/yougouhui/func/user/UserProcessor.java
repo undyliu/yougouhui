@@ -1,7 +1,5 @@
 package com.seekon.yougouhui.func.user;
 
-import java.util.Map;
-
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -108,5 +106,10 @@ public class UserProcessor extends ContentProcessor implements IUserProcessor {
 			Logger.warn(TAG, e.getMessage(), e);
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public RestMethodResult<JSONObjResource> getUserProfile(UserEntity user) {
+		return new GetUserProfileMethod(mContext, user).execute();
 	}
 }

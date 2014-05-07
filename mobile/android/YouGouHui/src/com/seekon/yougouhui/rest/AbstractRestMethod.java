@@ -1,11 +1,15 @@
 package com.seekon.yougouhui.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.user.UserConst;
+import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.rest.resource.Resource;
 import com.seekon.yougouhui.sercurity.AuthorizationManager;
 import com.seekon.yougouhui.sercurity.RequestSigner;
@@ -32,7 +36,9 @@ public abstract class AbstractRestMethod<T extends Resource> implements
 			RequestSigner signer = AuthorizationManager.getInstance(getContext());
 			signer.authorize(request);
 		}
-
+		
+		addUserHeaders(request);
+		
 		Response response = null;
 		try {
 			response = doRequest(request);
@@ -75,6 +81,13 @@ public abstract class AbstractRestMethod<T extends Resource> implements
 		return new RestMethodResult<T>(status, statusMsg, resource);
 	}
 
+	protected void addUserHeaders(Request request){
+		UserEntity user = RunEnv.getInstance().getUser();
+		List<String> userInfo = new ArrayList<String>();
+		userInfo.add(user.getPhone());
+		request.addHeader(UserConst.COL_NAME_PHONE, userInfo);
+	}
+	
 	protected abstract Request buildRequest();
 
 	protected boolean requiresAuthorization() {

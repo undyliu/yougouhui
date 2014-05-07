@@ -49,6 +49,7 @@ import com.seekon.yougouhui.func.shop.TradeEntity;
 import com.seekon.yougouhui.func.shop.widget.TradeListAdapter;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.user.UserUtils;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.func.widget.AsyncRestRequestTask;
 import com.seekon.yougouhui.rest.RestMethodResult;
@@ -208,7 +209,7 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 		userPhoneView.setText(user.getPhone());
 		ViewUtils.setEditTextReadOnly(userPhoneView);
 
-		if (!UserConst.TYPE_USER_ANONYMOUS.equals(user.getType())) {
+		if (!UserUtils.isAnonymousUser()) {
 			userNameView.setText(user.getName());
 			ViewUtils.setEditTextReadOnly(userNameView);
 		}
@@ -465,7 +466,7 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 						shop.setLocation(locationEntity);
 
 						UserEntity currentUser = RunEnv.getInstance().getUser();
-						if (UserConst.TYPE_USER_ANONYMOUS.equals(currentUser.getType())) {
+						if (UserUtils.isAnonymousUser()) {
 							UserEntity emp = new UserEntity();
 							emp.setPhone(userPhone);
 							emp.setName(userName);

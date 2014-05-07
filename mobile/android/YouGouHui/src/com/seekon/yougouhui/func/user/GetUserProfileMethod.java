@@ -31,6 +31,7 @@ public class GetUserProfileMethod extends JSONObjResourceMethod {
 	protected JSONObjResource parseResponseBody(String responseBody)
 			throws Exception {
 		JSONObjResource resource = super.parseResponseBody(responseBody);
+		resource.put(UserConst.DATA_KEY_USER, user);
 		return resource;
 	}
 }

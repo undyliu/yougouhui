@@ -135,10 +135,10 @@ public class AuthorizationManager implements RequestSigner {
 	 */
 	@Override
 	public boolean authorize(Request request) {
-		if(request.getMethod() == Method.GET){
+		if (request.getMethod() == Method.GET && UserUtils.isAnonymousUser()) {
 			return true;
 		}
-		
+
 		String sessionId = RunEnv.getInstance().getSessionId();
 		if (sessionId == null || sessionId.length() == 0) {
 			// 尝试先登录

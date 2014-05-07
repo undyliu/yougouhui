@@ -82,12 +82,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_radar_shop" />
-
+				
                 <CheckBox
                     android:id="@+id/c_radar_friend"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/label_radar_friends" />
+                    android:text="@string/label_radar_friends"
+                    android:visibility="gone" />
+                    
             </LinearLayout>
         </TableRow>
     </TableLayout>

@@ -24,6 +24,7 @@ import com.seekon.yougouhui.func.shop.ShopUtils;
 import com.seekon.yougouhui.func.sync.SyncData;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.user.UserUtils;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.func.widget.DateIndexedEntity;
 import com.seekon.yougouhui.func.widget.DateIndexedListAdapter;
@@ -54,9 +55,7 @@ public class ShopSaleListActivity extends DateIndexedListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.shop_sale_list, menu);
 
-		
-		final UserEntity user = RunEnv.getInstance().getUser();
-		if (UserConst.TYPE_USER_ANONYMOUS.equals(user.getType()) || shopEmp) {
+		if (UserUtils.isAnonymousUser() || shopEmp) {
 			return true;
 		}
 
@@ -66,7 +65,7 @@ public class ShopSaleListActivity extends DateIndexedListActivity {
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
 						return ShopProcessor.getInstance(ShopSaleListActivity.this)
-								.checkShopEmp(shopId, user.getUuid());
+								.checkShopEmp(shopId, RunEnv.getInstance().getUser().getUuid());
 					}
 
 					@Override

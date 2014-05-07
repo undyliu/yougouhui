@@ -61,6 +61,8 @@ public class LoginMethod extends BaseRestMethod<JSONObjResource> {
 		}
 
 		Request request = buildRequest();
+		addUserHeaders(request);
+		
 		Response response = null;
 		try {
 			response = doRequest(request);

@@ -14,4 +14,7 @@ public interface IUserProcessor {
 	public RestMethodResult<JSONObjResource> updateUserPwd(String pwd);
 
 	public RestMethodResult<JSONObjResource> updateUserPhoto(FileEntity photoUri);
+	
+	public RestMethodResult<JSONObjResource> getUserProfile(UserEntity user);
+	
 }

@@ -3,9 +3,11 @@ package com.seekon.yougouhui.func.user;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.http.client.UserTokenHandler;
 import org.json.JSONObject;
 
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.util.DeviceUtils;
 import com.seekon.yougouhui.util.JSONUtils;
 
@@ -71,5 +73,10 @@ public class UserUtils {
 		user.setName("匿名" + phone);
 		user.setRegisterTime(String.valueOf(System.currentTimeMillis()));
 		return user;
+	}
+	
+	public static boolean isAnonymousUser(){
+		UserEntity user = RunEnv.getInstance().getUser();
+		return user == null || UserConst.TYPE_USER_ANONYMOUS.equals(user.getType());
 	}
 }
