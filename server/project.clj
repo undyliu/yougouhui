@@ -10,6 +10,8 @@
 								 [pandect "0.3.0"]
                  [com.google.zxing/core "2.2"]
                  [com.google.zxing/javase "2.2"]
+                 [org.clojure/tools.logging "0.2.6"]
+                 [log4j/log4j "1.2.17"]
 		]
   :plugins [[lein-ring "0.8.10"]]
   :ring {:handler yougou.handler/app}

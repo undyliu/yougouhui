@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50511
 File Encoding         : 65001
 
-Date: 2014-04-28 17:19:30
+Date: 2014-05-06 17:21:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -88,9 +88,11 @@ DROP TABLE IF EXISTS `e_log`;
 CREATE TABLE `e_log` (
   `uuid` varchar(36) NOT NULL,
   `user_id` varchar(36) DEFAULT NULL,
+  `remote_addr` varchar(20) DEFAULT NULL,
   `act_time` varchar(16) DEFAULT NULL,
   `action` varchar(32) DEFAULT NULL,
-  `act_cotent` varchar(500) DEFAULT NULL,
+  `act_uri` varchar(500) DEFAULT NULL,
+  `act_content` varchar(2000) DEFAULT NULL,
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -203,8 +205,8 @@ CREATE TABLE `e_sale` (
 -- ----------------------------
 -- Records of e_sale
 -- ----------------------------
-INSERT INTO `e_sale` VALUES ('381044b2-ce60-4227-8a4d-ee3c475883c5', '优惠再次来袭', '全场汉堡买一送一', '1398614400000', '1398700800000', 'a7b21d66-5681-421d-96c4-6c560471eee8', '1', '602324364_1398663643931.png', '95982f2a-df27-42a2-bfeb-98332233d498', '1398663665156', '2014-04-28', '1398668032296', '4', '0', '1');
-INSERT INTO `e_sale` VALUES ('f1385b00-92b7-413b-98d6-61e3fd471a05', '五月优惠大酬宾', '五月每周二中午套餐一律25元，不限量。', '1398873653248', '1401465602048', 'a7b21d66-5681-421d-96c4-6c560471eee8', '1', '-1400089674_1397637457444.png', '95982f2a-df27-42a2-bfeb-98332233d498', '1397637513216', '2014-04-16', '1398668013875', '148', '0', '2');
+INSERT INTO `e_sale` VALUES ('381044b2-ce60-4227-8a4d-ee3c475883c5', '优惠再次来袭', '全场汉堡买一送一', '1398614400000', '1398700800000', 'a7b21d66-5681-421d-96c4-6c560471eee8', '1', '602324364_1398663643931.png', '95982f2a-df27-42a2-bfeb-98332233d498', '1398663665156', '2014-04-28', '1399361567328', '11', '0', '1');
+INSERT INTO `e_sale` VALUES ('f1385b00-92b7-413b-98d6-61e3fd471a05', '五月优惠大酬宾', '五月每周二中午套餐一律25元，不限量。', '1398873653248', '1401465602048', 'a7b21d66-5681-421d-96c4-6c560471eee8', '1', '-1400089674_1397637457444.png', '95982f2a-df27-42a2-bfeb-98332233d498', '1397637513216', '2014-04-16', '1399357680671', '152', '0', '2');
 
 -- ----------------------------
 -- Table structure for `e_sale_discuss`
@@ -305,6 +307,7 @@ INSERT INTO `e_sale_visit` VALUES ('0b0ab314-ca20-4cdc-b082-08adb97406a5', '2c0a
 INSERT INTO `e_sale_visit` VALUES ('0d1e189c-f5fb-49b3-9ed8-d3a11b5e0806', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398143255906');
 INSERT INTO `e_sale_visit` VALUES ('0d980d58-46bc-43e7-b8bc-4922b8c7f7ce', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398146284765');
 INSERT INTO `e_sale_visit` VALUES ('0e53e34d-4144-40a6-8145-46c32e138ccb', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397803834781');
+INSERT INTO `e_sale_visit` VALUES ('12ffd042-d513-4f85-97c1-ebcb02f7f99e', 'a5174868-a2b6-4000-a8da-7bc206d3a1f8', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399357676421');
 INSERT INTO `e_sale_visit` VALUES ('1400d1be-03b7-4e10-9567-7160fbc9f3bc', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398153779421');
 INSERT INTO `e_sale_visit` VALUES ('198a570a-e979-4f90-9437-9fa93d6f2205', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398152599125');
 INSERT INTO `e_sale_visit` VALUES ('1a2a7813-3bf9-4e03-93b3-f40f4ca6b9c5', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397914673751');
@@ -341,7 +344,9 @@ INSERT INTO `e_sale_visit` VALUES ('4f9e5a43-c1e7-4215-af1c-2fbf76e1d8ed', '9598
 INSERT INTO `e_sale_visit` VALUES ('507d2263-ed8b-431f-94ca-ab787f195166', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397914147391');
 INSERT INTO `e_sale_visit` VALUES ('51bed7f1-4820-4de8-a329-76d1a80215be', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398329886328');
 INSERT INTO `e_sale_visit` VALUES ('56475cef-27b7-43d2-b8be-a3714ab3233a', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398329822062');
+INSERT INTO `e_sale_visit` VALUES ('5c7fd374-0494-48b7-9bd1-eb8911c8a2c9', '6592e4e9-ae3c-41f6-b1d2-3812898b02dc', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399361567328');
 INSERT INTO `e_sale_visit` VALUES ('5dbebf7a-6b44-4b7c-8ecf-fa29879513a3', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398301018718');
+INSERT INTO `e_sale_visit` VALUES ('60fd9ec2-f055-4e8c-ba2f-75e4ea09ebdd', '5a123e20-5640-4458-a4d7-2eb38c9a1dbc', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399355471906');
 INSERT INTO `e_sale_visit` VALUES ('62174ae5-2190-4cc0-b4b4-484a5a1c45e2', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398215555338');
 INSERT INTO `e_sale_visit` VALUES ('644d9e4a-38ca-48fb-9a60-70792ce7a111', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397803287796');
 INSERT INTO `e_sale_visit` VALUES ('649804b6-bd76-4bae-92b3-70812b5a9a28', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398147801703');
@@ -364,6 +369,7 @@ INSERT INTO `e_sale_visit` VALUES ('7f50f834-26c6-47f5-a0b6-3e18dc75288b', '9598
 INSERT INTO `e_sale_visit` VALUES ('7f8c4c92-b985-4752-bb2a-35d90d762e47', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397794387578');
 INSERT INTO `e_sale_visit` VALUES ('80bba7b7-a193-4472-bb07-c7ea9b8e4467', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398391870203');
 INSERT INTO `e_sale_visit` VALUES ('812b4326-d9b0-4cc7-9253-efc9afd011f0', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397700689920');
+INSERT INTO `e_sale_visit` VALUES ('844dec03-b8e0-46cd-9060-4a83c468a50d', '95982f2a-df27-42a2-bfeb-98332233d498', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399353677828');
 INSERT INTO `e_sale_visit` VALUES ('8460f605-e1f2-41d8-bbd8-735cab39816b', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398136737828');
 INSERT INTO `e_sale_visit` VALUES ('85b22b8f-f15a-4151-87a8-6528f117697b', 'd4d9cd17-1b38-407b-860b-f9002a24388e', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1398663802234');
 INSERT INTO `e_sale_visit` VALUES ('85c882d5-cca3-4f5c-a05b-918720f9513b', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398139620468');
@@ -396,11 +402,13 @@ INSERT INTO `e_sale_visit` VALUES ('a50c97ac-97dc-427e-a4a2-c2372f9ea63c', '9598
 INSERT INTO `e_sale_visit` VALUES ('a5ca8f3a-0559-4a65-b154-937ade77b29b', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397919636151');
 INSERT INTO `e_sale_visit` VALUES ('a66e83fb-23f4-4a7f-9eec-743c2fc6e682', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398146611703');
 INSERT INTO `e_sale_visit` VALUES ('a705bf60-d0fb-4394-8634-c6b501ac1ed3', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398149303328');
+INSERT INTO `e_sale_visit` VALUES ('aec02827-87bb-4ad6-98fa-54d2322ed807', 'a5174868-a2b6-4000-a8da-7bc206d3a1f8', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399357665328');
 INSERT INTO `e_sale_visit` VALUES ('b02cc941-8727-4893-89e4-399c2ad94ed8', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398150691515');
 INSERT INTO `e_sale_visit` VALUES ('b32c631b-1056-49c7-b1d3-f926f8bbc94c', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398300872359');
 INSERT INTO `e_sale_visit` VALUES ('b3707c80-14c7-44a7-8f32-618229feea8e', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398147036484');
 INSERT INTO `e_sale_visit` VALUES ('b4367258-3732-4216-b85c-b0e9dc8be1e7', '7248db2e-c8d2-4d26-8047-79c8082fb80f', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397638430720');
 INSERT INTO `e_sale_visit` VALUES ('b469c4e2-3fc5-4e91-af17-3ac33126e0f7', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398329835593');
+INSERT INTO `e_sale_visit` VALUES ('b49234dc-b477-4a70-8df2-f7c2910e24d6', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399353688562');
 INSERT INTO `e_sale_visit` VALUES ('b68fc370-7a8c-4f44-a8ab-564ceacf49f8', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398150490421');
 INSERT INTO `e_sale_visit` VALUES ('b7dbb0e7-7386-4638-9cae-90b07c970240', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398147237312');
 INSERT INTO `e_sale_visit` VALUES ('b8c29ba0-39b0-4f57-859d-f48c2dcc1683', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397912721591');
@@ -409,6 +417,7 @@ INSERT INTO `e_sale_visit` VALUES ('bb9a751d-046f-46b7-9297-377493cc7f62', '7248
 INSERT INTO `e_sale_visit` VALUES ('bcab3753-a080-45c3-bbc1-f1c7c1e2443b', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398402325703');
 INSERT INTO `e_sale_visit` VALUES ('c0d50095-8251-4d13-a0be-06fdf73a05dd', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398397500375');
 INSERT INTO `e_sale_visit` VALUES ('c3416770-23bb-4eaa-8040-9144b0a5bd00', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398129507312');
+INSERT INTO `e_sale_visit` VALUES ('c39430fd-7c55-436a-befc-8515b13506c8', '5a123e20-5640-4458-a4d7-2eb38c9a1dbc', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399355465703');
 INSERT INTO `e_sale_visit` VALUES ('c49164bc-6aca-49e3-9cbc-10944917cad1', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397918387298');
 INSERT INTO `e_sale_visit` VALUES ('c5030227-1886-4a74-a86b-efb0d0b9f4de', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397794291484');
 INSERT INTO `e_sale_visit` VALUES ('c788917b-b541-4cd4-93db-6e2f58883d98', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398405166359');
@@ -423,6 +432,7 @@ INSERT INTO `e_sale_visit` VALUES ('d709761f-f2b1-45a6-8001-6dc3381930dc', '9598
 INSERT INTO `e_sale_visit` VALUES ('d7e389a0-5514-4a4e-84a8-6a00401026c7', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398144808781');
 INSERT INTO `e_sale_visit` VALUES ('d9116341-fc92-4cab-a1be-d41560734671', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397637644288');
 INSERT INTO `e_sale_visit` VALUES ('da990b23-aa7f-4f4a-a79c-54d658093961', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397995305600');
+INSERT INTO `e_sale_visit` VALUES ('dc03309c-a772-4b1b-bc60-873eede3bab0', '8d628d3b-5e9e-4f55-8367-3d38a7d66da6', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399356859953');
 INSERT INTO `e_sale_visit` VALUES ('dd20ddf9-b0cc-4e5d-991b-e08f12647b3c', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397637906432');
 INSERT INTO `e_sale_visit` VALUES ('de33b525-259c-48a7-a3a5-b5a66a84cb22', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397919458902');
 INSERT INTO `e_sale_visit` VALUES ('def0b0bb-9966-41d6-847b-5b649de0ff0e', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398149598812');
@@ -439,13 +449,16 @@ INSERT INTO `e_sale_visit` VALUES ('e7666d2f-9acd-4d44-a058-0d33eadf55fe', '9598
 INSERT INTO `e_sale_visit` VALUES ('e8e59d2c-4851-4d3c-a316-8b91ce2b27a7', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397794083718');
 INSERT INTO `e_sale_visit` VALUES ('e91b7a3a-3a2e-4660-b21f-07e785e2a6ca', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398149442796');
 INSERT INTO `e_sale_visit` VALUES ('e99b11ce-b129-4f7e-93d2-7142ccdfd3e0', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397803448500');
+INSERT INTO `e_sale_visit` VALUES ('ea1d4771-ed36-4103-af7c-45aeaad1e296', 'a5174868-a2b6-4000-a8da-7bc206d3a1f8', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399357680671');
 INSERT INTO `e_sale_visit` VALUES ('ec36c239-a751-4d4c-89d5-c273b9f61565', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398147830203');
 INSERT INTO `e_sale_visit` VALUES ('ec37a631-b0ae-4b2e-9909-94c91b59694d', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398146020093');
 INSERT INTO `e_sale_visit` VALUES ('efc34fb3-a228-4a69-b478-1658738f039c', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397794130875');
+INSERT INTO `e_sale_visit` VALUES ('f0ac91fa-2164-4ba2-97c2-89d32ad29925', '4835e652-1192-4d62-9104-829df8d72ba1', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399355044609');
 INSERT INTO `e_sale_visit` VALUES ('f200e292-bbe5-4c56-b847-6e64539e9e31', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398146082281');
 INSERT INTO `e_sale_visit` VALUES ('f4863785-20b5-450e-9d39-365b684d5f4c', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398146191312');
 INSERT INTO `e_sale_visit` VALUES ('f6a3c62f-7543-43fc-bf09-4f9625093f63', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397804610718');
 INSERT INTO `e_sale_visit` VALUES ('f782c8fa-6e3c-4229-af75-4d0243a1bd2a', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398329801296');
+INSERT INTO `e_sale_visit` VALUES ('f7e35e73-4383-4ed2-820a-a991d283814c', 'a5174868-a2b6-4000-a8da-7bc206d3a1f8', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399357619390');
 INSERT INTO `e_sale_visit` VALUES ('f89d19a7-f96a-47dd-9a29-9c220b8dbd8e', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398147962046');
 INSERT INTO `e_sale_visit` VALUES ('fa92d223-a434-41c8-84e1-e76990488df0', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397896523746');
 INSERT INTO `e_sale_visit` VALUES ('fe1bc33d-023e-4857-82f1-84dcce252ed9', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398151146468');
@@ -600,7 +613,7 @@ CREATE TABLE `e_shop` (
 -- ----------------------------
 -- Records of e_shop
 -- ----------------------------
-INSERT INTO `e_shop` VALUES ('a7b21d66-5681-421d-96c4-6c560471eee8', '肯德基上地店', null, '1309850451_1397631831384.png', '{\"address\":\"北京市海淀区北清路68号\",\"lontitude\":116.242521,\"radius\":20.5,\"latitude\":40.073394}', '北京市海淀区北清路68号', '肯德基大品牌', '-1044649450_1397631831387.png', null, '95982f2a-df27-42a2-bfeb-98332233d498', null, '1397631877120', '1', 'barcode_-1053186559_1397631834031.png', null, null);
+INSERT INTO `e_shop` VALUES ('a7b21d66-5681-421d-96c4-6c560471eee8', '肯德基上地店', null, '1309850451_1397631831384.png', '{\"address\":\"北京市海淀区北清路68号\",\"lontitude\":116.242521,\"radius\":20.5,\"latitude\":40.073394}', '北京市海淀区北清路68号', '肯德基大品牌', '-1044649450_1397631831387.png', null, '95982f2a-df27-42a2-bfeb-98332233d498', null, '1397631877120', '1', 'barcode_-1053186559_1397631834031.png', '40.073394', '116.242521');
 
 -- ----------------------------
 -- Table structure for `e_shop_emp`
@@ -748,18 +761,15 @@ END;;
 DELIMITER ;
 
 -- ----------------------------
--- Procedure structure for `geodist11`
+-- Function structure for `geodist_field`
 -- ----------------------------
-DROP PROCEDURE IF EXISTS `geodist11`;
+DROP FUNCTION IF EXISTS `geodist_field`;
 DELIMITER ;;
-CREATE DEFINER=`ebs`@`%` PROCEDURE `geodist11`(IN `lon` double,IN `lat` double,IN `dist` int)
+CREATE DEFINER=`ebs`@`%` FUNCTION `geodist_field`(`lat_d` double,`lon_d` double,`lat_s` double,`lon_s` double) RETURNS double
 BEGIN
 	#Routine body goes here...
-	select s.*, (2 * 6378.137 * ASIN (SQRT (POW (SIN (PI() * (lat - s.latitude)/360),2)
-			+ COS(PI() * lat/180)* COS(s.latitude * PI()/180)*POW(SIN(PI()*(lon - s.longitude)/360),2)))) as distance
-            from e_shop s
-	   where  s.latitude> lat -1 and s.latitude < lat + 1 and s.longitude > lon - 1 and s.longitude < lon + 1
-           having distance <= dist
-	  order by distance;
+
+	RETURN (2 * 6378.137 * ASIN (SQRT (POW (SIN (PI() * (lat_d - lat_s)/360),2)
+				+ COS(PI() * lat_d/180)* COS(lat_s * PI()/180)*POW(SIN(PI()*(lon_d - lon_s)/360),2)))) * 1000;
 END;;
 DELIMITER ;

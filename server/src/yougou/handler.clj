@@ -1,5 +1,6 @@
 (ns yougou.handler
   (:use [compojure.core]
+        [clojure.tools.logging]
 	      [yougou.sale]
 	      [yougou.module]
 	      [yougou.auth]
@@ -9,6 +10,7 @@
 	      [yougou.shop]
         [yougou.favorit]
         [yougou.setting]
+        [yougou.log]
         )
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
@@ -78,9 +80,12 @@
 			(catch Exception e {:status  200 :body (json/write-str{:error "作废活动失败."})})
 		)
 	)
-  (GET "/getSalesByDistance/:location/:distance" [location distance]
-       (json/write-str (get-sales-by-distance (json/read-str location) distance))
+  (GET "/getSalesByDistance/:lat/:lon/:distance/:offset" [lat lon distance offset]
+     (try
+       (json/write-str (get-sales-by-distance (Double/valueOf lat) (Double/valueOf lon) distance offset))
+       (catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str {:error "获取活动数据失败."})})
        )
+     )
 )
 
 (defroutes module-routes
@@ -183,7 +188,8 @@
 
 (defroutes shop-routes
 	(GET "/getTrades" [] (json/write-str (get-trades)))
-  (POST "/registerShop" {{name :name location :location address :address desc :desc shop-img :shop_img busi-license :busi_license owner :owner pwd :pwd :as params} :params}
+  (POST "/registerShop" {{name :name location :location address :address desc :desc shop-img :shop_img
+                          busi-license :busi_license owner :owner pwd :pwd :as params} :params}
     ;(println params)
     (let [files {shop-img (:tempfile (params shop-img)) busi-license (:tempfile (params busi-license))}
           trades (clojure.string/split (java.net.URLDecoder/decode (:tradeList params) "utf-8") #"[|]")
@@ -258,12 +264,18 @@
 			(catch Exception e {:status  200 :body (json/write-str{:error "添加收藏失败."})})
 		)
 	)
-  (GET "/getShopsByDistance/:lat/:lon/:distance" [lat lon distance]
+  (GET "/getShopsByDistance/:lat/:lon/:distance/:offset" [lat lon distance offset]
      (try
-       (json/write-str (get-shops-by-distance lat lon distance))
+       (json/write-str (get-shops-by-distance (Double/valueOf lat) (Double/valueOf lon) distance offset))
        (catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str {:error "获取商铺数据失败."})})
        )
      )
+  (GET "/checkShopEmp/:shop-id/:emp-id" [shop-id emp-id]
+       (try
+         (json/write-str (check-shop-emp shop-id emp-id))
+         (catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str {})})
+         )
+   )
 )
 
 (defroutes favorit-routes
@@ -308,7 +320,15 @@
   )
 
 (defroutes login-routes
-	(POST "/login" request (login request))
+	(POST "/login" request
+      (let [phone (:phone (:params request))]
+        (try
+          (info "login phone:" phone)
+          (login request)
+          (catch Exception e (error e (str phone "登录失败.")))
+        )
+       )
+     )
   (POST "/registerUser" {{name :name phone :phone pwd :pwd photo :photo type :type :as params} :params}
 		(try
 			(if photo
@@ -321,7 +341,7 @@
 )
 
 (defroutes auth-routes
-  (GET "/index.html" request (println request))
+  (GET "/index.html" request)
   (authenticated? app-routes)
   (route/resources "/")
   (route/not-found "Not Found")
@@ -331,4 +351,5 @@
   (-> (routes login-routes auth-routes)
       (handler/site :session)
       (ring.middleware.cookies/wrap-cookies)
+      (log-request)
       ))

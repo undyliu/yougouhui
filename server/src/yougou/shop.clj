@@ -62,10 +62,14 @@
 (defn save-shop [name desc location address shop-img busi-license owner files]
 	(let [uuid (str (java.util.UUID/randomUUID))
         current-time (str  (System/currentTimeMillis))
+        val-map {:uuid uuid :name name :desc desc :location location :address address :shop_img shop-img
+               :busi_license busi-license :register_time current-time :owner owner :last_modify_time current-time}
         ]
-    (insert shops
-      (values {:uuid uuid :name name :desc desc :location location :address address :shop_img shop-img :busi_license busi-license :register_time current-time :owner owner :last_modify_time current-time})
-    )
+    (if location
+      (insert shops (values (assoc val-map :latitude (:latitude location) :longitude (:longitude location))))
+      (insert shops (values val-map))
+      )
+
     (file/save-image-file shop-img (files shop-img))
     (file/save-image-file busi-license (files busi-license))
     {:uuid uuid :register_time current-time :status 0}
@@ -127,7 +131,8 @@
     )
    )
 (defn set-shop-emp-pwd [shop-id user-id new-pwd]
-  {:rows (update shop-emps (set-fields {:pwd new-pwd :last_modify_time (str (System/currentTimeMillis))}) (where {:shop_id shop-id :user_id user-id}))}
+  {:rows (update shop-emps (set-fields {:pwd new-pwd :last_modify_time (str (System/currentTimeMillis))})
+                 (where {:shop_id shop-id :user_id user-id}))}
  )
 
 (defn update-shop-emp-pwd [shop-id user-id old-pwd new-pwd]
@@ -197,18 +202,27 @@
    )
   )
 
-(defn get-shops-by-distance [lat lon dist]
-  ;(let [lon (:lontitude location)
-   ;     lat (:latitude location)]
-    ;(exec
-    ; (-> (select* shops)
-    ;     (fields :uuid :name :shop_img :barcode :owner
-    ;             )
-     ;    (where {:status "1"})
-     ;    (where {:latitude [< (+ lat 1)] :latitude [> (- lat 1)] :longitude [< (+ lon 1)] :longitude [> (- lon 1)]})
-     ;    (order (+ (sqlfn abs (- :longitude lon)) (sqlfn abs (- :latitude lat))))
-     ; )
-     ;)
-    (sqlfn "geodist" "e_shop" lon lat dist)
-   ; )
+(defn get-shops-by-distance [lat lon dist offset-val]
+  (exec
+     (-> (select* shops)
+        (fields :uuid :name :shop_img :barcode :owner
+                [(sqlfn geodist_field lat lon :latitude :longitude) :distance]
+                 )
+         (where {:status "1"})
+         (where (and (< :latitude (+ lat 1)) (> :latitude (- lat 1)) (< :longitude (+ lon 1)) (> :longitude (- lon 1))))
+         ;(where (and (and (< :latitude (+ lat 1)) (> :latitude (- lat 1))) (and (< :longitude (+ lon 1)) (> :longitude (- lon 1)))))
+         ;(where (and (and (and (and (< :latitude (+ lat 1))) (> :latitude (- lat 1))) (< :longitude (+ lon 1))) (> :longitude (- lon 1))))
+         (having {:distance [<= dist]})
+         (order :distance)
+         (limit def-page-size)
+         (offset offset-val)
+      )
+     )
+  )
+
+(defn check-shop-emp [shop-id emp-id]
+  (if-let [shop-emp (first (select shop-emps (fields :uuid) (where {:shop_id shop-id :user_id emp-id})))]
+    shop-emp
+    {}
+   )
   )

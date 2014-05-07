@@ -6,6 +6,8 @@
 
 (declare sale-images sales sale-discusses channels trades shares share-images share-comments shops shop-trades shop-emps users)
 
+(def def-page-size 10)
+
 ;;base tables
 (defentity trades
   (table :e_trade)
@@ -119,5 +121,10 @@
 
 (defentity settings
   (table :e_setting)
+  (pk :uuid)
+  )
+
+(defentity logs
+  (table :e_log)
   (pk :uuid)
   )
