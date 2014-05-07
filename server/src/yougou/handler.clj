@@ -1,6 +1,5 @@
 (ns yougou.handler
   (:use [compojure.core]
-        [clojure.tools.logging]
 	      [yougou.sale]
 	      [yougou.module]
 	      [yougou.auth]
@@ -15,10 +14,10 @@
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
 	          [clojure.data.json :as json]
-			     [clojure.java.io :as io]
-			     [ring.util.response :as response]
-			     (ring.middleware [multipart-params :as mp])
-			     [yougou.file :as file]
+			      [clojure.java.io :as io]
+			      [ring.util.response :as response]
+			      (ring.middleware [multipart-params :as mp])
+			      [yougou.file :as file]
             [ring.middleware.cookies]
 	))
 
@@ -50,23 +49,14 @@
               title (java.net.URLDecoder/decode title "utf-8")
               content (java.net.URLDecoder/decode content "utf-8")
               ]
-          (try
-			      (json/write-str (save-sale-data title content start-date end-date shop-id trade-id publisher image-names params))
-			      (catch Exception e {:status  200 :body (json/write-str{:error "保存失败."})})
-		        )
+          (json/write-str (save-sale-data title content start-date end-date shop-id trade-id publisher image-names params))
           )
         )
   (POST "/addSaleDiscuss" {{sale-id :sale_id user-id :publisher content :content} :params}
-		(try
 			(json/write-str (save-sale-discuss sale-id user-id content))
-			(catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str{:error "添加评论失败."})})
-		)
 	)
   (DELETE "/deleteSaleDiscuss/:uuid" [uuid]
-		(try
 			(json/write-str (del-sale-discuss uuid))
-			(catch Exception e {:status  200 :body (json/write-str{:error "删除评论失败."})})
-		)
 	)
   (GET "/getSaleDiscusses/:sale-id/:update-time" [sale-id update-time]
        (let [current-time (str (System/currentTimeMillis)) ]
@@ -75,16 +65,10 @@
        )
 
   (PUT "/cancelSale" {{sale-id :sale_id} :params}
-		(try
 			(json/write-str (cancel-sale sale-id))
-			(catch Exception e {:status  200 :body (json/write-str{:error "作废活动失败."})})
-		)
 	)
   (GET "/getSalesByDistance/:lat/:lon/:distance/:offset" [lat lon distance offset]
-     (try
        (json/write-str (get-sales-by-distance (Double/valueOf lat) (Double/valueOf lon) distance offset))
-       (catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str {:error "获取活动数据失败."})})
-       )
      )
 )
 
@@ -105,39 +89,21 @@
    )
 
 	(POST "/saveShare" {params :params}
-		;(println params)
-		(try
 			(json/write-str (save-share params))
-			(catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str{:error "保存失败."})})
-		)
 	)
   (POST "/saveShareReply" {{share-id :share_id shop-id :shop_id content :content grade :grade replier :replier} :params}
-		;(println params)
-		(try
 			(json/write-str (save-share-shop-reply share-id shop-id content grade replier))
-			(catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str{:error "保存失败."})})
-		)
 	)
 	(POST "/saveComment" {{share-id :share_id content :content, user :publisher} :params}
-		(try
 			(json/write-str (save-comment share-id content user))
-			(catch Exception e {:status  200 :body (json/write-str{:error "保存失败."})})
-		)
 	)
 	(DELETE "/deleteShare/:share-id" [share-id]
-		(try
 			(json/write-str (del-share-data share-id))
-			(catch Exception e {:status  200 :body (json/write-str{:error "删除失败."})})
-		)
 	)
 	(DELETE "/deleteComment/:comment-id" [comment-id]
-		(try
 			(json/write-str (del-comment comment-id))
-			(catch Exception e {:status  200 :body (json/write-str{:error "删除失败."})})
-		)
 	)
-  (GET "/getUserShares/:user-id" [user-id] (json/write-str (get-user-share-data user-id))
-       )
+  (GET "/getUserShares/:user-id" [user-id] (json/write-str (get-user-share-data user-id)))
 )
 
 (defroutes file-routes
@@ -146,41 +112,26 @@
 
 (defroutes user-routes
 	(PUT "/updateUserName" {{uuid :uuid name :name} :params}
-		(try
 			(json/write-str (update-user-name uuid (java.net.URLDecoder/decode name "utf-8")))
-			(catch Exception e {:status  200 :body (json/write-str {:error "修改失败."})})
-		)
 	)
 	(PUT "/updateUserPwd" {{uuid :uuid pwd :pwd} :params}
-		(try
 			(json/write-str (update-user-pwd uuid pwd))
-			(catch Exception e {:status  200 :body (json/write-str {:error "修改失败."})})
-		)
 	)
 	(POST "/saveUserPhoto" {{uuid :uuid photo :photo :as params} :params}
-		(try
 			(if photo
 				(json/write-str (save-user-photo uuid photo (:tempfile (params photo))))
 				(json/write-str (save-user-photo uuid photo nil))
 			)
-			(catch Exception e {:status  200 :body (json/write-str {:error "保存头像失败."})})
-		)
 	)
 	(POST "/searchUsers" {{word :search-word} :params} (json/write-str (search-user-exact (java.net.URLDecoder/decode word "utf-8"))))
 )
 
 (defroutes friend-routes
 	(POST "/addFriend" {{user-id :user_id friend-id :friend_id} :params}
-		(try
 			(json/write-str (add-friend user-id friend-id))
-		(catch Exception e {:status  200 :body (json/write-str {:error "添加朋友失败."})})
-		)
 	)
 	(DELETE "/deleteFriend/:user-id/:friend-id" [user-id friend-id]
-		(try
 			(json/write-str (del-friend user-id friend-id))
-			(catch Exception e {:status  200 :body (json/write-str {:error "删除朋友失败."})})
-		)
 	)
 	(GET "/getFriends/:user-id" [user-id] (json/write-str (get-friends user-id))
 	)
@@ -190,106 +141,63 @@
 	(GET "/getTrades" [] (json/write-str (get-trades)))
   (POST "/registerShop" {{name :name location :location address :address desc :desc shop-img :shop_img
                           busi-license :busi_license owner :owner pwd :pwd :as params} :params}
-    ;(println params)
     (let [files {shop-img (:tempfile (params shop-img)) busi-license (:tempfile (params busi-license))}
           trades (clojure.string/split (java.net.URLDecoder/decode (:tradeList params) "utf-8") #"[|]")
           ]
-      (try
         (json/write-str (save-shop-data (java.net.URLDecoder/decode name "utf-8") (java.net.URLDecoder/decode desc "utf-8")
                                         (java.net.URLDecoder/decode location "utf-8") (java.net.URLDecoder/decode address "utf-8")
                                         shop-img busi-license owner pwd files trades))
-        (catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str {:error "注册商铺失败."})})
-      )
     )
   )
   (POST "/loginShop" {{user-id :user_id, pwd :pwd} :params}
-     (try
        (json/write-str (login-shop user-id pwd))
-       (catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str {:error "登录商铺失败."})})
-       )
    )
   (GET "/getShop/:shop-id" [shop-id] (json/write-str (get-shop shop-id)))
   (POST "/updateShop" {{shop-id :shop_id field-name :field value :value :as params} :params}
      (let [file (:tempfile (params value))]
-       (try
          (json/write-str (update-shop field-name (java.net.URLDecoder/decode value "utf-8") shop-id file))
-         (catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str {:error "修改商铺失败."})})
-         )
       )
    )
   (PUT "/updateShopEmpPwd" {{shop-id :shop_id user-id :user_id old-pwd :old_pwd new-pwd :pwd} :params}
-     (try
        (json/write-str (update-shop-emp-pwd shop-id user-id old-pwd new-pwd))
-       (catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str {:error "修改登录密码失败."})})
-      )
    )
   (PUT "/updateShopTrades" {{shop-id :shop_id trade-list :tradeList} :params}
        (let [trades (clojure.string/split (java.net.URLDecoder/decode trade-list "utf-8") #"[|]")]
-         (try
            (json/write-str (update-shop-trades shop-id trades))
-           (catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str {:error "修改主营业务失败."})})
-         )
         )
        )
   (POST "/createShopBarcode" {{shop-id :shop_id} :params}
-     (try
        (json/write-str (create-shop-barcode shop-id))
-       (catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str {:error "生成商铺二维码失败."})})
-      )
    )
   (GET "/getShopEmps/:shop-id" [shop-id] (json/write-str (get-shop-emps shop-id)))
   (POST "/addShopEmps" {{shop-id :shop_id emps :emps} :params}
-     (try
-       (json/write-str (save-shop-emps shop-id (clojure.string/split (java.net.URLDecoder/decode emps "utf-8") #"[|]") false))
-       (catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str {:error "添加职员失败."})})
-      )
+    (json/write-str (save-shop-emps shop-id (clojure.string/split (java.net.URLDecoder/decode emps "utf-8") #"[|]") false))
    )
   (DELETE "/deleteShopEmps/:shop-id/:emps" [shop-id emps]
-     (try
-       (json/write-str (save-shop-emps shop-id (clojure.string/split (java.net.URLDecoder/decode emps "utf-8") #"[|]") true))
-       (catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str {:error "删除职员失败."})})
-      )
+    (json/write-str (save-shop-emps shop-id (clojure.string/split (java.net.URLDecoder/decode emps "utf-8") #"[|]") true))
    )
   (PUT "/setShopEmpPwd" {{shop-id :shop_id user-id :user_id new-pwd :pwd} :params}
-     (try
-       (json/write-str (set-shop-emp-pwd shop-id user-id  new-pwd))
-       (catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str {:error "设置登录密码失败."})})
-      )
+    (json/write-str (set-shop-emp-pwd shop-id user-id  new-pwd))
    )
-  (POST "/searchShops" {{word :search-word} :params} (json/write-str (search-shop (java.net.URLDecoder/decode word "utf-8"))))
-
+  (POST "/searchShops" {{word :search-word} :params}
+        (json/write-str (search-shop (java.net.URLDecoder/decode word "utf-8"))))
   (POST "/addShopFavorit" {{shop-id :shop_id user-id :user_id} :params}
-		(try
-			(json/write-str (save-shop-favorit user-id shop-id))
-			(catch Exception e {:status  200 :body (json/write-str{:error "添加收藏失败."})})
-		)
+	  (json/write-str (save-shop-favorit user-id shop-id))
 	)
   (GET "/getShopsByDistance/:lat/:lon/:distance/:offset" [lat lon distance offset]
-     (try
-       (json/write-str (get-shops-by-distance (Double/valueOf lat) (Double/valueOf lon) distance offset))
-       (catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str {:error "获取商铺数据失败."})})
-       )
-     )
+     (json/write-str (get-shops-by-distance (Double/valueOf lat) (Double/valueOf lon) distance offset))
+    )
   (GET "/checkShopEmp/:shop-id/:emp-id" [shop-id emp-id]
-       (try
-         (json/write-str (check-shop-emp shop-id emp-id))
-         (catch Exception e (.printStackTrace e) {:status  200 :body (json/write-str {})})
-         )
+     (json/write-str (check-shop-emp shop-id emp-id))
    )
 )
 
 (defroutes favorit-routes
  (POST "/addSaleFavorit" {{sale-id :sale_id user-id :user_id} :params}
-		(try
-			(json/write-str (save-sale-favorit user-id sale-id))
-			(catch Exception e {:status  200 :body (json/write-str{:error "添加收藏失败."})})
-		)
+		(json/write-str (save-sale-favorit user-id sale-id))
 	)
  (POST "/addShopFavorit" {{shop-id :shop_id user-id :user_id} :params}
-		(try
-			(json/write-str (save-shop-favorit user-id shop-id))
-			(catch Exception e {:status  200 :body (json/write-str{:error "添加收藏失败."})})
-		)
+		(json/write-str (save-shop-favorit user-id shop-id))
 	)
   (GET "/getSaleFavoritesByUser/:user-id" [user-id]
      (json/write-str (get-sale-favorites-by-user user-id))
@@ -298,16 +206,10 @@
      (json/write-str (get-shop-favorites-by-user user-id))
    )
   (DELETE "/deleteSaleFavorit/:user-id/:sale-id" [user-id sale-id]
-		(try
-			(json/write-str (del-sale-favorit user-id sale-id))
-			(catch Exception e {:status  200 :body (json/write-str{:error "取消收藏失败."})})
-		)
+		(json/write-str (del-sale-favorit user-id sale-id))
 	)
   (DELETE "/deleteShopFavorit/:user-id/:shop-id" [user-id shop-id]
-		(try
-			(json/write-str (del-shop-favorit user-id shop-id))
-			(catch Exception e {:status  200 :body (json/write-str{:error "取消收藏失败."})})
-		)
+		(json/write-str (del-shop-favorit user-id shop-id))
 	)
  )
 
@@ -320,23 +222,12 @@
   )
 
 (defroutes login-routes
-	(POST "/login" request
-      (let [phone (:phone (:params request))]
-        (try
-          (info "login phone:" phone)
-          (login request)
-          (catch Exception e (error e (str phone "登录失败.")))
-        )
-       )
-     )
+	(POST "/login" request (login request))
   (POST "/registerUser" {{name :name phone :phone pwd :pwd photo :photo type :type :as params} :params}
-		(try
 			(if photo
 				(json/write-str (register-user (java.net.URLDecoder/decode name "utf-8") phone pwd type photo (:tempfile (params photo))))
 				(json/write-str (register-user (java.net.URLDecoder/decode name "utf-8") phone pwd type photo nil))
 			)
-			(catch Exception e {:status  200 :body (json/write-str {:error "保存失败."})})
-		)
 	)
 )
 

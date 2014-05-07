@@ -9,4 +9,4 @@ pom.xml.asc
 *.db
 /.lein-*
 /.nrepl-port
-/rolling.log
+/rolling.log*
