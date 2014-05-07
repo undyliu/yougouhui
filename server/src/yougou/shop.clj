@@ -7,6 +7,7 @@
   (:require
 		[yougou.file :as file]
     [yougou.qrcode :as qrcode]
+    [clojure.data.json :as json]
 	)
 )
 
@@ -69,12 +70,16 @@
                :busi_license busi-license :register_time current-time :owner owner :last_modify_time current-time}
         ]
     (if location
-      (insert shops (values (assoc val-map :latitude (:latitude location) :longitude (:longitude location))))
+      (let [json-loc (json/read-str location)]
+        (insert shops (values (assoc val-map :latitude (str (get json-loc "latitude")) :longitude (str (get json-loc "longitude")))))
+        )
       (insert shops (values val-map))
       )
 
     (file/save-image-file shop-img (files shop-img))
-    (file/save-image-file busi-license (files busi-license))
+    (if busi-license
+      (file/save-image-file busi-license (files busi-license))
+      )
     {:uuid uuid :register_time current-time :status 0}
    )
 )

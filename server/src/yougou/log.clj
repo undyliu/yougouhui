@@ -5,8 +5,7 @@
     [yougou.date]
     [clojure.tools.logging]
 		)
-  (:require [clojure.data.json :as json]
-   )
+  (:require [clojure.data.json :as json])
 )
 
 (defn log-request [handler]

@@ -149,7 +149,7 @@
         ]
     (transaction
       (insert sale-discusses (values {:uuid uuid :sale_id sale-id :content content :publisher publisher :publish_time current-time :last_modify_time current-time}))
-      (exec-raw ["update sales set discuss_count = discuss_count + 1, last_modify_time = ? where uuid = ?" [current-time, sale-id]])
+      (exec-raw ["update e_sale set discuss_count = discuss_count + 1, last_modify_time = ? where uuid = ?" [current-time, sale-id]])
       (user/inc-user-sale-dis-count publisher)
     )
     {:uuid uuid :publish_time current-time}
@@ -165,7 +165,7 @@
         ]
     (transaction
       (update sale-discusses (set-fields {:is_deleted 1 :last_modify_time current-time}) (where {:uuid uuid}))
-      (exec-raw ["update sales set discuss_count = discuss_count + 1, last_modify_time = ? where uuid = ?" [current-time, sale-id]])
+      (exec-raw ["update e_sale set discuss_count = discuss_count + 1, last_modify_time = ? where uuid = ?" [current-time, sale-id]])
       (user/des-user-sale-dis-count (:publisher (first (select sale-discusses (fields :publisher) (where {:uuid uuid})))))
      )
     {:uuid uuid :is_deleted 1}
