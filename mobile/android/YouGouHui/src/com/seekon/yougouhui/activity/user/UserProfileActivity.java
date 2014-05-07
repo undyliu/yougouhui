@@ -15,6 +15,7 @@ import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.user.UserUtils;
 
 public class UserProfileActivity extends Activity {
 
@@ -66,7 +67,7 @@ public class UserProfileActivity extends Activity {
 			userIconView.setImageResource(R.drawable.default_user_photo);
 		}
 
-		if (UserConst.TYPE_USER_ANONYMOUS.equals(user.getType())) {// 匿名用户不允许修改
+		if (UserUtils.isAnonymousUser()) {// 匿名用户不允许修改
 			nickNameView.setEnabled(false);
 			findViewById(R.id.password).setEnabled(false);
 			findViewById(R.id.user_phone).setEnabled(false);

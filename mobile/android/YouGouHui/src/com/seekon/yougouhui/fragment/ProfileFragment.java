@@ -2,8 +2,6 @@ package com.seekon.yougouhui.fragment;
 
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ListView;
@@ -15,11 +13,11 @@ import com.seekon.yougouhui.activity.grade.MyGradeActivity;
 import com.seekon.yougouhui.activity.setting.SettingMainActivity;
 import com.seekon.yougouhui.activity.share.MyShareActivity;
 import com.seekon.yougouhui.activity.shop.LoginShopActivity;
-import com.seekon.yougouhui.activity.user.RegisterActivity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.module.ModuleConst;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.user.UserUtils;
 
 public class ProfileFragment extends ModuleListFragment {
 
@@ -32,8 +30,7 @@ public class ProfileFragment extends ModuleListFragment {
 	protected void updateViews() {
 		super.updateViews();
 
-		String userType = RunEnv.getInstance().getUser().getType();
-		if (UserConst.TYPE_USER_ANONYMOUS.equals(userType)) {
+		if (UserUtils.isAnonymousUser()) {
 			showRegisterUserConfirm("只有会员才能享受此模块内更好的服务，是否注册？");
 		}
 	}
@@ -61,9 +58,8 @@ public class ProfileFragment extends ModuleListFragment {
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Intent intent = null;
-		String userType = RunEnv.getInstance().getUser().getType();
 		String moduleCode = getModuleCode(position);
-		if (UserConst.TYPE_USER_ANONYMOUS.equals(userType)
+		if (UserUtils.isAnonymousUser()
 				&& !ModuleConst.anonymousAccessModelList.contains(moduleCode)) {
 			showRegisterUserConfirm("只有会员才可使用此功能，是否注册?");
 			return;

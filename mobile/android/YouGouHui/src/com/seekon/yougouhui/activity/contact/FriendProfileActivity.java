@@ -17,6 +17,13 @@ import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.user.UserProcessor;
+import com.seekon.yougouhui.func.user.UserProfileConst;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
+import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
+import com.seekon.yougouhui.rest.resource.JSONObjResource;
+import com.seekon.yougouhui.util.JSONUtils;
 
 /**
  * 朋友概况信息
@@ -83,6 +90,25 @@ public class FriendProfileActivity extends Activity {
 		saleDiscussCountView = (TextView) findViewById(R.id.user_sale_discuss_count);
 		saleDiscussCountView.setText("0");// TODO
 		saleDiscussCountView.getPaint().setFakeBoldText(true);
+
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>() {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return UserProcessor.getInstance(FriendProfileActivity.this)
+								.getUserProfile(user);
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						JSONObjResource resource = result.getResource();
+						shareCountView.setText(JSONUtils.getJSONStringValue(resource,
+								UserProfileConst.COL_NAME_SHARE_COUNT));
+						saleDiscussCountView.setText(JSONUtils.getJSONStringValue(resource,
+								UserProfileConst.COL_NAME_SALE_DIS_COUNT));
+					}
+				});
 	}
 
 	@Override

@@ -23,6 +23,7 @@ import com.seekon.yougouhui.activity.share.ShareActivity;
 import com.seekon.yougouhui.activity.user.RegisterActivity;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.user.UserConst;
+import com.seekon.yougouhui.func.user.UserUtils;
 
 public class MainActionAddProvider extends ActionProvider {
 
@@ -87,8 +88,7 @@ public class MainActionAddProvider extends ActionProvider {
 		MenuInflater inflater = mPopupMenu.getMenuInflater();
 		inflater.inflate(R.menu.main_more_pop, menu);
 
-		String userType = RunEnv.getInstance().getUser().getType();
-		if (UserConst.TYPE_USER_ANONYMOUS.equals(userType)) {
+		if (UserUtils.isAnonymousUser()) {
 			menu.findItem(R.id.menu_add_friend).setVisible(false);
 		} else {
 			menu.findItem(R.id.menu_register_user).setVisible(false);

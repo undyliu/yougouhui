@@ -86,7 +86,7 @@ public class RadarScanActivity extends Activity implements
 
 	boolean saleCheck = false;
 	boolean shopCheck = false;
-	boolean friendCheck = false;
+	//boolean friendCheck = false;
 	
 	private int saleSelectedPos = -1;
 	
@@ -210,7 +210,7 @@ public class RadarScanActivity extends Activity implements
 				distanceView.setText(settingValue.getString(RADAR_VAL_FIELD_DISTANCE));
 				saleCheck = settingValue.getBoolean(RADAR_VAL_FIELD_SALE);
 				shopCheck = settingValue.getBoolean(RADAR_VAL_FIELD_SHOP);
-				friendCheck = settingValue.getBoolean(RADAR_VAL_FIELD_FRIEND);
+				//friendCheck = settingValue.getBoolean(RADAR_VAL_FIELD_FRIEND);
 
 				updateViewpager();
 			}
@@ -232,11 +232,11 @@ public class RadarScanActivity extends Activity implements
 			pageTitles.add(getString(R.string.label_radar_shop));
 			resultViewList.add(shopListView);
 		}
-		if (friendCheck) {
-			pageViews.add(friendView);
-			pageTitles.add(getString(R.string.label_radar_friends));
-			resultViewList.add(friendListView);
-		}
+//		if (friendCheck) {
+//			pageViews.add(friendView);
+//			pageTitles.add(getString(R.string.label_radar_friends));
+//			resultViewList.add(friendListView);
+//		}
 		viewPager.setAdapter(new BasePagerAdapter(pageViews, pageTitles));
 
 		String radarTaget = "";
@@ -329,25 +329,26 @@ public class RadarScanActivity extends Activity implements
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		contentView.addView(shopCheckBox);
 
-		CheckBox friendCheckBox = new CheckBox(this);
-		friendCheckBox.setText(R.string.label_radar_friends);
-		friendCheckBox.setChecked(friendCheck);
-		friendCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				friendCheck = isChecked;
-			}
-		});
-		friendCheckBox.setLayoutParams(new LinearLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		contentView.addView(friendCheckBox);
+//		CheckBox friendCheckBox = new CheckBox(this);
+//		friendCheckBox.setText(R.string.label_radar_friends);
+//		friendCheckBox.setChecked(friendCheck);
+//		friendCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//			@Override
+//			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//				friendCheck = isChecked;
+//			}
+//		});
+//		friendCheckBox.setLayoutParams(new LinearLayout.LayoutParams(
+//				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+//		contentView.addView(friendCheckBox);
 
 		Button cancelButton = (Button) d.findViewById(R.id.b_cancel);
 		Button setButton = (Button) d.findViewById(R.id.b_set);
 		setButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (!saleCheck && !shopCheck && !friendCheck) {
+				if (!saleCheck && !shopCheck ) {
+				//if (!saleCheck && !shopCheck && !friendCheck) {
 					// saleCheckBox.setError("请至少选择一个扫描目标.");
 					ViewUtils.showToast("请至少选择一个扫描目标.");
 					return;
@@ -365,7 +366,7 @@ public class RadarScanActivity extends Activity implements
 						if (settingValue != null) {
 							saleCheck = settingValue.getBoolean(RADAR_VAL_FIELD_SALE);
 							shopCheck = settingValue.getBoolean(RADAR_VAL_FIELD_SHOP);
-							friendCheck = settingValue.getBoolean(RADAR_VAL_FIELD_FRIEND);
+							//friendCheck = settingValue.getBoolean(RADAR_VAL_FIELD_FRIEND);
 						}
 					} catch (JSONException e) {
 						Logger.warn(TAG, e.getMessage(), e);

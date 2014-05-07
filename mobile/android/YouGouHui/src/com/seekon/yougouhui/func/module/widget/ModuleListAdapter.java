@@ -15,6 +15,7 @@ import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.module.ModuleConst;
 import com.seekon.yougouhui.func.module.ModuleEntity;
 import com.seekon.yougouhui.func.user.UserConst;
+import com.seekon.yougouhui.func.user.UserUtils;
 import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
 public class ModuleListAdapter extends EntityListAdapter<ModuleEntity> {
@@ -44,10 +45,9 @@ public class ModuleListAdapter extends EntityListAdapter<ModuleEntity> {
 		holder.imageView.setImageResource(module.getImageResourceId());
 		holder.nameView.setText(module.getName());
 
-		String userType = RunEnv.getInstance().getUser().getType();
 		String code = module.getCode();
 		if (ModuleConst.anonymousAccessModelList.contains(code)
-				|| !UserConst.TYPE_USER_ANONYMOUS.equals(userType)) {
+				|| !UserUtils.isAnonymousUser()) {
 			holder.accessView.setVisibility(View.GONE);
 		} else {
 			holder.accessView.setVisibility(View.VISIBLE);
