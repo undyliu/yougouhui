@@ -6,10 +6,10 @@
             [clojure.data.json :as json]
   ))
 
-(defn get-user [phone]
+(defn- get-user [phone]
   (if-let [user (first (select users (fields :uuid :name :pwd :phone :photo :register_time) (where {:phone phone})))] user {} ))
 
-(defn logged-in? [request]
+(defn- logged-in? [request]
   (get-in request [:session :user] false))
 
 (defn authenticated? [handler]
@@ -24,9 +24,9 @@
     )
   )
 
-(defn encrypt [password] (pandect/md5 password))
+(defn- encrypt [password] (pandect/md5 password))
 
-(defn password-is-valid? [password-login password-in-db]
+(defn- password-is-valid? [password-login password-in-db]
  ; (= (encrypt password-login) password-in-db)
   (= password-login password-in-db)
   )

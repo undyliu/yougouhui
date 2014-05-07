@@ -1,6 +1,7 @@
 (ns yougou.user
   (:use
 		[korma.core]
+    [korma.db]
 		[yougou.db]
 	)
 	(:require
@@ -9,13 +10,19 @@
 )
 
 (defn register-user [name phone pwd type photo temp-file]
-  (let [uuid (str (java.util.UUID/randomUUID))
-			register-time (str (System/currentTimeMillis))]
-		(insert users (values {:uuid uuid :name name :phone phone :pwd pwd :photo photo :type type :register_time register-time}))
-		(if temp-file
-			(file/save-image-file photo temp-file)
-		)
-  {:uuid uuid :register_time register-time})
+  (if-let [user (first (select users (fields :uuid) (where {:phone phone})))]
+    {:error "此手机号已注册."}
+    (let [uuid (str (java.util.UUID/randomUUID))
+			  register-time (str (System/currentTimeMillis))]
+      (transaction
+		    (insert users (values {:uuid uuid :name name :phone phone :pwd pwd :photo photo :type type :register_time register-time}))
+        (insert user-profiles (values {:uuid uuid :user_id uuid}))
+       )
+		  (if temp-file
+			  (file/save-image-file photo temp-file)
+		  )
+      {:uuid uuid :register_time register-time})
+    )
 )
 
 (defn update-user-name [uuid name]
@@ -56,3 +63,23 @@
 		{}
 	)
 )
+(defn get-user-profile [user-id]
+  (if-let [user (first (select user-profiles (where {:user_id user-id})))]
+    user
+    {}
+    )
+  )
+
+(defn inc-user-share-count [user-id]
+  (exec-raw [" update e_user_profile set share_count = share_count + 1 where user_id = ?" [user-id]])
+  )
+(defn des-user-share-count [user-id]
+  (exec-raw [" update e_user_profile set share_count = share_count - 1 where user_id = ?" [user-id]])
+  )
+
+(defn inc-user-sale-dis-count [user-id]
+  (exec-raw [" update e_user_profile set sale_discuss_count = sale_discuss_count + 1 where user_id = ?" [user-id]])
+  )
+(defn des-user-sale-dis-count [user-id]
+  (exec-raw [" update e_user_profile set sale_discuss_count = sale_discuss_count - 1 where user_id = ?" [user-id]])
+  )

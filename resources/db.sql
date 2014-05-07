@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50511
 File Encoding         : 65001
 
-Date: 2014-05-07 10:23:44
+Date: 2014-05-07 17:11:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -58,9 +58,6 @@ CREATE TABLE `e_friend` (
 -- ----------------------------
 -- Records of e_friend
 -- ----------------------------
-INSERT INTO `e_friend` VALUES ('2be6e5c9-ea0c-48fa-ae8c-c625e3a81743', '95982f2a-df27-42a2-bfeb-98332233d498', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', null);
-INSERT INTO `e_friend` VALUES ('3fa09213-0dda-4e75-928c-8c834147ace4', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', '95982f2a-df27-42a2-bfeb-98332233d498', '1398157830593');
-INSERT INTO `e_friend` VALUES ('ea676d36-dbd9-459e-a83a-ca93873b845f', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', '7248db2e-c8d2-4d26-8047-79c8082fb80f', null);
 
 -- ----------------------------
 -- Table structure for `e_grade_shop`
@@ -101,13 +98,191 @@ CREATE TABLE `e_log` (
 -- ----------------------------
 -- Records of e_log
 -- ----------------------------
-INSERT INTO `e_log` VALUES ('1823dd0c-d24f-49f4-98b5-b1506483ea58', null, '13651083480', '192.168.253.3', '2014-05-07 10:22:18', ':get', '/getSalesByChannel/2/1399429335703', null, '1399429338656');
-INSERT INTO `e_log` VALUES ('1ee40490-c2ea-420f-abb4-dc31ac2c6a8e', null, '13651083480', '192.168.253.3', '2014-05-07 10:22:54', ':get', '/getSalesByChannel/2/1399429338687', null, '1399429374000');
-INSERT INTO `e_log` VALUES ('5d4949bb-7d71-435c-88a7-2743c068f26c', null, '13651083480', '192.168.253.3', '2014-05-07 10:22:54', ':get', '/getSalesByChannel/3/1399429374078', null, '1399429374796');
-INSERT INTO `e_log` VALUES ('6aa1c3ec-04cf-4061-a28c-4e7fc45dc19c', null, '13651083480', '192.168.253.3', '2014-05-07 10:20:52', ':post', '/searchShops', '{:search-word \"上\"}', '1399429252109');
-INSERT INTO `e_log` VALUES ('a223ba56-b044-452a-8103-93db542cf9bb', null, '13651083480', '192.168.253.3', '2014-05-07 10:20:51', ':post', '/login', '{:phone \"13651083480\"}', '1399429251796');
-INSERT INTO `e_log` VALUES ('c82b1b5d-8bc6-4153-8b6a-ed5a7b7f87b5', null, '13651083480', '192.168.253.3', '2014-05-07 10:22:15', ':get', '/getSalesByChannel/2/1399424152156', null, '1399429335671');
-INSERT INTO `e_log` VALUES ('dd2f0e3b-0967-4520-aa42-1cc100f7f0b1', null, '13651083480', '192.168.253.3', '2014-05-07 10:23:03', ':get', '/getSalesByChannel/2/1399429374828', null, '1399429383328');
+INSERT INTO `e_log` VALUES ('014be67a-758b-4015-bedd-ab5718a8b042', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:57:51', ':post', '/saveShare', '{:shop_id \"e162af86-f928-4ed1-8a7c-e6178d25a8d5\", :content \"%E8%82%AF%E5%BE%B7%E5%9F%BA%E7%9A%84%E4%BC%98%E6%83%A0%E5%B9%85%E5%BA%A6%E7%9C%9F%E5%A4%A7\", :fileNameList \"\", :publisher \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\"}', '1399453071390');
+INSERT INTO `e_log` VALUES ('045881f1-2739-4162-b6a8-b4f768e7fd59', null, null, '192.168.253.3', '2014-05-07 16:19:40', ':get', '/getImageFile/463517179_1399450736650.png', null, '1399450780093');
+INSERT INTO `e_log` VALUES ('046fe82c-6a39-45e8-8df7-3e675c8c3a50', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:11:12', ':get', '/getFriends/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399450272593');
+INSERT INTO `e_log` VALUES ('04d3ddb7-8f8f-4064-b062-287629f9614e', null, '13651083480', '192.168.253.3', '2014-05-07 15:45:10', ':get', '/getSalesByChannel/1/1399448709921', null, '1399448710359');
+INSERT INTO `e_log` VALUES ('0548c9c0-d7f6-4764-9033-f6f10eb9a0e0', null, '13651083480', '192.168.253.3', '2014-05-07 15:06:05', ':get', '/getSalesByChannel/1/1399446365046', null, '1399446365312');
+INSERT INTO `e_log` VALUES ('05cebc83-3afb-42c3-b0b0-05d55c035db2', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:41:16', ':post', '/registerShop', '{:desc \"%E4%B8%93%E5%8D%96%E7%94%B5%E8%84%91%E5%92%8C%E4%B9%A6%E7%B1%8D\", :shop_img \"-1400089674_1399452074181.png\", :name \"%E5%8C%97%E6%B8%85%E8%B7%AF%E7%94%B5%E8%84%91%E5%9F%8E\", :location \"%7B%22address%22%3A%22%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7%22%2C%22lontitude%22%3A116.242455%2C%22radius%22%3A30.53333282470703%2C%22latitude%22%3A40.073713%7D\", :owner \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\", :fileNameList \"-1400089674_1399452074181.png\", \"-1400089674_1399452074181.png\" {:size 50283, :tempfile #<File C:\\DOCUME~1\\ADMINI~1\\LOCALS~1\\Temp\\ring-multipart-9101481504796265372.tmp>, :content-type \"image/pjpeg\", :filename \"-1400089674_1399452074181.png\"}, :address \"%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7\", :tradeList \"41%7C42\"}', '1399452076078');
+INSERT INTO `e_log` VALUES ('06244c60-2180-4526-9194-80c92c87594a', null, '13651083480', '192.168.253.3', '2014-05-07 15:45:09', ':get', '/getSalesByChannel/0/1399448672640', null, '1399448709859');
+INSERT INTO `e_log` VALUES ('06cc8233-db2f-48fc-8fbd-b6e9541e1e4f', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:54:15', ':get', '/getSalesByChannel/0/1399449043453', null, '1399449255140');
+INSERT INTO `e_log` VALUES ('0a9a1c29-1376-4188-86ae-61c8371fa13a', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:48:06', ':get', '/getSalesByChannel/0/1399451070468', null, '1399452486046');
+INSERT INTO `e_log` VALUES ('0bc70dbc-dd43-42d8-a881-059d79c4289b', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:58:52', ':get', '/getSalesByShop/e162af86-f928-4ed1-8a7c-e6178d25a8d5/1399452952500', null, '1399453132015');
+INSERT INTO `e_log` VALUES ('0bc95039-e470-4520-be59-ef39b8e38996', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:47:58', ':put', '/updateUserName', '{:uuid \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\", :name \"i妞妞\"}', '1399448878812');
+INSERT INTO `e_log` VALUES ('10f7a4f2-b998-49ab-947d-e4dea57212c0', null, '13651083480', '192.168.253.3', '2014-05-07 16:22:32', ':post', '/login', '{:phone \"13651083480\"}', '1399450952531');
+INSERT INTO `e_log` VALUES ('1101a8f0-31ce-40c8-a6cb-2a3361128b4a', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:50:42', ':get', '/getFriends/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399449042515');
+INSERT INTO `e_log` VALUES ('123a3304-50b7-4c1e-a789-38ee8c9ac142', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:48:06', ':get', '/getSalesByChannel/1/1399452486171', null, '1399452486562');
+INSERT INTO `e_log` VALUES ('13fc67df-4c49-4d89-a48b-690377341bc3', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:14:07', ':get', '/getSalesByChannel/1/1399450446671', null, '1399450447125');
+INSERT INTO `e_log` VALUES ('141c087f-bd88-463e-84de-d17c8ee014b5', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:01:34', ':get', '/getSaleData/43b10a06-f46a-4816-a5cf-00eb257e6141/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399453294828');
+INSERT INTO `e_log` VALUES ('15dc10c6-fc72-4c7f-bb82-640a3686d933', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:58:44', ':post', '/loginShop', '{:user_id \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\"}', '1399453124406');
+INSERT INTO `e_log` VALUES ('190d8588-9793-4228-992e-96ce38552058', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:39:46', ':post', '/registerShop', '{:desc \"%E4%B8%93%E5%8D%96%E7%94%B5%E8%84%91%E5%92%8C%E4%B9%A6%E7%B1%8D\", :shop_img \"-1400089674_1399451983821.png\", :name \"%E5%8C%97%E6%B8%85%E8%B7%AF%E7%94%B5%E8%84%91%E5%9F%8E\", :location \"%7B%22address%22%3A%22%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7%22%2C%22lontitude%22%3A116.242442%2C%22radius%22%3A40.0625%2C%22latitude%22%3A40.073733%7D\", :owner \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\", :fileNameList \"-1400089674_1399451983821.png\", :address \"%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7\", :tradeList \"41%7C42\", \"-1400089674_1399451983821.png\" {:size 50283, :tempfile #<File C:\\DOCUME~1\\ADMINI~1\\LOCALS~1\\Temp\\ring-multipart-4374092049493088978.tmp>, :content-type \"image/pjpeg\", :filename \"-1400089674_1399451983821.png\"}}', '1399451986296');
+INSERT INTO `e_log` VALUES ('1a695663-03d3-4939-bc6b-a0daf7b3d048', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:11:13', ':get', '/getSalesByChannel/0/1399449255687', null, '1399450273500');
+INSERT INTO `e_log` VALUES ('1ab1b26a-a4d3-469f-b764-e7173fb50332', null, null, '192.168.253.1', '2014-05-07 16:31:55', ':get', '/aa', null, '1399451515359');
+INSERT INTO `e_log` VALUES ('1bbae5ab-e6d8-475e-b2d6-a7b625d1c59f', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:51:30', ':post', '/loginShop', '{:user_id \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\"}', '1399449090046');
+INSERT INTO `e_log` VALUES ('2183a7b6-a99f-421c-beec-6af810208252', null, '13651083480', '192.168.253.3', '2014-05-07 15:06:14', ':get', '/getModules/discover', null, '1399446374921');
+INSERT INTO `e_log` VALUES ('2295e41f-234c-4b3d-98d7-2b321475c468', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:02:28', ':get', '/getSalesByChannel/0/1399452890000', null, '1399453348296');
+INSERT INTO `e_log` VALUES ('22d40a94-5a37-4c93-8aef-37ca6795d376', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:39:04', ':post', '/registerShop', '{:desc \"%E4%B8%93%E5%8D%96%E7%94%B5%E8%84%91%E5%92%8C%E4%B9%A6%E7%B1%8D\", :shop_img \"-1400089674_1399451941843.png\", :name \"%E5%8C%97%E6%B8%85%E8%B7%AF%E7%94%B5%E8%84%91%E5%9F%8E\", :location \"%7B%22address%22%3A%22%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7%22%2C%22lontitude%22%3A116.242446%2C%22radius%22%3A43.61538314819336%2C%22latitude%22%3A40.073734%7D\", :owner \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\", :fileNameList \"-1400089674_1399451941843.png\", :address \"%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7\", :tradeList \"41%7C42\", \"-1400089674_1399451941843.png\" {:size 50283, :tempfile #<File C:\\DOCUME~1\\ADMINI~1\\LOCALS~1\\Temp\\ring-multipart-7030770994781893059.tmp>, :content-type \"image/pjpeg\", :filename \"-1400089674_1399451941843.png\"}}', '1399451944187');
+INSERT INTO `e_log` VALUES ('22f4d41c-43a5-4bc9-988e-640c2556c785', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:45:05', ':get', '/getModules/me', null, '1399448705687');
+INSERT INTO `e_log` VALUES ('22fe4eec-5f60-4b36-93a4-6a9081ed45ff', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:11:14', ':get', '/getSalesByChannel/1/1399450273562', null, '1399450274187');
+INSERT INTO `e_log` VALUES ('244217ba-32e9-426e-901a-b8045773c203', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:08:27', ':get', '/getSalesByChannel/1/1399446507625', null, '1399446507828');
+INSERT INTO `e_log` VALUES ('25b36e8c-b0bd-4f5e-bf89-b52a3830f1db', null, null, '192.168.253.1', '2014-05-07 16:30:02', ':get', '/aa', null, '1399451402000');
+INSERT INTO `e_log` VALUES ('25cf977c-c482-41fe-a835-3cc9dbd4af69', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:55:48', ':post', '/addShopFavorit', '{:user_id \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\", :shop_id \"e162af86-f928-4ed1-8a7c-e6178d25a8d5\"}', '1399452948625');
+INSERT INTO `e_log` VALUES ('28d7b203-b9ad-4d3b-b698-b19e8ef5d080', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:03:28', ':get', '/getSalesByChannel/0/1399453390453', null, '1399453408546');
+INSERT INTO `e_log` VALUES ('29eb59a7-98d3-4cda-8a94-7ae98e19742f', null, null, '192.168.253.3', '2014-05-07 16:55:43', ':get', '/getImageFile/barcode_-1897623607_1399449405500.png', null, '1399452943187');
+INSERT INTO `e_log` VALUES ('2a4344e4-6392-4e2a-b121-a312a808533b', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:56:27', ':post', '/saveShare', '{:shop_id \"e162af86-f928-4ed1-8a7c-e6178d25a8d5\", :content \"%E8%82%AF%E5%BE%B7%E5%9F%BA%E7%9A%84%E4%BC%98%E6%83%A0%E5%B9%85%E5%BA%A6%E7%9C%9F%E5%A4%A7\", :fileNameList \"\", :publisher \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\"}', '1399452987562');
+INSERT INTO `e_log` VALUES ('2bcb1be7-efb4-4499-86c6-acc256ead064', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:56:45', ':post', '/registerShop', '{\"602324364_1399449344230.png\" {:size 282015, :tempfile #<File C:\\DOCUME~1\\ADMINI~1\\LOCALS~1\\Temp\\ring-multipart-3469479880405305017.tmp>, :content-type \"image/pjpeg\", :filename \"602324364_1399449344230.png\"}, :desc \"%E8%82%AF%E5%BE%B7%E5%9F%BA%E5%A4%A7%E5%93%81%E7%89%8C\", :shop_img \"602324364_1399449344230.png\", \"898289355_1399449344232.png\" {:size 290977, :tempfile #<File C:\\DOCUME~1\\ADMINI~1\\LOCALS~1\\Temp\\ring-multipart-2058955765726519369.tmp>, :content-type \"image/pjpeg\", :filename \"898289355_1399449344232.png\"}, :name \"%E8%82%AF%E5%BE%B7%E5%9F%BA%E4%B8%8A%E5%9C%B0%E5%BA%97\", :location \"%7B%22address%22%3A%22%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7%22%2C%22lontitude%22%3A116.242443%2C%22radius%22%3A44.83333206176758%2C%22latitude%22%3A40.073733%7D\", :owner \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\", :fileNameList \"602324364_1399449344230.png%7C898289355_1399449344232.png\", :busi_license \"898289355_1399449344232.png\", :address \"%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7\", :tradeList \"1\"}', '1399449405281');
+INSERT INTO `e_log` VALUES ('2c08378c-447b-4a28-b725-f8a227ea1090', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:24:30', ':get', '/getSalesByChannel/1/1399451069687', null, '1399451070390');
+INSERT INTO `e_log` VALUES ('2c372b81-90e6-4e47-8ce4-1aff7faaa9b9', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:44:53', ':get', '/getSalesByDistance/40.073736/116.242445/2000/0', null, '1399448693312');
+INSERT INTO `e_log` VALUES ('2d91934c-4d25-4695-82fb-11939eeb5899', null, '13651083480', '192.168.253.3', '2014-05-07 15:06:45', ':get', '/getSalesByChannel/0/1399446373625', null, '1399446405593');
+INSERT INTO `e_log` VALUES ('2db499bf-d9ec-4de6-9077-71c15cec0ec7', null, '13651083480', '192.168.253.3', '2014-05-07 15:42:54', ':get', '/getChannels', null, '1399448574468');
+INSERT INTO `e_log` VALUES ('2e458c73-4c32-4f0c-be75-b13b4f5dc76a', null, null, '192.168.253.3', '2014-05-07 16:19:40', ':get', '/getImageFile/463517179_1399450736650.png', null, '1399450780156');
+INSERT INTO `e_log` VALUES ('3047e659-2725-4461-acd9-d97b00d707e3', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:54:53', ':get', '/getFriendShares/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c/1399446446109', null, '1399452893343');
+INSERT INTO `e_log` VALUES ('337bdf55-b17a-4759-8ff2-2f528afa7dca', null, '13651083480', '192.168.253.3', '2014-05-07 15:54:14', ':post', '/login', '{:phone \"13651083480\"}', '1399449254062');
+INSERT INTO `e_log` VALUES ('343dfb6c-8d58-4574-94a3-a10eace67e5d', null, '13651083480', '192.168.253.3', '2014-05-07 15:44:30', ':post', '/login', '{:phone \"13651083480\"}', '1399448670796');
+INSERT INTO `e_log` VALUES ('350d687b-23c9-49b6-a766-0442f8ba04a0', null, '13651083480', '192.168.253.3', '2014-05-07 16:18:52', ':post', '/registerShop', '{:desc \"%E6%8E%A2%E8%B7%AF%E8%80%85%E6%97%97%E8%88%B0%E5%BA%97\", :shop_img \"463517179_1399450730525.png\", :name \"%E4%B8%8A%E5%9C%B0%E5%8D%8E%E8%81%94%E6%8E%A2%E8%B7%AF%E8%80%85%E4%B8%93%E5%8D%96%E5%BA%97\", :location \"%7B%22address%22%3A%22%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7%22%2C%22lontitude%22%3A116.242447%2C%22radius%22%3A39.31818389892578%2C%22latitude%22%3A40.073715%7D\", :owner \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\", :fileNameList \"463517179_1399450730525.png\", \"463517179_1399450730525.png\" {:size 34743, :tempfile #<File C:\\DOCUME~1\\ADMINI~1\\LOCALS~1\\Temp\\ring-multipart-3605247973725175815.tmp>, :content-type \"image/pjpeg\", :filename \"463517179_1399450730525.png\"}, :address \"%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7\", :tradeList \"2%7C40\"}', '1399450732265');
+INSERT INTO `e_log` VALUES ('35545e52-0c95-4330-9f6b-c2932ca0d95d', null, null, '192.168.253.1', '2014-05-07 16:31:26', ':get', '/aa', null, '1399451486437');
+INSERT INTO `e_log` VALUES ('380a651c-c7ef-41a3-81ea-4d309138b7ce', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:24:29', ':get', '/getSalesByChannel/0/1399450999750', null, '1399451069656');
+INSERT INTO `e_log` VALUES ('3ab15c00-ed6f-4e3d-beb7-b05bad20b4de', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:14:05', ':get', '/getFriends/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399450445765');
+INSERT INTO `e_log` VALUES ('3c161fcd-510a-4057-9e1d-0e0af5be4ed4', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:54:28', ':post', '/loginShop', '{:user_id \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\"}', '1399452868843');
+INSERT INTO `e_log` VALUES ('3ce09b10-6538-4c17-89ef-119c34d5b1b0', null, '13651083480', '192.168.253.3', '2014-05-07 16:24:28', ':post', '/login', '{:phone \"13651083480\"}', '1399451068687');
+INSERT INTO `e_log` VALUES ('3d822834-0867-480e-87f8-3c3149b5b3b6', null, '13651083480', '192.168.253.3', '2014-05-07 15:42:55', ':get', '/getSalesByChannel/0/-1', null, '1399448575906');
+INSERT INTO `e_log` VALUES ('3db6c4af-8ab5-45df-a396-3420842b2c97', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:15:18', ':post', '/registerShop', '{:desc \"%E6%8E%A2%E8%B7%AF%E8%80%85%E6%97%97%E8%88%B0%E5%BA%97\", :shop_img \"463517179_1399450516336.png\", :name \"%E4%B8%8A%E5%9C%B0%E5%8D%8E%E8%81%94%E6%8E%A2%E8%B7%AF%E8%80%85%E4%B8%93%E5%8D%96%E5%BA%97\", :location \"%7B%22address%22%3A%22%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7%22%2C%22lontitude%22%3A116.242446%2C%22radius%22%3A41.633331298828125%2C%22latitude%22%3A40.073734%7D\", \"463517179_1399450516336.png\" {:size 34743, :tempfile #<File C:\\DOCUME~1\\ADMINI~1\\LOCALS~1\\Temp\\ring-multipart-2483613127985079083.tmp>, :content-type \"image/pjpeg\", :filename \"463517179_1399450516336.png\"}, :owner \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\", :fileNameList \"463517179_1399450516336.png\", :address \"%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7\", :tradeList \"2%7C40\"}', '1399450518328');
+INSERT INTO `e_log` VALUES ('3f72973b-0cf6-47bc-add7-049ce3876444', null, '13651083480', '192.168.253.3', '2014-05-07 15:09:14', ':get', '/getSalesByChannel/1/1399446554312', null, '1399446554687');
+INSERT INTO `e_log` VALUES ('3fbde255-1353-4ded-b9c4-2b623126ee52', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:54:15', ':get', '/getSalesByChannel/1/1399449255171', null, '1399449255593');
+INSERT INTO `e_log` VALUES ('406b7e76-3cad-44cd-9a18-689a05b91e66', null, null, '192.168.253.3', '2014-05-07 16:55:43', ':get', '/getImageFile/898289355_1399449344232.png', null, '1399452943171');
+INSERT INTO `e_log` VALUES ('42020c41-8503-4738-912a-d8800e5a1434', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:05:33', ':post', '/addSaleFavorit', '{:sale_id \"43b10a06-f46a-4816-a5cf-00eb257e6141\", :user_id \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\"}', '1399453533531');
+INSERT INTO `e_log` VALUES ('45d4822f-e598-493e-bc93-2e0d0676af02', null, null, '192.168.253.3', '2014-05-07 16:54:29', ':get', '/getImageFile/1259860143_1399452716068.png', null, '1399452869937');
+INSERT INTO `e_log` VALUES ('461c1b0e-4112-47a0-8fc7-5481c78ca9ee', null, '13651083480', '192.168.253.3', '2014-05-07 15:09:14', ':get', '/getSalesByChannel/0/1399446507875', null, '1399446554250');
+INSERT INTO `e_log` VALUES ('473a90dc-3e97-4a0a-9570-341b4d7cb39b', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:24:38', ':post', '/loginShop', '{:user_id \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\"}', '1399451078015');
+INSERT INTO `e_log` VALUES ('484a0649-a747-410a-8047-ce8a4dee0acd', null, '13651083480', '192.168.253.3', '2014-05-07 15:17:00', ':post', '/login', '{:phone \"13651083480\"}', '1399447020343');
+INSERT INTO `e_log` VALUES ('487ede92-3649-4bd7-a46e-8442cc72be0e', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:54:49', ':get', '/getSalesByChannel/0/1399452486671', null, '1399452889609');
+INSERT INTO `e_log` VALUES ('48836c88-7756-48eb-bf65-6a9561f3233d', null, null, '192.168.253.3', '2014-05-07 17:01:25', ':get', '/getImageFile/50489896_1399453226535.png', null, '1399453285000');
+INSERT INTO `e_log` VALUES ('496dce09-c0e2-4b89-8463-43c0df282aa0', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:23:18', ':get', '/getFriends/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399450998453');
+INSERT INTO `e_log` VALUES ('4a8befe6-1eb7-4f45-94ce-e7c19eb613c9', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:51:58', ':post', '/registerShop', '{\"1259860143_1399452716068.png\" {:size 68674, :tempfile #<File C:\\DOCUME~1\\ADMINI~1\\LOCALS~1\\Temp\\ring-multipart-7107816321588269714.tmp>, :content-type \"image/pjpeg\", :filename \"1259860143_1399452716068.png\"}, :desc \"%E6%AC%A2%E8%BF%8E%E5%85%89%E4%B8%B4\", :shop_img \"1259860143_1399452716068.png\", :name \"%E4%B8%BD%E4%BD%B3%E5%AE%9D%E8%B4%9D%E6%B0%B8%E6%97%BA%E5%BA%97\", :location \"%7B%22address%22%3A%22%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7%22%2C%22radius%22%3A38.766666412353516%2C%22longitude%22%3A116.242444%2C%22latitude%22%3A40.073734%7D\", :owner \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\", :fileNameList \"1259860143_1399452716068.png\", :address \"%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7\", :tradeList \"40%7C3\"}', '1399452718515');
+INSERT INTO `e_log` VALUES ('4e072192-5e31-4358-8cc8-9142d5644deb', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:05:18', ':post', '/addSaleDiscuss', '{:sale_id \"43b10a06-f46a-4816-a5cf-00eb257e6141\", :publisher \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\", :content \"优惠多多\"}', '1399453518328');
+INSERT INTO `e_log` VALUES ('53cd162b-44b1-4202-814c-9b84df1b961e', null, null, '192.168.253.3', '2014-05-07 16:54:30', ':get', '/getImageFile/1259860143_1399452716068.png', null, '1399452870421');
+INSERT INTO `e_log` VALUES ('59a88e49-0e6d-402f-bead-e3c79d0369c7', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:54:49', ':get', '/getSalesByChannel/1/1399452889671', null, '1399452889968');
+INSERT INTO `e_log` VALUES ('59c61822-9bca-48dc-886f-d0bf4ddf7f61', null, '13651083480', '192.168.253.3', '2014-05-07 16:18:58', ':post', '/login', '{:phone \"13651083480\"}', '1399450738156');
+INSERT INTO `e_log` VALUES ('59de5d42-18f7-4ae1-9bdc-3036058a3562', null, '13651083480', '192.168.253.3', '2014-05-07 15:50:31', ':get', '/getSalesByChannel/0/1399448759234', null, '1399449031968');
+INSERT INTO `e_log` VALUES ('5ab1c185-70a9-4b51-8149-9c0c1196b757', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:44:54', ':get', '/getShopsByDistance/40.073736/116.242445/2000/0', null, '1399448694828');
+INSERT INTO `e_log` VALUES ('5ae1f378-6a6e-4341-9e65-10ea60b94a84', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:09:35', ':get', '/getFriends/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399446575765');
+INSERT INTO `e_log` VALUES ('5b026942-0340-427f-8a7f-2c01dce7ce1e', null, '13651083480', '192.168.253.3', '2014-05-07 15:07:25', ':post', '/login', '{:phone \"13651083480\"}', '1399446445015');
+INSERT INTO `e_log` VALUES ('5db04152-de07-4ddd-86d7-0d2a32a8d1f6', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:03:31', ':get', '/getSaleData/43b10a06-f46a-4816-a5cf-00eb257e6141/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399453411437');
+INSERT INTO `e_log` VALUES ('5f99772d-6ccc-4dca-85df-ecc9030f211d', null, '13651083480', '192.168.253.3', '2014-05-07 15:50:32', ':get', '/getSalesByChannel/1/1399449032031', null, '1399449032468');
+INSERT INTO `e_log` VALUES ('5fdec4c8-cbae-4aa5-b6e1-f62bf9af8058', null, '13651083480', '192.168.253.3', '2014-05-07 15:10:08', ':get', '/getSalesByChannel/1/1399446608109', null, '1399446608468');
+INSERT INTO `e_log` VALUES ('6197a5e8-f6b4-4997-bb9f-c573021e98c2', null, null, '192.168.253.3', '2014-05-07 16:11:24', ':get', '/getImageFile/602324364_1399449344230.png', null, '1399450284859');
+INSERT INTO `e_log` VALUES ('61b8ee38-01fb-4ad5-bc39-6e7dbed88b8f', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:07:00', ':get', '/getSalesByDistance/40.073712/116.242458/2000/0', null, '1399453620437');
+INSERT INTO `e_log` VALUES ('657c5123-1edb-4db2-ad7b-705f33a84291', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:22:34', ':get', '/getSalesByChannel/1/1399450953734', null, '1399450954093');
+INSERT INTO `e_log` VALUES ('67bf0954-f6eb-404c-927a-326f57db4f38', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:54:14', ':get', '/getFriends/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399449254546');
+INSERT INTO `e_log` VALUES ('67dc88a5-9c96-400b-8fe0-c5f7a8376523', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:55:40', ':post', '/searchShops', '{:search-word \"上\"}', '1399452940171');
+INSERT INTO `e_log` VALUES ('6997a88e-f40f-4a23-808d-d1440307c248', null, '13651083480', '192.168.253.3', '2014-05-07 15:50:42', ':post', '/login', '{:phone \"13651083480\"}', '1399449042015');
+INSERT INTO `e_log` VALUES ('6a703fbd-1244-4c6d-ade0-8ce36501c09f', null, null, '192.168.253.1', '2014-05-07 16:30:39', ':get', '/aa', null, '1399451439578');
+INSERT INTO `e_log` VALUES ('6a811cfb-dbda-4d39-b448-f00871ca0f2f', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:07:50', ':get', '/getSalesByChannel/0/1399446405843', null, '1399446470546');
+INSERT INTO `e_log` VALUES ('6b37caec-3eaf-4d31-b3ae-d01bd42ef27f', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:45:00', ':get', '/getSalesByDistance/40.073736/116.242445/2000/0', null, '1399448700703');
+INSERT INTO `e_log` VALUES ('6c7fc3b6-b6b0-4183-b5f1-0c0a0f51f7e7', null, null, '192.168.253.1', '2014-05-07 16:34:43', ':get', '/aa', null, '1399451683328');
+INSERT INTO `e_log` VALUES ('6e875a17-afb4-496a-bcff-68f4aeb062fc', null, '13651083480', '192.168.253.3', '2014-05-07 16:48:04', ':post', '/login', '{:phone \"13651083480\"}', '1399452484906');
+INSERT INTO `e_log` VALUES ('6ea2bea2-e0b1-4cea-84ef-197758e6bc42', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:08:27', ':get', '/getSalesByChannel/0/1399446470734', null, '1399446507546');
+INSERT INTO `e_log` VALUES ('6f56985c-44dd-4964-8e83-bfe9fc61b5cb', null, '13651083480', '192.168.253.3', '2014-05-07 16:14:05', ':post', '/login', '{:phone \"13651083480\"}', '1399450445187');
+INSERT INTO `e_log` VALUES ('6f65d46b-35c3-48c1-8bc5-2e996a7be784', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:51:39', ':get', '/getTrades', null, '1399449099765');
+INSERT INTO `e_log` VALUES ('6fd63d90-edca-4a43-b9f2-04acf8889512', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:02:28', ':get', '/getSalesByChannel/1/1399453348375', null, '1399453348671');
+INSERT INTO `e_log` VALUES ('70c78bb3-2231-4929-85c4-949d4c5fb77b', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:02:33', ':get', '/getSalesByChannel/0/1399453348703', null, '1399453353015');
+INSERT INTO `e_log` VALUES ('7500a62e-39c2-4dbc-aba5-b0898ef4c8d6', null, null, '192.168.253.3', '2014-05-07 16:58:46', ':get', '/getImageFile/-1400089674_1399452074181.png', null, '1399453126062');
+INSERT INTO `e_log` VALUES ('768d68c0-86f6-4d6e-aeea-706ac3a4bf33', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:19:39', ':post', '/loginShop', '{:user_id \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\"}', '1399450779140');
+INSERT INTO `e_log` VALUES ('7808da2c-bca7-4daf-afa5-6c9053ba9cdc', null, '13651083480', '192.168.253.3', '2014-05-07 15:17:00', ':post', '/registerUser', '{:fileNameList \"\", :phone \"13651083480\", :type \"1\", :name \"%E4%BA%BA%E4%BA%BA\"}', '1399447020640');
+INSERT INTO `e_log` VALUES ('79035535-c755-4dc7-83d5-a31613ab4abe', null, null, '192.168.253.3', '2014-05-07 16:19:40', ':get', '/getImageFile/463517179_1399450736650.png', null, '1399450780312');
+INSERT INTO `e_log` VALUES ('79c6026d-9362-4e91-ab0d-2bdeb0d6b369', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:07:17', ':post', '/loginShop', '{:user_id \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\"}', '1399453637250');
+INSERT INTO `e_log` VALUES ('7a2f6967-ce5b-4635-bcf2-34f6f6a6519b', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:22:33', ':get', '/getSalesByChannel/0/1399450447187', null, '1399450953703');
+INSERT INTO `e_log` VALUES ('7a505088-693d-4b30-9c6f-ceb0cd9d9c47', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:03:50', ':post', '/addSaleDiscuss', '{:sale_id \"43b10a06-f46a-4816-a5cf-00eb257e6141\", :publisher \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\", :content \"优惠多多\"}', '1399453430421');
+INSERT INTO `e_log` VALUES ('7d881f53-8504-4fa5-8a4e-eece80bb17e5', null, '13651083480', '192.168.253.3', '2014-05-07 15:10:08', ':get', '/getSalesByChannel/0/1399446577046', null, '1399446608031');
+INSERT INTO `e_log` VALUES ('7dbd9350-fa06-4f7b-bcd0-19b759c34a3d', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:08:03', ':post', '/updateShop', '{:shop_id \"e162af86-f928-4ed1-8a7c-e6178d25a8d5\", :field \"desc\", :value \"%E8%82%AF%E5%BE%B7%E5%9F%BA%E5%A4%A7%E5%93%81%E7%89%8C\", :fileNameList \"\"}', '1399453683718');
+INSERT INTO `e_log` VALUES ('7ee507ea-2f19-4bba-9745-86aaa66c5d14', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:44:32', ':get', '/getSalesByChannel/0/1399448576921', null, '1399448672296');
+INSERT INTO `e_log` VALUES ('7ef51083-7540-42f9-9d12-2b85f88ee47a', null, '13651083480', '192.168.253.3', '2014-05-07 16:23:18', ':post', '/login', '{:phone \"13651083480\"}', '1399450998015');
+INSERT INTO `e_log` VALUES ('7f49b047-2931-47f6-aea0-f389b5a7b72d', null, '13651083480', '192.168.253.3', '2014-05-07 15:06:20', ':get', '/getSettings', null, '1399446380453');
+INSERT INTO `e_log` VALUES ('833dd651-f77a-499e-bb6b-a9ce0f8ba361', null, '13651083480', '192.168.253.3', '2014-05-07 15:16:33', ':get', '/getSalesByChannel/0/1399446608500', null, '1399446993046');
+INSERT INTO `e_log` VALUES ('833e771d-6fdb-4e1f-b083-15cae12a6bb5', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:44:31', ':get', '/getFriends/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399448671234');
+INSERT INTO `e_log` VALUES ('845a7bd7-a845-4f77-9f8a-fc6d8e313764', null, '13651083480', '192.168.253.3', '2014-05-07 15:07:26', ':post', '/registerUser', '{:fileNameList \"13651083480_1399446443410.png\", :phone \"13651083480\", :type \"1\", :photo \"13651083480_1399446443410.png\", :name \"%E5%A6%9E%E5%A6%9E\", \"13651083480_1399446443410.png\" {:size 46837, :tempfile #<File C:\\DOCUME~1\\ADMINI~1\\LOCALS~1\\Temp\\ring-multipart-7366176588694513618.tmp>, :content-type \"image/pjpeg\", :filename \"13651083480_1399446443410.png\"}}', '1399446446046');
+INSERT INTO `e_log` VALUES ('84642af6-aa5d-447c-89a0-684194c6481f', null, '13651083480', '192.168.253.3', '2014-05-07 15:42:56', ':get', '/getSalesByChannel/1/1399448575968', null, '1399448576890');
+INSERT INTO `e_log` VALUES ('84f74b1e-612e-413e-a967-d7c5d5d0cea1', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:10:32', ':get', '/getFriends/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399450232343');
+INSERT INTO `e_log` VALUES ('853a20eb-33cc-4c6a-854d-4bedee37546e', null, '13651083480', '192.168.253.3', '2014-05-07 15:06:03', ':get', '/getChannels', null, '1399446363593');
+INSERT INTO `e_log` VALUES ('85683f3a-3122-44d4-aaae-dc2d0a476274', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:50:42', ':get', '/getSalesByChannel/0/1399449032515', null, '1399449042921');
+INSERT INTO `e_log` VALUES ('8739bb2a-ab31-4c1c-8e64-60366a832fd8', null, '13651083480', '192.168.253.3', '2014-05-07 15:43:31', ':post', '/registerUser', '{:fileNameList \"\", :phone \"13651083480\", :type \"1\", :name \"222\"}', '1399448611484');
+INSERT INTO `e_log` VALUES ('8794b804-6c5a-4c35-9f7d-33960ec0d044', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:01:14', ':post', '/addSale', '{:content \"%E5%85%A8%E5%9C%BA%E6%B1%89%E5%A0%A1%E4%B9%B0%E4%B8%80%E9%80%81%E4%B8%80\", :end_date \"1401465600000\", \"50489896_1399453226535.png\" {:size 228877, :tempfile #<File C:\\DOCUME~1\\ADMINI~1\\LOCALS~1\\Temp\\ring-multipart-2626007887600820125.tmp>, :content-type \"image/pjpeg\", :filename \"50489896_1399453226535.png\"}, :fileNameList \"50489896_1399453226535.png\", :title \"%E4%BA%94%E6%9C%88%E4%BC%98%E6%83%A0%E5%A4%A7%E6%94%BE%E9%80%81\", :trade_id \"1\", :start_date \"1398873600000\", :shop_id \"e162af86-f928-4ed1-8a7c-e6178d25a8d5\", :publisher \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\"}', '1399453274984');
+INSERT INTO `e_log` VALUES ('87a942d2-3b3d-4193-a15a-18159dffa08d', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:01:41', ':get', '/getSaleData/43b10a06-f46a-4816-a5cf-00eb257e6141/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399453301359');
+INSERT INTO `e_log` VALUES ('87d9f409-a37a-4047-a79f-3916f4b034b9', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:58:52', ':get', '/checkShopEmp/e162af86-f928-4ed1-8a7c-e6178d25a8d5/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399453132406');
+INSERT INTO `e_log` VALUES ('8a588999-243d-44da-a7f9-5136a27aff9e', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:23:29', ':post', '/loginShop', '{:user_id \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\"}', '1399451009109');
+INSERT INTO `e_log` VALUES ('8c57173f-e258-40c3-8a78-5c55653bdd53', null, '13651083480', '192.168.253.3', '2014-05-07 16:39:45', ':post', '/login', '{:phone \"13651083480\"}', '1399451985312');
+INSERT INTO `e_log` VALUES ('8ed066b0-7e13-42d3-bb25-755b533cc70e', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:44:52', ':get', '/getSettings', null, '1399448692171');
+INSERT INTO `e_log` VALUES ('8f98c5d4-df2e-4f98-b905-40f78f75d6de', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:05:31', ':get', '/getSaleData/43b10a06-f46a-4816-a5cf-00eb257e6141/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399453531093');
+INSERT INTO `e_log` VALUES ('904ab94f-6f17-4e55-a0cf-617ef3b5f31a', null, null, '192.168.253.3', '2014-05-07 16:19:40', ':get', '/getImageFile/463517179_1399450736650.png', null, '1399450780125');
+INSERT INTO `e_log` VALUES ('90881ee6-fff2-49b2-8ddb-1143a6fd47a7', null, '13651083480', '192.168.253.3', '2014-05-07 15:10:43', ':post', '/login', '{:phone \"13651083480\"}', '1399446643296');
+INSERT INTO `e_log` VALUES ('9291175a-eeba-4530-86a3-9192d6fb1b9c', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:18:59', ':post', '/registerShop', '{:desc \"%E6%8E%A2%E8%B7%AF%E8%80%85%E6%97%97%E8%88%B0%E5%BA%97\", :shop_img \"463517179_1399450736650.png\", \"463517179_1399450736650.png\" {:size 34743, :tempfile #<File C:\\DOCUME~1\\ADMINI~1\\LOCALS~1\\Temp\\ring-multipart-6386821006836686561.tmp>, :content-type \"image/pjpeg\", :filename \"463517179_1399450736650.png\"}, :name \"%E4%B8%8A%E5%9C%B0%E5%8D%8E%E8%81%94%E6%8E%A2%E8%B7%AF%E8%80%85%E4%B8%93%E5%8D%96%E5%BA%97\", :location \"%7B%22address%22%3A%22%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7%22%2C%22lontitude%22%3A116.242447%2C%22radius%22%3A39.31818389892578%2C%22latitude%22%3A40.073715%7D\", :owner \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\", :fileNameList \"463517179_1399450736650.png\", :address \"%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7\", :tradeList \"2%7C40\"}', '1399450739031');
+INSERT INTO `e_log` VALUES ('93021c0e-ee30-43f2-998e-556db4d4f850', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:55:52', ':get', '/getSalesByShop/e162af86-f928-4ed1-8a7c-e6178d25a8d5/1399449405468', null, '1399452952421');
+INSERT INTO `e_log` VALUES ('935b3306-d0a6-4dfd-a266-205185f62e5d', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:45:59', ':get', '/getSalesByChannel/1/1399448758515', null, '1399448759171');
+INSERT INTO `e_log` VALUES ('93628f2c-1037-49b8-adce-9b3f69cabd48', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:50:59', ':put', '/updateUserName', '{:uuid \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\", :name \"妞妞\"}', '1399449059484');
+INSERT INTO `e_log` VALUES ('9487d840-a498-4d94-b6f1-52685b743983', null, null, '192.168.253.1', '2014-05-07 16:31:20', ':get', '/aa', null, '1399451480281');
+INSERT INTO `e_log` VALUES ('94f55592-5a11-414c-9acf-8b415473822b', null, null, '192.168.253.3', '2014-05-07 16:19:40', ':get', '/getImageFile/463517179_1399450736650.png', null, '1399450780531');
+INSERT INTO `e_log` VALUES ('95de4614-a955-4907-a262-8df5b3b04a79', null, '13651083480', '192.168.253.3', '2014-05-07 16:11:12', ':post', '/login', '{:phone \"13651083480\"}', '1399450272234');
+INSERT INTO `e_log` VALUES ('9665b07e-ce90-45d5-b460-42b250922cc4', null, '13651083480', '192.168.253.3', '2014-05-07 16:39:03', ':post', '/login', '{:phone \"13651083480\"}', '1399451943312');
+INSERT INTO `e_log` VALUES ('99f00e38-264b-4164-b2c9-afc1e0dc9eba', null, '13651083480', '192.168.253.3', '2014-05-07 15:09:35', ':post', '/login', '{:phone \"13651083480\"}', '1399446575203');
+INSERT INTO `e_log` VALUES ('9d6a7841-b562-4617-b239-45e2d3cc8fb7', null, '13651083480', '192.168.253.3', '2014-05-07 15:07:50', ':post', '/login', '{:phone \"13651083480\"}', '1399446470312');
+INSERT INTO `e_log` VALUES ('9dd1f966-c30c-44dd-9dcd-3fbc8e83d394', null, '13651083480', '192.168.253.3', '2014-05-07 15:45:57', ':post', '/login', '{:phone \"13651083480\"}', '1399448757062');
+INSERT INTO `e_log` VALUES ('a0b856c1-94ad-4ef1-a829-c5ff32023901', null, '13651083480', '192.168.253.3', '2014-05-07 15:06:05', ':get', '/getSalesByChannel/0/-1', null, '1399446365015');
+INSERT INTO `e_log` VALUES ('a3c5f7bc-9e46-4a79-9ae3-bada1f235b56', null, '13651083480', '192.168.253.3', '2014-05-07 15:16:33', ':get', '/getSalesByChannel/1/1399446993109', null, '1399446993390');
+INSERT INTO `e_log` VALUES ('a4c887b6-7a21-4e26-832c-7cfc2d0e74ab', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:09:36', ':get', '/getSalesByChannel/0/1399446554718', null, '1399446576500');
+INSERT INTO `e_log` VALUES ('a6217e4c-14da-4768-8084-69d41c5026e0', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:03:10', ':get', '/getSalesByChannel/0/1399453353109', null, '1399453390390');
+INSERT INTO `e_log` VALUES ('a8ea01fa-5bf2-4401-b709-102ba9839d9f', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:51:58', ':post', '/registerShop', '{\"1259860143_1399452716068.png\" {:size 68674, :tempfile #<File C:\\DOCUME~1\\ADMINI~1\\LOCALS~1\\Temp\\ring-multipart-3820336725498127850.tmp>, :content-type \"image/pjpeg\", :filename \"1259860143_1399452716068.png\"}, :desc \"%E6%AC%A2%E8%BF%8E%E5%85%89%E4%B8%B4\", :shop_img \"1259860143_1399452716068.png\", :name \"%E4%B8%BD%E4%BD%B3%E5%AE%9D%E8%B4%9D%E6%B0%B8%E6%97%BA%E5%BA%97\", :location \"%7B%22address%22%3A%22%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7%22%2C%22radius%22%3A38.766666412353516%2C%22longitude%22%3A116.242444%2C%22latitude%22%3A40.073734%7D\", :owner \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\", :fileNameList \"1259860143_1399452716068.png\", :address \"%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7\", :tradeList \"40%7C3\"}', '1399452718562');
+INSERT INTO `e_log` VALUES ('a9d01922-85f0-47f5-8b46-17686f48e4e7', null, '13651083480', '192.168.253.3', '2014-05-07 16:57:51', ':post', '/login', '{:phone \"13651083480\"}', '1399453071031');
+INSERT INTO `e_log` VALUES ('aa7e22b0-eeb9-412f-93ec-ada7e850215f', null, '13651083480', '192.168.253.3', '2014-05-07 16:10:32', ':post', '/login', '{:phone \"13651083480\"}', '1399450232000');
+INSERT INTO `e_log` VALUES ('ab321719-2ea1-4c71-a481-df1961e9d665', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:23:19', ':get', '/getSalesByChannel/1/1399450999187', null, '1399450999687');
+INSERT INTO `e_log` VALUES ('aba66e4d-d0a7-44d2-83b8-4e470fc76b24', null, '13651083480', '192.168.253.3', '2014-05-07 17:05:18', ':post', '/login', '{:phone \"13651083480\"}', '1399453518125');
+INSERT INTO `e_log` VALUES ('abe8ada8-bea6-4713-8734-5e5e75d4e04e', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:45:58', ':get', '/getSalesByChannel/0/1399448710437', null, '1399448758468');
+INSERT INTO `e_log` VALUES ('ad0a45eb-7b03-4a06-b677-60308f604cf0', null, null, '192.168.253.3', '2014-05-07 17:01:25', ':get', '/getImageFile/50489896_1399453226535.png', null, '1399453285000');
+INSERT INTO `e_log` VALUES ('b23e3821-ff89-4feb-ae2b-d58297d8449c', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:44:48', ':get', '/getModules/discover', null, '1399448688203');
+INSERT INTO `e_log` VALUES ('b28c6937-65ed-4078-aae4-93b6e3ec79c9', null, '13651083480', '192.168.253.3', '2014-05-07 15:06:16', ':get', '/getModules/me', null, '1399446376812');
+INSERT INTO `e_log` VALUES ('b5b8ba6f-85c6-4cf7-9e78-4f5e005f065d', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:23:19', ':get', '/getSalesByChannel/0/1399450954234', null, '1399450999109');
+INSERT INTO `e_log` VALUES ('b6007b9f-d2e6-4d10-b4af-5cbb921a678f', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:09:36', ':get', '/getSalesByChannel/1/1399446576531', null, '1399446576937');
+INSERT INTO `e_log` VALUES ('b6137f4d-a73d-4338-b613-05fc4fae150d', null, null, '192.168.253.1', '2014-05-07 16:29:22', ':get', '/aa', null, '1399451362000');
+INSERT INTO `e_log` VALUES ('b61b2edd-2dee-45c6-8aac-c81a14885b97', null, null, '192.168.253.3', '2014-05-07 16:54:30', ':get', '/getImageFile/1259860143_1399452716068.png', null, '1399452870015');
+INSERT INTO `e_log` VALUES ('b73a7c1d-f128-4cd0-907e-7172c22a1449', null, null, '192.168.253.3', '2014-05-07 16:58:45', ':get', '/getImageFile/-1400089674_1399452074181.png', null, '1399453125796');
+INSERT INTO `e_log` VALUES ('b7ef26ec-1ca9-4ad3-ad85-2ae8f7e2cba2', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:48:05', ':get', '/getFriends/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399452485484');
+INSERT INTO `e_log` VALUES ('b9480b9a-30a3-43dc-85c4-5880722a6205', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:55:07', ':post', '/searchShops', '{:search-word \"上地\"}', '1399452907718');
+INSERT INTO `e_log` VALUES ('bd9fbd86-5148-4504-a485-a6a591a4024f', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:46:20', ':put', '/updateUserName', '{:uuid \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\", :name \"i妞妞\"}', '1399448780109');
+INSERT INTO `e_log` VALUES ('bf03a998-7566-48bf-b76e-b66ef4e006bc', null, null, '192.168.253.1', '2014-05-07 16:34:59', ':get', '/aa', null, '1399451699296');
+INSERT INTO `e_log` VALUES ('ce6c0389-7fea-4cd1-ac38-2b1e2a4e94fe', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:14:06', ':get', '/getSalesByChannel/0/1399450274265', null, '1399450446640');
+INSERT INTO `e_log` VALUES ('ce9bc156-adb7-4bba-a39b-5fafdb5496f9', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:22:47', ':post', '/loginShop', '{:user_id \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\"}', '1399450967562');
+INSERT INTO `e_log` VALUES ('d00488c9-2208-4cce-b9fb-113eee52b3ff', null, null, '192.168.253.3', '2014-05-07 16:54:29', ':get', '/getImageFile/1259860143_1399452716068.png', null, '1399452869968');
+INSERT INTO `e_log` VALUES ('d078860d-753c-4730-bc43-df23b0bfa668', null, null, '192.168.253.3', '2014-05-07 16:58:45', ':get', '/getImageFile/-1400089674_1399452074181.png', null, '1399453125921');
+INSERT INTO `e_log` VALUES ('d087fa21-977f-4cbd-8eca-47c8fbd8aedd', null, null, '192.168.253.3', '2014-05-07 15:07:42', ':get', '/getImageFile//storage/emulated/0/bluetooth/1.jpeg', null, '1399446462234');
+INSERT INTO `e_log` VALUES ('d22ea171-a326-49dd-82cc-7e8eb7960f63', null, '13651083480', '192.168.253.3', '2014-05-07 15:43:30', ':post', '/login', '{:phone \"13651083480\"}', '1399448610968');
+INSERT INTO `e_log` VALUES ('d4c34a4e-58a9-40dd-baad-45e8258a88f9', null, '13651083480', '192.168.253.3', '2014-05-07 15:06:45', ':get', '/getSalesByChannel/1/1399446405671', null, '1399446405812');
+INSERT INTO `e_log` VALUES ('da8df8a5-f3ae-42b9-b116-e89d218f31d4', null, null, '192.168.253.3', '2014-05-07 16:58:45', ':get', '/getImageFile/-1400089674_1399452074181.png', null, '1399453125828');
+INSERT INTO `e_log` VALUES ('dfab29fe-e552-4736-a799-f4a46f59ef8e', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:11:23', ':post', '/loginShop', '{:user_id \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\"}', '1399450283375');
+INSERT INTO `e_log` VALUES ('dfff639b-2157-4dfd-8c22-b85cc36a3e4c', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:24:29', ':get', '/getFriends/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399451069250');
+INSERT INTO `e_log` VALUES ('e14a4689-4c06-44fe-bc92-148952b22148', null, '13651083480', '192.168.253.3', '2014-05-07 15:10:43', ':post', '/registerUser', '{:fileNameList \"\", :phone \"13651083480\", :type \"1\", :name \"uuu\"}', '1399446643687');
+INSERT INTO `e_log` VALUES ('e2b7379f-2ac2-4c06-9bd3-828226ef8de3', null, null, '192.168.253.3', '2014-05-07 16:11:24', ':get', '/getImageFile/602324364_1399449344230.png', null, '1399450284890');
+INSERT INTO `e_log` VALUES ('e36e8bb7-679b-4246-852b-eeab6f1b9c73', null, null, '192.168.253.3', '2014-05-07 16:58:45', ':get', '/getImageFile/-1400089674_1399452074181.png', null, '1399453125968');
+INSERT INTO `e_log` VALUES ('e49b2e07-527f-4a54-8351-b96e4800dbff', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:55:52', ':get', '/checkShopEmp/e162af86-f928-4ed1-8a7c-e6178d25a8d5/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399452952953');
+INSERT INTO `e_log` VALUES ('e51180f3-0831-40f2-9836-645a2396e56b', null, '13651083480', '192.168.253.3', '2014-05-07 15:06:13', ':get', '/getSalesByChannel/0/1399446365375', null, '1399446373593');
+INSERT INTO `e_log` VALUES ('e64a8942-a6b2-4e4d-b0fe-75af58a581db', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:45:57', ':get', '/getFriends/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399448757500');
+INSERT INTO `e_log` VALUES ('e82d8d13-e5a8-4327-a674-057771a6b97b', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:44:57', ':get', '/getSalesByDistance/40.073736/116.242445/2000/0', null, '1399448697125');
+INSERT INTO `e_log` VALUES ('e891ed66-de04-4c2d-8c80-e5f325e0a54e', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:07:43', ':get', '/checkShopEmp/e162af86-f928-4ed1-8a7c-e6178d25a8d5/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399453663421');
+INSERT INTO `e_log` VALUES ('e8ffd2a7-864c-40c2-8f03-164120525c35', null, '13651083480', '192.168.253.3', '2014-05-07 16:41:15', ':post', '/login', '{:phone \"13651083480\"}', '1399452075609');
+INSERT INTO `e_log` VALUES ('ea153ff9-e174-4a07-81a4-f161447ca2f6', null, null, '192.168.253.3', '2014-05-07 16:11:24', ':get', '/getImageFile/602324364_1399449344230.png', null, '1399450284984');
+INSERT INTO `e_log` VALUES ('ebba14c1-4a18-4ea0-b77a-0f2f0888d482', null, null, '192.168.253.3', '2014-05-07 15:09:48', ':get', '/getImageFile/13651083480_1399446443410.png', null, '1399446588859');
+INSERT INTO `e_log` VALUES ('ec71d0fc-accd-4c4a-a734-319d70689389', null, null, '192.168.253.3', '2014-05-07 16:54:30', ':get', '/getImageFile/1259860143_1399452716068.png', null, '1399452870156');
+INSERT INTO `e_log` VALUES ('f24a915e-cd28-4c5f-a857-fbe57ab4cf68', null, '13651083480', '192.168.253.3', '2014-05-07 16:18:52', ':post', '/login', '{:phone \"13651083480\"}', '1399450732421');
+INSERT INTO `e_log` VALUES ('f2756af2-f1c4-4ddc-a7fc-9e3fd150c538', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:44:32', ':get', '/getSalesByChannel/1/1399448672375', null, '1399448672609');
+INSERT INTO `e_log` VALUES ('f306d97d-2bda-40fa-bb08-0987dba161c8', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 16:22:33', ':get', '/getFriends/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399450953031');
+INSERT INTO `e_log` VALUES ('f40990ee-fd0d-474f-a9ba-42abf5d2a0c3', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:07:50', ':get', '/getSalesByChannel/1/1399446470578', null, '1399446470718');
+INSERT INTO `e_log` VALUES ('f906a65f-0d96-4037-bf9b-d1ca81c16c02', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:07:02', ':get', '/getShopsByDistance/40.073712/116.242458/2000/0', null, '1399453622796');
+INSERT INTO `e_log` VALUES ('f9eda959-b2aa-451e-a755-361bda58fbf6', null, null, '192.168.253.1', '2014-05-07 16:28:59', ':get', '/aa', null, '1399451339046');
+INSERT INTO `e_log` VALUES ('fa4a4311-a3b6-4bb0-bbc9-f348241f388e', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:03:34', ':get', '/getSaleDiscusses/43b10a06-f46a-4816-a5cf-00eb257e6141/1399453275062', null, '1399453414437');
+INSERT INTO `e_log` VALUES ('fb314c60-962c-4efd-bdf9-c996c76d972b', null, null, '192.168.253.3', '2014-05-07 16:19:45', ':get', '/getImageFile/barcode_1641208558_1399450739125.png', null, '1399450785609');
+INSERT INTO `e_log` VALUES ('fbb8fa86-6282-4e13-b3bb-c11630843ab5', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:50:43', ':get', '/getSalesByChannel/1/1399449042953', null, '1399449043375');
+INSERT INTO `e_log` VALUES ('fd2b3f26-bb4d-4dbc-8f25-3ea1d8c86df7', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:06:48', ':post', '/searchUsers', '{:search-word \"12222222\"}', '1399453608531');
+INSERT INTO `e_log` VALUES ('fea061d9-7429-43bd-a45c-dce729de14dd', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 17:06:07', ':get', '/getUserProfile/5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', null, '1399453567750');
+INSERT INTO `e_log` VALUES ('fec6c1c4-4263-42f3-9464-8ab75d86c7a4', null, '13651083480', '192.168.253.3', '2014-05-07 16:38:56', ':post', '/registerShop', '{:desc \"%E4%B8%93%E5%8D%96%E7%94%B5%E8%84%91%E5%92%8C%E4%B9%A6%E7%B1%8D\", :shop_img \"-1400089674_1399451933560.png\", :name \"%E5%8C%97%E6%B8%85%E8%B7%AF%E7%94%B5%E8%84%91%E5%9F%8E\", :location \"%7B%22address%22%3A%22%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7%22%2C%22lontitude%22%3A116.242446%2C%22radius%22%3A43.61538314819336%2C%22latitude%22%3A40.073734%7D\", :owner \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\", :fileNameList \"-1400089674_1399451933560.png\", \"-1400089674_1399451933560.png\" {:size 50283, :tempfile #<File C:\\DOCUME~1\\ADMINI~1\\LOCALS~1\\Temp\\ring-multipart-3674141896022570713.tmp>, :content-type \"image/pjpeg\", :filename \"-1400089674_1399451933560.png\"}, :address \"%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E5%8C%97%E6%B8%85%E8%B7%AF68%E5%8F%B7\", :tradeList \"41%7C42\"}', '1399451936468');
+INSERT INTO `e_log` VALUES ('ff3a9f3b-bc94-4af3-8c87-b1630540a246', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '13651083480', '192.168.253.3', '2014-05-07 15:51:34', ':post', '/loginShop', '{:user_id \"5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c\"}', '1399449094000');
 
 -- ----------------------------
 -- Table structure for `e_mapping_ct`
@@ -214,8 +389,7 @@ CREATE TABLE `e_sale` (
 -- ----------------------------
 -- Records of e_sale
 -- ----------------------------
-INSERT INTO `e_sale` VALUES ('381044b2-ce60-4227-8a4d-ee3c475883c5', '优惠再次来袭', '全场汉堡买一送一', '1398614400000', '1398700800000', 'a7b21d66-5681-421d-96c4-6c560471eee8', '1', '602324364_1398663643931.png', '95982f2a-df27-42a2-bfeb-98332233d498', '1398663665156', '2014-04-28', '1399428610421', '19', '0', '1');
-INSERT INTO `e_sale` VALUES ('f1385b00-92b7-413b-98d6-61e3fd471a05', '五月优惠大酬宾', '五月每周二中午套餐一律25元，不限量。', '1398873653248', '1401465602048', 'a7b21d66-5681-421d-96c4-6c560471eee8', '1', '-1400089674_1397637457444.png', '95982f2a-df27-42a2-bfeb-98332233d498', '1397637513216', '2014-04-16', '1399428580078', '162', '0', '2');
+INSERT INTO `e_sale` VALUES ('43b10a06-f46a-4816-a5cf-00eb257e6141', '五月优惠大放送', '全场汉堡买一送一', '1398873600000', '1401465600000', 'e162af86-f928-4ed1-8a7c-e6178d25a8d5', '1', '50489896_1399453226535.png', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '1399453275062', '2014-05-07', '1399453531140', '4', '1', '1');
 
 -- ----------------------------
 -- Table structure for `e_sale_discuss`
@@ -237,18 +411,7 @@ CREATE TABLE `e_sale_discuss` (
 -- ----------------------------
 -- Records of e_sale_discuss
 -- ----------------------------
-INSERT INTO `e_sale_discuss` VALUES ('31dda060-2073-4da7-bc92-99ad8b138d46', 'f1385b00-92b7-413b-98d6-61e3fd471a05', null, '呵呵呵', '95982f2a-df27-42a2-bfeb-98332233d498', '1398329811453', '1', '1398329831484');
-INSERT INTO `e_sale_discuss` VALUES ('3ff0d72d-4e3e-41e2-9e17-f5fd04d9a758', 'f1385b00-92b7-413b-98d6-61e3fd471a05', null, '囧囧囧j', '95982f2a-df27-42a2-bfeb-98332233d498', '1398153726703', '1', '1398158559281');
-INSERT INTO `e_sale_discuss` VALUES ('484ac11b-7e6d-47ab-9a09-18390a6ecb39', 'f1385b00-92b7-413b-98d6-61e3fd471a05', null, '测试一下', '95982f2a-df27-42a2-bfeb-98332233d498', '1398330051828', '1', '1398330366843');
-INSERT INTO `e_sale_discuss` VALUES ('5fdb9837-3b73-4cf8-b326-c091e6c9c343', 'f1385b00-92b7-413b-98d6-61e3fd471a05', null, '确实很优惠', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', '1398137068593', '0', '1398137068593');
-INSERT INTO `e_sale_discuss` VALUES ('6c2e8533-edfd-4f20-bd37-38e863d17952', 'f1385b00-92b7-413b-98d6-61e3fd471a05', null, '囧囧囧j', '95982f2a-df27-42a2-bfeb-98332233d498', '1398153726156', '1', '1398153738453');
-INSERT INTO `e_sale_discuss` VALUES ('6e035403-6ac3-42eb-ad30-e364d41bb682', 'f1385b00-92b7-413b-98d6-61e3fd471a05', null, '哈哈哈哈', '95982f2a-df27-42a2-bfeb-98332233d498', '1398330456734', '1', '1398330489562');
-INSERT INTO `e_sale_discuss` VALUES ('87a42703-645b-4697-bdae-3306b3d8c938', 'f1385b00-92b7-413b-98d6-61e3fd471a05', null, '感谢惠顾', '95982f2a-df27-42a2-bfeb-98332233d498', '1398143643281', '1', '1398158693515');
-INSERT INTO `e_sale_discuss` VALUES ('886530ba-09f1-4fbb-85db-82ffbd84089f', 'f1385b00-92b7-413b-98d6-61e3fd471a05', null, '没问题', '95982f2a-df27-42a2-bfeb-98332233d498', '1398330893265', '0', '1398330893265');
-INSERT INTO `e_sale_discuss` VALUES ('94d8074a-4501-4d3f-b6f1-f23ee9a7645c', 'f1385b00-92b7-413b-98d6-61e3fd471a05', null, '擦擦擦擦', '95982f2a-df27-42a2-bfeb-98332233d498', '1398153711656', '1', '1398158600656');
-INSERT INTO `e_sale_discuss` VALUES ('b2cdc758-397b-4b87-ae47-6ae407087b33', 'f1385b00-92b7-413b-98d6-61e3fd471a05', null, '嘿嘿嘿', '95982f2a-df27-42a2-bfeb-98332233d498', '1398329849265', '1', '1398330031406');
-INSERT INTO `e_sale_discuss` VALUES ('b982dcf5-6388-4564-ba65-b8410ffc733c', 'f1385b00-92b7-413b-98d6-61e3fd471a05', null, '哦哦哦', '95982f2a-df27-42a2-bfeb-98332233d498', '1398330530031', '1', '1398330547000');
-INSERT INTO `e_sale_discuss` VALUES ('c7a88d79-07f9-47f8-8952-1816922f6f47', 'f1385b00-92b7-413b-98d6-61e3fd471a05', null, '哈哈哈', '95982f2a-df27-42a2-bfeb-98332233d498', '1398330161812', '1', '1398330227343');
+INSERT INTO `e_sale_discuss` VALUES ('c904600b-d4a0-4e55-83c4-9efb13601ee6', '43b10a06-f46a-4816-a5cf-00eb257e6141', null, '优惠多多', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '1399453518375', '0', '1399453518375');
 
 -- ----------------------------
 -- Table structure for `e_sale_favorit`
@@ -266,7 +429,7 @@ CREATE TABLE `e_sale_favorit` (
 -- ----------------------------
 -- Records of e_sale_favorit
 -- ----------------------------
-INSERT INTO `e_sale_favorit` VALUES ('9358d71d-cfe0-43d5-8cc5-6d4ee6921b94', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398402328687');
+INSERT INTO `e_sale_favorit` VALUES ('71e0c89b-7dee-496d-833a-3793cd2f1678', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '43b10a06-f46a-4816-a5cf-00eb257e6141', '1399453533703');
 
 -- ----------------------------
 -- Table structure for `e_sale_img`
@@ -285,9 +448,7 @@ CREATE TABLE `e_sale_img` (
 -- ----------------------------
 -- Records of e_sale_img
 -- ----------------------------
-INSERT INTO `e_sale_img` VALUES ('116c18d0-86a5-46aa-89b2-38efb18306bb', '-1400089674_1397637457444.png', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '0', null);
-INSERT INTO `e_sale_img` VALUES ('25adcca9-36f6-4209-b2b1-44f58f26989f', '602324364_1398663643931.png', '381044b2-ce60-4227-8a4d-ee3c475883c5', '0', null);
-INSERT INTO `e_sale_img` VALUES ('3fd02fb7-12d8-4872-b9e5-b270ffc2e0b6', '2105981903_1397637457446.png', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1', null);
+INSERT INTO `e_sale_img` VALUES ('fa5da47e-8fc2-4c35-b888-a3b7d390e943', '50489896_1399453226535.png', '43b10a06-f46a-4816-a5cf-00eb257e6141', '0', null);
 
 -- ----------------------------
 -- Table structure for `e_sale_visit`
@@ -306,191 +467,10 @@ CREATE TABLE `e_sale_visit` (
 -- ----------------------------
 -- Records of e_sale_visit
 -- ----------------------------
-INSERT INTO `e_sale_visit` VALUES ('00e85aa3-302d-4aaa-b4c4-8e27c04a2268', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398156280515');
-INSERT INTO `e_sale_visit` VALUES ('02ccb879-a05b-4b64-960a-7cdfa62058ad', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398330704859');
-INSERT INTO `e_sale_visit` VALUES ('058fa94c-b3c8-4cf3-9999-433f4c9da4fc', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398151624765');
-INSERT INTO `e_sale_visit` VALUES ('05bc8f0f-8154-4d23-a75e-33eaa5289735', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397960342436');
-INSERT INTO `e_sale_visit` VALUES ('09830bc3-a792-41de-8a1c-495a771bc277', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397637513216');
-INSERT INTO `e_sale_visit` VALUES ('0a411f98-052e-4bfa-9bbe-b0dc770d82d2', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398150956296');
-INSERT INTO `e_sale_visit` VALUES ('0b0ab314-ca20-4cdc-b082-08adb97406a5', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397803687421');
-INSERT INTO `e_sale_visit` VALUES ('0d1e189c-f5fb-49b3-9ed8-d3a11b5e0806', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398143255906');
-INSERT INTO `e_sale_visit` VALUES ('0d980d58-46bc-43e7-b8bc-4922b8c7f7ce', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398146284765');
-INSERT INTO `e_sale_visit` VALUES ('0e11a374-4da3-4beb-b192-14a32aa08690', '41947ce0-0274-4508-b820-a96ff5bb8213', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399428069031');
-INSERT INTO `e_sale_visit` VALUES ('0e53e34d-4144-40a6-8145-46c32e138ccb', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397803834781');
-INSERT INTO `e_sale_visit` VALUES ('12ffd042-d513-4f85-97c1-ebcb02f7f99e', 'a5174868-a2b6-4000-a8da-7bc206d3a1f8', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399357676421');
-INSERT INTO `e_sale_visit` VALUES ('1400d1be-03b7-4e10-9567-7160fbc9f3bc', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398153779421');
-INSERT INTO `e_sale_visit` VALUES ('198a570a-e979-4f90-9437-9fa93d6f2205', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398152599125');
-INSERT INTO `e_sale_visit` VALUES ('1a2a7813-3bf9-4e03-93b3-f40f4ca6b9c5', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397914673751');
-INSERT INTO `e_sale_visit` VALUES ('1a3e9e05-7587-410d-a545-2091cfc4ca67', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397919626630');
-INSERT INTO `e_sale_visit` VALUES ('1e08a3f8-9765-42ea-ad23-471c1ae360ab', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398143623250');
-INSERT INTO `e_sale_visit` VALUES ('205fcb8e-7445-45e9-a4d5-3a78a791e5eb', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398151853484');
-INSERT INTO `e_sale_visit` VALUES ('254711b5-13f8-4fd5-8b22-068f8e1a3a38', '95982f2a-df27-42a2-bfeb-98332233d498', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1398668032296');
-INSERT INTO `e_sale_visit` VALUES ('266d1a44-3efc-45eb-97d5-0fd552d4fb30', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398129584843');
-INSERT INTO `e_sale_visit` VALUES ('2b2459d5-8e6b-4262-b98e-c3da61f7b196', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398142878312');
-INSERT INTO `e_sale_visit` VALUES ('2c03740f-b219-4051-a5d8-a18ca6f979fb', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397914147383');
-INSERT INTO `e_sale_visit` VALUES ('2c971e56-b93d-4076-85fa-4681fb41d703', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398329865546');
-INSERT INTO `e_sale_visit` VALUES ('300a617c-e59c-473b-9798-da53c647f401', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398144108906');
-INSERT INTO `e_sale_visit` VALUES ('30a4cdbb-672c-4ea9-a7c9-768566338012', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397919551675');
-INSERT INTO `e_sale_visit` VALUES ('30feaa5d-557f-4e78-868a-6a9f31b1ec26', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398151247218');
-INSERT INTO `e_sale_visit` VALUES ('31993eab-c47b-4316-ab45-f1fcaccaac6b', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398151903671');
-INSERT INTO `e_sale_visit` VALUES ('335516c6-d098-4d70-83f8-d4e8d2cb0f9d', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398149126187');
-INSERT INTO `e_sale_visit` VALUES ('37b6f832-3774-4f6f-b333-70aff4ce0890', '95982f2a-df27-42a2-bfeb-98332233d498', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399423527109');
-INSERT INTO `e_sale_visit` VALUES ('38878855-b488-4662-9d4a-3f859c5c06fe', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397913430824');
-INSERT INTO `e_sale_visit` VALUES ('38e46934-4529-4f7e-9baa-e80fa944da2f', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398150516046');
-INSERT INTO `e_sale_visit` VALUES ('3ca5bdc7-4f98-454f-9ac8-90cd41e40cdf', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398139471140');
-INSERT INTO `e_sale_visit` VALUES ('3d0128a5-f883-4f5c-b460-fd9124b4a317', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397918882287');
-INSERT INTO `e_sale_visit` VALUES ('3e4df89b-cd37-4d2c-a46b-de2c6a3dc16c', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398389837218');
-INSERT INTO `e_sale_visit` VALUES ('3ebd4bad-072d-4600-9403-738ab6c0f12c', '41947ce0-0274-4508-b820-a96ff5bb8213', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399427960046');
-INSERT INTO `e_sale_visit` VALUES ('3f765d3b-cf90-4dde-897a-97bdacfa8041', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398129630593');
-INSERT INTO `e_sale_visit` VALUES ('40d88f0f-89d3-46b4-ada3-9d2368c493a8', '7248db2e-c8d2-4d26-8047-79c8082fb80f', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397639741440');
-INSERT INTO `e_sale_visit` VALUES ('48ab9a09-6041-4d8a-9866-d1c0074af774', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398136167031');
-INSERT INTO `e_sale_visit` VALUES ('49b4ee9d-d83c-4700-a7d0-c65472b1e4e3', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398143543765');
-INSERT INTO `e_sale_visit` VALUES ('4ad79b85-57df-4252-85e8-70490c9c1a16', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398156263125');
-INSERT INTO `e_sale_visit` VALUES ('4bb01768-f5f4-4a93-b15f-2767e4138a37', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398136986421');
-INSERT INTO `e_sale_visit` VALUES ('4c1913ea-0d2c-4a7d-a7a6-5467342dcfff', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398147334171');
-INSERT INTO `e_sale_visit` VALUES ('4d20e39f-5571-44d9-ad5f-2afe5c427cef', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398158738328');
-INSERT INTO `e_sale_visit` VALUES ('4d6e2c0e-907e-44eb-9c5a-876680c1deb9', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398153746640');
-INSERT INTO `e_sale_visit` VALUES ('4d78d787-9195-4d3e-a475-a326a66d23b5', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398330875875');
-INSERT INTO `e_sale_visit` VALUES ('4e195534-578d-42da-9224-476d04ec44e9', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398668013875');
-INSERT INTO `e_sale_visit` VALUES ('4f9e5a43-c1e7-4215-af1c-2fbf76e1d8ed', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398330520171');
-INSERT INTO `e_sale_visit` VALUES ('507d2263-ed8b-431f-94ca-ab787f195166', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397914147391');
-INSERT INTO `e_sale_visit` VALUES ('51bed7f1-4820-4de8-a329-76d1a80215be', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398329886328');
-INSERT INTO `e_sale_visit` VALUES ('56475cef-27b7-43d2-b8be-a3714ab3233a', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398329822062');
-INSERT INTO `e_sale_visit` VALUES ('57fc4a41-7d0b-4b46-95f3-5ee4be261e50', '95982f2a-df27-42a2-bfeb-98332233d498', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399426348906');
-INSERT INTO `e_sale_visit` VALUES ('5c7fd374-0494-48b7-9bd1-eb8911c8a2c9', '6592e4e9-ae3c-41f6-b1d2-3812898b02dc', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399361567328');
-INSERT INTO `e_sale_visit` VALUES ('5dbebf7a-6b44-4b7c-8ecf-fa29879513a3', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398301018718');
-INSERT INTO `e_sale_visit` VALUES ('60fd9ec2-f055-4e8c-ba2f-75e4ea09ebdd', '5a123e20-5640-4458-a4d7-2eb38c9a1dbc', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399355471906');
-INSERT INTO `e_sale_visit` VALUES ('62174ae5-2190-4cc0-b4b4-484a5a1c45e2', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398215555338');
-INSERT INTO `e_sale_visit` VALUES ('644d9e4a-38ca-48fb-9a60-70792ce7a111', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397803287796');
-INSERT INTO `e_sale_visit` VALUES ('649804b6-bd76-4bae-92b3-70812b5a9a28', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398147801703');
-INSERT INTO `e_sale_visit` VALUES ('64ecb654-e0c7-453d-bcea-a95aca0d824d', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398146431500');
-INSERT INTO `e_sale_visit` VALUES ('654ffb41-dd83-4d4f-9d6a-c6e2606e03dd', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397914147377');
-INSERT INTO `e_sale_visit` VALUES ('65f8aa4e-db15-4c2b-bd56-937463edd579', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397896611601');
-INSERT INTO `e_sale_visit` VALUES ('66119efa-8c36-46a8-8f8d-c484cc240562', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399368524453');
-INSERT INTO `e_sale_visit` VALUES ('6a6db16c-0339-4e21-882e-49115ca77a1b', '7248db2e-c8d2-4d26-8047-79c8082fb80f', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397639741440');
-INSERT INTO `e_sale_visit` VALUES ('6a882337-6dff-42d7-b2b8-c472a091f04d', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398139367156');
-INSERT INTO `e_sale_visit` VALUES ('6b573e74-ae57-4f24-9377-ded4a9cb5310', '41947ce0-0274-4508-b820-a96ff5bb8213', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399428111890');
-INSERT INTO `e_sale_visit` VALUES ('6cdeb9d7-1d68-43a2-a735-fb9c157a405b', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398143494109');
-INSERT INTO `e_sale_visit` VALUES ('7279330a-8175-4035-a196-6239c85ff5bc', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398148332921');
-INSERT INTO `e_sale_visit` VALUES ('76bccbbe-61db-4836-8f89-e6f705052c70', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397637513216');
-INSERT INTO `e_sale_visit` VALUES ('78210731-3519-4893-af84-152036fba8d1', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398147789718');
-INSERT INTO `e_sale_visit` VALUES ('79cac8f4-e5eb-4c36-8752-545a83d8f8a9', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398330219046');
-INSERT INTO `e_sale_visit` VALUES ('7bd41c7e-004a-44d5-a336-9b1652c0b3f6', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398146049000');
-INSERT INTO `e_sale_visit` VALUES ('7c123988-b479-48ec-88d3-92088feba0c3', 'ee27be19-15fa-4d90-a7ba-e81ae3e35d20', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399427315203');
-INSERT INTO `e_sale_visit` VALUES ('7d57b186-ab4b-439c-9e6a-701b06efd6d2', 'd4d9cd17-1b38-407b-860b-f9002a24388e', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1398663785703');
-INSERT INTO `e_sale_visit` VALUES ('7d679a81-9db6-43df-a6d7-065df1f80aba', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397914147344');
-INSERT INTO `e_sale_visit` VALUES ('7e641d13-5c22-4e1b-b196-a38acb89df86', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397794341906');
-INSERT INTO `e_sale_visit` VALUES ('7e8c11c3-e8a3-44dd-996b-f2fdaded20e8', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398147795328');
-INSERT INTO `e_sale_visit` VALUES ('7f50f834-26c6-47f5-a0b6-3e18dc75288b', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398158400921');
-INSERT INTO `e_sale_visit` VALUES ('7f8c4c92-b985-4752-bb2a-35d90d762e47', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397794387578');
-INSERT INTO `e_sale_visit` VALUES ('80bba7b7-a193-4472-bb07-c7ea9b8e4467', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398391870203');
-INSERT INTO `e_sale_visit` VALUES ('812b4326-d9b0-4cc7-9253-efc9afd011f0', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397700689920');
-INSERT INTO `e_sale_visit` VALUES ('844dec03-b8e0-46cd-9060-4a83c468a50d', '95982f2a-df27-42a2-bfeb-98332233d498', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399353677828');
-INSERT INTO `e_sale_visit` VALUES ('8460f605-e1f2-41d8-bbd8-735cab39816b', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398136737828');
-INSERT INTO `e_sale_visit` VALUES ('85b22b8f-f15a-4151-87a8-6528f117697b', 'd4d9cd17-1b38-407b-860b-f9002a24388e', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1398663802234');
-INSERT INTO `e_sale_visit` VALUES ('85c882d5-cca3-4f5c-a05b-918720f9513b', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398139620468');
-INSERT INTO `e_sale_visit` VALUES ('86604c29-6b6d-4afa-a227-0589294e15a4', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398150041937');
-INSERT INTO `e_sale_visit` VALUES ('87165ab6-f174-4d30-adda-82e2e1af4f46', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397912606478');
-INSERT INTO `e_sale_visit` VALUES ('88e9fe79-6a0a-4527-9591-6bd6d208c0d5', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398153693171');
-INSERT INTO `e_sale_visit` VALUES ('89c0e683-0ad3-4457-b987-55bae14926bd', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398158760718');
-INSERT INTO `e_sale_visit` VALUES ('8b6777a2-679f-4a2c-b301-35d7d37ecdb6', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398147915265');
-INSERT INTO `e_sale_visit` VALUES ('8c59b296-0ad7-4a03-8c09-7cb34285fbf4', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397960318827');
-INSERT INTO `e_sale_visit` VALUES ('8e4bfd45-db47-4d1c-a1f8-5455c2cd6586', 'd4d87ea4-a8b2-41f2-bc1d-4400ec79a050', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1398666151578');
-INSERT INTO `e_sale_visit` VALUES ('8fe639f3-a53f-44f6-8254-2cbea21dbf8e', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397794102640');
-INSERT INTO `e_sale_visit` VALUES ('90ed72be-3b98-4596-9cb6-df60bf7ea948', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398146143984');
-INSERT INTO `e_sale_visit` VALUES ('9160ded0-2e76-4d4a-a39c-cf990c76f507', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398147438484');
-INSERT INTO `e_sale_visit` VALUES ('9213dccb-32e3-4b6f-a59f-de18ff95815d', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398152570156');
-INSERT INTO `e_sale_visit` VALUES ('926e5d55-9eda-4814-9006-c8f9ac3491ec', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398149355125');
-INSERT INTO `e_sale_visit` VALUES ('9338d3eb-cd84-4f49-8b43-c0493001f7ee', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398146119046');
-INSERT INTO `e_sale_visit` VALUES ('95972f14-c1d6-4584-b471-bc2ff2048033', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397897252503');
-INSERT INTO `e_sale_visit` VALUES ('95af2d80-7076-4c24-8729-0ddf4689402a', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398150781500');
-INSERT INTO `e_sale_visit` VALUES ('96cf9617-c929-4b8a-b685-234fb8629a19', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398147451593');
-INSERT INTO `e_sale_visit` VALUES ('96eff58c-49fe-4192-838f-89abb72a8140', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398402184625');
-INSERT INTO `e_sale_visit` VALUES ('984f19a4-e668-473d-826d-4a954f45c322', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398402308578');
-INSERT INTO `e_sale_visit` VALUES ('9ab9e6cb-cc9e-4f16-b8f0-f20da5682666', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397919429100');
-INSERT INTO `e_sale_visit` VALUES ('9b036d80-5ea3-45a4-aa6d-15e85e7a0ced', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399421630812');
-INSERT INTO `e_sale_visit` VALUES ('9c2f4d60-dabf-4c2d-be35-c778ae6b02cf', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397913855065');
-INSERT INTO `e_sale_visit` VALUES ('9d888da8-3531-44ae-b8e3-7e46b9d7e6f1', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398330444187');
-INSERT INTO `e_sale_visit` VALUES ('9fbf05db-fefd-4479-aa1f-069d169b5450', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398137226671');
-INSERT INTO `e_sale_visit` VALUES ('9ff01e68-e912-43eb-836d-db927e805b54', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397995352507');
-INSERT INTO `e_sale_visit` VALUES ('9ff1ff7d-040f-41b4-8f69-a21420c2c069', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397896551797');
-INSERT INTO `e_sale_visit` VALUES ('a1223073-a5a3-4a8c-b0fe-ec4307bc3db2', '7248db2e-c8d2-4d26-8047-79c8082fb80f', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398224659166');
-INSERT INTO `e_sale_visit` VALUES ('a4a90761-647a-455a-ab60-29a8bfef1f4b', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399424515718');
-INSERT INTO `e_sale_visit` VALUES ('a50c97ac-97dc-427e-a4a2-c2372f9ea63c', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398137575234');
-INSERT INTO `e_sale_visit` VALUES ('a5ca8f3a-0559-4a65-b154-937ade77b29b', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397919636151');
-INSERT INTO `e_sale_visit` VALUES ('a66e83fb-23f4-4a7f-9eec-743c2fc6e682', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398146611703');
-INSERT INTO `e_sale_visit` VALUES ('a705bf60-d0fb-4394-8634-c6b501ac1ed3', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398149303328');
-INSERT INTO `e_sale_visit` VALUES ('aa759f9a-b80c-485c-a5f7-f8b40b25cdf7', '41947ce0-0274-4508-b820-a96ff5bb8213', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399428610421');
-INSERT INTO `e_sale_visit` VALUES ('acd4eed6-c5f4-4d9d-bb4a-ebfe91606221', '41947ce0-0274-4508-b820-a96ff5bb8213', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399428256937');
-INSERT INTO `e_sale_visit` VALUES ('aec02827-87bb-4ad6-98fa-54d2322ed807', 'a5174868-a2b6-4000-a8da-7bc206d3a1f8', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399357665328');
-INSERT INTO `e_sale_visit` VALUES ('b02cc941-8727-4893-89e4-399c2ad94ed8', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398150691515');
-INSERT INTO `e_sale_visit` VALUES ('b32c631b-1056-49c7-b1d3-f926f8bbc94c', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398300872359');
-INSERT INTO `e_sale_visit` VALUES ('b3707c80-14c7-44a7-8f32-618229feea8e', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398147036484');
-INSERT INTO `e_sale_visit` VALUES ('b4367258-3732-4216-b85c-b0e9dc8be1e7', '7248db2e-c8d2-4d26-8047-79c8082fb80f', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397638430720');
-INSERT INTO `e_sale_visit` VALUES ('b469c4e2-3fc5-4e91-af17-3ac33126e0f7', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398329835593');
-INSERT INTO `e_sale_visit` VALUES ('b49234dc-b477-4a70-8df2-f7c2910e24d6', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399353688562');
-INSERT INTO `e_sale_visit` VALUES ('b5b3d2b9-1cbb-4129-9a67-59f2b455d39b', '41947ce0-0274-4508-b820-a96ff5bb8213', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399428580078');
-INSERT INTO `e_sale_visit` VALUES ('b68fc370-7a8c-4f44-a8ab-564ceacf49f8', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398150490421');
-INSERT INTO `e_sale_visit` VALUES ('b70f4d9f-384c-4f86-92b8-08985b59292a', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399424200062');
-INSERT INTO `e_sale_visit` VALUES ('b7dbb0e7-7386-4638-9cae-90b07c970240', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398147237312');
-INSERT INTO `e_sale_visit` VALUES ('b8c29ba0-39b0-4f57-859d-f48c2dcc1683', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397912721591');
-INSERT INTO `e_sale_visit` VALUES ('b8cee9c4-dfd7-48cf-9137-9e8ee28ebdd2', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398151216890');
-INSERT INTO `e_sale_visit` VALUES ('bb9a751d-046f-46b7-9297-377493cc7f62', '7248db2e-c8d2-4d26-8047-79c8082fb80f', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397638299648');
-INSERT INTO `e_sale_visit` VALUES ('bcab3753-a080-45c3-bbc1-f1c7c1e2443b', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398402325703');
-INSERT INTO `e_sale_visit` VALUES ('c0d50095-8251-4d13-a0be-06fdf73a05dd', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398397500375');
-INSERT INTO `e_sale_visit` VALUES ('c1a476fb-5f4b-4b1b-a06d-dc362bb47460', '95982f2a-df27-42a2-bfeb-98332233d498', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399426349000');
-INSERT INTO `e_sale_visit` VALUES ('c3416770-23bb-4eaa-8040-9144b0a5bd00', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398129507312');
-INSERT INTO `e_sale_visit` VALUES ('c39430fd-7c55-436a-befc-8515b13506c8', '5a123e20-5640-4458-a4d7-2eb38c9a1dbc', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399355465703');
-INSERT INTO `e_sale_visit` VALUES ('c49164bc-6aca-49e3-9cbc-10944917cad1', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397918387298');
-INSERT INTO `e_sale_visit` VALUES ('c5030227-1886-4a74-a86b-efb0d0b9f4de', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397794291484');
-INSERT INTO `e_sale_visit` VALUES ('c788917b-b541-4cd4-93db-6e2f58883d98', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398405166359');
-INSERT INTO `e_sale_visit` VALUES ('c79d7a4f-4584-4266-9e6d-4ae1b1139b75', '7248db2e-c8d2-4d26-8047-79c8082fb80f', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397702092906');
-INSERT INTO `e_sale_visit` VALUES ('c907428d-a7d7-4eab-9ad1-978416f20acb', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398156157265');
-INSERT INTO `e_sale_visit` VALUES ('caf82252-50a7-4048-bb9f-275d9dbc390f', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397918315070');
-INSERT INTO `e_sale_visit` VALUES ('cdab5ac2-0ec1-49a2-ae6d-73110a714eb6', '41947ce0-0274-4508-b820-a96ff5bb8213', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399428030046');
-INSERT INTO `e_sale_visit` VALUES ('ce4600b6-02ff-42d3-898f-074203690e4d', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398147457671');
-INSERT INTO `e_sale_visit` VALUES ('cfd66d89-3819-4477-a883-139b1351e0c4', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398150049046');
-INSERT INTO `e_sale_visit` VALUES ('d22b59a5-fd9e-4976-a2f5-f62c648037eb', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397913348244');
-INSERT INTO `e_sale_visit` VALUES ('d66d22af-51d3-447a-b6a5-4fcbc672a878', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397637644288');
-INSERT INTO `e_sale_visit` VALUES ('d709761f-f2b1-45a6-8001-6dc3381930dc', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398150205750');
-INSERT INTO `e_sale_visit` VALUES ('d7e389a0-5514-4a4e-84a8-6a00401026c7', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398144808781');
-INSERT INTO `e_sale_visit` VALUES ('d9116341-fc92-4cab-a1be-d41560734671', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397637644288');
-INSERT INTO `e_sale_visit` VALUES ('da990b23-aa7f-4f4a-a79c-54d658093961', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397995305600');
-INSERT INTO `e_sale_visit` VALUES ('dc03309c-a772-4b1b-bc60-873eede3bab0', '8d628d3b-5e9e-4f55-8367-3d38a7d66da6', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399356859953');
-INSERT INTO `e_sale_visit` VALUES ('dd20ddf9-b0cc-4e5d-991b-e08f12647b3c', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397637906432');
-INSERT INTO `e_sale_visit` VALUES ('de33b525-259c-48a7-a3a5-b5a66a84cb22', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397919458902');
-INSERT INTO `e_sale_visit` VALUES ('def0b0bb-9966-41d6-847b-5b649de0ff0e', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398149598812');
-INSERT INTO `e_sale_visit` VALUES ('df30fda8-d9cb-4314-9764-f14b2464dc02', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397637775360');
-INSERT INTO `e_sale_visit` VALUES ('e12d1001-3c86-441f-af57-0cbd6cc3015b', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397713270015');
-INSERT INTO `e_sale_visit` VALUES ('e1f5566f-df97-4cad-bb94-52dc3d4e81df', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398143834875');
-INSERT INTO `e_sale_visit` VALUES ('e306811a-f3b8-4f53-b830-8fd27624fa38', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397960220912');
-INSERT INTO `e_sale_visit` VALUES ('e48a2c8d-c3fb-49c3-bd89-42d7b46d04a4', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398136872078');
-INSERT INTO `e_sale_visit` VALUES ('e553b558-c760-4950-bbf1-dd2a78b3bf0c', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398143934437');
-INSERT INTO `e_sale_visit` VALUES ('e5bfbb3d-fc64-4fe2-9ae0-9279b6eb7d60', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398136469312');
-INSERT INTO `e_sale_visit` VALUES ('e60a921d-9c9d-4261-90e4-77ce8386745a', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398139564781');
-INSERT INTO `e_sale_visit` VALUES ('e67a96b0-eb34-4028-9adc-975014d202a7', '41947ce0-0274-4508-b820-a96ff5bb8213', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399428280187');
-INSERT INTO `e_sale_visit` VALUES ('e6e1b35d-b4b1-4f87-bd24-65711a49cfb4', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398091385452');
-INSERT INTO `e_sale_visit` VALUES ('e7666d2f-9acd-4d44-a058-0d33eadf55fe', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397637513216');
-INSERT INTO `e_sale_visit` VALUES ('e8e59d2c-4851-4d3c-a316-8b91ce2b27a7', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397794083718');
-INSERT INTO `e_sale_visit` VALUES ('e91b7a3a-3a2e-4660-b21f-07e785e2a6ca', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398149442796');
-INSERT INTO `e_sale_visit` VALUES ('e99b11ce-b129-4f7e-93d2-7142ccdfd3e0', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397803448500');
-INSERT INTO `e_sale_visit` VALUES ('ea1d4771-ed36-4103-af7c-45aeaad1e296', 'a5174868-a2b6-4000-a8da-7bc206d3a1f8', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399357680671');
-INSERT INTO `e_sale_visit` VALUES ('ec36c239-a751-4d4c-89d5-c273b9f61565', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398147830203');
-INSERT INTO `e_sale_visit` VALUES ('ec37a631-b0ae-4b2e-9909-94c91b59694d', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398146020093');
-INSERT INTO `e_sale_visit` VALUES ('efc34fb3-a228-4a69-b478-1658738f039c', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397794130875');
-INSERT INTO `e_sale_visit` VALUES ('f0ac91fa-2164-4ba2-97c2-89d32ad29925', '4835e652-1192-4d62-9104-829df8d72ba1', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399355044609');
-INSERT INTO `e_sale_visit` VALUES ('f200e292-bbe5-4c56-b847-6e64539e9e31', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398146082281');
-INSERT INTO `e_sale_visit` VALUES ('f246720e-0148-4655-a7e2-1cef7188b2cc', '41947ce0-0274-4508-b820-a96ff5bb8213', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1399428580031');
-INSERT INTO `e_sale_visit` VALUES ('f4863785-20b5-450e-9d39-365b684d5f4c', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398146191312');
-INSERT INTO `e_sale_visit` VALUES ('f5181b9f-64be-4433-a9d5-36573d56c7e0', '95982f2a-df27-42a2-bfeb-98332233d498', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399425936546');
-INSERT INTO `e_sale_visit` VALUES ('f6a3c62f-7543-43fc-bf09-4f9625093f63', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397804610718');
-INSERT INTO `e_sale_visit` VALUES ('f782c8fa-6e3c-4229-af75-4d0243a1bd2a', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398329801296');
-INSERT INTO `e_sale_visit` VALUES ('f7e35e73-4383-4ed2-820a-a991d283814c', 'a5174868-a2b6-4000-a8da-7bc206d3a1f8', '381044b2-ce60-4227-8a4d-ee3c475883c5', '1399357619390');
-INSERT INTO `e_sale_visit` VALUES ('f89d19a7-f96a-47dd-9a29-9c220b8dbd8e', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398147962046');
-INSERT INTO `e_sale_visit` VALUES ('fa92d223-a434-41c8-84e1-e76990488df0', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397896523746');
-INSERT INTO `e_sale_visit` VALUES ('fe1bc33d-023e-4857-82f1-84dcce252ed9', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1398151146468');
-INSERT INTO `e_sale_visit` VALUES ('fed0a023-2f09-4a95-9d36-3ad6ab5d0361', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397786241625');
-INSERT INTO `e_sale_visit` VALUES ('ffbc18db-1597-44d9-b33b-d3c81483a04c', '95982f2a-df27-42a2-bfeb-98332233d498', 'f1385b00-92b7-413b-98d6-61e3fd471a05', '1397914147391');
+INSERT INTO `e_sale_visit` VALUES ('1a5e06bc-e11d-413c-8607-6dd398f4ceef', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '43b10a06-f46a-4816-a5cf-00eb257e6141', '1399453531140');
+INSERT INTO `e_sale_visit` VALUES ('23b9dd85-d4b9-41f5-9ca8-5f8ccaaa45dd', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '43b10a06-f46a-4816-a5cf-00eb257e6141', '1399453411515');
+INSERT INTO `e_sale_visit` VALUES ('2d643aea-8580-44b4-9487-b318677b5f81', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '43b10a06-f46a-4816-a5cf-00eb257e6141', '1399453294906');
+INSERT INTO `e_sale_visit` VALUES ('ba51257b-eed9-4849-80d7-e1b819569e04', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '43b10a06-f46a-4816-a5cf-00eb257e6141', '1399453301437');
 
 -- ----------------------------
 -- Table structure for `e_setting`
@@ -538,12 +518,7 @@ CREATE TABLE `e_share` (
 -- ----------------------------
 -- Records of e_share
 -- ----------------------------
-INSERT INTO `e_share` VALUES ('3a84d1ce-36c3-4de6-9cf5-9e0d0b441eb8', '优惠幅度很大，下次再来', '7248db2e-c8d2-4d26-8047-79c8082fb80f', '1398224761416', '2014-04-23', null, '0', 'a7b21d66-5681-421d-96c4-6c560471eee8', '1398244122666');
-INSERT INTO `e_share` VALUES ('47e07784-7b25-414b-8261-f61d21f960c6', '11111', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', '1398088689727', '2014-04-21', null, '1', '', '1398088987349');
-INSERT INTO `e_share` VALUES ('77e75293-dcef-417e-a5b4-f917a93e15be', '上地肯德基的优惠真给力', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', '1397636464640', '2014-04-16', null, '1', 'a7b21d66-5681-421d-96c4-6c560471eee8', '1398082411528');
-INSERT INTO `e_share` VALUES ('ab6f6874-88f1-4015-8eed-8c8f24937d56', '88888', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', '1398089176683', '2014-04-21', null, '0', 'a7b21d66-5681-421d-96c4-6c560471eee8', '1398158349375');
-INSERT INTO `e_share` VALUES ('b664f078-e33e-4421-80bd-2e00824fd524', '2222', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', '1398088789310', '2014-04-21', null, '0', '', '1398089130609');
-INSERT INTO `e_share` VALUES ('ecc394fc-86ae-4560-931d-8a417abc9995', '晒单测试', '95982f2a-df27-42a2-bfeb-98332233d498', '1399424053140', '2014-05-07', null, '0', 'a7b21d66-5681-421d-96c4-6c560471eee8', '1399424053140');
+INSERT INTO `e_share` VALUES ('56621832-eb80-42e6-b034-459796447087', '肯德基的优惠幅度真大', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '1399453071437', '2014-05-07', null, '0', 'e162af86-f928-4ed1-8a7c-e6178d25a8d5', '1399453071437');
 
 -- ----------------------------
 -- Table structure for `e_share_comment`
@@ -566,9 +541,6 @@ CREATE TABLE `e_share_comment` (
 -- ----------------------------
 -- Records of e_share_comment
 -- ----------------------------
-INSERT INTO `e_share_comment` VALUES ('7a8742d7-2c97-4be0-90e5-070ea8930a5c', '3a84d1ce-36c3-4de6-9cf5-9e0d0b441eb8', null, '自评下', '7248db2e-c8d2-4d26-8047-79c8082fb80f', '1398244122666', '0', '1398244122666');
-INSERT INTO `e_share_comment` VALUES ('9ed6efa6-ee75-4ca6-aae0-b08d76706391', 'ab6f6874-88f1-4015-8eed-8c8f24937d56', null, '呵呵', '95982f2a-df27-42a2-bfeb-98332233d498', '1398158349375', '0', '1398158349375');
-INSERT INTO `e_share_comment` VALUES ('eabe1e04-ca4f-486b-9df2-cc7281df076e', 'b664f078-e33e-4421-80bd-2e00824fd524', null, '66666', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', '1398089112075', '1', '1398089130605');
 
 -- ----------------------------
 -- Table structure for `e_share_img`
@@ -587,10 +559,6 @@ CREATE TABLE `e_share_img` (
 -- ----------------------------
 -- Records of e_share_img
 -- ----------------------------
-INSERT INTO `e_share_img` VALUES ('05159152-962e-4935-b180-8f916da8679c', '1259860143_1398224729380.png', '3a84d1ce-36c3-4de6-9cf5-9e0d0b441eb8', '2', '1398224761541');
-INSERT INTO `e_share_img` VALUES ('49a17f10-7973-4d2b-84db-5757e34ff0c2', '-703256829_1398224716598.png', '3a84d1ce-36c3-4de6-9cf5-9e0d0b441eb8', '1', '1398224761479');
-INSERT INTO `e_share_img` VALUES ('53eca583-869a-42f7-b25c-c1ffc7255123', '1309850451_1398088778771.png', 'b664f078-e33e-4421-80bd-2e00824fd524', '1', '1398088789314');
-INSERT INTO `e_share_img` VALUES ('83b61b99-8bc7-480d-ae91-a50deca7a4e9', '463517179_1398088785990.png', 'b664f078-e33e-4421-80bd-2e00824fd524', '2', '1398088789738');
 
 -- ----------------------------
 -- Table structure for `e_share_shop_reply`
@@ -612,7 +580,6 @@ CREATE TABLE `e_share_shop_reply` (
 -- ----------------------------
 -- Records of e_share_shop_reply
 -- ----------------------------
-INSERT INTO `e_share_shop_reply` VALUES ('2fb9c01b-0cd4-427b-ba92-e2258a761e0d', '3a84d1ce-36c3-4de6-9cf5-9e0d0b441eb8', 'a7b21d66-5681-421d-96c4-6c560471eee8', '95982f2a-df27-42a2-bfeb-98332233d498', '1398240209119', '10', '欢迎选购', '0');
 
 -- ----------------------------
 -- Table structure for `e_shop`
@@ -633,15 +600,18 @@ CREATE TABLE `e_shop` (
   `register_time` varchar(16) DEFAULT NULL,
   `status` int(1) DEFAULT '0' COMMENT '0:注册未审核，1:已审核，2:已注销',
   `barcode` varchar(128) DEFAULT NULL,
-  `latitude` double DEFAULT NULL,
-  `longitude` double DEFAULT NULL,
+  `latitude` varchar(16) DEFAULT NULL,
+  `longitude` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of e_shop
 -- ----------------------------
-INSERT INTO `e_shop` VALUES ('a7b21d66-5681-421d-96c4-6c560471eee8', '肯德基上地店', null, '1309850451_1397631831384.png', '{\"address\":\"北京市海淀区北清路68号\",\"lontitude\":116.242521,\"radius\":20.5,\"latitude\":40.073394}', '北京市海淀区北清路68号', '肯德基大品牌', '-1044649450_1397631831387.png', null, '95982f2a-df27-42a2-bfeb-98332233d498', null, '1397631877120', '1', 'barcode_-1053186559_1397631834031.png', '40.073394', '116.242521');
+INSERT INTO `e_shop` VALUES ('238831cf-04bb-4549-9c6e-97724ccfa2a1', '丽佳宝贝永旺店', null, '1259860143_1399452716068.png', '{\"address\":\"北京市海淀区北清路68号\",\"radius\":38.766666412353516,\"longitude\":116.242444,\"latitude\":40.073734}', '北京市海淀区北清路68号', '欢迎光临', null, null, '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '1399452719546', '1399452718593', '0', 'barcode_1778418391_1399452718593.png', '40.073734', '116.242444');
+INSERT INTO `e_shop` VALUES ('6abbacc1-aa63-4175-bd3a-4fb96abbd19f', '北清路电脑城', null, '-1400089674_1399452074181.png', '{\"address\":\"北京市海淀区北清路68号\",\"longitude\":116.242455,\"radius\":30.53333282470703,\"latitude\":40.073713}', '北京市海淀区北清路68号', '专卖电脑和书籍', null, null, '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '1399452076203', '1399452076125', '0', 'barcode_-509784425_1399452076140.png', '40.073713', '116.242455');
+INSERT INTO `e_shop` VALUES ('b7d34ff0-21db-44df-8626-04231feb078e', '上地华联探路者专卖店', null, '463517179_1399450736650.png', '{\"address\":\"北京市海淀区北清路68号\",\"longitude\":116.242447,\"radius\":39.31818389892578,\"latitude\":40.073715}', '北京市海淀区北清路68号', '探路者旗舰店', null, null, '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '1399450739187', '1399450739109', '0', 'barcode_1641208558_1399450739125.png', '40.073715', '116.242447');
+INSERT INTO `e_shop` VALUES ('e162af86-f928-4ed1-8a7c-e6178d25a8d5', '肯德基上地店', null, '602324364_1399449344230.png', '{\"address\":\"北京市海淀区北清路68号\",\"longitude\":116.242443,\"radius\":44.83333206176758,\"latitude\":40.073733}', '北京市海淀区北清路68号', '肯德基大品牌', '898289355_1399449344232.png', null, '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '1399453683734', '1399449405468', '1', 'barcode_-1897623607_1399449405500.png', '40.073733', '116.242443');
 
 -- ----------------------------
 -- Table structure for `e_shop_emp`
@@ -660,7 +630,10 @@ CREATE TABLE `e_shop_emp` (
 -- ----------------------------
 -- Records of e_shop_emp
 -- ----------------------------
-INSERT INTO `e_shop_emp` VALUES ('bc579f27-5d16-4ce7-9965-33e72028765a', 'a7b21d66-5681-421d-96c4-6c560471eee8', '95982f2a-df27-42a2-bfeb-98332233d498', '11111', null);
+INSERT INTO `e_shop_emp` VALUES ('6cfffe68-edd0-4c9f-8e44-e02a06e0606f', 'b7d34ff0-21db-44df-8626-04231feb078e', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '1111', '1399450739125');
+INSERT INTO `e_shop_emp` VALUES ('cd299799-f51c-4614-99ba-b755010ad9da', 'e162af86-f928-4ed1-8a7c-e6178d25a8d5', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '11111', '1399449405484');
+INSERT INTO `e_shop_emp` VALUES ('db5caa32-9a08-4e50-8a7a-1d72a4516792', '238831cf-04bb-4549-9c6e-97724ccfa2a1', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '1111', '1399452718593');
+INSERT INTO `e_shop_emp` VALUES ('e9157119-e9d3-44db-963e-68d98cd5e419', '6abbacc1-aa63-4175-bd3a-4fb96abbd19f', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '11111', '1399452076140');
 
 -- ----------------------------
 -- Table structure for `e_shop_favorit`
@@ -679,8 +652,7 @@ CREATE TABLE `e_shop_favorit` (
 -- ----------------------------
 -- Records of e_shop_favorit
 -- ----------------------------
-INSERT INTO `e_shop_favorit` VALUES ('136bba39-3725-44cb-8d40-45ffc499231f', '2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', 'a7b21d66-5681-421d-96c4-6c560471eee8', '1397637775360', '0');
-INSERT INTO `e_shop_favorit` VALUES ('21eb5bf4-5821-4f03-9c10-76f846829a7a', '95982f2a-df27-42a2-bfeb-98332233d498', 'a7b21d66-5681-421d-96c4-6c560471eee8', '1397803300781', '0');
+INSERT INTO `e_shop_favorit` VALUES ('c0130518-782a-421a-8f46-25bc5240535f', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', 'e162af86-f928-4ed1-8a7c-e6178d25a8d5', '1399452948703', '0');
 
 -- ----------------------------
 -- Table structure for `e_shop_trade`
@@ -698,7 +670,15 @@ CREATE TABLE `e_shop_trade` (
 -- ----------------------------
 -- Records of e_shop_trade
 -- ----------------------------
-INSERT INTO `e_shop_trade` VALUES ('c7cbdc71-e8ce-4dc6-86f6-ed4281165470', 'a7b21d66-5681-421d-96c4-6c560471eee8', '1', '');
+INSERT INTO `e_shop_trade` VALUES ('0225c6de-5bb7-47bd-a0ca-3621ece0cfa2', '40ffa225-c977-40bd-94cb-9841f245862d', '40', '1399452718625');
+INSERT INTO `e_shop_trade` VALUES ('02c70ac7-0028-4fd5-aa99-b6de285a9995', '238831cf-04bb-4549-9c6e-97724ccfa2a1', '40', '1399452718593');
+INSERT INTO `e_shop_trade` VALUES ('4e768631-e9f2-4a4e-8244-6bf125085ac1', '6abbacc1-aa63-4175-bd3a-4fb96abbd19f', '41', '1399452076140');
+INSERT INTO `e_shop_trade` VALUES ('4f824811-d8b8-4c62-bcc3-94c0a9a15f94', '6abbacc1-aa63-4175-bd3a-4fb96abbd19f', '42', '1399452076140');
+INSERT INTO `e_shop_trade` VALUES ('5b15535f-044b-490d-8363-280a1d19cb28', 'b7d34ff0-21db-44df-8626-04231feb078e', '2', '1399450739125');
+INSERT INTO `e_shop_trade` VALUES ('a156bab8-8f9b-4d6f-bca5-2a9b9637ae63', '40ffa225-c977-40bd-94cb-9841f245862d', '3', '1399452718625');
+INSERT INTO `e_shop_trade` VALUES ('c5c5b720-422d-4680-9d9f-4bf974c9457a', '238831cf-04bb-4549-9c6e-97724ccfa2a1', '3', '1399452718593');
+INSERT INTO `e_shop_trade` VALUES ('d5089960-3303-4506-9404-b8abaff1d617', 'b7d34ff0-21db-44df-8626-04231feb078e', '40', '1399450739125');
+INSERT INTO `e_shop_trade` VALUES ('df4c9505-5289-42d8-992c-4e73ea0eb607', 'e162af86-f928-4ed1-8a7c-e6178d25a8d5', '1', '1399449405484');
 
 -- ----------------------------
 -- Table structure for `e_trade`
@@ -745,10 +725,7 @@ CREATE TABLE `e_user` (
 -- ----------------------------
 -- Records of e_user
 -- ----------------------------
-INSERT INTO `e_user` VALUES ('2c0ae241-95e9-442f-8a4c-8a6ae9063b5e', '李四', '4444', null, '4', '4_1397634425877.png', null, null, null, '1397634498560');
-INSERT INTO `e_user` VALUES ('7248db2e-c8d2-4d26-8047-79c8082fb80f', '张三', '3333', null, '3', '3_1397638131573.png', null, null, null, '1397638168576');
-INSERT INTO `e_user` VALUES ('95982f2a-df27-42a2-bfeb-98332233d498', 'i依依', '1111', null, '1', '1_1397631232100.png', null, null, '1398406015031', '1397631221760');
-INSERT INTO `e_user` VALUES ('a2bbc1bb-324f-4036-be96-7bee5e357cc2', 'yy', '1111', '1', '13651083480', null, null, null, null, '1398650576859');
+INSERT INTO `e_user` VALUES ('5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '妞妞', '1111', '1', '13651083480', '13651083480_1399446443410.png', null, null, '1399449059578', '1399446446109');
 
 -- ----------------------------
 -- Table structure for `e_user_profile`
@@ -759,8 +736,8 @@ CREATE TABLE `e_user_profile` (
   `user_id` varchar(36) NOT NULL,
   `share_count` int(11) DEFAULT '0',
   `sale_discuss_count` int(11) DEFAULT '0',
-  `grade_amount` int(11) DEFAULT NULL,
-  `grade_used` int(11) DEFAULT NULL,
+  `grade_amount` int(11) DEFAULT '0',
+  `grade_used` int(11) DEFAULT '0',
   PRIMARY KEY (`uuid`),
   UNIQUE KEY `u_e_user_profile_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -768,6 +745,7 @@ CREATE TABLE `e_user_profile` (
 -- ----------------------------
 -- Records of e_user_profile
 -- ----------------------------
+INSERT INTO `e_user_profile` VALUES ('5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '5d88b4f8-1d93-4481-ba4f-1425f2dbaf2c', '1', '1', '0', '0');
 
 -- ----------------------------
 -- Procedure structure for `geodist`

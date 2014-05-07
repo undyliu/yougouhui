@@ -39,6 +39,10 @@
   (table :e_friend)
   (pk :uuid)
 )
+(defentity user-profiles
+  (table :e_user_profile)
+  (pk :uuid)
+)
 
 ;;share tables
 (defentity shares
