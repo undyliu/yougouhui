@@ -124,6 +124,7 @@
 			)
 	)
 	(POST "/searchUsers" {{word :search-word} :params} (json/write-str (search-user-exact (java.net.URLDecoder/decode word "utf-8"))))
+  (GET "/getUserProfile/:user-id" [user-id] (json/write-str (get-user-profile user-id)))
 )
 
 (defroutes friend-routes
@@ -181,9 +182,6 @@
    )
   (POST "/searchShops" {{word :search-word} :params}
         (json/write-str (search-shop (java.net.URLDecoder/decode word "utf-8"))))
-  (POST "/addShopFavorit" {{shop-id :shop_id user-id :user_id} :params}
-	  (json/write-str (save-shop-favorit user-id shop-id))
-	)
   (GET "/getShopsByDistance/:lat/:lon/:distance/:offset" [lat lon distance offset]
      (json/write-str (get-shops-by-distance (Double/valueOf lat) (Double/valueOf lon) distance offset))
     )

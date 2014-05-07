@@ -1,6 +1,7 @@
 (ns yougou.shop
   (:use
 		[korma.core]
+    [korma.db]
 		[yougou.db]
 	)
   (:require
@@ -33,24 +34,26 @@
     )
 )
 
-(defn save-shop-trades [shop-id trades]
-  (loop [trade-list trades result []]
-    (if (= (count trade-list) 0)
-      result
-      (let [uuid (str (java.util.UUID/randomUUID))
-            trade-id (first trade-list)
-            current-time (str (System/currentTimeMillis))
-            ]
-        (if trade-id
-          (insert shop-trades (values {:uuid uuid :shop_id shop-id :trade_id trade-id :last_modify_time current-time}))
+(defn- save-shop-trades [shop-id trades]
+  (transaction
+    (loop [trade-list trades result []]
+      (if (= (count trade-list) 0)
+        result
+        (let [uuid (str (java.util.UUID/randomUUID))
+              trade-id (first trade-list)
+              current-time (str (System/currentTimeMillis))
+              ]
+          (if trade-id
+            (insert shop-trades (values {:uuid uuid :shop_id shop-id :trade_id trade-id :last_modify_time current-time}))
+          )
+          (recur (rest trade-list) (conj result {:uuid uuid :trade_id trade-id}))
+          )
         )
-        (recur (rest trade-list) (conj result {:uuid uuid :trade_id trade-id}))
-        )
-      )
-	)
+	  )
+   )
 )
 
-(defn save-shop-emp [shop-id user-id pwd]
+(defn- save-shop-emp [shop-id user-id pwd]
   (let [uuid (str (java.util.UUID/randomUUID))
         current-time (str  (System/currentTimeMillis))
         ]
@@ -59,7 +62,7 @@
     )
   )
 
-(defn save-shop [name desc location address shop-img busi-license owner files]
+(defn- save-shop [name desc location address shop-img busi-license owner files]
 	(let [uuid (str (java.util.UUID/randomUUID))
         current-time (str  (System/currentTimeMillis))
         val-map {:uuid uuid :name name :desc desc :location location :address address :shop_img shop-img
@@ -77,12 +80,14 @@
 )
 
 (defn save-shop-data [name desc location address shop-img busi-license owner pwd files trades]
-  (let [shop (save-shop name desc location address shop-img busi-license owner files)
+  (transaction
+    (let [shop (save-shop name desc location address shop-img busi-license owner files)
         shop-id (:uuid shop)
         trade-list (save-shop-trades shop-id trades)
         emp-list (save-shop-emp shop-id owner pwd)
         ]
-    (assoc (merge shop (create-shop-barcode shop-id)) :tradeList trade-list :empList emp-list)
+      (assoc (merge shop (create-shop-barcode shop-id)) :tradeList trade-list :empList emp-list)
+     )
    )
   )
 
@@ -125,7 +130,7 @@
     )
  )
 
-(defn validate-shop-emp-pwd [shop-id user-id pwd]
+(defn- validate-shop-emp-pwd [shop-id user-id pwd]
   (let [pwd-db (:pwd (first (select shop-emps (fields :pwd) (where {:shop_id shop-id :user_id user-id}))))]
     (if (= pwd pwd-db) true false)
     )
@@ -175,19 +180,21 @@
   )
 (defn save-shop-emps [shop-id emp-list del-flag]
   (if emp-list
-    (loop [emps emp-list]
-      (if (> (count emps) 0)
-        (let [emp-id (first emps)
-              uuid (str (java.util.UUID/randomUUID))
-              current-time (str  (System/currentTimeMillis))
-              ]
-          (if emp-id
-            (if del-flag
-              (delete shop-emps (where {:shop_id shop-id :user_id emp-id}))
-              (insert shop-emps (values {:uuid uuid :shop_id shop-id :user_id emp-id :last_modify_time current-time}))
+    (transaction
+      (loop [emps emp-list]
+        (if (> (count emps) 0)
+          (let [emp-id (first emps)
+                uuid (str (java.util.UUID/randomUUID))
+                current-time (str  (System/currentTimeMillis))
+                ]
+            (if emp-id
+              (if del-flag
+                (delete shop-emps (where {:shop_id shop-id :user_id emp-id}))
+                (insert shop-emps (values {:uuid uuid :shop_id shop-id :user_id emp-id :last_modify_time current-time}))
+                )
               )
-            )
-          (recur (rest emps))
+            (recur (rest emps))
+           )
          )
        )
      )
@@ -210,8 +217,6 @@
                  )
          (where {:status "1"})
          (where (and (< :latitude (+ lat 1)) (> :latitude (- lat 1)) (< :longitude (+ lon 1)) (> :longitude (- lon 1))))
-         ;(where (and (and (< :latitude (+ lat 1)) (> :latitude (- lat 1))) (and (< :longitude (+ lon 1)) (> :longitude (- lon 1)))))
-         ;(where (and (and (and (and (< :latitude (+ lat 1))) (> :latitude (- lat 1))) (< :longitude (+ lon 1))) (> :longitude (- lon 1))))
          (having {:distance [<= dist]})
          (order :distance)
          (limit def-page-size)

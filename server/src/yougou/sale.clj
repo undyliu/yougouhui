@@ -1,12 +1,14 @@
 (ns yougou.sale
   (:use
 		[korma.core]
+    [korma.db]
 		[yougou.db]
 		)
   (:require
 		[yougou.file :as file]
     [yougou.date :as date]
     [yougou.shop :as shop]
+    [yougou.user :as user]
 	)
 )
 
@@ -69,16 +71,18 @@
         )
   )
 
-(defn save-sale-visit [user-id sale-id visit-count]
+(defn- save-sale-visit [user-id sale-id]
   (let [uuid (str (java.util.UUID/randomUUID))
         current-time (System/currentTimeMillis)
         ]
-    (update sales (set-fields {:visit_count visit-count :last_modify_time current-time}) (where {:uuid sale-id}))
-    (insert sale-visites (values {:uuid uuid :user_id user-id :sale_id sale-id :visit_time current-time}))
+    (transaction
+      (exec-raw [" update e_sale set visit_count = visit_count + 1, last_modify_time = ? where uuid = ?" [current-time, sale-id]])
+      (insert sale-visites (values {:uuid uuid :user_id user-id :sale_id sale-id :visit_time current-time}))
+     )
     )
   )
 
-(defn get-sale-images [sale-id]
+(defn- get-sale-images [sale-id]
   (select sale-images (fields :uuid :img :ord_index) (where {:sale_id sale-id}))
   )
 
@@ -97,12 +101,12 @@
          images (get-sale-images id)
          ;shop (shop/get-shop (:shop_id sale))
 	    ]
-    (save-sale-visit user-id id (+ 1 (:visit_count sale)))
+    (save-sale-visit user-id id)
     (assoc sale :images images)
   )
 )
 
-(defn save-sale [title content start-date end-date shop-id trade-id publisher image]
+(defn- save-sale [title content start-date end-date shop-id trade-id publisher image]
   (let [uuid (str (java.util.UUID/randomUUID))
         current-time (System/currentTimeMillis)
         ]
@@ -111,7 +115,7 @@
     )
   )
 
-(defn save-sale-images [sale-id image-names files]
+(defn- save-sale-images [sale-id image-names files]
   (loop [name-list image-names ord-index 0 result []
          ]
     (if (= 0 (count name-list))
@@ -130,20 +134,24 @@
  )
 
 (defn save-sale-data [title content start-date end-date shop-id trade-id publisher image-names files]
-  (let [sale (save-sale title content start-date end-date shop-id trade-id publisher (first image-names))
+  (transaction
+    (let [sale (save-sale title content start-date end-date shop-id trade-id publisher (first image-names))
         images (save-sale-images (:uuid sale) image-names files)
         ]
-    (assoc sale :images images)
-    )
+      (assoc sale :images images)
+      )
+   )
   )
 
 (defn save-sale-discuss [sale-id publisher content]
   (let [uuid (str (java.util.UUID/randomUUID))
         current-time (System/currentTimeMillis)
-        discuss-count (:discuss_count (first (select sales (fields :discuss_count) (where {:uuid sale-id}))))
         ]
-    (insert sale-discusses (values {:uuid uuid :sale_id sale-id :content content :publisher publisher :publish_time current-time :last_modify_time current-time}))
-    (update sales (set-fields {:discuss_count (+ 1 discuss-count) :last_modify_time current-time}) (where {:uuid sale-id}))
+    (transaction
+      (insert sale-discusses (values {:uuid uuid :sale_id sale-id :content content :publisher publisher :publish_time current-time :last_modify_time current-time}))
+      (exec-raw ["update sales set discuss_count = discuss_count + 1, last_modify_time = ? where uuid = ?" [current-time, sale-id]])
+      (user/inc-user-sale-dis-count publisher)
+    )
     {:uuid uuid :publish_time current-time}
    )
  )
@@ -152,12 +160,14 @@
   (let [sale (first (select sales (fields :discuss_count :uuid)
                                   (join sale-discusses (and (= :e_sale_discuss.sale_id :uuid) (= :e_sale_discuss.uuid uuid)))
                                   ))
-        discuss-count (:discuss_count sale)
         sale-id (:uuid sale)
         current-time (System/currentTimeMillis)
         ]
-    (update sale-discusses (set-fields {:is_deleted 1 :last_modify_time current-time}) (where {:uuid uuid}))
-    (update sales (set-fields {:discuss_count (- discuss-count 1) :last_modify_time current-time}) (where {:uuid sale-id}))
+    (transaction
+      (update sale-discusses (set-fields {:is_deleted 1 :last_modify_time current-time}) (where {:uuid uuid}))
+      (exec-raw ["update sales set discuss_count = discuss_count + 1, last_modify_time = ? where uuid = ?" [current-time, sale-id]])
+      (user/des-user-sale-dis-count (:publisher (first (select sale-discusses (fields :publisher) (where {:uuid uuid})))))
+     )
     {:uuid uuid :is_deleted 1}
     )
   )
