@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.net.Uri;
 
+import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.LocationEntity;
 import com.seekon.yougouhui.func.SyncSupportProcessor;
@@ -107,14 +108,22 @@ public class ShopProcessor extends SyncSupportProcessor implements
 	public RestMethodResult<JSONArrayResource> searchShops(String searchWord) {
 		return new SearchShopMethod(mContext, searchWord).execute();
 	}
-	
-	public RestMethodResult<JSONArrayResource> getShopeByDistance(LocationEntity location, int distance, int offset){
-		return new GetShopsByDistanceMethod(mContext, distance, location, offset).execute();
+
+	public RestMethodResult<JSONArrayResource> getShopeByDistance(
+			LocationEntity location, int distance, int offset) {
+		return new GetShopsByDistanceMethod(mContext, distance, location, offset)
+				.execute();
 	}
 
 	@Override
 	public RestMethodResult<JSONObjResource> checkShopEmp(String shopId,
 			String empId) {
 		return new CheckShopEmpMethod(mContext, shopId, empId).execute();
+	}
+
+	@Override
+	public RestMethodResult<JSONObjResource> changeShopImage(ShopEntity shop,
+			FileEntity image, String fieldName) {
+		return (RestMethodResult)this.execMethod(new ChangeShopImageMethod(mContext, shop, image, fieldName));
 	}
 }

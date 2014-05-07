@@ -40,7 +40,8 @@ public class ChangeShopTextActivity extends ChangeTextInfoActivity {
 	@Override
 	protected void doSaveTextInfo(final MenuItem item) {
 		final String textValue = textView.getText().toString();
-		if (textValue.equals(ShopUtils.getFieldValue(shop, fieldName))) {
+		final String oldFieldVal = ShopUtils.getFieldValue(shop, fieldName);
+		if (textValue.equals(oldFieldVal)) {
 			ViewUtils.showToast("数据未修改不需要保存.");
 			return;
 		}
@@ -51,6 +52,7 @@ public class ChangeShopTextActivity extends ChangeTextInfoActivity {
 
 			@Override
 			public RestMethodResult<JSONObjResource> doInBackground() {
+				ShopUtils.setFieldValue(shop, fieldName, textValue);
 				return ShopProcessor.getInstance(ChangeShopTextActivity.this)
 						.changeShop(shop, fieldName);
 			}
@@ -61,6 +63,18 @@ public class ChangeShopTextActivity extends ChangeTextInfoActivity {
 				intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
 				setResult(RESULT_OK, intent);
 				finish();
+			}
+			
+			@Override
+			public void onFailed(String errorMessage) {
+				super.onFailed(errorMessage);
+				ShopUtils.setFieldValue(shop, fieldName, oldFieldVal);
+			}
+			
+			@Override
+			public void onCancelled() {
+				super.onCancelled();
+				ShopUtils.setFieldValue(shop, fieldName, oldFieldVal);
 			}
 		});
 	}

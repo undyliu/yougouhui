@@ -24,7 +24,12 @@ public class ChangeUserPhotoActivity extends ChangeImageInfoActivity {
 
 	@Override
 	protected void doChangeImage(final MenuItem item) {
-		if (imageFile.equals(RunEnv.getInstance().getUser().getPhoto())) {
+		if(imageFile == null){
+			ViewUtils.showToast("请选择头像.");
+			return;
+		}
+		String oldImage = RunEnv.getInstance().getUser().getPhoto();
+		if (imageFile.getAliasName().equals(oldImage)) {
 			ViewUtils.showToast("头像未做修改，不需要保存更新.");
 			return;
 		}
