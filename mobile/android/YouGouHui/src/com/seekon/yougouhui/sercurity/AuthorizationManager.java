@@ -18,6 +18,7 @@ import com.seekon.yougouhui.func.spi.ILoginProcessor;
 import com.seekon.yougouhui.func.user.UserData;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.user.UserUtils;
+import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestStatus;
@@ -134,6 +135,10 @@ public class AuthorizationManager implements RequestSigner {
 	 */
 	@Override
 	public boolean authorize(Request request) {
+		if(request.getMethod() == Method.GET){
+			return true;
+		}
+		
 		String sessionId = RunEnv.getInstance().getSessionId();
 		if (sessionId == null || sessionId.length() == 0) {
 			// 尝试先登录

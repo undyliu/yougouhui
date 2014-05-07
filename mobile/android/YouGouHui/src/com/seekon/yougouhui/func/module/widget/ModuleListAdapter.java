@@ -11,21 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.module.ModuleConst;
 import com.seekon.yougouhui.func.module.ModuleEntity;
+import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
 public class ModuleListAdapter extends EntityListAdapter<ModuleEntity> {
-	
-	private static List<String> anonymousAccessModelList = new ArrayList<String>();
-	
-	static{
-		anonymousAccessModelList.add(ModuleConst.CODE_FRIENDS);
-		anonymousAccessModelList.add(ModuleConst.CODE_RADAR);
-		anonymousAccessModelList.add(ModuleConst.CODE_SETTING);
-		anonymousAccessModelList.add(ModuleConst.CODE_MY_SHOP);
-	}
-	
+
 	public ModuleListAdapter(Context context, List<ModuleEntity> dataList) {
 		super(context, dataList);
 	}
@@ -40,23 +33,27 @@ public class ModuleListAdapter extends EntityListAdapter<ModuleEntity> {
 			holder.imageView = (ImageView) view.findViewById(R.id.module_img);
 			holder.nameView = (TextView) view.findViewById(R.id.module_name);
 			holder.accessView = (TextView) view.findViewById(R.id.module_access);
-			
+
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
 
 		ModuleEntity module = (ModuleEntity) getItem(position);
-		
+
 		holder.imageView.setImageResource(module.getImageResourceId());
 		holder.nameView.setText(module.getName());
-		
+
+		String userType = RunEnv.getInstance().getUser().getType();
 		String code = module.getCode();
-		if(anonymousAccessModelList.contains(code)){
+		if (ModuleConst.anonymousAccessModelList.contains(code)
+				|| !UserConst.TYPE_USER_ANONYMOUS.equals(userType)) {
 			holder.accessView.setVisibility(View.GONE);
-		}else{
+		} else {
 			holder.accessView.setVisibility(View.VISIBLE);
 			holder.accessView.setText(R.string.label_account_access);
+			holder.accessView.setEnabled(false);
+			holder.nameView.setEnabled(false);
 		}
 
 		return view;

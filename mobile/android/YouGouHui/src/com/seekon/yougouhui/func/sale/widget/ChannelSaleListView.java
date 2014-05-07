@@ -64,7 +64,7 @@ public class ChannelSaleListView extends PagedXListView<SaleEntity> {
 		String result = SyncData.getInstance(context).getUpdateTime(
 				SaleConst.TABLE_NAME, "*");
 		if (result == null) {
-			result = RunEnv.getInstance().getUser().getRegisterTime();
+			result = "-1";//RunEnv.getInstance().getUser().getRegisterTime();
 		}
 		return result;
 	}

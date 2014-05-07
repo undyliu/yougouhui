@@ -39,8 +39,7 @@ public class UserData extends AbstractDBHelper {
 				+ COL_NAME_UUID + " text primary key, " + COL_NAME_PHONE
 				+ " integer not null, " + COL_NAME_NAME + " text, "
 				+ COL_NAME_REGISTER_TIME + " text, " + COL_NAME_USER_ICON + " text, "
-				+ COL_NAME_TYPE + " text, "
-				+ COL_NAME_PWD + " text " + ")";
+				+ COL_NAME_TYPE + " text, " + COL_NAME_PWD + " text " + ")";
 		db.execSQL(sql);
 	}
 

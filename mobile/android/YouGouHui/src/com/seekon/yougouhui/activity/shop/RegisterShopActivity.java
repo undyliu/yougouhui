@@ -47,6 +47,7 @@ import com.seekon.yougouhui.func.shop.ShopProcessor;
 import com.seekon.yougouhui.func.shop.TradeConst;
 import com.seekon.yougouhui.func.shop.TradeEntity;
 import com.seekon.yougouhui.func.shop.widget.TradeListAdapter;
+import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.func.widget.AsyncRestRequestTask;
@@ -76,8 +77,8 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 	private static List<String> pageTitles = new ArrayList<String>();
 	static {
 		pageTitles.add("免责授权");
-		pageTitles.add("基本信息");
-		pageTitles.add("设置密码");
+		pageTitles.add("商铺信息");
+		pageTitles.add("店主设置");
 	}
 
 	private LayoutInflater mInflater;
@@ -100,6 +101,8 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 
 	private TextView pwdView;
 	private TextView pwdConfView;
+	private TextView userPhoneView;
+	private TextView userNameView;
 
 	private LocationEntity locationEntity = new LocationEntity();
 	private LocationClient mLocationClient = null;
@@ -198,6 +201,17 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 
 		pwdView = (TextView) pwdInfoView.findViewById(R.id.password);
 		pwdConfView = (TextView) pwdInfoView.findViewById(R.id.password_conf);
+		userPhoneView = (TextView) pwdInfoView.findViewById(R.id.user_phone);
+		userNameView = (TextView) pwdInfoView.findViewById(R.id.user_name);
+
+		UserEntity user = RunEnv.getInstance().getUser();
+		userPhoneView.setText(user.getPhone());
+		ViewUtils.setEditTextReadOnly(userPhoneView);
+
+		if (!UserConst.TYPE_USER_ANONYMOUS.equals(user.getType())) {
+			userNameView.setText(user.getName());
+			ViewUtils.setEditTextReadOnly(userNameView);
+		}
 	}
 
 	private List<Map<String, ?>> getTradeList() {
@@ -343,6 +357,7 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 		descView.setError(null);
 		pwdView.setError(null);
 		pwdConfView.setError(null);
+		userNameView.setError(null);
 
 		View focusView = null;
 		boolean cancel = false;
@@ -371,6 +386,20 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 		} else if (password.length() < 4) {
 			pwdView.setError(getString(R.string.error_invalid_password));
 			focusView = pwdView;
+			cancel = true;
+		}
+
+		final String userPhone = userPhoneView.getText().toString();
+		if (TextUtils.isEmpty(userPhone)) {
+			userPhoneView.setError(requiredError);
+			focusView = userPhoneView;
+			cancel = true;
+		}
+
+		final String userName = userNameView.getText().toString();
+		if (TextUtils.isEmpty(userName)) {
+			userNameView.setError(requiredError);
+			focusView = userNameView;
 			cancel = true;
 		}
 
@@ -436,13 +465,19 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 						shop.setLocation(locationEntity);
 
 						UserEntity currentUser = RunEnv.getInstance().getUser();
-						shop.setOwner(currentUser.getUuid());
-						UserEntity emp = currentUser.clone();
-						if (emp != null) {
-							emp.setPwd(password);
+						if (UserConst.TYPE_USER_ANONYMOUS.equals(currentUser.getType())) {
+							UserEntity emp = new UserEntity();
+							emp.setPhone(userPhone);
+							emp.setName(userName);
 							shop.addEmployee(emp);
+						} else {
+							shop.setOwner(currentUser.getUuid());
+							UserEntity emp = currentUser.clone();
+							if (emp != null) {
+								emp.setPwd(password);
+								shop.addEmployee(emp);
+							}
 						}
-
 						return ShopProcessor.getInstance(RegisterShopActivity.this)
 								.registerShop(shop);
 					}

@@ -9,19 +9,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.DateIndexedListActivity;
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.sale.SaleConst;
 import com.seekon.yougouhui.func.sale.SaleData;
 import com.seekon.yougouhui.func.sale.SaleProcessor;
 import com.seekon.yougouhui.func.sale.widget.ShopSaleListAdapter;
+import com.seekon.yougouhui.func.shop.ShopProcessor;
 import com.seekon.yougouhui.func.shop.ShopUtils;
 import com.seekon.yougouhui.func.sync.SyncData;
+import com.seekon.yougouhui.func.user.UserConst;
+import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.func.widget.DateIndexedEntity;
 import com.seekon.yougouhui.func.widget.DateIndexedListAdapter;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.util.DateUtils;
 
@@ -32,7 +39,9 @@ public class ShopSaleListActivity extends DateIndexedListActivity {
 	private String shopId;
 
 	private SaleData saleData;
-
+	
+	private boolean shopEmp = false;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		shopId = this.getIntent().getStringExtra(DataConst.COL_NAME_UUID);
@@ -44,9 +53,42 @@ public class ShopSaleListActivity extends DateIndexedListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.shop_sale_list, menu);
+
+		
+		final UserEntity user = RunEnv.getInstance().getUser();
+		if (UserConst.TYPE_USER_ANONYMOUS.equals(user.getType()) || shopEmp) {
+			return true;
+		}
+
+		RestUtils.executeAsyncRestTask(this,
+				new AbstractRestTaskCallback<JSONObjResource>() {
+
+					@Override
+					public RestMethodResult<JSONObjResource> doInBackground() {
+						return ShopProcessor.getInstance(ShopSaleListActivity.this)
+								.checkShopEmp(shopId, user.getUuid());
+					}
+
+					@Override
+					public void onSuccess(RestMethodResult<JSONObjResource> result) {
+						JSONObjResource resource = result.getResource();
+						if(resource.has(DataConst.COL_NAME_UUID)){
+							shopEmp = true;
+							getWindow().invalidatePanelMenu(Window.FEATURE_OPTIONS_PANEL);
+						}
+					}
+				});
+
 		return true;
 	}
-
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem item = menu.findItem(R.id.menu_shop_sale_publish);
+		item.setVisible(shopEmp);
+		return super.onPrepareOptionsMenu(menu);
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {

@@ -13,10 +13,10 @@ public abstract class EntityListAdapter<T extends Entity> extends BaseAdapter {
 
 	protected List<T> dataList;
 
-	public EntityListAdapter(Context context, List<T> dataList) {
+	public EntityListAdapter(Context context, List<T> dataList2) {
 		super();
 		this.context = context;
-		this.dataList = dataList;
+		this.dataList = dataList2;
 	}
 
 	@Override

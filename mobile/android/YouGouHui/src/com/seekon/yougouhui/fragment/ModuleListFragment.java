@@ -11,6 +11,9 @@ import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -19,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.MainActivity;
+import com.seekon.yougouhui.activity.user.RegisterActivity;
 import com.seekon.yougouhui.func.module.ModuleConst;
 import com.seekon.yougouhui.func.module.ModuleEntity;
 import com.seekon.yougouhui.func.module.ModuleProcessor;
@@ -37,7 +42,7 @@ public abstract class ModuleListFragment extends ListFragment {
 
 	protected List<ModuleEntity> modules = new LinkedList<ModuleEntity>();
 
-	private ModuleListAdapter moduleListAdapter;
+	protected ModuleListAdapter moduleListAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -125,4 +130,26 @@ public abstract class ModuleListFragment extends ListFragment {
 		return module.getCode();
 	}
 
+	protected void showRegisterUserConfirm(String message){
+		AlertDialog.Builder registerConfirm = new AlertDialog.Builder(
+				attachedActivity);
+		registerConfirm.setTitle("会员注册提示");
+		registerConfirm.setMessage(message);
+		registerConfirm
+				.setPositiveButton("是", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Intent intent = new Intent(attachedActivity,
+								RegisterActivity.class);
+						attachedActivity.startActivityForResult(intent,
+								MainActivity.REGISTER_USER_REQUEST_CODE);
+					}
+				}).setNegativeButton("否", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				}).show();
+	}
 }

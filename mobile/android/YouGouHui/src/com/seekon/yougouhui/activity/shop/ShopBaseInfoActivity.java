@@ -18,6 +18,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.sale.ShopSaleListActivity;
 import com.seekon.yougouhui.activity.share.ShareActivity;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.DataConst;
@@ -313,10 +314,19 @@ public class ShopBaseInfoActivity extends Activity {
 		case R.id.menu_share_publish:
 			publishShare();
 			break;
+		case R.id.menu_shop_sale_list:
+			shopSaleList();
+			break;
 		default:
 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void shopSaleList() {
+		Intent intent = new Intent(this, ShopSaleListActivity.class);
+		intent.putExtra(DataConst.COL_NAME_UUID, shop.getUuid());
+		startActivity(intent);
 	}
 
 	private void publishShare() {

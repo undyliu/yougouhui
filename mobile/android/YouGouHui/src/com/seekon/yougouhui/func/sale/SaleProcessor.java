@@ -9,12 +9,14 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.LocationEntity;
 import com.seekon.yougouhui.func.SyncSupportProcessor;
 import com.seekon.yougouhui.func.sale.SaleConst.RequetsType;
 import com.seekon.yougouhui.func.spi.ISaleProcessor;
 import com.seekon.yougouhui.func.sync.SyncData;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestStatus;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.Logger;
@@ -122,5 +124,12 @@ public class SaleProcessor extends SyncSupportProcessor implements
 			sale.setStatus(DataConst.STATUS_CANCELED);
 		}
 		return result;
+	}
+
+	@Override
+	public RestMethodResult<JSONArrayResource> getSalesByDistance(
+			LocationEntity location, int distance, int offset) {
+		return new GetSalesByDistanceMethod(mContext, distance, location, offset)
+				.execute();
 	}
 }

@@ -11,7 +11,7 @@ import android.widget.RadioButton;
 
 import com.seekon.yougouhui.func.shop.ShopEntity;
 
-public class ChooseShopListAdapter extends ShopListAdapter {
+public class ChooseShopListAdapter extends ShopListAdapter<ShopEntity> {
 
 	private Map<Integer, Boolean> states = new HashMap<Integer, Boolean>();
 

@@ -1,5 +1,6 @@
 package com.seekon.yougouhui.func.radar.widget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -31,8 +32,8 @@ public class RadarFriendListView extends RadarResultListView<UserEntity> {
 
 	@Override
 	protected List<UserEntity> loadDataListFromRemote(int currentOffset,
-			LocationEntity location) {
-		return null;
+			LocationEntity location, int distance) {
+		return new ArrayList<UserEntity>();
 	}
 
 }

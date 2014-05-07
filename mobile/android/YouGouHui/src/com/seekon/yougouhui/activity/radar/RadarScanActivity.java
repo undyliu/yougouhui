@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -36,14 +37,21 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.sale.SaleDetailActivity;
+import com.seekon.yougouhui.activity.shop.ShopBaseInfoActivity;
+import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.LocationEntity;
 import com.seekon.yougouhui.func.radar.widget.RadarFriendListView;
 import com.seekon.yougouhui.func.radar.widget.RadarResultListView;
 import com.seekon.yougouhui.func.radar.widget.RadarSaleListView;
 import com.seekon.yougouhui.func.radar.widget.RadarShopListView;
+import com.seekon.yougouhui.func.sale.SaleConst;
+import com.seekon.yougouhui.func.sale.SaleEntity;
 import com.seekon.yougouhui.func.setting.SettingEntity;
 import com.seekon.yougouhui.func.setting.SettingProcessor;
 import com.seekon.yougouhui.func.setting.SettingUtils;
+import com.seekon.yougouhui.func.shop.ShopConst;
+import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
@@ -58,6 +66,8 @@ public class RadarScanActivity extends Activity implements
 
 	private static final String TAG = RadarScanActivity.class.getSimpleName();
 
+	private static final int SALE_DETAIL_REQUEST_CODE = 1;
+	
 	private ViewPager viewPager;
 	private View saleView;
 	private RadarSaleListView saleListView;
@@ -77,7 +87,9 @@ public class RadarScanActivity extends Activity implements
 	boolean saleCheck = false;
 	boolean shopCheck = false;
 	boolean friendCheck = false;
-
+	
+	private int saleSelectedPos = -1;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -125,7 +137,12 @@ public class RadarScanActivity extends Activity implements
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-
+				saleSelectedPos = position - 1;
+				SaleEntity selectedSale = saleListView.getDataEntity(saleSelectedPos);
+				Intent intent = new Intent(RadarScanActivity.this, SaleDetailActivity.class);
+				intent.putExtra(DataConst.COL_NAME_UUID, selectedSale.getUuid());
+				startActivityForResult(intent,
+						SALE_DETAIL_REQUEST_CODE);
 			}
 		});
 
@@ -137,7 +154,12 @@ public class RadarScanActivity extends Activity implements
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-
+				ShopEntity shop = (ShopEntity) shopListView.getEntityListAdapter()
+						.getItem(position - 1);
+				Intent intent = new Intent(RadarScanActivity.this,
+						ShopBaseInfoActivity.class);
+				intent.putExtra(ShopConst.COL_NAME_UUID, shop.getUuid());
+				startActivity(intent);
 			}
 		});
 
@@ -225,10 +247,11 @@ public class RadarScanActivity extends Activity implements
 	}
 
 	private void doLoadData(boolean reload) {
-		if (locationEntity != null) {
+		if (locationEntity != null && !resultViewList.isEmpty()) {
 			RadarResultListView resultView = resultViewList.get(viewPager
 					.getCurrentItem());
-			resultView.loadDataList(locationEntity, reload);
+			resultView.loadDataList(locationEntity,
+					Integer.valueOf(distanceView.getText().toString()), reload);
 		}
 	}
 
@@ -364,7 +387,6 @@ public class RadarScanActivity extends Activity implements
 	protected void onStop() {
 		if (mLocationClient != null && this.mLocationClient.isStarted()) {
 			mLocationClient.stop();
-			mLocationClient = null;
 		}
 
 		super.onStop();
@@ -411,6 +433,24 @@ public class RadarScanActivity extends Activity implements
 		doLoadData(false);
 	}
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case SALE_DETAIL_REQUEST_CODE:
+			if (resultCode == Activity.RESULT_OK && data != null
+					&& saleSelectedPos != -1) {
+//				SaleEntity sale = (SaleEntity) data
+//						.getSerializableExtra(SaleConst.DATA_SALE_KEY);
+//				saleListView.getEntityListAdapter().updateEntity(sale, saleSelectedPos);
+			}
+			break;
+
+		default:
+			break;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
 	class MyLocationListener implements BDLocationListener {
 
 		@Override

@@ -16,11 +16,11 @@ import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
-public class ShopListAdapter extends EntityListAdapter<ShopEntity> {
+public class ShopListAdapter<T extends ShopEntity > extends EntityListAdapter<T> {
 
 	private static final int USER_SHOP_WIDTH = 80;
 
-	public ShopListAdapter(Context context, List<ShopEntity> dataList) {
+	public ShopListAdapter(Context context, List<T> dataList) {
 		super(context, dataList);
 	}
 
@@ -38,6 +38,7 @@ public class ShopListAdapter extends EntityListAdapter<ShopEntity> {
 					USER_SHOP_WIDTH, USER_SHOP_WIDTH));
 
 			holder.nameView = (TextView) view.findViewById(R.id.shop_name);
+			holder.distanceView = (TextView) view.findViewById(R.id.shop_distance);
 			holder.radioButton = (RadioButton) view.findViewById(R.id.r_shop_choose);
 
 			view.setTag(holder);
@@ -59,8 +60,9 @@ public class ShopListAdapter extends EntityListAdapter<ShopEntity> {
 	}
 
 	public class ViewHolder {
-		ImageView photoView;
-		TextView nameView;
-		RadioButton radioButton;
+		protected ImageView photoView;
+		protected TextView nameView;
+		public TextView distanceView;
+		public RadioButton radioButton;
 	}
 }

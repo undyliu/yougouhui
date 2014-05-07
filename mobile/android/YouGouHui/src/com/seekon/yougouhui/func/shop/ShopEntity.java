@@ -23,7 +23,7 @@ public class ShopEntity extends Entity {
 	private LocationEntity location;
 	private List<TradeEntity> trades = new ArrayList<TradeEntity>();
 	private List<UserEntity> employees = new ArrayList<UserEntity>();
-
+	
 	public String getName() {
 		return name;
 	}
@@ -127,4 +127,5 @@ public class ShopEntity extends Entity {
 	public void addTrade(TradeEntity trade) {
 		this.trades.add(trade);
 	}
+	
 }

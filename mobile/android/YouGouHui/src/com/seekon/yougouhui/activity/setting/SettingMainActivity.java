@@ -21,11 +21,13 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.activity.LoginActivity;
+import com.seekon.yougouhui.activity.MainActivity;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.setting.SettingConst;
 import com.seekon.yougouhui.func.setting.SettingEntity;
 import com.seekon.yougouhui.func.setting.SettingProcessor;
 import com.seekon.yougouhui.func.setting.widget.SettingListAdapter;
+import com.seekon.yougouhui.func.user.UserUtils;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
@@ -139,7 +141,8 @@ public class SettingMainActivity extends ListActivity {
 		if (code.equals(SettingConst.SETTING_CODE_LOGOUT)) {
 			AuthorizationManager.getInstance(this).logout();
 
-			Intent intent = new Intent(this, LoginActivity.class);
+			RunEnv.getInstance().setUser(UserUtils.getAnonymousUser());
+			Intent intent = new Intent(this, MainActivity.class);
 			startActivity(intent);
 			finish();
 		}

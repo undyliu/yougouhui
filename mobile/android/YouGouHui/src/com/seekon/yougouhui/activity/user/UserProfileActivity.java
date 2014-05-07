@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
 
 public class UserProfileActivity extends Activity {
@@ -32,6 +33,10 @@ public class UserProfileActivity extends Activity {
 
 		setContentView(R.layout.user_profile);
 
+		initViews();
+	}
+
+	private void initViews() {
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -46,28 +51,8 @@ public class UserProfileActivity extends Activity {
 		nickNameView = (TextView) findViewById(R.id.user_name);
 		nickNameView.setText(user.getName());
 
-		findViewById(R.id.row_user_name).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent intent = new Intent(UserProfileActivity.this,
-								ChangeNickNameActivity.class);
-						startActivityForResult(intent, NAME_ACTIVITY_REQUEST_CODE);
-					}
-				});
-
 		view = (TextView) findViewById(R.id.password);
 		view.setText("......");
-
-		findViewById(R.id.row_password).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent intent = new Intent(UserProfileActivity.this,
-								ChangeUserPwdActivity.class);
-						startActivityForResult(intent, PASSWORD_ACTIVITY_REQUEST_CODE);
-					}
-				});
 
 		userIconView = (ImageView) findViewById(R.id.user_icon);
 		userIconView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -81,15 +66,40 @@ public class UserProfileActivity extends Activity {
 			userIconView.setImageResource(R.drawable.default_user_photo);
 		}
 
-		findViewById(R.id.row_user_icon).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent intent = new Intent(UserProfileActivity.this,
-								ChangeUserPhotoActivity.class);
-						startActivityForResult(intent, PHOTO_ACTIVITY_REQUEST_CODE);
-					}
-				});
+		if (UserConst.TYPE_USER_ANONYMOUS.equals(user.getType())) {// 匿名用户不允许修改
+			nickNameView.setEnabled(false);
+			findViewById(R.id.password).setEnabled(false);
+			findViewById(R.id.user_phone).setEnabled(false);
+			userIconView.setEnabled(false);
+		} else {
+			findViewById(R.id.row_user_name).setOnClickListener(
+					new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							Intent intent = new Intent(UserProfileActivity.this,
+									ChangeNickNameActivity.class);
+							startActivityForResult(intent, NAME_ACTIVITY_REQUEST_CODE);
+						}
+					});
+			findViewById(R.id.row_password).setOnClickListener(
+					new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							Intent intent = new Intent(UserProfileActivity.this,
+									ChangeUserPwdActivity.class);
+							startActivityForResult(intent, PASSWORD_ACTIVITY_REQUEST_CODE);
+						}
+					});
+			findViewById(R.id.row_user_icon).setOnClickListener(
+					new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							Intent intent = new Intent(UserProfileActivity.this,
+									ChangeUserPhotoActivity.class);
+							startActivityForResult(intent, PHOTO_ACTIVITY_REQUEST_CODE);
+						}
+					});
+		}
 	}
 
 	@Override

@@ -33,14 +33,16 @@ public class LoginSettingActivity extends Activity {
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		ContentValues loginSetting = RunEnv.getInstance().getLoginSetting();
 		autoLoginView = (Switch) findViewById(R.id.auto_login);
-		autoLoginView.setChecked(loginSetting
-				.getAsBoolean(LoginConst.LOGIN_SETTING_AUTO_LOGIN));
-
 		rememberPwdView = (Switch) findViewById(R.id.remember_pwd);
-		rememberPwdView.setChecked(loginSetting
-				.getAsBoolean(LoginConst.LOGIN_SETTING_REMEMBER_PWD));
+		
+		ContentValues loginSetting = RunEnv.getInstance().getLoginSetting();
+		if(loginSetting != null){
+			autoLoginView.setChecked(loginSetting
+					.getAsBoolean(LoginConst.LOGIN_SETTING_AUTO_LOGIN));
+			rememberPwdView.setChecked(loginSetting
+					.getAsBoolean(LoginConst.LOGIN_SETTING_REMEMBER_PWD));
+		}
 	}
 
 	@Override
