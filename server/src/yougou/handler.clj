@@ -240,7 +240,7 @@
 
 (def app
   (-> (routes login-routes auth-routes)
+      (log-request)
       (handler/site :session)
       (ring.middleware.cookies/wrap-cookies)
-      (log-request)
       ))
