@@ -232,7 +232,7 @@
 )
 
 (defroutes auth-routes
-  (GET "/index.html" request)
+  ;(GET "/index.html" request)
   (authenticated? app-routes)
   (route/resources "/")
   (route/not-found "Not Found")
