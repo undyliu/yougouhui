@@ -27,7 +27,7 @@ public class FileEntity extends Entity {
 	}
 
 	public String getAliasName() {
-		if (aliasName == null) {
+		if (aliasName == null && fileUri != null) {
 			aliasName = new File(fileUri).getName();
 		}
 		return aliasName;

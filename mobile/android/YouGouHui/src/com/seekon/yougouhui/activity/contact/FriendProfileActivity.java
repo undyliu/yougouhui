@@ -1,5 +1,7 @@
 package com.seekon.yougouhui.activity.contact;
 
+import static com.seekon.yougouhui.func.user.UserProfileConst.COL_NAME_SALE_DIS_COUNT;
+import static com.seekon.yougouhui.func.user.UserProfileConst.COL_NAME_SHARE_COUNT;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -18,7 +20,6 @@ import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.user.UserProcessor;
-import com.seekon.yougouhui.func.user.UserProfileConst;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
@@ -103,10 +104,14 @@ public class FriendProfileActivity extends Activity {
 					@Override
 					public void onSuccess(RestMethodResult<JSONObjResource> result) {
 						JSONObjResource resource = result.getResource();
-						shareCountView.setText(JSONUtils.getJSONStringValue(resource,
-								UserProfileConst.COL_NAME_SHARE_COUNT));
-						saleDiscussCountView.setText(JSONUtils.getJSONStringValue(resource,
-								UserProfileConst.COL_NAME_SALE_DIS_COUNT));
+						if (resource.has(COL_NAME_SHARE_COUNT)) {
+							shareCountView.setText(JSONUtils.getJSONStringValue(resource,
+									COL_NAME_SHARE_COUNT));
+						}
+						if (resource.has(COL_NAME_SALE_DIS_COUNT)) {
+							saleDiscussCountView.setText(JSONUtils.getJSONStringValue(
+									resource, COL_NAME_SALE_DIS_COUNT));
+						}
 					}
 				});
 	}

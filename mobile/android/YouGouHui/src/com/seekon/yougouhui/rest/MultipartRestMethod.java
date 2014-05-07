@@ -25,4 +25,8 @@ public abstract class MultipartRestMethod<T extends Resource> extends
 		return client.execute(request);
 	}
 
+	@Override
+	protected RestMethodResult<T> buildResult(Response response) throws Exception {
+		 return RestUtils.processResultErrorMessage(super.buildResult(response));
+	}
 }

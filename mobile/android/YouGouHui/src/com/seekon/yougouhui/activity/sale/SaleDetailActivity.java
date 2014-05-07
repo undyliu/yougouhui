@@ -106,7 +106,7 @@ public class SaleDetailActivity extends Activity implements
 				}
 
 				locationEntity.setLatitude(location.getLatitude());
-				locationEntity.setLontitude(location.getLongitude());
+				locationEntity.setLongitude(location.getLongitude());
 				locationEntity.setRadius(location.getRadius());
 
 				LocationEntity currentLocation = RunEnv.getInstance()

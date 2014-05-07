@@ -9,7 +9,7 @@ public class LocationUtils {
 	private static final String TAG = LocationUtils.class.getSimpleName();
 
 	public static final String key_latitude = "latitude";
-	public static final String key_lontitude = "lontitude";
+	public static final String key_longitude = "longitude";
 	public static final String key_radius = "radius";
 	public static final String key_address = "address";
 
@@ -49,15 +49,15 @@ public class LocationUtils {
 	public static double distance(LocationEntity location1,
 			LocationEntity location2) {
 		return distanceOfTwoPoints(location1.getLatitude(),
-				location1.getLontitude(), location2.getLatitude(),
-				location2.getLontitude());
+				location1.getLongitude(), location2.getLatitude(),
+				location2.getLongitude());
 	}
 
 	public static JSONObject toJSONObject(LocationEntity location) {
 		JSONObject jsonObj = new JSONObject();
 		try {
 			jsonObj.put(key_latitude, location.getLatitude());
-			jsonObj.put(key_lontitude, location.getLontitude());
+			jsonObj.put(key_longitude, location.getLongitude());
 			jsonObj.put(key_radius, location.getRadius());
 			jsonObj.put(key_address, location.getAddress());
 		} catch (Exception e) {
@@ -70,7 +70,7 @@ public class LocationUtils {
 		LocationEntity location = new LocationEntity();
 		try {
 			location.setLatitude(jsonObj.getDouble(key_latitude));
-			location.setLontitude(jsonObj.getDouble(key_lontitude));
+			location.setLongitude(jsonObj.getDouble(key_longitude));
 			location.setRadius(jsonObj.getDouble(key_radius));
 			location.setAddress(jsonObj.getString(key_address));
 		} catch (Exception e) {

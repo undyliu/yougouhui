@@ -276,7 +276,6 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 	protected void onStop() {
 		if (mLocationClient != null && this.mLocationClient.isStarted()) {
 			mLocationClient.stop();
-			mLocationClient = null;
 		}
 
 		super.onStop();
@@ -438,11 +437,12 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 			viewPager.setCurrentItem(1);
 			return;
 		}
-		if (busiLicense == null) {
-			ViewUtils.showToast("请选择营业执照的图片.");
-			viewPager.setCurrentItem(1);
-			return;
-		}
+		//TODO:营业执照可选
+//		if (busiLicense == null) {
+//			ViewUtils.showToast("请选择营业执照的图片.");
+//			viewPager.setCurrentItem(1);
+//			return;
+//		}
 		if (selectedTrades == null || selectedTrades.isEmpty()) {
 			ViewUtils.showToast("请选择主营业务.");
 			viewPager.setCurrentItem(1);
@@ -546,7 +546,7 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 			}
 
 			locationEntity.setLatitude(location.getLatitude());
-			locationEntity.setLontitude(location.getLongitude());
+			locationEntity.setLongitude(location.getLongitude());
 			locationEntity.setRadius(location.getRadius());
 		}
 

@@ -466,7 +466,7 @@ public class RadarScanActivity extends Activity implements
 			}
 
 			newLocation.setLatitude(location.getLatitude());
-			newLocation.setLontitude(location.getLongitude());
+			newLocation.setLongitude(location.getLongitude());
 			newLocation.setRadius(location.getRadius());
 			if (locationEntity == null || !newLocation.equals(locationEntity)) {
 				locationEntity = newLocation;

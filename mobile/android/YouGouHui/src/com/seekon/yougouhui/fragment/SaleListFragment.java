@@ -61,7 +61,7 @@ public class SaleListFragment extends Fragment {
 				}
 
 				locationEntity.setLatitude(location.getLatitude());
-				locationEntity.setLontitude(location.getLongitude());
+				locationEntity.setLongitude(location.getLongitude());
 				locationEntity.setRadius(location.getRadius());
 
 				LocationEntity currentLocation = RunEnv.getInstance()

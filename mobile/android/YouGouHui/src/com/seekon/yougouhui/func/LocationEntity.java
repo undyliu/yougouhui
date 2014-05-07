@@ -13,7 +13,7 @@ public class LocationEntity implements Serializable {
 	private static final long serialVersionUID = -5370688690944750615L;
 
 	private double latitude;
-	private double lontitude;
+	private double longitude;
 	private double radius;
 	private String address;
 
@@ -21,10 +21,10 @@ public class LocationEntity implements Serializable {
 		super();
 	}
 
-	public LocationEntity(double latitude, double lontitude, double radius) {
+	public LocationEntity(double latitude, double longitude, double radius) {
 		super();
 		this.latitude = latitude;
-		this.lontitude = lontitude;
+		this.longitude = longitude;
 		this.radius = radius;
 	}
 
@@ -36,12 +36,12 @@ public class LocationEntity implements Serializable {
 		this.latitude = latitude;
 	}
 
-	public double getLontitude() {
-		return lontitude;
+	public double getLongitude() {
+		return longitude;
 	}
 
-	public void setLontitude(double lontitude) {
-		this.lontitude = lontitude;
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
 
 	public double getRadius() {
@@ -67,7 +67,7 @@ public class LocationEntity implements Serializable {
 		long temp;
 		temp = Double.doubleToLongBits(latitude);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(lontitude);
+		temp = Double.doubleToLongBits(longitude);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(radius);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -86,8 +86,8 @@ public class LocationEntity implements Serializable {
 		if (Double.doubleToLongBits(latitude) != Double
 				.doubleToLongBits(other.latitude))
 			return false;
-		if (Double.doubleToLongBits(lontitude) != Double
-				.doubleToLongBits(other.lontitude))
+		if (Double.doubleToLongBits(longitude) != Double
+				.doubleToLongBits(other.longitude))
 			return false;
 		if (Double.doubleToLongBits(radius) != Double
 				.doubleToLongBits(other.radius))

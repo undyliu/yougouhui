@@ -38,7 +38,7 @@ public class GetSalesByDistanceMethod extends JSONArrayResourceMethod {
 		uri.append("/"
 				+ JSONUtils.getJSONStringValue(jsonLoc, LocationUtils.key_latitude));
 		uri.append("/"
-				+ JSONUtils.getJSONStringValue(jsonLoc, LocationUtils.key_lontitude));
+				+ JSONUtils.getJSONStringValue(jsonLoc, LocationUtils.key_longitude));
 		uri.append("/" + distance);
 		uri.append("/" + offset);
 
