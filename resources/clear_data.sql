@@ -1,5 +1,4 @@
 ﻿truncate table e_friend;
-truncate table e_grade_shop;
 truncate table e_log;
 truncate table e_message;
 
@@ -20,4 +19,5 @@ truncate table e_shop_favorit;
 truncate table e_shop_trade;
 
 truncate table e_user;
+truncate table e_user_grade;
 truncate table e_user_profile;

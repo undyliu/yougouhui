@@ -97,18 +97,24 @@
   )
 
 (defn login-shop [user-id pwd]
-  (let [shop-list (select shops (fields :uuid :name :location :address :desc :shop_img :busi_license :register_time :owner :status :barcode)
+  (let [shop-ids (select shops (fields :uuid)
                           (join shop-emps (= :e_shop_emp.shop_id :uuid))
                           (where {:e_shop_emp.user_id user-id :e_shop_emp.pwd pwd}))
         ]
-    (if (= 0 (count shop-list))
+    (if (= 0 (count shop-ids))
       (let [shop-no-pwd (select shop-emps (fields :shop_id) (where {:user_id user-id}))]
         (if (= 0 (count shop-no-pwd))
           {:authed false :error-type :user-error}
           {:authed false :error-type :pass-error}
           )
        )
-      {:authed true :data shop-list :update_time (str  (System/currentTimeMillis))}
+      (loop [id-list shop-ids shop-list []]
+        (if (= 0 (count id-list))
+          {:authed true :data shop-list :update_time (str  (System/currentTimeMillis))}
+          (recur (rest id-list) (conj shop-list (get-shop (:uuid (first id-list)))))
+          )
+        )
+
       )
     )
   )
@@ -131,7 +137,7 @@
    (= field-name "desc") (update shops (set-fields {:desc value :last_modify_time current-time}) (where {:uuid shop-id}))
    :else (update shops (set-fields {(str field-name) value :last_modify_time current-time}) (where {:uuid shop-id}))
    )
-  {:uuid shop-id}
+  {:uuid shop-id field-name value}
     )
  )
 

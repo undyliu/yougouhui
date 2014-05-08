@@ -3,6 +3,7 @@
 		[korma.core]
     [korma.db]
 		[yougou.db]
+    [yougou.date]
 	)
 	(:require
 		[yougou.file :as file]
@@ -82,4 +83,39 @@
   )
 (defn des-user-sale-dis-count [user-id]
   (exec-raw [" update e_user_profile set sale_discuss_count = sale_discuss_count - 1 where user_id = ?" [user-id]])
+  )
+
+(defn update-user-grade-amount [user-id grade]
+  (let [grade-str (if (>= (Long/valueOf grade) 0) (str " + " grade) (str " - " grade))]
+    (exec-raw [(str " update e_user_profile set grade_amount = grade_amount " grade-str " where user_id = ? ") [user-id]])
+    )
+  )
+
+(defn update-user-grade-used [user-id grade]
+  (let [grade-str (if (>= (Long/valueOf grade) 0) (str " + " grade) (str " - " grade))]
+    (exec-raw [(str " update e_user_profile set grade_used = grade_used " grade-str " where user_id = ? ") [user-id]])
+    )
+  )
+
+(def default-grade-term (* 120 24 60 60 1000))
+(def default-grade-remind-term (* 30 24 60 60 1000))
+
+;;积分有效期120天[120 * 24 * 60 * 60 * 1000毫秒]
+(defn save-user-grade [user-id shop-id share-id grader grade]
+  (let [current-time (System/currentTimeMillis)
+        uuid (str (java.util.UUID/randomUUID))]
+    (insert user-grades (values {:uuid uuid :user_id user-id :shop_id shop-id :share_id share-id :grader grader :grade grade
+                                 :end_time (+ current-time default-grade-term) :grade_time current-time}))
+    )
+  )
+;;获取会员的积分总览：总积分、已消费积分、将过期积分（积分有效期120天[120 * 24 * 60 * 60 * 1000毫秒]）
+(defn get-user-total-grade [user-id]
+  (if-let [total-grade (first (select user-profiles (fields :grade_amount :grade_used) (where {:user_id user-id})))]
+    (assoc total-grade
+      :grade_exceed
+      (if-let [grade-excedd (first (exec-raw ["select sum(grade-grade_used) as grade_exceed from e_user_grade where user_id = ? and end_time <= ? "
+                                              [user-id (+ (System/currentTimeMillis) default-grade-remind-term)]] :results))]
+        (:grade_exceed grade-excedd) 0))
+    {:grade_amount 0 :grade_used 0 :grade_exceed 0}
+    )
   )

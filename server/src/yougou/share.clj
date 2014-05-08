@@ -215,8 +215,14 @@
 (defn save-share-shop-reply [share-id shop-id content grade replier]
   (let [uuid (str (java.util.UUID/randomUUID))
 				reply-time (str (System/currentTimeMillis))]
-    (insert share-shop-replies (values {:uuid uuid :shop_id shop-id :share_id share-id
+    (transaction
+      (insert share-shop-replies (values {:uuid uuid :shop_id shop-id :share_id share-id :status "1"
                                         :content content :grade grade :replier replier :reply_time reply-time }))
-    {:uuid uuid :reply_time reply-time :status "0"}
+      (when-let [publisher (:publisher (first (select shares (fields :publisher) (where {:uuid share-id}))))]
+        (user/update-user-grade-amount publisher grade)
+        (user/save-user-grade publisher shop-id share-id replier grade)
+        )
+      {:uuid uuid :reply_time reply-time :status "1"}
+     )
     )
   )

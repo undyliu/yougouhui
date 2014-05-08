@@ -43,6 +43,10 @@
   (table :e_user_profile)
   (pk :uuid)
 )
+(defentity user-grades
+  (table :e_user_grade)
+  (pk :uuid)
+  )
 
 ;;share tables
 (defentity shares
