@@ -12,7 +12,6 @@ import com.seekon.yougouhui.func.shop.ShopConst;
 import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.shop.ShopProcessor;
 import com.seekon.yougouhui.func.shop.ShopUtils;
-import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.func.widget.ChangeTextInfoTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
@@ -43,31 +42,48 @@ public class ChangeShopImageActivity extends ChangeImageInfoActivity {
 
 	@Override
 	protected void doChangeImage(final MenuItem item) {
-		if (imageFile.equals(ShopUtils.getFieldValue(shop, fieldName))) {
+		if (imageFile == null) {
+			ViewUtils.showToast("请选择图片.");
+			return;
+		}
+
+		final String oldImageFile = ShopUtils.getFieldValue(shop, fieldName);
+		if (imageFile.getAliasName().equals(oldImageFile)) {
 			ViewUtils.showToast("数据未修改不需要保存.");
 			return;
 		}
 
 		item.setEnabled(false);
 
-		RestUtils.executeAsyncRestTask(this,
-				new ChangeTextInfoTaskCallback(item) {
+		RestUtils.executeAsyncRestTask(this, new ChangeTextInfoTaskCallback(item) {
 
-					@Override
-					public RestMethodResult<JSONObjResource> doInBackground() {
-						return ShopProcessor.getInstance(ChangeShopImageActivity.this)
-								.changeShop(shop, fieldName);
-					}
+			@Override
+			public RestMethodResult<JSONObjResource> doInBackground() {
+				ShopUtils.setFieldValue(shop, fieldName, imageFile.getAliasName());
+				return ShopProcessor.getInstance(ChangeShopImageActivity.this)
+						.changeShopImage(shop, imageFile, fieldName);
+			}
 
-					@Override
-					public void onSuccess(RestMethodResult<JSONObjResource> result) {
-						Intent intent = new Intent();
-						intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
-						setResult(RESULT_OK, intent);
-						finish();
-					}
+			@Override
+			public void onSuccess(RestMethodResult<JSONObjResource> result) {
+				Intent intent = new Intent();
+				intent.putExtra(ShopConst.DATA_SHOP_KEY, shop);
+				setResult(RESULT_OK, intent);
+				finish();
+			}
 
-				});
+			@Override
+			public void onFailed(String errorMessage) {
+				ShopUtils.setFieldValue(shop, fieldName, oldImageFile);
+				super.onFailed(errorMessage);
+			}
+
+			@Override
+			public void onCancelled() {
+				ShopUtils.setFieldValue(shop, fieldName, oldImageFile);
+				super.onCancelled();
+			}
+		});
 	}
 
 	@Override

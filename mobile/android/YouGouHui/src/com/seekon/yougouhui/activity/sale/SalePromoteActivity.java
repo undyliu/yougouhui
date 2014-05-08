@@ -99,7 +99,7 @@ public abstract class SalePromoteActivity extends PicContainerActivity {
 			}
 		});
 
-		saleTradeListAdapter = new SaleTradeListAdapter(this, shopTradeList);
+		saleTradeListAdapter = new SaleTradeListAdapter(this, shopTradeList, this.readonly);
 		((GridView) findViewById(R.id.shop_trade_view))
 				.setAdapter(saleTradeListAdapter);
 	}

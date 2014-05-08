@@ -17,4 +17,5 @@ public interface IUserProcessor {
 	
 	public RestMethodResult<JSONObjResource> getUserProfile(UserEntity user);
 	
+	public RestMethodResult<JSONObjResource> getUserTotalGrade(String userId);
 }

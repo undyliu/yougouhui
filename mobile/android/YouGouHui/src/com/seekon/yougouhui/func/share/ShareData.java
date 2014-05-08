@@ -23,6 +23,8 @@ import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.widget.DateIndexedEntity;
 import com.seekon.yougouhui.util.DateUtils;
+import com.seekon.yougouhui.util.JSONUtils;
+import com.seekon.yougouhui.util.LocationUtils;
 
 public class ShareData extends AbstractDBHelper {
 
@@ -64,10 +66,13 @@ public class ShareData extends AbstractDBHelper {
 
 	private String getShareDataSqlPart() {
 		StringBuffer sb = new StringBuffer();
-		sb.append(" select s.uuid, s.content, s.publish_time, s.shop_id, s.shop_name, s.publisher, u.name as publisher_name, u.photo publisher_photo ");
+		sb.append(" select s.uuid, s.content, s.publish_time ");
+		sb.append(" , s.shop_id, s.shop_name, sh.location ");
+		sb.append(" , s.publisher, u.name as publisher_name, u.photo publisher_photo ");
 		sb.append(" , r.uuid as reply_id, r.replier, r.reply_time, r.grade, r.content as reply_content, r.status as reply_status ");
 		sb.append(" from e_share s ");
 		sb.append(" inner join e_user u on s.publisher = u.uuid ");
+		sb.append(" left join e_shop sh on s.shop_id = sh.uuid ");
 		sb.append(" left join e_share_shop_reply r on s.shop_id = r.shop_id and s.uuid = r.share_id ");
 		return sb.toString();
 	}
@@ -77,12 +82,17 @@ public class ShareData extends AbstractDBHelper {
 		ShareEntity share = new ShareEntity(cursor.getString(i++),
 				cursor.getString(i++));
 		share.setPublishTime(cursor.getLong(i++));
-
-		ShopEntity shop = new ShopEntity();
-		shop.setUuid(cursor.getString(i++));
-		shop.setName(cursor.getString(i++));
-		share.setShop(shop);
-
+		
+		String shopId = cursor.getString(i++);
+		if(shopId != null){
+			ShopEntity shop = new ShopEntity();
+			shop.setUuid(shopId);
+			shop.setName(cursor.getString(i++));
+			shop.setLocation(LocationUtils.fromJSONObject(JSONUtils
+					.createJSONObject(cursor.getString(i++))));
+			share.setShop(shop);
+		}
+		
 		UserEntity publisher = new UserEntity(cursor.getString(i++), null,
 				cursor.getString(i++), null, cursor.getString(i++), null);
 		share.setPublisher(publisher);

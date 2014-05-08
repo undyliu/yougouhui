@@ -52,17 +52,17 @@ public class RegisterShopMethod extends MultipartRestMethod<JSONObjResource> {
 				.toJSONObject(shop.getLocation()).toString());
 
 		String owner = shop.getOwner();
-		if(owner != null){
+		if (owner != null) {
 			params.put(COL_NAME_OWNER, shop.getOwner());
 			params.put(COL_NAME_PWD, shop.getEmployees().get(0).getPwd());
-		}else{
+		} else {
 			UserEntity emp = shop.getEmployees().get(0);
-			//params.put(COL_NAME_OWNER, "");
+			// params.put(COL_NAME_OWNER, "");
 			params.put(COL_NAME_PWD, emp.getPwd());
 			params.put(COL_NAME_PHONE, emp.getPhone());
 			params.put(NAME_USER_NAME, emp.getName());
 		}
-		
+
 		StringBuffer trades = new StringBuffer();
 		List<TradeEntity> tradeList = shop.getTrades();
 		for (TradeEntity trade : tradeList) {
@@ -84,12 +84,13 @@ public class RegisterShopMethod extends MultipartRestMethod<JSONObjResource> {
 		shop.setShopImage(aliasName);
 
 		String busiLicense = shop.getBusiLicense();
-		aliasName = new File(busiLicense).getPath().hashCode() + "_"
-				+ System.currentTimeMillis() + ".png";
-		fileEntities.add(new FileEntity(busiLicense, aliasName));
-		params.put(COL_NAME_BUSI_LICENSE, aliasName);
-		shop.setBusiLicense(aliasName);
-
+		if (busiLicense != null) {
+			aliasName = new File(busiLicense).getPath().hashCode() + "_"
+					+ System.currentTimeMillis() + ".png";
+			fileEntities.add(new FileEntity(busiLicense, aliasName));
+			params.put(COL_NAME_BUSI_LICENSE, aliasName);
+			shop.setBusiLicense(aliasName);
+		}
 		return new MultipartRequest(REGISER_SHOP_URI, null, params, fileEntities);
 	}
 

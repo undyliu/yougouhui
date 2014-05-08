@@ -33,6 +33,7 @@ import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.widget.DateIndexedEntity;
 import com.seekon.yougouhui.util.DateUtils;
+import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.LocationUtils;
 import com.seekon.yougouhui.util.Logger;
 
@@ -157,7 +158,7 @@ public class SaleData extends AbstractDBHelper {
 				shop.setUuid(cursor.getString(i++));
 				shop.setName(cursor.getString(i++));
 				try {
-					shop.setLocation(LocationUtils.fromJSONObject(new JSONObject(cursor
+					shop.setLocation(LocationUtils.fromJSONObject(JSONUtils.createJSONObject(cursor
 							.getString(i++))));
 				} catch (Exception e) {
 					Logger.warn(TAG, e.getMessage(), e);
@@ -200,7 +201,7 @@ public class SaleData extends AbstractDBHelper {
 				shop.setUuid(cursor.getString(i++));
 				shop.setName(cursor.getString(i++));
 				try {
-					shop.setLocation(LocationUtils.fromJSONObject(new JSONObject(cursor
+					shop.setLocation(LocationUtils.fromJSONObject(JSONUtils.createJSONObject(cursor
 							.getString(i++))));
 				} catch (Exception e) {
 					Logger.warn(TAG, e.getMessage(), e);
@@ -257,7 +258,7 @@ public class SaleData extends AbstractDBHelper {
 				shop.setUuid(cursor.getString(i++));
 				shop.setName(cursor.getString(i++));
 				try {
-					shop.setLocation(LocationUtils.fromJSONObject(new JSONObject(cursor
+					shop.setLocation(LocationUtils.fromJSONObject(JSONUtils.createJSONObject(cursor
 							.getString(i++))));
 				} catch (Exception e) {
 					Logger.warn(TAG, e.getMessage(), e);

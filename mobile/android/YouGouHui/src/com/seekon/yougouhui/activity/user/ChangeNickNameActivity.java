@@ -41,6 +41,7 @@ public class ChangeNickNameActivity extends ChangeTextInfoActivity {
 			@Override
 			public void onSuccess(RestMethodResult<JSONObjResource> result) {
 				Intent intent = new Intent();
+				RunEnv.getInstance().getUser().setName(nickName);
 				setResult(RESULT_OK, intent);
 				finish();
 			}

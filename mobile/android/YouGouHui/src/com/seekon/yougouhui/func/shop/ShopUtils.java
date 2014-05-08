@@ -13,6 +13,7 @@ import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_OWNER;
 import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_REGISTER_TIME;
 import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_SHOP_IMAGE;
 import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_STATUS;
+import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_LOCATION;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,7 @@ public class ShopUtils {
 				shop.getRegisterTime());
 		JSONUtils.putJSONValue(jsonObj, COL_NAME_BARCODE, shop.getBarcode());
 		JSONUtils.putJSONValue(jsonObj, COL_NAME_STATUS, shop.getStatus());
+		JSONUtils.putJSONValue(jsonObj, COL_NAME_LOCATION, LocationUtils.toJSONObject(shop.getLocation()));
 		return jsonObj;
 	}
 
@@ -124,7 +126,7 @@ public class ShopUtils {
 				shop.setOwner(cursor.getString(i++));
 				shop.setBarcode(cursor.getString(i++));
 				shop.setStatus(cursor.getString(i++));
-				shop.setLocation(LocationUtils.fromJSONObject(new JSONObject(cursor
+				shop.setLocation(LocationUtils.fromJSONObject(JSONUtils.createJSONObject(cursor
 						.getString(i++))));
 			}
 		} catch (Exception e) {

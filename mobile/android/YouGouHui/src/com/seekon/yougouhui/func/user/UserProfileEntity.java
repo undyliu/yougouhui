@@ -11,8 +11,9 @@ public class UserProfileEntity extends Entity {
 	private int shareCount;
 	private int shareDiscussCount;
 	private int gradeAmount;
-	private int gradeRemain;
-
+	private int gradeUsed;
+	private int gradeExceed;
+	
 	public UserProfileEntity(UserEntity user) {
 		super();
 		this.user = user;
@@ -50,12 +51,23 @@ public class UserProfileEntity extends Entity {
 		this.gradeAmount = gradeAmount;
 	}
 
-	public int getGradeRemain() {
-		return gradeRemain;
+	public int getGradeUsed() {
+		return gradeUsed;
 	}
 
-	public void setGradeRemain(int gradeRemain) {
-		this.gradeRemain = gradeRemain;
+	public void setGradeUsed(int gradeUsed) {
+		this.gradeUsed = gradeUsed;
 	}
 
+	public int getGradeExceed() {
+		return gradeExceed;
+	}
+
+	public void setGradeExceed(int gradeExceed) {
+		this.gradeExceed = gradeExceed;
+	}
+
+	public int getGradeRemain(){
+		return this.gradeAmount - this.gradeUsed;
+	}
 }

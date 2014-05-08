@@ -7,6 +7,7 @@ import android.content.Context;
 import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.grade.GetUserTotalGradeMethod;
 import com.seekon.yougouhui.func.spi.IUserProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestStatus;
@@ -111,5 +112,10 @@ public class UserProcessor extends ContentProcessor implements IUserProcessor {
 	@Override
 	public RestMethodResult<JSONObjResource> getUserProfile(UserEntity user) {
 		return new GetUserProfileMethod(mContext, user).execute();
+	}
+
+	@Override
+	public RestMethodResult<JSONObjResource> getUserTotalGrade(String userId) {
+		return new GetUserTotalGradeMethod(mContext, userId).execute();
 	}
 }

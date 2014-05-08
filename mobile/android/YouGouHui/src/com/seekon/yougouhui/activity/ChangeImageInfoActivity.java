@@ -114,8 +114,12 @@ public abstract class ChangeImageInfoActivity extends Activity {
 			photoView.setImageBitmap(FileHelper.decodeFile(fileUrl, true, ICON_WIDTH,
 					ICON_WIDTH));
 		} else {
-			ImageLoader.getInstance().displayImage(imageFile.getAliasName(),
-					photoView, true);
+			String aliasName = imageFile.getAliasName();
+			if (aliasName != null && aliasName.trim().length() > 0) {
+				ImageLoader.getInstance().displayImage(aliasName, photoView, true);
+			}else{
+				photoView.setImageResource(R.drawable.add_camera);
+			}
 		}
 
 		final ImageButton iconPreview = (ImageButton) findViewById(R.id.image_icon_preview);

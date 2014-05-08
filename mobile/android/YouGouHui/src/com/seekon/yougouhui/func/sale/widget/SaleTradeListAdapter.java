@@ -20,9 +20,12 @@ import com.seekon.yougouhui.func.widget.EntityListAdapter;
 public class SaleTradeListAdapter extends EntityListAdapter<TradeEntity> {
 
 	private TradeEntity checkedTrade = null;
+	private boolean readonly = false;
 
-	public SaleTradeListAdapter(Context context, List<TradeEntity> dataList) {
+	public SaleTradeListAdapter(Context context, List<TradeEntity> dataList,
+			boolean readonly) {
 		super(context, dataList);
+		this.readonly = readonly;
 	}
 
 	public void setDefaultCheckedTrade(TradeEntity defaultCheckedTrade) {
@@ -48,23 +51,30 @@ public class SaleTradeListAdapter extends EntityListAdapter<TradeEntity> {
 
 		final TradeEntity trade = (TradeEntity) getItem(position);
 		holder.view.setText(trade.getName());
-		holder.view
-				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+		if (!readonly) {
+			holder.view.setEnabled(true);
+			holder.view
+					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-					@Override
-					public void onCheckedChanged(CompoundButton buttonView,
-							boolean isChecked) {
-						if (isChecked) {
-							checkedTrade = trade;
+						@Override
+						public void onCheckedChanged(CompoundButton buttonView,
+								boolean isChecked) {
+							if (isChecked) {
+								checkedTrade = trade;
+							}
+							SaleTradeListAdapter.this.notifyDataSetChanged();
 						}
-					}
-				});
+					});
+		}else{
+			holder.view.setEnabled(false);
+		}
+		
 		if (getCount() == 1) {
 			holder.view.setChecked(true);
 			checkedTrade = dataList.get(0);
 		}
 
-		if (checkedTrade.equals(trade)) {
+		if (checkedTrade != null && checkedTrade.equals(trade)) {
 			holder.view.setChecked(true);
 		} else {
 			holder.view.setChecked(false);

@@ -7,7 +7,6 @@ import com.seekon.yougouhui.rest.BaseRequest;
 import com.seekon.yougouhui.rest.JSONObjResourceMethod;
 import com.seekon.yougouhui.rest.Method;
 import com.seekon.yougouhui.rest.Request;
-import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
 public class GetUserProfileMethod extends JSONObjResourceMethod {
 
@@ -27,11 +26,4 @@ public class GetUserProfileMethod extends JSONObjResourceMethod {
 				null, null);
 	}
 
-	@Override
-	protected JSONObjResource parseResponseBody(String responseBody)
-			throws Exception {
-		JSONObjResource resource = super.parseResponseBody(responseBody);
-		resource.put(UserConst.DATA_KEY_USER, user);
-		return resource;
-	}
 }

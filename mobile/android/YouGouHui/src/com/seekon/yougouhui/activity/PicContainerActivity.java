@@ -58,7 +58,9 @@ public abstract class PicContainerActivity extends Activity {
 	protected List<FileEntity> imageFileUriList = new ArrayList<FileEntity>();
 
 	protected BaseAdapter imageAdapter;
-
+	
+	protected boolean readonly = false;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -214,14 +216,14 @@ public abstract class PicContainerActivity extends Activity {
 		imageFileUriList.clear();
 
 	}
-
+	
 	class PicSelectAdapter extends BaseAdapter {
 
 		public static final int IMAGE_VIEW_WIDTH = 150;
 
 		@Override
 		public int getCount() {
-			return imageFileUriList.size() + 1;
+			return readonly ? imageFileUriList.size() : imageFileUriList.size() + 1;
 		}
 
 		@Override
@@ -242,13 +244,13 @@ public abstract class PicContainerActivity extends Activity {
 				imageView.setLayoutParams(new GridView.LayoutParams(IMAGE_VIEW_WIDTH,
 						IMAGE_VIEW_WIDTH));//
 				imageView.setAdjustViewBounds(false);
-				imageView.setScaleType(ImageView.ScaleType.CENTER);
+				imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 				imageView.setPadding(8, 8, 8, 8);
 			} else {
 				imageView = (ImageView) convertView;
 			}
-
-			if (position == imageFileUriList.size()) {
+			
+			if (!readonly && position == imageFileUriList.size()) {
 				imageView.setImageResource(R.drawable.add_camera);
 				imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 				imageView.setOnClickListener(new View.OnClickListener() {
@@ -276,7 +278,7 @@ public abstract class PicContainerActivity extends Activity {
 						intent.putExtra(ImagePreviewActivity.IMAGE_SRC_KEY, image);
 						intent.putExtra(ImagePreviewActivity.IMAGE_INDEX_IN_CONTAINER,
 								position);
-						intent.putExtra(ImagePreviewActivity.IMAGE_DELETE_FLAG, true);
+						intent.putExtra(ImagePreviewActivity.IMAGE_DELETE_FLAG, !readonly);
 
 						PicContainerActivity.this.startActivityForResult(intent,
 								PREVIEW_IMAGE_ACTIVITY_REQUEST_CODE);

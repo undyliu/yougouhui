@@ -60,4 +60,16 @@ public class JSONUtils {
 		}
 		return obj;
 	}
+	
+	public static JSONObject createJSONObject(String value){
+		if(value == null){
+			return null;
+		}
+		try{
+			return new JSONObject(value);
+		}catch(Exception e){
+			Logger.warn(TAG, e.getMessage(), e);
+		}
+		return null;
+	}
 }

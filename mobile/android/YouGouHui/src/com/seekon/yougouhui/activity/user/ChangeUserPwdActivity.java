@@ -26,11 +26,13 @@ public class ChangeUserPwdActivity extends ChangePasswordActivity {
 
 	protected void doSavePassword(final MenuItem item) {
 		item.setEnabled(false);
-
+		
+		final String pwd = pwdNewView.getText().toString();
 		RestUtils.executeAsyncRestTask(this, new ChangeTextInfoTaskCallback(item) {
 
 			@Override
 			public void onSuccess(RestMethodResult<JSONObjResource> result) {
+				RunEnv.getInstance().getUser().setPwd(pwd);
 				Intent intent = new Intent();
 				setResult(RESULT_OK, intent);
 				finish();
@@ -39,7 +41,7 @@ public class ChangeUserPwdActivity extends ChangePasswordActivity {
 			@Override
 			public RestMethodResult<JSONObjResource> doInBackground() {
 				return UserProcessor.getInstance(ChangeUserPwdActivity.this)
-						.updateUserPwd(pwdNewView.getText().toString());
+						.updateUserPwd(pwd);
 			}
 		});
 	}

@@ -53,6 +53,7 @@
                 </TableRow>
 
                 <TableRow
+                    android:id="@+id/row_user_share"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="40dp"
@@ -77,6 +78,7 @@
                 </TableRow>
 
                 <TableRow
+                    android:id="@+id/row_user_sale_dis"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="40dp"

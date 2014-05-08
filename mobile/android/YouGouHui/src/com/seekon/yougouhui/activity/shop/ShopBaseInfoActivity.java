@@ -5,6 +5,9 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_NAME;
 import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_ADDRESS;
 import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_BUSI_LICENSE;
 import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_SHOP_IMAGE;
+
+import java.util.List;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -25,6 +28,7 @@ import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.favorit.ShopFavoritProcessor;
 import com.seekon.yougouhui.func.shop.GetShopTaskCallback;
+import com.seekon.yougouhui.func.shop.GetTradesTaskCallback;
 import com.seekon.yougouhui.func.shop.ShopConst;
 import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.shop.ShopUtils;
@@ -32,11 +36,12 @@ import com.seekon.yougouhui.func.shop.TradeEntity;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
 public class ShopBaseInfoActivity extends Activity {
 
-	private static final String TAG = ShopBaseInfoActivity.class.getSimpleName();
+	//private static final String TAG = ShopBaseInfoActivity.class.getSimpleName();
 
 	private static final int SHOP_IMAGE_WIDTH = 75;
 
@@ -116,7 +121,7 @@ public class ShopBaseInfoActivity extends Activity {
 			}
 		});
 	}
-
+	
 	private void updateViews() {
 		if (shop == null) {
 			return;
@@ -135,14 +140,17 @@ public class ShopBaseInfoActivity extends Activity {
 		if (barcode != null && barcode.length() > 0) {
 			ImageLoader.getInstance().displayImage(barcode, barcodeView, true);
 		}
+		
 		StringBuffer trades = new StringBuffer();
 		for (TradeEntity trade : shop.getTrades()) {
 			trades.append(trade.getName() + "  ");
 		}
 		tradesView.setText(trades);
-
+		
 		if (!readonly) {
 			setListeners();
+		}else{
+			findViewById(R.id.row_shop_pwd).setVisibility(View.GONE);
 		}
 
 		final String status = shop.getStatus();

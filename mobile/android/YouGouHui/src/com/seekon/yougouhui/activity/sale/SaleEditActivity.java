@@ -51,7 +51,8 @@ public class SaleEditActivity extends SalePromoteActivity {
 		discussExpandView = (ImageView) findViewById(R.id.img_sale_discuss_expand);
 
 		loadSale();
-
+		this.readonly = true;
+		
 		super.onCreate(savedInstanceState);
 	}
 
