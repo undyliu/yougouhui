@@ -77,9 +77,12 @@ public class RegisterActivity extends Activity {
 				startActivityForResult(intent, LOAD_IMAGE_ACTIVITY_REQUEST_CODE);
 			}
 		});
-
-		phoneView.setText(DeviceUtils.getTelephoneNumber());
-		ViewUtils.setEditTextReadOnly(phoneView);
+		
+		String phone = DeviceUtils.getTelephoneNumber();
+		if(phone != null){
+			phoneView.setText(phone);
+			//ViewUtils.setEditTextReadOnly(phoneView);
+		}
 	}
 
 	@Override

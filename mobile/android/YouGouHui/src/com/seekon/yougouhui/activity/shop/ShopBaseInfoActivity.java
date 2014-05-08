@@ -149,6 +149,8 @@ public class ShopBaseInfoActivity extends Activity {
 		
 		if (!readonly) {
 			setListeners();
+		}else{
+			findViewById(R.id.row_shop_pwd).setVisibility(View.GONE);
 		}
 
 		final String status = shop.getStatus();

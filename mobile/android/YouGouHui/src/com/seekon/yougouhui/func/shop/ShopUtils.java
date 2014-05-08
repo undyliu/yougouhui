@@ -126,7 +126,7 @@ public class ShopUtils {
 				shop.setOwner(cursor.getString(i++));
 				shop.setBarcode(cursor.getString(i++));
 				shop.setStatus(cursor.getString(i++));
-				shop.setLocation(LocationUtils.fromJSONObject(new JSONObject(cursor
+				shop.setLocation(LocationUtils.fromJSONObject(JSONUtils.createJSONObject(cursor
 						.getString(i++))));
 			}
 		} catch (Exception e) {

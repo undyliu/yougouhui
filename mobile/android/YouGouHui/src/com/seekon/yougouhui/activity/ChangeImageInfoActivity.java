@@ -117,6 +117,8 @@ public abstract class ChangeImageInfoActivity extends Activity {
 			String aliasName = imageFile.getAliasName();
 			if (aliasName != null && aliasName.trim().length() > 0) {
 				ImageLoader.getInstance().displayImage(aliasName, photoView, true);
+			}else{
+				photoView.setImageResource(R.drawable.add_camera);
 			}
 		}
 

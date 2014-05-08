@@ -4,11 +4,13 @@ import static com.seekon.yougouhui.func.DataConst.COL_NAME_IMG;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_ORD_INDEX;
 import static com.seekon.yougouhui.func.share.ShareConst.COL_NAME_SHARE_ID;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.DisplayMetrics;
@@ -22,17 +24,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.sale.SaleDetailActivity;
+import com.seekon.yougouhui.activity.shop.ShopBaseInfoActivity;
 import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.LocationEntity;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.share.CommentEntity;
 import com.seekon.yougouhui.func.share.ShareEntity;
 import com.seekon.yougouhui.func.share.ShareImgConst;
 import com.seekon.yougouhui.func.share.ShopReplyEntity;
+import com.seekon.yougouhui.func.shop.ShopConst;
+import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.shop.widget.ShareReplyPopWindow;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.widget.UserClickListener;
 import com.seekon.yougouhui.util.DateUtils;
+import com.seekon.yougouhui.util.LocationUtils;
 import com.seekon.yougouhui.util.ViewUtils;
 
 public class ShareUtils {
@@ -82,25 +91,31 @@ public class ShareUtils {
 		});
 	}
 
-	public static void updateUserShareDetailView(final ShareEntity share,
-			final Activity activity, View shareView) {
+	public static void updateUserShareDetailView(ShareEntity share,
+			 Activity activity, View shareView) {
 		updateFriendShareItemView(share, activity, shareView);
 
 		// 设置反馈状态
 		TextView replyStatus = (TextView) shareView.findViewById(R.id.reply_status);
+		replyStatus.setVisibility(View.VISIBLE);
 		ShopReplyEntity reply = share.getShopReply();
 		if (reply == null) {
-			replyStatus.setVisibility(View.VISIBLE);
 			replyStatus.setText("商户尚未反馈");
 		} else {
-			replyStatus.setVisibility(View.GONE);
+			//replyStatus.setVisibility(View.GONE);
+			String status = reply.getStatus();
+			if (DataConst.STATUS_AUDITED.equals(status)) {
+				replyStatus.setText(R.string.label_share_reply_status_valid);
+			} else {
+				replyStatus.setText(R.string.label_share_reply_status_draft);
+			}
 		}
-		updateShopReplyView(share, shareView);
+		updateShopReplyView(activity, share, shareView);
 
 	}
 
 	public static void updateShopShareReplyView(final ShareEntity share,
-			final Activity activity, final View shareView) {
+			final Activity activity,  final View shareView) {
 		updateShareDetailView(share, activity, shareView);
 
 		// 设置反馈状态
@@ -117,7 +132,7 @@ public class ShareUtils {
 				replyStatus.setText(R.string.label_share_reply_status_draft);
 			}
 		}
-		updateShopReplyView(share, shareView);
+		updateShopReplyView(activity, share, shareView);
 
 		// 设置评论信息
 		ListView commentView = (ListView) shareView.findViewById(R.id.comment_list);
@@ -154,7 +169,7 @@ public class ShareUtils {
 		}
 	}
 
-	private static void updateShopReplyView(ShareEntity share, View shareView) {
+	private static void updateShopReplyView(final Context context, final ShareEntity share, View shareView) {
 		ShopReplyEntity reply = share.getShopReply();
 		View replyView = shareView.findViewById(R.id.shop_reply_main);
 		if (reply == null) {
@@ -165,7 +180,17 @@ public class ShareUtils {
 			TextView shopNameView = (TextView) shareView.findViewById(R.id.shop_name);
 			shopNameView.getPaint().setFakeBoldText(true);
 			shopNameView.setText(share.getShop().getName());
-
+			shopNameView.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(context,
+							ShopBaseInfoActivity.class);
+					intent.putExtra(ShopConst.COL_NAME_UUID, share.getShopId());
+					context.startActivity(intent);
+				}
+			});
+			
 			TextView gradeView = (TextView) shareView.findViewById(R.id.reply_grade);
 			gradeView.getPaint().setFakeBoldText(true);
 			gradeView.setText(String.valueOf(reply.getGrade()));
@@ -226,7 +251,34 @@ public class ShareUtils {
 				/ (ShareImageAdapter.IMAGE_VIEW_WIDTH + 25);
 		picContainer.setNumColumns(colNumber);
 		picContainer.setAdapter(new ShareImageAdapter(activity, images));
-
+		
+		//设置商铺及距离信息
+		final ShopEntity shop = share.getShop();
+		if(shop != null){
+			TextView shareShopView = (TextView) shareView.findViewById(R.id.share_shop_name);
+			shareShopView.getPaint().setFakeBoldText(true);
+			shareShopView.setText(shop.getName());
+			shareShopView.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(activity,
+							ShopBaseInfoActivity.class);
+					intent.putExtra(ShopConst.COL_NAME_UUID, shop.getUuid());
+					activity.startActivity(intent);
+				}
+			});
+			
+			LocationEntity shopLoc = shop.getLocation();
+			LocationEntity userLoc = RunEnv.getInstance().getLocationEntity();
+			if(shopLoc != null && userLoc != null){
+				TextView distView = (TextView) shareView.findViewById(R.id.share_shop_distance);
+				distView.setText(new DecimalFormat("###,###.## 米")
+				.format(LocationUtils.distance(shopLoc, userLoc)));
+			}
+		}else{
+			shareView.findViewById(R.id.row_share_shop).setVisibility(View.GONE);
+		}
 	}
 
 	private static void showPopupWindow(final ShareEntity share,

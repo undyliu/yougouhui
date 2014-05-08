@@ -73,10 +73,9 @@ public class FriendProfileActivity extends Activity {
 		userNameView.setText(user.getName());
 
 		shareCountView = (TextView) findViewById(R.id.user_share_count);
-		shareCountView.setText("0");// TODO
 		shareCountView.getPaint().setFakeBoldText(true);
 
-		shareCountView.setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.row_user_share).setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -89,9 +88,16 @@ public class FriendProfileActivity extends Activity {
 		});
 
 		saleDiscussCountView = (TextView) findViewById(R.id.user_sale_discuss_count);
-		saleDiscussCountView.setText("0");// TODO
 		saleDiscussCountView.getPaint().setFakeBoldText(true);
-
+		
+		findViewById(R.id.row_user_sale_dis).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+			}
+		});
+		
 		RestUtils.executeAsyncRestTask(this,
 				new AbstractRestTaskCallback<JSONObjResource>() {
 
@@ -113,6 +119,14 @@ public class FriendProfileActivity extends Activity {
 									resource, COL_NAME_SALE_DIS_COUNT));
 						}
 					}
+					@Override
+					public void onFailed(String errorMessage) {
+						super.onFailed(errorMessage);
+						
+						shareCountView.setText("0");
+						saleDiscussCountView.setText("0");
+					}
+					
 				});
 	}
 

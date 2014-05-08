@@ -20,6 +20,7 @@ import com.seekon.yougouhui.func.widget.EntityListAdapter;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestStatus;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
+import com.seekon.yougouhui.util.JSONUtils;
 import com.seekon.yougouhui.util.LocationUtils;
 import com.seekon.yougouhui.util.Logger;
 
@@ -74,7 +75,7 @@ public class RadarSaleListView extends RadarResultListView<GeoSaleEntity> {
 						ShopEntity shop = new ShopEntity();
 						shop.setUuid(obj.getString(SaleConst.COL_NAME_SHOP_ID));
 						shop.setName(obj.getString(SaleConst.COL_NAME_SHOP_NAME));
-						shop.setLocation(LocationUtils.fromJSONObject(new JSONObject(obj
+						shop.setLocation(LocationUtils.fromJSONObject(JSONUtils.createJSONObject(obj
 								.getString(SaleConst.COL_NAME_LOCATION))));
 						entity.setShop(shop);
 

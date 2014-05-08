@@ -13,6 +13,7 @@ import android.widget.PopupWindow;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.shop.ShareReplyActivity;
+import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.share.ShareEntity;
 import com.seekon.yougouhui.func.share.ShopReplyEntity;
@@ -84,7 +85,8 @@ public class ShareReplyPopWindow extends PopupWindow {
 		reply.setReplier(RunEnv.getInstance().getUser().getUuid());
 		reply.setShareId(share.getUuid());
 		reply.setShopId(share.getShopId());
-
+		reply.setStatus(DataConst.STATUS_AUDITED);
+		
 		RestUtils.executeAsyncRestTask(context,
 				new AbstractRestTaskCallback<JSONObjResource>("提交反馈信息失败.") {
 

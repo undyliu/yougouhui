@@ -67,6 +67,9 @@ public class LocationUtils {
 	}
 
 	public static LocationEntity fromJSONObject(JSONObject jsonObj) {
+		if(jsonObj == null){
+			return null;
+		}
 		LocationEntity location = new LocationEntity();
 		try {
 			location.setLatitude(jsonObj.getDouble(key_latitude));
