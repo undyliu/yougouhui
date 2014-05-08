@@ -13,6 +13,7 @@ import com.seekon.yougouhui.func.LocationEntity;
 import com.seekon.yougouhui.func.SyncSupportProcessor;
 import com.seekon.yougouhui.func.spi.IShopProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.RestStatus;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.service.ProcessorProxy;
@@ -90,8 +91,18 @@ public class ShopProcessor extends SyncSupportProcessor implements
 
 	public RestMethodResult<JSONObjResource> changeShop(ShopEntity shop,
 			String fieldName) {
-		return (RestMethodResult) this.execMethod(new UpdateShopMethod(mContext,
-				shop, fieldName));
+		RestMethodResult<JSONObjResource> result = new UpdateShopMethod(mContext,
+				shop, fieldName).execute();
+		if (result.getStatusCode() == RestStatus.SC_OK) {
+			try {
+				this.updateContentProvider(result.getResource(),
+						new String[] { fieldName }, contentUri);
+			} catch (JSONException e) {
+				Logger.warn(TAG, e.getMessage(), e);
+				throw new RuntimeException(e);
+			}
+		}
+		return result;
 	}
 
 	public RestMethodResult<JSONObjResource> changeShopEmpPwd(String shopId,
@@ -124,6 +135,17 @@ public class ShopProcessor extends SyncSupportProcessor implements
 	@Override
 	public RestMethodResult<JSONObjResource> changeShopImage(ShopEntity shop,
 			FileEntity image, String fieldName) {
-		return (RestMethodResult)this.execMethod(new ChangeShopImageMethod(mContext, shop, image, fieldName));
+		RestMethodResult<JSONObjResource> result = new ChangeShopImageMethod(
+				mContext, shop, image, fieldName).execute();
+		if (result.getStatusCode() == RestStatus.SC_OK) {
+			try {
+				this.updateContentProvider(result.getResource(),
+						new String[] { fieldName }, contentUri);
+			} catch (JSONException e) {
+				Logger.warn(TAG, e.getMessage(), e);
+				throw new RuntimeException(e);
+			}
+		}
+		return result;
 	}
 }

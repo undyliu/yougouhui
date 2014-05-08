@@ -7,6 +7,7 @@ import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.ChangeImageInfoActivity;
 import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.user.UserProcessor;
 import com.seekon.yougouhui.func.widget.ChangeTextInfoTaskCallback;
 import com.seekon.yougouhui.rest.RestMethodResult;
@@ -40,6 +41,8 @@ public class ChangeUserPhotoActivity extends ChangeImageInfoActivity {
 
 			@Override
 			public void onSuccess(RestMethodResult<JSONObjResource> result) {
+				UserEntity user = RunEnv.getInstance().getUser();
+				user.setPhoto(imageFile.getAliasName());
 				Intent intent = new Intent();
 				setResult(RESULT_OK, intent);
 				finish();

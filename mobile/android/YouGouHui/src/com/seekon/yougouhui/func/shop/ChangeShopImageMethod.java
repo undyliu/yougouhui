@@ -13,12 +13,12 @@ import android.content.Context;
 
 import com.seekon.yougouhui.Const;
 import com.seekon.yougouhui.file.FileEntity;
-import com.seekon.yougouhui.rest.JSONObjResourceMethod;
 import com.seekon.yougouhui.rest.MultipartRequest;
+import com.seekon.yougouhui.rest.MultipartRestMethod;
 import com.seekon.yougouhui.rest.Request;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
-public class ChangeShopImageMethod extends JSONObjResourceMethod{
+public class ChangeShopImageMethod extends MultipartRestMethod<JSONObjResource>{
 	
 	private static final URI UPDATE_SHOP_IMAGE_URI = URI.create(Const.SERVER_APP_URL
 			+ "/updateShop");

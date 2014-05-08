@@ -2,11 +2,11 @@ package com.seekon.yougouhui.func.shop;
 
 import android.content.Context;
 
-import com.seekon.yougouhui.rest.MultipartRestMethod;
+import com.seekon.yougouhui.rest.JSONObjResourceMethod;
 import com.seekon.yougouhui.rest.Request;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
-public class UpdateShopMethod extends MultipartRestMethod<JSONObjResource> {
+public class UpdateShopMethod extends JSONObjResourceMethod {
 
 	private ShopEntity shop;
 	private String fieldName;
