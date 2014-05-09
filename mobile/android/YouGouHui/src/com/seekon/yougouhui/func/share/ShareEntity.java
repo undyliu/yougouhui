@@ -93,4 +93,8 @@ public class ShareEntity extends Entity {
 	public String getShopId() {
 		return shop != null ? shop.getUuid() : null;
 	}
+	
+	public String getShopName(){
+		return shop != null ? shop.getName() : null;
+	}
 }

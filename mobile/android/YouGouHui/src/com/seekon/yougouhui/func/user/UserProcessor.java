@@ -7,10 +7,12 @@ import android.content.Context;
 import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.grade.GetUserGradeItemsMethod;
 import com.seekon.yougouhui.func.grade.GetUserTotalGradeMethod;
 import com.seekon.yougouhui.func.spi.IUserProcessor;
 import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestStatus;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.service.ContentProcessor;
 import com.seekon.yougouhui.service.ProcessorProxy;
@@ -117,5 +119,10 @@ public class UserProcessor extends ContentProcessor implements IUserProcessor {
 	@Override
 	public RestMethodResult<JSONObjResource> getUserTotalGrade(String userId) {
 		return new GetUserTotalGradeMethod(mContext, userId).execute();
+	}
+
+	@Override
+	public RestMethodResult<JSONArrayResource> getUserGradeItems(String userId) {
+		return new GetUserGradeItemsMethod(mContext, userId).execute();
 	}
 }
