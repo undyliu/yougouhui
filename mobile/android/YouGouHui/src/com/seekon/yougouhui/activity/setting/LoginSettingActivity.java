@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.seekon.yougouhui.R;
@@ -43,6 +44,18 @@ public class LoginSettingActivity extends Activity {
 			rememberPwdView.setChecked(loginSetting
 					.getAsBoolean(LoginConst.LOGIN_SETTING_REMEMBER_PWD));
 		}
+		
+		autoLoginView
+		.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if (isChecked) {
+					rememberPwdView.setChecked(isChecked);
+				}
+			}
+		});
 	}
 
 	@Override
