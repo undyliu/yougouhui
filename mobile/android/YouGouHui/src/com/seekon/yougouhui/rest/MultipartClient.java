@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import android.graphics.Bitmap;
-import android.os.Build;
 
 import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.file.FileHelper;
@@ -81,17 +80,9 @@ public class MultipartClient extends RestClient {
 		conn.setUseCaches(false); // 不允许使用缓存
 		conn.setRequestMethod("POST"); // 请求方式
 		conn.setRequestProperty("Charset", CHARSET); // 设置编码
-		// conn.setRequestProperty("connection", "keep-alive");
-		// conn.setRequestProperty("user-agent",
-		// "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
 		conn.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary="
 				+ BOUNDARY);
 		conn.setConnectTimeout(60 * 1000);// 30秒
-
-		if (Build.VERSION.SDK != null && Build.VERSION.SDK_INT > 13) {
-			// //conn.setRequestProperty("Connection", "close");
-			conn.setRequestProperty("connection", "keep-alive");
-		}
 	}
 
 	/**

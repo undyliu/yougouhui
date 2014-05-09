@@ -95,7 +95,7 @@ public abstract class ModuleListFragment extends ListFragment {
 					String code = cursor.getString(1);
 					int img = RUtils.getDrawableImg(code);
 					if (img == -1) {
-						img = R.drawable.default_module;
+						img = R.drawable.default_pic;
 					}
 
 					modules.add(new ModuleEntity(cursor.getString(0), code, cursor

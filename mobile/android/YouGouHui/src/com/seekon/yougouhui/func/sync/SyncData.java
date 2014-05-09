@@ -3,7 +3,7 @@ package com.seekon.yougouhui.func.sync;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_UUID;
 import static com.seekon.yougouhui.func.sync.SyncConst.COL_NAME_TABLE_NAME;
 import static com.seekon.yougouhui.func.sync.SyncConst.COL_NAME_UPDATE_TIME;
-import static com.seekon.yougouhui.func.sync.SyncConst.COL_NAME_USER_ID;
+import static com.seekon.yougouhui.func.sync.SyncConst.COL_NAME_ITEM_ID;
 import static com.seekon.yougouhui.func.sync.SyncConst.TABLE_NAME;
 
 import java.util.UUID;
@@ -24,7 +24,7 @@ import com.seekon.yougouhui.db.AbstractDBHelper;
 public class SyncData extends AbstractDBHelper {
 
 	public static final String[] COL_NAMES = new String[] { COL_NAME_UUID,
-			COL_NAME_UPDATE_TIME, COL_NAME_TABLE_NAME, COL_NAME_USER_ID };
+			COL_NAME_UPDATE_TIME, COL_NAME_TABLE_NAME, COL_NAME_ITEM_ID };
 
 	private static SyncData instance;
 
@@ -48,7 +48,7 @@ public class SyncData extends AbstractDBHelper {
 		// db.execSQL(" drop table if EXISTS " + TABLE_NAME);
 		db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
 				+ COL_NAME_UUID + " TEXT PRIMARY KEY, " + COL_NAME_TABLE_NAME
-				+ " TEXT," + COL_NAME_USER_ID + " TEXT," + COL_NAME_UPDATE_TIME
+				+ " TEXT," + COL_NAME_ITEM_ID + " TEXT," + COL_NAME_UPDATE_TIME
 				+ " TEXT)");
 	}
 
@@ -62,18 +62,18 @@ public class SyncData extends AbstractDBHelper {
 	 * @param tableName
 	 * @param updateTime
 	 */
-	public void updateData(String tableName, String userId, String updateTime) {
+	public void updateData(String tableName, String itemId, String updateTime) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		onCreate(db);
 
 		ContentValues values = new ContentValues();
 		values.put(COL_NAME_UPDATE_TIME, updateTime);
 
-		String where = COL_NAME_TABLE_NAME + " = ? and " + COL_NAME_USER_ID + "=?";
-		String[] args = new String[] { tableName, userId };
+		String where = COL_NAME_TABLE_NAME + " = ? and " + COL_NAME_ITEM_ID + "=?";
+		String[] args = new String[] { tableName, itemId };
 		int count = db.update(TABLE_NAME, values, where, args);
 		if (count == 0) {
-			values.put(COL_NAME_USER_ID, userId);
+			values.put(COL_NAME_ITEM_ID, itemId);
 			values.put(COL_NAME_TABLE_NAME, tableName);
 			values.put(COL_NAME_UUID, UUID.randomUUID().toString());
 			db.insert(TABLE_NAME, null, values);
@@ -86,16 +86,16 @@ public class SyncData extends AbstractDBHelper {
 	 * @param tableName
 	 * @return
 	 */
-	public String getUpdateTime(String tableName, String userId) {
+	public String getUpdateTime(String tableName, String itemId) {
 		onCreate(this.getWritableDatabase());
 
 		String updateTime = null;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = null;
 		try {
-			String where = COL_NAME_TABLE_NAME + " = ? and " + COL_NAME_USER_ID
+			String where = COL_NAME_TABLE_NAME + " = ? and " + COL_NAME_ITEM_ID
 					+ "=?";
-			String[] args = new String[] { tableName, userId };
+			String[] args = new String[] { tableName, itemId };
 			cursor = db.query(TABLE_NAME, new String[] { COL_NAME_UPDATE_TIME },
 					where, args, null, null, null);
 			if (cursor.moveToNext()) {

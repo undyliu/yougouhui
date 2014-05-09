@@ -19,6 +19,7 @@ import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 import com.seekon.yougouhui.service.ProcessorProxy;
 import com.seekon.yougouhui.util.JSONUtils;
+import com.seekon.yougouhui.util.Logger;
 
 public class SaleDiscussProcessor extends SyncSupportProcessor implements
 		ISaleDiscussProcessor {
@@ -61,13 +62,19 @@ public class SaleDiscussProcessor extends SyncSupportProcessor implements
 	}
 
 	/**
-	 * 重载同步时间，user_id为*
+	 * 重载同步时间，user_id为sale_id
 	 * 
 	 */
 	@Override
 	protected void recordUpdateTime(String updateTime, JSONObjResource resource) {
 		SyncData syncData = SyncData.getInstance(mContext);
-		syncData.updateData(syncTableName, "*", updateTime);
+		try {
+			syncData.updateData(syncTableName,
+					resource.getString(SaleDiscussConst.COL_NAME_SALE_ID), updateTime);
+		} catch (Exception e) {
+			Logger.error(TAG, e.getMessage(), e);
+			throw new RuntimeException(e);
+		}
 	}
 
 	public RestMethodResult<JSONObjResource> deleteDiscuss(String uuid) {

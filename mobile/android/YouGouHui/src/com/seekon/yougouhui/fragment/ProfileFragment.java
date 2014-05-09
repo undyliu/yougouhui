@@ -10,6 +10,7 @@ import com.seekon.yougouhui.activity.MainActivity;
 import com.seekon.yougouhui.activity.contact.ContactListActivity;
 import com.seekon.yougouhui.activity.favorit.FavoritMainActivity;
 import com.seekon.yougouhui.activity.grade.MyGradeActivity;
+import com.seekon.yougouhui.activity.message.MyMessageActivity;
 import com.seekon.yougouhui.activity.setting.SettingMainActivity;
 import com.seekon.yougouhui.activity.share.MyShareActivity;
 import com.seekon.yougouhui.activity.shop.LoginShopActivity;
@@ -78,6 +79,8 @@ public class ProfileFragment extends ModuleListFragment {
 			intent = new Intent(attachedActivity, FavoritMainActivity.class);
 		} else if (ModuleConst.CODE_MY_GRADE.equalsIgnoreCase(moduleCode)) {
 			intent = new Intent(attachedActivity, MyGradeActivity.class);
+		}else if (ModuleConst.CODE_MY_MESSAGE.equalsIgnoreCase(moduleCode)) {
+			intent = new Intent(attachedActivity, MyMessageActivity.class);
 		}
 
 		if (intent != null) {

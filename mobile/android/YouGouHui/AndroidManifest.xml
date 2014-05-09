@@ -379,6 +379,7 @@
             android:label="@string/title_grade_shop"
             android:screenOrientation="portrait" >
         </activity>
+        <activity android:label="@string/title_profie_mymessage" android:name=".activity.message.MyMessageActivity"></activity>
     </application>
 
 </manifest>

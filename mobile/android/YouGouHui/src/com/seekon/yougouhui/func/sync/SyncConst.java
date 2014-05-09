@@ -12,7 +12,7 @@ public interface SyncConst extends DataConst {
 
 	public static final String COL_NAME_TABLE_NAME = "table_name";
 
-	public static final String COL_NAME_USER_ID = "user_id";
+	public static final String COL_NAME_ITEM_ID = "item_id";
 
 	public static final String AUTHORITY = "com.seekon.yougouhui.syncs";
 

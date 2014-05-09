@@ -81,7 +81,7 @@ public class RegisterActivity extends Activity {
 		String phone = DeviceUtils.getTelephoneNumber();
 		if(phone != null){
 			phoneView.setText(phone);
-			//ViewUtils.setEditTextReadOnly(phoneView);
+			ViewUtils.setEditTextReadOnly(phoneView);
 		}
 	}
 
