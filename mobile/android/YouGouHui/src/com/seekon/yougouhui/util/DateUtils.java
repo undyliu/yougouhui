@@ -66,9 +66,12 @@ public class DateUtils {
 	}
 
 	public static String getDateString_yyyyMMdd(Date date) {
-		return yyyymmddFormat.format(date.getTime());
+		return getDateString_yyyyMMdd(date.getTime());
 	}
 
+	public static String getDateString_yyyyMMdd(long time){
+		return yyyymmddFormat.format(time);
+	}
 	public static boolean beforeDateString_yyyyMMdd(String date1, String date2) {
 		Calendar calendar1 = Calendar.getInstance();
 		calendar1.setTime(getDate_yyyyMMdd(date1));

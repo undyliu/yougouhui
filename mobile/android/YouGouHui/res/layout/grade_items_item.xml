@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:cacheColorHint="#00000000"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/grade_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:ellipsize="none"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:singleLine="false"
+        />
+    
+	<View style="@style/vertical_layout" />
+	
+    <TextView
+        android:id="@+id/shop_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:ellipsize="none"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:singleLine="false"/>
+	
+	<View style="@style/vertical_layout" />
+	
+    <TextView
+        android:id="@+id/grade_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:ellipsize="none"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:singleLine="false"/>
+    
+	<View style="@style/vertical_layout" />
+	
+    <TextView
+        android:id="@+id/grade_used"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:background="@android:color/transparent"
+        android:ellipsize="none"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:singleLine="false"/>
+	<View style="@style/vertical_layout" />
+	
+    <TextView
+        android:id="@+id/end_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:background="@android:color/transparent"
+        android:ellipsize="none"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:singleLine="false"/>
+
+</LinearLayout>

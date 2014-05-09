@@ -147,6 +147,7 @@ public class ShareActivity extends PicContainerActivity {
 
 						ShopEntity shop = new ShopEntity();
 						shop.setUuid(choosedShopId);
+						shop.setName(choosedShopNameView.getText().toString());
 						share.setShop(shop);
 
 						share.setPublisher(RunEnv.getInstance().getUser());

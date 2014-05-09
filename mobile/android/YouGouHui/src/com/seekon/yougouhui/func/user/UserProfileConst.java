@@ -10,6 +10,9 @@ public interface UserProfileConst extends DataConst {
 	public static final String COL_NAME_GRADE_AMOUNT = "grade_amount";
 	public static final String COL_NAME_GRADE_USED = "grade_used";
 	public static final String NAME_GRADE_EXCEED = "grade_exceed";
+	public static final String NAME_END_TIME = "end_time";
+	public static final String NAME_GRADE_TIME = "grade_time";
+	public static final String NAME_GRADER = "grader";
 	
 	public static final String DATA_KEY_USER_PROFILE = "userProfile";
 }

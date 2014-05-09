@@ -3,6 +3,7 @@ package com.seekon.yougouhui.func.spi;
 import com.seekon.yougouhui.file.FileEntity;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.rest.RestMethodResult;
+import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
 
 public interface IUserProcessor {
@@ -18,4 +19,6 @@ public interface IUserProcessor {
 	public RestMethodResult<JSONObjResource> getUserProfile(UserEntity user);
 	
 	public RestMethodResult<JSONObjResource> getUserTotalGrade(String userId);
+	
+	public RestMethodResult<JSONArrayResource> getUserGradeItems(String userId);
 }

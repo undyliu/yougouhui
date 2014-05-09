@@ -3,6 +3,7 @@ package com.seekon.yougouhui.func.share;
 import static com.seekon.yougouhui.func.DataConst.COL_NAME_CONTENT;
 import static com.seekon.yougouhui.func.share.ShareConst.COL_NAME_PUBLISHER;
 import static com.seekon.yougouhui.func.share.ShareConst.COL_NAME_SHOP_ID;
+import static com.seekon.yougouhui.func.share.ShareConst.COL_NAME_SHOP_NAME;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -59,7 +60,8 @@ public class PostShareMethod extends MultipartRestMethod<JSONObjResource> {
 			JSONUtils.putJSONValue(resource, COL_NAME_PUBLISHER, share.getPublisher()
 					.getUuid());
 			JSONUtils.putJSONValue(resource, COL_NAME_SHOP_ID, share.getShopId());
-
+			JSONUtils.putJSONValue(resource, COL_NAME_SHOP_NAME, share.getShopName());
+			
 			List<FileEntity> images = share.getImages();
 			if (images.size() > 0) {
 				String shareId = JSONUtils.getJSONStringValue(resource,

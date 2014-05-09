@@ -36,5 +36,9 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">normal</item>
     </style>
-
+	<style name="vertical_layout">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">#dadada</item>
+    </style>
 </resources>

@@ -1,6 +1,7 @@
 package com.seekon.yougouhui.func.grade;
 
 import com.seekon.yougouhui.func.Entity;
+import com.seekon.yougouhui.func.shop.ShopEntity;
 
 public class GradeItemsEntity extends Entity {
 
@@ -9,7 +10,10 @@ public class GradeItemsEntity extends Entity {
 	private String userId;
 	private String grader;
 	private long gradeTime;
-	private int grade;
+	private long endTime;
+	private int gradeAmout;
+	private int gradeUsed;
+	private ShopEntity shop;
 
 	public String getUserId() {
 		return userId;
@@ -35,12 +39,37 @@ public class GradeItemsEntity extends Entity {
 		this.gradeTime = gradeTime;
 	}
 
-	public int getGrade() {
-		return grade;
+	public long getEndTime() {
+		return endTime;
 	}
 
-	public void setGrade(int grade) {
-		this.grade = grade;
+	public void setEndTime(long endTime) {
+		this.endTime = endTime;
 	}
+
+	public int getGradeAmout() {
+		return gradeAmout;
+	}
+
+	public void setGradeAmout(int gradeAmout) {
+		this.gradeAmout = gradeAmout;
+	}
+
+	public int getGradeUsed() {
+		return gradeUsed;
+	}
+
+	public void setGradeUsed(int gradeUsed) {
+		this.gradeUsed = gradeUsed;
+	}
+
+	public ShopEntity getShop() {
+		return shop;
+	}
+
+	public void setShop(ShopEntity shop) {
+		this.shop = shop;
+	}
+
 
 }
