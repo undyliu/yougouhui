@@ -25,7 +25,8 @@ public class ModuleConst implements DataConst {
 	public static final String CODE_CONTACT_LIST = "contact_list";
 	public static final String CODE_MY_FAVORIT = "my_favorite";
 	public static final String CODE_MY_GRADE = "my_grade";
-
+	public static final String CODE_MY_MESSAGE = "my_message";
+	
 	public static List<String> anonymousAccessModelList = new ArrayList<String>();
 
 	static {

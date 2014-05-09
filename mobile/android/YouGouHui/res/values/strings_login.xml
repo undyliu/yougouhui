@@ -27,4 +27,5 @@
 	<string name="label_password_confirm">密码确认</string>
 	<string name="label_user_icon">头像</string>
 	<string name="error_password_inconfirmed">输入的密码不一致</string>
+	<string name="hit_password">4~20个字符、数字</string>
 </resources>

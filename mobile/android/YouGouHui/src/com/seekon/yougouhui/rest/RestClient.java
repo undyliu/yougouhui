@@ -6,6 +6,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
+import android.os.Build;
+
 public abstract class RestClient {
 
 	public Response execute(Request request) {
@@ -16,6 +18,11 @@ public abstract class RestClient {
 
 			URL url = request.getRequestUri().toURL();
 			conn = (HttpURLConnection) url.openConnection();
+			
+			if (Build.VERSION.SDK != null && Build.VERSION.SDK_INT > 13) {
+				conn.setRequestProperty("Connection", "close");
+			}
+			
 			processHttpConnection(conn, request);
 
 			status = conn.getResponseCode();
