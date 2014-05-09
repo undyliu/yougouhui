@@ -104,7 +104,7 @@
 (defn save-user-grade [user-id shop-id share-id grader grade]
   (let [current-time (System/currentTimeMillis)
         uuid (str (java.util.UUID/randomUUID))]
-    (insert user-grades (values {:uuid uuid :user_id user-id :shop_id shop-id :share_id share-id :grader grader :grade grade
+    (insert user-grades (values {:uuid uuid :user_id user-id :shop_id shop-id :share_id share-id :grader grader :grade_amount grade
                                  :end_time (+ current-time default-grade-term) :grade_time current-time}))
     )
   )
@@ -113,9 +113,15 @@
   (if-let [total-grade (first (select user-profiles (fields :grade_amount :grade_used) (where {:user_id user-id})))]
     (assoc total-grade
       :grade_exceed
-      (if-let [grade-excedd (first (exec-raw ["select sum(grade-grade_used) as grade_exceed from e_user_grade where user_id = ? and end_time <= ? "
+      (if-let [grade-excedd (first (exec-raw ["select sum(grade_amount-grade_used) as grade_exceed from e_user_grade where user_id = ? and end_time <= ? "
                                               [user-id (+ (System/currentTimeMillis) default-grade-remind-term)]] :results))]
         (:grade_exceed grade-excedd) 0))
     {:grade_amount 0 :grade_used 0 :grade_exceed 0}
     )
+  )
+(defn get-user-grade-items [user-id]
+  (select user-grades (fields :uuid :grade_time :end_time :grade_amount :grade_used :grader :shop_id [:e_shop.name :shop_name])
+          (join shops (= :e_shop.uuid :shop_id))
+          (where {:user_id user-id})
+          )
   )

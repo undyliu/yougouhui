@@ -126,6 +126,7 @@
 	(POST "/searchUsers" {{word :search-word} :params} (json/write-str (search-user-exact (java.net.URLDecoder/decode word "utf-8"))))
   (GET "/getUserProfile/:user-id" [user-id] (json/write-str (get-user-profile user-id)))
   (GET "/getUserTotalGrade/:user-id" [user-id] (json/write-str (get-user-total-grade user-id)))
+  (GET "/getUserGradeItems/:user-id" [user-id] (json/write-str (get-user-grade-items user-id)))
 )
 
 (defroutes friend-routes
