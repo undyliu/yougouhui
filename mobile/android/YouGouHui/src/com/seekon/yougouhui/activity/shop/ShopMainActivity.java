@@ -25,6 +25,8 @@ import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.shop.ShopConst;
 import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.shop.widget.ShopChooseAdapter;
+import com.seekon.yougouhui.func.user.UserConst;
+import com.seekon.yougouhui.func.user.UserEntity;
 
 public class ShopMainActivity extends Activity {
 
@@ -43,6 +45,8 @@ public class ShopMainActivity extends Activity {
 
 	private BaseAdapter shopChooseAdapter;
 
+	private UserEntity beforeUser = null;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,6 +59,10 @@ public class ShopMainActivity extends Activity {
 		Intent intent = this.getIntent();
 		shopList = (List<ShopEntity>) intent.getExtras().get(
 				ShopConst.NAME_SHOP_LIST);
+
+		beforeUser = RunEnv.getInstance().getUser().clone();
+		RunEnv.getInstance().setUser(
+				(UserEntity) intent.getExtras().get(UserConst.DATA_KEY_USER));
 
 		initViews();
 	}
@@ -187,6 +195,7 @@ public class ShopMainActivity extends Activity {
 		logoutConfirm.setPositiveButton("是", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				RunEnv.getInstance().setUser(beforeUser);//还原登录商铺前的用户
 				finish();
 			}
 		}).setNegativeButton("否", new DialogInterface.OnClickListener() {

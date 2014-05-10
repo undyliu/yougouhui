@@ -31,9 +31,9 @@ public class ProfileFragment extends ModuleListFragment {
 	protected void updateViews() {
 		super.updateViews();
 
-		if (UserUtils.isAnonymousUser()) {
-			showRegisterUserConfirm("只有会员才能享受此模块内更好的服务，是否注册？");
-		}
+//		if (UserUtils.isAnonymousUser()) {
+//			showRegisterUserConfirm("只有会员才能享受此模块内更好的服务，是否注册？");
+//		}
 	}
 
 	@Override

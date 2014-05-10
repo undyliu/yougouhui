@@ -3,7 +3,6 @@ package com.seekon.yougouhui.func.user;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.http.client.UserTokenHandler;
 import org.json.JSONObject;
 
 import com.seekon.yougouhui.func.DataConst;

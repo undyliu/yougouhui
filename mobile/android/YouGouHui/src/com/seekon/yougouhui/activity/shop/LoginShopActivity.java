@@ -32,6 +32,9 @@ import com.seekon.yougouhui.func.shop.ShopConst;
 import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.shop.ShopProcessor;
 import com.seekon.yougouhui.func.shop.TradeConst;
+import com.seekon.yougouhui.func.user.UserConst;
+import com.seekon.yougouhui.func.user.UserEntity;
+import com.seekon.yougouhui.func.user.UserUtils;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.func.widget.AsyncRestRequestTask;
 import com.seekon.yougouhui.rest.RestMethodResult;
@@ -53,6 +56,8 @@ public class LoginShopActivity extends Activity {
 	private Button bLogin = null;
 
 	private TextView pwdView = null;
+
+	private TextView phoneView = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +100,16 @@ public class LoginShopActivity extends Activity {
 	}
 
 	private void initViews() {
+		UserEntity user = RunEnv.getInstance().getUser();
+		phoneView = (TextView) findViewById(R.id.phone);
+		phoneView.setText(user.getPhone());
+		// if(!UserUtils.isAnonymousUser()){
+		// ViewUtils.setEditTextReadOnly(phoneView);
+		// }
+		if (!TextUtils.isEmpty(phoneView.getText().toString())) {
+			phoneView.setEnabled(false);
+		}
+
 		pwdView = (TextView) findViewById(R.id.password);
 		Button bRegister = (Button) findViewById(R.id.b_register);
 		bRegister.setOnClickListener(new View.OnClickListener() {
@@ -119,11 +134,27 @@ public class LoginShopActivity extends Activity {
 	}
 
 	private void loginShop() {
+		phoneView.setError(null);
 		pwdView.setError(null);
+
+		boolean cancel = false;
+		View focusView = null;
 		final String password = pwdView.getText().toString();
 		if (TextUtils.isEmpty(password)) {
 			pwdView.setError(getString(R.string.error_field_required));
-			pwdView.findFocus();
+			focusView = pwdView;
+			cancel = true;
+		}
+
+		final String phone = phoneView.getText().toString();
+		if (TextUtils.isEmpty(phone)) {
+			phoneView.setError(getString(R.string.error_field_required));
+			focusView = phoneView;
+			cancel = true;
+		}
+
+		if (cancel) {
+			focusView.requestFocus();
 			return;
 		}
 
@@ -133,8 +164,8 @@ public class LoginShopActivity extends Activity {
 
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
-						return ShopProcessor.getInstance(LoginShopActivity.this).loginShop(
-								RunEnv.getInstance().getUser().getUuid(), password);
+						return ShopProcessor.getInstance(LoginShopActivity.this)
+								.loginShopbyPhone(phone, password);
 					}
 
 					@Override
@@ -157,7 +188,9 @@ public class LoginShopActivity extends Activity {
 									shopEntityList.add(shop);
 								}
 
-								showShopMain(shopEntityList);
+								JSONObject userObj = jsonObj
+										.getJSONObject(UserConst.DATA_KEY_USER);
+								showShopMain(shopEntityList, UserUtils.createFromJSONObject(userObj));
 								return;
 							} else {
 								String errorType = jsonObj
@@ -192,7 +225,7 @@ public class LoginShopActivity extends Activity {
 				});
 	}
 
-	private void showShopMain(final ArrayList<ShopEntity> shopIdList) {
+	private void showShopMain(final ArrayList<ShopEntity> shopIdList, final UserEntity shopEmp) {
 		boolean loadTrade = true;
 		Cursor cursor = null;
 		try {
@@ -213,7 +246,7 @@ public class LoginShopActivity extends Activity {
 
 						@Override
 						public void onSuccess(RestMethodResult<JSONArrayResource> result) {
-							_showShopMain(shopIdList);
+							_showShopMain(shopIdList, shopEmp);
 						}
 
 						@Override
@@ -223,13 +256,14 @@ public class LoginShopActivity extends Activity {
 
 					}).execute((Void) null);
 		} else {
-			_showShopMain(shopIdList);
+			_showShopMain(shopIdList, shopEmp);
 		}
 	}
 
-	private void _showShopMain(ArrayList<ShopEntity> shopIdList) {
+	private void _showShopMain(ArrayList<ShopEntity> shopIdList, UserEntity shopEmp) {
 		Intent intent = new Intent(this, ShopMainActivity.class);
 		intent.putExtra(ShopConst.NAME_SHOP_LIST, shopIdList);
+		intent.putExtra(UserConst.DATA_KEY_USER, shopEmp);
 		startActivity(intent);
 		finish();
 	}

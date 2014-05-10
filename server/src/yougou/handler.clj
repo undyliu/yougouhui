@@ -142,19 +142,6 @@
 
 (defroutes shop-routes
 	(GET "/getTrades" [] (json/write-str (get-trades)))
-  (POST "/registerShop" {{name :name location :location address :address desc :desc shop-img :shop_img
-                          busi-license :busi_license owner :owner pwd :pwd :as params} :params}
-    (let [files {shop-img (:tempfile (params shop-img)) busi-license (:tempfile (params busi-license))}
-          trades (clojure.string/split (java.net.URLDecoder/decode (:tradeList params) "utf-8") #"[|]")
-          ]
-        (json/write-str (save-shop-data (java.net.URLDecoder/decode name "utf-8") (java.net.URLDecoder/decode desc "utf-8")
-                                        (java.net.URLDecoder/decode location "utf-8") (java.net.URLDecoder/decode address "utf-8")
-                                        shop-img busi-license owner pwd files trades))
-    )
-  )
-  (POST "/loginShop" {{user-id :user_id, pwd :pwd} :params}
-       (json/write-str (login-shop user-id pwd))
-   )
   (GET "/getShop/:shop-id" [shop-id] (json/write-str (get-shop shop-id)))
   (POST "/updateShop" {{shop-id :shop_id field-name :field value :value :as params} :params}
      (let [file (:tempfile (params value))]
@@ -229,6 +216,23 @@
 				(json/write-str (register-user (java.net.URLDecoder/decode name "utf-8") phone pwd type photo nil))
 			)
 	)
+
+  (POST "/loginShop" {{user-id :user_id pwd :pwd} :params}
+       (json/write-str (login-shop user-id pwd))
+   )
+  (POST "/loginShopByPhone" {{phone :phone pwd :pwd} :params}
+       (json/write-str (login-shop-by-phone phone pwd))
+   )
+  (POST "/registerShop" {{name :name location :location address :address desc :desc shop-img :shop_img
+                          busi-license :busi_license owner :owner pwd :pwd :as params} :params}
+    (let [files {shop-img (:tempfile (params shop-img)) busi-license (:tempfile (params busi-license))}
+          trades (clojure.string/split (java.net.URLDecoder/decode (:tradeList params) "utf-8") #"[|]")
+          ]
+        (json/write-str (save-shop-data (java.net.URLDecoder/decode name "utf-8") (java.net.URLDecoder/decode desc "utf-8")
+                                        (java.net.URLDecoder/decode location "utf-8") (java.net.URLDecoder/decode address "utf-8")
+                                        shop-img busi-license owner pwd files trades))
+    )
+  )
 )
 
 (defroutes auth-routes

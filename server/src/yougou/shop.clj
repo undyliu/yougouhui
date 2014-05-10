@@ -6,6 +6,7 @@
 	)
   (:require
 		[yougou.file :as file]
+    [yougou.user :as user]
     [yougou.qrcode :as qrcode]
     [clojure.data.json :as json]
 	)
@@ -54,12 +55,22 @@
    )
 )
 
-(defn- save-shop-emp [shop-id user-id pwd]
+(defn- insert-shop-emp [shop-id user-id pwd]
   (let [uuid (str (java.util.UUID/randomUUID))
         current-time (str  (System/currentTimeMillis))
         ]
     (insert shop-emps (values {:uuid uuid :shop_id shop-id :user_id user-id :pwd pwd :last_modify_time current-time}))
-    {:uuid uuid}
+    {:uuid uuid :user_id user-id}
+    )
+  )
+
+(defn- save-shop-emp [shop-id user-id phone user-name pwd]
+  (if user-id
+    (insert-shop-emp shop-id user-id pwd)
+    (if-let [u-id (user/get-user-id-by-phone phone)]
+      (insert-shop-emp shop-id u-id pwd)
+      (insert-shop-emp shop-id (:uuid (user/register-user user-name phone pwd "1" nil nil)) pwd)
+      )
     )
   )
 
@@ -84,12 +95,12 @@
    )
 )
 
-(defn save-shop-data [name desc location address shop-img busi-license owner pwd files trades]
+(defn save-shop-data [name desc location address shop-img busi-license owner phone user-name pwd files trades]
   (transaction
     (let [shop (save-shop name desc location address shop-img busi-license owner files)
         shop-id (:uuid shop)
         trade-list (save-shop-trades shop-id trades)
-        emp-list (save-shop-emp shop-id owner pwd)
+        emp-list (save-shop-emp shop-id owner phone user-name pwd)
         ]
       (assoc (merge shop (create-shop-barcode shop-id)) :tradeList trade-list :empList emp-list)
      )
@@ -110,12 +121,19 @@
        )
       (loop [id-list shop-ids shop-list []]
         (if (= 0 (count id-list))
-          {:authed true :data shop-list :update_time (str  (System/currentTimeMillis))}
+          {:authed true :data shop-list :update_time (str  (System/currentTimeMillis)) :user (user/get-user-without-pwd user-id)}
           (recur (rest id-list) (conj shop-list (get-shop (:uuid (first id-list)))))
           )
         )
 
       )
+    )
+  )
+
+(defn login-shop-by-phone [phone pwd]
+  (if-let [user-id (user/get-user-id-by-phone phone)]
+    (login-shop user-id pwd)
+    {:authed false :error-type :user-error}
     )
   )
 

@@ -10,8 +10,15 @@
 	)
 )
 
-(defn register-user [name phone pwd type photo temp-file]
+(defn get-user-id-by-phone [phone]
   (if-let [user (first (select users (fields :uuid) (where {:phone phone})))]
+    (:uuid user)
+    nil
+    )
+  )
+
+(defn register-user [name phone pwd type photo temp-file]
+  (if (get-user-id-by-phone phone)
     {:error "此手机号已注册."}
     (let [uuid (str (java.util.UUID/randomUUID))
 			  register-time (str (System/currentTimeMillis))]

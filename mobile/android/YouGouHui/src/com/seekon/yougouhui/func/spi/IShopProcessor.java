@@ -10,7 +10,9 @@ import com.seekon.yougouhui.rest.resource.JSONObjResource;
 public interface IShopProcessor {
 
 	public RestMethodResult<JSONObjResource> loginShop(String userId, String pwd);
-
+	
+	public RestMethodResult<JSONObjResource> loginShopbyPhone(String phone, String pwd);
+	
 	public RestMethodResult<JSONObjResource> registerShop(ShopEntity shop);
 
 	public RestMethodResult<JSONObjResource> getShop(String shopId);

@@ -79,6 +79,13 @@ public class ShopProcessor extends SyncSupportProcessor implements
 				userId, pwd));
 	}
 
+	@Override
+	public RestMethodResult<JSONObjResource> loginShopbyPhone(String phone,
+			String pwd) {
+		return (RestMethodResult) this.execMethod(new LoginShopByPhoneMethod(
+				mContext, phone, pwd));
+	}
+
 	public RestMethodResult<JSONObjResource> registerShop(ShopEntity shop) {
 		return (RestMethodResult) this.execMethod(new RegisterShopMethod(mContext,
 				shop));

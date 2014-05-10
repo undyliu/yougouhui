@@ -33,6 +33,6 @@ public class ModuleConst implements DataConst {
 		anonymousAccessModelList.add(ModuleConst.CODE_FRIENDS);
 		anonymousAccessModelList.add(ModuleConst.CODE_RADAR);
 		anonymousAccessModelList.add(ModuleConst.CODE_SETTING);
-		//anonymousAccessModelList.add(ModuleConst.CODE_MY_SHOP);
+		anonymousAccessModelList.add(ModuleConst.CODE_MY_SHOP);
 	}
 }

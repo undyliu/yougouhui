@@ -22,8 +22,6 @@ import com.seekon.yougouhui.func.sale.widget.ShopSaleListAdapter;
 import com.seekon.yougouhui.func.shop.ShopProcessor;
 import com.seekon.yougouhui.func.shop.ShopUtils;
 import com.seekon.yougouhui.func.sync.SyncData;
-import com.seekon.yougouhui.func.user.UserConst;
-import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.user.UserUtils;
 import com.seekon.yougouhui.func.widget.AbstractRestTaskCallback;
 import com.seekon.yougouhui.func.widget.DateIndexedEntity;
