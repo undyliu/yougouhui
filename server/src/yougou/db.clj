@@ -29,6 +29,16 @@
   (pk :uuid)
 )
 
+(defentity settings
+  (table :e_setting)
+  (pk :uuid)
+  )
+
+(defentity logs
+  (table :e_log)
+  (pk :uuid)
+  )
+
 ;;user tables
 (defentity users
   (table :e_user)
@@ -127,12 +137,8 @@
   (pk :uuid)
   )
 
-(defentity settings
-  (table :e_setting)
-  (pk :uuid)
-  )
-
-(defentity logs
-  (table :e_log)
+;; message tables
+(defentity messages
+  (table :e_message)
   (pk :uuid)
   )

@@ -20,7 +20,7 @@ public abstract class RestClient {
 			conn = (HttpURLConnection) url.openConnection();
 			
 			if (Build.VERSION.SDK != null && Build.VERSION.SDK_INT > 13) {
-				conn.setRequestProperty("Connection", "close");
+				//conn.setRequestProperty("Connection", "close");
 			}
 			
 			processHttpConnection(conn, request);

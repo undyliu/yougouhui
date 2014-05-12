@@ -10,6 +10,7 @@
         [yougou.favorit]
         [yougou.setting]
         [yougou.log]
+        [yougou.message]
         )
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
@@ -204,8 +205,15 @@
 	(GET "/getSettings" [] (json/write-str (get-settings)))
 )
 
+(defroutes message-routes
+  (POST "/sendMessage" {{sender :sender receiver :receiver content :content} :params}
+        (json/write-str (save-message sender receiver content))
+        )
+  )
+
 (def app-routes
-  (routes channel-routes sale-routes module-routes share-routes file-routes user-routes friend-routes shop-routes favorit-routes setting-routes)
+  (routes channel-routes sale-routes module-routes share-routes file-routes user-routes friend-routes shop-routes
+          favorit-routes setting-routes message-routes)
   )
 
 (defroutes login-routes
