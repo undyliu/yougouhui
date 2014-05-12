@@ -105,4 +105,16 @@
         </LinearLayout>
     </LinearLayout>
 
+    <Button
+        android:id="@+id/b_send_message"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_shape"
+        android:text="@string/b_title_send_message"
+        android:textColor="@color/white"
+        android:visibility="gone" />
+
 </LinearLayout>

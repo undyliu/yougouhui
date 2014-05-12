@@ -9,14 +9,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
+import com.seekon.yougouhui.activity.message.MessageBoardActivity;
 import com.seekon.yougouhui.activity.share.MyShareActivity;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.RunEnv;
+import com.seekon.yougouhui.func.message.MessageConst;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.user.UserProcessor;
@@ -36,7 +40,7 @@ public class FriendProfileActivity extends Activity {
 
 	private final static int USER_ICON_WIDTH = 150;
 
-	private UserEntity user = null;
+	private UserEntity friend = null;
 
 	private TextView shareCountView;
 	private TextView saleDiscussCountView;
@@ -51,9 +55,9 @@ public class FriendProfileActivity extends Activity {
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		Intent intent = this.getIntent();
-		user = (UserEntity) intent.getSerializableExtra(UserConst.DATA_KEY_USER);
+		friend = (UserEntity) intent.getSerializableExtra(UserConst.DATA_KEY_USER);
 
-		actionBar.setTitle(user.getName());
+		actionBar.setTitle(friend.getName());
 
 		initViews();
 	}
@@ -64,13 +68,13 @@ public class FriendProfileActivity extends Activity {
 				USER_ICON_WIDTH, USER_ICON_WIDTH));
 		userPhotoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-		String photo = user.getPhoto();
+		String photo = friend.getPhoto();
 		if (photo != null && photo.length() > 0) {
 			ImageLoader.getInstance().displayImage(photo, userPhotoView, true);
 		}
 
 		TextView userNameView = (TextView) findViewById(R.id.user_name);
-		userNameView.setText(user.getName());
+		userNameView.setText(friend.getName());
 
 		shareCountView = (TextView) findViewById(R.id.user_share_count);
 		shareCountView.getPaint().setFakeBoldText(true);
@@ -81,8 +85,8 @@ public class FriendProfileActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(FriendProfileActivity.this,
 						MyShareActivity.class);
-				intent.putExtra(DataConst.COL_NAME_UUID, user.getUuid());
-				intent.putExtra(DataConst.COL_NAME_TITLE, user.getName() + "的分享");
+				intent.putExtra(DataConst.COL_NAME_UUID, friend.getUuid());
+				intent.putExtra(DataConst.COL_NAME_TITLE, friend.getName() + "的分享");
 				startActivity(intent);
 			}
 		});
@@ -104,7 +108,7 @@ public class FriendProfileActivity extends Activity {
 					@Override
 					public RestMethodResult<JSONObjResource> doInBackground() {
 						return UserProcessor.getInstance(FriendProfileActivity.this)
-								.getUserProfile(user);
+								.getUserProfile(friend);
 					}
 
 					@Override
@@ -128,6 +132,21 @@ public class FriendProfileActivity extends Activity {
 					}
 					
 				});
+		
+		Button sendMessButton = (Button) findViewById(R.id.b_send_message);
+		final UserEntity user = RunEnv.getInstance().getUser();
+		if(user.getFriends().contains(friend)){
+			sendMessButton.setVisibility(View.VISIBLE);
+			sendMessButton.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(FriendProfileActivity.this, MessageBoardActivity.class);
+					intent.putExtra(MessageConst.COL_NAME_RECEIVER, friend);
+					startActivity(intent);
+				}
+			});
+		}
 	}
 
 	@Override

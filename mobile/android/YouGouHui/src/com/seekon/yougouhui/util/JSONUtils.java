@@ -3,6 +3,8 @@ package com.seekon.yougouhui.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,16 +62,26 @@ public class JSONUtils {
 		}
 		return obj;
 	}
-	
-	public static JSONObject createJSONObject(String value){
-		if(value == null){
+
+	public static JSONObject createJSONObject(String value) {
+		if (value == null) {
 			return null;
 		}
-		try{
+		try {
 			return new JSONObject(value);
-		}catch(Exception e){
+		} catch (Exception e) {
 			Logger.warn(TAG, e.getMessage(), e);
 		}
 		return null;
+	}
+
+	public static void mergerMap(JSONObject jsonObj, Map params, boolean replace) {
+		Iterator<String> keys = params.keySet().iterator();
+		while (keys.hasNext()) {
+			String key = keys.next();
+			if (!jsonObj.has(key) || replace) {
+				JSONUtils.putJSONValue(jsonObj, key, params.get(key));
+			}
+		}
 	}
 }

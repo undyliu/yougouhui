@@ -47,8 +47,8 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
         android:name="com.seekon.yougouhui.YouGouHuiApp"
         android:allowBackup="true"
@@ -163,6 +163,10 @@
         <provider
             android:name=".func.share.ShopReplyProvider"
             android:authorities="com.seekon.yougouhui.shares.shopReply"
+            android:exported="false" />
+        <provider
+            android:name=".func.message.MessageProvider"
+            android:authorities="com.seekon.yougouhui.messages"
             android:exported="false" />
 
         <activity
@@ -379,7 +383,14 @@
             android:label="@string/title_grade_shop"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:label="@string/title_profie_mymessage" android:name=".activity.message.MyMessageActivity"></activity>
+        <activity
+            android:name=".activity.message.MyMessageActivity"
+            android:label="@string/title_profie_mymessage"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name=".activity.message.MessageBoardActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

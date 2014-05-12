@@ -1,6 +1,5 @@
 package com.seekon.yougouhui.func.module.widget;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -11,10 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.module.ModuleConst;
 import com.seekon.yougouhui.func.module.ModuleEntity;
-import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserUtils;
 import com.seekon.yougouhui.func.widget.EntityListAdapter;
 
