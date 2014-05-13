@@ -36,7 +36,7 @@ public class AsyncRestRequestTask<T extends Resource> extends
 	protected void onPreExecute() {
 		progressDialog = ProgressDialog.show(context, "",
 				context.getString(R.string.default_progress_status_message), true,
-				false);
+				true);
 		super.onPreExecute();
 	}
 

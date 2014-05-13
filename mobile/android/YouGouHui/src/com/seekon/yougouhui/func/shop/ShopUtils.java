@@ -13,15 +13,16 @@ import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_OWNER;
 import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_REGISTER_TIME;
 import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_SHOP_IMAGE;
 import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_STATUS;
-import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_LOCATION;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 
 import com.seekon.yougouhui.func.DataConst;
 import com.seekon.yougouhui.func.favorit.ShopFavoritConst;
@@ -68,7 +69,8 @@ public class ShopUtils {
 				shop.getRegisterTime());
 		JSONUtils.putJSONValue(jsonObj, COL_NAME_BARCODE, shop.getBarcode());
 		JSONUtils.putJSONValue(jsonObj, COL_NAME_STATUS, shop.getStatus());
-		JSONUtils.putJSONValue(jsonObj, COL_NAME_LOCATION, LocationUtils.toJSONObject(shop.getLocation()));
+		JSONUtils.putJSONValue(jsonObj, COL_NAME_LOCATION,
+				LocationUtils.toJSONObject(shop.getLocation()));
 		return jsonObj;
 	}
 
@@ -126,8 +128,8 @@ public class ShopUtils {
 				shop.setOwner(cursor.getString(i++));
 				shop.setBarcode(cursor.getString(i++));
 				shop.setStatus(cursor.getString(i++));
-				shop.setLocation(LocationUtils.fromJSONObject(JSONUtils.createJSONObject(cursor
-						.getString(i++))));
+				shop.setLocation(LocationUtils.fromJSONObject(JSONUtils
+						.createJSONObject(cursor.getString(i++))));
 			}
 		} catch (Exception e) {
 			Logger.warn(TAG, e.getMessage());
@@ -218,5 +220,12 @@ public class ShopUtils {
 			}
 		}
 		return registerTime;
+	}
+
+	public static void updateShopContentProvider(Context context,
+			JSONObject jsonObj) throws JSONException {
+		ShopProcessor processor = new ShopProcessor(context);
+		processor.updateContentProvider(jsonObj, processor.getColNames(),
+				processor.getContentUri());
 	}
 }

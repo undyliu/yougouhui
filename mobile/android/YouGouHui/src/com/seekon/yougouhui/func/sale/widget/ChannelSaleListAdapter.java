@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
@@ -37,9 +38,13 @@ public class ChannelSaleListAdapter<T extends SaleEntity> extends
 					null, false);
 			holder.titleView = (TextView) view.findViewById(R.id.sale_title);
 			holder.titleView.getPaint().setFakeBoldText(true);
+			
 			holder.saleImageView = (ImageView) view.findViewById(R.id.sale_img);
-			holder.saleImageView.setLayoutParams(new LinearLayout.LayoutParams(
-					SALE_IMAGE_WIDTH, SALE_IMAGE_WIDTH));
+			
+			LayoutParams params = new LinearLayout.LayoutParams(
+					SALE_IMAGE_WIDTH, SALE_IMAGE_WIDTH);
+			params.setMargins(5, 5, 5, 5);
+			holder.saleImageView.setLayoutParams(params);
 			holder.saleImageView.setAdjustViewBounds(false);
 			holder.saleImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 

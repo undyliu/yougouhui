@@ -39,6 +39,14 @@ public class ContentProcessor {
 		this.contentUri = contentUri;
 	}
 
+	public String[] getColNames() {
+		return colNames;
+	}
+
+	public Uri getContentUri() {
+		return contentUri;
+	}
+
 	protected RestMethodResult<Resource> execMethod(RestMethod method) {
 		RestMethodResult<Resource> result = method.execute();
 		try {

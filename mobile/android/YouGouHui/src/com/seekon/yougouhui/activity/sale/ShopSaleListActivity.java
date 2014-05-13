@@ -38,9 +38,9 @@ public class ShopSaleListActivity extends DateIndexedListActivity {
 	private String shopId;
 
 	private SaleData saleData;
-	
+
 	private boolean shopEmp = false;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		shopId = this.getIntent().getStringExtra(DataConst.COL_NAME_UUID);
@@ -56,36 +56,37 @@ public class ShopSaleListActivity extends DateIndexedListActivity {
 		if (UserUtils.isAnonymousUser() || shopEmp) {
 			return true;
 		}
+		if (RunEnv.getInstance().isShopLogined()) {
+			RestUtils.executeAsyncRestTask(this,
+					new AbstractRestTaskCallback<JSONObjResource>() {
 
-		RestUtils.executeAsyncRestTask(this,
-				new AbstractRestTaskCallback<JSONObjResource>() {
-
-					@Override
-					public RestMethodResult<JSONObjResource> doInBackground() {
-						return ShopProcessor.getInstance(ShopSaleListActivity.this)
-								.checkShopEmp(shopId, RunEnv.getInstance().getUser().getUuid());
-					}
-
-					@Override
-					public void onSuccess(RestMethodResult<JSONObjResource> result) {
-						JSONObjResource resource = result.getResource();
-						if(resource.has(DataConst.COL_NAME_UUID)){
-							shopEmp = true;
-							getWindow().invalidatePanelMenu(Window.FEATURE_OPTIONS_PANEL);
+						@Override
+						public RestMethodResult<JSONObjResource> doInBackground() {
+							return ShopProcessor.getInstance(ShopSaleListActivity.this)
+									.checkShopEmp(shopId,
+											RunEnv.getInstance().getUser().getUuid());
 						}
-					}
-				});
 
+						@Override
+						public void onSuccess(RestMethodResult<JSONObjResource> result) {
+							JSONObjResource resource = result.getResource();
+							if (resource.has(DataConst.COL_NAME_UUID)) {
+								shopEmp = true;
+								getWindow().invalidatePanelMenu(Window.FEATURE_OPTIONS_PANEL);
+							}
+						}
+					});
+		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		MenuItem item = menu.findItem(R.id.menu_shop_sale_publish);
 		item.setVisible(shopEmp);
 		return super.onPrepareOptionsMenu(menu);
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {

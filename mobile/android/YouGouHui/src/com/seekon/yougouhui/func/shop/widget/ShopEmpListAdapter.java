@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
@@ -41,8 +42,10 @@ public class ShopEmpListAdapter extends EntityListAdapter<UserEntity> {
 					R.layout.shop_emp_setting_item, null);
 			holder.photoView = (ImageView) view.findViewById(R.id.shop_emp_photo);
 			holder.photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-			holder.photoView.setLayoutParams(new LinearLayout.LayoutParams(
-					USER_ICON_WIDTH, USER_ICON_WIDTH));
+			LayoutParams params = new LinearLayout.LayoutParams(
+					USER_ICON_WIDTH, USER_ICON_WIDTH);
+			params.setMargins(0, 5, 5, 5);
+			holder.photoView.setLayoutParams(params);
 
 			holder.nameView = (TextView) view.findViewById(R.id.shop_emp_name);
 			holder.pwdView = (TextView) view.findViewById(R.id.shop_emp_pwd);

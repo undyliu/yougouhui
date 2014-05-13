@@ -46,7 +46,7 @@ public class AddFriendActivity extends Activity {
 	private TextView searchWordView = null;
 	private Button searchButton = null;
 	private ListView searchResultView = null;
-	private View addFriendChooseView = null;
+	//private View addFriendChooseView = null;//TODO:v1.1版本增加此功能
 	private List<UserEntity> searchResultList = new ArrayList<UserEntity>();
 	private BaseAdapter searchResultAdapter = null;
 
@@ -95,7 +95,7 @@ public class AddFriendActivity extends Activity {
 		});
 
 		searchResultView = (ListView) findViewById(R.id.friend_search_result_view);
-		addFriendChooseView = findViewById(R.id.add_friend_choose_view);
+		//addFriendChooseView = findViewById(R.id.add_friend_choose_view);
 	}
 
 	private void searchUsers() {
@@ -168,9 +168,9 @@ public class AddFriendActivity extends Activity {
 			if (!reset) {
 				ViewUtils.showToast("没有符合条件的数据.");
 			}
-			addFriendChooseView.setVisibility(View.VISIBLE);
+			//addFriendChooseView.setVisibility(View.VISIBLE);
 		} else {
-			addFriendChooseView.setVisibility(View.GONE);
+			//addFriendChooseView.setVisibility(View.GONE);
 			searchResultView.setVisibility(View.VISIBLE);
 		}
 

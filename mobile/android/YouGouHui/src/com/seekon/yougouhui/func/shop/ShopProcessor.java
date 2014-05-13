@@ -39,7 +39,7 @@ public class ShopProcessor extends SyncSupportProcessor implements
 		return instance;
 	}
 
-	private ShopProcessor(Context mContext) {
+	protected ShopProcessor(Context mContext) {
 		super(mContext, ShopData.COL_NAMES, ShopConst.CONTENT_URI, null);
 	}
 

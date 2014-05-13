@@ -1,19 +1,30 @@
 package com.seekon.yougouhui.func.message;
 
 import com.seekon.yougouhui.func.Entity;
+import com.seekon.yougouhui.func.shop.ShopEntity;
 import com.seekon.yougouhui.func.user.UserEntity;
 
 public class MessageEntity extends Entity{
 
 	private static final long serialVersionUID = 8397237088802730477L;
 	
+	private ShopEntity sendShop;
+	
 	private UserEntity sender;
 	
 	private String content;
 	
-	private String receiver;
+	private UserEntity receiver;
 	
 	private long sendTime;
+
+	public ShopEntity getSendShop() {
+		return sendShop;
+	}
+
+	public void setSendShop(ShopEntity sendShop) {
+		this.sendShop = sendShop;
+	}
 
 	public UserEntity getSender() {
 		return sender;
@@ -31,11 +42,11 @@ public class MessageEntity extends Entity{
 		this.content = content;
 	}
 
-	public String getReceiver() {
+	public UserEntity getReceiver() {
 		return receiver;
 	}
 
-	public void setReceiver(String receiver) {
+	public void setReceiver(UserEntity receiver) {
 		this.receiver = receiver;
 	}
 

@@ -9,18 +9,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
-import com.seekon.yougouhui.activity.message.MessageBoardActivity;
 import com.seekon.yougouhui.activity.share.MyShareActivity;
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.DataConst;
-import com.seekon.yougouhui.func.RunEnv;
-import com.seekon.yougouhui.func.message.MessageConst;
 import com.seekon.yougouhui.func.user.UserConst;
 import com.seekon.yougouhui.func.user.UserEntity;
 import com.seekon.yougouhui.func.user.UserProcessor;
@@ -79,29 +75,31 @@ public class FriendProfileActivity extends Activity {
 		shareCountView = (TextView) findViewById(R.id.user_share_count);
 		shareCountView.getPaint().setFakeBoldText(true);
 
-		findViewById(R.id.row_user_share).setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.row_user_share).setOnClickListener(
+				new View.OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(FriendProfileActivity.this,
-						MyShareActivity.class);
-				intent.putExtra(DataConst.COL_NAME_UUID, friend.getUuid());
-				intent.putExtra(DataConst.COL_NAME_TITLE, friend.getName() + "的分享");
-				startActivity(intent);
-			}
-		});
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(FriendProfileActivity.this,
+								MyShareActivity.class);
+						intent.putExtra(DataConst.COL_NAME_UUID, friend.getUuid());
+						intent.putExtra(DataConst.COL_NAME_TITLE, friend.getName() + "的分享");
+						startActivity(intent);
+					}
+				});
 
 		saleDiscussCountView = (TextView) findViewById(R.id.user_sale_discuss_count);
 		saleDiscussCountView.getPaint().setFakeBoldText(true);
-		
-		findViewById(R.id.row_user_sale_dis).setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				
-			}
-		});
-		
+
+		findViewById(R.id.row_user_sale_dis).setOnClickListener(
+				new View.OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+
+					}
+				});
+
 		RestUtils.executeAsyncRestTask(this,
 				new AbstractRestTaskCallback<JSONObjResource>() {
 
@@ -123,30 +121,33 @@ public class FriendProfileActivity extends Activity {
 									resource, COL_NAME_SALE_DIS_COUNT));
 						}
 					}
+
 					@Override
 					public void onFailed(String errorMessage) {
 						super.onFailed(errorMessage);
-						
+
 						shareCountView.setText("0");
 						saleDiscussCountView.setText("0");
 					}
-					
+
 				});
-		
-		Button sendMessButton = (Button) findViewById(R.id.b_send_message);
-		final UserEntity user = RunEnv.getInstance().getUser();
-		if(user.getFriends().contains(friend)){
-			sendMessButton.setVisibility(View.VISIBLE);
-			sendMessButton.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent(FriendProfileActivity.this, MessageBoardActivity.class);
-					intent.putExtra(MessageConst.COL_NAME_RECEIVER, friend);
-					startActivity(intent);
-				}
-			});
-		}
+
+		// TODO: v1.1版本中增加此功能
+		// Button sendMessButton = (Button) findViewById(R.id.b_send_message);
+		// final UserEntity user = RunEnv.getInstance().getUser();
+		// if(user.getFriends().contains(friend)){
+		// sendMessButton.setVisibility(View.VISIBLE);
+		// sendMessButton.setOnClickListener(new View.OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// Intent intent = new Intent(FriendProfileActivity.this,
+		// MessageBoardActivity.class);
+		// intent.putExtra(MessageConst.COL_NAME_RECEIVER, friend);
+		// startActivity(intent);
+		// }
+		// });
+		// }
 	}
 
 	@Override

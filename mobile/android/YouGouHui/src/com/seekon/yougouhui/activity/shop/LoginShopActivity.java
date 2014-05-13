@@ -7,6 +7,7 @@ import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_SHOP_IMAGE;
 import static com.seekon.yougouhui.func.shop.ShopConst.COL_NAME_STATUS;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -188,9 +189,9 @@ public class LoginShopActivity extends Activity {
 									shopEntityList.add(shop);
 								}
 
-								JSONObject userObj = jsonObj
-										.getJSONObject(UserConst.DATA_KEY_USER);
-								showShopMain(shopEntityList, UserUtils.createFromJSONObject(userObj));
+								UserEntity user = UserUtils.createFromJSONObject(jsonObj
+										.getJSONObject(UserConst.DATA_KEY_USER));
+								showShopMain(shopEntityList, user);
 								return;
 							} else {
 								String errorType = jsonObj
@@ -225,7 +226,8 @@ public class LoginShopActivity extends Activity {
 				});
 	}
 
-	private void showShopMain(final ArrayList<ShopEntity> shopIdList, final UserEntity shopEmp) {
+	private void showShopMain(final ArrayList<ShopEntity> shopIdList,
+			final UserEntity shopEmp) {
 		boolean loadTrade = true;
 		Cursor cursor = null;
 		try {
@@ -260,7 +262,8 @@ public class LoginShopActivity extends Activity {
 		}
 	}
 
-	private void _showShopMain(ArrayList<ShopEntity> shopIdList, UserEntity shopEmp) {
+	private void _showShopMain(ArrayList<ShopEntity> shopIdList,
+			UserEntity shopEmp) {
 		Intent intent = new Intent(this, ShopMainActivity.class);
 		intent.putExtra(ShopConst.NAME_SHOP_LIST, shopIdList);
 		intent.putExtra(UserConst.DATA_KEY_USER, shopEmp);

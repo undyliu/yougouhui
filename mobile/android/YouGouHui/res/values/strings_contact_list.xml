@@ -12,4 +12,6 @@
     <string name="b_title_allready_friends">已是朋友</string>
     
     <string name="error_no_need_add_self_to_friend">不需要加自己为好友.</string>
+    
+    <string name="label_receptionist">服务号</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">优购汇</string>
+    <string name="app_name">折扣斛</string>
     <string name="action_settings">Settings</string>
     <string name="app_log_tag">YouGouHui App</string>
     <string name="category_news">活动</string>

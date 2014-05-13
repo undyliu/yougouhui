@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.seekon.yougouhui.file.ImageLoader;
 import com.seekon.yougouhui.func.user.UserEntity;
@@ -22,8 +23,10 @@ public class ContactListAdapter extends CatalogListAdapter {
 	public View getView(int position, View convertView, ViewGroup arg2) {
 		View view = super.getView(position, convertView, arg2);
 		ViewHolder viewHolder = (ViewHolder) view.getTag();
-
-		viewHolder.imageView.setLayoutParams(new LinearLayout.LayoutParams(80, 80));
+		
+		LayoutParams params = new LinearLayout.LayoutParams(80, 80);
+		params.setMargins(15, 5, 10, 5);
+		viewHolder.imageView.setLayoutParams(params);
 		viewHolder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
 		UserEntity mContent = (UserEntity) dataList.get(position);

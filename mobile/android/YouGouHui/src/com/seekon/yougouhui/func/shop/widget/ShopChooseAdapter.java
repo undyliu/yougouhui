@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.ImageLoader;
@@ -30,6 +31,11 @@ public class ShopChooseAdapter extends EntityListAdapter<ShopEntity> {
 			view = layoutInflater.inflate(R.layout.shop_choose_item, null);
 			holder.imageView = (ImageView) view
 					.findViewById(R.id.shop_choose_item_image);
+			holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+			LayoutParams params = new LinearLayout.LayoutParams(
+					50, 50);
+			holder.imageView.setLayoutParams(params);
+			
 			holder.textView = (TextView) view
 					.findViewById(R.id.shop_choose_item_name);
 			view.setTag(holder);

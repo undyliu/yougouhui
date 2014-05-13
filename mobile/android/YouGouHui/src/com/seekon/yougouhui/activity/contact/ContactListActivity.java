@@ -2,7 +2,6 @@ package com.seekon.yougouhui.activity.contact;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import android.app.ActionBar;
@@ -12,13 +11,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -60,7 +59,7 @@ public class ContactListActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.catalog_list);
+		setContentView(R.layout.contact);
 		initViews();
 	}
 
@@ -155,27 +154,48 @@ public class ContactListActivity extends Activity {
 		});
 
 		// updateSideBar();
+		
+		initReceptionistView();
 	}
 
-	// 根据联系人数据重新设置sidebar
-	private void updateSideBar() {
-		List<String> catalogKeys = new ArrayList<String>();
-		catalogKeys.addAll(adapter.getCatalogKeys());
-		Collections.sort(catalogKeys, new Comparator<String>() {
+	private void initReceptionistView(){
+		ImageView photoView = (ImageView) findViewById(R.id.contact_user_photo);
+		photoView.setLayoutParams(new LinearLayout.LayoutParams(80, 80));
+		photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		photoView.setImageResource(R.drawable.receptionist);
+		
+		TextView nameView = (TextView) findViewById(R.id.contact_user_name);
+		nameView.setText(R.string.label_receptionist);
+		
+		View view = findViewById(R.id.receptionist_view);
+		view.setOnClickListener(new View.OnClickListener() {
+			
 			@Override
-			public int compare(String lhs, String rhs) {
-				return lhs.compareTo(rhs);
+			public void onClick(View v) {
+				
 			}
-
 		});
-		int catalogSize = catalogKeys.size();
-		int sideBarHeight = this.getResources().getDisplayMetrics().heightPixels;
-		if (sideBarHeight > catalogSize * 30) {
-			sideBar.setLayoutParams(new FrameLayout.LayoutParams(30,
-					catalogSize * 30, Gravity.RIGHT));
-		}
-		sideBar.setNavWords(catalogKeys.toArray(new String[catalogSize]));
 	}
+	
+	// 根据联系人数据重新设置sidebar
+//	private void updateSideBar() {
+//		List<String> catalogKeys = new ArrayList<String>();
+//		catalogKeys.addAll(adapter.getCatalogKeys());
+//		Collections.sort(catalogKeys, new Comparator<String>() {
+//			@Override
+//			public int compare(String lhs, String rhs) {
+//				return lhs.compareTo(rhs);
+//			}
+//
+//		});
+//		int catalogSize = catalogKeys.size();
+//		int sideBarHeight = this.getResources().getDisplayMetrics().heightPixels;
+//		if (sideBarHeight > catalogSize * 30) {
+//			sideBar.setLayoutParams(new FrameLayout.LayoutParams(30,
+//					catalogSize * 30, Gravity.RIGHT));
+//		}
+//		sideBar.setNavWords(catalogKeys.toArray(new String[catalogSize]));
+//	}
 
 	protected ContactListAdapter getContactListAdapter() {
 		return new ContactListAdapter(this, contactDateList);

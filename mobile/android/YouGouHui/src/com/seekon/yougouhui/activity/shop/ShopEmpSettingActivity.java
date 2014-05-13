@@ -19,7 +19,9 @@ import android.widget.ListView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.activity.contact.ContactListWithCheckedActivity;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.contact.FriendConst;
+import com.seekon.yougouhui.func.contact.FriendProcessor;
 import com.seekon.yougouhui.func.shop.ShopConst;
 import com.seekon.yougouhui.func.shop.ShopEmpProcessor;
 import com.seekon.yougouhui.func.shop.widget.ShopEmpListAdapter;
@@ -31,6 +33,7 @@ import com.seekon.yougouhui.rest.RestMethodResult;
 import com.seekon.yougouhui.rest.RestUtils;
 import com.seekon.yougouhui.rest.resource.JSONArrayResource;
 import com.seekon.yougouhui.rest.resource.JSONObjResource;
+import com.seekon.yougouhui.sercurity.AuthorizationManager;
 import com.seekon.yougouhui.util.Logger;
 import com.seekon.yougouhui.util.ViewUtils;
 
@@ -152,6 +155,38 @@ public class ShopEmpSettingActivity extends Activity implements
 	}
 
 	private void addEmps() {
+		final UserEntity user = RunEnv.getInstance().getUser();
+		List<UserEntity> friends = user.getFriends();
+		if (friends == null || friends.isEmpty()) {
+			RestUtils.executeAsyncRestTask(this,
+					new AbstractRestTaskCallback<JSONArrayResource>() {
+
+						@Override
+						public RestMethodResult<JSONArrayResource> doInBackground() {
+							return FriendProcessor.getInstance(ShopEmpSettingActivity.this)
+									.getFriends(user);
+						}
+
+						@Override
+						public void onSuccess(RestMethodResult<JSONArrayResource> result) {
+							user.setFriends(AuthorizationManager.getInstance(ShopEmpSettingActivity.this)
+									.getUserHelper().getUserFriends(user.getUuid()));
+							RunEnv.getInstance().setUser(user);
+							openContactActivity();
+						}
+
+						@Override
+						public void onFailed(String errorMessage) {
+							openContactActivity();
+						}
+
+					});
+		} else {
+			openContactActivity();
+		}
+	}
+
+	private void openContactActivity() {
 		Intent intent = new Intent(this, ContactListWithCheckedActivity.class);
 		intent.putExtra(FriendConst.DATA_SELECTED_USER_LIST_KEY,
 				(ArrayList<UserEntity>) empList);

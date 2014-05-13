@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.file.ImageLoader;
@@ -34,8 +35,10 @@ public class ShopListAdapter<T extends ShopEntity > extends EntityListAdapter<T>
 
 			holder.photoView = (ImageView) view.findViewById(R.id.shop_image);
 			holder.photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-			holder.photoView.setLayoutParams(new LinearLayout.LayoutParams(
-					USER_SHOP_WIDTH, USER_SHOP_WIDTH));
+			LayoutParams params = new LinearLayout.LayoutParams(
+					USER_SHOP_WIDTH, USER_SHOP_WIDTH);
+			params.setMargins(10, 5, 10, 5);
+			holder.photoView.setLayoutParams(params);
 
 			holder.nameView = (TextView) view.findViewById(R.id.shop_name);
 			holder.distanceView = (TextView) view.findViewById(R.id.shop_distance);

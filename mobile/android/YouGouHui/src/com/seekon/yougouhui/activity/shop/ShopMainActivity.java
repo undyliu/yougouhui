@@ -63,7 +63,8 @@ public class ShopMainActivity extends Activity {
 		beforeUser = RunEnv.getInstance().getUser().clone();
 		RunEnv.getInstance().setUser(
 				(UserEntity) intent.getExtras().get(UserConst.DATA_KEY_USER));
-
+		RunEnv.getInstance().setShopLogined(true);
+		
 		initViews();
 	}
 
@@ -196,6 +197,8 @@ public class ShopMainActivity extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				RunEnv.getInstance().setUser(beforeUser);//还原登录商铺前的用户
+				RunEnv.getInstance().setShopLogined(false);
+				
 				finish();
 			}
 		}).setNegativeButton("否", new DialogInterface.OnClickListener() {

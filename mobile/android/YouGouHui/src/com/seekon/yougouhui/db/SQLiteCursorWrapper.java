@@ -102,9 +102,9 @@ public class SQLiteCursorWrapper implements Cursor {
 		return cursor.getLong(columnIndex);
 	}
 
-//	public Uri getNotificationUri() {
-//		return cursor.getNotificationUri();
-//	}
+	public Uri getNotificationUri() {
+		return cursor.getNotificationUri();
+	}
 
 	public int getPosition() {
 		return cursor.getPosition();

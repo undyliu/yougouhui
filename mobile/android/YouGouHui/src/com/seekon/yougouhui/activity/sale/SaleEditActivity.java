@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.seekon.yougouhui.R;
 import com.seekon.yougouhui.func.DataConst;
+import com.seekon.yougouhui.func.RunEnv;
 import com.seekon.yougouhui.func.sale.GetSaleTaskCallback;
 import com.seekon.yougouhui.func.sale.SaleDiscussData;
 import com.seekon.yougouhui.func.sale.SaleEntity;
@@ -52,7 +53,7 @@ public class SaleEditActivity extends SalePromoteActivity {
 
 		loadSale();
 		this.readonly = true;
-		
+
 		super.onCreate(savedInstanceState);
 	}
 
@@ -60,7 +61,9 @@ public class SaleEditActivity extends SalePromoteActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.sale_edit, menu);
 		this.menu = menu;
-		if (sale != null) {
+		if(!RunEnv.getInstance().isShopLogined()){
+			menu.findItem(R.id.menu_sale_cancel).setVisible(false);
+		}else if (sale != null) {
 			String status = sale.getStatus();
 			if (DataConst.STATUS_CANCELED.equals(status)) {
 				menu.findItem(R.id.menu_sale_cancel).setEnabled(false);
