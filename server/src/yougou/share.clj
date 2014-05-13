@@ -8,6 +8,7 @@
 		[yougou.file :as file]
 		[yougou.date :as date]
     [yougou.user :as user]
+    [yougou.message :as message]
 	)
 )
 
@@ -221,6 +222,7 @@
       (when-let [publisher (:publisher (first (select shares (fields :publisher) (where {:uuid share-id}))))]
         (user/update-user-grade-amount publisher grade)
         (user/save-user-grade publisher shop-id share-id replier grade)
+        (message/save-message replier shop-id publisher (str "购物晒单-奖励积分:" grade "\n商家回馈:" content))
         )
       {:uuid uuid :reply_time reply-time :status "1"}
      )
