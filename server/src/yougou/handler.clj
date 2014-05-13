@@ -207,8 +207,10 @@
 
 (defroutes message-routes
   (POST "/sendMessage" {{sender :sender receiver :receiver content :content} :params}
-        (json/write-str (save-message sender receiver content))
+        (json/write-str (save-message sender nil receiver content))
         )
+  (GET "/getUserMessages/:user-id/:update-time" [user-id update-time]
+       (wrapper-update-data (get-user-messages user-id update-time) (System/currentTimeMillis)))
   )
 
 (def app-routes
