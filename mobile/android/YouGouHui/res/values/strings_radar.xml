@@ -9,4 +9,6 @@
     <string name="label_radar_sale">活动</string>
     <string name="label_radar_shop">商铺</string>
     <string name="label_radar_friends">朋友</string>
+    
+    <string name="button_radar_scan">描一描</string>
 </resources>
