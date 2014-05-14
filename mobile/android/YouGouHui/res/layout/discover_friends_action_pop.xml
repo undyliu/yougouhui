@@ -7,31 +7,28 @@
 
     <Button
         android:id="@+id/b_share_praise"
-        style="?android:attr/buttonStyleSmall"
+        style="@style/MySmallButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/button_shape"
         android:text="@string/button_praise"
-        android:textColor="@color/white"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/b_share_comment"
-        style="?android:attr/buttonStyleSmall"
+        style="@style/MySmallButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/button_shape"
-        android:textColor="@color/white"
         android:text="@string/button_comment" />
 
     <Button
         android:id="@+id/b_share_delete"
-        style="?android:attr/buttonStyleSmall"
+        style="@style/MySmallButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/button_shape"
         android:text="@string/button_delete"
-        android:textColor="@color/white"
         android:visibility="gone" />
 
 </LinearLayout>

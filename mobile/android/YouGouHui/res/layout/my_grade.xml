@@ -24,11 +24,12 @@
 
         <Button
             android:id="@+id/b_grade_item"
+            style="@style/MySmallButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_style"
-            android:text="@string/label_action_grade_item"
-            android:textColor="@color/white" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="@string/label_action_grade_item" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,11 +51,12 @@
 
         <Button
             android:id="@+id/b_grade_shop"
+            style="@style/MySmallButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_style"
-            android:text="@string/label_action_grade_shop"
-            android:textColor="@color/white" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="@string/label_action_grade_shop" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -34,7 +34,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="80dp"
                 android:layout_weight="1"
-                android:ems="10"
                 android:focusable="false"
                 android:hint="@string/hint_scan_shop_barcode"
                 android:inputType="textMultiLine" >
@@ -42,24 +41,18 @@
 
             <Button
                 android:id="@+id/b_scan_shop_barcode"
-                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/button_shape"
-                android:text="@string/button_scan"
-                android:textColor="@color/white" />
+                android:text="@string/button_scan" />
 
             <Button
                 android:id="@+id/b_choose_shop"
-                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/button_shape"
-                android:text="@string/button_choose"
-                android:textColor="@color/white" />
+                android:text="@string/button_choose" />
 
         </LinearLayout>
 

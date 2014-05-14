@@ -237,18 +237,22 @@ public class SaleDetailActivity extends Activity implements
 				sale.getImages(), 100);
 		saleImagesView.setAdapter(baseAdapter);
 
-		discussExpandView.setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.discuss_expand_view).setOnClickListener(
+				new View.OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				int visibility = discussView.getVisibility();
-				discussView.setVisibility(visibility == View.VISIBLE ? View.GONE
-						: View.VISIBLE);
-				if (visibility == View.GONE && sale != null) {
-					discussListView.loadDiscussData(sale);
-				}
-			}
-		});
+					@Override
+					public void onClick(View v) {
+						int visibility = discussView.getVisibility();
+						discussView.setVisibility(visibility == View.VISIBLE ? View.GONE
+								: View.VISIBLE);
+						if (visibility == View.GONE && sale != null) {
+							discussListView.loadDiscussData(sale);
+							discussExpandView.setImageResource(R.drawable.arrow_up);
+						}else{
+							discussExpandView.setImageResource(R.drawable.arrow_down);
+						}
+					}
+				});
 
 		discussButton.setOnClickListener(new View.OnClickListener() {
 

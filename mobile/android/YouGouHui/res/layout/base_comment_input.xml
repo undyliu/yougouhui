@@ -19,11 +19,9 @@
 
     <Button
         android:id="@+id/action_comment_send"
-        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_send"
-        android:textColor="@color/white"
-        android:textColorLink="@color/white" />
+        android:background="@drawable/button_shape"
+        android:text="@string/button_send"/>
 
 </LinearLayout>

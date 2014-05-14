@@ -134,6 +134,7 @@
         </GridView>
 
         <LinearLayout
+            android:id="@+id/discuss_expand_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp" >
@@ -192,9 +193,8 @@
                     android:id="@+id/b_discuss"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/button_shape"
-                    android:text="@string/button_comment"
-                    android:textColor="@color/white" />
+					style="@style/MySmallButton"
+                    android:text="@string/button_comment"/>
             </LinearLayout>
 
             <com.seekon.yougouhui.func.sale.widget.SaleDiscussListView
