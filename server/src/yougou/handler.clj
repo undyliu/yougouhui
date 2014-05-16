@@ -246,7 +246,7 @@
 )
 
 (defroutes auth-routes
-  ;(GET "/index.html" request)
+  (GET "/" request (response/redirect "index.html"))
   ;(GET "/aa" request (get (json/read-str (:location (get-shop "b7d34ff0-21db-44df-8626-04231feb078e"))) "latitude"))
   (authenticated? app-routes)
   (route/resources "/")
