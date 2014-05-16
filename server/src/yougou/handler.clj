@@ -234,13 +234,15 @@
        (json/write-str (login-shop-by-phone phone pwd))
    )
   (POST "/registerShop" {{name :name location :location address :address desc :desc shop-img :shop_img
-                          busi-license :busi_license owner :owner pwd :pwd :as params} :params}
+                          busi-license :busi_license owner :owner pwd :pwd
+                          phone :phone user-name :user_name :as params} :params}
+    (println params)
     (let [files {shop-img (:tempfile (params shop-img)) busi-license (:tempfile (params busi-license))}
           trades (clojure.string/split (java.net.URLDecoder/decode (:tradeList params) "utf-8") #"[|]")
           ]
         (json/write-str (save-shop-data (java.net.URLDecoder/decode name "utf-8") (java.net.URLDecoder/decode desc "utf-8")
                                         (java.net.URLDecoder/decode location "utf-8") (java.net.URLDecoder/decode address "utf-8")
-                                        shop-img busi-license owner pwd files trades))
+                                        shop-img busi-license owner phone user-name pwd files trades))
     )
   )
 )

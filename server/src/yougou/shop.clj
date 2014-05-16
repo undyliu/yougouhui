@@ -65,6 +65,7 @@
   )
 
 (defn- save-shop-emp [shop-id user-id phone user-name pwd]
+  (println (str "pwd:" pwd))
   (if user-id
     (insert-shop-emp shop-id user-id pwd)
     (if-let [u-id (user/get-user-id-by-phone phone)]
@@ -78,7 +79,8 @@
 	(let [uuid (str (java.util.UUID/randomUUID))
         current-time (str  (System/currentTimeMillis))
         val-map {:uuid uuid :name name :desc desc :location location :address address :shop_img shop-img
-               :busi_license busi-license :register_time current-time :owner owner :last_modify_time current-time}
+                 :busi_license busi-license :register_time current-time :owner owner
+                 :last_modify_time current-time :status "1"}
         ]
     (if location
       (let [json-loc (json/read-str location)]
@@ -91,7 +93,7 @@
     (if busi-license
       (file/save-image-file busi-license (files busi-license))
       )
-    {:uuid uuid :register_time current-time :status 0}
+    {:uuid uuid :register_time current-time :status "1"}
    )
 )
 
