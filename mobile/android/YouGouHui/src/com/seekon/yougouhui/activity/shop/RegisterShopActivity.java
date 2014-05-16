@@ -470,6 +470,7 @@ public class RegisterShopActivity extends TradeCheckedChangeActivity implements
 							UserEntity emp = new UserEntity();
 							emp.setPhone(userPhone);
 							emp.setName(userName);
+							emp.setPwd(password);
 							shop.addEmployee(emp);
 						} else {
 							shop.setOwner(currentUser.getUuid());
