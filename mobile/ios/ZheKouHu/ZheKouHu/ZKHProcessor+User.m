@@ -82,4 +82,8 @@
     return [[[ZKHEnvData alloc] init] getLastLoginEnv];
 }
 
+- (void)deleteLoginEnv:(NSString *)phone
+{
+    [[[ZKHEnvData alloc] init] deleteLoginEnv:phone];
+}
 @end

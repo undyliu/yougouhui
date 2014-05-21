@@ -17,5 +17,6 @@ typedef void (^LoginResponseBlock)(NSMutableDictionary *authObj);
 - (void) saveLoginEnv:(NSString *)phone value:(NSMutableDictionary *) value;
 - (NSMutableDictionary *) getLoginEnv:(NSString *)phone;
 - (NSMutableDictionary *) getLastLoginEnv;
+- (void) deleteLoginEnv: (NSString *)phone;
 
 @end

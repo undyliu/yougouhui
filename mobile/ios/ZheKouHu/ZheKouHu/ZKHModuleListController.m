@@ -10,11 +10,23 @@
 #import "ZKHEntity.h"
 #import "ZKHSettingsController.h"
 #import "ZKHAppDelegate.h"
+#import "ZKHContext.h"
+#import "ZKHShopLoginController.h"
 
 #define kModuleFriends @"friends"
-#define kModuleSettings @"settings"
+#define kModuleRadar @"radar"
 
-static NSString *CellIdentifier = @"Cell";
+#define kModuleSettings @"settings"
+#define kModuleContactList @"contact_list"
+#define kModuleMyFavorite @"my_favorite"
+#define kModuleMyShare @"my_share"
+#define kModuleMyShop @"my_shop"
+#define kModuleMyGrade @"my_grade"
+#define kModuleMyMessage @"my_message"
+
+#define anonymousAccessModules @[kModuleFriends, kModuleRadar, kModuleMyShop]
+
+static NSString *CellIdentifier = @"ModuleCellIdentifier";
 
 @interface ZKHModuleListController ()
 
@@ -34,8 +46,10 @@ static NSString *CellIdentifier = @"Cell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:CellIdentifier];
+    
+    UINib *nib = [UINib nibWithNibName:@"ZKHModuleListCell" bundle:nil];
+    [self.tableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
+    
     
     NSString *type = [self getModuleType];
     if(type != nil){
@@ -60,6 +74,13 @@ static NSString *CellIdentifier = @"Cell";
     return nil;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    NSLog(@"viewWillAppear:");
+    [self.navigationController viewWillAppear:animated];
+    [self.tableView reloadData];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -74,14 +95,21 @@ static NSString *CellIdentifier = @"Cell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    ZKHModuleCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     ZKHModuleEntity *module = self.modules[indexPath.row];
-    cell.textLabel.text = module.name;
+    cell.nameLabel.text = module.name;
     if (module.icon != nil && [module.icon length] > 0) {
-        cell.imageView.image = [UIImage imageNamed:module.icon];
+        cell.image.image = [UIImage imageNamed:module.icon];
     }else{
-        cell.imageView.image = [UIImage imageNamed:@"default_pic.png"];
+        cell.image.image = [UIImage imageNamed:@"default_pic.png"];
+    }
+    
+    if ([[ZKHContext getInstance] isAnonymousUserLogined]
+        && ![anonymousAccessModules containsObject:module.code]) {
+        cell.forbiddenLabel.text = @"仅会员可用";
+    }else{
+        cell.forbiddenLabel.text = nil;
     }
     
     return cell;
@@ -92,14 +120,42 @@ static NSString *CellIdentifier = @"Cell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ZKHModuleEntity *module = self.modules[indexPath.row];
+    if ([[ZKHContext getInstance] isAnonymousUserLogined]
+        && ![anonymousAccessModules containsObject:module.code]) {
+        return;
+    }
+    
+    UIViewController *viewController;
+    
     NSString *code = module.code;
     if ([code isEqualToString:kModuleFriends]) {
         ;
+    }else if ([code isEqualToString:kModuleRadar]){
+        
     }else if([code isEqualToString:kModuleSettings]){
-        ZKHSettingsController *controller = [[ZKHSettingsController alloc] init];
-        controller.title = module.name;
-        [self.navigationController pushViewController:controller animated:YES];
+        viewController = [[ZKHSettingsController alloc] init];
+    }else if ([code isEqualToString:kModuleContactList]){
+        
+    }else if ([code isEqualToString:kModuleMyFavorite]){
+        
+    }else if ([code isEqualToString:kModuleMyShare]){
+        
+    }else if ([code isEqualToString:kModuleMyShop]){
+        viewController = [[ZKHShopLoginController alloc] init];
+    }else if ([code isEqualToString:kModuleMyGrade]){
+        
+    }else if ([code isEqualToString:kModuleMyMessage]){
+        
     }
+    
+    if (viewController != nil) {
+        viewController.title = module.name;
+        [self.navigationController pushViewController:viewController animated:YES];
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 50.0;
 }
 
 @end
@@ -119,3 +175,6 @@ static NSString *CellIdentifier = @"Cell";
 }
 @end
 
+@implementation ZKHModuleCell
+
+@end

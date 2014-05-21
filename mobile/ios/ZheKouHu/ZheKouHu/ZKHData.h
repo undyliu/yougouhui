@@ -48,5 +48,21 @@
 - (void) saveLoginEnv:(NSString *)phone value:(NSMutableDictionary *) value;
 - (NSMutableDictionary *) getLoginEnv:(NSString *)phone;
 - (NSMutableDictionary *) getLastLoginEnv;
+- (void) deleteLoginEnv:(NSString *)phone;
+
+@end
+
+@interface ZKHSettingData : ZKHData <ZKHEntityUpdater>
+- (NSMutableArray *) getSettings:(NSString *)userId;
+
+@end
+
+@interface ZKHSyncData : ZKHData <ZKHEntityUpdater>
+- (ZKHSyncEntity *) getSyncEntity:(NSString *)tableName itemId:(NSString *)itemId;
+
+@end
+
+#define SALE_TABLE @"e_sale"
+@interface ZKHSaleData : ZKHData
 
 @end

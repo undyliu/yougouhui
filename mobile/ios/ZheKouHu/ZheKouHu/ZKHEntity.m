@@ -23,3 +23,16 @@
 @implementation ZKHUserEntity
 
 @end
+
+@implementation ZKHSettingEntity
+
+@end
+
+@implementation ZKHSyncEntity
+
+@end
+
+@implementation ZKHSaleEntity
+
+@end
+

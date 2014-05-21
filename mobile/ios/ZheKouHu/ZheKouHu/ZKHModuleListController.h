@@ -23,3 +23,10 @@
 @interface ZKHProfileListController : ZKHModuleListController
 
 @end
+
+@interface ZKHModuleCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *image;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *forbiddenLabel;
+
+@end

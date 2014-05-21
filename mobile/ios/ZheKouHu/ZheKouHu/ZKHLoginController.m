@@ -32,9 +32,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    if (self.phoneText.text == nil) {
+    if ([self.phoneText.text length] == 0) {
         [self.phoneText becomeFirstResponder];
-    }else if (self.pwdText.text == nil){
+    }else if ([self.pwdText.text length] == 0){
         [self.pwdText becomeFirstResponder];
     }
     
@@ -128,7 +128,7 @@
             
             [self.navigationController popToRootViewControllerAnimated:YES];
         }else{
-            NSString *error = [authObj objectForKey:KEY_ERROR_TYPE];
+            //NSString *error = [authObj objectForKey:KEY_ERROR_TYPE];
         }
         
     } errorHandler:^(NSError *error) {

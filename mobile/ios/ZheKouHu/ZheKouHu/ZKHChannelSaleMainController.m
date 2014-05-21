@@ -9,6 +9,12 @@
 
 #import "ZKHChannelSaleMainController.h"
 #import "ZKHAppDelegate.h"
+#import "ZKHProcessor+Sale.h"
+#import "ZKHProcessor+Sync.h"
+#import "ZKHData.h"
+#import "NSDate+Utils.h"
+
+static NSString *CellIdentifier = @"ChannelSaleListCell";
 
 @implementation ZKHChannelSaleMainController
 
@@ -20,6 +26,10 @@
         self.saleListController = [[ZKHChannelSaleListController alloc] init];
         self.saleListView.dataSource = self.saleListController;
         self.saleListView.delegate = self.saleListController;
+        self.saleListController.tableView = self.saleListView ;
+        
+        UINib *nib = [UINib nibWithNibName:@"ZKHChannelSaleListCell" bundle:nil];
+        [self.saleListController.tableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
     }
     
     [ApplicationDelegate.zkhProcessor channels:nil completionHandler:^(NSMutableArray *channels) {
@@ -50,8 +60,25 @@
     }
     
     if (activedItemTag < [self.channels count]) {
-        self.saleListController.channel = self.channels[activedItemTag];
-        [self.saleListController.tableView reloadData];
+        ZKHSyncEntity *sync = [ApplicationDelegate.zkhProcessor getSyncEntity: SALE_TABLE itemId:@"*"];
+        if (sync == nil) {
+            sync = [[ZKHSyncEntity alloc] init];
+            NSString *currentTime = [NSDate currentTimeString];
+            sync.updateTime = @"-1";
+            sync.uuid = [currentTime copy];
+            sync.tableName = SALE_TABLE;
+            sync.itemId = @"*";
+        }
+        
+        ZKHChannelEntity *channel = self.channels[activedItemTag];
+        [ApplicationDelegate.zkhProcessor salesForChannel:channel.uuid updateTime:sync completionHandler:^(NSMutableArray *sales) {
+            self.saleListController.saleList = sales;
+            [self.saleListController.tableView reloadData];
+            
+        } errorHandler:^(NSError *error) {
+            
+        }];
+        
     }
     
 }

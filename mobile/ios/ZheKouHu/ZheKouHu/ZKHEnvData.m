@@ -10,6 +10,7 @@
 #define ENV_UPDATE_SQL [NSString stringWithFormat:@" insert or replace into %@ (%@, %@, %@) values (?, ?, ?)", ENV_TABLE, KEY_PHONE, KEY_LOGIN_SETTING, KEY_LAST_MODIFY_TIME]
 #define ENV_QUERY_SQL [NSString stringWithFormat:@" select %@ from %@ where %@ = ? order by %@ desc", KEY_LOGIN_SETTING, ENV_TABLE, KEY_PHONE, KEY_LAST_MODIFY_TIME]
 #define ENV_LAST_TIME_QUERY_SQL [NSString stringWithFormat:@" select %@ from %@ order by %@ desc", KEY_LOGIN_SETTING, ENV_TABLE, KEY_LAST_MODIFY_TIME]
+#define ENV_DEL_QUERY_SQL [NSString stringWithFormat:@" delete from %@ where %@= ? ", ENV_TABLE, KEY_PHONE]
 
 @implementation ZKHEnvData
 
@@ -47,4 +48,10 @@
     NSString *loginSetting = [self queryOne:ENV_LAST_TIME_QUERY_SQL params:nil];
     return [[NSMutableDictionary alloc] initWithDictionary:[loginSetting toJSONObject]];
 }
+
+- (void)deleteLoginEnv:(NSString *)phone
+{
+    [self executeUpdate:ENV_DEL_QUERY_SQL params:@[phone]];
+}
+
 @end

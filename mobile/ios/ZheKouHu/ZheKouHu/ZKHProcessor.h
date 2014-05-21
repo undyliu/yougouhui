@@ -25,4 +25,8 @@ typedef void (^ChannelsResponseBlock)(NSMutableArray* channels);
 - (void) channels: (NSString *)parentId completionHandler:(ChannelsResponseBlock) channelsBlock
      errorHandler:(MKNKErrorBlock) errorBlock;
 
+typedef void (^SettingsResponseBlock)(NSMutableArray* settings);
+- (void) settings: (SettingsResponseBlock) settingsBlock
+     errorHandler:(MKNKErrorBlock) errorBlock;
+
 @end

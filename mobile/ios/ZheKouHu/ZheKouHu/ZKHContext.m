@@ -23,7 +23,7 @@ static ZKHContext *instance;
 
 - (Boolean)isAnonymousUserLogined
 {
-    return [self.user.type isEqualToString:VAL_TYPE_USER_ANONYMOUS];
+    return _user == nil || [self.user.type isEqualToString:VAL_TYPE_USER_ANONYMOUS];
 }
 
 - (ZKHUserEntity *) getUser{

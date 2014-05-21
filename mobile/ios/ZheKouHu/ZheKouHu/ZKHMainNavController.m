@@ -47,7 +47,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+}
+
+- (void)reloadData
+{
     if ([[ZKHContext getInstance] isAnonymousUserLogined]) {
         moreItems = @[NSLocalizedString(@"LABEL_LOGIN", @"login"),
                       NSLocalizedString(@"LABEL_REGISTER_USER", @"register user"),
@@ -61,6 +64,11 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self reloadData];
 }
 
 - (void) clickSearch: (id)sender

@@ -14,6 +14,8 @@
     NSArray* moreItems;
 }
 
+- (void) reloadData;
+
 - (void) clickSearch: (id)sender;
 - (void) clickMore: (id)sender;
 - (void) clickProfile: (id)sender;

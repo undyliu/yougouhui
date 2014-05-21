@@ -50,6 +50,8 @@
             } errorHandler:^(NSError *error) {
                 [self initViewControllers];
             }];
+        }else{
+            [self initViewControllers];
         }
     }else{
         [self initViewControllers];

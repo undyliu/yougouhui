@@ -9,6 +9,7 @@
 #import "ZKHProcessor.h"
 #import "ZKHConst.h"
 #import "ZKHData.h"
+#import "ZKHContext.h"
 
 #define SERVER_BASE_URL  @"192.168.253.1:3000"
 
@@ -76,7 +77,7 @@
     
     NSString *path = GET_CHANNELS_URL;
     if (parentId != nil) {
-        path = GET_SUB_CHANNELS_URL([parentId mk_urlEncodedString]);
+        path = GET_SUB_CHANNELS_URL ([parentId mk_urlEncodedString]);
     }
     
     MKNetworkOperation *op = [self operationWithPath:path params:nil httpMethod:METHOD_GET];
@@ -105,4 +106,51 @@
     [self enqueueOperation:op];
 }
 
+
+//获取设置条目
+#define GET_SETTINS_URL @"/getSettings"
+- (void)settings:(SettingsResponseBlock)settingsBlock errorHandler:(MKNKErrorBlock)errorBlock
+{
+    
+    if (![[ZKHContext getInstance] isAnonymousUserLogined]) {
+        ZKHUserEntity *user = [ZKHContext getInstance].user;
+        ZKHSettingData *data = [[ZKHSettingData alloc] init];
+        NSMutableArray * settings = [data getSettings:user.uuid];
+        if ([settings count] > 0) {
+            settingsBlock(settings);
+            return;
+        }
+    }
+    
+    MKNetworkOperation *op = [self operationWithPath:GET_SETTINS_URL];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        [completedOperation responseJSONWithCompletionHandler:^(id jsonObject) {
+            NSMutableArray * settings = [[NSMutableArray alloc] initWithCapacity:10];
+            if (jsonObject != nil) {
+                for (NSDictionary *json in jsonObject) {
+                    ZKHSettingEntity *setting = [[ZKHSettingEntity alloc] init];
+                    setting.uuid = [json valueForKey:KEY_UUID];
+                    setting.code = [json valueForKey:KEY_CODE];
+                    setting.name = [json valueForKey:KEY_NAME];
+                    setting.img = [json valueForKey:KEY_IMG];
+                    setting.ordIndex =[json valueForKey:KEY_ORD_INDEX];
+                    setting.userId = [ZKHContext getInstance].user.uuid;
+                    setting.value = @"";
+                    
+                    [settings addObject:setting];
+                }
+            }
+            
+            //TODO:使用委托代理的方式处理?
+            ZKHSettingData *data = [[ZKHSettingData alloc] init];
+            [data save:settings];
+            
+            settingsBlock(settings);
+        }];
+    } errorHandler:^(MKNetworkOperation *errorOp, NSError* error) {
+        errorBlock(error);
+    }];
+    
+    [self enqueueOperation:op];
+}
 @end

@@ -10,6 +10,5 @@
 #import "ZKHEntity.h"
 
 @interface ZKHChannelSaleListController : UITableViewController
-@property (strong, nonatomic) ZKHChannelEntity *channel;
-@property (strong, nonatomic) NSArray *saleList;
+@property (strong, nonatomic) NSMutableArray *saleList;
 @end
