@@ -9,6 +9,7 @@
 #import "ZKHMainNavController.h"
 #import "ZKHLoginController.h"
 #import "ZKHRegiserUserController.h"
+#import "ZKHContext.h"
 
 @interface ZKHMainNavController ()
 
@@ -20,7 +21,6 @@
 {
     self = [super initWithRootViewController:rootViewController];
     if(self){
-        rootController = rootViewController;
         
         UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 90, 45)];
         [tools setTintColor:[self.navigationController.navigationBar tintColor]];
@@ -47,6 +47,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if ([[ZKHContext getInstance] isAnonymousUserLogined]) {
+        moreItems = @[NSLocalizedString(@"LABEL_LOGIN", @"login"),
+                      NSLocalizedString(@"LABEL_REGISTER_USER", @"register user"),
+                      NSLocalizedString(@"LABEL_BUYING_SHARE", @"share buying")];
+    }else{
+        moreItems = @[NSLocalizedString(@"LABEL_ADD_FRIENDS", @"add friends"),
+                      NSLocalizedString(@"LABEL_BUYING_SHARE", @"share buying")];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -62,7 +71,7 @@
 - (void) clickMore: (id)sender
 {
     CGFloat xWidth = self.view.bounds.size.width - 20.0f;
-    CGFloat yHeight = 242.0f;
+    CGFloat yHeight = [moreItems count] * 80;
     CGFloat yOffset = (self.view.bounds.size.height - yHeight)/2.0f;
     UIPopoverListView *poplistview = [[UIPopoverListView alloc] initWithFrame:CGRectMake(10, yOffset, xWidth, yHeight)];
     poplistview.delegate = self;
@@ -85,17 +94,7 @@
     static NSString *identifier = @"cell";
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                     reuseIdentifier:identifier];
-    
-    int row = indexPath.row;
-    
-    if(row == 0){
-        cell.textLabel.text = NSLocalizedString(@"LABEL_LOGIN", @"login");
-        //cell.imageView.image = [UIImage imageNamed:@"ic_facebook.png"];
-    }else if (row == 1){
-        cell.textLabel.text = NSLocalizedString(@"LABEL_REGISTER_USER", @"register user");
-    }else if (row == 2){
-        cell.textLabel.text = NSLocalizedString(@"LABEL_BUYING_SHARE", @"share buying");
-    }
+    cell.textLabel.text = moreItems[indexPath.row];
     
     return cell;
 }
@@ -103,7 +102,7 @@
 - (NSInteger)popoverListView:(UIPopoverListView *)popoverListView
        numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return [moreItems count];
 }
 
 #pragma mark - UIPopoverListViewDelegate
@@ -112,15 +111,21 @@
 {
     NSLog(@"%s : %d", __func__, indexPath.row);
     
-    UIViewController *viewController = nil;
-    if (indexPath.row == 0) {
-        viewController = [[ZKHLoginController alloc] init];
-    }else if(indexPath.row == 1){
-        viewController = [[ZKHRegiserUserController alloc] init];
+    if ([[ZKHContext getInstance] isAnonymousUserLogined]) {
+        UIViewController *viewController = nil;
+        if (indexPath.row == 0) {
+            viewController = [[ZKHLoginController alloc] init];
+        }else if(indexPath.row == 1){
+            viewController = [[ZKHRegiserUserController alloc] init];
+        }else if (indexPath.row == 2){
+            
+        }
+        
+        if (viewController != nil) {
+            [self pushViewController:viewController animated:YES];
+        }
     }
-    if (viewController != nil) {
-        [self pushViewController:viewController animated:YES];
-    }
+   
 }
 
 - (CGFloat)popoverListView:(UIPopoverListView *)popoverListView

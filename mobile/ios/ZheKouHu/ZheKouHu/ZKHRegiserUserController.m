@@ -25,7 +25,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+ 
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(registerUser:)];
+    self.navigationItem.rightBarButtonItem = saveButton;
 }
 
 - (void)didReceiveMemoryWarning
@@ -34,4 +36,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)fieldDoneEdting:(id)sender {
+    [sender resignFirstResponder];
+}
+
+- (IBAction)backgroupTap:(id)sender
+{
+    [self.phoneField resignFirstResponder];
+    [self.nameField resignFirstResponder];
+    [self.pwdField resignFirstResponder];
+    [self.pwdConfField resignFirstResponder];
+}
+- (void)registerUser:(id)sender
+{
+    
+}
 @end

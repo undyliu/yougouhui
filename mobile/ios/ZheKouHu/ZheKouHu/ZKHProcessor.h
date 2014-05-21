@@ -9,6 +9,11 @@
 #import "MKNetworkEngine.h"
 #import "ZKHEntity.h"
 
+#define METHOD_GET @"GET"
+#define METHOD_POST @"POST"
+#define METHOD_PUT @"PUT"
+#define METHOD_DELETE @"DELETE"
+
 @interface ZKHProcessor : MKNetworkEngine
 
 - (id)initWithDefaultSettings;
@@ -20,6 +25,4 @@ typedef void (^ChannelsResponseBlock)(NSMutableArray* channels);
 - (void) channels: (NSString *)parentId completionHandler:(ChannelsResponseBlock) channelsBlock
      errorHandler:(MKNKErrorBlock) errorBlock;
 
-typedef void (^LoginResponseBlock)(NSMutableDictionary *authObj);
-- (void) login: (NSString *) phone pwd:(NSString *)pwd completionHandler:(LoginResponseBlock) loginBlock errorHandler:(MKNKErrorBlock) errorBlock;
 @end

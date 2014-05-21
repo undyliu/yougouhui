@@ -19,11 +19,17 @@
 #define KEY_PWD  @"pwd"
 #define KEY_PHONE @"phone"
 #define KEY_PHOTO @"photo"
-//#define KEY_LAST_MODIFY_TIME @"last_modify_time"
+#define KEY_LAST_MODIFY_TIME @"last_modify_time"
 #define KEY_REGISTER_TIME @"register_time"
 
 #define KEY_USER @"user"
 #define KEY_AUTHED @"authed"
 #define KEY_ERROR_TYPE @"error-type"
+#define KEY_AUTO_LOGIN @"auto_login"
+#define KEY_REMEMBER_PWD @"remember_pwd"
+
+
+#define VAL_TYPE_USER_APP @"1"
+#define VAL_TYPE_USER_ANONYMOUS @"2"
 
 #endif

@@ -28,44 +28,20 @@
     }
 }
 
+- (id)processRow:(sqlite3_stmt *)stmt
+{
+    ZKHChannelEntity *channel = [[ZKHChannelEntity alloc] init];
+    
+    int i = 0;
+    channel.uuid = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    channel.code = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    channel.name = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    return channel;
+}
+
 - (NSMutableArray *)getChannels
 {
-    NSMutableArray *channels = [[NSMutableArray alloc] init];
-    
-    NSLog(@"sql : %@", CHANNEL_QUERY_SQL);
-    sqlite3 *database = nil;
-    @try {
-        database = [self openDatabase];
-        sqlite3_stmt *stmt;
-        
-        @try {
-            stmt = [self prepareStatement:CHANNEL_QUERY_SQL params:nil database:database];
-            while (sqlite3_step(stmt) == SQLITE_ROW) {
-                ZKHChannelEntity *channel = [[ZKHChannelEntity alloc] init];
-                
-                int i = 0;
-                channel.uuid = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
-                channel.code = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
-                channel.name = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
-                
-                [channels addObject:channel];
-            }
-        }
-        @catch (NSException *exception) {
-            @throw exception;
-        }
-        @finally {
-            sqlite3_finalize(stmt);
-        }
-    }
-    @catch (NSException *exception) {
-        @throw exception;
-    }
-    @finally {
-        [self closeDatabase:database];
-    }
-    
-    return channels;
+    return [self query:CHANNEL_QUERY_SQL params:nil];
 }
 
 @end

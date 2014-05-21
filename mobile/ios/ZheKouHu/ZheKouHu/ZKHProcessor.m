@@ -10,11 +10,6 @@
 #import "ZKHConst.h"
 #import "ZKHData.h"
 
-#define METHOD_GET @"GET"
-#define METHOD_POST @"POST"
-#define METHOD_PUT @"PUT"
-#define METHOD_DELETE @"DELETE"
-
 #define SERVER_BASE_URL  @"192.168.253.1:3000"
 
 @implementation ZKHProcessor
@@ -107,54 +102,6 @@
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         errorBlock(error);
     }];
-    [self enqueueOperation:op];
-}
-
-//登录
-#define LOGIN_URL @"/login"
-- (void)login:(NSString *)phone pwd:(NSString *)pwd completionHandler:(LoginResponseBlock)loginBlock errorHandler:(MKNKErrorBlock)errorBlock
-{
-    ZKHUserData *data = [[ZKHUserData alloc] init];
-    ZKHUserEntity *user = [data getUser:phone];
-    if ([pwd isEqualToString:user.pwd]) {
-        loginBlock([[NSMutableDictionary alloc] initWithDictionary: @{KEY_USER: user, KEY_AUTHED: @"true"}]);
-        return;
-    }
-    
-    NSDictionary *params = @{KEY_PHONE : phone, KEY_PWD : pwd};
-    MKNetworkOperation *op = [self operationWithPath:LOGIN_URL params:params httpMethod:METHOD_POST];
-    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-        [completedOperation responseJSONWithCompletionHandler:^(id jsonObject) {
-            NSMutableDictionary *authedObj = [[NSMutableDictionary alloc] init];
-            Boolean authed = [[jsonObject valueForKey:KEY_AUTHED] boolValue];
-            if (authed) {
-                NSDictionary *userJson = [jsonObject valueForKey:KEY_USER];
-                
-                ZKHUserEntity *user = [[ZKHUserEntity alloc] init];
-                user.uuid = [userJson valueForKey:KEY_UUID];
-                user.name = [userJson valueForKey:KEY_NAME];
-                user.pwd = [userJson valueForKey:KEY_PWD];
-                user.type = [userJson valueForKey:KEY_TYPE];
-                user.phone = [userJson valueForKey:KEY_PHONE];
-                user.photo = [userJson valueForKey:KEY_PHOTO];
-                user.registerTime = [userJson valueForKey:KEY_REGISTER_TIME];
-                
-                [data save:@[user]];
-                
-                [authedObj setObject:user forKey:KEY_USER];
-                [authedObj setObject:@"true" forKey:KEY_AUTHED];
-            }else{
-                [authedObj setObject:[jsonObject valueForKey:KEY_ERROR_TYPE] forKey:KEY_ERROR_TYPE];
-                [authedObj setObject:@"false" forKey:KEY_AUTHED];
-            }
-            
-            
-            loginBlock(authedObj);
-        }];
-    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-        errorBlock(error);
-    }];
-    
     [self enqueueOperation:op];
 }
 

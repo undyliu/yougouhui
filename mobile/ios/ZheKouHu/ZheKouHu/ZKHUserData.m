@@ -29,47 +29,25 @@
     }
 }
 
+- (id)processRow:(sqlite3_stmt *)stmt
+{
+    ZKHUserEntity *user = [[ZKHUserEntity alloc] init];
+    
+    int i = 0;
+    user.uuid = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    user.name = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    user.pwd = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    user.type = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    user.phone = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    user.photo = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    user.registerTime = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    
+    return user;
+}
+
 - (ZKHUserEntity *)getUser:(NSString *)phone
 {
-    NSLog(@"sql : %@", USER_BY_PHONE_QUERY_SQL);
-    sqlite3 *database = nil;
-    @try {
-        database = [self openDatabase];
-        sqlite3_stmt *stmt;
-        
-        @try {
-            stmt = [self prepareStatement:USER_BY_PHONE_QUERY_SQL params:@[phone] database:database];
-            if (sqlite3_step(stmt) == SQLITE_ROW) {
-                ZKHUserEntity *user = [[ZKHUserEntity alloc] init];
-                
-                int i = 0;
-                user.uuid = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
-                user.name = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
-                user.pwd = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
-                user.type = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
-                user.phone = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
-                user.photo = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
-                user.registerTime = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
-                
-                return user;
-                
-            }
-        }
-        @catch (NSException *exception) {
-            @throw exception;
-        }
-        @finally {
-            sqlite3_finalize(stmt);
-        }
-    }
-    @catch (NSException *exception) {
-        @throw exception;
-    }
-    @finally {
-        [self closeDatabase:database];
-    }
-    
-    return nil;
+    return (ZKHUserEntity *)[self queryOne:USER_BY_PHONE_QUERY_SQL params:@[phone]];
 }
 
 @end

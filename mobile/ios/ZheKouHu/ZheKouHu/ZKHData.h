@@ -25,6 +25,9 @@
 
 - (void) createTable:(NSString *) sql;
 - (void) executeUpdate: (NSString *) sql params:(NSArray *) params;
+- (NSMutableArray *) query: (NSString *) sql params:(NSArray *) params;
+- (id) queryOne: (NSString *) sql params:(NSArray *) params;
+- (id) processRow:(sqlite3_stmt *)stmt;
 
 @end
 
@@ -38,5 +41,12 @@
 
 @interface ZKHUserData : ZKHData <ZKHEntityUpdater>
 - (ZKHUserEntity *) getUser: (NSString *)phone;
+
+@end
+
+@interface ZKHEnvData : ZKHData
+- (void) saveLoginEnv:(NSString *)phone value:(NSMutableDictionary *) value;
+- (NSMutableDictionary *) getLoginEnv:(NSString *)phone;
+- (NSMutableDictionary *) getLastLoginEnv;
 
 @end

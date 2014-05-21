@@ -11,7 +11,7 @@
 
 @interface ZKHMainNavController : UINavigationController<UIPopoverListViewDataSource, UIPopoverListViewDelegate>
 {
-    UIViewController * rootController;
+    NSArray* moreItems;
 }
 
 - (void) clickSearch: (id)sender;

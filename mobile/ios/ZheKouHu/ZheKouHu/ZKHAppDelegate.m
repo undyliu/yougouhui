@@ -8,6 +8,10 @@
 
 #import "ZKHAppDelegate.h"
 #import "ZKHMainNavController.h"
+#import "ZKHProcessor+User.h"
+#import "ZKHConst.h"
+#import "ZKHContext.h"
+#import "NSString+Utils.h"
 
 @implementation ZKHAppDelegate
 
@@ -18,22 +22,48 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
+   
+    [self initContext];
     
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+    return YES;
+}
+
+- (void) initContext{
     self.zkhProcessor = [[ZKHProcessor alloc] initWithDefaultSettings];
     
+    NSMutableDictionary *loginEnv = [ApplicationDelegate.zkhProcessor getLastLoginEnv];
+    if (loginEnv != nil && [loginEnv count] > 0) {
+        NSString *autoLogin = [loginEnv valueForKey:KEY_AUTO_LOGIN];
+        if ([autoLogin isTrue]) {
+            NSString *phone = [loginEnv valueForKey:KEY_PHONE];
+            NSString *pwd = [loginEnv valueForKey:KEY_PWD];
+            
+            [self.zkhProcessor login:phone pwd:pwd completionHandler:^(NSMutableDictionary *authObj) {
+                NSString *authed = [authObj objectForKey:KEY_AUTHED];
+                if ([authed isTrue]) {
+                    ZKHUserEntity *user = [authObj objectForKey:KEY_USER];
+                    [[ZKHContext getInstance] setUser:user];
+                }
+                [self initViewControllers];
+            } errorHandler:^(NSError *error) {
+                [self initViewControllers];
+            }];
+        }
+    }else{
+        [self initViewControllers];
+    }
+}
+
+- (void) initViewControllers
+{
     [[NSBundle mainBundle] loadNibNamed:@"ZKHMainTabBarController" owner:self options:nil];
     self.rootController.title = NSLocalizedString(@"LABEL_APP_NAME", @"the app name");
     
     ZKHMainNavController *nav = [[ZKHMainNavController alloc]
                                  initWithRootViewController:self.rootController];
     self.window.rootViewController = nav;
-    
-    
-    
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
-    return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

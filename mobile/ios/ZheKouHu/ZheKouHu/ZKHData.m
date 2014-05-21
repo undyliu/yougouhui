@@ -106,5 +106,76 @@
     }
 }
 
+- (NSMutableArray *)query:(NSString *)sql params:(NSArray *)params
+{
+    NSMutableArray *result = [[NSMutableArray alloc] init];
+    
+    NSLog(@"sql : %@", sql);
+    sqlite3 *database = nil;
+    @try {
+        database = [self openDatabase];
+        sqlite3_stmt *stmt;
+        
+        @try {
+            stmt = [self prepareStatement:sql params:params database:database];
+            while (sqlite3_step(stmt) == SQLITE_ROW) {
+                ZKHEntity *entity = [self processRow:stmt];
+                if (entity != nil) {
+                    [result addObject:[self processRow:stmt]];
+                }
+            }
+        }
+        @catch (NSException *exception) {
+            @throw exception;
+        }
+        @finally {
+            sqlite3_finalize(stmt);
+        }
+    }
+    @catch (NSException *exception) {
+        @throw exception;
+    }
+    @finally {
+        [self closeDatabase:database];
+    }
+    return result;
+}
+
+- (id)queryOne:(NSString *)sql params:(NSArray *)params
+{
+    NSLog(@"sql : %@", sql);
+    sqlite3 *database = nil;
+    @try {
+        database = [self openDatabase];
+        sqlite3_stmt *stmt;
+        
+        @try {
+            stmt = [self prepareStatement:sql params:params database:database];
+            while (sqlite3_step(stmt) == SQLITE_ROW) {
+                return [self processRow:stmt];
+                
+            }
+        }
+        @catch (NSException *exception) {
+            @throw exception;
+        }
+        @finally {
+            sqlite3_finalize(stmt);
+        }
+    }
+    @catch (NSException *exception) {
+        @throw exception;
+    }
+    @finally {
+        [self closeDatabase:database];
+    }
+    return nil;
+}
+
+- (id)processRow:(sqlite3_stmt *)stmt
+{
+    //子类处理
+    return nil;
+}
 @end
 

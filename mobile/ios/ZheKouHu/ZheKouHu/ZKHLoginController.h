@@ -18,6 +18,7 @@
 - (IBAction)phoneFieldDoneEditing:(id)sender;
 - (IBAction)autoLoginChanged:(UISwitch *)sender;
 - (IBAction)backgroupTap:(id)sender;
+- (IBAction)rememberPwdChanged:(UISwitch *)sender;
 
 - (IBAction)login;
 - (IBAction)registerUser;

@@ -10,6 +10,9 @@
 #import "ZKHRegiserUserController.h"
 #import "ZKHAppDelegate.h"
 #import "ZKHConst.h"
+#import "ZKHProcessor+User.h"
+#import "ZKHContext.h"
+#import "NSString+Utils.h"
 
 @interface ZKHLoginController ()
 
@@ -29,8 +32,30 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self.phoneText becomeFirstResponder];
+    if (self.phoneText.text == nil) {
+        [self.phoneText becomeFirstResponder];
+    }else if (self.pwdText.text == nil){
+        [self.pwdText becomeFirstResponder];
+    }
     
+    NSMutableDictionary *loginEnv = [ApplicationDelegate.zkhProcessor getLastLoginEnv];
+    if (loginEnv != nil && [loginEnv count] > 0) {
+        NSString *phone = [loginEnv valueForKey:KEY_PHONE];
+        NSString *pwd = [loginEnv valueForKey:KEY_PWD];
+        NSString *autoLogin = [loginEnv valueForKey:KEY_AUTO_LOGIN];
+        NSString *rememberPwd = [loginEnv valueForKey:KEY_REMEMBER_PWD];
+        
+        if ([rememberPwd isTrue]) {
+            self.phoneText.text = phone;
+            self.pwdText.text = pwd;
+            [self.rememberPwdSwitch setOn:true];
+        }
+        if ([autoLogin isTrue]) {
+            [self.autoLoginSwitch setOn:true];
+            
+            [self login];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,6 +82,12 @@
     [self.pwdText resignFirstResponder];
 }
 
+- (IBAction)rememberPwdChanged:(UISwitch *)sender {
+    if (!sender.isOn) {
+        [self.autoLoginSwitch setOn:FALSE animated:YES];
+    }
+}
+
 - (IBAction)autoLoginChanged:(UISwitch *)sender {
     if (sender.isOn) {
         [self.rememberPwdSwitch setOn:sender.isOn animated:YES];
@@ -80,8 +111,21 @@
     
     [ApplicationDelegate.zkhProcessor login:phone pwd:pwd completionHandler:^(NSMutableDictionary *authObj) {
         NSString *authed = [authObj objectForKey:KEY_AUTHED];
-        if ([authed isEqualToString:@"true"]) {
+        if ([authed isTrue]) {
             ZKHUserEntity *user = [authObj objectForKey:KEY_USER];
+            [[ZKHContext getInstance] setUser:user];
+            
+            NSString *autoLogin = [self.autoLoginSwitch isOn]? @"true" : @"false";
+            NSString *rememberPwd = [self.rememberPwdSwitch isOn]? @"true" : @"false";
+            
+            NSMutableDictionary *loginEnv = [[NSMutableDictionary alloc] init];
+            [loginEnv setObject:user.phone forKey:KEY_PHONE];
+            [loginEnv setObject:user.pwd forKey:KEY_PWD];
+            [loginEnv setObject:autoLogin forKey:KEY_AUTO_LOGIN];
+            [loginEnv setObject:rememberPwd forKey:KEY_REMEMBER_PWD];
+            
+            [ApplicationDelegate.zkhProcessor saveLoginEnv:user.phone value:loginEnv];
+            
             [self.navigationController popToRootViewControllerAnimated:YES];
         }else{
             NSString *error = [authObj objectForKey:KEY_ERROR_TYPE];
