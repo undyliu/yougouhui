@@ -65,3 +65,15 @@
 @property (strong, nonatomic) NSString *status;
 @property (strong, nonatomic) NSString *img;
 @end
+
+@interface ZKHShopEntity : ZKHEntity
+@property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSString *addr;
+@property (strong, nonatomic) NSString *desc;
+@property (strong, nonatomic) NSString *shopImg;
+@property (strong, nonatomic) NSString *busiLicense;
+@property (strong, nonatomic) NSString *registerTime;
+@property (strong, nonatomic) NSString *owner;
+@property (strong, nonatomic) NSString *status;
+@property (strong, nonatomic) NSString *barcode;
+@end

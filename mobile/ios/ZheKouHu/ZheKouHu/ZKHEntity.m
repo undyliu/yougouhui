@@ -36,3 +36,6 @@
 
 @end
 
+@implementation ZKHShopEntity
+
+@end

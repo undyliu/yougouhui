@@ -7,15 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UIPopoverListView.h"
 
-@interface ZKHMainNavController : UINavigationController<UIPopoverListViewDataSource, UIPopoverListViewDelegate>
+@interface ZKHMainNavController : UINavigationController<UIActionSheetDelegate>
 {
     UIViewController * rootController;
-    NSArray* moreItems;
 }
-
-- (void) reloadData;
 
 - (void) clickSearch: (id)sender;
 - (void) clickMore: (id)sender;

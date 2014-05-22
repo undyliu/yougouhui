@@ -58,25 +58,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/ZKHMainNavController.m"
-         timestampString = "422414930.82414"
+         timestampString = "422433429.824006"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "82"
-         endingLineNumber = "82"
+         startingLineNumber = "72"
+         endingLineNumber = "72"
          landmarkName = "-clickMore:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "ZheKouHu/ZKHMainNavController.m"
-         timestampString = "422414930.82414"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "122"
-         endingLineNumber = "122"
-         landmarkName = "-popoverListView:didSelectIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -343,19 +330,6 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "ZheKouHu/ZKHMainNavController.m"
-         timestampString = "422414930.82414"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "83"
-         endingLineNumber = "83"
-         landmarkName = "-clickMore:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "ZheKouHu/ZKHLoginController.m"
          timestampString = "422349452.016514"
          startingColumnNumber = "9223372036854775807"
@@ -409,11 +383,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/ZKHShopLoginController.m"
-         timestampString = "422354855.037242"
+         timestampString = "422451353.502937"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "41"
-         endingLineNumber = "41"
+         startingLineNumber = "89"
+         endingLineNumber = "89"
          landmarkName = "-registerShop:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -493,6 +467,58 @@
          startingLineNumber = "32"
          endingLineNumber = "32"
          landmarkName = "-viewDidLoad"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/ZKHProcessor+Shop.m"
+         timestampString = "422435449.482391"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "23"
+         endingLineNumber = "23"
+         landmarkName = "-loginShopByPhone:pwd:completionHandler:errorHandler:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/TableViewWithBlock.m"
+         timestampString = "422443219.609848"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "25"
+         endingLineNumber = "25"
+         landmarkName = "-initTableViewDataSourceAndDelegate:setCellForIndexPathBlock:setDidSelectRowBlock:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/ZKHShopModuleCell.m"
+         timestampString = "422448848.823474"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "15"
+         endingLineNumber = "15"
+         landmarkName = "-initWithFrame:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/ZKHShopMainController.m"
+         timestampString = "422453516.492676"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "76"
+         endingLineNumber = "76"
+         landmarkName = "-shopSelected:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

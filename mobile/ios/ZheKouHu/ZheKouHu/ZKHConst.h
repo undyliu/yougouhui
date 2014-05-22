@@ -42,6 +42,13 @@
 #define KEY_PUBLISH_DATE @"publish_date"
 #define KEY_CHANNEL_ID @"channel_id"
 #define KEY_STATUS @"status"
+#define KEY_ADDR @"address"
+#define KEY_DESC @"desc"
+#define KEY_SHOP_IMG @"shop_img"
+#define KEY_BUSI_LICENSE @"busi_license"
+#define KEY_OWNER @"owner"
+#define KEY_BARCODE @"barcode"
+
 
 #define KEY_USER @"user"
 #define KEY_AUTHED @"authed"
@@ -49,6 +56,7 @@
 #define KEY_AUTO_LOGIN @"auto_login"
 #define KEY_REMEMBER_PWD @"remember_pwd"
 #define KEY_DATA @"data"
+#define KEY_SHOP_LIST @"shop-list"
 
 #define VAL_TYPE_USER_APP @"1"
 #define VAL_TYPE_USER_ANONYMOUS @"2"

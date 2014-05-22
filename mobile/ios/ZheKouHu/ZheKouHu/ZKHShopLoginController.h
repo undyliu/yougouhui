@@ -9,6 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface ZKHShopLoginController : UIViewController
+@property (weak, nonatomic) IBOutlet UITextField *phoneField;
+@property (weak, nonatomic) IBOutlet UITextField *pwdField;
+- (IBAction)fieldDonEditing:(UITextField *)sender;
+- (IBAction)shopLogin:(UIButton *)sender;
 
 - (IBAction)registerShop:(UIButton *)sender;
+
+- (IBAction)backgroupTap:(id)sender;
+
 @end

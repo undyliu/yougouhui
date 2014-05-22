@@ -53,20 +53,8 @@
     UIBarButtonItem *myBtn = [[UIBarButtonItem alloc] initWithCustomView:tools];
     rootController.navigationItem.rightBarButtonItem = myBtn;
     
-    [self reloadData];
 }
 
-- (void)reloadData
-{
-    if ([[ZKHContext getInstance] isAnonymousUserLogined]) {
-        moreItems = @[NSLocalizedString(@"LABEL_LOGIN", @"login"),
-                      NSLocalizedString(@"LABEL_REGISTER_USER", @"register user"),
-                      NSLocalizedString(@"LABEL_BUYING_SHARE", @"share buying")];
-    }else{
-        moreItems = @[NSLocalizedString(@"LABEL_ADD_FRIENDS", @"add friends"),
-                      NSLocalizedString(@"LABEL_BUYING_SHARE", @"share buying")];
-    }
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -80,15 +68,29 @@
 
 - (void) clickMore: (id)sender
 {
-    CGFloat xWidth = self.view.bounds.size.width - 20.0f;
-    CGFloat yHeight = [moreItems count] * 80;
-    CGFloat yOffset = (self.view.bounds.size.height - yHeight)/2.0f;
-    UIPopoverListView *poplistview = [[UIPopoverListView alloc] initWithFrame:CGRectMake(10, yOffset, xWidth, yHeight)];
-    poplistview.delegate = self;
-    poplistview.datasource = self;
-    poplistview.listView.scrollEnabled = FALSE;
-    //[poplistview setTitle:@"Share to"];
-    [poplistview show];
+    UIActionSheet *actionSheet;
+    if ([[ZKHContext getInstance] isAnonymousUserLogined]) {
+        actionSheet = [[UIActionSheet alloc]
+                       initWithTitle:nil
+                       delegate:self
+                       cancelButtonTitle:@"取消"
+                       destructiveButtonTitle:nil
+                       otherButtonTitles:NSLocalizedString(@"LABEL_LOGIN", @"login"),
+                       NSLocalizedString(@"LABEL_REGISTER_USER", @"register user"),
+                       NSLocalizedString(@"LABEL_BUYING_SHARE", @"share buying"),
+                       nil];
+    }else{
+        actionSheet = [[UIActionSheet alloc]
+                       initWithTitle:nil
+                       delegate:self
+                       cancelButtonTitle:@"取消"
+                       destructiveButtonTitle:nil
+                       otherButtonTitles:NSLocalizedString(@"LABEL_ADD_FRIENDS", @"add friends"),
+                       NSLocalizedString(@"LABEL_BUYING_SHARE", @"share buying"),
+                       nil];
+    }
+    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    [actionSheet showInView:self.view];
 }
 
 - (void) clickProfile: (id)sender
@@ -97,51 +99,37 @@
     [self pushViewController:controller animated:YES];
 }
 
-#pragma mark - UIPopoverListViewDataSource
 
-- (UITableViewCell *)popoverListView:(UIPopoverListView *)popoverListView
-                    cellForIndexPath:(NSIndexPath *)indexPath
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    static NSString *identifier = @"cell";
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                    reuseIdentifier:identifier];
-    cell.textLabel.text = moreItems[indexPath.row];
-    
-    return cell;
-}
-
-- (NSInteger)popoverListView:(UIPopoverListView *)popoverListView
-       numberOfRowsInSection:(NSInteger)section
-{
-    return [moreItems count];
-}
-
-#pragma mark - UIPopoverListViewDelegate
-- (void)popoverListView:(UIPopoverListView *)popoverListView
-     didSelectIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"%s : %d", __func__, indexPath.row);
-    
+    UIViewController *controller;
     if ([[ZKHContext getInstance] isAnonymousUserLogined]) {
-        UIViewController *viewController = nil;
-        if (indexPath.row == 0) {
-            viewController = [[ZKHLoginController alloc] init];
-        }else if(indexPath.row == 1){
-            viewController = [[ZKHRegiserUserController alloc] init];
-        }else if (indexPath.row == 2){
-            
+        switch (buttonIndex) {
+            case 0://login
+                controller = [[ZKHLoginController alloc] init];
+                break;
+            case 1://register user
+                controller = [[ZKHRegiserUserController alloc] init];
+                break;
+            case 2://share
+                break;
+            default:
+                break;
         }
-        
-        if (viewController != nil) {
-            [self pushViewController:viewController animated:YES];
+    }else{
+        switch (buttonIndex) {
+            case 0://add friend
+                
+                break;
+            case 1://share
+                break;
+            default:
+                break;
         }
     }
-   
-}
-
-- (CGFloat)popoverListView:(UIPopoverListView *)popoverListView
-   heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 60.0f;
+    
+    if (controller != nil) {
+        [self pushViewController:controller animated:YES];
+    }
 }
 @end
