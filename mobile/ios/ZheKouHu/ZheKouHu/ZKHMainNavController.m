@@ -10,6 +10,7 @@
 #import "ZKHLoginController.h"
 #import "ZKHRegiserUserController.h"
 #import "ZKHContext.h"
+#import "ZKHUserProfileController.h"
 
 @interface ZKHMainNavController ()
 
@@ -21,25 +22,7 @@
 {
     self = [super initWithRootViewController:rootViewController];
     if(self){
-        
-        UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 90, 45)];
-        [tools setTintColor:[self.navigationController.navigationBar tintColor]];
-        [tools setAlpha:[self.navigationController.navigationBar alpha]];
-        NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:3];
-        
-        UIBarButtonItem *searchButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(clickSearch:)];
-        UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(clickMore:)];
-        UIBarButtonItem *profileButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(clickProfile:)];
-        
-        
-        [buttons addObject:searchButton];
-        [buttons addObject:moreButton];
-        [buttons addObject:profileButton];
-        
-        [tools setItems:buttons animated:NO];
-        
-        UIBarButtonItem *myBtn = [[UIBarButtonItem alloc] initWithCustomView:tools];
-        rootViewController.navigationItem.rightBarButtonItem = myBtn;
+        rootController = rootViewController;
     }
     return self;
 }
@@ -47,6 +30,30 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 90, self.navigationBar.frame.size.height + 1)];
+    [tools setTintColor:[self.navigationController.navigationBar tintColor]];
+    [tools setAlpha:[self.navigationController.navigationBar alpha]];
+    NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:3];
+    
+    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(clickSearch:)];
+    UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(clickMore:)];
+    UIBarButtonItem *profileButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(clickProfile:)];
+    
+    
+    [buttons addObject:searchButton];
+    [buttons addObject:moreButton];
+    [buttons addObject:profileButton];
+    
+    [tools setItems:buttons animated:NO];
+    
+    UIBarButtonItem *myBtn = [[UIBarButtonItem alloc] initWithCustomView:tools];
+    rootController.navigationItem.rightBarButtonItem = myBtn;
+    
+    [self reloadData];
 }
 
 - (void)reloadData
@@ -64,11 +71,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self reloadData];
 }
 
 - (void) clickSearch: (id)sender
@@ -91,7 +93,8 @@
 
 - (void) clickProfile: (id)sender
 {
-    
+    ZKHUserProfileController *controller = [[ZKHUserProfileController alloc] init];
+    [self pushViewController:controller animated:YES];
 }
 
 #pragma mark - UIPopoverListViewDataSource

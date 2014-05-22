@@ -11,6 +11,7 @@
 
 @interface ZKHMainNavController : UINavigationController<UIPopoverListViewDataSource, UIPopoverListViewDelegate>
 {
+    UIViewController * rootController;
     NSArray* moreItems;
 }
 

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZKHTableViewController.h"
 
-@interface ZKHModuleListController : UITableViewController
+@interface ZKHModuleListController : ZKHTableViewController
 
 @property (strong, nonatomic) NSMutableArray *modules;
 

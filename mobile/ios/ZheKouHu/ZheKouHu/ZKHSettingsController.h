@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZKHTableViewController.h"
 
-@interface ZKHSettingsController : UITableViewController
+@interface ZKHSettingsController : ZKHTableViewController
 {
     NSMutableArray *settingItems;
 }

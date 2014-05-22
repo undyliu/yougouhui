@@ -12,6 +12,8 @@
 #import "ZKHAppDelegate.h"
 #import "ZKHContext.h"
 #import "ZKHShopLoginController.h"
+#import "ZKHRaderMainController.h"
+
 
 #define kModuleFriends @"friends"
 #define kModuleRadar @"radar"
@@ -49,8 +51,7 @@ static NSString *CellIdentifier = @"ModuleCellIdentifier";
     
     UINib *nib = [UINib nibWithNibName:@"ZKHModuleListCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
-    
-    
+        
     NSString *type = [self getModuleType];
     if(type != nil){
         [ApplicationDelegate.zkhProcessor modulesForType:type
@@ -68,6 +69,8 @@ static NSString *CellIdentifier = @"ModuleCellIdentifier";
 {
     [super didReceiveMemoryWarning];
 }
+
+
 
 - (NSString *)getModuleType
 {
@@ -131,7 +134,7 @@ static NSString *CellIdentifier = @"ModuleCellIdentifier";
     if ([code isEqualToString:kModuleFriends]) {
         ;
     }else if ([code isEqualToString:kModuleRadar]){
-        
+        viewController = [[ZKHRaderMainController alloc] init];
     }else if([code isEqualToString:kModuleSettings]){
         viewController = [[ZKHSettingsController alloc] init];
     }else if ([code isEqualToString:kModuleContactList]){

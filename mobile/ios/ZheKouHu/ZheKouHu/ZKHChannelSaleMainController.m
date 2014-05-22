@@ -30,6 +30,8 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
         
         UINib *nib = [UINib nibWithNibName:@"ZKHChannelSaleListCell" bundle:nil];
         [self.saleListController.tableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
+        
+        //[self setExtraCellLineHidden:self.saleListView];
     }
     
     [ApplicationDelegate.zkhProcessor channels:nil completionHandler:^(NSMutableArray *channels) {
@@ -38,6 +40,13 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
     } errorHandler:^(NSError *error) {
         
     }];
+}
+
+-(void)setExtraCellLineHidden: (UITableView *)tableView
+{
+    UIView *view = [UIView new];
+    view.backgroundColor = [UIColor clearColor];
+    [tableView setTableFooterView:view];
 }
 
 - (void) updateToolbarItems:(int)activedItemTag

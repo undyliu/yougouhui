@@ -11,6 +11,8 @@
 #import "ZKHAppDelegate.h"
 #import "ZKHContext.h"
 #import "ZKHProcessor+User.h"
+#import "ZKHLoginSettingController.h"
+#import "ZKHRadarSettingViewController.h"
 
 #define SETTING_CODE_LOGIN @"login"
 #define SETTING_CODE_RADAR @"radar"
@@ -77,6 +79,12 @@ static NSString *CellIdentifier = @"Cell";
         context.sessionId = nil;
         
         [self.navigationController popToRootViewControllerAnimated:YES];
+    }else if ([SETTING_CODE_LOGIN isEqualToString:setting.code]){
+        UIViewController *controller = [[ZKHLoginSettingController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
+    }else if ([SETTING_CODE_RADAR isEqualToString:setting.code]){
+        UIViewController *controller = [[ZKHRadarSettingViewController alloc] init];
+        [self.navigationController pushViewController:controller animated:YES];
     }
 }
 
