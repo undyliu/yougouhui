@@ -1,14 +1,14 @@
 (ns yougou.module
-  (:use 
+  (:use
 		[korma.core]
 		[yougou.db]
 		)
 )
 
-(defn get-channels [parent-id] 
-	(select channels (fields :uuid :code :name :url :desc :parent_id) 
-					(where {:parent_id [= parent-id] :is_used [= 1]}) 
-					(order :ord_index))	
+(defn get-channels [parent-id]
+	(select channels (fields :uuid :code :name :url :desc :parent_id, :ord_index)
+					(where {:parent_id [= parent-id] :is_used [= 1]})
+					(order :ord_index))
 )
 
 (defn get-modules [type]
