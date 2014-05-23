@@ -66,3 +66,11 @@
 @interface ZKHSaleData : ZKHData
 
 @end
+
+@interface ZKHTradeData : ZKHData<ZKHEntityUpdater>
+- (NSMutableArray *) getTrades;
+@end
+
+@interface ZKHShopData : ZKHData<ZKHEntityUpdater>
+
+@end

@@ -8,6 +8,8 @@
 
 #import "ZKHProcessor+Shop.h"
 #import "ZKHConst.h"
+#import "ZKHEntity.h"
+#import "ZKHData.h"
 
 @implementation ZKHProcessor (Shop)
 
@@ -50,8 +52,33 @@
                         shop.status = [NSString stringWithFormat:@"%@", [jsonShop valueForKey:KEY_STATUS]];
                         shop.barcode = [jsonShop valueForKey:KEY_BARCODE];
                         
+                        //处理主营业务
+                        NSMutableArray *trades = [[NSMutableArray alloc] init];
+                        id tradeList = [jsonShop valueForKey:KEY_TRADE_LIST];
+                        for (NSDictionary *jsonTrade in tradeList) {
+                            ZKHTradeEntity *trade = [[ZKHTradeEntity alloc] init];
+                            trade.uuid = [jsonTrade valueForKey:KEY_TRADE_ID];
+                            trade.code = [jsonTrade valueForKey:KEY_CODE];
+                            trade.name = [jsonTrade valueForKey:KEY_NAME];
+                            trade.ordIndex = [jsonTrade valueForKey:KEY_ORD_INDEX];
+                            
+                            ZKHShopTradeEntity *shopTrade = [[ZKHShopTradeEntity alloc] init];
+                            shopTrade.uuid = [jsonTrade valueForKey:KEY_UUID];
+                            shopTrade.trade = trade;
+                            
+                            [trades addObject:shopTrade];
+                        }
+                        shop.trades = trades;
+                        
+                        //处理地理位置
+                        ZKHLocationEntity *location = [[ZKHLocationEntity alloc]
+                                                       initWithString:[jsonShop valueForKey:KEY_LOCATION]];
+                        shop.location = location;
+                        
                         [shops addObject:shop];
                     }
+                    
+                    [[[ZKHShopData alloc] init] save:shops];
                     
                     [authedObj setObject:shops forKey:KEY_SHOP_LIST];
                     [authedObj setObject:user forKey:KEY_USER];

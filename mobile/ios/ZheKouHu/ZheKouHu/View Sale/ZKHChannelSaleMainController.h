@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ZKHChannelSaleListController.h"
+#import "ZKHTableViewController.h"
 
-@interface ZKHChannelSaleMainController : UIViewController
+@interface ZKHChannelSaleMainController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+{
+    NSMutableArray *saleList;
+}
 
 @property (strong, nonatomic) NSMutableArray *channels;
-@property (strong, nonatomic) ZKHChannelSaleListController *saleListController;
 
 @property (weak, nonatomic) IBOutlet UIToolbar *channelBar;
 - (IBAction)changeChannel:(UIBarButtonItem *)sender;

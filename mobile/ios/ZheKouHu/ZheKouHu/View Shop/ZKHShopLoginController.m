@@ -35,8 +35,8 @@
     self.title = @"登录店铺";
     
     //test
-    //self.phoneField.text = @"13651083480";
-    //self.pwdField.text = @"11111";
+    self.phoneField.text = @"13651083480";
+    self.pwdField.text = @"11111";
 }
 
 - (void)viewWillAppear:(BOOL)animated

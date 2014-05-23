@@ -13,6 +13,7 @@
 #import "ZKHProcessor+Sync.h"
 #import "ZKHData.h"
 #import "NSDate+Utils.h"
+#import "ZKHChannelSaleListCell.h"
 
 static NSString *CellIdentifier = @"ChannelSaleListCell";
 
@@ -22,17 +23,11 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
 {
     [super viewDidLoad];
     
-    if (self.saleListController == nil) {
-        self.saleListController = [[ZKHChannelSaleListController alloc] init];
-        self.saleListView.dataSource = self.saleListController;
-        self.saleListView.delegate = self.saleListController;
-        self.saleListController.tableView = self.saleListView ;
+    self.saleListView.dataSource = self;
+    self.saleListView.delegate = self;
         
-        UINib *nib = [UINib nibWithNibName:@"ZKHChannelSaleListCell" bundle:nil];
-        [self.saleListController.tableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
-        
-        //[self setExtraCellLineHidden:self.saleListView];
-    }
+    UINib *nib = [UINib nibWithNibName:@"ZKHChannelSaleListCell" bundle:nil];
+    [self.saleListView registerNib:nib forCellReuseIdentifier:CellIdentifier];
     
     [ApplicationDelegate.zkhProcessor channels:nil completionHandler:^(NSMutableArray *channels) {
         self.channels = channels;
@@ -40,13 +35,6 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
     } errorHandler:^(NSError *error) {
         
     }];
-}
-
--(void)setExtraCellLineHidden: (UITableView *)tableView
-{
-    UIView *view = [UIView new];
-    view.backgroundColor = [UIColor clearColor];
-    [tableView setTableFooterView:view];
 }
 
 - (void) updateToolbarItems:(int)activedItemTag
@@ -81,8 +69,8 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
         
         ZKHChannelEntity *channel = self.channels[activedItemTag];
         [ApplicationDelegate.zkhProcessor salesForChannel:channel.uuid updateTime:sync completionHandler:^(NSMutableArray *sales) {
-            self.saleListController.saleList = sales;
-            [self.saleListController.tableView reloadData];
+            saleList = sales;
+            [self.saleListView reloadData];
             
         } errorHandler:^(NSError *error) {
             
@@ -100,5 +88,46 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
     [self updateToolbarItems:sender.tag];
 }
 
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [saleList count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    ZKHChannelSaleListCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    ZKHSaleEntity *sale = saleList[indexPath.row];
+    cell.titelLabel.text = sale.title;
+    cell.contentLabel.text = sale.content;
+    
+    return cell;
+}
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Navigation logic may go here. Create and push another view controller.
+    /*
+     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+     // ...
+     // Pass the selected object to the new view controller.
+     [self.navigationController pushViewController:detailViewController animated:YES];
+     */
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 80.0;
+}
 
 @end

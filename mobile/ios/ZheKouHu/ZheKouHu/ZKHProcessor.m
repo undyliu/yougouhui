@@ -140,12 +140,46 @@
                     [settings addObject:setting];
                 }
             }
-            
-            //TODO:使用委托代理的方式处理?
             ZKHSettingData *data = [[ZKHSettingData alloc] init];
             [data save:settings];
             
             settingsBlock(settings);
+        }];
+    } errorHandler:^(MKNetworkOperation *errorOp, NSError* error) {
+        errorBlock(error);
+    }];
+    
+    [self enqueueOperation:op];
+}
+
+#define GET_TRADES_URL @"/getTrades"
+- (void)trades:(TradesResponseBlock)tradesBlock errorHandler:(MKNKErrorBlock)errorBlock
+{
+    ZKHTradeData *data = [[ZKHTradeData alloc] init];
+    NSMutableArray *trades = [data getTrades];
+    if ([trades count] > 0) {
+        tradesBlock(trades);
+        return;
+    }
+    
+    MKNetworkOperation *op = [self operationWithPath:GET_TRADES_URL];
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        [completedOperation responseJSONWithCompletionHandler:^(id jsonObject) {
+            NSMutableArray * trades = [[NSMutableArray alloc] initWithCapacity:10];
+            if (jsonObject != nil) {
+                for (NSDictionary *json in jsonObject) {
+                    ZKHTradeEntity *trade = [[ZKHTradeEntity alloc] init];
+                    trade.uuid = [json valueForKey:KEY_UUID];
+                    trade.code = [json valueForKey:KEY_CODE];
+                    trade.name = [json valueForKey:KEY_NAME];
+                    trade.ordIndex =[json valueForKey:KEY_ORD_INDEX];
+                    
+                    [trades addObject:trade];
+                }
+            }
+         [data save:trades];
+         
+         tradesBlock(trades);
         }];
     } errorHandler:^(MKNetworkOperation *errorOp, NSError* error) {
         errorBlock(error);

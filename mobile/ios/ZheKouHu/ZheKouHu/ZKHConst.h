@@ -48,6 +48,9 @@
 #define KEY_BUSI_LICENSE @"busi_license"
 #define KEY_OWNER @"owner"
 #define KEY_BARCODE @"barcode"
+#define KEY_RADIUS @"radius"
+#define KEY_LATITUDE @"latitude"
+#define KEY_LONGITUDE @"longitude"
 
 
 #define KEY_USER @"user"
@@ -57,6 +60,7 @@
 #define KEY_REMEMBER_PWD @"remember_pwd"
 #define KEY_DATA @"data"
 #define KEY_SHOP_LIST @"shop-list"
+#define KEY_TRADE_LIST @"tradeList"
 
 #define VAL_TYPE_USER_APP @"1"
 #define VAL_TYPE_USER_ANONYMOUS @"2"

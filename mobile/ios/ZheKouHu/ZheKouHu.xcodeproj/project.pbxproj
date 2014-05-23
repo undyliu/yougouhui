@@ -79,7 +79,6 @@
 		10456D9D192E28D20061DCC1 /* ZKHProcessor+User.m in Sources */ = {isa = PBXBuildFile; fileRef = 10456D51192E28D20061DCC1 /* ZKHProcessor+User.m */; };
 		10456D9E192E28D20061DCC1 /* ZKHChannelSaleListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10456D54192E28D20061DCC1 /* ZKHChannelSaleListCell.m */; };
 		10456D9F192E28D20061DCC1 /* ZKHChannelSaleListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10456D55192E28D20061DCC1 /* ZKHChannelSaleListCell.xib */; };
-		10456DA0192E28D20061DCC1 /* ZKHChannelSaleListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10456D57192E28D20061DCC1 /* ZKHChannelSaleListController.m */; };
 		10456DA1192E28D20061DCC1 /* ZKHChannelSaleMainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10456D59192E28D20061DCC1 /* ZKHChannelSaleMainController.m */; };
 		10456DA2192E28D20061DCC1 /* ZKHChannelSaleMainController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10456D5A192E28D20061DCC1 /* ZKHChannelSaleMainController.xib */; };
 		10456DA3192E28D20061DCC1 /* ZKHSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10456D5D192E28D20061DCC1 /* ZKHSwitchCell.m */; };
@@ -112,6 +111,8 @@
 		10E7E75B192E233A00AE6083 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E7E745192E233A00AE6083 /* settings.png */; };
 		10E7E75C192E233A00AE6083 /* share_interact.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E7E746192E233A00AE6083 /* share_interact.png */; };
 		10E7E75D192E233A00AE6083 /* shop_info.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E7E747192E233A00AE6083 /* shop_info.png */; };
+		10F394DD192ED44900629F8F /* ZKHTradeData.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F394DC192ED44900629F8F /* ZKHTradeData.m */; };
+		10F394E2192EE22400629F8F /* ZKHShopData.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F394E1192EE22400629F8F /* ZKHShopData.m */; };
 		10F7080019298CF200282511 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F707FF19298CF200282511 /* UIKit.framework */; };
 		10F7080219298CF200282511 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F7080119298CF200282511 /* Foundation.framework */; };
 		10F7080419298CF200282511 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F7080319298CF200282511 /* CoreGraphics.framework */; };
@@ -240,8 +241,6 @@
 		10456D53192E28D20061DCC1 /* ZKHChannelSaleListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHChannelSaleListCell.h; sourceTree = "<group>"; };
 		10456D54192E28D20061DCC1 /* ZKHChannelSaleListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHChannelSaleListCell.m; sourceTree = "<group>"; };
 		10456D55192E28D20061DCC1 /* ZKHChannelSaleListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHChannelSaleListCell.xib; sourceTree = "<group>"; };
-		10456D56192E28D20061DCC1 /* ZKHChannelSaleListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHChannelSaleListController.h; sourceTree = "<group>"; };
-		10456D57192E28D20061DCC1 /* ZKHChannelSaleListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHChannelSaleListController.m; sourceTree = "<group>"; };
 		10456D58192E28D20061DCC1 /* ZKHChannelSaleMainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHChannelSaleMainController.h; sourceTree = "<group>"; };
 		10456D59192E28D20061DCC1 /* ZKHChannelSaleMainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHChannelSaleMainController.m; sourceTree = "<group>"; };
 		10456D5A192E28D20061DCC1 /* ZKHChannelSaleMainController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHChannelSaleMainController.xib; sourceTree = "<group>"; };
@@ -278,6 +277,8 @@
 		10E7E745192E233A00AE6083 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
 		10E7E746192E233A00AE6083 /* share_interact.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share_interact.png; sourceTree = "<group>"; };
 		10E7E747192E233A00AE6083 /* shop_info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shop_info.png; sourceTree = "<group>"; };
+		10F394DC192ED44900629F8F /* ZKHTradeData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHTradeData.m; sourceTree = "<group>"; };
+		10F394E1192EE22400629F8F /* ZKHShopData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShopData.m; sourceTree = "<group>"; };
 		10F707FC19298CF200282511 /* ZheKouHu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZheKouHu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10F707FF19298CF200282511 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		10F7080119298CF200282511 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -409,6 +410,8 @@
 				10456D0E192E28D20061DCC1 /* ZKHSettingData.m */,
 				10456D0F192E28D20061DCC1 /* ZKHSyncData.m */,
 				10456D10192E28D20061DCC1 /* ZKHUserData.m */,
+				10F394DC192ED44900629F8F /* ZKHTradeData.m */,
+				10F394E1192EE22400629F8F /* ZKHShopData.m */,
 			);
 			path = "Database Datas";
 			sourceTree = "<group>";
@@ -520,8 +523,6 @@
 				10456D53192E28D20061DCC1 /* ZKHChannelSaleListCell.h */,
 				10456D54192E28D20061DCC1 /* ZKHChannelSaleListCell.m */,
 				10456D55192E28D20061DCC1 /* ZKHChannelSaleListCell.xib */,
-				10456D56192E28D20061DCC1 /* ZKHChannelSaleListController.h */,
-				10456D57192E28D20061DCC1 /* ZKHChannelSaleListController.m */,
 				10456D58192E28D20061DCC1 /* ZKHChannelSaleMainController.h */,
 				10456D59192E28D20061DCC1 /* ZKHChannelSaleMainController.m */,
 				10456D5A192E28D20061DCC1 /* ZKHChannelSaleMainController.xib */,
@@ -817,9 +818,10 @@
 				10456D9C192E28D20061DCC1 /* ZKHProcessor+Sync.m in Sources */,
 				10456D9D192E28D20061DCC1 /* ZKHProcessor+User.m in Sources */,
 				10456D9E192E28D20061DCC1 /* ZKHChannelSaleListCell.m in Sources */,
-				10456DA0192E28D20061DCC1 /* ZKHChannelSaleListController.m in Sources */,
 				10456DA1192E28D20061DCC1 /* ZKHChannelSaleMainController.m in Sources */,
 				10456DA3192E28D20061DCC1 /* ZKHSwitchCell.m in Sources */,
+				10F394DD192ED44900629F8F /* ZKHTradeData.m in Sources */,
+				10F394E2192EE22400629F8F /* ZKHShopData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
