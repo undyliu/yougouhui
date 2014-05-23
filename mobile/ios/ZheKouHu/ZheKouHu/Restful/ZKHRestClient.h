@@ -8,6 +8,7 @@
 
 #import "MKNetworkEngine.h"
 #import "ZKHRestRequest.h"
+#import "MBProgressHUD.h"
 
 #define METHOD_GET @"GET"
 #define METHOD_POST @"POST"
@@ -15,6 +16,9 @@
 #define METHOD_DELETE @"DELETE"
 
 @interface ZKHRestClient : MKNetworkEngine
+{
+    MBProgressHUD *hud;
+}
 
 - (id)initWithDefaultSettings;
 
