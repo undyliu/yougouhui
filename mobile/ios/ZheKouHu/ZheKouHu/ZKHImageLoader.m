@@ -47,11 +47,11 @@
         return;
     }
     
-    NSURL *imageUrl = [NSURL URLWithString: GET_IMAGE_FILE_URL(fileName)];
-    [ApplicationDelegate.zkhProcessor imageAtURL:imageUrl completionHandler:^(UIImage *fetchedImage, NSURL *url, BOOL isInCache) {
+    NSURL *imageUrl = [NSURL URLWithString: GET_IMAGE_FILE_URL(fileName)];    
+    [ApplicationDelegate.zkhProcessor imageAtURL:imageUrl completionHandler:^(UIImage *fetchedImage) {
         [ZKHImageLoader saveImage:fetchedImage fileName:fileName];
         imageBlock(fetchedImage);
-    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+    } errorHandler:^(NSError *error) {
         errorBlock(error);
     }];
 }

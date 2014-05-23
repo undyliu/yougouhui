@@ -11,6 +11,7 @@
 #import "ZKHEntity.h"
 #import "ZKHContext.h"
 #import "ZKHImageLoader.h"
+#import "ZKHChnageUserNameController.h"
 
 static NSString *CellIdentifier = @"ImageLabelCell";
 
@@ -104,6 +105,19 @@ static NSString *CellIdentifier = @"ImageLabelCell";
         return;
     }
     
+    UIViewController *controller;
+    switch (indexPath.row) {
+        case 2:
+            controller = [[ZKHChnageUserNameController alloc] init];
+            break;
+            
+        default:
+            break;
+    }
+    
+    if (controller != nil) {
+        [self.navigationController pushViewController:controller animated:YES];
+    }
 }
 
 

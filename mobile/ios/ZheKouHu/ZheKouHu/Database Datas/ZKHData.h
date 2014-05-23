@@ -41,6 +41,7 @@
 
 @interface ZKHUserData : ZKHData <ZKHEntityUpdater>
 - (ZKHUserEntity *) getUser: (NSString *)phone;
+- (void) updateUserName:(NSString *)uuid name:(NSString *)name;
 
 @end
 

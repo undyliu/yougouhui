@@ -6,34 +6,35 @@
 //  Copyright (c) 2014年 undyliu. All rights reserved.
 //
 
-#import "MKNetworkEngine.h"
+#import "ZKHRestClient.h"
 
-#define METHOD_GET @"GET"
-#define METHOD_POST @"POST"
-#define METHOD_PUT @"PUT"
-#define METHOD_DELETE @"DELETE"
+@interface ZKHProcessor : NSObject
 
-@interface ZKHProcessor : MKNetworkEngine
+{
+   @private
+    ZKHRestClient *restClient;
+}
 
-- (id)initWithDefaultSettings;
+typedef void (^ZKHImageResponseBlock)(UIImage *fetchedImage);
+- (void)imageAtURL:(NSURL *)url completionHandler:(ZKHImageResponseBlock) imageFetchedBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 //获取功能模块
 typedef void (^ModulesResponseBlock)(NSMutableArray* modules);
-- (void) modulesForType: (NSString *) type completionHandler:(ModulesResponseBlock) modulesBlock errorHandler:(MKNKErrorBlock) errorBlock;
+- (void) modulesForType: (NSString *) type completionHandler:(ModulesResponseBlock) modulesBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 //获取栏目
 typedef void (^ChannelsResponseBlock)(NSMutableArray* channels);
 - (void) channels: (NSString *)parentId completionHandler:(ChannelsResponseBlock) channelsBlock
-     errorHandler:(MKNKErrorBlock) errorBlock;
+     errorHandler:(RestResponseErrorBlock) errorBlock;
 
 //获取设置条目
 typedef void (^SettingsResponseBlock)(NSMutableArray* settings);
 - (void) settings: (SettingsResponseBlock) settingsBlock
-     errorHandler:(MKNKErrorBlock) errorBlock;
+     errorHandler:(RestResponseErrorBlock) errorBlock;
 
 //获取主营业务
 typedef void (^TradesResponseBlock)(NSMutableArray* trades);
 - (void) trades: (TradesResponseBlock) tradesBlock
-     errorHandler:(MKNKErrorBlock) errorBlock;
+     errorHandler:(RestResponseErrorBlock) errorBlock;
 
 @end

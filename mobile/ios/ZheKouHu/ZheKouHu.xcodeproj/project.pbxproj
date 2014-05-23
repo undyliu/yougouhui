@@ -86,6 +86,10 @@
 		109CA799192E2A1E00A50D49 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 109CA796192E2A1E00A50D49 /* Default.png */; };
 		109CA79A192E2A1E00A50D49 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 109CA797192E2A1E00A50D49 /* Default@2x.png */; };
 		10BDD6EE1929E82000B38580 /* ZKHEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BDD6ED1929E82000B38580 /* ZKHEntity.m */; };
+		10E1B49F192F2F58008FBF4D /* ZKHChangeTextController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E1B49E192F2F58008FBF4D /* ZKHChangeTextController.m */; };
+		10E1B4A3192F4445008FBF4D /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E1B4A2192F4445008FBF4D /* MBProgressHUD.m */; };
+		10E1B4A7192F4624008FBF4D /* ZKHRestRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E1B4A6192F4624008FBF4D /* ZKHRestRequest.m */; };
+		10E1B4AA192F49D0008FBF4D /* ZKHRestClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E1B4A9192F49D0008FBF4D /* ZKHRestClient.m */; };
 		10E5EC89192DBD23009A1BA2 /* ZKHTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E5EC88192DBD23009A1BA2 /* ZKHTableViewController.m */; };
 		10E7E748192E233A00AE6083 /* add_camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E7E732192E233A00AE6083 /* add_camera.png */; };
 		10E7E749192E233A00AE6083 /* contact_list.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E7E733192E233A00AE6083 /* contact_list.png */; };
@@ -115,6 +119,9 @@
 		10F394E7192EED6E00629F8F /* ZKHImageLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F394E5192EED6E00629F8F /* ZKHImageLabelCell.m */; };
 		10F394EA192F12D500629F8F /* ZKHImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F394E9192F12D400629F8F /* ZKHImageLoader.m */; };
 		10F394EC192F192D00629F8F /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F394EB192F192D00629F8F /* loading.png */; };
+		10F394EE192F265400629F8F /* ZKHChangeText.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10F394ED192F265400629F8F /* ZKHChangeText.xib */; };
+		10F394F1192F272100629F8F /* ZKHChangeTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F394F0192F272100629F8F /* ZKHChangeTextView.m */; };
+		10F394F4192F280400629F8F /* ZKHChnageUserNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F394F3192F280400629F8F /* ZKHChnageUserNameController.m */; };
 		10F7080019298CF200282511 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F707FF19298CF200282511 /* UIKit.framework */; };
 		10F7080219298CF200282511 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F7080119298CF200282511 /* Foundation.framework */; };
 		10F7080419298CF200282511 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F7080319298CF200282511 /* CoreGraphics.framework */; };
@@ -252,6 +259,14 @@
 		109CA797192E2A1E00A50D49 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		10BDD6EC1929E82000B38580 /* ZKHEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHEntity.h; sourceTree = "<group>"; };
 		10BDD6ED1929E82000B38580 /* ZKHEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHEntity.m; sourceTree = "<group>"; };
+		10E1B49D192F2F58008FBF4D /* ZKHChangeTextController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHChangeTextController.h; sourceTree = "<group>"; };
+		10E1B49E192F2F58008FBF4D /* ZKHChangeTextController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHChangeTextController.m; sourceTree = "<group>"; };
+		10E1B4A1192F4445008FBF4D /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		10E1B4A2192F4445008FBF4D /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		10E1B4A5192F4624008FBF4D /* ZKHRestRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHRestRequest.h; sourceTree = "<group>"; };
+		10E1B4A6192F4624008FBF4D /* ZKHRestRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHRestRequest.m; sourceTree = "<group>"; };
+		10E1B4A8192F49D0008FBF4D /* ZKHRestClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHRestClient.h; sourceTree = "<group>"; };
+		10E1B4A9192F49D0008FBF4D /* ZKHRestClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHRestClient.m; sourceTree = "<group>"; };
 		10E5EC87192DBD23009A1BA2 /* ZKHTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHTableViewController.h; sourceTree = "<group>"; };
 		10E5EC88192DBD23009A1BA2 /* ZKHTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHTableViewController.m; sourceTree = "<group>"; };
 		10E7E732192E233A00AE6083 /* add_camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_camera.png; sourceTree = "<group>"; };
@@ -284,6 +299,11 @@
 		10F394E8192F12D400629F8F /* ZKHImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHImageLoader.h; sourceTree = "<group>"; };
 		10F394E9192F12D400629F8F /* ZKHImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHImageLoader.m; sourceTree = "<group>"; };
 		10F394EB192F192D00629F8F /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading.png; sourceTree = "<group>"; };
+		10F394ED192F265400629F8F /* ZKHChangeText.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHChangeText.xib; sourceTree = "<group>"; };
+		10F394EF192F272100629F8F /* ZKHChangeTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHChangeTextView.h; sourceTree = "<group>"; };
+		10F394F0192F272100629F8F /* ZKHChangeTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHChangeTextView.m; sourceTree = "<group>"; };
+		10F394F2192F280400629F8F /* ZKHChnageUserNameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHChnageUserNameController.h; sourceTree = "<group>"; };
+		10F394F3192F280400629F8F /* ZKHChnageUserNameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHChnageUserNameController.m; sourceTree = "<group>"; };
 		10F707FC19298CF200282511 /* ZheKouHu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZheKouHu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10F707FF19298CF200282511 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		10F7080119298CF200282511 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -327,6 +347,7 @@
 		10456CE1192E28D20061DCC1 /* Thirdparty Libs */ = {
 			isa = PBXGroup;
 			children = (
+				10E1B4A0192F4434008FBF4D /* MBProgressHUD */,
 				10456CE2192E28D20061DCC1 /* ComboBox */,
 				10456CEC192E28D20061DCC1 /* ICViewPager */,
 				10456CEF192E28D20061DCC1 /* MKNetworkKit */,
@@ -458,6 +479,8 @@
 				10456D2E192E28D20061DCC1 /* ZKHUserProfileController.h */,
 				10456D2F192E28D20061DCC1 /* ZKHUserProfileController.m */,
 				10456D30192E28D20061DCC1 /* ZKHUserProfileController.xib */,
+				10F394F2192F280400629F8F /* ZKHChnageUserNameController.h */,
+				10F394F3192F280400629F8F /* ZKHChnageUserNameController.m */,
 			);
 			path = "View User";
 			sourceTree = "<group>";
@@ -541,8 +564,33 @@
 				10456D5C192E28D20061DCC1 /* ZKHSwitchCell.h */,
 				10456D5D192E28D20061DCC1 /* ZKHSwitchCell.m */,
 				10456D5E192E28D20061DCC1 /* ZKHSwitchCell.xib */,
+				10F394ED192F265400629F8F /* ZKHChangeText.xib */,
+				10F394EF192F272100629F8F /* ZKHChangeTextView.h */,
+				10F394F0192F272100629F8F /* ZKHChangeTextView.m */,
+				10E1B49D192F2F58008FBF4D /* ZKHChangeTextController.h */,
+				10E1B49E192F2F58008FBF4D /* ZKHChangeTextController.m */,
 			);
 			path = "View Widgets";
+			sourceTree = "<group>";
+		};
+		10E1B4A0192F4434008FBF4D /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				10E1B4A1192F4445008FBF4D /* MBProgressHUD.h */,
+				10E1B4A2192F4445008FBF4D /* MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		10E1B4A4192F460B008FBF4D /* Restful */ = {
+			isa = PBXGroup;
+			children = (
+				10E1B4A5192F4624008FBF4D /* ZKHRestRequest.h */,
+				10E1B4A6192F4624008FBF4D /* ZKHRestRequest.m */,
+				10E1B4A8192F49D0008FBF4D /* ZKHRestClient.h */,
+				10E1B4A9192F49D0008FBF4D /* ZKHRestClient.m */,
+			);
+			path = Restful;
 			sourceTree = "<group>";
 		};
 		10E7E731192E233A00AE6083 /* images */ = {
@@ -612,6 +660,7 @@
 		10F7080719298CF200282511 /* ZheKouHu */ = {
 			isa = PBXGroup;
 			children = (
+				10E1B4A4192F460B008FBF4D /* Restful */,
 				10456CE1192E28D20061DCC1 /* Thirdparty Libs */,
 				10456D45192E28D20061DCC1 /* Categories */,
 				10456D07192E28D20061DCC1 /* Database Datas */,
@@ -765,6 +814,7 @@
 				109CA79A192E2A1E00A50D49 /* Default@2x.png in Resources */,
 				10F394E6192EED6E00629F8F /* ZKHImageLabelCell.xib in Resources */,
 				10F394EC192F192D00629F8F /* loading.png in Resources */,
+				10F394EE192F265400629F8F /* ZKHChangeText.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -832,6 +882,12 @@
 				10F394E2192EE22400629F8F /* ZKHShopData.m in Sources */,
 				10F394E7192EED6E00629F8F /* ZKHImageLabelCell.m in Sources */,
 				10F394EA192F12D500629F8F /* ZKHImageLoader.m in Sources */,
+				10F394F1192F272100629F8F /* ZKHChangeTextView.m in Sources */,
+				10F394F4192F280400629F8F /* ZKHChnageUserNameController.m in Sources */,
+				10E1B49F192F2F58008FBF4D /* ZKHChangeTextController.m in Sources */,
+				10E1B4A3192F4445008FBF4D /* MBProgressHUD.m in Sources */,
+				10E1B4A7192F4624008FBF4D /* ZKHRestRequest.m in Sources */,
+				10E1B4AA192F49D0008FBF4D /* ZKHRestClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

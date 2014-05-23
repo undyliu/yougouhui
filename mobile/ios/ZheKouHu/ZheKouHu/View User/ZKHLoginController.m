@@ -6,6 +6,7 @@
 //  Copyright (c) 2014年 undyliu. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "ZKHLoginController.h"
 #import "ZKHRegiserUserController.h"
 #import "ZKHAppDelegate.h"
@@ -88,6 +89,16 @@
     }
 }
 
+- (IBAction)phoneFieldEditingEnd:(id)sender {
+    NSString *phone = self.phoneText.text;
+    if ([phone length] == 0) {
+        self.phoneText.layer.cornerRadius = 8.0f;
+        self.phoneText.layer.masksToBounds = YES;
+        self.phoneText.layer.borderColor = [[UIColor redColor] CGColor];
+        self.phoneText.layer.borderWidth = 2.0f;
+    }
+}
+
 - (IBAction)autoLoginChanged:(UISwitch *)sender {
     if (sender.isOn) {
         [self.rememberPwdSwitch setOn:sender.isOn animated:YES];
@@ -100,11 +111,13 @@
     NSString *pwd = self.pwdText.text;
     
     if ([phone length] == 0) {
+        self.phoneText.layer.borderColor = [[UIColor redColor] CGColor];
         [self.phoneText becomeFirstResponder];
         return;
     }
     
     if ([pwd length] == 0) {
+        self.pwdText.layer.borderColor = [[UIColor redColor] CGColor];
         [self.pwdText becomeFirstResponder];
         return;
     }

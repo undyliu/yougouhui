@@ -31,7 +31,7 @@
 }
 
 - (void) initContext{
-    self.zkhProcessor = [[ZKHProcessor alloc] initWithDefaultSettings];
+    self.zkhProcessor = [[ZKHProcessor alloc] init];
     
     NSMutableDictionary *loginEnv = [ApplicationDelegate.zkhProcessor getLastLoginEnv];
     if (loginEnv != nil && [loginEnv count] > 0) {

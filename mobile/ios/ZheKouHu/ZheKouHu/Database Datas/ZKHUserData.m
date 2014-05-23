@@ -50,4 +50,10 @@
     return (ZKHUserEntity *)[self queryOne:USER_BY_PHONE_QUERY_SQL params:@[phone]];
 }
 
+#define USER_UPDATE_NAME_SQL [NSString stringWithFormat:@"update %@ set %@=? where %@=?", USER_TABLE, KEY_NAME, KEY_UUID]
+
+- (void)updateUserName:(NSString *)uuid name:(NSString *)name
+{
+    [self executeUpdate:USER_UPDATE_NAME_SQL params:@[name, uuid]];
+}
 @end
