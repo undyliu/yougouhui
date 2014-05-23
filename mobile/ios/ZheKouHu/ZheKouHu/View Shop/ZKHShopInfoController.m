@@ -8,6 +8,7 @@
 
 #import "ZKHShopInfoController.h"
 #import "ZKHImageLabelCell.h"
+#import "ZKHImageLoader.h"
 
 static NSString *CellIdentifier = @"ImageLabelCell";
 
@@ -60,10 +61,17 @@ static NSString *CellIdentifier = @"ImageLabelCell";
             cell.valueLabel.hidden = false;
             break;
         case 1:
+        {
             cell.nameLabel.text = @"店面图片";
             cell.valueLabel.hidden = true;
             cell.photoView.hidden = false;
-            cell.photoView.image = [UIImage imageNamed:@"default_pic.png"];
+            NSString *shopImg = self.shop.shopImg;
+            if ([shopImg length] > 0) {
+                [ZKHImageLoader showImageForName:shopImg imageView:cell.photoView];
+            }else{
+                cell.photoView.image = [UIImage imageNamed:@"default_pic.png"];
+            }
+        }
             break;
         case 2:
             cell.nameLabel.text = @"地址";
@@ -85,10 +93,17 @@ static NSString *CellIdentifier = @"ImageLabelCell";
             }
             break;
         case 4:
+        {
             cell.nameLabel.text = @"营业执照";
             cell.valueLabel.hidden = true;
             cell.photoView.hidden = false;
-            cell.photoView.image = [UIImage imageNamed:@"default_pic.png"];
+            NSString *busiLicense = self.shop.busiLicense;
+            if ([busiLicense length] > 0) {
+                [ZKHImageLoader showImageForName:busiLicense imageView:cell.photoView];
+            }else{
+                cell.photoView.image = [UIImage imageNamed:@"default_pic.png"];
+            }
+        }
             break;
         case 5:
             cell.nameLabel.text = @"简介";
@@ -103,10 +118,17 @@ static NSString *CellIdentifier = @"ImageLabelCell";
             cell.valueLabel.hidden = false;
             break;
         case 7:
+        {
             cell.nameLabel.text = @"二维码";
             cell.valueLabel.hidden = true;
             cell.photoView.hidden = false;
-            cell.photoView.image = [UIImage imageNamed:@"default_pic.png"];
+            NSString *barcode = self.shop.barcode;
+            if ([barcode length] > 0) {
+                [ZKHImageLoader showImageForName:barcode imageView:cell.photoView];
+            }else{
+                cell.photoView.image = [UIImage imageNamed:@"default_pic.png"];
+            }
+        }
             break;
         default:
             break;

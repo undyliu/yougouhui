@@ -160,7 +160,6 @@
 								<string key="NSFrame">{{243, 72}, {57, 15}}</string>
 								<reference key="NSSuperview" ref="140480431"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -230,14 +229,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">imageView</string>
-						<reference key="source" ref="574306870"/>
-						<reference key="destination" ref="1056860294"/>
-					</object>
-					<int key="connectionID">136</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">contentLabel</string>
 						<reference key="source" ref="574306870"/>
 						<reference key="destination" ref="332976064"/>
@@ -267,6 +258,14 @@
 						<reference key="destination" ref="373167288"/>
 					</object>
 					<int key="connectionID">140</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">saleImageView</string>
+						<reference key="source" ref="574306870"/>
+						<reference key="destination" ref="1056860294"/>
+					</object>
+					<int key="connectionID">377</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -761,7 +760,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">376</int>
+			<int key="maxID">377</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -778,7 +777,7 @@
 					<string key="superclassName">UITableViewCell</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="contentLabel">UILabel</string>
-						<string key="imageView">UIImageView</string>
+						<string key="saleImageView">UIImageView</string>
 						<string key="shopLabel">UILabel</string>
 						<string key="statusLabel">UILabel</string>
 						<string key="titelLabel">UILabel</string>
@@ -789,8 +788,8 @@
 							<string key="name">contentLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="imageView">
-							<string key="name">imageView</string>
+						<object class="IBToOneOutletInfo" key="saleImageView">
+							<string key="name">saleImageView</string>
 							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="shopLabel">

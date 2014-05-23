@@ -10,6 +10,7 @@
 #import "ZKHImageLabelCell.h"
 #import "ZKHEntity.h"
 #import "ZKHContext.h"
+#import "ZKHImageLoader.h"
 
 static NSString *CellIdentifier = @"ImageLabelCell";
 
@@ -59,23 +60,34 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     int row = indexPath.row;
     switch (row) {
         case 0:
+        {
             cell.nameLabel.text = @"头像";
-            cell.photoView.image = [UIImage imageNamed:@"default_user_photo.png"];
+            NSString *photo = user.photo;
+            if ([photo length] > 0) {
+                [ZKHImageLoader showImageForName:photo imageView:cell.photoView];
+            }else{
+                cell.photoView.image = [UIImage imageNamed:@"default_user_photo.png"];
+            }
+            cell.photoView.hidden = false;
             cell.valueLabel.hidden = true;
+        }
             break;
         case 1:
             cell.nameLabel.text = @"手机号";
             cell.imageView.hidden = true;
+            cell.valueLabel.hidden = false;
             cell.valueLabel.text = user.phone;
             break;
         case 2:
             cell.nameLabel.text = @"昵称";
             cell.imageView.hidden = true;
+            cell.valueLabel.hidden = false;
             cell.valueLabel.text = user.name;
             break;
         case 3:
             cell.nameLabel.text = @"密码";
             cell.imageView.hidden = true;
+            cell.valueLabel.hidden = false;
             cell.valueLabel.text = @"......";
             break;
         default:

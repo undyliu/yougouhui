@@ -37,7 +37,7 @@
 @end
 
 //用户
-@interface ZKHUserEntity : ZKHEntity
+@interface ZKHUserEntity : ZKHEntity<NSCopying>
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *pwd;
 @property (strong, nonatomic) NSString *type;

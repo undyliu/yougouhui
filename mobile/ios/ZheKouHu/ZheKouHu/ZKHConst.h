@@ -9,6 +9,9 @@
 #ifndef ZheKouHu_ZKHConst_h
 #define ZheKouHu_ZKHConst_h
 
+#define SERVER_BASE_URL  @"192.168.253.1:3000"
+#define KEY_CACHES @"Caches"
+
 #define KEY_UUID                @"uuid"
 #define KEY_CODE                @"code"
 #define KEY_NAME                @"name"

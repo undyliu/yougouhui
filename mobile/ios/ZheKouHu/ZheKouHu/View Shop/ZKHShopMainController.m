@@ -116,7 +116,8 @@ static NSString *CellIdentifier = @"ShopModuleCell";
             break;
         case 1://确认
             [ZKHContext getInstance].user = loginedUser;
-            [self.navigationController popViewControllerAnimated:YES];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            //[self.navigationController popViewControllerAnimated:YES];
             break;
         default:
             break;

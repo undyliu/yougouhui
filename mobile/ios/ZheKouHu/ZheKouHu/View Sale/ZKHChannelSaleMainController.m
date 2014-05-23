@@ -14,6 +14,7 @@
 #import "ZKHData.h"
 #import "NSDate+Utils.h"
 #import "ZKHChannelSaleListCell.h"
+#import "ZKHImageLoader.h"
 
 static NSString *CellIdentifier = @"ChannelSaleListCell";
 
@@ -109,6 +110,8 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
     ZKHSaleEntity *sale = saleList[indexPath.row];
     cell.titelLabel.text = sale.title;
     cell.contentLabel.text = sale.content;
+    
+    [ZKHImageLoader showImageForName:sale.img imageView:cell.saleImageView];
     
     return cell;
 }

@@ -113,6 +113,8 @@
 		10F394E2192EE22400629F8F /* ZKHShopData.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F394E1192EE22400629F8F /* ZKHShopData.m */; };
 		10F394E6192EED6E00629F8F /* ZKHImageLabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10F394E3192EED6E00629F8F /* ZKHImageLabelCell.xib */; };
 		10F394E7192EED6E00629F8F /* ZKHImageLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F394E5192EED6E00629F8F /* ZKHImageLabelCell.m */; };
+		10F394EA192F12D500629F8F /* ZKHImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F394E9192F12D400629F8F /* ZKHImageLoader.m */; };
+		10F394EC192F192D00629F8F /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F394EB192F192D00629F8F /* loading.png */; };
 		10F7080019298CF200282511 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F707FF19298CF200282511 /* UIKit.framework */; };
 		10F7080219298CF200282511 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F7080119298CF200282511 /* Foundation.framework */; };
 		10F7080419298CF200282511 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F7080319298CF200282511 /* CoreGraphics.framework */; };
@@ -279,6 +281,9 @@
 		10F394E3192EED6E00629F8F /* ZKHImageLabelCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHImageLabelCell.xib; sourceTree = "<group>"; };
 		10F394E4192EED6E00629F8F /* ZKHImageLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHImageLabelCell.h; sourceTree = "<group>"; };
 		10F394E5192EED6E00629F8F /* ZKHImageLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHImageLabelCell.m; sourceTree = "<group>"; };
+		10F394E8192F12D400629F8F /* ZKHImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHImageLoader.h; sourceTree = "<group>"; };
+		10F394E9192F12D400629F8F /* ZKHImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHImageLoader.m; sourceTree = "<group>"; };
+		10F394EB192F192D00629F8F /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading.png; sourceTree = "<group>"; };
 		10F707FC19298CF200282511 /* ZheKouHu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZheKouHu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10F707FF19298CF200282511 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		10F7080119298CF200282511 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -543,6 +548,7 @@
 		10E7E731192E233A00AE6083 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				10F394EB192F192D00629F8F /* loading.png */,
 				10E7E732192E233A00AE6083 /* add_camera.png */,
 				10E7E733192E233A00AE6083 /* contact_list.png */,
 				10E7E734192E233A00AE6083 /* default_pic.png */,
@@ -634,6 +640,8 @@
 				10F7086A1929DE0A00282511 /* ZKHMainTabBarController.xib */,
 				10E5EC87192DBD23009A1BA2 /* ZKHTableViewController.h */,
 				10E5EC88192DBD23009A1BA2 /* ZKHTableViewController.m */,
+				10F394E8192F12D400629F8F /* ZKHImageLoader.h */,
+				10F394E9192F12D400629F8F /* ZKHImageLoader.m */,
 			);
 			path = ZheKouHu;
 			sourceTree = "<group>";
@@ -756,6 +764,7 @@
 				109CA799192E2A1E00A50D49 /* Default.png in Resources */,
 				109CA79A192E2A1E00A50D49 /* Default@2x.png in Resources */,
 				10F394E6192EED6E00629F8F /* ZKHImageLabelCell.xib in Resources */,
+				10F394EC192F192D00629F8F /* loading.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -822,6 +831,7 @@
 				10F394DD192ED44900629F8F /* ZKHTradeData.m in Sources */,
 				10F394E2192EE22400629F8F /* ZKHShopData.m in Sources */,
 				10F394E7192EED6E00629F8F /* ZKHImageLabelCell.m in Sources */,
+				10F394EA192F12D500629F8F /* ZKHImageLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

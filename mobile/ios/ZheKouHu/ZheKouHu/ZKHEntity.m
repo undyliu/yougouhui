@@ -33,6 +33,19 @@
 @end
 
 @implementation ZKHUserEntity
+- (id)copyWithZone:(NSZone *)zone
+{
+    ZKHUserEntity *copy = [[[self class] allocWithZone:zone] init];
+    copy.uuid = [self.uuid copyWithZone:zone];
+    copy.name = [self.name copyWithZone:zone];
+    copy.pwd  = [self.pwd copyWithZone:zone];
+    copy.phone = [self.phone copyWithZone:zone];
+    copy.photo = [self.photo copyWithZone:zone];
+    copy.type = [self.type copyWithZone:zone];
+    copy.registerTime = [self.registerTime copyWithZone:zone];
+    //TODO copy friends
+    return copy;
+}
 
 @end
 

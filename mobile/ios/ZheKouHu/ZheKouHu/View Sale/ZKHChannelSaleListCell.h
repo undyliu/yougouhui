@@ -10,7 +10,8 @@
 
 @interface ZKHChannelSaleListCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *titelLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
+@property (weak, nonatomic) IBOutlet UIImageView *saleImageView;
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;
 @property (weak, nonatomic) IBOutlet UILabel *shopLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;

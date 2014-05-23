@@ -11,8 +11,6 @@
 #import "ZKHData.h"
 #import "ZKHContext.h"
 
-#define SERVER_BASE_URL  @"192.168.253.1:3000"
-
 @implementation ZKHProcessor
 
 - (id)initWithDefaultSettings
