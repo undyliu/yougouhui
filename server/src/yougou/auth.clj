@@ -7,7 +7,7 @@
   ))
 
 (defn- get-user [phone]
-  (if-let [user (first (select users (fields :uuid :name :pwd :phone :photo :register_time) (where {:phone phone})))] user {} ))
+  (if-let [user (first (select users (fields :uuid :name :pwd :type :phone :photo :register_time) (where {:phone phone})))] user {} ))
 
 (defn- logged-in? [request]
   (get-in request [:session :user] false))

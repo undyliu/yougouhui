@@ -16,12 +16,20 @@
 
 (defn get-trades []
   (exec (-> (select* trades )
-            (fields :uuid :code :name)
+            (fields :uuid :code :name :ord_index)
             (where {:is_used [= 1]})
             (order :ord_index)
             )
         )
 )
+
+(defn get-shop-trades [shop-id]
+  (select shop-trades
+          (fields :uuid :trade_id :e_trade.code :e_trade.name :e_trade.ord_index)
+          (join trades (and (= :trade_id :e_trade.uuid)))
+          (where {:shop_id shop-id})
+          )
+  )
 
 (defn get-shop [shop-id]
 	(let [shop (first (select shops
@@ -29,8 +37,8 @@
                        (where {:uuid shop-id})
                      )
                     )
-        trade-list (select shop-trades (fields :uuid :trade_id) (where {:shop_id shop-id}))
-
+        ;trade-list (select shop-trades (fields :uuid :trade_id) (where {:shop_id shop-id}))
+         trade-list (get-shop-trades shop-id)
         ]
    (assoc shop :tradeList trade-list)
     )
