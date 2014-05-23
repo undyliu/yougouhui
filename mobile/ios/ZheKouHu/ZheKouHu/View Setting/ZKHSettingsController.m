@@ -12,7 +12,7 @@
 #import "ZKHContext.h"
 #import "ZKHProcessor+User.h"
 #import "ZKHLoginSettingController.h"
-#import "ZKHRadarSettingViewController.h"
+#import "ZKHRadarSettingController.h"
 
 #define SETTING_CODE_LOGIN @"login"
 #define SETTING_CODE_RADAR @"radar"
@@ -83,7 +83,7 @@ static NSString *CellIdentifier = @"Cell";
         UIViewController *controller = [[ZKHLoginSettingController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
     }else if ([SETTING_CODE_RADAR isEqualToString:setting.code]){
-        UIViewController *controller = [[ZKHRadarSettingViewController alloc] init];
+        UIViewController *controller = [[ZKHRadarSettingController alloc] init];
         [self.navigationController pushViewController:controller animated:YES];
     }
 }

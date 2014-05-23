@@ -13,7 +13,8 @@
 #import "ZKHContext.h"
 #import "ZKHShopLoginController.h"
 #import "ZKHRaderMainController.h"
-
+#import "ZKHLoginController.h"
+#import "ZKHRegiserUserController.h"
 
 #define kModuleFriends @"friends"
 #define kModuleRadar @"radar"
@@ -125,6 +126,15 @@ static NSString *CellIdentifier = @"ModuleCellIdentifier";
     ZKHModuleEntity *module = self.modules[indexPath.row];
     if ([[ZKHContext getInstance] isAnonymousUserLogined]
         && ![anonymousAccessModules containsObject:module.code]) {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                      initWithTitle:@"此功能仅会员可用，请选择"
+                                      delegate:self
+                                      cancelButtonTitle:@"取消"
+                                      destructiveButtonTitle:nil
+                                      otherButtonTitles:NSLocalizedString(@"LABEL_LOGIN", @"login"),
+                                      NSLocalizedString(@"LABEL_REGISTER_USER", @"register user"), nil];
+        actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+        [actionSheet showInView:self.navigationController.view];
         return;
     }
     
@@ -159,6 +169,26 @@ static NSString *CellIdentifier = @"ModuleCellIdentifier";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 50.0;
+}
+
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    UIViewController *controller;
+    switch (buttonIndex) {
+        case 0://login
+            controller = [[ZKHLoginController alloc] init];
+            break;
+        case 1://register user
+            controller = [[ZKHRegiserUserController alloc] init];
+            break;
+        default:
+            break;
+        }
+    
+    if (controller != nil) {
+        [self.navigationController pushViewController:controller animated:YES];
+    }
 }
 
 @end

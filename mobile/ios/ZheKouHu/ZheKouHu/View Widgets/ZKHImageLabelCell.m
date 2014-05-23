@@ -6,9 +6,9 @@
 //  Copyright (c) 2014年 undyliu. All rights reserved.
 //
 
-#import "ZKHUserProfileCell.h"
+#import "ZKHImageLabelCell.h"
 
-@implementation ZKHUserProfileCell
+@implementation ZKHImageLabelCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

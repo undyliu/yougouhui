@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZKHEntity.h"
+#import "ZKHTableViewController.h"
 
-@interface ZKHShopInfoController : UITableViewController
+@interface ZKHShopInfoController : ZKHTableViewController
+
+@property (strong, nonatomic) ZKHShopEntity *shop;
 
 @end

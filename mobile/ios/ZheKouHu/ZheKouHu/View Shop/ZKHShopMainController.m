@@ -13,6 +13,7 @@
 #import "TableViewWithBlock.h"
 #import "ZKHShopModuleCell.h"
 #import "ZKHShopInfoController.h"
+#import "ZKHContext.h"
 
 static NSString *CellIdentifier = @"ShopModuleCell";
 
@@ -30,16 +31,25 @@ static NSString *CellIdentifier = @"ShopModuleCell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     self.title = @"我的店铺";
     self.statusLabel.text = @"";
+    
+    loginedUser = [[ZKHContext getInstance].user copy];
+    [ZKHContext getInstance].user = self.shopUser;
     
     ZKHShopEntity *shop = self.shops[0];
     if (shop != nil) {
         [self shopSelected:shop];
+        currentShopIndex = 0;
     }
     
     UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(clickMore:)];
     self.navigationItem.rightBarButtonItem = moreButton;
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"退出店铺" style:UIBarButtonItemStyleBordered target:self action:@selector(shopLogout:)];
+    
+    self.navigationItem.leftBarButtonItem = backButton;
     
     isOpened = NO;
     int count = [self.shops count];
@@ -53,8 +63,11 @@ static NSString *CellIdentifier = @"ShopModuleCell";
             cell = [[[NSBundle mainBundle]loadNibNamed:@"SelectionCell" owner:self options:nil]objectAtIndex:0];
             [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
         }
-        ZKHShopEntity *shop = self.shops[indexPath.row];
+        
+        currentShopIndex = indexPath.row;
+        ZKHShopEntity *shop = self.shops[currentShopIndex];
         cell.lb.text = shop.name;
+        
         return cell;
     } setDidSelectRowBlock:^(UITableView *tableView,NSIndexPath *indexPath){
         ZKHShopEntity *shop = self.shops[indexPath.row];
@@ -82,6 +95,31 @@ static NSString *CellIdentifier = @"ShopModuleCell";
         }else if ([@"2" isEqualToString:status]){
             self.statusLabel.text = @"已注销";
         }
+    }
+}
+
+- (void)shopLogout:(id)sender
+{
+    UIAlertView *alert = [[UIAlertView alloc]
+                          initWithTitle:@"退出店铺"
+                          message:@"是否退出店铺？下次进入店铺需重新登录."
+                          delegate:self
+                          cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0://取消
+            
+            break;
+        case 1://确认
+            [ZKHContext getInstance].user = loginedUser;
+            [self.navigationController popViewControllerAnimated:YES];
+            break;
+        default:
+            break;
     }
 }
 
@@ -193,6 +231,7 @@ static NSString *CellIdentifier = @"ShopModuleCell";
     int row = indexPath.row;
     if (section == 0 && row == 0) {
         ZKHShopInfoController *controller = [[ZKHShopInfoController alloc] init];
+        controller.shop = self.shops[currentShopIndex];
         [self.navigationController pushViewController:controller animated:YES];
     }else if (section == 0 && row == 1){
         

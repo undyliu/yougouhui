@@ -6,13 +6,13 @@
 //  Copyright (c) 2014年 undyliu. All rights reserved.
 //
 
-#import "ZKHRadarSettingViewController.h"
+#import "ZKHRadarSettingController.h"
 #import "ZKHSwitchCell.h"
 
 static NSString *switchCellIdentifier = @"SwitchCell";
 static NSString *pickerCellIdentifier = @"PickerCell";
 
-@implementation ZKHRadarSettingViewController
+@implementation ZKHRadarSettingController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {

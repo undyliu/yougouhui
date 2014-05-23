@@ -7,10 +7,8 @@
 //
 
 #import "ZKHRaderMainController.h"
-
-@interface ZKHRaderMainController ()
-
-@end
+#import "ZKHRadarSettingController.h"
+#import "ZKHContext.h"
 
 @implementation ZKHRaderMainController
 
@@ -27,9 +25,11 @@
 {
     [super viewDidLoad];
     
-    UIBarButtonItem *settingButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(radarSetting:)];
-    
-    self.navigationItem.rightBarButtonItem = settingButton;
+    if (![[ZKHContext getInstance] isAnonymousUserLogined]) {
+        UIBarButtonItem *settingButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(radarSetting:)];
+        
+        self.navigationItem.rightBarButtonItem = settingButton;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -39,7 +39,7 @@
 
 - (void)radarSetting:(id)sender
 {
-    
+    [self.navigationController pushViewController:[[ZKHRadarSettingController alloc] init] animated:YES];
 }
 
 - (IBAction)radarScan:(id)sender {

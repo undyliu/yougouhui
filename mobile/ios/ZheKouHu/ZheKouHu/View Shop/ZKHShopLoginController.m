@@ -75,7 +75,7 @@
         NSString *authed = [authObj objectForKey:KEY_AUTHED];
         if ([authed isTrue]) {
             ZKHShopMainController *controller = [[ZKHShopMainController alloc] init];
-            controller.user = [authObj valueForKey:KEY_USER];
+            controller.shopUser = [authObj valueForKey:KEY_USER];
             controller.shops = [authObj valueForKey:KEY_SHOP_LIST];
             [self.navigationController pushViewController:controller animated:YES];
         }

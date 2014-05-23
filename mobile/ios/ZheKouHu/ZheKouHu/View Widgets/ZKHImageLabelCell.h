@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZKHUserProfileCell : UITableViewCell
+@interface ZKHImageLabelCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *valueLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *photoView;

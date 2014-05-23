@@ -12,12 +12,15 @@
 
 @class TableViewWithBlock;
 
-@interface ZKHShopMainController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate, UIActionSheetDelegate>
+@interface ZKHShopMainController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 {
     BOOL isOpened;
+    int currentShopIndex;
+    ZKHUserEntity *loginedUser;
 }
+
 @property (strong, nonatomic) NSMutableArray *shops;
-@property (strong, nonatomic) ZKHUserEntity *user;
+@property (strong, nonatomic) ZKHUserEntity *shopUser;
 
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *modulesView;
@@ -27,5 +30,6 @@
 - (IBAction)changeOpenStatus:(id)sender;
 
 - (IBAction)clickMore:(id)sender;
+- (IBAction)shopLogout:(id)sender;
 
 @end

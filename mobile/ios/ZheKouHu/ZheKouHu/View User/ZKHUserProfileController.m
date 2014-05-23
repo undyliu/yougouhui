@@ -7,11 +7,11 @@
 //
 
 #import "ZKHUserProfileController.h"
-#import "ZKHUserProfileCell.h"
+#import "ZKHImageLabelCell.h"
 #import "ZKHEntity.h"
 #import "ZKHContext.h"
 
-static NSString *CellIdentifier = @"UserProfileCell";
+static NSString *CellIdentifier = @"ImageLabelCell";
 
 @implementation ZKHUserProfileController
 
@@ -30,7 +30,7 @@ static NSString *CellIdentifier = @"UserProfileCell";
     
     self.title = @"个人信息";
     
-    UINib *nib = [UINib nibWithNibName:@"ZKHUserProfileCell" bundle:nil];
+    UINib *nib = [UINib nibWithNibName:@"ZKHImageLabelCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
 }
 
@@ -55,7 +55,7 @@ static NSString *CellIdentifier = @"UserProfileCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ZKHUserEntity *user = [ZKHContext getInstance].user;
-    ZKHUserProfileCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    ZKHImageLabelCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     int row = indexPath.row;
     switch (row) {
         case 0:
