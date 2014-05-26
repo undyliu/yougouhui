@@ -74,5 +74,8 @@
 @end
 
 @interface ZKHShopData : ZKHData<ZKHEntityUpdater>
-
+- (void)updateShopName:(NSString *)uuid name:(NSString *)name;
+- (void)updateShopDesc:(NSString *)uuid desc:(NSString *)desc;
+- (void)updateshopTrades:(NSString *)uuid trades:(NSArray *)trades;
+- (NSMutableArray *) getShopTrades:(NSString *)uuid;
 @end

@@ -160,14 +160,16 @@
 }
 
 #define GET_TRADES_URL @"/getTrades"
-- (void)trades:(TradesResponseBlock)tradesBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)trades:(Boolean)reload completionHandler:(TradesResponseBlock)tradesBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHTradeData *data = [[ZKHTradeData alloc] init];
-//    NSMutableArray *trades = [data getTrades];
-//    if ([trades count] > 0) {
-//        tradesBlock(trades);
-//        return;
-//    }
+    if (!reload) {
+        NSMutableArray *trades = [data getTrades];
+        if ([trades count] > 0) {
+            tradesBlock(trades);
+            return;
+        }
+    }
     
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = GET_TRADES_URL;

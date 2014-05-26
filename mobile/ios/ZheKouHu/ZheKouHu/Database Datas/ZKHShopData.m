@@ -43,4 +43,72 @@
     }
 }
 
+#define SHOP_FIELD_UPDATE_SQL(__FIELD_NAME__) [NSString stringWithFormat:@"update %@ set %@=? where %@=?", SHOP_TABLE, __FIELD_NAME__, KEY_UUID]
+
+- (void)updateShopDesc:(NSString *)uuid desc:(NSString *)desc
+{
+    [self executeUpdate:SHOP_FIELD_UPDATE_SQL(KEY_DESC) params:@[desc, uuid]];
+}
+
+- (void)updateShopName:(NSString *)uuid name:(NSString *)name
+{
+    [self executeUpdate:SHOP_FIELD_UPDATE_SQL(KEY_NAME) params:@[name, uuid]];
+}
+
+#define  SHOP_TRADE_DEL_SQL [NSString stringWithFormat:@" delete from %@ where %@=?", SHOP_TRADE_TABLE, KEY_SHOP_ID]
+- (void)updateshopTrades:(NSString *)uuid trades:(NSArray *)trades
+{
+    [self executeUpdate:SHOP_TRADE_DEL_SQL params:@[uuid]];
+    
+    for (ZKHShopTradeEntity *shopTrade in trades) {
+        [self executeUpdate:SHOP_TRADE_UPDATE_SQL params:@[shopTrade.uuid, uuid, shopTrade.trade.uuid]];
+    }
+}
+
+- (NSMutableArray *)getShopTrades:(NSString *)uuid
+{
+    NSString *sql = @" select st.uuid, st.trade_id, t.code, t.name, t.ord_index from e_trade t, e_shop_trade st where t.uuid = st.trade_id and st.shop_id = ? ";
+    NSArray *params =@[uuid];
+    
+    NSMutableArray *result = [[NSMutableArray alloc] init];
+    
+    NSLog(@"sql : %@", sql);
+    sqlite3 *database = nil;
+    @try {
+        database = [self openDatabase];
+        sqlite3_stmt *stmt;
+        
+        @try {
+            stmt = [self prepareStatement:sql params:params database:database];
+            while (sqlite3_step(stmt) == SQLITE_ROW) {
+                ZKHShopTradeEntity *shopTrade = [[ZKHShopTradeEntity alloc] init];
+                ZKHTradeEntity *trade = [[ZKHTradeEntity alloc] init];
+                
+                int i = 0;
+                shopTrade.uuid = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+                trade.uuid = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+                trade.code = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+                trade.name = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+                trade.ordIndex = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+                shopTrade.trade = trade;
+                
+                [result addObject:shopTrade];
+            }
+        }
+        @catch (NSException *exception) {
+            @throw exception;
+        }
+        @finally {
+            sqlite3_finalize(stmt);
+        }
+    }
+    @catch (NSException *exception) {
+        @throw exception;
+    }
+    @finally {
+        [self closeDatabase:database];
+    }
+    return result;
+}
+
 @end

@@ -15,6 +15,7 @@
 #import "ZKHShopInfoController.h"
 #import "ZKHContext.h"
 #import "ZKHChangeShopPwdController.h"
+#import "ZKHAppDelegate.h"
 
 static NSString *CellIdentifier = @"ShopModuleCell";
 
@@ -82,6 +83,13 @@ static NSString *CellIdentifier = @"ShopModuleCell";
     UINib *nib = [UINib nibWithNibName:@"ZKHShopModuleCell" bundle:nil];
     [self.modulesView registerNib:nib forCellWithReuseIdentifier:CellIdentifier];
     self.modulesView.backgroundColor = [UIColor whiteColor];
+    
+    //强制加载所有的主营业务
+    [ApplicationDelegate.zkhProcessor trades:true completionHandler:^(NSMutableArray *trades) {
+        
+    } errorHandler:^(NSError *error) {
+        
+    }];
 }
 
 - (void) shopSelected:(ZKHShopEntity *) shop

@@ -7,10 +7,9 @@
 //
 
 #import "ZKHChangeShopPwdController.h"
-
-@interface ZKHChangeShopPwdController ()
-
-@end
+#import "ZKHAppDelegate.h"
+#import "ZKHProcessor+Shop.h"
+#import "ZKHContext.h"
 
 @implementation ZKHChangeShopPwdController
 
@@ -18,7 +17,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -35,7 +33,23 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+}
+
+- (NSString *)getOriginalPwd
+{
+    return nil;
+}
+
+- (void)doSave:(NSString *)oldPwd newPwd:(NSString *)newPwd
+{
+    NSString *userId = [ZKHContext getInstance].user.uuid;
+    [ApplicationDelegate.zkhProcessor changeShopEmpPwd:self.shop.uuid userId:userId oldPwd:oldPwd newPwd:newPwd completionHandler:^(Boolean result) {
+        if (result) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
 }
 
 @end

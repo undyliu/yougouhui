@@ -70,6 +70,8 @@
 #define KEY_DATA @"data"
 #define KEY_SHOP_LIST @"shop-list"
 #define KEY_TRADE_LIST @"tradeList"
+#define KEY_FIELD @"field"
+#define KEY_OLD_PWD @"old_pwd"
 
 #define VAL_TYPE_USER_APP @"1"
 #define VAL_TYPE_USER_ANONYMOUS @"2"

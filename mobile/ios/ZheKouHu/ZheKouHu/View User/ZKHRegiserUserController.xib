@@ -288,6 +288,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{96, 172}, {96, 96}}</string>
 								<reference key="NSSuperview" ref="172195827"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -300,6 +301,7 @@
 						</array>
 						<string key="NSFrameSize">{320, 504}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSNextKeyView" ref="928822975"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -309,6 +311,7 @@
 				</array>
 				<string key="NSFrame">{{0, 64}, {320, 504}}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSNextKeyView" ref="172195827"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MQA</bytes>
@@ -1357,22 +1360,26 @@
 				<boolean value="NO" key="258.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="259.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<boolean value="NO" key="259.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
+				<string key="260.CustomClassName">ZKHTextField</string>
 				<string key="260.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<array class="NSMutableArray" key="260.IBViewMetadataConstraints">
 					<reference ref="360287110"/>
 					<reference ref="709912468"/>
 				</array>
 				<boolean value="NO" key="260.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
+				<string key="261.CustomClassName">ZKHTextField</string>
 				<string key="261.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<array class="NSMutableArray" key="261.IBViewMetadataConstraints">
 					<reference ref="218398430"/>
 				</array>
 				<boolean value="NO" key="261.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
+				<string key="262.CustomClassName">ZKHTextField</string>
 				<string key="262.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<array class="NSMutableArray" key="262.IBViewMetadataConstraints">
 					<reference ref="3835525"/>
 				</array>
 				<boolean value="NO" key="262.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
+				<string key="263.CustomClassName">ZKHTextField</string>
 				<string key="263.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<boolean value="NO" key="263.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="264.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

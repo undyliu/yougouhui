@@ -13,7 +13,11 @@
 @interface ZKHChangeShopTradesController : ZKHTableViewController
 {
     NSMutableArray* _trades;
+    NSMutableArray* switches;
 }
 
 @property (strong, nonatomic) ZKHShopEntity *shop;
+
+- (IBAction)save:(id)sender;
+
 @end

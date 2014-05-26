@@ -22,6 +22,6 @@
 - (NSString *) getOriginalPwd;
 
 - (IBAction)save:(id)sender;
-- (void) doSave:(NSString *) newPwd;
+- (void) doSave:(NSString *)oldPwd newPwd:(NSString *) newPwd;
 
 @end

@@ -539,11 +539,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Shop/ZKHShopMainController.m"
-         timestampString = "422782405.90798"
+         timestampString = "422797475.350675"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "114"
-         endingLineNumber = "114"
+         startingLineNumber = "122"
+         endingLineNumber = "122"
          landmarkName = "-alertView:clickedButtonAtIndex:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -805,6 +805,175 @@
          startingLineNumber = "55"
          endingLineNumber = "55"
          landmarkName = "-save:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Categories/ZKHProcessor+Shop.m"
+         timestampString = "422791573.576408"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "132"
+         endingLineNumber = "132"
+         landmarkName = "-changeShopName:newName:completionHandler:errorHandler:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Categories/ZKHProcessor+Shop.m"
+         timestampString = "422791574.707637"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "135"
+         endingLineNumber = "135"
+         landmarkName = "-changeShopName:newName:completionHandler:errorHandler:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/View Shop/ZKHShopInfoController.m"
+         timestampString = "422791652.80019"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "213"
+         endingLineNumber = "213"
+         landmarkName = "-doSave:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Categories/ZKHProcessor+Shop.m"
+         timestampString = "422791782.940722"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "129"
+         endingLineNumber = "129"
+         landmarkName = "-changeShopName:newName:completionHandler:errorHandler:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Categories/ZKHProcessor+Shop.m"
+         timestampString = "422791870.039007"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "110"
+         endingLineNumber = "110"
+         landmarkName = "-changeShopDesc:newDesc:completionHandler:errorHandler:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Categories/ZKHProcessor+Shop.m"
+         timestampString = "422794518.475576"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "164"
+         endingLineNumber = "164"
+         landmarkName = "-changeShopTrades:newTrades:completionHandler:errorHandler:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/View Shop/ZKHChangeShopTradesController.m"
+         timestampString = "422795343.978699"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "100"
+         endingLineNumber = "100"
+         landmarkName = "-save:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/View Shop/ZKHChangeShopTradesController.m"
+         timestampString = "422795664.758536"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "114"
+         endingLineNumber = "114"
+         landmarkName = "-save:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Categories/ZKHProcessor+Shop.m"
+         timestampString = "422795493.212199"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "149"
+         endingLineNumber = "149"
+         landmarkName = "-changeShopTrades:newTrades:completionHandler:errorHandler:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Database Datas/ZKHShopData.m"
+         timestampString = "422795544.882145"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "61"
+         endingLineNumber = "61"
+         landmarkName = "-updateshopTrades:trades:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Database Datas/ZKHShopData.m"
+         timestampString = "422795546.740151"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "70"
+         endingLineNumber = "70"
+         landmarkName = "-getShopTrades:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/ZKHProcessor.m"
+         timestampString = "422796521.711422"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "166"
+         endingLineNumber = "166"
+         landmarkName = "-trades:completionHandler:errorHandler:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Categories/ZKHProcessor+Shop.m"
+         timestampString = "422797475.350675"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "197"
+         endingLineNumber = "197"
+         landmarkName = "-changeShopEmpPwd:userId:oldPwd:newPwd:completionHandler:errorHandler:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

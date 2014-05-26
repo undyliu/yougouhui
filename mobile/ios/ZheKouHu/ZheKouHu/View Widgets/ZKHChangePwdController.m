@@ -61,7 +61,7 @@
         cancel = true;
     }
     
-    if (![orginalPwd isEqualToString:oldPwd]) {
+    if (orginalPwd != nil && ![orginalPwd isEqualToString:oldPwd]) {
         cancel = true;
     }
     
@@ -79,10 +79,10 @@
         return;
     }
     
-[self doSave:newPwd];
+[self doSave:oldPwd newPwd:newPwd];
 }
 
-- (void)doSave:(NSString *)newPwd
+- (void)doSave:(NSString *)oldPwd newPwd:(NSString *)newPwd
 {
     
 }

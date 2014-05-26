@@ -56,12 +56,14 @@ static NSString *switchCellIdentifier = @"SwitchCell";
     UINib *nib = [UINib nibWithNibName:@"ZKHSwitchCell" bundle:nil];
     [self.tradesController.tableView registerNib:nib forCellReuseIdentifier:switchCellIdentifier];
     
-    [ApplicationDelegate.zkhProcessor trades:^(NSMutableArray *trades) {
+    [ApplicationDelegate.zkhProcessor trades:true completionHandler:^(NSMutableArray *trades) {
         _trades = trades;
         [self.tradesController.tableView reloadData];
     } errorHandler:^(NSError *error) {
         
     }];
+    
+    [self setExtraCellLineHidden:self.tradesController.tableView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -75,6 +77,13 @@ static NSString *switchCellIdentifier = @"SwitchCell";
     
     [self performSelector:@selector(loadContent) withObject:nil afterDelay:1.0];
     
+}
+
+-(void)setExtraCellLineHidden: (UITableView *)tableView
+{
+    UIView *view = [UIView new];
+    view.backgroundColor = [UIColor clearColor];
+    [tableView setTableFooterView:view];
 }
 
 - (void)loadContent {

@@ -11,6 +11,8 @@
 #import "ZKHImageLoader.h"
 #import "ZKHChangeShopPwdController.h"
 #import "ZKHChangeShopTradesController.h"
+#import "ZKHAppDelegate.h"
+#import "ZKHProcessor+Shop.h"
 
 static NSString *CellIdentifier = @"ImageLabelCell";
 
@@ -32,6 +34,11 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     self.title = @"店铺-基本信息";
     UINib *nib = [UINib nibWithNibName:@"ZKHImageLabelCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -203,7 +210,14 @@ static NSString *CellIdentifier = @"ImageLabelCell";
 
 - (void)doSave:(NSString *)newValue
 {
-    
+    [ApplicationDelegate.zkhProcessor changeShopName:self.shop.uuid newName:newValue completionHandler:^(Boolean result) {
+        if (result) {
+            self.shop.name = newValue;
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
 }
 
 @end
@@ -224,7 +238,14 @@ static NSString *CellIdentifier = @"ImageLabelCell";
 
 - (void)doSave:(NSString *)newValue
 {
-    
+    [ApplicationDelegate.zkhProcessor changeShopDesc:self.shop.uuid newDesc:newValue completionHandler:^(Boolean result) {
+        if (result) {
+            self.shop.desc = newValue;
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
 }
 @end
 

@@ -49,6 +49,38 @@
 }
 - (void)registerUser:(id)sender
 {
+    [self backgroupTap:nil];
+    
+    NSString *phone = self.phoneField.text;
+    NSString *name = self.nameField.text;
+    NSString *pwd = self.pwdField.text;
+    NSString *pwdConf = self.pwdConfField.text;
+    
+    Boolean cancel = false;
+    
+    if ([phone length] == 0) {
+        cancel = true;
+    }
+    if ([name length] == 0) {
+        cancel = true;
+    }
+    
+    if ([pwd length] == 0) {
+        cancel = true;
+    }
+    
+    if ([pwdConf length] == 0) {
+        cancel = true;
+    }
+    
+    if (![pwd isEqualToString:pwdConf]) {
+        cancel = true;
+    }
+    
+    if (cancel) {
+        return;
+    }
+    
     
 }
 @end

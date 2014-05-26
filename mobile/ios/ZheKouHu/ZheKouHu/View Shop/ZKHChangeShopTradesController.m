@@ -10,6 +10,7 @@
 #import "ZKHSwitchCell.h"
 #import "ZKHProcessor.h"
 #import "ZKHAppDelegate.h"
+#import "ZKHProcessor+Shop.h"
 
 static NSString *switchCellIdentifier = @"SwitchCell";
 
@@ -27,6 +28,8 @@ static NSString *switchCellIdentifier = @"SwitchCell";
 {
     [super viewDidLoad];
     
+    switches = [[NSMutableArray alloc] init];
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
@@ -38,7 +41,7 @@ static NSString *switchCellIdentifier = @"SwitchCell";
     UINib *nib = [UINib nibWithNibName:@"ZKHSwitchCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:switchCellIdentifier];
     
-    [ApplicationDelegate.zkhProcessor trades:^(NSMutableArray *trades) {
+    [ApplicationDelegate.zkhProcessor trades:false completionHandler:^(NSMutableArray *trades) {
         _trades = trades;
         [self.tableView reloadData];
     } errorHandler:^(NSError *error) {
@@ -76,6 +79,8 @@ static NSString *switchCellIdentifier = @"SwitchCell";
             [cell.cellSwitch setOn:TRUE];
         }
     }
+    [switches addObject: cell.cellSwitch];
+    
     return cell;
 }
 
@@ -89,4 +94,30 @@ static NSString *switchCellIdentifier = @"SwitchCell";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 44;
 }
+
+- (void)save:(id)sender
+{
+    NSMutableArray *swIds = [[NSMutableArray alloc] init];
+    for (int i = 0; i < [switches count]; i++) {
+        UISwitch *sw = switches[i];
+        if ([sw isOn]) {
+            ZKHTradeEntity *trade = _trades[i];
+            [swIds addObject:trade.uuid];
+        }
+    }
+    
+    if ([swIds count] == 0) {
+        return;
+    }
+    
+    [ApplicationDelegate.zkhProcessor changeShopTrades:self.shop.uuid newTrades:[[NSArray alloc] initWithArray:swIds] completionHandler:^(NSMutableArray *shopTrades) {
+        if ([shopTrades count] > 0) {
+            self.shop.trades = shopTrades;
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
+
 @end
