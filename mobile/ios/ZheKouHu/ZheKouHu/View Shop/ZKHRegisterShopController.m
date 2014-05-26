@@ -7,6 +7,10 @@
 //
 
 #import "ZKHRegisterShopController.h"
+#import "ZKHSwitchCell.h"
+#import "ZKHAppDelegate.h"
+#import "ZKHEntity.h"
+static NSString *switchCellIdentifier = @"SwitchCell";
 
 @interface ZKHRegisterShopController ()<ViewPagerDataSource, ViewPagerDelegate>
 
@@ -31,10 +35,12 @@
     
     pageTabs = @[NSLocalizedString(@"LABEL_SHOP_LICENSE", @"register shop license info"),
                  NSLocalizedString(@"LABEL_SHOP_INFO", @"register shop base info"),
+                 @"主营业务",
                  NSLocalizedString(@"LABEL_SHOP_OWNER", @"register shop owner info")];
     
     NSBundle *bundle = [NSBundle mainBundle];
     [bundle loadNibNamed:@"ZKHRegisterShopLicense" owner:self options:nil];
+    [bundle loadNibNamed:@"ZKHRegisterShopTrades" owner:self options:nil];
     [bundle loadNibNamed:@"ZKHRegisterShopInfo" owner:self options:nil];
     [bundle loadNibNamed:@"ZKHRegisterShopOwner" owner:self options:nil];
     
@@ -43,6 +49,19 @@
     
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(registerShop:)];
     self.navigationItem.rightBarButtonItem = saveButton;
+    
+    self.tradesController.tableView.delegate = self;
+    self.tradesController.tableView.dataSource = self;
+    
+    UINib *nib = [UINib nibWithNibName:@"ZKHSwitchCell" bundle:nil];
+    [self.tradesController.tableView registerNib:nib forCellReuseIdentifier:switchCellIdentifier];
+    
+    [ApplicationDelegate.zkhProcessor trades:^(NSMutableArray *trades) {
+        _trades = trades;
+        [self.tradesController.tableView reloadData];
+    } errorHandler:^(NSError *error) {
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -75,7 +94,7 @@
 
 #pragma mark - ViewPagerDataSource
 - (NSUInteger)numberOfTabsForViewPager:(ViewPagerController *)viewPager {
-    return 3;
+    return [pageTabs count];
 }
 
 - (UIView *)viewPager:(ViewPagerController *)viewPager viewForTabAtIndex:(NSUInteger)index {
@@ -97,6 +116,8 @@
             return self.licenseController;
         case 1:
             return self.baseInfoController;
+        case 2:
+            return self.tradesController;
         default:
             return self.ownerController;
     }
@@ -138,5 +159,38 @@
         default:
             return color;
     }
+}
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [_trades count];
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ZKHSwitchCell *cell = [tableView dequeueReusableCellWithIdentifier:switchCellIdentifier];
+    ZKHTradeEntity *trade = _trades[indexPath.row];
+    cell.cellLabel.text = trade.name;
+    
+    return cell;
+}
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 44;
 }
 @end

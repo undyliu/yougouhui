@@ -9,21 +9,19 @@
 #import "MKNetworkEngine.h"
 #import "ZKHRestRequest.h"
 #import "MBProgressHUD.h"
-
-#define METHOD_GET @"GET"
-#define METHOD_POST @"POST"
-#define METHOD_PUT @"PUT"
-#define METHOD_DELETE @"DELETE"
+#import "ZKHRequestSigner.h"
 
 @interface ZKHRestClient : MKNetworkEngine
 {
     MBProgressHUD *hud;
+    ZKHRequestSigner *signer;
 }
 
 - (id)initWithDefaultSettings;
 
-typedef void (^RestResponseBlock)(id jsonObject);
-typedef void (^RestResponseErrorBlock)(NSError* error);
-- (void) executeRestRequest:(ZKHRestRequest *)request completionHandler:(RestResponseBlock) responseBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+typedef void (^JsonResponseBlock)(id jsonObject);
+- (void) executeWithJsonResponse:(ZKHRestRequest *)request completionHandler:(JsonResponseBlock) responseBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
+typedef void (^RestResponseBlock)(NSHTTPURLResponse* response, id jsonObject);
+- (void) execute:(ZKHRestRequest *)request completionHandler:(RestResponseBlock) responseBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 @end

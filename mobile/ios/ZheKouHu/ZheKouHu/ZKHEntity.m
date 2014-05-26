@@ -67,6 +67,10 @@
 
 @implementation ZKHTradeEntity
 
+- (BOOL)isEqual:(id)object
+{
+    return [object isKindOfClass:[ZKHTradeEntity class]] && [self.uuid isEqual:((ZKHTradeEntity *)object).uuid];
+}
 @end
 
 @implementation ZKHLocationEntity

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		100B40321932CA7C00C51588 /* ZKHRequestSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 100B40311932CA7C00C51588 /* ZKHRequestSigner.m */; };
+		100B403D1932E8F100C51588 /* ZKHTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 100B403C1932E8F100C51588 /* ZKHTextField.m */; };
+		100B40421933051600C51588 /* ZKHChangePwdController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 100B40401933051600C51588 /* ZKHChangePwdController.xib */; };
 		100CD3DD192AE1B20074DF8E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 100CD3DC192AE1B20074DF8E /* libsqlite3.dylib */; };
 		10272D8E192A1B3D00103815 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10272D8D192A1B3D00103815 /* CFNetwork.framework */; };
 		10272D90192A1B4D00103815 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10272D8F192A1B4D00103815 /* SystemConfiguration.framework */; };
@@ -65,7 +68,6 @@
 		10456D91192E28D20061DCC1 /* ZKHLoginSettingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10456D3A192E28D20061DCC1 /* ZKHLoginSettingController.xib */; };
 		10456D92192E28D20061DCC1 /* ZKHPickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10456D3B192E28D20061DCC1 /* ZKHPickerCell.xib */; };
 		10456D93192E28D20061DCC1 /* ZKHRadarSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10456D3D192E28D20061DCC1 /* ZKHRadarSettingController.m */; };
-		10456D94192E28D20061DCC1 /* ZKHRadarSettingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10456D3E192E28D20061DCC1 /* ZKHRadarSettingController.xib */; };
 		10456D95192E28D20061DCC1 /* ZKHSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10456D40192E28D20061DCC1 /* ZKHSettingsController.m */; };
 		10456D96192E28D20061DCC1 /* ZKHRaderMainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10456D43192E28D20061DCC1 /* ZKHRaderMainController.m */; };
 		10456D97192E28D20061DCC1 /* ZKHRaderMainController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10456D44192E28D20061DCC1 /* ZKHRaderMainController.xib */; };
@@ -85,6 +87,17 @@
 		109CA798192E2A1E00A50D49 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 109CA795192E2A1E00A50D49 /* Default-568h@2x.png */; };
 		109CA799192E2A1E00A50D49 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 109CA796192E2A1E00A50D49 /* Default.png */; };
 		109CA79A192E2A1E00A50D49 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 109CA797192E2A1E00A50D49 /* Default@2x.png */; };
+		109E02A91933159A00796213 /* ZKHChangeShopPwdController.m in Sources */ = {isa = PBXBuildFile; fileRef = 109E02A81933159A00796213 /* ZKHChangeShopPwdController.m */; };
+		109E02AD1933176800796213 /* ZKHChangeImgController.m in Sources */ = {isa = PBXBuildFile; fileRef = 109E02AB1933176800796213 /* ZKHChangeImgController.m */; };
+		109E02AE1933176800796213 /* ZKHChangeImgController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 109E02AC1933176800796213 /* ZKHChangeImgController.xib */; };
+		109E02B11933188400796213 /* b_pic_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 109E02AF1933188400796213 /* b_pic_delete.png */; };
+		109E02B21933188400796213 /* b_pic_preview.png in Resources */ = {isa = PBXBuildFile; fileRef = 109E02B01933188400796213 /* b_pic_preview.png */; };
+		109E02B9193321B900796213 /* ZKHImagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 109E02B7193321B900796213 /* ZKHImagePreviewController.m */; };
+		109E02BA193321B900796213 /* ZKHImagePreviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 109E02B8193321B900796213 /* ZKHImagePreviewController.xib */; };
+		109E02BE1933326600796213 /* ZKHChangeShopTradesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 109E02BC1933326600796213 /* ZKHChangeShopTradesController.m */; };
+		109E02C3193333DA00796213 /* ZKHBaseTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 109E02C2193333DA00796213 /* ZKHBaseTableView.xib */; };
+		109E02C519333B2A00796213 /* ZKHRegisterShopTrades.xib in Resources */ = {isa = PBXBuildFile; fileRef = 109E02C419333B2A00796213 /* ZKHRegisterShopTrades.xib */; };
+		10AC87B219330713007B56E7 /* ZKHChangePwdController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10AC87B119330713007B56E7 /* ZKHChangePwdController.m */; };
 		10BDD6EE1929E82000B38580 /* ZKHEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BDD6ED1929E82000B38580 /* ZKHEntity.m */; };
 		10E1B49F192F2F58008FBF4D /* ZKHChangeTextController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E1B49E192F2F58008FBF4D /* ZKHChangeTextController.m */; };
 		10E1B4A3192F4445008FBF4D /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E1B4A2192F4445008FBF4D /* MBProgressHUD.m */; };
@@ -119,9 +132,7 @@
 		10F394E7192EED6E00629F8F /* ZKHImageLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F394E5192EED6E00629F8F /* ZKHImageLabelCell.m */; };
 		10F394EA192F12D500629F8F /* ZKHImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F394E9192F12D400629F8F /* ZKHImageLoader.m */; };
 		10F394EC192F192D00629F8F /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F394EB192F192D00629F8F /* loading.png */; };
-		10F394EE192F265400629F8F /* ZKHChangeText.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10F394ED192F265400629F8F /* ZKHChangeText.xib */; };
-		10F394F1192F272100629F8F /* ZKHChangeTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F394F0192F272100629F8F /* ZKHChangeTextView.m */; };
-		10F394F4192F280400629F8F /* ZKHChnageUserNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F394F3192F280400629F8F /* ZKHChnageUserNameController.m */; };
+		10F394EE192F265400629F8F /* ZKHChangeTextController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10F394ED192F265400629F8F /* ZKHChangeTextController.xib */; };
 		10F7080019298CF200282511 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F707FF19298CF200282511 /* UIKit.framework */; };
 		10F7080219298CF200282511 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F7080119298CF200282511 /* Foundation.framework */; };
 		10F7080419298CF200282511 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F7080319298CF200282511 /* CoreGraphics.framework */; };
@@ -136,6 +147,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		100B40301932CA7C00C51588 /* ZKHRequestSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHRequestSigner.h; sourceTree = "<group>"; };
+		100B40311932CA7C00C51588 /* ZKHRequestSigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHRequestSigner.m; sourceTree = "<group>"; };
+		100B403B1932E8F100C51588 /* ZKHTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHTextField.h; sourceTree = "<group>"; };
+		100B403C1932E8F100C51588 /* ZKHTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHTextField.m; sourceTree = "<group>"; };
+		100B40401933051600C51588 /* ZKHChangePwdController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHChangePwdController.xib; sourceTree = "<group>"; };
 		100CD3DB192ADC650074DF8E /* ZKHConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKHConst.h; sourceTree = "<group>"; };
 		100CD3DC192AE1B20074DF8E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		10272D8D192A1B3D00103815 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -226,7 +242,6 @@
 		10456D3B192E28D20061DCC1 /* ZKHPickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHPickerCell.xib; sourceTree = "<group>"; };
 		10456D3C192E28D20061DCC1 /* ZKHRadarSettingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHRadarSettingController.h; sourceTree = "<group>"; };
 		10456D3D192E28D20061DCC1 /* ZKHRadarSettingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHRadarSettingController.m; sourceTree = "<group>"; };
-		10456D3E192E28D20061DCC1 /* ZKHRadarSettingController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHRadarSettingController.xib; sourceTree = "<group>"; };
 		10456D3F192E28D20061DCC1 /* ZKHSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHSettingsController.h; sourceTree = "<group>"; };
 		10456D40192E28D20061DCC1 /* ZKHSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHSettingsController.m; sourceTree = "<group>"; };
 		10456D42192E28D20061DCC1 /* ZKHRaderMainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHRaderMainController.h; sourceTree = "<group>"; };
@@ -257,6 +272,22 @@
 		109CA795192E2A1E00A50D49 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		109CA796192E2A1E00A50D49 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		109CA797192E2A1E00A50D49 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		109E02A71933159A00796213 /* ZKHChangeShopPwdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHChangeShopPwdController.h; sourceTree = "<group>"; };
+		109E02A81933159A00796213 /* ZKHChangeShopPwdController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHChangeShopPwdController.m; sourceTree = "<group>"; };
+		109E02AA1933176700796213 /* ZKHChangeImgController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHChangeImgController.h; sourceTree = "<group>"; };
+		109E02AB1933176800796213 /* ZKHChangeImgController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHChangeImgController.m; sourceTree = "<group>"; };
+		109E02AC1933176800796213 /* ZKHChangeImgController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHChangeImgController.xib; sourceTree = "<group>"; };
+		109E02AF1933188400796213 /* b_pic_delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = b_pic_delete.png; sourceTree = "<group>"; };
+		109E02B01933188400796213 /* b_pic_preview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = b_pic_preview.png; sourceTree = "<group>"; };
+		109E02B6193321B900796213 /* ZKHImagePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHImagePreviewController.h; sourceTree = "<group>"; };
+		109E02B7193321B900796213 /* ZKHImagePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHImagePreviewController.m; sourceTree = "<group>"; };
+		109E02B8193321B900796213 /* ZKHImagePreviewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHImagePreviewController.xib; sourceTree = "<group>"; };
+		109E02BB1933326600796213 /* ZKHChangeShopTradesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHChangeShopTradesController.h; sourceTree = "<group>"; };
+		109E02BC1933326600796213 /* ZKHChangeShopTradesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHChangeShopTradesController.m; sourceTree = "<group>"; };
+		109E02C2193333DA00796213 /* ZKHBaseTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHBaseTableView.xib; sourceTree = "<group>"; };
+		109E02C419333B2A00796213 /* ZKHRegisterShopTrades.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHRegisterShopTrades.xib; sourceTree = "<group>"; };
+		10AC87B019330713007B56E7 /* ZKHChangePwdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHChangePwdController.h; sourceTree = "<group>"; };
+		10AC87B119330713007B56E7 /* ZKHChangePwdController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHChangePwdController.m; sourceTree = "<group>"; };
 		10BDD6EC1929E82000B38580 /* ZKHEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHEntity.h; sourceTree = "<group>"; };
 		10BDD6ED1929E82000B38580 /* ZKHEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHEntity.m; sourceTree = "<group>"; };
 		10E1B49D192F2F58008FBF4D /* ZKHChangeTextController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHChangeTextController.h; sourceTree = "<group>"; };
@@ -299,11 +330,7 @@
 		10F394E8192F12D400629F8F /* ZKHImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHImageLoader.h; sourceTree = "<group>"; };
 		10F394E9192F12D400629F8F /* ZKHImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHImageLoader.m; sourceTree = "<group>"; };
 		10F394EB192F192D00629F8F /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading.png; sourceTree = "<group>"; };
-		10F394ED192F265400629F8F /* ZKHChangeText.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHChangeText.xib; sourceTree = "<group>"; };
-		10F394EF192F272100629F8F /* ZKHChangeTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHChangeTextView.h; sourceTree = "<group>"; };
-		10F394F0192F272100629F8F /* ZKHChangeTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHChangeTextView.m; sourceTree = "<group>"; };
-		10F394F2192F280400629F8F /* ZKHChnageUserNameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHChnageUserNameController.h; sourceTree = "<group>"; };
-		10F394F3192F280400629F8F /* ZKHChnageUserNameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHChnageUserNameController.m; sourceTree = "<group>"; };
+		10F394ED192F265400629F8F /* ZKHChangeTextController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHChangeTextController.xib; sourceTree = "<group>"; };
 		10F707FC19298CF200282511 /* ZheKouHu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZheKouHu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10F707FF19298CF200282511 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		10F7080119298CF200282511 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -449,6 +476,7 @@
 				10456D13192E28D20061DCC1 /* ZKHRegisterShopController.m */,
 				10456D14192E28D20061DCC1 /* ZKHRegisterShopController.xib */,
 				10456D15192E28D20061DCC1 /* ZKHRegisterShopInfo.xib */,
+				109E02C419333B2A00796213 /* ZKHRegisterShopTrades.xib */,
 				10456D16192E28D20061DCC1 /* ZKHRegisterShopLicense.xib */,
 				10456D17192E28D20061DCC1 /* ZKHRegisterShopOwner.xib */,
 				10456D18192E28D20061DCC1 /* ZKHShopInfoController.h */,
@@ -463,6 +491,10 @@
 				10456D21192E28D20061DCC1 /* ZKHShopModuleCell.h */,
 				10456D22192E28D20061DCC1 /* ZKHShopModuleCell.m */,
 				10456D23192E28D20061DCC1 /* ZKHShopModuleCell.xib */,
+				109E02A71933159A00796213 /* ZKHChangeShopPwdController.h */,
+				109E02A81933159A00796213 /* ZKHChangeShopPwdController.m */,
+				109E02BB1933326600796213 /* ZKHChangeShopTradesController.h */,
+				109E02BC1933326600796213 /* ZKHChangeShopTradesController.m */,
 			);
 			path = "View Shop";
 			sourceTree = "<group>";
@@ -479,8 +511,6 @@
 				10456D2E192E28D20061DCC1 /* ZKHUserProfileController.h */,
 				10456D2F192E28D20061DCC1 /* ZKHUserProfileController.m */,
 				10456D30192E28D20061DCC1 /* ZKHUserProfileController.xib */,
-				10F394F2192F280400629F8F /* ZKHChnageUserNameController.h */,
-				10F394F3192F280400629F8F /* ZKHChnageUserNameController.m */,
 			);
 			path = "View User";
 			sourceTree = "<group>";
@@ -506,7 +536,6 @@
 				10456D3B192E28D20061DCC1 /* ZKHPickerCell.xib */,
 				10456D3C192E28D20061DCC1 /* ZKHRadarSettingController.h */,
 				10456D3D192E28D20061DCC1 /* ZKHRadarSettingController.m */,
-				10456D3E192E28D20061DCC1 /* ZKHRadarSettingController.xib */,
 				10456D3F192E28D20061DCC1 /* ZKHSettingsController.h */,
 				10456D40192E28D20061DCC1 /* ZKHSettingsController.m */,
 			);
@@ -564,11 +593,21 @@
 				10456D5C192E28D20061DCC1 /* ZKHSwitchCell.h */,
 				10456D5D192E28D20061DCC1 /* ZKHSwitchCell.m */,
 				10456D5E192E28D20061DCC1 /* ZKHSwitchCell.xib */,
-				10F394ED192F265400629F8F /* ZKHChangeText.xib */,
-				10F394EF192F272100629F8F /* ZKHChangeTextView.h */,
-				10F394F0192F272100629F8F /* ZKHChangeTextView.m */,
+				10F394ED192F265400629F8F /* ZKHChangeTextController.xib */,
 				10E1B49D192F2F58008FBF4D /* ZKHChangeTextController.h */,
 				10E1B49E192F2F58008FBF4D /* ZKHChangeTextController.m */,
+				100B403B1932E8F100C51588 /* ZKHTextField.h */,
+				100B403C1932E8F100C51588 /* ZKHTextField.m */,
+				100B40401933051600C51588 /* ZKHChangePwdController.xib */,
+				10AC87B019330713007B56E7 /* ZKHChangePwdController.h */,
+				10AC87B119330713007B56E7 /* ZKHChangePwdController.m */,
+				109E02AA1933176700796213 /* ZKHChangeImgController.h */,
+				109E02AB1933176800796213 /* ZKHChangeImgController.m */,
+				109E02AC1933176800796213 /* ZKHChangeImgController.xib */,
+				109E02B6193321B900796213 /* ZKHImagePreviewController.h */,
+				109E02B7193321B900796213 /* ZKHImagePreviewController.m */,
+				109E02B8193321B900796213 /* ZKHImagePreviewController.xib */,
+				109E02C2193333DA00796213 /* ZKHBaseTableView.xib */,
 			);
 			path = "View Widgets";
 			sourceTree = "<group>";
@@ -589,6 +628,8 @@
 				10E1B4A6192F4624008FBF4D /* ZKHRestRequest.m */,
 				10E1B4A8192F49D0008FBF4D /* ZKHRestClient.h */,
 				10E1B4A9192F49D0008FBF4D /* ZKHRestClient.m */,
+				100B40301932CA7C00C51588 /* ZKHRequestSigner.h */,
+				100B40311932CA7C00C51588 /* ZKHRequestSigner.m */,
 			);
 			path = Restful;
 			sourceTree = "<group>";
@@ -596,6 +637,8 @@
 		10E7E731192E233A00AE6083 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				109E02AF1933188400796213 /* b_pic_delete.png */,
+				109E02B01933188400796213 /* b_pic_preview.png */,
 				10F394EB192F192D00629F8F /* loading.png */,
 				10E7E732192E233A00AE6083 /* add_camera.png */,
 				10E7E733192E233A00AE6083 /* contact_list.png */,
@@ -804,7 +847,6 @@
 				10456D8F192E28D20061DCC1 /* ZKHProfileListController.xib in Resources */,
 				10456D91192E28D20061DCC1 /* ZKHLoginSettingController.xib in Resources */,
 				10456D92192E28D20061DCC1 /* ZKHPickerCell.xib in Resources */,
-				10456D94192E28D20061DCC1 /* ZKHRadarSettingController.xib in Resources */,
 				10456D97192E28D20061DCC1 /* ZKHRaderMainController.xib in Resources */,
 				10456D9F192E28D20061DCC1 /* ZKHChannelSaleListCell.xib in Resources */,
 				10456DA2192E28D20061DCC1 /* ZKHChannelSaleMainController.xib in Resources */,
@@ -814,7 +856,14 @@
 				109CA79A192E2A1E00A50D49 /* Default@2x.png in Resources */,
 				10F394E6192EED6E00629F8F /* ZKHImageLabelCell.xib in Resources */,
 				10F394EC192F192D00629F8F /* loading.png in Resources */,
-				10F394EE192F265400629F8F /* ZKHChangeText.xib in Resources */,
+				10F394EE192F265400629F8F /* ZKHChangeTextController.xib in Resources */,
+				100B40421933051600C51588 /* ZKHChangePwdController.xib in Resources */,
+				109E02AE1933176800796213 /* ZKHChangeImgController.xib in Resources */,
+				109E02B11933188400796213 /* b_pic_delete.png in Resources */,
+				109E02B21933188400796213 /* b_pic_preview.png in Resources */,
+				109E02BA193321B900796213 /* ZKHImagePreviewController.xib in Resources */,
+				109E02C3193333DA00796213 /* ZKHBaseTableView.xib in Resources */,
+				109E02C519333B2A00796213 /* ZKHRegisterShopTrades.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -882,12 +931,17 @@
 				10F394E2192EE22400629F8F /* ZKHShopData.m in Sources */,
 				10F394E7192EED6E00629F8F /* ZKHImageLabelCell.m in Sources */,
 				10F394EA192F12D500629F8F /* ZKHImageLoader.m in Sources */,
-				10F394F1192F272100629F8F /* ZKHChangeTextView.m in Sources */,
-				10F394F4192F280400629F8F /* ZKHChnageUserNameController.m in Sources */,
 				10E1B49F192F2F58008FBF4D /* ZKHChangeTextController.m in Sources */,
 				10E1B4A3192F4445008FBF4D /* MBProgressHUD.m in Sources */,
 				10E1B4A7192F4624008FBF4D /* ZKHRestRequest.m in Sources */,
 				10E1B4AA192F49D0008FBF4D /* ZKHRestClient.m in Sources */,
+				100B40321932CA7C00C51588 /* ZKHRequestSigner.m in Sources */,
+				100B403D1932E8F100C51588 /* ZKHTextField.m in Sources */,
+				10AC87B219330713007B56E7 /* ZKHChangePwdController.m in Sources */,
+				109E02A91933159A00796213 /* ZKHChangeShopPwdController.m in Sources */,
+				109E02AD1933176800796213 /* ZKHChangeImgController.m in Sources */,
+				109E02B9193321B900796213 /* ZKHImagePreviewController.m in Sources */,
+				109E02BE1933326600796213 /* ZKHChangeShopTradesController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

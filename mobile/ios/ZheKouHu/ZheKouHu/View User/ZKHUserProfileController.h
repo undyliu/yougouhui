@@ -8,7 +8,22 @@
 
 #import <UIKit/UIKit.h>
 #import "ZKHTableViewController.h"
+#import "ZKHChangeTextController.h"
+#import "ZKHChangePwdController.h"
+#import "ZKHChangeImgController.h"
 
 @interface ZKHUserProfileController : ZKHTableViewController
+
+@end
+
+@interface ZKHChangeUserNameController : ZKHChangeTextController
+
+@end
+
+@interface ZKHChangeUserPwdController : ZKHChangePwdController
+
+@end
+
+@interface ZKHChangeUserPhotoController : ZKHChangeImgController
 
 @end

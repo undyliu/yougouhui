@@ -23,7 +23,7 @@
     request.params = params;
     request.method = METHOD_POST;
     
-    [restClient executeRestRequest:request completionHandler:^(id jsonObject) {
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
         NSMutableDictionary *authedObj = [[NSMutableDictionary alloc] init];
         Boolean authed = [[jsonObject valueForKey:KEY_AUTHED] boolValue];
         switch (authed) {

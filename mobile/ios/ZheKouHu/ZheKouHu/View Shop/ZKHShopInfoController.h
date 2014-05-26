@@ -9,9 +9,28 @@
 #import <UIKit/UIKit.h>
 #import "ZKHEntity.h"
 #import "ZKHTableViewController.h"
+#import "ZKHChangeTextController.h"
+#import "ZKHChangePwdController.h"
+#import "ZKHChangeImgController.h"
 
 @interface ZKHShopInfoController : ZKHTableViewController
 
 @property (strong, nonatomic) ZKHShopEntity *shop;
 
+@end
+
+@interface ZKHChangeShopNameController : ZKHChangeTextController
+@property (strong, nonatomic) ZKHShopEntity *shop;
+@end
+
+@interface ZKHChangeShopDescController : ZKHChangeTextController
+@property (strong, nonatomic) ZKHShopEntity *shop;
+@end
+
+@interface ZKHChangeShopImageController :  ZKHChangeImgController
+@property (strong, nonatomic) ZKHShopEntity *shop;
+@end
+
+@interface ZKHChangeBusiLicenseController :  ZKHChangeImgController
+@property (strong, nonatomic) ZKHShopEntity *shop;
 @end

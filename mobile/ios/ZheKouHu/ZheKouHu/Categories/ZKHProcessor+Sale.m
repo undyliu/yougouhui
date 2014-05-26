@@ -21,7 +21,7 @@
     request.urlString = path;
     request.method = METHOD_GET;
     
-    [restClient executeRestRequest:request completionHandler:^(id jsonObject) {
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
         NSMutableArray *sales = [[NSMutableArray alloc] initWithCapacity:10];
         if (jsonObject != nil) {
             NSString *updateTime = [jsonObject valueForKey:KEY_UPDATE_TIME];

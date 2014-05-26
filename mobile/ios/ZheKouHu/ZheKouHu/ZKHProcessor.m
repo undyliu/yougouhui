@@ -46,7 +46,7 @@
     request.method = METHOD_GET;
     request.urlString = GET_MODULES_URL([type mk_urlEncodedString]);
     
-    [restClient executeRestRequest:request completionHandler:^(id jsonObject) {
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
         NSMutableArray * modules = [[NSMutableArray alloc] initWithCapacity:10];
         if (jsonObject != nil) {
             for (NSDictionary *json in jsonObject) {
@@ -92,7 +92,7 @@
     request.urlString = path;
     request.method = METHOD_GET;
     
-    [restClient executeRestRequest:request completionHandler:^(id jsonObject) {
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
         NSMutableArray *channels = [[NSMutableArray alloc] initWithCapacity:10];
         if (jsonObject != nil) {
             for (NSDictionary *json in jsonObject) {
@@ -134,7 +134,7 @@
     request.method = METHOD_GET;
     request.urlString = GET_SETTINS_URL;
     
-    [restClient executeRestRequest:request completionHandler:^(id jsonObject) {
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
         NSMutableArray * settings = [[NSMutableArray alloc] initWithCapacity:10];
         if (jsonObject != nil) {
             for (NSDictionary *json in jsonObject) {
@@ -163,17 +163,17 @@
 - (void)trades:(TradesResponseBlock)tradesBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHTradeData *data = [[ZKHTradeData alloc] init];
-    NSMutableArray *trades = [data getTrades];
-    if ([trades count] > 0) {
-        tradesBlock(trades);
-        return;
-    }
+//    NSMutableArray *trades = [data getTrades];
+//    if ([trades count] > 0) {
+//        tradesBlock(trades);
+//        return;
+//    }
     
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = GET_TRADES_URL;
     request.method = METHOD_GET;
     
-    [restClient executeRestRequest:request completionHandler:^(id jsonObject) {
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
         NSMutableArray * trades = [[NSMutableArray alloc] initWithCapacity:10];
         if (jsonObject != nil) {
             for (NSDictionary *json in jsonObject) {

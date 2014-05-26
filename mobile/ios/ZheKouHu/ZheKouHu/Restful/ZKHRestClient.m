@@ -14,11 +14,29 @@
 - (id)initWithDefaultSettings
 {
     if(self = [super initWithHostName:SERVER_BASE_URL customHeaderFields:@{@"x-client-identifier" : @"iOS"}]) {
+        signer = [[ZKHRequestSigner alloc] init];
     }
     return self;
 }
 
-- (void)executeRestRequest:(ZKHRestRequest *)request completionHandler:(RestResponseBlock)responseBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (MKNetworkOperation *) createMKNetworkOperation:(ZKHRestRequest *)request
+{
+    NSString *urlString = [request.urlString lowercaseString];
+    MKNetworkOperation *op = nil;
+    if ([urlString hasPrefix:@"http://"] || [urlString hasPrefix:@"https://"]) {
+        op = [self operationWithURLString:request.urlString params:request.params httpMethod:request.method];
+    }else{
+        op = [self operationWithPath:request.urlString params:request.params httpMethod:request.method];
+    }
+    
+    if (op != nil) {
+        NSMutableDictionary *headers = request.headers;
+        [op addHeaders:[NSDictionary dictionaryWithDictionary:headers]];
+    }
+    return op;
+}
+
+- (void)executeWithJsonResponse:(ZKHRestRequest *)request completionHandler:(JsonResponseBlock)responseBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     if (hud == nil) {
         UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
@@ -28,19 +46,48 @@
         [hud show:YES];
     }
     
-    NSString *urlString = request.urlString;
-    //TODO:对urlString进行判断：是否是path或者url
-    MKNetworkOperation *op = [self operationWithPath:urlString params:request.params httpMethod:request.method];
-    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-        [completedOperation responseJSONWithCompletionHandler:^(id jsonObject) {
+    [signer authorize:request completionHandler:^(ZKHRestRequest *request) {
+        MKNetworkOperation *op = [self createMKNetworkOperation:request];
+        if (op == nil) {
+            return;
+        }
+        
+        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+            [completedOperation responseJSONWithCompletionHandler:^(id jsonObject) {
+                [hud hide:YES];
+                responseBlock(jsonObject);
+            }];
+        } errorHandler:^(MKNetworkOperation *errorOp, NSError *error) {
             [hud hide:YES];
-            responseBlock(jsonObject);
+            errorBlock(error);
         }];
-    } errorHandler:^(MKNetworkOperation *errorOp, NSError *error) {
-        [hud hide:YES];
-        errorBlock(error);
+        
+        [self enqueueOperation:op];
+    } errorHandler:^(NSError *error) {
+        
     }];
-    [self enqueueOperation:op];
+    
 }
 
+- (void)execute:(ZKHRestRequest *)request completionHandler:(RestResponseBlock)responseBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    [signer authorize:request completionHandler:^(ZKHRestRequest *request) {
+        MKNetworkOperation *op = [self createMKNetworkOperation:request];
+        if (op == nil) {
+            return;
+        }
+        
+        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+            [completedOperation responseJSONWithCompletionHandler:^(id jsonObject) {
+                responseBlock([completedOperation readonlyResponse], jsonObject);
+            }];
+        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+            errorBlock(error);
+        }];
+        
+        [self enqueueOperation:op];
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
 @end

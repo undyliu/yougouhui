@@ -9,8 +9,14 @@
 #ifndef ZheKouHu_ZKHConst_h
 #define ZheKouHu_ZKHConst_h
 
-#define SERVER_BASE_URL  @"www.zhekouhu.com:7072/demo"
+//#define SERVER_BASE_URL  @"www.zhekouhu.com:7072/demo"
+#define SERVER_BASE_URL  @"192.168.253.1:3000"
 #define KEY_CACHES @"Caches"
+
+#define METHOD_GET @"GET"
+#define METHOD_POST @"POST"
+#define METHOD_PUT @"PUT"
+#define METHOD_DELETE @"DELETE"
 
 #define KEY_UUID                @"uuid"
 #define KEY_CODE                @"code"

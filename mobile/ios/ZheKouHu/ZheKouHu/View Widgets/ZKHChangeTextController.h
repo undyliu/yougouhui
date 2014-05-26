@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZKHTextField.h"
 
 @interface ZKHChangeTextController : UIViewController
 {
     NSString *orginalValue;
 }
+@property (weak, nonatomic) IBOutlet ZKHTextField *inputTextField;
 
 - (NSString *) getOriginalTextFieldValue;
 

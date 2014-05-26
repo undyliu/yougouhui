@@ -14,11 +14,10 @@ static NSString *pickerCellIdentifier = @"PickerCell";
 
 @implementation ZKHRadarSettingController
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)init
 {
-    self = [super initWithStyle:style];
-    if (self) {
-        
+    if (self = [super init]) {
+        [[NSBundle mainBundle] loadNibNamed:@"ZKHBaseTableView" owner:self options:nil];
     }
     return self;
 }
@@ -26,7 +25,10 @@ static NSString *pickerCellIdentifier = @"PickerCell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveRadarConf:)];
     self.navigationItem.rightBarButtonItem = saveButton;
     

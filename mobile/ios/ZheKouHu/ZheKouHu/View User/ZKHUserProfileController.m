@@ -11,7 +11,8 @@
 #import "ZKHEntity.h"
 #import "ZKHContext.h"
 #import "ZKHImageLoader.h"
-#import "ZKHChnageUserNameController.h"
+#import "ZKHAppDelegate.h"
+#import "ZKHProcessor+User.h"
 
 static NSString *CellIdentifier = @"ImageLabelCell";
 
@@ -34,6 +35,11 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     
     UINib *nib = [UINib nibWithNibName:@"ZKHImageLabelCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -107,10 +113,14 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     
     UIViewController *controller;
     switch (indexPath.row) {
-        case 2:
-            controller = [[ZKHChnageUserNameController alloc] init];
+        case 0:
+            controller = [[ZKHChangeUserPhotoController alloc] init];
             break;
-            
+        case 2:
+            controller = [[ZKHChangeUserNameController alloc] init];
+            break;
+        case 3:
+            controller = [[ZKHChangeUserPwdController alloc] init];
         default:
             break;
     }
@@ -124,4 +134,74 @@ static NSString *CellIdentifier = @"ImageLabelCell";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 60.0;
 }
+@end
+
+
+@implementation ZKHChangeUserNameController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	
+    self.title = @"修改昵称";
+}
+
+- (NSString *)getOriginalTextFieldValue
+{
+    return [ZKHContext getInstance].user.name;
+}
+
+- (void)doSave:(NSString *)newValue
+{
+    ZKHUserEntity *user = [ZKHContext getInstance].user;
+    [ApplicationDelegate.zkhProcessor changeName:user newName:newValue completionHandler:^(Boolean result) {
+        if (result) {
+            user.name = newValue;
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
+
+@end
+
+
+@implementation ZKHChangeUserPwdController
+
+- (NSString *) getOriginalPwd{
+    return [ZKHContext getInstance].user.pwd;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.itemValueLabel.text = [ZKHContext getInstance].user.name;
+}
+
+- (void)doSave:(NSString *)newPwd
+{
+    ZKHUserEntity *user = [ZKHContext getInstance].user;
+    [ApplicationDelegate.zkhProcessor changePwd:user newPwd:newPwd completionHander:^(Boolean result) {
+        if (result) {
+            user.pwd = newPwd;
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
+
+@end
+
+@implementation ZKHChangeUserPhotoController
+
+- (ZKHFileEntity *)getOriginalImageFile
+{
+    NSString *photo = [ZKHContext getInstance].user.photo;
+    ZKHFileEntity *imageFile = [[ZKHFileEntity alloc] init];
+    imageFile.aliasName = photo;
+    return imageFile;
+}
+
 @end

@@ -12,14 +12,15 @@
 @interface ZKHProcessor (User)
 
 typedef void (^LoginResponseBlock)(NSMutableDictionary *authObj);
-- (void) login: (NSString *) phone pwd:(NSString *)pwd completionHandler:(LoginResponseBlock) loginBlock errorHandler:(MKNKErrorBlock) errorBlock;
+- (void) login: (NSString *) phone pwd:(NSString *)pwd completionHandler:(LoginResponseBlock) loginBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) remoteLogin: (NSString *) phone pwd:(NSString *)pwd completionHandler:(LoginResponseBlock) loginBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 - (void) saveLoginEnv:(NSString *)phone value:(NSMutableDictionary *) value;
 - (NSMutableDictionary *) getLoginEnv:(NSString *)phone;
 - (NSMutableDictionary *) getLastLoginEnv;
 - (void) deleteLoginEnv: (NSString *)phone;
 
-typedef void (^ChangeNameResponseBlock)(Boolean result);
-- (void) changeName:(ZKHUserEntity *)user newName:(NSString *)newName completionHandler:(ChangeNameResponseBlock) changeNameBlock errorHandler:(MKNKErrorBlock) errorBlock;
-
+typedef void (^ChangeFieldResponseBlock)(Boolean result);
+- (void) changeName:(ZKHUserEntity *)user newName:(NSString *)newName completionHandler:(ChangeFieldResponseBlock) changeNameBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) changePwd:(ZKHUserEntity *)user newPwd:(NSString *)newPwd completionHander:(ChangeFieldResponseBlock) changePwdBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 @end

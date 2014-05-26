@@ -7,7 +7,6 @@
 //
 
 #import "ZKHChangeTextController.h"
-#import "ZKHChangeTextView.h"
 
 @interface ZKHChangeTextController ()
 
@@ -30,11 +29,10 @@
 	
     orginalValue = [[self getOriginalTextFieldValue] copy];
     
-    [[NSBundle mainBundle] loadNibNamed:@"ZKHChangeText" owner:self options:nil];
-    ZKHChangeTextView *view  = (ZKHChangeTextView *)self.view;
-    view.inputTextField.text = orginalValue;
+    [[NSBundle mainBundle] loadNibNamed:@"ZKHChangeTextController" owner:self options:nil];
+    self.inputTextField.text = orginalValue;
     
-    [view.inputTextField becomeFirstResponder];
+    [self.inputTextField becomeFirstResponder];
     
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save:)];
     self.navigationItem.rightBarButtonItem = saveButton;
@@ -53,9 +51,11 @@
 
 - (void)save:(id)sender
 {
-    UITextField *textField = ((ZKHChangeTextView *)self.view).inputTextField;
+    UITextField *textField = self.inputTextField;
+    [textField resignFirstResponder];
     NSString *newValue = textField.text;
-    if ([orginalValue isEqualToString:newValue]) {
+    if (newValue == nil || [newValue length] == 0
+        || [orginalValue isEqualToString:newValue]) {
         [textField becomeFirstResponder];
         return;
     }

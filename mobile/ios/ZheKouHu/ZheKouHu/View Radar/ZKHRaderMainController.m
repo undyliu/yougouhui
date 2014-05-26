@@ -26,8 +26,7 @@
     [super viewDidLoad];
     
     if (![[ZKHContext getInstance] isAnonymousUserLogined]) {
-        UIBarButtonItem *settingButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(radarSetting:)];
-        
+        UIBarButtonItem *settingButton = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStyleDone target:self action:@selector(radarSetting:)];
         self.navigationItem.rightBarButtonItem = settingButton;
     }
 }

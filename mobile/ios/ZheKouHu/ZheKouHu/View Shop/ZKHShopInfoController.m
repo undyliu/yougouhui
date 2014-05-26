@@ -9,6 +9,8 @@
 #import "ZKHShopInfoController.h"
 #import "ZKHImageLabelCell.h"
 #import "ZKHImageLoader.h"
+#import "ZKHChangeShopPwdController.h"
+#import "ZKHChangeShopTradesController.h"
 
 static NSString *CellIdentifier = @"ImageLabelCell";
 
@@ -142,11 +144,106 @@ static NSString *CellIdentifier = @"ImageLabelCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UIViewController *controller;
+    switch (indexPath.row) {
+        case 0:
+            controller = [[ZKHChangeShopNameController alloc] init];
+            ((ZKHChangeShopNameController *)controller).shop = self.shop;
+            break;
+        case 1:
+            controller = [[ZKHChangeShopImageController alloc] init];
+            ((ZKHChangeShopImageController *)controller).shop = self.shop;
+            break;
+        case 3:
+            controller = [[ZKHChangeShopTradesController alloc] init];
+            ((ZKHChangeShopTradesController *)controller).shop = self.shop;
+            break;
+        case 4:
+            controller = [[ZKHChangeBusiLicenseController alloc] init];
+            ((ZKHChangeBusiLicenseController *)controller).shop = self.shop;
+            break;
+        case 5:
+            controller = [[ZKHChangeShopDescController alloc] init];
+            ((ZKHChangeShopDescController *)controller).shop = self.shop;
+            break;
+        case 6:
+            controller = [[ZKHChangeShopPwdController alloc] init];
+            ((ZKHChangeShopPwdController *)controller).shop = self.shop;
+            break;
+        default:
+            break;
+    }
     
+    if (controller != nil) {
+        [self.navigationController pushViewController:controller animated:YES];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 60.0;
+}
+
+@end
+
+
+@implementation ZKHChangeShopNameController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.title = @"店铺-修改名称";
+}
+
+
+- (NSString *)getOriginalTextFieldValue
+{
+    return self.shop.name;
+}
+
+- (void)doSave:(NSString *)newValue
+{
+    
+}
+
+@end
+
+@implementation ZKHChangeShopDescController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	self.title = @"店铺-修改简介";
+}
+
+
+- (NSString *)getOriginalTextFieldValue
+{
+    return self.shop.desc;
+}
+
+- (void)doSave:(NSString *)newValue
+{
+    
+}
+@end
+
+@implementation ZKHChangeShopImageController
+
+- (ZKHFileEntity *)getOriginalImageFile
+{
+    ZKHFileEntity *imageFile = [[ZKHFileEntity alloc] init];
+    imageFile.aliasName = self.shop.shopImg;
+    return imageFile;
+}
+@end
+
+@implementation ZKHChangeBusiLicenseController
+- (ZKHFileEntity *)getOriginalImageFile
+{
+    ZKHFileEntity *imageFile = [[ZKHFileEntity alloc] init];
+    imageFile.aliasName = self.shop.busiLicense;
+    return imageFile;
 }
 
 @end

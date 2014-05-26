@@ -10,4 +10,13 @@
 
 @implementation ZKHRestRequest
 
+- (void)addHeader:(NSString *)key value:(NSString *)value
+{
+    if (_headers == nil) {
+        _headers = [[NSMutableDictionary alloc] init];
+    }
+    
+    [_headers setValue:value forKey:key];
+}
+
 @end

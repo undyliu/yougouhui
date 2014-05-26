@@ -14,6 +14,7 @@
 #import "ZKHShopModuleCell.h"
 #import "ZKHShopInfoController.h"
 #import "ZKHContext.h"
+#import "ZKHChangeShopPwdController.h"
 
 static NSString *CellIdentifier = @"ShopModuleCell";
 
@@ -142,7 +143,11 @@ static NSString *CellIdentifier = @"ShopModuleCell";
     UIViewController *controller;
     switch (buttonIndex) {
         case 0://changge pwd
-                
+        {
+            ZKHChangeShopPwdController *controller = [[ZKHChangeShopPwdController alloc] init];
+            ((ZKHChangeShopNameController *)controller).shop = self.shops[currentShopIndex];
+            [self.navigationController pushViewController:controller animated:YES];
+        }
             break;
         case 1://publish now sale
             break;
