@@ -41,11 +41,11 @@
         setting.img = [[NSString alloc] initWithUTF8String:img];
     }
     
-    char * value = (char*)sqlite3_column_text(stmt, i++);
-    if (value != NULL) {
-        setting.value = [[NSString alloc] initWithUTF8String:img];
-    }
-    
+//    char * value = (char*)sqlite3_column_text(stmt, i++);
+//    if (value != NULL) {
+//        setting.value = [[NSString alloc] initWithUTF8String:img];
+//    }
+    setting.value = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
     setting.userId = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
     setting.ordIndex = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
     return setting;

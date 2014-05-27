@@ -37,7 +37,10 @@
                 //user.pwd = [userJson valueForKey:KEY_PWD];密码和类别未返回
                 //user.type = [userJson valueForKey:KEY_TYPE];
                 user.phone = [userJson valueForKey:KEY_PHONE];
-                user.photo = [userJson valueForKey:KEY_PHOTO];
+                
+                user.photo = [[ZKHFileEntity alloc] init];
+                user.photo.aliasName = [userJson valueForKey:KEY_PHOTO];
+                
                 user.registerTime = [userJson valueForKey:KEY_REGISTER_TIME];
                 
                 NSMutableArray * shops = [[NSMutableArray alloc] init];

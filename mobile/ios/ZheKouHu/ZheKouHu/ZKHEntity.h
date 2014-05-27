@@ -13,7 +13,7 @@
 @end
 
 //文件
-@interface ZKHFileEntity : ZKHEntity
+@interface ZKHFileEntity : ZKHEntity<NSCopying>
 @property (strong, nonatomic) NSString *fileUrl;
 @property (strong, nonatomic) NSString *aliasName;
 @end
@@ -42,7 +42,7 @@
 @property (strong, nonatomic) NSString *pwd;
 @property (strong, nonatomic) NSString *type;
 @property (strong, nonatomic) NSString *phone;
-@property (strong, nonatomic) NSString *photo;
+@property (strong, nonatomic) ZKHFileEntity *photo;
 @property (strong, nonatomic) NSString *registerTime;
 @property (strong, nonatomic) NSMutableArray *friends;
 @end

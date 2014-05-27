@@ -72,7 +72,7 @@ static NSString *CellIdentifier = @"ImageLabelCell";
         case 0:
         {
             cell.nameLabel.text = @"头像";
-            NSString *photo = user.photo;
+            NSString *photo = user.photo.aliasName;
             if ([photo length] > 0) {
                 [ZKHImageLoader showImageForName:photo imageView:cell.photoView];
             }else{
@@ -201,17 +201,14 @@ static NSString *CellIdentifier = @"ImageLabelCell";
 
 - (ZKHFileEntity *)getOriginalImageFile
 {
-    NSString *photo = [ZKHContext getInstance].user.photo;
-    ZKHFileEntity *imageFile = [[ZKHFileEntity alloc] init];
-    imageFile.aliasName = photo;
-    return imageFile;
+    return [ZKHContext getInstance].user.photo;
 }
 
 - (void)save:(id)sender
 {
     ZKHUserEntity *user = [ZKHContext getInstance].user;
     UIImage *image = self.imageView.image;
-    NSString *aliasName = [NSString stringWithFormat:@"%@_%@.png", [NSDate currentTimeString], user.phone];
+    NSString *aliasName = [NSString stringWithFormat:@"%@_%@.png", user.phone, [NSDate currentTimeString]];
     NSString *filePath = [ZKHImageLoader saveImage:image fileName:aliasName];
     
     ZKHFileEntity *file = [[ZKHFileEntity alloc] init];
@@ -220,8 +217,8 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     
     [ApplicationDelegate.zkhProcessor changeUserPhoto:user newPhoto:file completionHander:^(Boolean result) {
         if (result) {
-            [ZKHImageLoader removeImageWithName:user.photo];//删除原有的照片
-            user.photo = aliasName;
+            [ZKHImageLoader removeImageWithName:user.photo.aliasName];//删除原有的照片
+            user.photo = file;
             [self.navigationController popViewControllerAnimated:YES];
         }
     } errorHandler:^(NSError *error) {

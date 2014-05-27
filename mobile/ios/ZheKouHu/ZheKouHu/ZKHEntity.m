@@ -16,10 +16,19 @@
 
 @implementation ZKHFileEntity
 
-- (NSString *) getAliasName
+- (NSString *) aliasName
 {
     //TODO:
     return _aliasName;
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    ZKHFileEntity *copy = [[[self class] allocWithZone:zone] init];
+    copy.uuid = [self.uuid copyWithZone:zone];
+    copy.fileUrl = [self.fileUrl copyWithZone:zone];
+    copy.aliasName = [self.aliasName copyWithZone:zone];
+    return copy;
 }
 
 @end

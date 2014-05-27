@@ -26,7 +26,8 @@ static ZKHContext *instance;
     return _user == nil || [self.user.type isEqualToString:VAL_TYPE_USER_ANONYMOUS];
 }
 
-- (ZKHUserEntity *) getUser{
+- (ZKHUserEntity *) user
+{
     if (_user == nil) {
         _user = [[ZKHUserEntity alloc] init];
         _user.name = NSLocalizedString(@"LABEL_ANONYMOUS", @"ANONYMOUS");

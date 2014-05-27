@@ -177,4 +177,35 @@
     }];
 }
 
+//会员注册
+#define REGISTER_USER_URL @"/registerUser"
+- (void)registerUser:(ZKHUserEntity *)user completionHandler:(RegisterUserResponseBlock)resgisterUserBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.method = METHOD_POST;
+    request.urlString = REGISTER_USER_URL;
+    
+    if (user.photo != nil) {
+        request.files = @[user.photo];
+    }
+    
+    request.params = @{KEY_PHONE: user.phone, KEY_NAME: user.name, KEY_PWD: user.pwd, KEY_TYPE: user.type};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *uuid = [jsonObject valueForKey:KEY_UUID];
+        if (uuid != nil) {
+            user.uuid = uuid;
+            user.registerTime = [jsonObject valueForKey:KEY_REGISTER_TIME];
+            
+            [[[ZKHUserData alloc] init] save:@[user]];
+            
+            resgisterUserBlock(user);
+        }else{
+            resgisterUserBlock(nil);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
 @end

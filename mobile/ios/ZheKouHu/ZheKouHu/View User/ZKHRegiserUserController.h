@@ -8,15 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZKHRegiserUserController : UIViewController
+@interface ZKHRegiserUserController : UIViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
 @property (weak, nonatomic) IBOutlet UITextField *phoneField;
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
 @property (weak, nonatomic) IBOutlet UITextField *pwdField;
 @property (weak, nonatomic) IBOutlet UITextField *pwdConfField;
-
-- (IBAction)fieldDoneEdting:(id)sender;
+@property (weak, nonatomic) IBOutlet UIImageView *photoView;
+@property (weak, nonatomic) IBOutlet UIImageView *delPhotoView;
 
 - (IBAction)backgroupTap:(id)sender;
+
+- (IBAction)photoViewClick:(id)sender;
+- (IBAction)delPhotoViewClick:(id)sender;
 
 - (void) registerUser: (id)sender;
 @end

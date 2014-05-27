@@ -23,7 +23,10 @@
     if (([method isEqualToString:METHOD_GET]
         //&& [[ZKHContext getInstance] isAnonymousUserLogined]
          )
-         || [urlString hasSuffix:@"/login"]) {
+         || [urlString hasSuffix:@"/login"]
+        || [urlString hasSuffix:@"/registerUser"]
+        || [urlString hasPrefix:@"/loginShop"]
+        || [urlString hasSuffix:@"/registerShop"]) {
         authorizeBlock(request);
         return;
     }

@@ -67,12 +67,7 @@
                 }else if ([value isKindOfClass:[NSNumber class]]) {
                     sqlite3_bind_int(stmt, i++, [(NSNumber *)value intValue]);
                 }else{
-                    if ([value isKindOfClass:[NSString class]]
-                        && [(NSString *) value length] == 0) {
-                        sqlite3_bind_null(stmt, i++);
-                    }else{
-                        sqlite3_bind_text(stmt, i++, [(NSString *)value UTF8String], -1, NULL);
-                    }
+                    sqlite3_bind_text(stmt, i++, [(NSString *)value UTF8String], -1, NULL);
                 }
             }
         }

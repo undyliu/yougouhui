@@ -24,4 +24,7 @@ typedef void (^LoginResponseBlock)(NSMutableDictionary *authObj);
 - (void) changeUserPwd:(ZKHUserEntity *)user newPwd:(NSString *)newPwd completionHander:(ChangeFieldResponseBlock) changePwdBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 - (void) changeUserPhoto:(ZKHUserEntity *)user newPhoto:(ZKHFileEntity *)newPhoto completionHander:(ChangeFieldResponseBlock) changePhotoBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
+typedef void (^RegisterUserResponseBlock)(ZKHUserEntity *user);
+- (void) registerUser:(ZKHUserEntity *)user completionHandler:(RegisterUserResponseBlock) resgisterUserBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+
 @end

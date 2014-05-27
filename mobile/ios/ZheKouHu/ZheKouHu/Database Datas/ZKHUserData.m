@@ -25,7 +25,8 @@
     }
     
     for (ZKHUserEntity *user in data) {
-        [self executeUpdate:USER_UPDATE_SQL params:@[user.uuid, user.name, user.pwd, user.type, user.phone, user.photo, user.registerTime]];
+        NSObject *photo = user.photo == nil ?  @"": user.photo.aliasName;
+        [self executeUpdate:USER_UPDATE_SQL params:@[user.uuid, user.name, user.pwd, user.type, user.phone, photo, user.registerTime]];
     }
 }
 
@@ -39,7 +40,11 @@
     user.pwd = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
     user.type = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
     user.phone = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
-    user.photo = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    
+    ZKHFileEntity *photo = [[ZKHFileEntity alloc] init];
+    photo.aliasName = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    user.photo = photo;
+    
     user.registerTime = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
     
     return user;
