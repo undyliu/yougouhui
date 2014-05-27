@@ -15,6 +15,7 @@
 #import "ZKHProcessor+User.h"
 #import "ZKHAddFriendController.h"
 #import "ZKHFriendProfileController.h"
+#import "NSString+Utils.h"
 
 static NSString *CellIdentifier = @"ContactListCell";
 
@@ -135,7 +136,7 @@ static NSString *CellIdentifier = @"ContactListCell";
     if ([self isReceptionist:friend]) {
         cell.cellImageView.image = [UIImage imageNamed:photo.aliasName];
     }else{
-        if (photo == nil || photo.aliasName == nil || [photo.aliasName isKindOfClass:[NSNull class]]) {
+        if (photo == nil || [photo.aliasName isNull]) {
             cell.cellImageView.image = [UIImage imageNamed:@"default_user_photo.png"];
         }else{
             [ZKHImageLoader showImageForName:photo.aliasName imageView:cell.cellImageView];

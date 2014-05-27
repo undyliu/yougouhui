@@ -27,4 +27,10 @@
 {
     return [self isEqualToString:@"true"] || [self isEqualToString:@"1"];
 }
+
+- (Boolean)isNull
+{
+    return self == nil || [self isKindOfClass:[NSNull class]] || [self length] == 0;
+}
+
 @end

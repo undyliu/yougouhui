@@ -17,4 +17,7 @@
 //boolean
 - (Boolean) isTrue;
 
+//判断是否为nil，nsnull以及空串
+- (Boolean) isNull;
+
 @end
