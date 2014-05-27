@@ -11,6 +11,7 @@
 #import "ZKHRegiserUserController.h"
 #import "ZKHContext.h"
 #import "ZKHUserProfileController.h"
+#import "ZKHAddFriendController.h"
 
 @interface ZKHMainNavController ()
 
@@ -119,7 +120,7 @@
     }else{
         switch (buttonIndex) {
             case 0://add friend
-                
+                controller = [[ZKHAddFriendController alloc] init];
                 break;
             case 1://share
                 break;

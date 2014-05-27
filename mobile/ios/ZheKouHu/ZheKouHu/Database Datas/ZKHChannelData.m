@@ -39,7 +39,7 @@
     return channel;
 }
 
-- (NSMutableArray *)getChannels
+- (NSMutableArray *)channels
 {
     return [self query:CHANNEL_QUERY_SQL params:nil];
 }

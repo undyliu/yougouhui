@@ -75,7 +75,7 @@
     }
 }
 
-- (NSMutableArray *)getShopTrades:(NSString *)uuid
+- (NSMutableArray *)shopTrades:(NSString *)uuid
 {
     NSString *sql = @" select st.uuid, st.trade_id, t.code, t.name, t.ord_index from e_trade t, e_shop_trade st where t.uuid = st.trade_id and st.shop_id = ? ";
     NSArray *params =@[uuid];

@@ -40,7 +40,7 @@
     return sync;
 }
 
-- (ZKHSyncEntity *)getSyncEntity:(NSString *)tableName itemId:(NSString *)itemId
+- (ZKHSyncEntity *)syncEntity:(NSString *)tableName itemId:(NSString *)itemId
 {
     return [self queryOne:SYNC_QUERY_SQL params:@[tableName, itemId]];
 }

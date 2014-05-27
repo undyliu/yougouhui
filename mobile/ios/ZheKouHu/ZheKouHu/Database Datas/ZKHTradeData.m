@@ -41,7 +41,7 @@
     return trade;
 }
 
-- (NSMutableArray *)getTrades
+- (NSMutableArray *)trades
 {
     return [self query:TRADE_QUERY_SQL params:nil];
 }

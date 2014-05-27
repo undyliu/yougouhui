@@ -27,4 +27,7 @@ typedef void (^LoginResponseBlock)(NSMutableDictionary *authObj);
 typedef void (^RegisterUserResponseBlock)(ZKHUserEntity *user);
 - (void) registerUser:(ZKHUserEntity *)user completionHandler:(RegisterUserResponseBlock) resgisterUserBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
+typedef void (^FriendsResponseBlock)(NSMutableArray *friends);
+- (void) friends:(NSString *) userId completionHandler:(FriendsResponseBlock) friendsBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+
 @end

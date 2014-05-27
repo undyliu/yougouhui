@@ -20,8 +20,14 @@
 - (void)login:(NSString *)phone pwd:(NSString *)pwd completionHandler:(LoginResponseBlock)loginBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHUserData *data = [[ZKHUserData alloc] init];
-    ZKHUserEntity *user = [data getUser:phone];
+    ZKHUserEntity *user = [data user:phone];
     if ([pwd isEqualToString:user.pwd]) {
+        [self friends:user.uuid completionHandler:^(NSMutableArray *friends) {
+            user.friends = friends;
+        } errorHandler:^(NSError *error) {
+            
+        }];
+        
         loginBlock([[NSMutableDictionary alloc] initWithDictionary: @{KEY_USER: user, KEY_AUTHED: @"true"}]);
         return;
     }
@@ -61,7 +67,10 @@
                 user.pwd = [userJson valueForKey:KEY_PWD];
                 user.type = [userJson valueForKey:KEY_TYPE];
                 user.phone = [userJson valueForKey:KEY_PHONE];
-                user.photo = [userJson valueForKey:KEY_PHOTO];
+                
+                user.photo = [[ZKHFileEntity alloc] init];
+                user.photo.aliasName = [userJson valueForKey:KEY_PHOTO];
+                
                 user.registerTime = [userJson valueForKey:KEY_REGISTER_TIME];
                 
                 [[[ZKHUserData alloc] init] save:@[user]];
@@ -93,12 +102,12 @@
 
 - (NSMutableDictionary *)getLoginEnv:(NSString *)phone
 {
-    return [[[ZKHEnvData alloc] init] getLoginEnv:phone];
+    return [[[ZKHEnvData alloc] init] loginEnv:phone];
 }
 
 - (NSMutableDictionary *)getLastLoginEnv
 {
-    return [[[ZKHEnvData alloc] init] getLastLoginEnv];
+    return [[[ZKHEnvData alloc] init] lastLoginEnv];
 }
 
 - (void)deleteLoginEnv:(NSString *)phone
@@ -142,7 +151,7 @@
             [[[ZKHUserData alloc] init] updateUserPwd:user.uuid pwd:newPwd];
             
             ZKHEnvData *envData = [[ZKHEnvData alloc] init];            
-            NSMutableDictionary *env = [envData getLoginEnv:user.phone];
+            NSMutableDictionary *env = [envData loginEnv:user.phone];
             [env setValue:newPwd forKey:KEY_PWD];
             [envData saveLoginEnv:user.phone value:env];
             
@@ -203,6 +212,52 @@
         }else{
             resgisterUserBlock(nil);
         }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+//获取朋友列表
+#define GET_FRIENDS_URL(__USER_ID__) [NSString stringWithFormat:@"/getFriends/%@", __USER_ID__]
+- (void)friends:(NSString *)userId completionHandler:(FriendsResponseBlock) friendsBlock errorHandler:(RestResponseErrorBlock) errorBlock
+{
+    ZKHUserData *userData = [[ZKHUserData alloc] init];
+    NSMutableArray *friends = [userData friends:userId];
+    if ([friends count] > 0) {
+        friendsBlock(friends);
+        return;
+    }
+    
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.method = METHOD_GET;
+    request.urlString = GET_FRIENDS_URL(userId);
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSMutableArray *userFriends = [[NSMutableArray alloc] init];
+        if ([jsonObject count] > 0) {
+            for (id jsonUserFriend in jsonObject) {
+                ZKHUserFriendsEntity *userFriend = [[ZKHUserFriendsEntity alloc] init];
+                userFriend.uuid = [jsonUserFriend valueForKey:KEY_UUID];
+
+                id userJson = [jsonUserFriend valueForKey:KEY_USER];
+                ZKHUserEntity *user = [[ZKHUserEntity alloc] init];
+                user.uuid = [userJson valueForKey:KEY_UUID];
+                user.name = [userJson valueForKey:KEY_NAME];
+                user.type = [userJson valueForKey:KEY_TYPE];
+                user.phone = [userJson valueForKey:KEY_PHONE];
+                
+                user.photo = [[ZKHFileEntity alloc] init];
+                user.photo.aliasName = [userJson valueForKey:KEY_PHOTO];
+                
+                user.registerTime = [userJson valueForKey:KEY_REGISTER_TIME];
+                userFriend.friend = user;
+                
+                [userFriends addObject:userFriend];
+            }
+            
+            [userData saveFriends:userId friends:[userFriends copy]];
+        }
+        friendsBlock(userFriends);
     } errorHandler:^(NSError *error) {
         errorBlock(error);
     }];

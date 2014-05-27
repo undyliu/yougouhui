@@ -9,6 +9,7 @@
 #import "ZKHEntity.h"
 #import "NSString+Utils.h"
 #import "ZKHConst.h"
+#import "PinYin4Objc.h"
 
 @implementation ZKHEntity
 
@@ -54,6 +55,18 @@
     copy.registerTime = [self.registerTime copyWithZone:zone];
     //TODO copy friends
     return copy;
+}
+
+- (void) setName:(NSString *)name
+{
+    _name = name;
+
+    HanyuPinyinOutputFormat *outputFormat=[[HanyuPinyinOutputFormat alloc] init];
+    [outputFormat setToneType:ToneTypeWithoutTone];
+    [outputFormat setVCharType:VCharTypeWithV];
+    [outputFormat setCaseType:CaseTypeUppercase];
+    
+    _pinyinName = [PinyinHelper toHanyuPinyinStringWithNSString:_name withHanyuPinyinOutputFormat:outputFormat withNSString:@" "];
 }
 
 @end

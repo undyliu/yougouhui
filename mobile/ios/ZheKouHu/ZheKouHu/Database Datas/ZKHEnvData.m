@@ -35,7 +35,7 @@
     return [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
 }
 
-- (NSMutableDictionary *)getLoginEnv:(NSString *)phone
+- (NSMutableDictionary *)loginEnv:(NSString *)phone
 {
     NSString *loginSetting = [self queryOne:ENV_QUERY_SQL params:@[phone]];
     NSDictionary * tmp = [loginSetting toJSONObject];
@@ -43,7 +43,7 @@
     return [[NSMutableDictionary alloc] initWithDictionary:tmp];
 }
 
-- (NSMutableDictionary *)getLastLoginEnv
+- (NSMutableDictionary *)lastLoginEnv
 {
     NSString *loginSetting = [self queryOne:ENV_LAST_TIME_QUERY_SQL params:nil];
     return [[NSMutableDictionary alloc] initWithDictionary:[loginSetting toJSONObject]];

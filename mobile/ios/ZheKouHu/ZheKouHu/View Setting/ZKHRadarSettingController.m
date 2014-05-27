@@ -17,7 +17,7 @@ static NSString *pickerCellIdentifier = @"PickerCell";
 - (id)init
 {
     if (self = [super init]) {
-        [[NSBundle mainBundle] loadNibNamed:@"ZKHBaseTableView" owner:self options:nil];
+        [[NSBundle mainBundle] loadNibNamed:@"ZKHGroupedTableView" owner:self options:nil];
     }
     return self;
 }

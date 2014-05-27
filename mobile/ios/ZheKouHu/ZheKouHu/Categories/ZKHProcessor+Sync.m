@@ -13,7 +13,7 @@
 
 - (ZKHSyncEntity *)getSyncEntity:(NSString *)tableName itemId:(NSString *)itemId
 {
-    return [[[ZKHSyncData alloc] init] getSyncEntity:tableName itemId:itemId];
+    return [[[ZKHSyncData alloc] init] syncEntity:tableName itemId:itemId];
 }
 
 @end

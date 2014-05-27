@@ -32,36 +32,39 @@
 @end
 
 @interface ZKHModuleData : ZKHData <ZKHEntityUpdater>
-- (NSMutableArray *) getModules: (NSString *) type;
+- (NSMutableArray *) modules: (NSString *) type;
 @end
 
 @interface ZKHChannelData : ZKHData <ZKHEntityUpdater>
-- (NSMutableArray *) getChannels;
+- (NSMutableArray *) channels;
 @end
 
 @interface ZKHUserData : ZKHData <ZKHEntityUpdater>
-- (ZKHUserEntity *) getUser: (NSString *)phone;
+- (ZKHUserEntity *) user: (NSString *)phone;
 - (void) updateUserName:(NSString *)uuid name:(NSString *)name;
 - (void) updateUserPwd:(NSString *) uuid pwd:(NSString *)pwd;
 - (void) updateUserPhoto:(NSString *) uuid photo:(NSString *)photo;
+- (NSMutableArray *) friends:(NSString *)userId;
+- (void) saveFriends:(NSString *)userId friends:(NSArray *) friends;
+- (void) saveNoPwd:(NSArray *)users;
 
 @end
 
 @interface ZKHEnvData : ZKHData
 - (void) saveLoginEnv:(NSString *)phone value:(NSMutableDictionary *) value;
-- (NSMutableDictionary *) getLoginEnv:(NSString *)phone;
-- (NSMutableDictionary *) getLastLoginEnv;
+- (NSMutableDictionary *) loginEnv:(NSString *)phone;
+- (NSMutableDictionary *) lastLoginEnv;
 - (void) deleteLoginEnv:(NSString *)phone;
 
 @end
 
 @interface ZKHSettingData : ZKHData <ZKHEntityUpdater>
-- (NSMutableArray *) getSettings:(NSString *)userId;
+- (NSMutableArray *) settings:(NSString *)userId;
 
 @end
 
 @interface ZKHSyncData : ZKHData <ZKHEntityUpdater>
-- (ZKHSyncEntity *) getSyncEntity:(NSString *)tableName itemId:(NSString *)itemId;
+- (ZKHSyncEntity *) syncEntity:(NSString *)tableName itemId:(NSString *)itemId;
 
 @end
 
@@ -71,7 +74,7 @@
 @end
 
 @interface ZKHTradeData : ZKHData<ZKHEntityUpdater>
-- (NSMutableArray *) getTrades;
+- (NSMutableArray *) trades;
 @end
 
 @interface ZKHShopData : ZKHData<ZKHEntityUpdater>
@@ -80,5 +83,5 @@
 - (void)updateShopImage:(NSString *)uuid shopImage:(NSString *)shopImage;
 - (void)updateBusiLicense:(NSString *)uuid busiLicense:(NSString *)busiLicense;
 - (void)updateshopTrades:(NSString *)uuid trades:(NSArray *)trades;
-- (NSMutableArray *) getShopTrades:(NSString *)uuid;
+- (NSMutableArray *) shopTrades:(NSString *)uuid;
 @end

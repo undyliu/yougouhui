@@ -36,7 +36,7 @@
 - (void)modulesForType:(NSString *)type completionHandler:(ModulesResponseBlock)modulesBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHModuleData *data = [[ZKHModuleData alloc] init];
-    NSMutableArray * modules = [data getModules:type];
+    NSMutableArray * modules = [data modules:type];
     if ([modules count] > 0) {
         modulesBlock(modules);
         return;
@@ -77,7 +77,7 @@
 - (void)channels:(NSString *)parentId completionHandler:(ChannelsResponseBlock)channelsBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHChannelData *data = [[ZKHChannelData alloc] init];
-    NSMutableArray *channels = [data getChannels];
+    NSMutableArray *channels = [data channels];
     if ([channels count] > 0) {
         channelsBlock(channels);
         return;
@@ -123,7 +123,7 @@
     if (![[ZKHContext getInstance] isAnonymousUserLogined]) {
         ZKHUserEntity *user = [ZKHContext getInstance].user;
         ZKHSettingData *data = [[ZKHSettingData alloc] init];
-        NSMutableArray * settings = [data getSettings:user.uuid];
+        NSMutableArray * settings = [data settings:user.uuid];
         if ([settings count] > 0) {
             settingsBlock(settings);
             return;
@@ -164,7 +164,7 @@
 {
     ZKHTradeData *data = [[ZKHTradeData alloc] init];
     if (!reload) {
-        NSMutableArray *trades = [data getTrades];
+        NSMutableArray *trades = [data trades];
         if ([trades count] > 0) {
             tradesBlock(trades);
             return;

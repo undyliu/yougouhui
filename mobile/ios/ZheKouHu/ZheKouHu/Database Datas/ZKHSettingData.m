@@ -51,7 +51,7 @@
     return setting;
 }
 
-- (NSMutableArray *)getSettings:(NSString *)userId
+- (NSMutableArray *)settings:(NSString *)userId
 {
     return [self query:SETTING_QUERY_SQL params:@[userId]];
 }

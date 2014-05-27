@@ -180,7 +180,7 @@
             ZKHShopData *shopData  = [[ZKHShopData alloc] init];
             [shopData updateshopTrades:uuid trades:[[NSArray alloc] initWithArray:shopTrades]];
             
-            changeTradesBlock([shopData getShopTrades:uuid]);
+            changeTradesBlock([shopData shopTrades:uuid]);
         }
     } errorHandler:^(NSError *error) {
         errorBlock(error);

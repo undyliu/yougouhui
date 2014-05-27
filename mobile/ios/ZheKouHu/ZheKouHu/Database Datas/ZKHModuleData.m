@@ -42,7 +42,7 @@
     return module;
 }
 
-- (NSMutableArray *)getModules:(NSString *)type
+- (NSMutableArray *)modules:(NSString *)type
 {
     return [self query:MODULE_QUERY_SQL params:@[type]];
 }
