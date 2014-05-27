@@ -63,7 +63,8 @@
             int i = 1;
             for (NSObject *value in params) {
                 if (value == nil || [value isKindOfClass:[NSNull class]]) {
-                    sqlite3_bind_null(stmt, i++);
+                    //sqlite3_bind_null(stmt, i++);
+                    sqlite3_bind_text(stmt, i++, [@"" UTF8String], -1, NULL);
                 }else if ([value isKindOfClass:[NSNumber class]]) {
                     sqlite3_bind_int(stmt, i++, [(NSNumber *)value intValue]);
                 }else{

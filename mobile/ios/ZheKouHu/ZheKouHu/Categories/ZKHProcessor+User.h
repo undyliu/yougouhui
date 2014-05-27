@@ -30,4 +30,9 @@ typedef void (^RegisterUserResponseBlock)(ZKHUserEntity *user);
 typedef void (^FriendsResponseBlock)(NSMutableArray *friends);
 - (void) friends:(NSString *) userId completionHandler:(FriendsResponseBlock) friendsBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
+- (void) searchUsers:(NSString *) searchWord completionHandler:(FriendsResponseBlock) friendsBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+
+typedef void (^AddFriendResponseBlock)(Boolean result);
+- (void) addFriend:(ZKHUserEntity *)user uFriend:(ZKHUserEntity *)uFriend completionHander:(AddFriendResponseBlock) addFriendBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+
 @end

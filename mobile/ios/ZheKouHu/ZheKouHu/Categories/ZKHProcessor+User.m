@@ -263,4 +263,63 @@
     }];
 }
 
+//搜索用户
+#define SEARCH_USERS_URL @"/searchUsers"
+- (void)searchUsers:(NSString *)searchWord completionHandler:(FriendsResponseBlock)friendsBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = SEARCH_USERS_URL;
+    request.method = METHOD_POST;
+    request.params = @{KEY_SEARCH_WORD: searchWord};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSMutableArray *users = [[NSMutableArray alloc] init];
+        for (id userJson in jsonObject) {
+            ZKHUserEntity *user = [[ZKHUserEntity alloc] init];
+            user.uuid = [userJson valueForKey:KEY_UUID];
+            user.name = [userJson valueForKey:KEY_NAME];
+            user.type = [userJson valueForKey:KEY_TYPE];
+            user.phone = [userJson valueForKey:KEY_PHONE];
+            
+            user.photo = [[ZKHFileEntity alloc] init];
+            user.photo.aliasName = [userJson valueForKey:KEY_PHOTO];
+            
+            user.registerTime = [userJson valueForKey:KEY_REGISTER_TIME];
+            
+            [users addObject:user];
+        }
+        friendsBlock(users);
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+//添加朋友
+#define ADD_FRIEND_URL @"/addFriend"
+- (void)addFriend:(ZKHUserEntity *)user uFriend:(ZKHUserEntity *)uFriend completionHander:(AddFriendResponseBlock)addFriendBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = ADD_FRIEND_URL;
+    request.method = METHOD_POST;
+    request.params = @{KEY_FRIEND_ID: uFriend.uuid, KEY_USER_ID: user.uuid};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *uuid = [jsonObject valueForKey:KEY_UUID];
+        if (uuid != nil) {
+            ZKHUserFriendsEntity *userFriend = [[ZKHUserFriendsEntity alloc] init];
+            userFriend.uuid = uuid;
+            userFriend.friend = uFriend;
+            
+            [[[ZKHUserData alloc] init] saveFriends:user.uuid friends:@[userFriend]];
+            [user.friends addObject:userFriend];
+            
+            addFriendBlock(true);
+        }else{
+            addFriendBlock(false);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
 @end

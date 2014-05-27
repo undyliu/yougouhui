@@ -7,10 +7,13 @@
 //
 
 #import "ZKHAddFriendController.h"
+#import "ZKHAppDelegate.h"
+#import "ZKHProcessor+User.h"
+#import "ZKHImageLoader.h"
+#import "ZKHContext.h"
+#import "ZKHFriendProfileController.h"
 
-@interface ZKHAddFriendController ()
-
-@end
+static NSString *CellIdentifier = @"AddFriendResultCell";
 
 @implementation ZKHAddFriendController
 
@@ -28,12 +31,129 @@
     [super viewDidLoad];
     
     self.title = @"添加新朋友";
+    [self.searchWordField becomeFirstResponder];
+    
+    UINib *nib = [UINib nibWithNibName:@"ZKHAddFriendResultCell" bundle:nil];
+    [self.resultTableVIew registerNib:nib forCellReuseIdentifier:CellIdentifier];
+    
+    [self setExtraCellLineHidden:self.resultTableVIew];
+    
+    resultController = [[ZKHAddFriendResultController alloc] init];
+    resultController.navController = self.navigationController;
+    self.resultTableVIew.delegate = resultController;
+    self.resultTableVIew.dataSource = resultController;
+    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)backgroupTap:(id)sender
+{
+    [self.searchWordField resignFirstResponder];
+}
+
+-(void)setExtraCellLineHidden: (UITableView *)tableView
+{
+    UIView *view = [UIView new];
+    view.backgroundColor = [UIColor clearColor];
+    [tableView setTableFooterView:view];
+}
+
+- (IBAction)doSearch:(id *)sender {
+    [self backgroupTap:nil];
+    NSString *searchWord = self.searchWordField.text;
+    if ([searchWord length] == 0) {
+        return;
+    }
+    
+    [ApplicationDelegate.zkhProcessor searchUsers:searchWord completionHandler:^(NSMutableArray *friends) {
+        resultController.result = friends;
+        [self.resultTableVIew reloadData];
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
+
+@end
+
+@implementation ZKHAddFriendResultCell
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    //[super setSelected:selected animated:animated];
+    
+    // Configure the view for the selected state
+}
+
+@end
+
+@implementation ZKHAddFriendResultController
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.result count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ZKHAddFriendResultCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    ZKHUserEntity *user = self.result[indexPath.row];
+    cell.cellNameLabel.text = user.name;
+    
+    ZKHFileEntity *photo = user.photo;
+    if (photo == nil || photo.aliasName == nil || [photo.aliasName isKindOfClass:[NSNull class]]) {
+        cell.cellImageView.image = [UIImage imageNamed:@"default_user_photo.png"];
+    }else{
+        [ZKHImageLoader showImageForName:photo.aliasName imageView:cell.cellImageView];
+    }
+    
+    if([[ZKHContext getInstance].user.friends containsObject:user]){
+        [cell.cellActionButton setTitle:@"已是朋友" forState:UIControlStateNormal];
+        cell.cellActionButton.enabled = false;
+    }else{
+        [cell.cellActionButton setTitle:@"加为朋友" forState:UIControlStateNormal];
+        cell.cellActionButton.enabled = true;
+        cell.cellActionButton.tag = indexPath.row;
+        [cell.cellActionButton addTarget:self action:@selector(addFriend:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    return cell;
+}
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    ZKHFriendProfileController *controller = [[ZKHFriendProfileController alloc] init];
+    controller.user = self.result[indexPath.row];
+    [self.navController pushViewController:controller animated:YES];
+    
+}
+
+- (void)addFriend:(UIButton *)sender
+{
+    int index = sender.tag;
+    ZKHUserEntity *friend = self.result[index];
+    
+    [ApplicationDelegate.zkhProcessor addFriend:[ZKHContext getInstance].user uFriend:friend completionHander:^(Boolean result) {
+        if (result) {
+            [sender setTitle:@"已是朋友" forState:UIControlStateNormal];
+            sender.enabled =false;
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
 @end

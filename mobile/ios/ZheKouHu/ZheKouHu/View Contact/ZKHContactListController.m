@@ -14,6 +14,7 @@
 #import "ZKHAppDelegate.h"
 #import "ZKHProcessor+User.h"
 #import "ZKHAddFriendController.h"
+#import "ZKHFriendProfileController.h"
 
 static NSString *CellIdentifier = @"ContactListCell";
 
@@ -96,6 +97,11 @@ static NSString *CellIdentifier = @"ContactListCell";
     }
 }
 
+- (Boolean) isReceptionist:(ZKHUserEntity *)user
+{
+    return [@"-999" isEqualToString:user.phone];
+}
+
 - (void)addFriendClick:(id)sender
 {
     ZKHAddFriendController *controller = [[ZKHAddFriendController alloc] init];
@@ -126,10 +132,10 @@ static NSString *CellIdentifier = @"ContactListCell";
     cell.cellLabel.text = friend.name;
     ZKHFileEntity *photo = friend.photo;
     
-    if ([@"-999" isEqualToString:friend.phone]) {
+    if ([self isReceptionist:friend]) {
         cell.cellImageView.image = [UIImage imageNamed:photo.aliasName];
     }else{
-        if (photo == nil || photo.aliasName == nil) {
+        if (photo == nil || photo.aliasName == nil || [photo.aliasName isKindOfClass:[NSNull class]]) {
             cell.cellImageView.image = [UIImage imageNamed:@"default_user_photo.png"];
         }else{
             [ZKHImageLoader showImageForName:photo.aliasName imageView:cell.cellImageView];
@@ -148,7 +154,16 @@ static NSString *CellIdentifier = @"ContactListCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    NSString *key = [_friends allKeys][indexPath.section];
+    ZKHUserEntity *friend = _friends[key][indexPath.row];
+    
+    if ([self isReceptionist:friend]) {
+        
+    }else{
+        ZKHFriendProfileController *controller = [[ZKHFriendProfileController alloc] init];
+        controller.user = friend;
+        [self.navigationController pushViewController:controller animated:YES];
+    }
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView

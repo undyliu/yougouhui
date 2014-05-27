@@ -13,6 +13,11 @@
 
 @implementation ZKHEntity
 
+- (BOOL)isEqual:(id)object
+{
+    return [object isKindOfClass:[self class]] && [self.uuid isEqual:((ZKHEntity *)object).uuid];
+}
+
 @end
 
 @implementation ZKHFileEntity
@@ -69,9 +74,33 @@
     _pinyinName = [PinyinHelper toHanyuPinyinStringWithNSString:_name withHanyuPinyinOutputFormat:outputFormat withNSString:@" "];
 }
 
+- (BOOL)isEqual:(id)object
+{
+    if ([object isKindOfClass:[ZKHUserFriendsEntity class]]) {
+        return [self isEqual:((ZKHUserFriendsEntity *)object).friend];
+    }
+    return [super isEqual:object];
+}
+
+-(NSMutableArray *)friends
+{
+    if (_friends == nil) {
+        _friends = [[NSMutableArray alloc] init];
+    }
+    return _friends;
+}
+
 @end
 
 @implementation ZKHUserFriendsEntity
+
+- (BOOL)isEqual:(id)object
+{
+    if ([object isKindOfClass:[ZKHUserEntity class]]) {
+        return [_friend isEqual:object];
+    }
+    return [super isEqual:object];
+}
 
 @end
 
@@ -89,10 +118,6 @@
 
 @implementation ZKHTradeEntity
 
-- (BOOL)isEqual:(id)object
-{
-    return [object isKindOfClass:[ZKHTradeEntity class]] && [self.uuid isEqual:((ZKHTradeEntity *)object).uuid];
-}
 @end
 
 @implementation ZKHLocationEntity

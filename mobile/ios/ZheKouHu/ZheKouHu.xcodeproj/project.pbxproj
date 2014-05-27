@@ -97,6 +97,9 @@
 		1070AD0519347AAE00AA1AE1 /* ZKHContactListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1070AD0419347AAE00AA1AE1 /* ZKHContactListCell.xib */; };
 		1070AD0719347EFD00AA1AE1 /* unicode_to_hanyu_pinyin.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1070AD0619347EFD00AA1AE1 /* unicode_to_hanyu_pinyin.txt */; };
 		1070AD091934844200AA1AE1 /* receptionist.png in Resources */ = {isa = PBXBuildFile; fileRef = 1070AD081934844200AA1AE1 /* receptionist.png */; };
+		1070AD0D193488E300AA1AE1 /* ZKHFriendProfileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1070AD0B193488E200AA1AE1 /* ZKHFriendProfileController.m */; };
+		1070AD0E193488E300AA1AE1 /* ZKHFriendProfileController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1070AD0C193488E200AA1AE1 /* ZKHFriendProfileController.xib */; };
+		1070AD1019348E4C00AA1AE1 /* ZKHAddFriendResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1070AD0F19348E4C00AA1AE1 /* ZKHAddFriendResultCell.xib */; };
 		109CA798192E2A1E00A50D49 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 109CA795192E2A1E00A50D49 /* Default-568h@2x.png */; };
 		109CA799192E2A1E00A50D49 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 109CA796192E2A1E00A50D49 /* Default.png */; };
 		109CA79A192E2A1E00A50D49 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 109CA797192E2A1E00A50D49 /* Default@2x.png */; };
@@ -304,6 +307,10 @@
 		1070AD0419347AAE00AA1AE1 /* ZKHContactListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHContactListCell.xib; sourceTree = "<group>"; };
 		1070AD0619347EFD00AA1AE1 /* unicode_to_hanyu_pinyin.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = unicode_to_hanyu_pinyin.txt; sourceTree = "<group>"; };
 		1070AD081934844200AA1AE1 /* receptionist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = receptionist.png; sourceTree = "<group>"; };
+		1070AD0A193488E200AA1AE1 /* ZKHFriendProfileController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHFriendProfileController.h; sourceTree = "<group>"; };
+		1070AD0B193488E200AA1AE1 /* ZKHFriendProfileController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHFriendProfileController.m; sourceTree = "<group>"; };
+		1070AD0C193488E200AA1AE1 /* ZKHFriendProfileController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHFriendProfileController.xib; sourceTree = "<group>"; };
+		1070AD0F19348E4C00AA1AE1 /* ZKHAddFriendResultCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHAddFriendResultCell.xib; sourceTree = "<group>"; };
 		109CA795192E2A1E00A50D49 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		109CA796192E2A1E00A50D49 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		109CA797192E2A1E00A50D49 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -657,9 +664,13 @@
 				1070ACFA19345D4C00AA1AE1 /* ZKHAddFriendController.h */,
 				1070ACFB19345D4C00AA1AE1 /* ZKHAddFriendController.m */,
 				1070ACFC19345D4C00AA1AE1 /* ZKHAddFriendController.xib */,
+				1070AD0F19348E4C00AA1AE1 /* ZKHAddFriendResultCell.xib */,
 				1070AD0119347A9700AA1AE1 /* ZKHContactListCell.h */,
 				1070AD0219347A9700AA1AE1 /* ZKHContactListCell.m */,
 				1070AD0419347AAE00AA1AE1 /* ZKHContactListCell.xib */,
+				1070AD0A193488E200AA1AE1 /* ZKHFriendProfileController.h */,
+				1070AD0B193488E200AA1AE1 /* ZKHFriendProfileController.m */,
+				1070AD0C193488E200AA1AE1 /* ZKHFriendProfileController.xib */,
 			);
 			path = "View Contact";
 			sourceTree = "<group>";
@@ -942,6 +953,8 @@
 				1070AD0519347AAE00AA1AE1 /* ZKHContactListCell.xib in Resources */,
 				1070AD0719347EFD00AA1AE1 /* unicode_to_hanyu_pinyin.txt in Resources */,
 				1070AD091934844200AA1AE1 /* receptionist.png in Resources */,
+				1070AD0E193488E300AA1AE1 /* ZKHFriendProfileController.xib in Resources */,
+				1070AD1019348E4C00AA1AE1 /* ZKHAddFriendResultCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1028,6 +1041,7 @@
 				1070ACF919345CEF00AA1AE1 /* PinyinHelper.m in Sources */,
 				1070ACFD19345D4C00AA1AE1 /* ZKHAddFriendController.m in Sources */,
 				1070AD0319347A9700AA1AE1 /* ZKHContactListCell.m in Sources */,
+				1070AD0D193488E300AA1AE1 /* ZKHFriendProfileController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
