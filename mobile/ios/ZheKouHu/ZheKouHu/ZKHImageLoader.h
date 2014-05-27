@@ -11,6 +11,10 @@
 
 @interface ZKHImageLoader : NSObject
 
++ (NSString*) saveImage:(UIImage *)image fileName:(NSString *) fileName;
++ (void) removeImageWithName:(NSString *)fileName;
++ (void) removeImageWithPath:(NSString *)filePath;
+
 typedef void (^ImageResponseBlock)(UIImage* loadedImage);
 + (void) loadImageForName: (NSString *)fileName completionHandler:(ImageResponseBlock) imageBlock errorHandler:(MKNKErrorBlock) errorBlock;
 

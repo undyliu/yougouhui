@@ -13,6 +13,9 @@
 #import "ZKHImageLoader.h"
 #import "ZKHAppDelegate.h"
 #import "ZKHProcessor+User.h"
+#import "ZKHImageLoader.h"
+#import "NSDate+Utils.h"
+#import "ZKHProcessor+User.h"
 
 static NSString *CellIdentifier = @"ImageLabelCell";
 
@@ -154,7 +157,7 @@ static NSString *CellIdentifier = @"ImageLabelCell";
 - (void)doSave:(NSString *)newValue
 {
     ZKHUserEntity *user = [ZKHContext getInstance].user;
-    [ApplicationDelegate.zkhProcessor changeName:user newName:newValue completionHandler:^(Boolean result) {
+    [ApplicationDelegate.zkhProcessor changeUserName:user newName:newValue completionHandler:^(Boolean result) {
         if (result) {
             user.name = newValue;
             [self.navigationController popViewControllerAnimated:YES];
@@ -182,7 +185,7 @@ static NSString *CellIdentifier = @"ImageLabelCell";
 - (void)doSave:(NSString *)newPwd
 {
     ZKHUserEntity *user = [ZKHContext getInstance].user;
-    [ApplicationDelegate.zkhProcessor changePwd:user newPwd:newPwd completionHander:^(Boolean result) {
+    [ApplicationDelegate.zkhProcessor changeUserPwd:user newPwd:newPwd completionHander:^(Boolean result) {
         if (result) {
             user.pwd = newPwd;
             [self.navigationController popViewControllerAnimated:YES];
@@ -204,4 +207,25 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     return imageFile;
 }
 
+- (void)save:(id)sender
+{
+    ZKHUserEntity *user = [ZKHContext getInstance].user;
+    UIImage *image = self.imageView.image;
+    NSString *aliasName = [NSString stringWithFormat:@"%@_%@.png", [NSDate currentTimeString], user.phone];
+    NSString *filePath = [ZKHImageLoader saveImage:image fileName:aliasName];
+    
+    ZKHFileEntity *file = [[ZKHFileEntity alloc] init];
+    file.aliasName = aliasName;
+    file.fileUrl = filePath;
+    
+    [ApplicationDelegate.zkhProcessor changeUserPhoto:user newPhoto:file completionHander:^(Boolean result) {
+        if (result) {
+            [ZKHImageLoader removeImageWithName:user.photo];//删除原有的照片
+            user.photo = aliasName;
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    } errorHandler:^(NSError *error) {
+        [ZKHImageLoader removeImageWithName:aliasName];
+    }];
+}
 @end

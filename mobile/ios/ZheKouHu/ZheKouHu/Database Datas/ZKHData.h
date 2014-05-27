@@ -43,6 +43,7 @@
 - (ZKHUserEntity *) getUser: (NSString *)phone;
 - (void) updateUserName:(NSString *)uuid name:(NSString *)name;
 - (void) updateUserPwd:(NSString *) uuid pwd:(NSString *)pwd;
+- (void) updateUserPhoto:(NSString *) uuid photo:(NSString *)photo;
 
 @end
 
@@ -76,6 +77,8 @@
 @interface ZKHShopData : ZKHData<ZKHEntityUpdater>
 - (void)updateShopName:(NSString *)uuid name:(NSString *)name;
 - (void)updateShopDesc:(NSString *)uuid desc:(NSString *)desc;
+- (void)updateShopImage:(NSString *)uuid shopImage:(NSString *)shopImage;
+- (void)updateBusiLicense:(NSString *)uuid busiLicense:(NSString *)busiLicense;
 - (void)updateshopTrades:(NSString *)uuid trades:(NSArray *)trades;
 - (NSMutableArray *) getShopTrades:(NSString *)uuid;
 @end

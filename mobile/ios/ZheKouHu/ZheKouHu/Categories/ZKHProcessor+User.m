@@ -108,7 +108,7 @@
 
 //修改昵称
 #define UPDATE_USER_NAME_URL @"/updateUserName"
-- (void)changeName:(ZKHUserEntity *)user newName:(NSString *)newName completionHandler:(ChangeFieldResponseBlock)changeNameBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)changeUserName:(ZKHUserEntity *)user newName:(NSString *)newName completionHandler:(ChangeFieldResponseBlock)changeNameBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     NSDictionary *params = @{KEY_UUID : user.uuid, KEY_NAME : newName};
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
@@ -130,7 +130,7 @@
 
 //修改密码
 #define UPDATE_USER_PWD_URL @"/updateUserPwd"
-- (void)changePwd:(ZKHUserEntity *)user newPwd:(NSString *)newPwd completionHander:(ChangeFieldResponseBlock)changePwdBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)changeUserPwd:(ZKHUserEntity *)user newPwd:(NSString *)newPwd completionHander:(ChangeFieldResponseBlock)changePwdBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = UPDATE_USER_PWD_URL;
@@ -149,6 +149,28 @@
             changePwdBlock(true);
         }else{
             changePwdBlock(false);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+//修改头像
+#define UPDATE_USER_PHOTO_URL @"/saveUserPhoto"
+- (void)changeUserPhoto:(ZKHUserEntity *)user newPhoto:(ZKHFileEntity *)newPhoto completionHander:(ChangeFieldResponseBlock)changePhotoBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = UPDATE_USER_PHOTO_URL;
+    request.method = METHOD_POST;
+    request.files = @[newPhoto];
+    request.params = @{KEY_UUID: user.uuid, KEY_PHOTO: newPhoto.aliasName};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        if ([[jsonObject valueForKey:KEY_UUID] length] > 0) {
+            [[[ZKHUserData alloc] init] updateUserPhoto:user.uuid photo:newPhoto.aliasName];
+            changePhotoBlock(true);
+        }else{
+            changePhotoBlock(false);
         }
     } errorHandler:^(NSError *error) {
         errorBlock(error);

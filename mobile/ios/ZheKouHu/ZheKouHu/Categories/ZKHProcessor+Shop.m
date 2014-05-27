@@ -104,12 +104,12 @@
 }
 
 //修改商铺简介
-#define UPDATE_SHOP_DESC_URL @"/updateShop"
+#define UPDATE_SHOP_URL @"/updateShop"
 - (void)changeShopDesc:(NSString *)uuid newDesc:(NSString *)newDesc completionHandler:(ChangeFieldResponseBlock)changeDescBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.method = METHOD_POST;
-    request.urlString = UPDATE_SHOP_DESC_URL;
+    request.urlString = UPDATE_SHOP_URL;
     request.params = @{KEY_SHOP_ID: uuid, KEY_FIELD: KEY_DESC, KEY_VALUE: newDesc};
     
     [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
@@ -128,7 +128,7 @@
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.method = METHOD_POST;
-    request.urlString = UPDATE_SHOP_DESC_URL;
+    request.urlString = UPDATE_SHOP_URL;
     request.params = @{KEY_SHOP_ID: uuid, KEY_FIELD: KEY_NAME, KEY_VALUE: newName};
     
     [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
@@ -203,4 +203,46 @@
         errorBlock(error);
     }];
 }
+
+- (void)changeShopImage:(NSString *)uuid shopImage:(ZKHFileEntity *)shopImage completionHandler:(ChangeFieldResponseBlock)changeShopImageBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.method = METHOD_POST;
+    request.urlString = UPDATE_SHOP_URL;
+    request.files = @[shopImage];
+    request.params = @{KEY_SHOP_ID: uuid, KEY_FIELD: KEY_SHOP_IMG, KEY_VALUE: shopImage.aliasName};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        if ([[jsonObject valueForKey:KEY_UUID] length] > 0) {
+            [[[ZKHShopData alloc] init] updateShopImage:uuid shopImage:shopImage.aliasName];
+            changeShopImageBlock(true);
+        }else{
+            changeShopImageBlock(false);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+
+}
+
+- (void)changeBusiLicense:(NSString *)uuid busiLicense:(ZKHFileEntity *)busiLicense completionHandler:(ChangeFieldResponseBlock)changeBusiLicenseBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.method = METHOD_POST;
+    request.urlString = UPDATE_SHOP_URL;
+    request.files = @[busiLicense];
+    request.params = @{KEY_SHOP_ID: uuid, KEY_FIELD: KEY_BUSI_LICENSE, KEY_VALUE: busiLicense.aliasName};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        if ([[jsonObject valueForKey:KEY_UUID] length] > 0) {
+            [[[ZKHShopData alloc] init] updateBusiLicense:uuid busiLicense:busiLicense.aliasName];
+            changeBusiLicenseBlock(true);
+        }else{
+            changeBusiLicenseBlock(false);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
 @end

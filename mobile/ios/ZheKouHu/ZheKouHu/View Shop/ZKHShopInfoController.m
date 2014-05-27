@@ -13,6 +13,7 @@
 #import "ZKHChangeShopTradesController.h"
 #import "ZKHAppDelegate.h"
 #import "ZKHProcessor+Shop.h"
+#import "NSDate+Utils.h"
 
 static NSString *CellIdentifier = @"ImageLabelCell";
 
@@ -257,6 +258,27 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     imageFile.aliasName = self.shop.shopImg;
     return imageFile;
 }
+
+- (void)save:(id)sender
+{
+    UIImage *image = self.imageView.image;
+    NSString *aliasName = [NSString stringWithFormat:@"shopImage_%@.png", [NSDate currentTimeString]];
+    NSString *filePath = [ZKHImageLoader saveImage:image fileName:aliasName];
+    
+    ZKHFileEntity *file = [[ZKHFileEntity alloc] init];
+    file.aliasName = aliasName;
+    file.fileUrl = filePath;
+    
+    [ApplicationDelegate.zkhProcessor changeShopImage:self.shop.uuid shopImage:file completionHandler:^(Boolean result) {
+        if (result) {
+            [ZKHImageLoader removeImageWithName:self.shop.shopImg];//删除原有的照片
+            self.shop.shopImg = aliasName;
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    } errorHandler:^(NSError *error) {
+        [ZKHImageLoader removeImageWithName:aliasName];
+    }];
+}
 @end
 
 @implementation ZKHChangeBusiLicenseController
@@ -265,6 +287,26 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     ZKHFileEntity *imageFile = [[ZKHFileEntity alloc] init];
     imageFile.aliasName = self.shop.busiLicense;
     return imageFile;
+}
+
+- (void)save:(id)sender{
+    UIImage *image = self.imageView.image;
+    NSString *aliasName = [NSString stringWithFormat:@"busiLicense_%@.png", [NSDate currentTimeString]];
+    NSString *filePath = [ZKHImageLoader saveImage:image fileName:aliasName];
+    
+    ZKHFileEntity *file = [[ZKHFileEntity alloc] init];
+    file.aliasName = aliasName;
+    file.fileUrl = filePath;
+    
+    [ApplicationDelegate.zkhProcessor changeBusiLicense:self.shop.uuid busiLicense:file completionHandler:^(Boolean result) {
+        if (result) {
+            [ZKHImageLoader removeImageWithName:self.shop.busiLicense];//删除原有的照片
+            self.shop.busiLicense = aliasName;
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    } errorHandler:^(NSError *error) {
+        [ZKHImageLoader removeImageWithName:aliasName];
+    }];
 }
 
 @end

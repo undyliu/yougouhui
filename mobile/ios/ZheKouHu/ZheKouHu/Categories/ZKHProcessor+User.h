@@ -20,8 +20,8 @@ typedef void (^LoginResponseBlock)(NSMutableDictionary *authObj);
 - (NSMutableDictionary *) getLastLoginEnv;
 - (void) deleteLoginEnv: (NSString *)phone;
 
-- (void) changeName:(ZKHUserEntity *)user newName:(NSString *)newName completionHandler:(ChangeFieldResponseBlock) changeNameBlock errorHandler:(RestResponseErrorBlock) errorBlock;
-- (void) changePwd:(ZKHUserEntity *)user newPwd:(NSString *)newPwd completionHander:(ChangeFieldResponseBlock) changePwdBlock errorHandler:(RestResponseErrorBlock) errorBlock;
-
+- (void) changeUserName:(ZKHUserEntity *)user newName:(NSString *)newName completionHandler:(ChangeFieldResponseBlock) changeNameBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) changeUserPwd:(ZKHUserEntity *)user newPwd:(NSString *)newPwd completionHander:(ChangeFieldResponseBlock) changePwdBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) changeUserPhoto:(ZKHUserEntity *)user newPhoto:(ZKHFileEntity *)newPhoto completionHander:(ChangeFieldResponseBlock) changePhotoBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 @end

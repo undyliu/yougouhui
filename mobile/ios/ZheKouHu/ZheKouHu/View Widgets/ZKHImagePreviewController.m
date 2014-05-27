@@ -30,7 +30,9 @@
     
     self.title = @"图片预览";
     
-    if (self.imageFile != nil) {
+    if (self.image != nil) {
+        self.imageView.image = self.image;
+    }else if (self.imageFile != nil) {
         [ZKHImageLoader showImageForName:self.imageFile.aliasName imageView:self.imageView];
     }
 }

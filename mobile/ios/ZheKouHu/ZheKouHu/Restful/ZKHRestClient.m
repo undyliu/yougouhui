@@ -8,6 +8,7 @@
 
 #import "ZKHRestClient.h"
 #import "ZKHConst.h"
+#import "ZKHEntity.h"
 
 @implementation ZKHRestClient
 
@@ -50,6 +51,11 @@
         MKNetworkOperation *op = [self createMKNetworkOperation:request];
         if (op == nil) {
             return;
+        }
+        
+        NSArray *files = request.files;
+        for (ZKHFileEntity *file in files) {
+            [op addFile:file.fileUrl forKey:file.aliasName];
         }
         
         [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {

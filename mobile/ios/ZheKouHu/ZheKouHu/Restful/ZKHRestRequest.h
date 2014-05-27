@@ -14,6 +14,7 @@
 @property (strong, nonatomic) NSString *urlString;
 @property (strong, nonatomic) NSDictionary *params;
 @property (strong, nonatomic) NSMutableDictionary *headers;
+@property (strong, nonatomic) NSArray *files;
 
 - (void) addHeader:(NSString *)key value:(NSString *)value;
 

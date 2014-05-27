@@ -11,6 +11,7 @@
 
 @interface ZKHImagePreviewController : UIViewController
 
+@property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) ZKHFileEntity *imageFile;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 

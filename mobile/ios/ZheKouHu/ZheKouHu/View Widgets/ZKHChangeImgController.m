@@ -86,7 +86,7 @@
 - (void)previewImageClick:(id)sender
 {
     ZKHImagePreviewController *controller = [[ZKHImagePreviewController alloc] init];
-    controller.imageFile = [self getOriginalImageFile];
+    controller.image = self.imageView.image;
     [self.navigationController pushViewController:controller animated:YES];
 }
 
@@ -113,7 +113,7 @@
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    UIImage *selectedImage = info[UIImagePickerControllerEditedImage];
+    UIImage *selectedImage = info[UIImagePickerControllerOriginalImage];
     self.imageView.image = selectedImage;
     
     [picker dismissViewControllerAnimated:YES completion:nil];

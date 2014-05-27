@@ -7,6 +7,7 @@
 //
 
 #import "ZKHProcessor.h"
+#import "ZKHEntity.h"
 
 @interface ZKHProcessor (Shop)
 
@@ -21,5 +22,9 @@ typedef void (^ChangeTradesResponseBlock)(NSMutableArray *shopTrades);
 - (void) changeShopTrades:(NSString *)uuid newTrades:(NSArray *)newTrades completionHandler:(ChangeTradesResponseBlock) changeTradesBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 - (void) changeShopEmpPwd:(NSString *)uuid userId:(NSString *)userId oldPwd:(NSString *)oldPwd newPwd:(NSString *)newPwd completionHandler:(ChangeFieldResponseBlock) changeShopEmpPwdBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+
+- (void) changeShopImage:(NSString *)uuid shopImage:(ZKHFileEntity *)shopImage completionHandler:(ChangeFieldResponseBlock) changeShopImageBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+
+- (void) changeBusiLicense:(NSString *)uuid busiLicense:(ZKHFileEntity *)busiLicense completionHandler:(ChangeFieldResponseBlock) changeBusiLicenseBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 @end

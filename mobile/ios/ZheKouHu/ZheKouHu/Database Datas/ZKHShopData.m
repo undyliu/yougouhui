@@ -55,6 +55,16 @@
     [self executeUpdate:SHOP_FIELD_UPDATE_SQL(KEY_NAME) params:@[name, uuid]];
 }
 
+- (void)updateShopImage:(NSString *)uuid shopImage:(NSString *)shopImage
+{
+    [self executeUpdate:SHOP_FIELD_UPDATE_SQL(KEY_SHOP_IMG) params:@[shopImage, uuid]];
+}
+
+- (void)updateBusiLicense:(NSString *)uuid busiLicense:(NSString *)busiLicense
+{
+    [self executeUpdate:SHOP_FIELD_UPDATE_SQL(KEY_BUSI_LICENSE) params:@[busiLicense, uuid]];
+}
+
 #define  SHOP_TRADE_DEL_SQL [NSString stringWithFormat:@" delete from %@ where %@=?", SHOP_TRADE_TABLE, KEY_SHOP_ID]
 - (void)updateshopTrades:(NSString *)uuid trades:(NSArray *)trades
 {

@@ -29,9 +29,26 @@
     return [imageDir stringByAppendingPathComponent:fileName];
 }
 
-+ (void) saveImage:(UIImage *)image fileName:(NSString *) fileName
++ (NSString*) saveImage:(UIImage *)image fileName:(NSString *) fileName
 {
-    [UIImagePNGRepresentation(image) writeToFile:[ZKHImageLoader getImageFilePath:fileName] options:NSAtomicWrite error:nil];
+    NSData *data = UIImagePNGRepresentation(image);
+    if (data == nil) {
+        data = UIImageJPEGRepresentation(image, 1);
+    }
+    NSString *filePath = [ZKHImageLoader getImageFilePath:fileName];
+    [data writeToFile:filePath options:NSAtomicWrite error:nil];
+    return  filePath;
+}
+
++ (void)removeImageWithName:(NSString *)fileName
+{
+    [ZKHImageLoader removeImageWithPath:[ZKHImageLoader getImageFilePath:fileName]];
+}
+
++ (void)removeImageWithPath:(NSString *)filePath
+{
+    BOOL result = [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+    NSAssert(result, @"删除文件失败", filePath);
 }
 
 + (UIImage *) loadImageLocal:(NSString *) fileName

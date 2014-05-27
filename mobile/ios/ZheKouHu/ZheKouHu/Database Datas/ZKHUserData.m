@@ -62,4 +62,9 @@
     [self executeUpdate:USER_FIELD_UPDATE_SQL(KEY_PWD) params:@[pwd, uuid]];
 }
 
+- (void)updateUserPhoto:(NSString *)uuid photo:(NSString *)photo
+{
+    [self executeUpdate:USER_FIELD_UPDATE_SQL(KEY_PHOTO) params:@[photo, uuid]];
+}
+
 @end
