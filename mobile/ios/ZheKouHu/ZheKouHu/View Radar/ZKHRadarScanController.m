@@ -1,43 +1,67 @@
 //
-//  ZKHMyFavoritController.m
+//  ZKHRadarScanController.m
 //  ZheKouHu
 //
 //  Created by undyliu on 14-5-28.
 //  Copyright (c) 2014年 undyliu. All rights reserved.
 //
 
-#import "ZKHMyFavoritController.h"
+#import "ZKHRadarScanController.h"
+#import "ZKHProcessor+Setting.h"
+#import "ZKHAppDelegate.h"
+#import "ZKHEntity.h"
+#import "ZKHConst.h"
+#import "ZKHContext.h"
+#import "NSString+Utils.h"
 
-@interface ZKHMyFavoritController ()<ViewPagerDataSource, ViewPagerDelegate>
+@interface ZKHRadarScanController ()<ViewPagerDataSource, ViewPagerDelegate>
 
 @end
 
-@implementation ZKHMyFavoritController
+@implementation ZKHRadarScanController
 
-- (id)init
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    if (self = [super init]) {
-        self.saleListController = [[ZKHSaleFavoritListController alloc] init];
-        self.shopListController = [[ZKHShopFavoritListController alloc] init];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
     }
-    return  self;
+    return self;
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.title = @"我的收藏";
+    self.title = @"雷达扫描";
     
     pageTabs = @[@"活动", @"商铺"];
     
+    self.saleListController = [[ZKHScanSaleListController alloc] init];
+    self.shopListController = [[ZKHScanShopListController alloc] init];
     
     self.dataSource = self;
     self.delegate = self;
+    
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    [self.locationManager startUpdatingLocation];
+    
+    [ApplicationDelegate.zkhProcessor radarSetting:[ZKHContext getInstance].user.uuid withDefaultValue:true completionHandler:^(ZKHSettingEntity *setting) {
+        NSDictionary *value = [setting.value toJSONObject];
+        NSString *disctance = [value valueForKey:RADAR_VAL_FIELD_DISTANCE];
+        self.hitLabel.text = [NSString stringWithFormat:@"附近 %@ 米范围内的:", disctance];
+    } errorHandler:^(NSError *error) {
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    
 }
 
 #pragma mark - Interface Orientation Changes
@@ -82,7 +106,9 @@
         case ViewPagerOptionTabHeight:
             return 49.0;
         case ViewPagerOptionTabOffset:
-            return 20.0;
+            return 36.0;
+        case ViewPagerOptionTabTopOffset:
+            return 50.0;
         case ViewPagerOptionTabWidth:
             return UIInterfaceOrientationIsLandscape(self.interfaceOrientation) ? 128.0 : 96.0;
         case ViewPagerOptionFixFormerTabsPositions:
@@ -104,6 +130,22 @@
             return [[UIColor darkGrayColor] colorWithAlphaComponent:0.32];
         default:
             return color;
+    }
+}
+
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    CLLocation *newLocation = [locations lastObject];
+    if (newLocation.verticalAccuracy < 0 || newLocation.horizontalAccuracy < 0) {
+        return;
+    }
+    if (newLocation.verticalAccuracy > 100 || newLocation.horizontalAccuracy > 500) {
+        return;
+    }
+
+    if (!self.location){
+        self.location = newLocation;
     }
 }
 

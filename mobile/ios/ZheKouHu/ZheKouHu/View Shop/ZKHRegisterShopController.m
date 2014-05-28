@@ -144,14 +144,14 @@ static NSString *switchCellIdentifier = @"SwitchCell";
             return 1.0;
         case ViewPagerOptionTabHeight:
             return 49.0;
-        case ViewPagerOptionTabOffset:
-            return 36.0;
+//        case ViewPagerOptionTabOffset:
+//            return 20.0;
         case ViewPagerOptionTabWidth:
             return UIInterfaceOrientationIsLandscape(self.interfaceOrientation) ? 128.0 : 96.0;
-        case ViewPagerOptionFixFormerTabsPositions:
-            return 1.0;
-        case ViewPagerOptionFixLatterTabsPositions:
-            return 1.0;
+//        case ViewPagerOptionFixFormerTabsPositions:
+//            return 1.0;
+//        case ViewPagerOptionFixLatterTabsPositions:
+//            return 1.0;
         default:
             return value;
     }

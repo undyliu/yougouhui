@@ -9,6 +9,7 @@
 #import "ZKHRaderMainController.h"
 #import "ZKHRadarSettingController.h"
 #import "ZKHContext.h"
+#import "ZKHRadarScanController.h"
 
 @implementation ZKHRaderMainController
 
@@ -42,6 +43,8 @@
 }
 
 - (IBAction)radarScan:(id)sender {
+    ZKHRadarScanController *controller = [[ZKHRadarScanController alloc] init];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 @end

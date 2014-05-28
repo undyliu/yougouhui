@@ -22,7 +22,6 @@ static NSString *CellIdentifier = @"FavoritListCell";
 - (id)init
 {
     if (self = [super init]) {
-        [[NSBundle mainBundle] loadNibNamed:@"ZKHBaseTableView" owner:self options:nil];
     }
     return self;
 }
@@ -31,15 +30,15 @@ static NSString *CellIdentifier = @"FavoritListCell";
 {
     [super viewDidLoad];
     
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
+    self.pullTableView.pullDelegate = self;
+    self.pullTableView.dataSource = self;
     
     UINib *nib = [UINib nibWithNibName:@"ZKHFavoritListCell" bundle:nil];
-    [self.tableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
+    [self.pullTableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
     
     [ApplicationDelegate.zkhProcessor shopFavorits:[ZKHContext getInstance].user.uuid completionHandler:^(NSMutableArray *favorits) {
         self.shopFavorits = favorits;
-        [self.tableView reloadData];
+        [self.pullTableView reloadData];
     } errorHandler:^(NSError *error) {
         
     }];

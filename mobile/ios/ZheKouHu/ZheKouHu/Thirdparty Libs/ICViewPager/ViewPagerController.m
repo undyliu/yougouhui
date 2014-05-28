@@ -21,6 +21,7 @@
 #define kCenterCurrentTab 0.0
 #define kFixFormerTabsPositions 0.0
 #define kFixLatterTabsPositions 0.0
+#define kTabTopOffset 0.0
 
 #define kIndicatorColor [UIColor colorWithRed:178.0/255.0 green:203.0/255.0 blue:57.0/255.0 alpha:0.75]
 #define kTabsViewBackgroundColor [UIColor colorWithRed:234.0/255.0 green:234.0/255.0 blue:234.0/255.0 alpha:0.75]
@@ -135,6 +136,7 @@
 @property (nonatomic) NSNumber *centerCurrentTab;
 @property (nonatomic) NSNumber *fixFormerTabsPositions;
 @property (nonatomic) NSNumber *fixLatterTabsPositions;
+@property (nonatomic) NSNumber *tabTopOffset;
 
 @property (nonatomic) NSUInteger tabCount;
 @property (nonatomic) NSUInteger activeTabIndex;
@@ -160,6 +162,7 @@
 @synthesize centerCurrentTab = _centerCurrentTab;
 @synthesize fixFormerTabsPositions = _fixFormerTabsPositions;
 @synthesize fixLatterTabsPositions = _fixLatterTabsPositions;
+@synthesize tabTopOffset = _tabTopOffset;
 
 #pragma mark - Init
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -202,9 +205,9 @@
 
 - (void)layoutSubviews {
     
-    CGFloat topLayoutGuide = 0.0;
+    CGFloat topLayoutGuide = [self.tabTopOffset floatValue];
     if (IOS_VERSION_7) {
-        topLayoutGuide = 20.0;
+        topLayoutGuide = 20.0 + topLayoutGuide;
         if (self.navigationController && !self.navigationController.navigationBarHidden) {
             topLayoutGuide += self.navigationController.navigationBar.frame.size.height;
         }
@@ -455,6 +458,16 @@
     }
     return _tabOffset;
 }
+- (NSNumber *)tabTopOffset {
+    
+    if (!_tabTopOffset) {
+        CGFloat value = kTabTopOffset;
+        if ([self.delegate respondsToSelector:@selector(viewPager:valueForOption:withDefault:)])
+            value = [self.delegate viewPager:self valueForOption:ViewPagerOptionTabTopOffset withDefault:value];
+        self.tabTopOffset = [NSNumber numberWithFloat:value];
+    }
+    return _tabTopOffset;
+}
 - (NSNumber *)tabWidth {
     
     if (!_tabWidth) {
@@ -608,6 +621,8 @@
     self.fixFormerTabsPositions = [NSNumber numberWithFloat:[self.delegate viewPager:self valueForOption:ViewPagerOptionFixFormerTabsPositions withDefault:kFixFormerTabsPositions]];
     self.fixLatterTabsPositions = [NSNumber numberWithFloat:[self.delegate viewPager:self valueForOption:ViewPagerOptionFixLatterTabsPositions withDefault:kFixLatterTabsPositions]];
     
+    self.tabTopOffset = [NSNumber numberWithFloat:[self.delegate viewPager:self valueForOption:ViewPagerOptionTabTopOffset withDefault:kTabTopOffset]];
+    
     // We should update contentSize property of our tabsView, so we should recalculate it with the new values
     CGFloat contentSizeWidth = 0;
     
@@ -721,6 +736,8 @@
             return [[self startFromSecondTab] floatValue];
         case ViewPagerOptionCenterCurrentTab:
             return [[self centerCurrentTab] floatValue];
+        case ViewPagerOptionTabTopOffset:
+            return [[self tabTopOffset] floatValue];
         default:
             return NAN;
     }

@@ -9,11 +9,12 @@
 #import "ViewPagerController.h"
 #import "ZKHSaleFavoritListController.h"
 #import "ZKHShopFavoritListController.h"
-
 @interface ZKHMyFavoritController : ViewPagerController
 {
     NSArray *pageTabs;
 }
+
 @property (strong, nonatomic) ZKHSaleFavoritListController *saleListController;
 @property (strong, nonatomic) ZKHShopFavoritListController *shopListController;
+
 @end

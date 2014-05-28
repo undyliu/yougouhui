@@ -6,9 +6,9 @@
 //  Copyright (c) 2014年 undyliu. All rights reserved.
 //
 
-#import "ZKHTableViewController.h"
+#import "ZKHPullRefreshTableViewController.h"
 
-@interface ZKHShopFavoritListController : ZKHTableViewController
+@interface ZKHShopFavoritListController : ZKHPullRefreshTableViewController
 
 @property (strong, nonatomic) NSMutableArray *shopFavorits;
 

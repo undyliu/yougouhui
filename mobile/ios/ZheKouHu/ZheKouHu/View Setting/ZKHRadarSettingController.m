@@ -44,14 +44,13 @@ static NSString *pickerCellIdentifier = @"PickerCell";
     [self.tableView registerNib:nib2 forCellReuseIdentifier:pickerCellIdentifier];
     
     if (self.radarSetting == nil) {
-        [ApplicationDelegate.zkhProcessor setting:SETTING_CODE_RADAR userId:[ZKHContext getInstance].user.uuid completionHandler:^(ZKHSettingEntity *setting) {
+        [ApplicationDelegate.zkhProcessor radarSetting: [ZKHContext getInstance].user.uuid withDefaultValue:true completionHandler:^(ZKHSettingEntity *setting) {
             if (setting) {
                 self.radarSetting = setting;
                 [self checkAndinitializeSettingValue];
                 [self.tableView reloadData];
             }
         } errorHandler:^(NSError *error) {
-            
         }];
     }else{
         [self checkAndinitializeSettingValue];

@@ -10,6 +10,7 @@
 #import "ZKHContext.h"
 #import "ZKHData.h"
 #import "ZKHConst.h"
+#import "NSString+Utils.h"
 
 @implementation ZKHProcessor (Setting)
 
@@ -53,6 +54,22 @@
         [data save:settings];
         
         settingsBlock(settings);
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+- (void)radarSetting:(NSString *)userId withDefaultValue:(Boolean)withDefaultValue completionHandler:(SettingResponseBlock)settingBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    [self setting:SETTING_CODE_RADAR userId:userId completionHandler:^(ZKHSettingEntity *setting) {
+        if (setting && withDefaultValue) {
+            NSString *value = setting.value;
+            if ([value isNull]) {
+                NSDictionary *tmp = @{RADAR_VAL_FIELD_DISTANCE: @"2000", RADAR_VAL_FIELD_SALE : @"true", RADAR_VAL_FIELD_SHOP: @"true" };
+                setting.value = [NSString stringWithJSONObject:tmp];
+            }
+        }
+        settingBlock(setting);
     } errorHandler:^(NSError *error) {
         errorBlock(error);
     }];
