@@ -61,6 +61,7 @@
 #define KEY_LATITUDE @"latitude"
 #define KEY_LONGITUDE @"longitude"
 #define KEY_FRIEND_ID @"friend_id"
+#define KEY_SALE_ID @"sale_id"
 
 #define KEY_USER @"user"
 #define KEY_AUTHED @"authed"

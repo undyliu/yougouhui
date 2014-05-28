@@ -27,4 +27,8 @@ typedef void (^ChangeTradesResponseBlock)(NSMutableArray *shopTrades);
 
 - (void) changeBusiLicense:(NSString *)uuid busiLicense:(ZKHFileEntity *)busiLicense completionHandler:(ChangeFieldResponseBlock) changeBusiLicenseBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
+typedef void (^ShopResponseBlock)(ZKHShopEntity *shop);
+- (void) shop: (NSString *) uuid  completionHandler:(ShopResponseBlock) shopBlock errorHandler:(MKNKErrorBlock) errorBlock;
+
+- (void) checkShopEmp: (NSString *) shopId userId:(NSString *)userId completionHandler:(ChangeFieldResponseBlock) checkShopEmpBlock errorHandler:(MKNKErrorBlock) errorBlock;
 @end

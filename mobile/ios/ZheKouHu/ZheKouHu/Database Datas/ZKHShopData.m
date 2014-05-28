@@ -11,6 +11,8 @@
 #define SHOP_CREATE_SQL [NSString stringWithFormat:@" create table if not exists %@ (%@ text primary key, %@ text, %@ text, %@ text, %@ text, %@ text, %@ text, %@ text, %@ text, %@ text, %@ text) ", SHOP_TABLE, KEY_UUID, KEY_NAME, KEY_SHOP_IMG, KEY_LOCATION, KEY_ADDR, KEY_DESC, KEY_BUSI_LICENSE, KEY_OWNER, KEY_REGISTER_TIME, KEY_STATUS, KEY_BARCODE]
 #define SHOP_UPDATE_SQL [NSString stringWithFormat:@" insert or replace into %@ (%@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", SHOP_TABLE, KEY_UUID, KEY_NAME, KEY_SHOP_IMG, KEY_LOCATION, KEY_ADDR, KEY_DESC, KEY_BUSI_LICENSE, KEY_OWNER, KEY_REGISTER_TIME, KEY_STATUS, KEY_BARCODE]
 
+#define SHOP_QUERY_BY_ID_SQL [NSString stringWithFormat:@" select %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@ from %@ where %@ = ? ", KEY_UUID, KEY_NAME, KEY_SHOP_IMG, KEY_LOCATION, KEY_ADDR, KEY_DESC, KEY_BUSI_LICENSE, KEY_OWNER, KEY_REGISTER_TIME, KEY_STATUS, KEY_BARCODE, SHOP_TABLE, KEY_UUID]
+
 @implementation ZKHShopData
 
 - (id)init
@@ -119,6 +121,36 @@
         [self closeDatabase:database];
     }
     return result;
+}
+
+- (id)processRow:(sqlite3_stmt *)stmt
+{
+    ZKHShopEntity *shop = [[ZKHShopEntity alloc] init];
+    
+    int i = 0;
+    shop.uuid = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    shop.name = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    shop.shopImg = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    
+    NSString *location = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    shop.location = [[ZKHLocationEntity alloc] initWithString:location];
+    
+    shop.addr = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    shop.desc = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    shop.busiLicense = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    shop.owner = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    shop.registerTime = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    shop.status = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    shop.barcode = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    
+    return shop;
+}
+
+- (ZKHShopEntity *)shop:(NSString *)uuid
+{
+    ZKHShopEntity *shop = [self queryOne:SHOP_QUERY_BY_ID_SQL params:@[uuid]];
+    shop.trades = [self shopTrades:uuid];
+    return shop;
 }
 
 @end

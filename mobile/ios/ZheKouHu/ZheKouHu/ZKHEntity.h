@@ -126,4 +126,15 @@
 @property (strong, nonatomic) ZKHLocationEntity *location;
 @property (strong, nonatomic) NSMutableArray *trades;
 @property (strong, nonatomic) NSMutableArray *employees;
+
+- (id) initWithJsonObject:(id)jsonObj;
+@end
+
+//收藏
+@interface ZKHFavoritEntity : ZKHEntity
+@property (strong, nonatomic) NSString *code;
+@property (strong, nonatomic) NSString *title;
+@property (strong, nonatomic) NSString *userId;
+@property (strong, nonatomic) NSString *image;
+@property (strong, nonatomic) NSString *lastModifyTime;
 @end

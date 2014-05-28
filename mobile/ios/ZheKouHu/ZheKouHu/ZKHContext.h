@@ -17,5 +17,5 @@
 
 @property (strong, nonatomic) ZKHUserEntity *user;
 @property (strong, nonatomic) NSString *sessionId;
-
+@property Boolean shopLogined;
 @end

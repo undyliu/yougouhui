@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1002437719356BFC00A5047F /* ZKHMyFavoritController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1002437619356BFC00A5047F /* ZKHMyFavoritController.m */; };
+		1002437A19356D7A00A5047F /* ZKHSaleFavoritListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1002437919356D7A00A5047F /* ZKHSaleFavoritListController.m */; };
+		1002437D19356D9700A5047F /* ZKHShopFavoritListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1002437C19356D9700A5047F /* ZKHShopFavoritListController.m */; };
+		1002437F193573F700A5047F /* ZKHSaleFavoritData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1002437E193573F700A5047F /* ZKHSaleFavoritData.m */; };
+		10024382193576A200A5047F /* ZKHProcessor+Favorit.m in Sources */ = {isa = PBXBuildFile; fileRef = 10024381193576A200A5047F /* ZKHProcessor+Favorit.m */; };
+		1002438419357A7700A5047F /* ZKHShopFavoritData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1002438319357A7700A5047F /* ZKHShopFavoritData.m */; };
+		1002438719357F9A00A5047F /* ZKHFavoritListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1002438619357F9A00A5047F /* ZKHFavoritListCell.m */; };
+		1002438919357FB000A5047F /* ZKHFavoritListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1002438819357FB000A5047F /* ZKHFavoritListCell.xib */; };
 		100B40321932CA7C00C51588 /* ZKHRequestSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 100B40311932CA7C00C51588 /* ZKHRequestSigner.m */; };
 		100B403D1932E8F100C51588 /* ZKHTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 100B403C1932E8F100C51588 /* ZKHTextField.m */; };
 		100B40421933051600C51588 /* ZKHChangePwdController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 100B40401933051600C51588 /* ZKHChangePwdController.xib */; };
@@ -163,6 +171,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1002437519356BFC00A5047F /* ZKHMyFavoritController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHMyFavoritController.h; sourceTree = "<group>"; };
+		1002437619356BFC00A5047F /* ZKHMyFavoritController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHMyFavoritController.m; sourceTree = "<group>"; };
+		1002437819356D7A00A5047F /* ZKHSaleFavoritListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHSaleFavoritListController.h; sourceTree = "<group>"; };
+		1002437919356D7A00A5047F /* ZKHSaleFavoritListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHSaleFavoritListController.m; sourceTree = "<group>"; };
+		1002437B19356D9700A5047F /* ZKHShopFavoritListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHShopFavoritListController.h; sourceTree = "<group>"; };
+		1002437C19356D9700A5047F /* ZKHShopFavoritListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShopFavoritListController.m; sourceTree = "<group>"; };
+		1002437E193573F700A5047F /* ZKHSaleFavoritData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHSaleFavoritData.m; sourceTree = "<group>"; };
+		10024380193576A200A5047F /* ZKHProcessor+Favorit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZKHProcessor+Favorit.h"; sourceTree = "<group>"; };
+		10024381193576A200A5047F /* ZKHProcessor+Favorit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZKHProcessor+Favorit.m"; sourceTree = "<group>"; };
+		1002438319357A7700A5047F /* ZKHShopFavoritData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShopFavoritData.m; sourceTree = "<group>"; };
+		1002438519357F9A00A5047F /* ZKHFavoritListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHFavoritListCell.h; sourceTree = "<group>"; };
+		1002438619357F9A00A5047F /* ZKHFavoritListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHFavoritListCell.m; sourceTree = "<group>"; };
+		1002438819357FB000A5047F /* ZKHFavoritListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHFavoritListCell.xib; sourceTree = "<group>"; };
 		100B40301932CA7C00C51588 /* ZKHRequestSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHRequestSigner.h; sourceTree = "<group>"; };
 		100B40311932CA7C00C51588 /* ZKHRequestSigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHRequestSigner.m; sourceTree = "<group>"; };
 		100B403B1932E8F100C51588 /* ZKHTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHTextField.h; sourceTree = "<group>"; };
@@ -413,6 +434,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1002437419356B8C00A5047F /* View Favorit */ = {
+			isa = PBXGroup;
+			children = (
+				1002437519356BFC00A5047F /* ZKHMyFavoritController.h */,
+				1002437619356BFC00A5047F /* ZKHMyFavoritController.m */,
+				1002437819356D7A00A5047F /* ZKHSaleFavoritListController.h */,
+				1002437919356D7A00A5047F /* ZKHSaleFavoritListController.m */,
+				1002437B19356D9700A5047F /* ZKHShopFavoritListController.h */,
+				1002437C19356D9700A5047F /* ZKHShopFavoritListController.m */,
+				1002438519357F9A00A5047F /* ZKHFavoritListCell.h */,
+				1002438619357F9A00A5047F /* ZKHFavoritListCell.m */,
+				1002438819357FB000A5047F /* ZKHFavoritListCell.xib */,
+			);
+			path = "View Favorit";
+			sourceTree = "<group>";
+		};
 		10456CE1192E28D20061DCC1 /* Thirdparty Libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -508,6 +545,8 @@
 				10456D10192E28D20061DCC1 /* ZKHUserData.m */,
 				10F394DC192ED44900629F8F /* ZKHTradeData.m */,
 				10F394E1192EE22400629F8F /* ZKHShopData.m */,
+				1002437E193573F700A5047F /* ZKHSaleFavoritData.m */,
+				1002438319357A7700A5047F /* ZKHShopFavoritData.m */,
 			);
 			path = "Database Datas";
 			sourceTree = "<group>";
@@ -610,6 +649,8 @@
 				10456D4F192E28D20061DCC1 /* ZKHProcessor+Sync.m */,
 				10456D50192E28D20061DCC1 /* ZKHProcessor+User.h */,
 				10456D51192E28D20061DCC1 /* ZKHProcessor+User.m */,
+				10024380193576A200A5047F /* ZKHProcessor+Favorit.h */,
+				10024381193576A200A5047F /* ZKHProcessor+Favorit.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -786,6 +827,7 @@
 		10F7080719298CF200282511 /* ZheKouHu */ = {
 			isa = PBXGroup;
 			children = (
+				1002437419356B8C00A5047F /* View Favorit */,
 				10E1B4A4192F460B008FBF4D /* Restful */,
 				10456CE1192E28D20061DCC1 /* Thirdparty Libs */,
 				10456D45192E28D20061DCC1 /* Categories */,
@@ -955,6 +997,7 @@
 				1070AD091934844200AA1AE1 /* receptionist.png in Resources */,
 				1070AD0E193488E300AA1AE1 /* ZKHFriendProfileController.xib in Resources */,
 				1070AD1019348E4C00AA1AE1 /* ZKHAddFriendResultCell.xib in Resources */,
+				1002438919357FB000A5047F /* ZKHFavoritListCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1042,6 +1085,13 @@
 				1070ACFD19345D4C00AA1AE1 /* ZKHAddFriendController.m in Sources */,
 				1070AD0319347A9700AA1AE1 /* ZKHContactListCell.m in Sources */,
 				1070AD0D193488E300AA1AE1 /* ZKHFriendProfileController.m in Sources */,
+				1002437719356BFC00A5047F /* ZKHMyFavoritController.m in Sources */,
+				1002437A19356D7A00A5047F /* ZKHSaleFavoritListController.m in Sources */,
+				1002437D19356D9700A5047F /* ZKHShopFavoritListController.m in Sources */,
+				1002437F193573F700A5047F /* ZKHSaleFavoritData.m in Sources */,
+				10024382193576A200A5047F /* ZKHProcessor+Favorit.m in Sources */,
+				1002438419357A7700A5047F /* ZKHShopFavoritData.m in Sources */,
+				1002438719357F9A00A5047F /* ZKHFavoritListCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

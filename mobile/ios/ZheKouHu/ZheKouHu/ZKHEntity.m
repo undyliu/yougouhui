@@ -150,4 +150,48 @@
 
 @implementation ZKHShopEntity
 
+- (id)initWithJsonObject:(id)jsonShop
+{
+    if (self = [super init]) {
+        self.uuid = [jsonShop valueForKey:KEY_UUID];
+        self.name = [jsonShop valueForKey:KEY_NAME];
+        self.addr = [jsonShop valueForKey:KEY_ADDR];
+        self.desc = [jsonShop valueForKey:KEY_DESC];
+        self.shopImg = [jsonShop valueForKey:KEY_SHOP_IMG];
+        self.busiLicense = [jsonShop valueForKey:KEY_BUSI_LICENSE];
+        self.registerTime = [jsonShop valueForKey:KEY_REGISTER_TIME];
+        self.owner = [jsonShop valueForKey:KEY_OWNER];
+        self.status = [NSString stringWithFormat:@"%@", [jsonShop valueForKey:KEY_STATUS]];
+        self.barcode = [jsonShop valueForKey:KEY_BARCODE];
+        
+        //处理主营业务
+        NSMutableArray *trades = [[NSMutableArray alloc] init];
+        id tradeList = [jsonShop valueForKey:KEY_TRADE_LIST];
+        for (NSDictionary *jsonTrade in tradeList) {
+            ZKHTradeEntity *trade = [[ZKHTradeEntity alloc] init];
+            trade.uuid = [jsonTrade valueForKey:KEY_TRADE_ID];
+            trade.code = [jsonTrade valueForKey:KEY_CODE];
+            trade.name = [jsonTrade valueForKey:KEY_NAME];
+            trade.ordIndex = [jsonTrade valueForKey:KEY_ORD_INDEX];
+            
+            ZKHShopTradeEntity *shopTrade = [[ZKHShopTradeEntity alloc] init];
+            shopTrade.uuid = [jsonTrade valueForKey:KEY_UUID];
+            shopTrade.trade = trade;
+            
+            [trades addObject:shopTrade];
+        }
+        self.trades = trades;
+        
+        //处理地理位置
+        ZKHLocationEntity *location = [[ZKHLocationEntity alloc]
+                                       initWithString:[jsonShop valueForKey:KEY_LOCATION]];
+        self.location = location;
+    }
+    return self;
+}
+
+@end
+
+@implementation ZKHFavoritEntity
+
 @end

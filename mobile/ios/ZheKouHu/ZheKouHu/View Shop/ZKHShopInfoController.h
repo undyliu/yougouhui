@@ -16,6 +16,7 @@
 @interface ZKHShopInfoController : ZKHTableViewController
 
 @property (strong, nonatomic) ZKHShopEntity *shop;
+@property (nonatomic) Boolean readonly;
 
 @end
 

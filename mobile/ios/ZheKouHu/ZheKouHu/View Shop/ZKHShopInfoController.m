@@ -14,6 +14,7 @@
 #import "ZKHAppDelegate.h"
 #import "ZKHProcessor+Shop.h"
 #import "NSDate+Utils.h"
+#import "ZKHContext.h"
 
 static NSString *CellIdentifier = @"ImageLabelCell";
 
@@ -33,8 +34,18 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     [super viewDidLoad];
     
     self.title = @"店铺-基本信息";
+    self.readonly = true;
+    
     UINib *nib = [UINib nibWithNibName:@"ZKHImageLabelCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
+    
+    [ApplicationDelegate.zkhProcessor checkShopEmp:self.shop.uuid userId:[ZKHContext getInstance].user.uuid completionHandler:^(Boolean result) {
+        if (result) {
+            self.readonly = false;
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -152,6 +163,10 @@ static NSString *CellIdentifier = @"ImageLabelCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.readonly || ![ZKHContext getInstance].shopLogined) {
+        return;
+    }
+    
     UIViewController *controller;
     switch (indexPath.row) {
         case 0:

@@ -10,6 +10,7 @@
 #import "ZKHConst.h"
 #import "ZKHEntity.h"
 #import "ZKHData.h"
+#import "NSString+Utils.h"
 
 @implementation ZKHProcessor (Shop)
 
@@ -46,42 +47,7 @@
                 NSMutableArray * shops = [[NSMutableArray alloc] init];
                 id shopList = [jsonObject valueForKey:KEY_DATA];
                 for (NSDictionary *jsonShop in shopList) {
-                    ZKHShopEntity *shop = [[ZKHShopEntity alloc] init];
-                    shop.uuid = [jsonShop valueForKey:KEY_UUID];
-                    shop.name = [jsonShop valueForKey:KEY_NAME];
-                    shop.addr = [jsonShop valueForKey:KEY_ADDR];
-                    shop.desc = [jsonShop valueForKey:KEY_DESC];
-                    shop.shopImg = [jsonShop valueForKey:KEY_SHOP_IMG];
-                    shop.busiLicense = [jsonShop valueForKey:KEY_BUSI_LICENSE];
-                    shop.registerTime = [jsonShop valueForKey:KEY_REGISTER_TIME];
-                    shop.owner = [jsonShop valueForKey:KEY_OWNER];
-                    shop.status = [NSString stringWithFormat:@"%@", [jsonShop valueForKey:KEY_STATUS]];
-                    shop.barcode = [jsonShop valueForKey:KEY_BARCODE];
-                    
-                    //处理主营业务
-                    NSMutableArray *trades = [[NSMutableArray alloc] init];
-                    id tradeList = [jsonShop valueForKey:KEY_TRADE_LIST];
-                    for (NSDictionary *jsonTrade in tradeList) {
-                        ZKHTradeEntity *trade = [[ZKHTradeEntity alloc] init];
-                        trade.uuid = [jsonTrade valueForKey:KEY_TRADE_ID];
-                        trade.code = [jsonTrade valueForKey:KEY_CODE];
-                        trade.name = [jsonTrade valueForKey:KEY_NAME];
-                        trade.ordIndex = [jsonTrade valueForKey:KEY_ORD_INDEX];
-                        
-                        ZKHShopTradeEntity *shopTrade = [[ZKHShopTradeEntity alloc] init];
-                        shopTrade.uuid = [jsonTrade valueForKey:KEY_UUID];
-                        shopTrade.trade = trade;
-                        
-                        [trades addObject:shopTrade];
-                    }
-                    shop.trades = trades;
-                    
-                    //处理地理位置
-                    ZKHLocationEntity *location = [[ZKHLocationEntity alloc]
-                                                   initWithString:[jsonShop valueForKey:KEY_LOCATION]];
-                    shop.location = location;
-                    
-                    [shops addObject:shop];
+                    [shops addObject:[[ZKHShopEntity alloc] initWithJsonObject:jsonShop]];
                 }
                 
                 [[[ZKHShopData alloc] init] save:shops];
@@ -242,6 +208,50 @@
             changeBusiLicenseBlock(true);
         }else{
             changeBusiLicenseBlock(false);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+#define  GET_SHOP_URL(__SHOP_ID__) [NSString stringWithFormat:@"/getShop/%@", __SHOP_ID__]
+- (void)shop:(NSString *)uuid completionHandler:(ShopResponseBlock)shopBlock errorHandler:(MKNKErrorBlock)errorBlock
+{
+    ZKHShopData *shopData = [[ZKHShopData alloc] init];
+    ZKHShopEntity *shop = [shopData shop:uuid];
+    if (shop != nil) {
+        shopBlock(shop);
+        return;
+    }
+    
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = GET_SHOP_URL(uuid);
+    request.method = METHOD_GET;
+    
+    [restClient execute:request completionHandler:^(NSHTTPURLResponse *response, id jsonObject) {
+        NSString *uuid = [jsonObject valueForKey:KEY_UUID];
+        if ([uuid isNull]) {
+            shopBlock(nil);
+        }
+        shopBlock([[ZKHShopEntity alloc] initWithJsonObject:jsonObject]);
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+#define  CHECK_SHOP_EMP_URL(__SHOP_ID__,__USER_ID__) [NSString stringWithFormat:@"/checkShopEmp/%@/%@", __SHOP_ID__, __USER_ID__]
+- (void)checkShopEmp:(NSString *)shopId userId:(NSString *)userId completionHandler:(ChangeFieldResponseBlock)checkShopEmpBlock errorHandler:(MKNKErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.method = METHOD_GET;
+    request.urlString = CHECK_SHOP_EMP_URL(shopId, userId);
+    
+    [restClient execute:request completionHandler:^(NSHTTPURLResponse *response, id jsonObject) {
+        NSString *uuid = [jsonObject valueForKey:KEY_UUID];
+        if ([uuid isNull]) {
+            checkShopEmpBlock(false);
+        }else{
+            checkShopEmpBlock(true);
         }
     } errorHandler:^(NSError *error) {
         errorBlock(error);

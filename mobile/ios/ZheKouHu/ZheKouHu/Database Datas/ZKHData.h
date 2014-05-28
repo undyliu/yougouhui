@@ -84,5 +84,14 @@
 - (void)updateShopImage:(NSString *)uuid shopImage:(NSString *)shopImage;
 - (void)updateBusiLicense:(NSString *)uuid busiLicense:(NSString *)busiLicense;
 - (void)updateshopTrades:(NSString *)uuid trades:(NSArray *)trades;
-- (NSMutableArray *) shopTrades:(NSString *)uuid;
+- (NSMutableArray *) shopTrades:(NSString *)shopId;
+- (ZKHShopEntity *) shop:(NSString *)uuid;
+@end
+
+@interface ZKHSaleFavoritData : ZKHData<ZKHEntityUpdater>
+- (NSMutableArray *) saleFavorits:(NSString *)userId;
+@end
+
+@interface ZKHShopFavoritData : ZKHData<ZKHEntityUpdater>
+- (NSMutableArray *) shopFavorits:(NSString *)userId;
 @end

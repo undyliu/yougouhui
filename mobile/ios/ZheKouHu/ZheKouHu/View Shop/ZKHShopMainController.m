@@ -39,6 +39,7 @@ static NSString *CellIdentifier = @"ShopModuleCell";
     
     loginedUser = [[ZKHContext getInstance].user copy];
     [ZKHContext getInstance].user = self.shopUser;
+    [ZKHContext getInstance].shopLogined = true;
     
     ZKHShopEntity *shop = self.shops[0];
     if (shop != nil) {
@@ -125,6 +126,7 @@ static NSString *CellIdentifier = @"ShopModuleCell";
             break;
         case 1://确认
             [ZKHContext getInstance].user = loginedUser;
+            [ZKHContext getInstance].shopLogined = false;
             [self.navigationController popToRootViewControllerAnimated:YES];
             //[self.navigationController popViewControllerAnimated:YES];
             break;
