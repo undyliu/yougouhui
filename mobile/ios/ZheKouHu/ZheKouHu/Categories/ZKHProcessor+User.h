@@ -35,4 +35,7 @@ typedef void (^FriendsResponseBlock)(NSMutableArray *friends);
 typedef void (^AddFriendResponseBlock)(Boolean result);
 - (void) addFriend:(ZKHUserEntity *)user uFriend:(ZKHUserEntity *)uFriend completionHander:(AddFriendResponseBlock) addFriendBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
+typedef void (^DelFriendResponseBlock)(Boolean result);
+- (void) deleteFriend:(NSString *)userId friendId:(NSString *)friendId completionHander:(DelFriendResponseBlock) delFriendBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+
 @end

@@ -146,4 +146,10 @@
     }
 }
 
+- (void) deleteFriend:(NSString *)userId friendId:(NSString *)friendId
+{
+    NSString *sql = @" delete from e_friend where user_id = ? and friend_id = ? ";
+    NSArray *params = @[userId, friendId];
+    [self executeUpdate:sql params:params];
+}
 @end

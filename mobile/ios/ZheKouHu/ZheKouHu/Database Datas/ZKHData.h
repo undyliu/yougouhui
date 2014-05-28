@@ -47,6 +47,7 @@
 - (NSMutableArray *) friends:(NSString *)userId;
 - (void) saveFriends:(NSString *)userId friends:(NSArray *) friends;
 - (void) saveNoPwd:(NSArray *)users;
+- (void) deleteFriend:(NSString *)userId friendId:(NSString *)friendId;
 
 @end
 

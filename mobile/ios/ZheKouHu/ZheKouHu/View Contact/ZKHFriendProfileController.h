@@ -10,7 +10,14 @@
 #import "ZKHEntity.h"
 
 @interface ZKHFriendProfileController : UIViewController
-
+{
+    UIBarButtonItem *addFriendButton;
+    UIBarButtonItem *delFriendButton;
+}
 @property (copy, nonatomic) ZKHUserEntity *user;
+@property (weak, nonatomic) IBOutlet UIImageView *photoView;
+
+- (IBAction)addFriend:(id)sender;
+- (IBAction)delFriend:(id)sender;
 
 @end

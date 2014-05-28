@@ -10,6 +10,7 @@
 #import "ZKHData.h"
 #import "ZKHConst.h"
 #import "ZKHContext.h"
+#import "NSString+Utils.h"
 
 #define KET_SET_COOKIE @"Set-Cookie"
 
@@ -316,6 +317,27 @@
             addFriendBlock(true);
         }else{
             addFriendBlock(false);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+//删除朋友
+#define DEL_FRIEND_URL @"/deleteFriend"
+- (void)deleteFriend:(NSString *)userId friendId:(NSString *)friendId completionHander:(DelFriendResponseBlock)delFriendBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = [NSString stringWithFormat:@"%@/%@/%@", DEL_FRIEND_URL, userId, friendId];
+    request.method = METHOD_DELETE;
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *uuid = [jsonObject valueForKey:KEY_UUID];
+        if ([uuid isNull]) {
+            delFriendBlock(false);
+        }else{
+            [[[ZKHUserData alloc] init] deleteFriend:userId friendId:friendId];
+            delFriendBlock(true);
         }
     } errorHandler:^(NSError *error) {
         errorBlock(error);

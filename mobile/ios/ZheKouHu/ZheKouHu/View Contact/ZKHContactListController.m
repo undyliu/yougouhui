@@ -63,6 +63,12 @@ static NSString *CellIdentifier = @"ContactListCell";
     self.navigationItem.rightBarButtonItem = addFriendButton;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self initializeData:[ZKHContext getInstance].user.friends];
+    [self.tableView reloadData];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

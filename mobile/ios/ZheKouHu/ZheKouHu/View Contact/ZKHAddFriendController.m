@@ -46,6 +46,11 @@ static NSString *CellIdentifier = @"AddFriendResultCell";
     
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.resultTableVIew reloadData];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
