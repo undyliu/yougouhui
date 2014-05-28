@@ -78,4 +78,13 @@
 #define VAL_TYPE_USER_APP @"1"
 #define VAL_TYPE_USER_ANONYMOUS @"2"
 
+#define SETTING_CODE_LOGIN @"login"
+#define SETTING_CODE_RADAR @"radar"
+#define SETTING_CODE_LOGOUT @"logout"
+
+#define RADAR_VAL_FIELD_DISTANCE @"distance"
+#define RADAR_VAL_FIELD_SALE @"sale"
+#define RADAR_VAL_FIELD_SHOP @"shop"
+#define RADAR_VAL_FIELD_FRIEND @"friend"
+
 #endif

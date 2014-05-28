@@ -8,12 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "ZKHTableViewController.h"
+#import "ZKHEntity.h"
+
 @interface ZKHRadarSettingController : ZKHTableViewController<UIPickerViewDelegate, UIPickerViewDataSource>
 {
     UISwitch *saleSwitch;
     UISwitch *shopSwitch;
     UIPickerView *distancePicker;
 }
+@property (strong, nonatomic) ZKHSettingEntity *radarSetting;
+
 - (IBAction)saveRadarConf:(id)sender;
 
 @end

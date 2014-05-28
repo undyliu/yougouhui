@@ -15,6 +15,7 @@
 		1002438419357A7700A5047F /* ZKHShopFavoritData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1002438319357A7700A5047F /* ZKHShopFavoritData.m */; };
 		1002438719357F9A00A5047F /* ZKHFavoritListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1002438619357F9A00A5047F /* ZKHFavoritListCell.m */; };
 		1002438919357FB000A5047F /* ZKHFavoritListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1002438819357FB000A5047F /* ZKHFavoritListCell.xib */; };
+		1002438C1935AA3200A5047F /* ZKHProcessor+Setting.m in Sources */ = {isa = PBXBuildFile; fileRef = 1002438B1935AA3200A5047F /* ZKHProcessor+Setting.m */; };
 		100B40321932CA7C00C51588 /* ZKHRequestSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 100B40311932CA7C00C51588 /* ZKHRequestSigner.m */; };
 		100B403D1932E8F100C51588 /* ZKHTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 100B403C1932E8F100C51588 /* ZKHTextField.m */; };
 		100B40421933051600C51588 /* ZKHChangePwdController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 100B40401933051600C51588 /* ZKHChangePwdController.xib */; };
@@ -184,6 +185,8 @@
 		1002438519357F9A00A5047F /* ZKHFavoritListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHFavoritListCell.h; sourceTree = "<group>"; };
 		1002438619357F9A00A5047F /* ZKHFavoritListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHFavoritListCell.m; sourceTree = "<group>"; };
 		1002438819357FB000A5047F /* ZKHFavoritListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHFavoritListCell.xib; sourceTree = "<group>"; };
+		1002438A1935AA3200A5047F /* ZKHProcessor+Setting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZKHProcessor+Setting.h"; sourceTree = "<group>"; };
+		1002438B1935AA3200A5047F /* ZKHProcessor+Setting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZKHProcessor+Setting.m"; sourceTree = "<group>"; };
 		100B40301932CA7C00C51588 /* ZKHRequestSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHRequestSigner.h; sourceTree = "<group>"; };
 		100B40311932CA7C00C51588 /* ZKHRequestSigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHRequestSigner.m; sourceTree = "<group>"; };
 		100B403B1932E8F100C51588 /* ZKHTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHTextField.h; sourceTree = "<group>"; };
@@ -651,6 +654,8 @@
 				10456D51192E28D20061DCC1 /* ZKHProcessor+User.m */,
 				10024380193576A200A5047F /* ZKHProcessor+Favorit.h */,
 				10024381193576A200A5047F /* ZKHProcessor+Favorit.m */,
+				1002438A1935AA3200A5047F /* ZKHProcessor+Setting.h */,
+				1002438B1935AA3200A5047F /* ZKHProcessor+Setting.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1092,6 +1097,7 @@
 				10024382193576A200A5047F /* ZKHProcessor+Favorit.m in Sources */,
 				1002438419357A7700A5047F /* ZKHShopFavoritData.m in Sources */,
 				1002438719357F9A00A5047F /* ZKHFavoritListCell.m in Sources */,
+				1002438C1935AA3200A5047F /* ZKHProcessor+Setting.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

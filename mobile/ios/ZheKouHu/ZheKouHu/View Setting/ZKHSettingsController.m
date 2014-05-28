@@ -10,13 +10,11 @@
 #import "ZKHEntity.h"
 #import "ZKHAppDelegate.h"
 #import "ZKHContext.h"
+#import "ZKHProcessor+Setting.h"
 #import "ZKHProcessor+User.h"
 #import "ZKHLoginSettingController.h"
 #import "ZKHRadarSettingController.h"
-
-#define SETTING_CODE_LOGIN @"login"
-#define SETTING_CODE_RADAR @"radar"
-#define SETTING_CODE_LOGOUT @"logout"
+#import "ZKHConst.h"
 
 static NSString *CellIdentifier = @"Cell";
 
@@ -60,7 +58,14 @@ static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     ZKHSettingEntity *setting = settingItems[indexPath.row];
-    cell.textLabel.text = setting.name;
+    
+    NSDictionary *attr = @{NSFontAttributeName: [UIFont fontWithName:@"Courier" size:17]};
+
+    NSMutableAttributedString *settingString = [[NSMutableAttributedString alloc]
+                                                initWithString:setting.name
+                                                attributes:attr];
+    
+    cell.textLabel.attributedText = settingString;
     
     return cell;
 }

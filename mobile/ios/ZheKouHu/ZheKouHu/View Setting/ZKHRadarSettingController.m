@@ -8,6 +8,11 @@
 
 #import "ZKHRadarSettingController.h"
 #import "ZKHSwitchCell.h"
+#import "ZKHAppDelegate.h"
+#import "ZKHProcessor+Setting.h"
+#import "ZKHConst.h"
+#import "ZKHContext.h"
+#import "NSString+Utils.h"
 
 static NSString *switchCellIdentifier = @"SwitchCell";
 static NSString *pickerCellIdentifier = @"PickerCell";
@@ -37,6 +42,20 @@ static NSString *pickerCellIdentifier = @"PickerCell";
     
     UINib *nib2 = [UINib nibWithNibName:@"ZKHPickerCell" bundle:nil];
     [self.tableView registerNib:nib2 forCellReuseIdentifier:pickerCellIdentifier];
+    
+    if (self.radarSetting == nil) {
+        [ApplicationDelegate.zkhProcessor setting:SETTING_CODE_RADAR userId:[ZKHContext getInstance].user.uuid completionHandler:^(ZKHSettingEntity *setting) {
+            if (setting) {
+                self.radarSetting = setting;
+                [self checkAndinitializeSettingValue];
+                [self.tableView reloadData];
+            }
+        } errorHandler:^(NSError *error) {
+            
+        }];
+    }else{
+        [self checkAndinitializeSettingValue];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -44,9 +63,28 @@ static NSString *pickerCellIdentifier = @"PickerCell";
     [super didReceiveMemoryWarning];
 }
 
+- (void)checkAndinitializeSettingValue
+{
+    NSString *value = self.radarSetting.value;
+    if ([value isNull]) {
+        NSDictionary *tmp = @{RADAR_VAL_FIELD_DISTANCE: @"2000", RADAR_VAL_FIELD_SALE : @"true", RADAR_VAL_FIELD_SHOP: @"true" };
+        self.radarSetting.value = [NSString stringWithJSONObject:tmp];
+    }
+}
+
 - (void)saveRadarConf:(id)sender
 {
+    NSMutableDictionary *value = [[self.radarSetting.value toJSONObject] mutableCopy];
+    [value setObject:[saleSwitch isOn]? @"true" : @"false" forKey:RADAR_VAL_FIELD_SALE];
+    [value setObject:[shopSwitch isOn]? @"true" : @"false" forKey:RADAR_VAL_FIELD_SHOP];
+    [value setObject:[NSString stringWithFormat:@"%d", [distancePicker selectedRowInComponent:0]] forKey:RADAR_VAL_FIELD_DISTANCE];
+    self.radarSetting.value = [NSString stringWithJSONObject:value];
     
+    [ApplicationDelegate.zkhProcessor saveSetting:self.radarSetting completionHandler:^(Boolean result) {
+        
+    } errorHandler:^(NSError *error) {
+        
+    }];
 }
 
 #pragma mark - Table view data source
@@ -68,15 +106,25 @@ static NSString *pickerCellIdentifier = @"PickerCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    NSDictionary *value = [self.radarSetting.value toJSONObject];
     if (indexPath.section == 0) {
         ZKHSwitchCell *cell = [tableView dequeueReusableCellWithIdentifier:switchCellIdentifier];
         if (indexPath.row == 0) {
             cell.cellLabel.text = @"活动";
             saleSwitch = cell.cellSwitch;
+            if ([[value valueForKey:RADAR_VAL_FIELD_SALE] isTrue]) {
+                [saleSwitch setOn:TRUE];
+            }else{
+                [saleSwitch setOn:FALSE];
+            }
         }else{
             cell.cellLabel.text = @"商铺";
             shopSwitch = cell.cellSwitch;
+            if ([[value valueForKey:RADAR_VAL_FIELD_SHOP] isTrue]) {
+                [shopSwitch setOn:TRUE];
+            }else{
+                [shopSwitch setOn:FALSE];
+            }
         }
         return cell;
     }else{
@@ -85,8 +133,9 @@ static NSString *pickerCellIdentifier = @"PickerCell";
         cell.distancePicker.delegate = self;
         if (distancePicker == nil) {
             distancePicker = cell.distancePicker;
-            [distancePicker selectRow:2000 inComponent:0 animated:NO];
         }
+        NSString *distance = [value valueForKey:RADAR_VAL_FIELD_DISTANCE];
+        [distancePicker selectRow:[distance intValue] inComponent:0 animated:NO];
         return cell;
     }
  

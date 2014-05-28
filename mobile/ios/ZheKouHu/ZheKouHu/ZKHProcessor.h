@@ -27,11 +27,6 @@ typedef void (^ChannelsResponseBlock)(NSMutableArray* channels);
 - (void) channels: (NSString *)parentId completionHandler:(ChannelsResponseBlock) channelsBlock
      errorHandler:(RestResponseErrorBlock) errorBlock;
 
-//获取设置条目
-typedef void (^SettingsResponseBlock)(NSMutableArray* settings);
-- (void) settings: (SettingsResponseBlock) settingsBlock
-     errorHandler:(RestResponseErrorBlock) errorBlock;
-
 //获取主营业务
 typedef void (^TradesResponseBlock)(NSMutableArray* trades);
 - (void) trades:(Boolean)reload completionHandler:(TradesResponseBlock) tradesBlock

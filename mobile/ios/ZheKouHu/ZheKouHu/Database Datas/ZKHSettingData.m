@@ -56,4 +56,10 @@
     return [self query:SETTING_QUERY_SQL params:@[userId]];
 }
 
+#define SETTING_QUERY_BY_CODE_USER_SQL [NSString stringWithFormat:@" select %@, %@, %@, %@, %@, %@, %@ from %@ where %@ = ? and %@ = ?", KEY_UUID, KEY_CODE, KEY_NAME, KEY_IMG, KEY_VALUE, KEY_USER_ID, KEY_ORD_INDEX, SETTING_TABLE, KEY_CODE, KEY_USER_ID]
+- (ZKHSettingEntity *)setting:(NSString *)code userId:(NSString *)userId
+{
+    return [self queryOne:SETTING_QUERY_BY_CODE_USER_SQL params:@[code, userId]];
+}
+
 @end

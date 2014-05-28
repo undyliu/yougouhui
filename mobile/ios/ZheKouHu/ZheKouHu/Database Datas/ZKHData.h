@@ -61,7 +61,7 @@
 
 @interface ZKHSettingData : ZKHData <ZKHEntityUpdater>
 - (NSMutableArray *) settings:(NSString *)userId;
-
+- (ZKHSettingEntity *) setting:(NSString *)code userId:(NSString *)userId;
 @end
 
 @interface ZKHSyncData : ZKHData <ZKHEntityUpdater>
