@@ -6,8 +6,8 @@
 //  Copyright (c) 2014年 undyliu. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "ZKHPullRefreshTableViewController.h"
 
-@interface ZKHScanSaleListController : UITableViewController
+@interface ZKHScanSaleListController : ZKHPullRefreshTableViewController<UITableViewDelegate>
 
 @end

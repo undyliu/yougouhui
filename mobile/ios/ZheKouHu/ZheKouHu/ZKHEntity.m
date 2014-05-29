@@ -48,6 +48,28 @@
 @end
 
 @implementation ZKHUserEntity
+
+- (id)initWithJsonObject:(id)userJson noPwd:(Boolean)noPwd
+{
+    if (self = [super init]) {
+        self.uuid = [userJson valueForKey:KEY_UUID];
+        self.name = [userJson valueForKey:KEY_NAME];
+        
+        if (!noPwd) {
+            self.pwd = [userJson valueForKey:KEY_PWD];
+        }
+        
+        self.type = [userJson valueForKey:KEY_TYPE];
+        self.phone = [userJson valueForKey:KEY_PHONE];
+        
+        self.photo = [[ZKHFileEntity alloc] init];
+        self.photo.aliasName = [userJson valueForKey:KEY_PHOTO];
+        
+        self.registerTime = [userJson valueForKey:KEY_REGISTER_TIME];
+    }
+    return self;
+}
+
 - (id)copyWithZone:(NSZone *)zone
 {
     ZKHUserEntity *copy = [[[self class] allocWithZone:zone] init];
@@ -116,6 +138,10 @@
 
 @end
 
+@implementation ZKHSaleDiscussEntity
+
+@end
+
 @implementation ZKHTradeEntity
 
 @end
@@ -140,6 +166,11 @@
              KEY_LATITUDE : self.latitude,
              KEY_LONGITUDE : self.longitude,
              KEY_ADDR : self.addr};
+}
+
+- (NSString *)toString
+{
+    return [NSString stringWithJSONObject:[self toJSONObject]];
 }
 
 @end

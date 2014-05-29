@@ -11,6 +11,7 @@
 #import "ZKHProcessor.h"
 #import "ZKHAppDelegate.h"
 #import "ZKHProcessor+Shop.h"
+#import "ZKHViewUtils.h"
 
 static NSString *switchCellIdentifier = @"SwitchCell";
 
@@ -40,6 +41,8 @@ static NSString *switchCellIdentifier = @"SwitchCell";
     
     UINib *nib = [UINib nibWithNibName:@"ZKHSwitchCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:switchCellIdentifier];
+    
+    [ZKHViewUtils setTableViewExtraCellLineHidden:self.tableView];
     
     [ApplicationDelegate.zkhProcessor trades:false completionHandler:^(NSMutableArray *trades) {
         _trades = trades;

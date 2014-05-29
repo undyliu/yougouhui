@@ -13,6 +13,7 @@
 #import "ZKHContext.h"
 #import "ZKHFriendProfileController.h"
 #import "NSString+Utils.h"
+#import "ZKHViewUtils.h"
 
 static NSString *CellIdentifier = @"AddFriendResultCell";
 
@@ -37,7 +38,7 @@ static NSString *CellIdentifier = @"AddFriendResultCell";
     UINib *nib = [UINib nibWithNibName:@"ZKHAddFriendResultCell" bundle:nil];
     [self.resultTableVIew registerNib:nib forCellReuseIdentifier:CellIdentifier];
     
-    [self setExtraCellLineHidden:self.resultTableVIew];
+    [ZKHViewUtils setTableViewExtraCellLineHidden:self.resultTableVIew];
     
     resultController = [[ZKHAddFriendResultController alloc] init];
     resultController.navController = self.navigationController;
@@ -59,13 +60,6 @@ static NSString *CellIdentifier = @"AddFriendResultCell";
 - (IBAction)backgroupTap:(id)sender
 {
     [self.searchWordField resignFirstResponder];
-}
-
--(void)setExtraCellLineHidden: (UITableView *)tableView
-{
-    UIView *view = [UIView new];
-    view.backgroundColor = [UIColor clearColor];
-    [tableView setTableFooterView:view];
 }
 
 - (IBAction)doSearch:(id *)sender {

@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ZKHTableViewController.h"
 
-@interface ZKHModuleListController : ZKHTableViewController<UIActionSheetDelegate>
+@interface ZKHModuleListController : UITableViewController<UIActionSheetDelegate>
 
 @property (strong, nonatomic) NSMutableArray *modules;
 

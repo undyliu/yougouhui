@@ -7,6 +7,7 @@
 //
 
 #import "ZKHPullRefreshTableViewController.h"
+#import "ZKHViewUtils.h"
 
 @implementation ZKHPullRefreshTableViewController
 
@@ -21,7 +22,7 @@
     self.pullTableView.pullBackgroundColor = [UIColor grayColor];
     self.pullTableView.pullTextColor = [UIColor blackColor];
     
-    [self setExtraCellLineHidden:self.pullTableView];
+    [ZKHViewUtils setTableViewExtraCellLineHidden:self.pullTableView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -32,13 +33,6 @@
 //        self.pullTableView.pullTableIsRefreshing = YES;
 //        [self performSelector:@selector(refreshTable) withObject:nil afterDelay:3.0f];
 //    }
-}
-
--(void)setExtraCellLineHidden: (UITableView *)tableView
-{
-    UIView *view = [[UIView alloc] init];
-    view.backgroundColor = [UIColor clearColor];
-    [tableView setTableFooterView:view];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

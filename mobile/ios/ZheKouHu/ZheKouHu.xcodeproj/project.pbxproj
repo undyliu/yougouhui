@@ -146,7 +146,6 @@
 		10E1B4A3192F4445008FBF4D /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E1B4A2192F4445008FBF4D /* MBProgressHUD.m */; };
 		10E1B4A7192F4624008FBF4D /* ZKHRestRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E1B4A6192F4624008FBF4D /* ZKHRestRequest.m */; };
 		10E1B4AA192F49D0008FBF4D /* ZKHRestClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E1B4A9192F49D0008FBF4D /* ZKHRestClient.m */; };
-		10E5EC89192DBD23009A1BA2 /* ZKHTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E5EC88192DBD23009A1BA2 /* ZKHTableViewController.m */; };
 		10E7E748192E233A00AE6083 /* add_camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E7E732192E233A00AE6083 /* add_camera.png */; };
 		10E7E749192E233A00AE6083 /* contact_list.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E7E733192E233A00AE6083 /* contact_list.png */; };
 		10E7E74A192E233A00AE6083 /* default_pic.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E7E734192E233A00AE6083 /* default_pic.png */; };
@@ -169,11 +168,20 @@
 		10E7E75B192E233A00AE6083 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E7E745192E233A00AE6083 /* settings.png */; };
 		10E7E75C192E233A00AE6083 /* share_interact.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E7E746192E233A00AE6083 /* share_interact.png */; };
 		10E7E75D192E233A00AE6083 /* shop_info.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E7E747192E233A00AE6083 /* shop_info.png */; };
+		10EDC52B19371FBA000D0094 /* ZKHSaleDiscussData.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EDC52A19371FBA000D0094 /* ZKHSaleDiscussData.m */; };
+		10EDC52E19372A1E000D0094 /* ZKHSaleDiscussListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EDC52D19372A1E000D0094 /* ZKHSaleDiscussListController.m */; };
+		10EDC53119372C3E000D0094 /* ZKHSaleDiscussListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EDC53019372C3E000D0094 /* ZKHSaleDiscussListCell.m */; };
+		10EDC53319372C51000D0094 /* ZKHSaleDiscussListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10EDC53219372C51000D0094 /* ZKHSaleDiscussListCell.xib */; };
+		10F272F71936C686007B2F9A /* ZKHViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F272F61936C686007B2F9A /* ZKHViewUtils.m */; };
+		10F272FA1936C729007B2F9A /* ZKHImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F272F91936C729007B2F9A /* ZKHImageLoader.m */; };
+		10F272FE1936DAFF007B2F9A /* ZKHSaleDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F272FC1936DAFF007B2F9A /* ZKHSaleDetailController.m */; };
+		10F272FF1936DAFF007B2F9A /* ZKHSaleDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10F272FD1936DAFF007B2F9A /* ZKHSaleDetailController.xib */; };
+		10F273021936DF57007B2F9A /* arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F273001936DF57007B2F9A /* arrow_down.png */; };
+		10F273031936DF57007B2F9A /* arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F273011936DF57007B2F9A /* arrow_up.png */; };
 		10F394DD192ED44900629F8F /* ZKHTradeData.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F394DC192ED44900629F8F /* ZKHTradeData.m */; };
 		10F394E2192EE22400629F8F /* ZKHShopData.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F394E1192EE22400629F8F /* ZKHShopData.m */; };
 		10F394E6192EED6E00629F8F /* ZKHImageLabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10F394E3192EED6E00629F8F /* ZKHImageLabelCell.xib */; };
 		10F394E7192EED6E00629F8F /* ZKHImageLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F394E5192EED6E00629F8F /* ZKHImageLabelCell.m */; };
-		10F394EA192F12D500629F8F /* ZKHImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F394E9192F12D400629F8F /* ZKHImageLoader.m */; };
 		10F394EC192F192D00629F8F /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F394EB192F192D00629F8F /* loading.png */; };
 		10F394EE192F265400629F8F /* ZKHChangeTextController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10F394ED192F265400629F8F /* ZKHChangeTextController.xib */; };
 		10F7080019298CF200282511 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F707FF19298CF200282511 /* UIKit.framework */; };
@@ -408,8 +416,6 @@
 		10E1B4A6192F4624008FBF4D /* ZKHRestRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHRestRequest.m; sourceTree = "<group>"; };
 		10E1B4A8192F49D0008FBF4D /* ZKHRestClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHRestClient.h; sourceTree = "<group>"; };
 		10E1B4A9192F49D0008FBF4D /* ZKHRestClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHRestClient.m; sourceTree = "<group>"; };
-		10E5EC87192DBD23009A1BA2 /* ZKHTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHTableViewController.h; sourceTree = "<group>"; };
-		10E5EC88192DBD23009A1BA2 /* ZKHTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHTableViewController.m; sourceTree = "<group>"; };
 		10E7E732192E233A00AE6083 /* add_camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_camera.png; sourceTree = "<group>"; };
 		10E7E733192E233A00AE6083 /* contact_list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = contact_list.png; sourceTree = "<group>"; };
 		10E7E734192E233A00AE6083 /* default_pic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_pic.png; sourceTree = "<group>"; };
@@ -432,13 +438,26 @@
 		10E7E745192E233A00AE6083 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
 		10E7E746192E233A00AE6083 /* share_interact.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share_interact.png; sourceTree = "<group>"; };
 		10E7E747192E233A00AE6083 /* shop_info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shop_info.png; sourceTree = "<group>"; };
+		10EDC52A19371FBA000D0094 /* ZKHSaleDiscussData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHSaleDiscussData.m; sourceTree = "<group>"; };
+		10EDC52C19372A1E000D0094 /* ZKHSaleDiscussListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHSaleDiscussListController.h; sourceTree = "<group>"; };
+		10EDC52D19372A1E000D0094 /* ZKHSaleDiscussListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHSaleDiscussListController.m; sourceTree = "<group>"; };
+		10EDC52F19372C3E000D0094 /* ZKHSaleDiscussListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHSaleDiscussListCell.h; sourceTree = "<group>"; };
+		10EDC53019372C3E000D0094 /* ZKHSaleDiscussListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHSaleDiscussListCell.m; sourceTree = "<group>"; };
+		10EDC53219372C51000D0094 /* ZKHSaleDiscussListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHSaleDiscussListCell.xib; sourceTree = "<group>"; };
+		10F272F51936C686007B2F9A /* ZKHViewUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHViewUtils.h; sourceTree = "<group>"; };
+		10F272F61936C686007B2F9A /* ZKHViewUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHViewUtils.m; sourceTree = "<group>"; };
+		10F272F81936C729007B2F9A /* ZKHImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHImageLoader.h; sourceTree = "<group>"; };
+		10F272F91936C729007B2F9A /* ZKHImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHImageLoader.m; sourceTree = "<group>"; };
+		10F272FB1936DAFF007B2F9A /* ZKHSaleDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHSaleDetailController.h; sourceTree = "<group>"; };
+		10F272FC1936DAFF007B2F9A /* ZKHSaleDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHSaleDetailController.m; sourceTree = "<group>"; };
+		10F272FD1936DAFF007B2F9A /* ZKHSaleDetailController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHSaleDetailController.xib; sourceTree = "<group>"; };
+		10F273001936DF57007B2F9A /* arrow_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_down.png; sourceTree = "<group>"; };
+		10F273011936DF57007B2F9A /* arrow_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_up.png; sourceTree = "<group>"; };
 		10F394DC192ED44900629F8F /* ZKHTradeData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHTradeData.m; sourceTree = "<group>"; };
 		10F394E1192EE22400629F8F /* ZKHShopData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShopData.m; sourceTree = "<group>"; };
 		10F394E3192EED6E00629F8F /* ZKHImageLabelCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHImageLabelCell.xib; sourceTree = "<group>"; };
 		10F394E4192EED6E00629F8F /* ZKHImageLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHImageLabelCell.h; sourceTree = "<group>"; };
 		10F394E5192EED6E00629F8F /* ZKHImageLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHImageLabelCell.m; sourceTree = "<group>"; };
-		10F394E8192F12D400629F8F /* ZKHImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHImageLoader.h; sourceTree = "<group>"; };
-		10F394E9192F12D400629F8F /* ZKHImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHImageLoader.m; sourceTree = "<group>"; };
 		10F394EB192F192D00629F8F /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading.png; sourceTree = "<group>"; };
 		10F394ED192F265400629F8F /* ZKHChangeTextController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHChangeTextController.xib; sourceTree = "<group>"; };
 		10F707FC19298CF200282511 /* ZheKouHu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZheKouHu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -628,6 +647,7 @@
 				10456D0B192E28D20061DCC1 /* ZKHEnvData.m */,
 				10456D0C192E28D20061DCC1 /* ZKHModuleData.m */,
 				10456D0D192E28D20061DCC1 /* ZKHSaleData.m */,
+				10EDC52A19371FBA000D0094 /* ZKHSaleDiscussData.m */,
 				10456D0E192E28D20061DCC1 /* ZKHSettingData.m */,
 				10456D0F192E28D20061DCC1 /* ZKHSyncData.m */,
 				10456D10192E28D20061DCC1 /* ZKHUserData.m */,
@@ -760,6 +780,14 @@
 				10456D58192E28D20061DCC1 /* ZKHChannelSaleMainController.h */,
 				10456D59192E28D20061DCC1 /* ZKHChannelSaleMainController.m */,
 				10456D5A192E28D20061DCC1 /* ZKHChannelSaleMainController.xib */,
+				10F272FB1936DAFF007B2F9A /* ZKHSaleDetailController.h */,
+				10F272FC1936DAFF007B2F9A /* ZKHSaleDetailController.m */,
+				10F272FD1936DAFF007B2F9A /* ZKHSaleDetailController.xib */,
+				10EDC52C19372A1E000D0094 /* ZKHSaleDiscussListController.h */,
+				10EDC52D19372A1E000D0094 /* ZKHSaleDiscussListController.m */,
+				10EDC52F19372C3E000D0094 /* ZKHSaleDiscussListCell.h */,
+				10EDC53019372C3E000D0094 /* ZKHSaleDiscussListCell.m */,
+				10EDC53219372C51000D0094 /* ZKHSaleDiscussListCell.xib */,
 			);
 			path = "View Sale";
 			sourceTree = "<group>";
@@ -859,6 +887,8 @@
 		10E7E731192E233A00AE6083 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				10F273001936DF57007B2F9A /* arrow_down.png */,
+				10F273011936DF57007B2F9A /* arrow_up.png */,
 				1070AD081934844200AA1AE1 /* receptionist.png */,
 				109E02AF1933188400796213 /* b_pic_delete.png */,
 				109E02B01933188400796213 /* b_pic_preview.png */,
@@ -887,6 +917,17 @@
 				10E7E747192E233A00AE6083 /* shop_info.png */,
 			);
 			path = images;
+			sourceTree = "<group>";
+		};
+		10F272F41936C66B007B2F9A /* View Utils */ = {
+			isa = PBXGroup;
+			children = (
+				10F272F81936C729007B2F9A /* ZKHImageLoader.h */,
+				10F272F91936C729007B2F9A /* ZKHImageLoader.m */,
+				10F272F51936C686007B2F9A /* ZKHViewUtils.h */,
+				10F272F61936C686007B2F9A /* ZKHViewUtils.m */,
+			);
+			path = "View Utils";
 			sourceTree = "<group>";
 		};
 		10F707F319298CF200282511 = {
@@ -927,6 +968,7 @@
 		10F7080719298CF200282511 /* ZheKouHu */ = {
 			isa = PBXGroup;
 			children = (
+				10F272F41936C66B007B2F9A /* View Utils */,
 				1002437419356B8C00A5047F /* View Favorit */,
 				10E1B4A4192F460B008FBF4D /* Restful */,
 				10456CE1192E28D20061DCC1 /* Thirdparty Libs */,
@@ -956,10 +998,6 @@
 				1029F2641929FC29005F2D61 /* ZKHMainNavController.h */,
 				1029F2651929FC29005F2D61 /* ZKHMainNavController.m */,
 				10F7086A1929DE0A00282511 /* ZKHMainTabBarController.xib */,
-				10E5EC87192DBD23009A1BA2 /* ZKHTableViewController.h */,
-				10E5EC88192DBD23009A1BA2 /* ZKHTableViewController.m */,
-				10F394E8192F12D400629F8F /* ZKHImageLoader.h */,
-				10F394E9192F12D400629F8F /* ZKHImageLoader.m */,
 			);
 			path = ZheKouHu;
 			sourceTree = "<group>";
@@ -1107,6 +1145,10 @@
 				100243BA1935EDFF00A5047F /* whiteArrow.png in Resources */,
 				100243BB1935EDFF00A5047F /* whiteArrow@2x.png in Resources */,
 				100243C01935EF8B00A5047F /* ZKHPullRefreshTableViewController.xib in Resources */,
+				10F272FF1936DAFF007B2F9A /* ZKHSaleDetailController.xib in Resources */,
+				10F273021936DF57007B2F9A /* arrow_down.png in Resources */,
+				10F273031936DF57007B2F9A /* arrow_up.png in Resources */,
+				10EDC53319372C51000D0094 /* ZKHSaleDiscussListCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1124,7 +1166,6 @@
 				1029F2671929FC29005F2D61 /* ZKHMainNavController.m in Sources */,
 				10272D9D192A27C100103815 /* ZKHProcessor.m in Sources */,
 				10FCDBDC192C261C005989BA /* ZKHContext.m in Sources */,
-				10E5EC89192DBD23009A1BA2 /* ZKHTableViewController.m in Sources */,
 				10456D5F192E28D20061DCC1 /* SelectionCell.m in Sources */,
 				10456D61192E28D20061DCC1 /* TableViewWithBlock.m in Sources */,
 				10456D62192E28D20061DCC1 /* UITableView+DataSourceBlocks.m in Sources */,
@@ -1173,7 +1214,6 @@
 				10F394DD192ED44900629F8F /* ZKHTradeData.m in Sources */,
 				10F394E2192EE22400629F8F /* ZKHShopData.m in Sources */,
 				10F394E7192EED6E00629F8F /* ZKHImageLabelCell.m in Sources */,
-				10F394EA192F12D500629F8F /* ZKHImageLoader.m in Sources */,
 				10E1B49F192F2F58008FBF4D /* ZKHChangeTextController.m in Sources */,
 				10E1B4A3192F4445008FBF4D /* MBProgressHUD.m in Sources */,
 				10E1B4A7192F4624008FBF4D /* ZKHRestRequest.m in Sources */,
@@ -1210,6 +1250,12 @@
 				100243B21935EDFF00A5047F /* MessageInterceptor.m in Sources */,
 				100243B31935EDFF00A5047F /* PullTableView.m in Sources */,
 				100243BF1935EF8B00A5047F /* ZKHPullRefreshTableViewController.m in Sources */,
+				10F272F71936C686007B2F9A /* ZKHViewUtils.m in Sources */,
+				10F272FA1936C729007B2F9A /* ZKHImageLoader.m in Sources */,
+				10F272FE1936DAFF007B2F9A /* ZKHSaleDetailController.m in Sources */,
+				10EDC52B19371FBA000D0094 /* ZKHSaleDiscussData.m in Sources */,
+				10EDC52E19372A1E000D0094 /* ZKHSaleDiscussListController.m in Sources */,
+				10EDC53119372C3E000D0094 /* ZKHSaleDiscussListCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

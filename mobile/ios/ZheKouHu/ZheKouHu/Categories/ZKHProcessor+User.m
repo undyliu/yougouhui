@@ -62,17 +62,7 @@
             {
                 NSDictionary *userJson = [jsonObject valueForKey:KEY_USER];
                 
-                ZKHUserEntity *user = [[ZKHUserEntity alloc] init];
-                user.uuid = [userJson valueForKey:KEY_UUID];
-                user.name = [userJson valueForKey:KEY_NAME];
-                user.pwd = [userJson valueForKey:KEY_PWD];
-                user.type = [userJson valueForKey:KEY_TYPE];
-                user.phone = [userJson valueForKey:KEY_PHONE];
-                
-                user.photo = [[ZKHFileEntity alloc] init];
-                user.photo.aliasName = [userJson valueForKey:KEY_PHOTO];
-                
-                user.registerTime = [userJson valueForKey:KEY_REGISTER_TIME];
+                ZKHUserEntity *user = [[ZKHUserEntity alloc] initWithJsonObject:userJson noPwd:false];
                 
                 [[[ZKHUserData alloc] init] save:@[user]];
                 
@@ -241,16 +231,8 @@
                 userFriend.uuid = [jsonUserFriend valueForKey:KEY_UUID];
 
                 id userJson = [jsonUserFriend valueForKey:KEY_USER];
-                ZKHUserEntity *user = [[ZKHUserEntity alloc] init];
-                user.uuid = [userJson valueForKey:KEY_UUID];
-                user.name = [userJson valueForKey:KEY_NAME];
-                user.type = [userJson valueForKey:KEY_TYPE];
-                user.phone = [userJson valueForKey:KEY_PHONE];
+                ZKHUserEntity *user = [[ZKHUserEntity alloc] initWithJsonObject:userJson noPwd:true];
                 
-                user.photo = [[ZKHFileEntity alloc] init];
-                user.photo.aliasName = [userJson valueForKey:KEY_PHOTO];
-                
-                user.registerTime = [userJson valueForKey:KEY_REGISTER_TIME];
                 userFriend.friend = user;
                 
                 [userFriends addObject:userFriend];
@@ -276,16 +258,7 @@
     [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
         NSMutableArray *users = [[NSMutableArray alloc] init];
         for (id userJson in jsonObject) {
-            ZKHUserEntity *user = [[ZKHUserEntity alloc] init];
-            user.uuid = [userJson valueForKey:KEY_UUID];
-            user.name = [userJson valueForKey:KEY_NAME];
-            user.type = [userJson valueForKey:KEY_TYPE];
-            user.phone = [userJson valueForKey:KEY_PHONE];
-            
-            user.photo = [[ZKHFileEntity alloc] init];
-            user.photo.aliasName = [userJson valueForKey:KEY_PHOTO];
-            
-            user.registerTime = [userJson valueForKey:KEY_REGISTER_TIME];
+            ZKHUserEntity *user = [[ZKHUserEntity alloc] initWithJsonObject:userJson noPwd:true];
             
             [users addObject:user];
         }

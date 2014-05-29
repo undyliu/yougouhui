@@ -46,9 +46,7 @@
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    
-    [self.locationManager startUpdatingLocation];
-    
+     
     [ApplicationDelegate.zkhProcessor radarSetting:[ZKHContext getInstance].user.uuid withDefaultValue:true completionHandler:^(ZKHSettingEntity *setting) {
         NSDictionary *value = [setting.value toJSONObject];
         NSString *disctance = [value valueForKey:RADAR_VAL_FIELD_DISTANCE];
@@ -56,6 +54,19 @@
     } errorHandler:^(NSError *error) {
         
     }];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.locationManager startUpdatingLocation];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.locationManager stopUpdatingLocation];
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning
@@ -104,7 +115,7 @@
         case ViewPagerOptionTabLocation:
             return 1.0;
         case ViewPagerOptionTabHeight:
-            return 49.0;
+            return 35.0;
         case ViewPagerOptionTabOffset:
             return 36.0;
         case ViewPagerOptionTabTopOffset:

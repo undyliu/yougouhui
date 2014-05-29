@@ -63,6 +63,7 @@
 #define KEY_FRIEND_ID @"friend_id"
 #define KEY_SALE_ID @"sale_id"
 
+#define KEY_USER_NAME @"user_name"
 #define KEY_USER @"user"
 #define KEY_AUTHED @"authed"
 #define KEY_ERROR_TYPE @"error-type"

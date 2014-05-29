@@ -17,6 +17,7 @@
 #import "ZKHRegiserUserController.h"
 #import "ZKHContactListController.h"
 #import "ZKHMyFavoritController.h"
+#import "ZKHViewUtils.h"
 
 #define kModuleFriends @"friends"
 #define kModuleRadar @"radar"
@@ -54,7 +55,9 @@ static NSString *CellIdentifier = @"ModuleCellIdentifier";
     
     UINib *nib = [UINib nibWithNibName:@"ZKHModuleListCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
-        
+    
+    [ZKHViewUtils setTableViewExtraCellLineHidden:self.tableView];
+    
     NSString *type = [self getModuleType];
     if(type != nil){
         [ApplicationDelegate.zkhProcessor modulesForType:type

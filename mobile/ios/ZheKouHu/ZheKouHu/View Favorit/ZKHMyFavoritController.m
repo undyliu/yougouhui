@@ -80,7 +80,7 @@
         case ViewPagerOptionTabLocation:
             return 1.0;
         case ViewPagerOptionTabHeight:
-            return 49.0;
+            return 35.0;
         case ViewPagerOptionTabOffset:
             return 20.0;
         case ViewPagerOptionTabWidth:

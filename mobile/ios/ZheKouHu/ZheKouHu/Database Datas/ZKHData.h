@@ -70,8 +70,13 @@
 @end
 
 #define SALE_TABLE @"e_sale"
-@interface ZKHSaleData : ZKHData
+@interface ZKHSaleData : ZKHData<ZKHEntityUpdater>
+- (NSMutableArray *) salesForChannel:(NSString *)channelId;
+@end
 
+#define SALE_DISC_TABLE @"e_sale_discuss"
+@interface ZKHSaleDiscussData : ZKHData<ZKHEntityUpdater>
+- (NSMutableArray *) discussesForSale:(NSString *)saleId;
 @end
 
 @interface ZKHTradeData : ZKHData<ZKHEntityUpdater>

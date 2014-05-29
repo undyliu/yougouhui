@@ -15,6 +15,7 @@
 #import "ZKHLoginSettingController.h"
 #import "ZKHRadarSettingController.h"
 #import "ZKHConst.h"
+#import "ZKHViewUtils.h"
 
 static NSString *CellIdentifier = @"Cell";
 
@@ -25,6 +26,8 @@ static NSString *CellIdentifier = @"Cell";
     [super viewDidLoad];
 
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:CellIdentifier];
+    
+    [ZKHViewUtils setTableViewExtraCellLineHidden:self.tableView];
     
     [ApplicationDelegate.zkhProcessor settings:^(NSMutableArray *settings) {
         settingItems = settings;

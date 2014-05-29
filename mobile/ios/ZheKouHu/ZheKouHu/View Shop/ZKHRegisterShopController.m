@@ -10,6 +10,8 @@
 #import "ZKHSwitchCell.h"
 #import "ZKHAppDelegate.h"
 #import "ZKHEntity.h"
+#import "ZKHViewUtils.h"
+
 static NSString *switchCellIdentifier = @"SwitchCell";
 
 @interface ZKHRegisterShopController ()<ViewPagerDataSource, ViewPagerDelegate>
@@ -63,7 +65,7 @@ static NSString *switchCellIdentifier = @"SwitchCell";
         
     }];
     
-    [self setExtraCellLineHidden:self.tradesController.tableView];
+    [ZKHViewUtils setTableViewExtraCellLineHidden:self.tradesController.tableView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -77,13 +79,6 @@ static NSString *switchCellIdentifier = @"SwitchCell";
     
     [self performSelector:@selector(loadContent) withObject:nil afterDelay:1.0];
     
-}
-
--(void)setExtraCellLineHidden: (UITableView *)tableView
-{
-    UIView *view = [UIView new];
-    view.backgroundColor = [UIColor clearColor];
-    [tableView setTableFooterView:view];
 }
 
 - (void)loadContent {
@@ -143,7 +138,7 @@ static NSString *switchCellIdentifier = @"SwitchCell";
         case ViewPagerOptionTabLocation:
             return 1.0;
         case ViewPagerOptionTabHeight:
-            return 49.0;
+            return 35.0;
 //        case ViewPagerOptionTabOffset:
 //            return 20.0;
         case ViewPagerOptionTabWidth:

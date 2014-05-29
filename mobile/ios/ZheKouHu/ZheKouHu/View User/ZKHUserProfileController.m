@@ -16,6 +16,7 @@
 #import "ZKHImageLoader.h"
 #import "NSDate+Utils.h"
 #import "ZKHProcessor+User.h"
+#import "ZKHViewUtils.h"
 
 static NSString *CellIdentifier = @"ImageLabelCell";
 
@@ -38,6 +39,8 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     
     UINib *nib = [UINib nibWithNibName:@"ZKHImageLabelCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
+    
+    [ZKHViewUtils setTableViewExtraCellLineHidden:self.tableView];
 }
 
 - (void)viewWillAppear:(BOOL)animated

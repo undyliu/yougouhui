@@ -13,6 +13,7 @@
 #import "ZKHConst.h"
 #import "ZKHContext.h"
 #import "NSString+Utils.h"
+#import "ZKHViewUtils.h"
 
 static NSString *switchCellIdentifier = @"SwitchCell";
 static NSString *pickerCellIdentifier = @"PickerCell";
@@ -42,6 +43,8 @@ static NSString *pickerCellIdentifier = @"PickerCell";
     
     UINib *nib2 = [UINib nibWithNibName:@"ZKHPickerCell" bundle:nil];
     [self.tableView registerNib:nib2 forCellReuseIdentifier:pickerCellIdentifier];
+    
+    [ZKHViewUtils setTableViewExtraCellLineHidden:self.tableView];
     
     if (self.radarSetting == nil) {
         [ApplicationDelegate.zkhProcessor radarSetting: [ZKHContext getInstance].user.uuid withDefaultValue:true completionHandler:^(ZKHSettingEntity *setting) {

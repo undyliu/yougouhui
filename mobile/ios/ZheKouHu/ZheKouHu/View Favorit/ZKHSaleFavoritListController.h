@@ -8,7 +8,7 @@
 
 #import "ZKHPullRefreshTableViewController.h"
 
-@interface ZKHSaleFavoritListController : ZKHPullRefreshTableViewController
+@interface ZKHSaleFavoritListController : ZKHPullRefreshTableViewController<UITableViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray *saleFavorits;
 

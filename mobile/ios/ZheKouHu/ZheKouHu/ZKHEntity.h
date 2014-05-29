@@ -47,6 +47,9 @@
 @property (strong, nonatomic) NSMutableArray *friends;
 
 @property (strong, nonatomic, readonly) NSString *pinyinName;
+
+- (id) initWithJsonObject:(id)userJson noPwd:(Boolean)noPwd;
+
 @end
 
 //用户的朋友对象，依附于用户，进行包含有朋友对象
@@ -79,14 +82,24 @@
 @property (strong, nonatomic) NSString *startDate;
 @property (strong, nonatomic) NSString *endDate;
 @property (strong, nonatomic) NSString *tradeId;
+@property (strong, nonatomic) NSString *channelId;
 @property (strong, nonatomic) NSString *visitCount;
 @property (strong, nonatomic) NSString *discussCount;
 @property (strong, nonatomic) NSString *publishTime;
+@property (strong, nonatomic) NSString *publishDate;
 @property (strong, nonatomic) NSString *status;
 @property (strong, nonatomic) NSString *img;
 @property (strong, nonatomic) ZKHShopEntity *shop;
 @property (strong, nonatomic) ZKHUserEntity *publisher;
 @property (strong, nonatomic) NSMutableArray *images;
+@end
+
+//活动评论
+@interface ZKHSaleDiscussEntity : ZKHEntity
+@property (strong, nonatomic) NSString *saleId;
+@property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) ZKHUserEntity *publisher;
+@property (strong, nonatomic) NSString *publishTime;
 @end
 
 //主营业务
@@ -105,6 +118,7 @@
 
 - (id) initWithString:(NSString *)value;
 - (NSDictionary *)toJSONObject;
+- (NSString *) toString;
 @end
 
 //商铺的主营业务对象，依附于商铺，仅需包含有主营业务对象

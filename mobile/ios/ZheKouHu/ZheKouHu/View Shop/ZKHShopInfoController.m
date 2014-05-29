@@ -15,6 +15,7 @@
 #import "ZKHProcessor+Shop.h"
 #import "NSDate+Utils.h"
 #import "ZKHContext.h"
+#import "ZKHViewUtils.h"
 
 static NSString *CellIdentifier = @"ImageLabelCell";
 
@@ -38,6 +39,8 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     
     UINib *nib = [UINib nibWithNibName:@"ZKHImageLabelCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
+    
+    [ZKHViewUtils setTableViewExtraCellLineHidden:self.tableView];
     
     [ApplicationDelegate.zkhProcessor checkShopEmp:self.shop.uuid userId:[ZKHContext getInstance].user.uuid completionHandler:^(Boolean result) {
         if (result) {
@@ -108,7 +111,7 @@ static NSString *CellIdentifier = @"ImageLabelCell";
                     [trades appendFormat:@"%@, ", shopTrade.trade.name];
                 }
                 
-                cell.valueLabel.text = trades;
+                cell.valueLabel.text = [trades substringToIndex:([trades length] - 2)];
                 cell.photoView.hidden = true;
                 cell.valueLabel.hidden = false;
             }

@@ -11,5 +11,8 @@
 @interface NSDate (Utils)
 
 + (NSString *) currentTimeString;
++ (id) dateWithMilliSeconds:(long long)milliSeconds;
+
+-(NSString *) toyyyyMMddString;
 
 @end

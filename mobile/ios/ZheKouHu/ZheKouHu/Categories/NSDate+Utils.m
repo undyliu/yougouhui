@@ -17,4 +17,15 @@
     return [nsdf2 stringFromDate:[NSDate date]];
 }
 
++ (id)dateWithMilliSeconds:(long long)milliSeconds
+{
+    return [NSDate dateWithTimeIntervalSince1970:milliSeconds/1000.0];
+}
+
+- (NSString *)toyyyyMMddString
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    return [dateFormatter stringFromDate:self];
+}
 @end

@@ -15,6 +15,8 @@
 #import "NSDate+Utils.h"
 #import "ZKHChannelSaleListCell.h"
 #import "ZKHImageLoader.h"
+#import "ZKHViewUtils.h"
+#import "ZKHSaleDetailController.h"
 
 static NSString *CellIdentifier = @"ChannelSaleListCell";
 
@@ -24,33 +26,44 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
 {
     [super viewDidLoad];
     
+    self.saleListView.pullDelegate = self;
     self.saleListView.dataSource = self;
     self.saleListView.delegate = self;
         
     UINib *nib = [UINib nibWithNibName:@"ZKHChannelSaleListCell" bundle:nil];
     [self.saleListView registerNib:nib forCellReuseIdentifier:CellIdentifier];
     
+    [ZKHViewUtils setTableViewExtraCellLineHidden:self.saleListView];
+    
     [ApplicationDelegate.zkhProcessor channels:nil completionHandler:^(NSMutableArray *channels) {
         self.channels = channels;
+        [self initializeToolbarItems];
         [self updateToolbarItems:0];
     } errorHandler:^(NSError *error) {
         
     }];
 }
 
+- (void) initializeToolbarItems
+{
+    int index = 0;
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+    for (ZKHChannelEntity *channel in self.channels) {
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:channel.name style:UIBarButtonItemStylePlain target:self action:@selector(changeChannel:)];
+        [items addObject:item];
+        item.tag = index++;
+        
+//        NSDictionary *attr = @{NSFontAttributeName: [UIFont fontWithName:@"Courier" size:14]};
+//        [item setTitleTextAttributes:attr forState:UIControlStateApplication];
+    }
+    self.channelBar.items = items;
+}
+
 - (void) updateToolbarItems:(int)activedItemTag
 {
-    NSArray *items = self.channelBar.items;
-    for (int i = 0; i < [items count]; i++) {
-        UIBarButtonItem *item = items[i];
-        if (i < [self.channels count]) {
-            item.title = ((ZKHChannelEntity *)self.channels[i]).name;
-        }else{
-            [item setStyle:UIBarButtonItemStylePlain];
-            item.title = @"";
-            item.enabled = FALSE;
-        }
-        if (i == activedItemTag) {
+    for (UIBarButtonItem *item in self.channelBar.items) {
+        int tag = item.tag;
+        if (tag == activedItemTag) {
             [item setStyle:UIBarButtonItemStyleDone];
         }else{
             [item setStyle:UIBarButtonItemStylePlain];
@@ -109,7 +122,17 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
     
     ZKHSaleEntity *sale = saleList[indexPath.row];
     cell.titelLabel.text = sale.title;
+    
     cell.contentLabel.text = sale.content;
+    cell.contentLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    cell.contentLabel.numberOfLines = 0;
+    
+    cell.shopLabel.text = sale.shop.name;
+    
+    NSString *hitCount = [NSString stringWithFormat:@"共%@次浏览 %@条评论", sale.visitCount, sale.discussCount];
+    cell.visitCountLabel.text = hitCount;
+    
+    cell.statusLabel.hidden = true;//TODO:
     
     [ZKHImageLoader showImageForName:sale.img imageView:cell.saleImageView];
     
@@ -120,17 +143,38 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    ZKHSaleDetailController *controller = [[ZKHSaleDetailController alloc] init];
+    controller.sale = saleList[indexPath.row];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 80.0;
+    return 90.0;
+}
+
+#pragma mark - Refresh and load more methods
+
+- (void) refreshTable
+{
+    self.saleListView.pullLastRefreshDate = [NSDate date];
+    self.saleListView.pullTableIsRefreshing = NO;
+}
+
+- (void) loadMoreDataToTable
+{
+    self.saleListView.pullTableIsLoadingMore = NO;
+}
+
+#pragma mark - PullTableViewDelegate
+
+- (void)pullTableViewDidTriggerRefresh:(PullTableView *)pullTableView
+{
+    [self performSelector:@selector(refreshTable) withObject:nil afterDelay:3.0f];
+}
+
+- (void)pullTableViewDidTriggerLoadMore:(PullTableView *)pullTableView
+{
+    [self performSelector:@selector(loadMoreDataToTable) withObject:nil afterDelay:3.0f];
 }
 
 @end

@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ZKHTableViewController.h"
 #import "ZKHEntity.h"
 
-@interface ZKHRadarSettingController : ZKHTableViewController<UIPickerViewDelegate, UIPickerViewDataSource>
+@interface ZKHRadarSettingController : UITableViewController<UIPickerViewDelegate, UIPickerViewDataSource>
 {
     UISwitch *saleSwitch;
     UISwitch *shopSwitch;

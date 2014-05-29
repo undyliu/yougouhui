@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ZKHTableViewController.h"
+#import "PullTableView.h"
 
-@interface ZKHChannelSaleMainController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface ZKHChannelSaleMainController : UIViewController<UITableViewDataSource, UITableViewDelegate, PullTableViewDelegate>
 {
     NSMutableArray *saleList;
 }
@@ -18,6 +18,6 @@
 
 @property (weak, nonatomic) IBOutlet UIToolbar *channelBar;
 - (IBAction)changeChannel:(UIBarButtonItem *)sender;
-@property (weak, nonatomic) IBOutlet UITableView *saleListView;
+@property (weak, nonatomic) IBOutlet PullTableView *saleListView;
 
 @end

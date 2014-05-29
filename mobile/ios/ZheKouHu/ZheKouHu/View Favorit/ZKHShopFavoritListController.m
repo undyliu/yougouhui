@@ -32,6 +32,7 @@ static NSString *CellIdentifier = @"FavoritListCell";
     
     self.pullTableView.pullDelegate = self;
     self.pullTableView.dataSource = self;
+    self.pullTableView.delegate = self;
     
     UINib *nib = [UINib nibWithNibName:@"ZKHFavoritListCell" bundle:nil];
     [self.pullTableView registerNib:nib forCellReuseIdentifier:CellIdentifier];

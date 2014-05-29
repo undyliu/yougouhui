@@ -8,12 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "ZKHEntity.h"
-#import "ZKHTableViewController.h"
 #import "ZKHChangeTextController.h"
 #import "ZKHChangePwdController.h"
 #import "ZKHChangeImgController.h"
 
-@interface ZKHShopInfoController : ZKHTableViewController
+@interface ZKHShopInfoController : UITableViewController
 
 @property (strong, nonatomic) ZKHShopEntity *shop;
 @property (nonatomic) Boolean readonly;

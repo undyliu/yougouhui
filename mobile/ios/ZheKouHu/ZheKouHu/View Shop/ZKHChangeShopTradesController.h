@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ZKHTableViewController.h"
 #import "ZKHEntity.h"
 
-@interface ZKHChangeShopTradesController : ZKHTableViewController
+@interface ZKHChangeShopTradesController : UITableViewController
 {
     NSMutableArray* _trades;
     NSMutableArray* switches;
