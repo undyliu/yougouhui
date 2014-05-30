@@ -11,6 +11,7 @@
 @interface ZKHMainNavController : UINavigationController<UIActionSheetDelegate>
 {
     UIViewController * rootController;
+    UIToolbar *navToolBar;
 }
 
 - (void) clickSearch: (id)sender;

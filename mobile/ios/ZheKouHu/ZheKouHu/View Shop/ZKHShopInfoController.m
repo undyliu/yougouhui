@@ -17,6 +17,7 @@
 #import "NSDate+Utils.h"
 #import "ZKHContext.h"
 #import "ZKHViewUtils.h"
+#import "ZKHShareController.h"
 
 static NSString *CellIdentifier = @"ImageLabelCell";
 
@@ -37,6 +38,8 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     
     self.title = @"店铺-基本信息";
     self.readonly = true;
+    
+    [self initializeNavToolBar];
     
     UINib *nib = [UINib nibWithNibName:@"ZKHImageLabelCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
@@ -66,16 +69,34 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     }];
 }
 
-- (void) updateNavigationItem:(NSArray *)items
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self updateNavToolBarFrame];
+    
+    [self.tableView reloadData];
+}
+
+- (void) initializeNavToolBar
+{
+    navToolbar = [[UIToolbar alloc] init];
+    [navToolbar setTintColor:[self.navigationController.navigationBar tintColor]];
+    [navToolbar setAlpha:[self.navigationController.navigationBar alpha]];
+    
+    [self updateNavToolBarFrame];
+}
+
+- (void) updateNavToolBarFrame
 {
     CGFloat height = self.navigationController.navigationBar.frame.size.height + 1;
-    UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 80, height)];
-    [tools setTintColor:[self.navigationController.navigationBar tintColor]];
-    [tools setAlpha:[self.navigationController.navigationBar alpha]];
+    navToolbar.frame = CGRectMake(0, 0, 80, height);
+}
+
+- (void) updateNavigationItem:(NSArray *)items
+{   
+    [navToolbar setItems:items animated:NO];
     
-    [tools setItems:items animated:NO];
-    
-    UIBarButtonItem *myBtn = [[UIBarButtonItem alloc] initWithCustomView:tools];
+    UIBarButtonItem *myBtn = [[UIBarButtonItem alloc] initWithCustomView:navToolbar];
     self.navigationItem.rightBarButtonItem = myBtn;
 }
 
@@ -103,12 +124,9 @@ static NSString *CellIdentifier = @"ImageLabelCell";
 
 - (void)shareClick:(id)sender
 {
-    
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self.tableView reloadData];
+    ZKHShareController *controller = [[ZKHShareController alloc] init];
+    controller.shop = self.shop;
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -262,6 +280,12 @@ static NSString *CellIdentifier = @"ImageLabelCell";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 60.0;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self updateNavToolBarFrame];
 }
 
 @end

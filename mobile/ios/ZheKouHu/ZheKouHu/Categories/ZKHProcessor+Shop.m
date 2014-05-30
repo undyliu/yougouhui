@@ -11,6 +11,8 @@
 #import "ZKHEntity.h"
 #import "ZKHData.h"
 #import "NSString+Utils.h"
+#import "ZKHContext.h"
+#import "ZKHConst.h"
 
 @implementation ZKHProcessor (Shop)
 
@@ -24,7 +26,12 @@
     request.params = params;
     request.method = METHOD_POST;
     
-    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+    [restClient execute:request completionHandler:^(NSHTTPURLResponse *response, id jsonObject) {
+        NSString *cookieValue = [[response allHeaderFields] valueForKey:KET_SET_COOKIE];
+        if (cookieValue != nil) {
+            [ZKHContext getInstance].sessionId = cookieValue;
+        }
+        
         NSMutableDictionary *authedObj = [[NSMutableDictionary alloc] init];
         Boolean authed = [[jsonObject valueForKey:KEY_AUTHED] boolValue];
         switch (authed) {
@@ -37,6 +44,8 @@
                 user.name = [userJson valueForKey:KEY_NAME];
                 //user.pwd = [userJson valueForKey:KEY_PWD];密码和类别未返回
                 //user.type = [userJson valueForKey:KEY_TYPE];
+                user.pwd = pwd;
+                user.type = VAL_TYPE_USER_APP;
                 user.phone = [userJson valueForKey:KEY_PHONE];
                 
                 user.photo = [[ZKHFileEntity alloc] init];

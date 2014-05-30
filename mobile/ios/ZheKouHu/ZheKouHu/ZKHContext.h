@@ -18,4 +18,5 @@
 @property (strong, nonatomic) ZKHUserEntity *user;
 @property (strong, nonatomic) NSString *sessionId;
 @property Boolean shopLogined;
+@property Boolean shouldRelogin;
 @end

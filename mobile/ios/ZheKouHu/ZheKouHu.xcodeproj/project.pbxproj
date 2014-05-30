@@ -40,6 +40,9 @@
 		100B40421933051600C51588 /* ZKHChangePwdController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 100B40401933051600C51588 /* ZKHChangePwdController.xib */; };
 		100CD3DD192AE1B20074DF8E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 100CD3DC192AE1B20074DF8E /* libsqlite3.dylib */; };
 		101F673019380B1B00AE3C97 /* b_comment_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 101F672F19380B1B00AE3C97 /* b_comment_delete.png */; };
+		101F673419385E9700AE3C97 /* ZKHFreindShareListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 101F673319385E9700AE3C97 /* ZKHFreindShareListController.m */; };
+		101F673819385EB300AE3C97 /* ZKHShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 101F673619385EB300AE3C97 /* ZKHShareController.m */; };
+		101F673919385EB300AE3C97 /* ZKHShareController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 101F673719385EB300AE3C97 /* ZKHShareController.xib */; };
 		10272D8E192A1B3D00103815 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10272D8D192A1B3D00103815 /* CFNetwork.framework */; };
 		10272D90192A1B4D00103815 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10272D8F192A1B4D00103815 /* SystemConfiguration.framework */; };
 		10272D92192A1B5C00103815 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10272D91192A1B5C00103815 /* Security.framework */; };
@@ -249,6 +252,11 @@
 		100CD3DB192ADC650074DF8E /* ZKHConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKHConst.h; sourceTree = "<group>"; };
 		100CD3DC192AE1B20074DF8E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		101F672F19380B1B00AE3C97 /* b_comment_delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = b_comment_delete.png; sourceTree = "<group>"; };
+		101F673219385E9700AE3C97 /* ZKHFreindShareListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHFreindShareListController.h; sourceTree = "<group>"; };
+		101F673319385E9700AE3C97 /* ZKHFreindShareListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHFreindShareListController.m; sourceTree = "<group>"; };
+		101F673519385EB300AE3C97 /* ZKHShareController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHShareController.h; sourceTree = "<group>"; };
+		101F673619385EB300AE3C97 /* ZKHShareController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShareController.m; sourceTree = "<group>"; };
+		101F673719385EB300AE3C97 /* ZKHShareController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHShareController.xib; sourceTree = "<group>"; };
 		10272D8D192A1B3D00103815 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		10272D8F192A1B4D00103815 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		10272D91192A1B5C00103815 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -556,6 +564,18 @@
 				100243AF1935EDFF00A5047F /* whiteArrow@2x.png */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		101F673119385E5700AE3C97 /* View Share */ = {
+			isa = PBXGroup;
+			children = (
+				101F673219385E9700AE3C97 /* ZKHFreindShareListController.h */,
+				101F673319385E9700AE3C97 /* ZKHFreindShareListController.m */,
+				101F673519385EB300AE3C97 /* ZKHShareController.h */,
+				101F673619385EB300AE3C97 /* ZKHShareController.m */,
+				101F673719385EB300AE3C97 /* ZKHShareController.xib */,
+			);
+			path = "View Share";
 			sourceTree = "<group>";
 		};
 		10456CE1192E28D20061DCC1 /* Thirdparty Libs */ = {
@@ -971,6 +991,7 @@
 		10F7080719298CF200282511 /* ZheKouHu */ = {
 			isa = PBXGroup;
 			children = (
+				101F673119385E5700AE3C97 /* View Share */,
 				10F272F41936C66B007B2F9A /* View Utils */,
 				1002437419356B8C00A5047F /* View Favorit */,
 				10E1B4A4192F460B008FBF4D /* Restful */,
@@ -1153,6 +1174,7 @@
 				10F273031936DF57007B2F9A /* arrow_up.png in Resources */,
 				10EDC53319372C51000D0094 /* ZKHSaleDiscussListCell.xib in Resources */,
 				101F673019380B1B00AE3C97 /* b_comment_delete.png in Resources */,
+				101F673919385EB300AE3C97 /* ZKHShareController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1260,6 +1282,8 @@
 				10EDC52B19371FBA000D0094 /* ZKHSaleDiscussData.m in Sources */,
 				10EDC52E19372A1E000D0094 /* ZKHSaleDiscussListController.m in Sources */,
 				10EDC53119372C3E000D0094 /* ZKHSaleDiscussListCell.m in Sources */,
+				101F673419385E9700AE3C97 /* ZKHFreindShareListController.m in Sources */,
+				101F673819385EB300AE3C97 /* ZKHShareController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

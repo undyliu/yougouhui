@@ -33,7 +33,7 @@
     
     ZKHContext *context = [ZKHContext getInstance];
     NSString *sessionId = context.sessionId;
-    if (sessionId == nil) {
+    if (sessionId == nil || context.shouldRelogin) {
         ZKHUserEntity *user = context.user;
         [ApplicationDelegate.zkhProcessor remoteLogin:user.phone pwd:user.pwd completionHandler:^(NSMutableDictionary *authObj) {
             NSString *sessionId = context.sessionId;
@@ -42,11 +42,13 @@
                 authorizeBlock(request);
             }else{
                 //TODO:
+                errorBlock(nil);
             }
         } errorHandler:^(NSError *error) {
             errorBlock(error);
         }];
     }else{
+        [request addHeader:@"cookie" value:sessionId];
         authorizeBlock(request);
     }
 }

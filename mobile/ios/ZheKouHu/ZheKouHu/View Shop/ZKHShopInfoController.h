@@ -17,6 +17,7 @@
     UIBarButtonItem *shareItem;
     UIBarButtonItem *favoritItem;
     UIBarButtonItem *cancelFavoritItem;
+    UIToolbar *navToolbar;
 }
 
 @property (strong, nonatomic) ZKHShopEntity *shop;

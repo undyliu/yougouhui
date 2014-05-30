@@ -77,6 +77,8 @@
 #define KEY_SEARCH_WORD @"search-word"
 #define KEY_IS_DELETED @"is_deleted"
 
+#define KET_SET_COOKIE @"Set-Cookie"
+
 #define VAL_TYPE_USER_APP @"1"
 #define VAL_TYPE_USER_ANONYMOUS @"2"
 

@@ -12,6 +12,7 @@
 #import "ZKHContext.h"
 #import "ZKHUserProfileController.h"
 #import "ZKHAddFriendController.h"
+#import "ZKHShareController.h"
 
 @interface ZKHMainNavController ()
 
@@ -35,9 +36,20 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 90, self.navigationBar.frame.size.height + 1)];
-    [tools setTintColor:[self.navigationController.navigationBar tintColor]];
-    [tools setAlpha:[self.navigationController.navigationBar alpha]];
+    [self initializeNavigationItem];
+}
+
+- (void)updateNavToolBarFrame
+{
+    navToolBar.frame = CGRectMake(0, 0, 90, self.navigationBar.frame.size.height + 1);
+}
+
+- (void)initializeNavigationItem
+{
+    navToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 90, self.navigationBar.frame.size.height + 1)];
+    
+    [navToolBar setTintColor:[self.navigationController.navigationBar tintColor]];
+    [navToolBar setAlpha:[self.navigationController.navigationBar alpha]];
     NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:3];
     
     UIBarButtonItem *searchButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(clickSearch:)];
@@ -49,13 +61,11 @@
     [buttons addObject:moreButton];
     [buttons addObject:profileButton];
     
-    [tools setItems:buttons animated:NO];
+    [navToolBar setItems:buttons animated:NO];
     
-    UIBarButtonItem *myBtn = [[UIBarButtonItem alloc] initWithCustomView:tools];
+    UIBarButtonItem *myBtn = [[UIBarButtonItem alloc] initWithCustomView:navToolBar];
     rootController.navigationItem.rightBarButtonItem = myBtn;
-    
 }
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -113,6 +123,7 @@
                 controller = [[ZKHRegiserUserController alloc] init];
                 break;
             case 2://share
+                controller = [[ZKHShareController alloc] init];
                 break;
             default:
                 break;
@@ -123,6 +134,7 @@
                 controller = [[ZKHAddFriendController alloc] init];
                 break;
             case 1://share
+                controller = [[ZKHShareController alloc] init];
                 break;
             default:
                 break;
@@ -132,5 +144,11 @@
     if (controller != nil) {
         [self pushViewController:controller animated:YES];
     }
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self updateNavToolBarFrame];
 }
 @end

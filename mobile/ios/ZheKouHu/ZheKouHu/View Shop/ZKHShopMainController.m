@@ -67,13 +67,13 @@ static NSString *CellIdentifier = @"ShopModuleCell";
             [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
         }
         
-        currentShopIndex = indexPath.row;
-        ZKHShopEntity *shop = self.shops[currentShopIndex];
+        ZKHShopEntity *shop = self.shops[indexPath.row];
         cell.lb.text = shop.name;
         
         return cell;
     } setDidSelectRowBlock:^(UITableView *tableView,NSIndexPath *indexPath){
-        ZKHShopEntity *shop = self.shops[indexPath.row];
+        currentShopIndex = indexPath.row;
+        ZKHShopEntity *shop = self.shops[currentShopIndex];
         [self shopSelected:shop];
         [_openButton sendActionsForControlEvents:UIControlEventTouchUpInside];
     }];
@@ -125,10 +125,14 @@ static NSString *CellIdentifier = @"ShopModuleCell";
             
             break;
         case 1://确认
-            [ZKHContext getInstance].user = loginedUser;
-            [ZKHContext getInstance].shopLogined = false;
+        {
+            ZKHContext *context = [ZKHContext getInstance];
+            context.user = loginedUser;
+            context.shopLogined = false;
+            context.shouldRelogin = true;
             [self.navigationController popToRootViewControllerAnimated:YES];
             //[self.navigationController popViewControllerAnimated:YES];
+        }
             break;
         default:
             break;

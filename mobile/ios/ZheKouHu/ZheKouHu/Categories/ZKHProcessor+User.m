@@ -12,8 +12,6 @@
 #import "ZKHContext.h"
 #import "NSString+Utils.h"
 
-#define KET_SET_COOKIE @"Set-Cookie"
-
 @implementation ZKHProcessor (User)
 
 //登录
@@ -51,7 +49,6 @@
     [restClient execute:request completionHandler:^(NSHTTPURLResponse *response, id jsonObject) {
         NSString *cookieValue = [[response allHeaderFields] valueForKey:KET_SET_COOKIE];
         if (cookieValue != nil) {
-            //NSString *cookieVal = (NSString *)cookieValues[0];
             [ZKHContext getInstance].sessionId = cookieValue;
         }
         
@@ -68,6 +65,8 @@
                 
                 [authedObj setObject:user forKey:KEY_USER];
                 [authedObj setObject:@"true" forKey:KEY_AUTHED];
+                
+                [ZKHContext getInstance].shouldRelogin = false;
             }
                 break;
                 
