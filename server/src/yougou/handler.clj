@@ -137,6 +137,9 @@
 	(DELETE "/deleteFriend/:user-id/:friend-id" [user-id friend-id]
 			(json/write-str (del-friend user-id friend-id))
 	)
+  (DELETE "/deleteFriend/:uuid" [uuid]
+			(json/write-str (del-friend uuid))
+	)
 	(GET "/getFriends/:user-id" [user-id] (json/write-str (get-friends user-id))
 	)
 )

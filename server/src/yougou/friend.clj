@@ -27,6 +27,11 @@
    )
 )
 
+(defn del-friend [uuid]
+  (delete friends (where {:uuid uuid}))
+  {:uuid uuid}
+  )
+
 (defn get-friends [user-id]
 	(let [user-friends (select friends (fields :uuid :user_id :friend_id) (where {:user_id user-id}))]
 		(loop [friend-list user-friends

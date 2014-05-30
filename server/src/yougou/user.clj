@@ -56,17 +56,17 @@
 
 (defn search-user-exact [word]
 	(let [search-word (str word )]
-		(select users (fields :uuid :name :pwd :phone :photo) (where (or {:phone search-word} {:name search-word})) )
+		(select users (fields :uuid :name :pwd :phone :type :photo :register_time) (where (or {:phone search-word} {:name search-word})) )
 	)
 )
 
 (defn search-user [word]
 	(let [search-word (str "%" word "%")]
-		(select users (fields :uuid :phone :name :photo) (where (or {:phone [like search-word]} {:name [like search-word]})))
+		(select users (fields :uuid :phone :name :type :photo :register_time) (where (or {:phone [like search-word]} {:name [like search-word]})))
 	)
 )
 (defn get-user-without-pwd [user-id]
-	(if-let [user (first (select users (fields :uuid :name :phone :photo :register_time) (where {:uuid user-id})))]
+	(if-let [user (first (select users (fields :uuid :name :phone :photo :type :register_time) (where {:uuid user-id})))]
 		user
 		{}
 	)
