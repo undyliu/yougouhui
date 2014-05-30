@@ -230,11 +230,11 @@
 			)
 	)
 
-  (POST "/loginShop" {{user-id :user_id pwd :pwd} :params}
-       (json/write-str (login-shop user-id pwd))
+  (POST "/loginShop" request
+       (login-shop-req request)
    )
-  (POST "/loginShopByPhone" {{phone :phone pwd :pwd} :params}
-       (json/write-str (login-shop-by-phone phone pwd))
+  (POST "/loginShopByPhone" request
+       (login-shop-by-phone-req request)
    )
   (POST "/registerShop" {{name :name location :location address :address desc :desc shop-img :shop_img
                           busi-license :busi_license owner :owner pwd :pwd
