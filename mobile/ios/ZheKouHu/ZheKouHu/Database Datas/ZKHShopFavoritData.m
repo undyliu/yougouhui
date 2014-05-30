@@ -47,4 +47,18 @@
     return  [self query:SHOP_FAVORIT_QUERY_SQL params:@[userId]];
 }
 
+- (Boolean)isUserFavorie:(NSString *)userId shopId:(NSString *)shopId
+{
+    NSString *sql = [NSString stringWithFormat:@" select count(1) from %@ where shop_id = ? and user_id = ? ", SHOP_FAVORIT_TABLE];
+    NSArray *params = @[shopId, userId];
+    int count = [self queryCount:sql params:params];
+    return count > 0;
+}
+
+- (void)deleteFavorit:(NSString *)userId shopId:(NSString *)shopId
+{
+    NSString *sql = [NSString stringWithFormat:@" delete from %@ where shop_id = ? and user_id = ? ", SHOP_FAVORIT_TABLE];
+    NSArray *params = @[shopId, userId];
+    [self executeUpdate:sql params:params];
+}
 @end

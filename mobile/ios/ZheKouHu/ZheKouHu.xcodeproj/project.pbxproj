@@ -39,6 +39,7 @@
 		100B403D1932E8F100C51588 /* ZKHTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 100B403C1932E8F100C51588 /* ZKHTextField.m */; };
 		100B40421933051600C51588 /* ZKHChangePwdController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 100B40401933051600C51588 /* ZKHChangePwdController.xib */; };
 		100CD3DD192AE1B20074DF8E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 100CD3DC192AE1B20074DF8E /* libsqlite3.dylib */; };
+		101F673019380B1B00AE3C97 /* b_comment_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 101F672F19380B1B00AE3C97 /* b_comment_delete.png */; };
 		10272D8E192A1B3D00103815 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10272D8D192A1B3D00103815 /* CFNetwork.framework */; };
 		10272D90192A1B4D00103815 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10272D8F192A1B4D00103815 /* SystemConfiguration.framework */; };
 		10272D92192A1B5C00103815 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10272D91192A1B5C00103815 /* Security.framework */; };
@@ -247,6 +248,7 @@
 		100B40401933051600C51588 /* ZKHChangePwdController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHChangePwdController.xib; sourceTree = "<group>"; };
 		100CD3DB192ADC650074DF8E /* ZKHConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKHConst.h; sourceTree = "<group>"; };
 		100CD3DC192AE1B20074DF8E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		101F672F19380B1B00AE3C97 /* b_comment_delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = b_comment_delete.png; sourceTree = "<group>"; };
 		10272D8D192A1B3D00103815 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		10272D8F192A1B4D00103815 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		10272D91192A1B5C00103815 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -887,6 +889,7 @@
 		10E7E731192E233A00AE6083 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				101F672F19380B1B00AE3C97 /* b_comment_delete.png */,
 				10F273001936DF57007B2F9A /* arrow_down.png */,
 				10F273011936DF57007B2F9A /* arrow_up.png */,
 				1070AD081934844200AA1AE1 /* receptionist.png */,
@@ -1149,6 +1152,7 @@
 				10F273021936DF57007B2F9A /* arrow_down.png in Resources */,
 				10F273031936DF57007B2F9A /* arrow_up.png in Resources */,
 				10EDC53319372C51000D0094 /* ZKHSaleDiscussListCell.xib in Resources */,
+				101F673019380B1B00AE3C97 /* b_comment_delete.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

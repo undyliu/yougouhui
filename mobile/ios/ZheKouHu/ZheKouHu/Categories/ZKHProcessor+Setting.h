@@ -21,7 +21,6 @@ typedef void (^SettingResponseBlock)(ZKHSettingEntity* setting);
 
 - (void) radarSetting:(NSString *)userId withDefaultValue:(Boolean)withDefaultValue completionHandler:(SettingResponseBlock) settingBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
-typedef void (^SettingSaveResponseBlock)(Boolean result);
-- (void) saveSetting:(ZKHSettingEntity *)setting completionHandler:(SettingSaveResponseBlock) settingBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) saveSetting:(ZKHSettingEntity *)setting completionHandler:(BooleanResultResponseBlock) settingBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 @end

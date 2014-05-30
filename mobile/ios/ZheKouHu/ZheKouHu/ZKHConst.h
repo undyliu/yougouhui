@@ -75,6 +75,7 @@
 #define KEY_FIELD @"field"
 #define KEY_OLD_PWD @"old_pwd"
 #define KEY_SEARCH_WORD @"search-word"
+#define KEY_IS_DELETED @"is_deleted"
 
 #define VAL_TYPE_USER_APP @"1"
 #define VAL_TYPE_USER_ANONYMOUS @"2"

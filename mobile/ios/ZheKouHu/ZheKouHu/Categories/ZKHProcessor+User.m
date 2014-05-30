@@ -108,7 +108,7 @@
 
 //修改昵称
 #define UPDATE_USER_NAME_URL @"/updateUserName"
-- (void)changeUserName:(ZKHUserEntity *)user newName:(NSString *)newName completionHandler:(ChangeFieldResponseBlock)changeNameBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)changeUserName:(ZKHUserEntity *)user newName:(NSString *)newName completionHandler:(BooleanResultResponseBlock)changeNameBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     NSDictionary *params = @{KEY_UUID : user.uuid, KEY_NAME : newName};
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
@@ -130,7 +130,7 @@
 
 //修改密码
 #define UPDATE_USER_PWD_URL @"/updateUserPwd"
-- (void)changeUserPwd:(ZKHUserEntity *)user newPwd:(NSString *)newPwd completionHander:(ChangeFieldResponseBlock)changePwdBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)changeUserPwd:(ZKHUserEntity *)user newPwd:(NSString *)newPwd completionHander:(BooleanResultResponseBlock)changePwdBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = UPDATE_USER_PWD_URL;
@@ -157,7 +157,7 @@
 
 //修改头像
 #define UPDATE_USER_PHOTO_URL @"/saveUserPhoto"
-- (void)changeUserPhoto:(ZKHUserEntity *)user newPhoto:(ZKHFileEntity *)newPhoto completionHander:(ChangeFieldResponseBlock)changePhotoBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)changeUserPhoto:(ZKHUserEntity *)user newPhoto:(ZKHFileEntity *)newPhoto completionHander:(BooleanResultResponseBlock)changePhotoBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = UPDATE_USER_PHOTO_URL;
@@ -270,7 +270,7 @@
 
 //添加朋友
 #define ADD_FRIEND_URL @"/addFriend"
-- (void)addFriend:(ZKHUserEntity *)user uFriend:(ZKHUserEntity *)uFriend completionHander:(AddFriendResponseBlock)addFriendBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)addFriend:(ZKHUserEntity *)user uFriend:(ZKHUserEntity *)uFriend completionHander:(BooleanResultResponseBlock)addFriendBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = ADD_FRIEND_URL;
@@ -298,7 +298,7 @@
 
 //删除朋友
 #define DEL_FRIEND_URL @"/deleteFriend"
-- (void)deleteFriend:(NSString *)userId friendId:(NSString *)friendId completionHander:(DelFriendResponseBlock)delFriendBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)deleteFriend:(NSString *)userId friendId:(NSString *)friendId completionHander:(BooleanResultResponseBlock)delFriendBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = [NSString stringWithFormat:@"%@/%@/%@", DEL_FRIEND_URL, userId, friendId];

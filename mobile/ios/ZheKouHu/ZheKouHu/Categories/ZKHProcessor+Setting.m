@@ -97,7 +97,7 @@
     }];
 }
 
-- (void)saveSetting:(ZKHSettingEntity *)setting completionHandler:(SettingSaveResponseBlock)settingBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)saveSetting:(ZKHSettingEntity *)setting completionHandler:(BooleanResultResponseBlock)settingBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     @try {
         [[[ZKHSettingData alloc] init] save:@[setting]];

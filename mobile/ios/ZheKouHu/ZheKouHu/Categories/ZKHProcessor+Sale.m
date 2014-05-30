@@ -12,6 +12,38 @@
 
 @implementation ZKHProcessor (Sale)
 
+- (ZKHSaleEntity *) saleFormJsonObject:(id)json
+{
+    ZKHSaleEntity *sale = [[ZKHSaleEntity alloc] init];
+    
+    sale.uuid = [json valueForKey:KEY_UUID];
+    sale.title = [json valueForKey:KEY_TITLE];
+    sale.content = [json valueForKey:KEY_CONTENT];
+    sale.img = [json valueForKey:KEY_IMG];
+    sale.startDate = [json valueForKey:KEY_START_DATE];
+    sale.endDate = [json valueForKey:KEY_END_DATE];
+    sale.visitCount = [json valueForKey:KEY_VISIT_COUNT];
+    sale.discussCount = [json valueForKey:KEY_DIS_COUNT];
+    
+    ZKHShopEntity *shop = [[ZKHShopEntity alloc] init];
+    shop.uuid = [json valueForKey:KEY_SHOP_ID];
+    shop.name = [json valueForKey:KEY_SHOP_NAME];
+    shop.location = [[ZKHLocationEntity alloc] initWithString:[json valueForKey:KEY_LOCATION]];
+    sale.shop = shop;
+    
+    ZKHUserEntity *publisher = [[ZKHUserEntity alloc] init];
+    publisher.uuid = [json valueForKey:KEY_PUBLISHER];
+    sale.publisher = publisher;
+    
+    sale.tradeId = [json valueForKey:KEY_TRADE_ID];
+    sale.publishTime = [json valueForKey:KEY_PUBLISH_TIME];
+    sale.publishDate = [json valueForKey:KEY_PUBLISH_DATE];
+    sale.channelId = [json valueForKey:KEY_CHANNEL_ID];
+    sale.status = [json valueForKey:KEY_STATUS];
+    
+    return sale;
+}
+
 #define GET_SALES_BY_CHANNEL_URL @"/getSalesByChannel"
 - (void)salesForChannel:(NSString *)channelId updateTime:(ZKHSyncEntity *) syncEntity completionHandler:(SalesResponseBlock)salesBlock errorHandler:(MKNKErrorBlock)errorBlock
 {
@@ -35,32 +67,7 @@
             
             id saleJsons = [jsonObject valueForKey:KEY_DATA];
             for (id json in saleJsons) {
-                ZKHSaleEntity *sale = [[ZKHSaleEntity alloc] init];
-                sale.uuid = [json valueForKey:KEY_UUID];
-                sale.title = [json valueForKey:KEY_TITLE];
-                sale.content = [json valueForKey:KEY_CONTENT];
-                sale.img = [json valueForKey:KEY_IMG];
-                sale.startDate = [json valueForKey:KEY_START_DATE];
-                sale.endDate = [json valueForKey:KEY_END_DATE];
-                sale.visitCount = [json valueForKey:KEY_VISIT_COUNT];
-                sale.discussCount = [json valueForKey:KEY_DIS_COUNT];
-                
-                ZKHShopEntity *shop = [[ZKHShopEntity alloc] init];
-                shop.uuid = [json valueForKey:KEY_SHOP_ID];
-                shop.name = [json valueForKey:KEY_SHOP_NAME];
-                shop.location = [[ZKHLocationEntity alloc] initWithString:[json valueForKey:KEY_LOCATION]];
-                sale.shop = shop;
-                
-                ZKHUserEntity *publisher = [[ZKHUserEntity alloc] init];
-                publisher.uuid = [json valueForKey:KEY_PUBLISHER];
-                sale.publisher = publisher;
-                
-                sale.tradeId = [json valueForKey:KEY_TRADE_ID];
-                sale.publishTime = [json valueForKey:KEY_PUBLISH_TIME];
-                sale.publishDate = [json valueForKey:KEY_PUBLISH_DATE];
-                sale.channelId = [json valueForKey:KEY_CHANNEL_ID];
-                sale.status = [json valueForKey:KEY_STATUS];
-                
+                ZKHSaleEntity *sale = [self saleFormJsonObject:json];
                 [sales addObject:sale];
             }
             
@@ -114,7 +121,7 @@
                 [discusses addObject:dis];
             }
             
-            //[disData save:discusses];
+            [disData save:discusses];
             
             syncEntity.updateTime = updateTime;
             //[[[ZKHSyncData alloc] init] save:@[syncEntity]];
@@ -126,4 +133,31 @@
     }];
 }
 
+#define  GET_SALE_URL(__UUID__, __USER_ID__) [NSString stringWithFormat:@"/getSaleData/%@/%@", __UUID__, __USER_ID__]
+- (void)sale:(NSString *)uuid userId:(NSString *)userId completionHandler:(SaleResponseBlock)saleBlock errorHandler:(MKNKErrorBlock)errorBlock
+{
+    ZKHSaleData *saleData = [[ZKHSaleData alloc] init];
+    ZKHSaleEntity *sale = [saleData sale:uuid];
+    if (sale) {
+        saleBlock(sale);
+        return;
+    }
+    
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = GET_SALE_URL(uuid, userId);
+    request.method = METHOD_GET;
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        if (jsonObject) {
+            ZKHSaleEntity *sale = [self saleFormJsonObject:jsonObject];
+            [saleData save:@[sale]];
+            saleBlock(sale);
+        }else{
+            saleBlock(nil);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+    
+}
 @end

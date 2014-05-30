@@ -185,10 +185,9 @@
 					<object class="IBUITableView" id="258829689">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{0, 161}, {320, 344}}</string>
+						<string key="NSFrame">{{0, 161}, {320, 328}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -826,7 +825,7 @@
 						<int key="objectID">48</int>
 						<reference key="object" ref="258829689"/>
 						<array class="NSMutableArray" key="children">
-							<object class="IBNSLayoutConstraint" id="436805254">
+							<object class="IBNSLayoutConstraint" id="623425401">
 								<reference key="firstItem" ref="258829689"/>
 								<int key="firstAttribute">8</int>
 								<int key="relation">0</int>
@@ -834,7 +833,7 @@
 								<int key="secondAttribute">0</int>
 								<float key="multiplier">1</float>
 								<object class="IBLayoutConstant" key="constant">
-									<double key="value">344</double>
+									<double key="value">328</double>
 								</object>
 								<float key="priority">1000</float>
 								<reference key="containingView" ref="258829689"/>
@@ -896,11 +895,6 @@
 						<int key="objectID">522</int>
 						<reference key="object" ref="466000917"/>
 						<reference key="parent" ref="191373211"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">524</int>
-						<reference key="object" ref="436805254"/>
-						<reference key="parent" ref="258829689"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">532</int>
@@ -977,6 +971,11 @@
 						<reference key="object" ref="879185348"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">604</int>
+						<reference key="object" ref="623425401"/>
+						<reference key="parent" ref="258829689"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -1038,13 +1037,12 @@
 				<string key="48.CustomClassName">PullTableView</string>
 				<string key="48.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<array class="NSMutableArray" key="48.IBViewMetadataConstraints">
-					<reference ref="436805254"/>
+					<reference ref="623425401"/>
 				</array>
 				<boolean value="NO" key="48.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="514.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="515.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="522.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="524.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="532.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="535.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="539.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1062,6 +1060,7 @@
 				<string key="590.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="600.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="603.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="604.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="66.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<boolean value="NO" key="66.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 			</dictionary>
@@ -1069,7 +1068,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">603</int>
+			<int key="maxID">604</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1125,7 +1124,7 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="contentLabel">UILabel</string>
 						<string key="disImageView">UIImageView</string>
-						<string key="disTableView">UITableView</string>
+						<string key="disTableView">PullTableView</string>
 						<string key="discusslabel">UILabel</string>
 						<string key="saleImageView">UIImageView</string>
 						<string key="shopLabel">UILabel</string>
@@ -1144,7 +1143,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="disTableView">
 							<string key="name">disTableView</string>
-							<string key="candidateClassName">UITableView</string>
+							<string key="candidateClassName">PullTableView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="discusslabel">
 							<string key="name">discusslabel</string>

@@ -178,5 +178,37 @@
     //子类处理
     return nil;
 }
+
+- (int)queryCount:(NSString *)sql params:(NSArray *)params
+{
+    int count = 0;
+    NSLog(@"sql : %@", sql);
+    sqlite3 *database = nil;
+    @try {
+        database = [self openDatabase];
+        sqlite3_stmt *stmt;
+        
+        @try {
+            stmt = [self prepareStatement:sql params:params database:database];
+            if (sqlite3_step(stmt) == SQLITE_ROW) {
+                count = sqlite3_column_int(stmt, 0);
+            }
+        }
+        @catch (NSException *exception) {
+            @throw exception;
+        }
+        @finally {
+            sqlite3_finalize(stmt);
+        }
+        return count;
+    }
+    @catch (NSException *exception) {
+        @throw exception;
+    }
+    @finally {
+        [self closeDatabase:database];
+    }
+}
+
 @end
 

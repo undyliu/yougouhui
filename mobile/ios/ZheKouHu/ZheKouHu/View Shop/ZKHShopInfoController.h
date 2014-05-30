@@ -13,9 +13,18 @@
 #import "ZKHChangeImgController.h"
 
 @interface ZKHShopInfoController : UITableViewController
+{
+    UIBarButtonItem *shareItem;
+    UIBarButtonItem *favoritItem;
+    UIBarButtonItem *cancelFavoritItem;
+}
 
 @property (strong, nonatomic) ZKHShopEntity *shop;
 @property (nonatomic) Boolean readonly;
+
+- (IBAction)favoritClick:(id)sender;
+- (IBAction)cancelFavoritClick:(id)sender;
+- (IBAction)shareClick:(id)sender;
 
 @end
 
@@ -33,4 +42,5 @@
 
 @interface ZKHChangeBusiLicenseController :  ZKHChangeImgController
 @property (strong, nonatomic) ZKHShopEntity *shop;
+
 @end

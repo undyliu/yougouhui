@@ -17,9 +17,15 @@
 
 - (void)save:(NSArray *)data
 {
-    for (ZKHSaleDiscussEntity *dis in data) {
-        [self executeUpdate:SALE_DISC_UPDATE_SQL params:@[dis.uuid, dis.saleId, dis.content, dis.publisher.uuid, dis.publishTime]];
+    if ([data count] > 0) {
+        ZKHUserData *userData = [[ZKHUserData alloc] init];
+        for (ZKHSaleDiscussEntity *dis in data) {
+            ZKHUserEntity *publisher = dis.publisher;
+            [self executeUpdate:SALE_DISC_UPDATE_SQL params:@[dis.uuid, dis.saleId, dis.content, publisher.uuid, dis.publishTime]];
+            [userData saveNoPwd:@[publisher]];
+        }
     }
+    
 }
 
 - (id)processRow:(sqlite3_stmt *)stmt
@@ -48,7 +54,7 @@
 
 - (NSMutableArray *)discussesForSale:(NSString *)saleId
 {
-    NSString *sql = @" select uuid, sale_id, content, publish_time, publisher, u.name as user_name, u.phone, u.photo from e_sale_discuss s join e_user u where e.publisher = u.uuid and s.sale_id = ? ";
+    NSString *sql = @" select s.uuid, sale_id, content, publish_time, publisher, u.name as user_name, u.phone, u.photo from e_sale_discuss s join e_user u where s.publisher = u.uuid and s.sale_id = ? ";
     NSArray *params = @[saleId];
     
     return [self query:sql params:params];

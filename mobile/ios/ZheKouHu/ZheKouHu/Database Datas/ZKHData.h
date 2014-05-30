@@ -28,6 +28,7 @@
 - (NSMutableArray *) query: (NSString *) sql params:(NSArray *) params;
 - (id) queryOne: (NSString *) sql params:(NSArray *) params;
 - (id) processRow:(sqlite3_stmt *)stmt;
+- (int)queryCount:(NSString *)sql params:(NSArray *)params;
 
 @end
 
@@ -72,6 +73,7 @@
 #define SALE_TABLE @"e_sale"
 @interface ZKHSaleData : ZKHData<ZKHEntityUpdater>
 - (NSMutableArray *) salesForChannel:(NSString *)channelId;
+- (ZKHSaleEntity *) sale:(NSString *)uuid;
 @end
 
 #define SALE_DISC_TABLE @"e_sale_discuss"
@@ -95,8 +97,12 @@
 
 @interface ZKHSaleFavoritData : ZKHData<ZKHEntityUpdater>
 - (NSMutableArray *) saleFavorits:(NSString *)userId;
+- (Boolean) isUserFavorie:(NSString *)userId saleId:(NSString *)saleId;
+- (void) deleteFavorit:(NSString *)userId saleId:(NSString *)saleId;
 @end
 
 @interface ZKHShopFavoritData : ZKHData<ZKHEntityUpdater>
 - (NSMutableArray *) shopFavorits:(NSString *)userId;
+- (Boolean) isUserFavorie:(NSString *)userId shopId:(NSString *)shopId;
+- (void) deleteFavorit:(NSString *)userId shopId:(NSString *)shopId;
 @end

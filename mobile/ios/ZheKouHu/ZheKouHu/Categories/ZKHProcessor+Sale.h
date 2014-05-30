@@ -16,4 +16,7 @@ typedef void (^SalesResponseBlock)(NSMutableArray* sales);
 
 - (void) discussesForSale: (NSString *) saleId updateTime:(ZKHSyncEntity *) syncEntity completionHandler:(SalesResponseBlock) saleDiscussesBlock errorHandler:(MKNKErrorBlock) errorBlock;
 
+typedef void (^SaleResponseBlock)(ZKHSaleEntity* sale);
+- (void) sale: (NSString *) uuid userId:(NSString *)userId completionHandler:(SaleResponseBlock) saleBlock errorHandler:(MKNKErrorBlock) errorBlock;
+
 @end

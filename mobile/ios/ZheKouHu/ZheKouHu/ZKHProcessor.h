@@ -32,6 +32,6 @@ typedef void (^TradesResponseBlock)(NSMutableArray* trades);
 - (void) trades:(Boolean)reload completionHandler:(TradesResponseBlock) tradesBlock
      errorHandler:(RestResponseErrorBlock) errorBlock;
 
-typedef void (^ChangeFieldResponseBlock)(Boolean result);
+typedef void (^BooleanResultResponseBlock)(Boolean result);
 
 @end

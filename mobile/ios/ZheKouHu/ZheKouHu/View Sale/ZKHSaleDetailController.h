@@ -13,6 +13,9 @@
 @interface ZKHSaleDetailController : UIViewController
 {
     ZKHSaleDiscussListController *discussListController;
+    UIBarButtonItem *shareItem;
+    UIBarButtonItem *favoritItem;
+    UIBarButtonItem *cancelFavoritItem;
 }
 
 @property (strong, nonatomic) ZKHSaleEntity *sale;
@@ -31,5 +34,8 @@
 - (IBAction)shopLabelClick:(id)sender;
 - (IBAction)discussLabelClick:(id)sender;
 - (IBAction)imagePreview:(id)sender;
+- (IBAction)favoritClick:(id)sender;
+- (IBAction)cancelFavoritClick:(id)sender;
+- (IBAction)shareClick:(id)sender;
 
 @end

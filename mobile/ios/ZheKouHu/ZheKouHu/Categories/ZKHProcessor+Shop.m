@@ -74,7 +74,7 @@
 
 //修改商铺简介
 #define UPDATE_SHOP_URL @"/updateShop"
-- (void)changeShopDesc:(NSString *)uuid newDesc:(NSString *)newDesc completionHandler:(ChangeFieldResponseBlock)changeDescBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)changeShopDesc:(NSString *)uuid newDesc:(NSString *)newDesc completionHandler:(BooleanResultResponseBlock)changeDescBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.method = METHOD_POST;
@@ -93,7 +93,7 @@
     }];
 }
 
--(void)changeShopName:(NSString *)uuid newName:(NSString *)newName completionHandler:(ChangeFieldResponseBlock)changeNameBlock errorHandler:(RestResponseErrorBlock)errorBlock
+-(void)changeShopName:(NSString *)uuid newName:(NSString *)newName completionHandler:(BooleanResultResponseBlock)changeNameBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.method = METHOD_POST;
@@ -154,7 +154,7 @@
 }
 
 #define UPDATE_SHOP_EMP_PWD_URL @"/updateShopEmpPwd"
-- (void)changeShopEmpPwd:(NSString *)uuid userId:(NSString *)userId oldPwd:(NSString *)oldPwd newPwd:(NSString *)newPwd completionHandler:(ChangeFieldResponseBlock)changeShopEmpPwdBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)changeShopEmpPwd:(NSString *)uuid userId:(NSString *)userId oldPwd:(NSString *)oldPwd newPwd:(NSString *)newPwd completionHandler:(BooleanResultResponseBlock)changeShopEmpPwdBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.method = METHOD_PUT;
@@ -173,7 +173,7 @@
     }];
 }
 
-- (void)changeShopImage:(NSString *)uuid shopImage:(ZKHFileEntity *)shopImage completionHandler:(ChangeFieldResponseBlock)changeShopImageBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)changeShopImage:(NSString *)uuid shopImage:(ZKHFileEntity *)shopImage completionHandler:(BooleanResultResponseBlock)changeShopImageBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.method = METHOD_POST;
@@ -194,7 +194,7 @@
 
 }
 
-- (void)changeBusiLicense:(NSString *)uuid busiLicense:(ZKHFileEntity *)busiLicense completionHandler:(ChangeFieldResponseBlock)changeBusiLicenseBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)changeBusiLicense:(NSString *)uuid busiLicense:(ZKHFileEntity *)busiLicense completionHandler:(BooleanResultResponseBlock)changeBusiLicenseBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.method = METHOD_POST;
@@ -240,7 +240,7 @@
 }
 
 #define  CHECK_SHOP_EMP_URL(__SHOP_ID__,__USER_ID__) [NSString stringWithFormat:@"/checkShopEmp/%@/%@", __SHOP_ID__, __USER_ID__]
-- (void)checkShopEmp:(NSString *)shopId userId:(NSString *)userId completionHandler:(ChangeFieldResponseBlock)checkShopEmpBlock errorHandler:(MKNKErrorBlock)errorBlock
+- (void)checkShopEmp:(NSString *)shopId userId:(NSString *)userId completionHandler:(BooleanResultResponseBlock)checkShopEmpBlock errorHandler:(MKNKErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.method = METHOD_GET;

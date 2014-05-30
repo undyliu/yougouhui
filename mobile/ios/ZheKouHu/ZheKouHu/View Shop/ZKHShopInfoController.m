@@ -13,6 +13,7 @@
 #import "ZKHChangeShopTradesController.h"
 #import "ZKHAppDelegate.h"
 #import "ZKHProcessor+Shop.h"
+#import "ZKHProcessor+Favorit.h"
 #import "NSDate+Utils.h"
 #import "ZKHContext.h"
 #import "ZKHViewUtils.h"
@@ -49,6 +50,60 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     } errorHandler:^(NSError *error) {
         
     }];
+    
+    shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(shareClick:)];
+    favoritItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(favoritClick:)];
+    cancelFavoritItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(cancelFavoritClick:)];
+    
+    [ApplicationDelegate.zkhProcessor isShopFavorit:[ZKHContext getInstance].user.uuid shopId:self.shop.uuid completionHandler:^(Boolean result) {
+        if (result) {
+            [self updateNavigationItem:@[shareItem, cancelFavoritItem]];
+        }else{
+            [self updateNavigationItem:@[shareItem, favoritItem]];
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
+
+- (void) updateNavigationItem:(NSArray *)items
+{
+    CGFloat height = self.navigationController.navigationBar.frame.size.height + 1;
+    UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 80, height)];
+    [tools setTintColor:[self.navigationController.navigationBar tintColor]];
+    [tools setAlpha:[self.navigationController.navigationBar alpha]];
+    
+    [tools setItems:items animated:NO];
+    
+    UIBarButtonItem *myBtn = [[UIBarButtonItem alloc] initWithCustomView:tools];
+    self.navigationItem.rightBarButtonItem = myBtn;
+}
+
+- (void)favoritClick:(id)sender
+{
+    [ApplicationDelegate.zkhProcessor setShopFavorit:[ZKHContext getInstance].user.uuid shop:self.shop completionHandler:^(Boolean result) {
+        if (result) {
+            [self updateNavigationItem:@[shareItem, cancelFavoritItem]];
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
+
+- (void)cancelFavoritClick:(id)sender
+{
+    [ApplicationDelegate.zkhProcessor delShopFavorit:[ZKHContext getInstance].user.uuid shopId:self.shop.uuid completionHandler:^(Boolean result) {
+        if (result) {
+            [self updateNavigationItem:@[shareItem, favoritItem]];
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
+
+- (void)shareClick:(id)sender
+{
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated

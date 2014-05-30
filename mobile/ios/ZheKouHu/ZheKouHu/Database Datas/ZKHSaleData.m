@@ -77,4 +77,12 @@
     return  [self query:sql params:params];
 }
 
+- (ZKHSaleEntity *)sale:(NSString *)uuid
+{
+    NSMutableString *sql = [[NSMutableString alloc] initWithString:SALE_BASE_QUERY_SQL];
+    [sql appendString:@" where uuid = ? "];
+    NSArray *params = @[uuid];
+    return  [self queryOne:sql params:params];
+}
+
 @end

@@ -13,10 +13,12 @@
 #import "ZKHProcessor+Shop.h"
 #import "ZKHProcessor+Sale.h"
 #import "ZKHProcessor+Sync.h"
+#import "ZKHProcessor+Favorit.h"
 #import "NSDate+Utils.h"
 #import "ZKHImagePreviewController.h"
 #import "ZKHData.h"
 #import "ZKHViewUtils.h"
+#import "ZKHContext.h"
 
 @implementation ZKHSaleDetailController
 
@@ -74,6 +76,33 @@
     [self.discusslabel addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(discussLabelClick:)]];
     self.disImageView.userInteractionEnabled = true;
     [self.disImageView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(discussLabelClick:)]];
+    
+    shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(shareClick:)];
+    favoritItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(favoritClick:)];
+    cancelFavoritItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(cancelFavoritClick:)];
+    
+    [ApplicationDelegate.zkhProcessor isSaleFavorit:[ZKHContext getInstance].user.uuid saleId:self.sale.uuid completionHandler:^(Boolean result) {
+        if (result) {
+            [self updateNavigationItem:@[shareItem, cancelFavoritItem]];
+        }else{
+            [self updateNavigationItem:@[shareItem, favoritItem]];
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
+
+- (void) updateNavigationItem:(NSArray *)items
+{
+    CGFloat height = self.navigationController.navigationBar.frame.size.height + 1;
+    UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 80, height)];
+    [tools setTintColor:[self.navigationController.navigationBar tintColor]];
+    [tools setAlpha:[self.navigationController.navigationBar alpha]];
+    
+    [tools setItems:items animated:NO];
+    
+    UIBarButtonItem *myBtn = [[UIBarButtonItem alloc] initWithCustomView:tools];
+    self.navigationItem.rightBarButtonItem = myBtn;
 }
 
 - (void)didReceiveMemoryWarning
@@ -131,6 +160,33 @@
     ZKHImagePreviewController *controller = [[ZKHImagePreviewController alloc] init];
     controller.image = self.saleImageView.image;
     [self.navigationController pushViewController:controller animated:YES];
+}
+
+- (void)favoritClick:(id)sender
+{
+    [ApplicationDelegate.zkhProcessor setSaleFavorit:[ZKHContext getInstance].user.uuid sale:self.sale completionHandler:^(Boolean result) {
+        if (result) {
+            [self updateNavigationItem:@[shareItem, cancelFavoritItem]];
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
+
+- (void)cancelFavoritClick:(id)sender
+{
+    [ApplicationDelegate.zkhProcessor delSaleFavorit:[ZKHContext getInstance].user.uuid saleId:self.sale.uuid completionHandler:^(Boolean result) {
+        if (result) {
+            [self updateNavigationItem:@[shareItem, favoritItem]];
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
+
+- (void)shareClick:(id)sender
+{
+    
 }
 
 @end

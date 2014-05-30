@@ -9,6 +9,7 @@
 #import "ZKHProcessor+Favorit.h"
 #import "ZKHData.h"
 #import "ZKHConst.h"
+#import "NSString+Utils.h"
 
 @implementation ZKHProcessor (Favorit)
 
@@ -81,6 +82,148 @@
         errorBlock(error);
     }];
 
+}
+
+- (void)isShopFavorit:(NSString *)userId shopId:(NSString *)shopId completionHandler:(BooleanResultResponseBlock)favoritBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHShopFavoritData *favoritData = [[ZKHShopFavoritData alloc] init];
+    Boolean result = [favoritData isUserFavorie:userId shopId:shopId];
+    if (result) {
+        favoritBlock(result);
+        return;
+    }
+    
+    [self shopFavorits:userId completionHandler:^(NSMutableArray *favorits) {
+        if ([favorits count] > 0) {
+            favoritBlock([favoritData isUserFavorie:userId shopId:shopId]);
+        }else{
+            favoritBlock(false);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+- (void)isSaleFavorit:(NSString *)userId saleId:(NSString *)saleId completionHandler:(BooleanResultResponseBlock)favoritBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHSaleFavoritData *favoritData = [[ZKHSaleFavoritData alloc] init];
+    Boolean result = [favoritData isUserFavorie:userId saleId:saleId];
+    if (result) {
+        favoritBlock(result);
+        return;
+    }
+    
+    [self saleFavorits:userId completionHandler:^(NSMutableArray *favorits) {
+        if ([favorits count] > 0) {
+            favoritBlock([favoritData isUserFavorie:userId saleId:saleId]);
+        }else{
+            favoritBlock(false);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+#define ADD_SHOP_FAVORIT @"addShopFavorit"
+- (void)setShopFavorit:(NSString *)userId shop:(ZKHShopEntity *)shop completionHandler:(BooleanResultResponseBlock)favoritBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = ADD_SHOP_FAVORIT;
+    request.method = METHOD_POST;
+    request.params = @{KEY_SHOP_ID: shop.uuid, KEY_USER_ID: userId};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *uuid = [jsonObject valueForKey:KEY_UUID];
+        if ([uuid isNull]) {
+            favoritBlock(false);
+        }else{
+            ZKHFavoritEntity *favorit = [[ZKHFavoritEntity alloc] init];
+            favorit.uuid = uuid;
+            favorit.code = shop.uuid;
+            favorit.title = shop.name;
+            favorit.image = shop.shopImg;
+            favorit.userId = userId;
+            favorit.lastModifyTime = [jsonObject valueForKey:KEY_LAST_MODIFY_TIME];
+            
+            [[[ZKHShopFavoritData alloc] init] save:@[favorit]];
+            
+            favoritBlock(true);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+
+}
+
+//收藏
+#define ADD_SALE_FAVORIT @"addSaleFavorit"
+- (void)setSaleFavorit:(NSString *)userId sale:(ZKHSaleEntity *)sale completionHandler:(BooleanResultResponseBlock)favoritBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = ADD_SALE_FAVORIT;
+    request.method = METHOD_POST;
+    request.params = @{KEY_SALE_ID: sale.uuid, KEY_USER_ID: userId};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *uuid = [jsonObject valueForKey:KEY_UUID];
+        if ([uuid isNull]) {
+            favoritBlock(false);
+        }else{
+            ZKHFavoritEntity *favorit = [[ZKHFavoritEntity alloc] init];
+            favorit.uuid = uuid;
+            favorit.code = sale.uuid;
+            favorit.title = sale.title;
+            favorit.image = sale.img;
+            favorit.userId = userId;
+            favorit.lastModifyTime = [jsonObject valueForKey:KEY_LAST_MODIFY_TIME];
+            
+            [[[ZKHSaleFavoritData alloc] init] save:@[favorit]];
+            
+            favoritBlock(true);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+#define  DEL_SHOP_FAVORIT_URL(__USER_ID__, __SHOP_ID__) [NSString stringWithFormat:@"/deleteShopFavorit/%@/%@", __USER_ID__, __SHOP_ID__]
+- (void)delShopFavorit:(NSString *)userId shopId:(NSString *)shopId completionHandler:(BooleanResultResponseBlock)favoritBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = DEL_SHOP_FAVORIT_URL(userId, shopId);
+    request.method = METHOD_DELETE;
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *deleted = jsonObject[KEY_IS_DELETED];
+        if ([deleted isNull]) {
+            favoritBlock(false);
+        }else{
+            [[[ZKHShopFavoritData alloc] init] deleteFavorit:userId shopId:shopId];
+            favoritBlock(true);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+#define  DEL_SALE_FAVORIT_URL(__USER_ID__, __SALE_ID__) [NSString stringWithFormat:@"/deleteSaleFavorit/%@/%@", __USER_ID__, __SALE_ID__]
+- (void)delSaleFavorit:(NSString *)userId saleId:(NSString *)saleId completionHandler:(BooleanResultResponseBlock)favoritBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = DEL_SALE_FAVORIT_URL(userId, saleId);
+    request.method = METHOD_DELETE;
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *deleted = jsonObject[KEY_IS_DELETED];
+        if ([deleted isNull]) {
+            favoritBlock(false);
+        }else{
+            [[[ZKHSaleFavoritData alloc] init] deleteFavorit:userId saleId:saleId];
+            favoritBlock(true);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
 }
 
 @end

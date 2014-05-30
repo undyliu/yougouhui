@@ -8,11 +8,13 @@
 
 #import "ZKHSaleFavoritListController.h"
 #import "ZKHProcessor+Favorit.h"
+#import "ZKHProcessor+Sale.h"
 #import "ZKHAppDelegate.h"
 #import "ZKHContext.h"
 #import "ZKHEntity.h"
 #import "ZKHImageLoader.h"
 #import "ZKHFavoritListCell.h"
+#import "ZKHSaleDetailController.h"
 
 static NSString *CellIdentifier = @"FavoritListCell";
 @implementation ZKHSaleFavoritListController
@@ -75,7 +77,16 @@ static NSString *CellIdentifier = @"FavoritListCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    ZKHFavoritEntity *favorit = self.saleFavorits[indexPath.row];
+    [ApplicationDelegate.zkhProcessor sale:favorit.code userId:[ZKHContext getInstance].user.uuid completionHandler:^(ZKHSaleEntity *sale) {
+        if (sale) {
+            ZKHSaleDetailController *controller = [[ZKHSaleDetailController alloc] init];
+            controller.sale = sale;
+            [self.navigationController pushViewController:controller animated:YES];
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

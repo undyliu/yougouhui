@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ZKHSaleDiscussListCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *contentLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *delelteImageView;
 
 @end

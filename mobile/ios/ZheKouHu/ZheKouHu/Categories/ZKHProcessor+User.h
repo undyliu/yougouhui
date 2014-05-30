@@ -20,9 +20,9 @@ typedef void (^LoginResponseBlock)(NSMutableDictionary *authObj);
 - (NSMutableDictionary *) getLastLoginEnv;
 - (void) deleteLoginEnv: (NSString *)phone;
 
-- (void) changeUserName:(ZKHUserEntity *)user newName:(NSString *)newName completionHandler:(ChangeFieldResponseBlock) changeNameBlock errorHandler:(RestResponseErrorBlock) errorBlock;
-- (void) changeUserPwd:(ZKHUserEntity *)user newPwd:(NSString *)newPwd completionHander:(ChangeFieldResponseBlock) changePwdBlock errorHandler:(RestResponseErrorBlock) errorBlock;
-- (void) changeUserPhoto:(ZKHUserEntity *)user newPhoto:(ZKHFileEntity *)newPhoto completionHander:(ChangeFieldResponseBlock) changePhotoBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) changeUserName:(ZKHUserEntity *)user newName:(NSString *)newName completionHandler:(BooleanResultResponseBlock) changeNameBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) changeUserPwd:(ZKHUserEntity *)user newPwd:(NSString *)newPwd completionHander:(BooleanResultResponseBlock) changePwdBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) changeUserPhoto:(ZKHUserEntity *)user newPhoto:(ZKHFileEntity *)newPhoto completionHander:(BooleanResultResponseBlock) changePhotoBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 typedef void (^RegisterUserResponseBlock)(ZKHUserEntity *user);
 - (void) registerUser:(ZKHUserEntity *)user completionHandler:(RegisterUserResponseBlock) resgisterUserBlock errorHandler:(RestResponseErrorBlock) errorBlock;
@@ -32,10 +32,8 @@ typedef void (^FriendsResponseBlock)(NSMutableArray *friends);
 
 - (void) searchUsers:(NSString *) searchWord completionHandler:(FriendsResponseBlock) friendsBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
-typedef void (^AddFriendResponseBlock)(Boolean result);
-- (void) addFriend:(ZKHUserEntity *)user uFriend:(ZKHUserEntity *)uFriend completionHander:(AddFriendResponseBlock) addFriendBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) addFriend:(ZKHUserEntity *)user uFriend:(ZKHUserEntity *)uFriend completionHander:(BooleanResultResponseBlock) addFriendBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
-typedef void (^DelFriendResponseBlock)(Boolean result);
-- (void) deleteFriend:(NSString *)userId friendId:(NSString *)friendId completionHander:(DelFriendResponseBlock) delFriendBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) deleteFriend:(NSString *)userId friendId:(NSString *)friendId completionHander:(BooleanResultResponseBlock) delFriendBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 @end

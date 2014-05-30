@@ -9,6 +9,7 @@
 #import "ZKHSaleDiscussListController.h"
 #import "ZKHSaleDiscussListCell.h"
 #import "ZKHEntity.h"
+#import "ZKHContext.h"
 
 static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
 
@@ -50,8 +51,14 @@ static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
     ZKHSaleDiscussListCell *cell = [tableView dequeueReusableCellWithIdentifier:SaleDiscussCellIdentifier forIndexPath:indexPath];
     
     ZKHSaleDiscussEntity *dis = self.discusses[indexPath.row];
-    cell.textLabel.text = dis.content;
-    
+    ZKHUserEntity *publisher = dis.publisher;
+    NSString *content = [NSString stringWithFormat:@"%@ 回复:%@", publisher.name, dis.content];
+    cell.contentLabel.text = content;
+    if ([publisher isEqual:[ZKHContext getInstance].user]) {
+        cell.delelteImageView.hidden = false;
+    }else{
+        cell.delelteImageView.hidden = true;
+    }
     return cell;
 }
 
