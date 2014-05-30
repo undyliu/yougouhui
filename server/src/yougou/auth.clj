@@ -32,6 +32,7 @@
   )
 
 (defn login [request]
+  ;(println request)
   (let [{{phone :phone, password :pwd} :params} request
         user (get-user phone)
         no-error (and (:uuid user) (password-is-valid? password (:pwd user)))]

@@ -117,6 +117,7 @@
    )
   )
 
+
 (defn login-shop [user-id pwd]
   (let [shop-ids (select shops (fields :uuid)
                           (join shop-emps (= :e_shop_emp.shop_id :uuid))
@@ -144,6 +145,45 @@
   (if-let [user-id (user/get-user-id-by-phone phone)]
     (login-shop user-id pwd)
     {:authed false :error-type :user-error}
+    )
+  )
+
+(defn login-shop-req [request]
+  (let [{{user-id :user_id, pwd :pwd} :params} request
+        result (login-shop user-id pwd)
+        user (:user result)
+        ]
+    (if user
+      {
+        :status 200
+        :session (assoc (request :session) :user user)
+        :body (json/write-str result)
+      }
+      {
+         :status 200
+         :body (json/write-str result)
+       }
+      )
+    )
+  )
+
+(defn login-shop-by-phone-req [request]
+  ;(println request)
+  (let [{{phone :phone, pwd :pwd} :params} request
+        result (login-shop-by-phone phone pwd)
+        user (:user result)
+        ]
+    (if user
+      {
+        :status 200
+        :session (assoc (request :session) :user user)
+        :body (json/write-str result)
+      }
+      {
+         :status 200
+         :body (json/write-str result)
+       }
+      )
     )
   )
 
