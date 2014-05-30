@@ -43,6 +43,7 @@
 		101F673419385E9700AE3C97 /* ZKHFreindShareListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 101F673319385E9700AE3C97 /* ZKHFreindShareListController.m */; };
 		101F673819385EB300AE3C97 /* ZKHShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 101F673619385EB300AE3C97 /* ZKHShareController.m */; };
 		101F673919385EB300AE3C97 /* ZKHShareController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 101F673719385EB300AE3C97 /* ZKHShareController.xib */; };
+		101F673C19387BAC00AE3C97 /* ZKHTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 101F673B19387BAC00AE3C97 /* ZKHTextView.m */; };
 		10272D8E192A1B3D00103815 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10272D8D192A1B3D00103815 /* CFNetwork.framework */; };
 		10272D90192A1B4D00103815 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10272D8F192A1B4D00103815 /* SystemConfiguration.framework */; };
 		10272D92192A1B5C00103815 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10272D91192A1B5C00103815 /* Security.framework */; };
@@ -257,6 +258,8 @@
 		101F673519385EB300AE3C97 /* ZKHShareController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHShareController.h; sourceTree = "<group>"; };
 		101F673619385EB300AE3C97 /* ZKHShareController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShareController.m; sourceTree = "<group>"; };
 		101F673719385EB300AE3C97 /* ZKHShareController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHShareController.xib; sourceTree = "<group>"; };
+		101F673A19387BAC00AE3C97 /* ZKHTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHTextView.h; sourceTree = "<group>"; };
+		101F673B19387BAC00AE3C97 /* ZKHTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHTextView.m; sourceTree = "<group>"; };
 		10272D8D192A1B3D00103815 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		10272D8F192A1B4D00103815 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		10272D91192A1B5C00103815 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -842,6 +845,8 @@
 				100243BC1935EF8B00A5047F /* ZKHPullRefreshTableViewController.h */,
 				100243BD1935EF8B00A5047F /* ZKHPullRefreshTableViewController.m */,
 				100243BE1935EF8B00A5047F /* ZKHPullRefreshTableViewController.xib */,
+				101F673A19387BAC00AE3C97 /* ZKHTextView.h */,
+				101F673B19387BAC00AE3C97 /* ZKHTextView.m */,
 			);
 			path = "View Widgets";
 			sourceTree = "<group>";
@@ -1284,6 +1289,7 @@
 				10EDC53119372C3E000D0094 /* ZKHSaleDiscussListCell.m in Sources */,
 				101F673419385E9700AE3C97 /* ZKHFreindShareListController.m in Sources */,
 				101F673819385EB300AE3C97 /* ZKHShareController.m in Sources */,
+				101F673C19387BAC00AE3C97 /* ZKHTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

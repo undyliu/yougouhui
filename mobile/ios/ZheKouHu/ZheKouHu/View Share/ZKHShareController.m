@@ -8,9 +8,7 @@
 
 #import "ZKHShareController.h"
 
-@interface ZKHShareController ()
-
-@end
+#define STRING_SHARE_CONTENT_DEFAULT @"请分享下本次购物的体验吧"
 
 @implementation ZKHShareController
 
@@ -28,6 +26,8 @@
     [super viewDidLoad];
     
     self.title = @"晒单";
+    
+    self.contentField.placeholder = STRING_SHARE_CONTENT_DEFAULT;
     
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save:)];
     self.navigationItem.rightBarButtonItem = saveButton;
