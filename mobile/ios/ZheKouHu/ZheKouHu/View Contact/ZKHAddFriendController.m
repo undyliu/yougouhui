@@ -112,7 +112,7 @@ static NSString *CellIdentifier = @"AddFriendResultCell";
     cell.cellNameLabel.text = user.name;
     
     ZKHFileEntity *photo = user.photo;
-    if (photo == nil || [photo.aliasName isNull]) {
+    if (photo == nil || [NSString isNull:photo.aliasName]) {
         cell.cellImageView.image = [UIImage imageNamed:@"default_user_photo.png"];
     }else{
         [ZKHImageLoader showImageForName:photo.aliasName imageView:cell.cellImageView];

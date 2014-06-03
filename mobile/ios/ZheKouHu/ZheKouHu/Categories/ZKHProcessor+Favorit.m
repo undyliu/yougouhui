@@ -134,7 +134,7 @@
     
     [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
         NSString *uuid = [jsonObject valueForKey:KEY_UUID];
-        if ([uuid isNull]) {
+        if ([NSString isNull:uuid]) {
             favoritBlock(false);
         }else{
             ZKHFavoritEntity *favorit = [[ZKHFavoritEntity alloc] init];
@@ -166,7 +166,7 @@
     
     [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
         NSString *uuid = [jsonObject valueForKey:KEY_UUID];
-        if ([uuid isNull]) {
+        if ([NSString isNull:uuid]) {
             favoritBlock(false);
         }else{
             ZKHFavoritEntity *favorit = [[ZKHFavoritEntity alloc] init];
@@ -195,7 +195,7 @@
     
     [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
         NSString *deleted = jsonObject[KEY_IS_DELETED];
-        if ([deleted isNull]) {
+        if ([NSString isNull:deleted]) {
             favoritBlock(false);
         }else{
             [[[ZKHShopFavoritData alloc] init] deleteFavorit:userId shopId:shopId];
@@ -215,7 +215,7 @@
     
     [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
         NSString *deleted = jsonObject[KEY_IS_DELETED];
-        if ([deleted isNull]) {
+        if ([NSString isNull:deleted]) {
             favoritBlock(false);
         }else{
             [[[ZKHSaleFavoritData alloc] init] deleteFavorit:userId saleId:saleId];

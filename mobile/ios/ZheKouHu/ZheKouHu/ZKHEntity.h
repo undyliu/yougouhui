@@ -53,7 +53,7 @@
 @end
 
 //用户的朋友对象，依附于用户，进行包含有朋友对象
-@interface ZKHUserFriendsEntity : ZKHEntity
+@interface ZKHUserFriendsEntity : ZKHEntity<NSCopying>
 @property (strong, nonatomic) ZKHUserEntity *friend;
 @end
 

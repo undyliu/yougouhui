@@ -68,7 +68,7 @@ static NSString *pickerCellIdentifier = @"PickerCell";
 - (void)checkAndinitializeSettingValue
 {
     NSString *value = self.radarSetting.value;
-    if ([value isNull]) {
+    if ([NSString isNull:value]) {
         NSDictionary *tmp = @{RADAR_VAL_FIELD_DISTANCE: @"2000", RADAR_VAL_FIELD_SALE : @"true", RADAR_VAL_FIELD_SHOP: @"true" };
         self.radarSetting.value = [NSString stringWithJSONObject:tmp];
     }

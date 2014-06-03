@@ -80,6 +80,7 @@
 #define KEY_IS_DELETED @"is_deleted"
 #define KEY_IMAGES @"images"
 #define KEY_FILE_NAME_LIST @"fileNameList"
+#define KEY_EMPS @"emps"
 
 #define KET_SET_COOKIE @"Set-Cookie"
 

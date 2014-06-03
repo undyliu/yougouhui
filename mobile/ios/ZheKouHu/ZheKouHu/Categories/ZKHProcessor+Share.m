@@ -10,6 +10,10 @@
 #import "ZKHConst.h"
 #import "NSString+Utils.h"
 #import "ZKHData.h"
+#import "ZKHProcessor+Sync.h"
+#import "ZKHAppDelegate.h"
+#import "NSDate+Utils.h"
+#import "ZKHContext.h"
 
 @implementation ZKHProcessor (Share)
 
@@ -25,7 +29,7 @@
     
     [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
         NSString *uuid = jsonObject[KEY_UUID];
-        if (![uuid isNull]) {
+        if (![NSString isNull:uuid]) {
             share.uuid = uuid;
             share.publishTime = jsonObject[KEY_PUBLISH_TIME];
             share.publishDate = jsonObject[KEY_PUBLISH_DATE];
@@ -45,6 +49,52 @@
             publishShareBlock(true);
         }else{
             publishShareBlock(false);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+- (ZKHSyncEntity *) shareSyncEntity
+{
+    ZKHUserEntity *user = [ZKHContext getInstance].user;
+    ZKHSyncEntity *sync = [ApplicationDelegate.zkhProcessor getSyncEntity: SHARE_TABLE itemId:user.uuid];
+    if (sync == nil) {
+        sync = [[ZKHSyncEntity alloc] init];
+        NSString *currentTime = [NSDate currentTimeString];
+        sync.updateTime = user.registerTime;
+        sync.uuid = [currentTime copy];
+        sync.tableName = SALE_TABLE;
+        sync.itemId = user.uuid;
+    }
+    return sync;
+}
+
+#define  GET_FRIEND_SHARES_URL(__USER_ID__, __UPDATE_TIME__) [NSString stringWithFormat:@"/getFriendShares/%@/%@", __USER_ID__, __UPDATE_TIME__]
+- (void)friendShares:(NSString *)userId completionHandler:(SharesResponseBlock)sharesBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHShareData *shareData = [[ZKHShareData alloc] init];
+    NSMutableArray *shares = [shareData friendShares:userId];
+    if ([shares count] > 0) {
+        sharesBlock(shares);
+        return;
+    }
+ 
+    ZKHSyncEntity *shareSync = [self shareSyncEntity];
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = GET_FRIEND_SHARES_URL([ZKHContext getInstance].user.uuid, shareSync.updateTime);
+    request.method = METHOD_GET;
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        if (jsonObject != nil) {
+            NSString *updateTime = [jsonObject valueForKey:KEY_UPDATE_TIME];
+            
+            id jsonShares = [jsonObject valueForKey:KEY_DATA];
+            for (id jsonShare in jsonShares) {
+                
+            }
+            
+            shareSync.updateTime = updateTime;
         }
     } errorHandler:^(NSError *error) {
         errorBlock(error);

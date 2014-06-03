@@ -155,6 +155,7 @@ static NSString *CellIdentifier = @"ModuleCellIdentifier";
         viewController = [[ZKHSettingsController alloc] init];
     }else if ([code isEqualToString:kModuleContactList]){
         viewController = [[ZKHContactListController alloc] init];
+        ((ZKHContactListController *)viewController).readonly = true;
     }else if ([code isEqualToString:kModuleMyFavorite]){
         viewController = [[ZKHMyFavoritController alloc] init];
     }else if ([code isEqualToString:kModuleMyShare]){

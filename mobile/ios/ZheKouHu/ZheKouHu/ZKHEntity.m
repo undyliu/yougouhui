@@ -80,7 +80,14 @@
     copy.photo = [self.photo copyWithZone:zone];
     copy.type = [self.type copyWithZone:zone];
     copy.registerTime = [self.registerTime copyWithZone:zone];
-    //TODO copy friends
+    
+    NSMutableArray *friendsCopy = [[NSMutableArray alloc] init];
+    for (ZKHUserFriendsEntity *userfriend in self.friends) {
+        ZKHUserFriendsEntity *userFriendCopy = [userfriend copyWithZone:zone];
+        [friendsCopy addObject:userFriendCopy];
+    }
+    copy.friends = friendsCopy;
+    
     return copy;
 }
 
@@ -122,6 +129,14 @@
         return [_friend isEqual:object];
     }
     return [super isEqual:object];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    ZKHUserFriendsEntity *copy = [[[self class]allocWithZone:zone] init];
+    copy.uuid = [self.uuid copyWithZone:zone];
+    copy.friend = [self.friend copyWithZone:zone];
+    return copy;
 }
 
 @end

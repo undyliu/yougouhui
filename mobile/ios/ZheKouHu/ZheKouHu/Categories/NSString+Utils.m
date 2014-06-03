@@ -28,9 +28,9 @@
     return [self isEqualToString:@"true"] || [self isEqualToString:@"1"];
 }
 
-- (Boolean)isNull
++ (Boolean)isNull:(NSString *)str
 {
-    return self == nil || [self isKindOfClass:[NSNull class]] || [self length] == 0;
+    return str == nil || [str isKindOfClass:[NSNull class]] || [str length] == 0;
 }
 
 @end

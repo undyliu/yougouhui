@@ -27,3 +27,7 @@
 }
 
 @end
+
+@implementation ZKHSwitch
+
+@end

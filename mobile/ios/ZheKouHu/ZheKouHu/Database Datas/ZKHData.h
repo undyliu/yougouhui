@@ -107,6 +107,8 @@
 - (void) deleteFavorit:(NSString *)userId shopId:(NSString *)shopId;
 @end
 
+#define SHARE_TABLE @"e_share"
 @interface ZKHShareData : ZKHData<ZKHEntityUpdater>
+- (NSMutableArray *) friendShares:(NSString *)userId;
 
 @end

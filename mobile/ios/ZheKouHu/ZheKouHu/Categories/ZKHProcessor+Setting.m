@@ -64,7 +64,7 @@
     [self setting:SETTING_CODE_RADAR userId:userId completionHandler:^(ZKHSettingEntity *setting) {
         if (setting && withDefaultValue) {
             NSString *value = setting.value;
-            if ([value isNull]) {
+            if ([NSString isNull:value]) {
                 NSDictionary *tmp = @{RADAR_VAL_FIELD_DISTANCE: @"2000", RADAR_VAL_FIELD_SALE : @"true", RADAR_VAL_FIELD_SHOP: @"true" };
                 setting.value = [NSString stringWithJSONObject:tmp];
             }
