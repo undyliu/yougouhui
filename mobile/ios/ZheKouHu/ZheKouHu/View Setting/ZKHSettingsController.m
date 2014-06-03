@@ -62,7 +62,7 @@ static NSString *CellIdentifier = @"Cell";
     
     ZKHSettingEntity *setting = settingItems[indexPath.row];
     
-    NSDictionary *attr = @{NSFontAttributeName: [UIFont fontWithName:@"Courier" size:17]};
+    NSDictionary *attr = @{NSFontAttributeName: [UIFont fontWithName:@"Courier" size:14]};
 
     NSMutableAttributedString *settingString = [[NSMutableAttributedString alloc]
                                                 initWithString:setting.name

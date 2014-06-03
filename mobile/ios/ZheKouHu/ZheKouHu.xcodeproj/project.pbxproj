@@ -198,6 +198,10 @@
 		10F7081219298CF200282511 /* ZKHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F7081119298CF200282511 /* ZKHAppDelegate.m */; };
 		10F7081B19298CF200282511 /* ZheKouHu.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 10F7081919298CF200282511 /* ZheKouHu.xcdatamodeld */; };
 		10F7086B1929DE0A00282511 /* ZKHMainTabBarController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10F7086A1929DE0A00282511 /* ZKHMainTabBarController.xib */; };
+		10F85ACA193D5B16008B6484 /* ZKHSharePicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F85AC9193D5B16008B6484 /* ZKHSharePicCell.m */; };
+		10F85ACC193D5B2A008B6484 /* ZKHSharePicCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10F85ACB193D5B2A008B6484 /* ZKHSharePicCell.xib */; };
+		10F85ACF193D7327008B6484 /* ZKHProcessor+Share.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F85ACE193D7327008B6484 /* ZKHProcessor+Share.m */; };
+		10F85AD1193D735F008B6484 /* ZKHShareData.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F85AD0193D735F008B6484 /* ZKHShareData.m */; };
 		10FCDBDC192C261C005989BA /* ZKHContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 10FCDBDB192C261C005989BA /* ZKHContext.m */; };
 		10FCDC11192CB251005989BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 10FCDC13192CB251005989BA /* Localizable.strings */; };
 /* End PBXBuildFile section */
@@ -486,6 +490,12 @@
 		10F7081119298CF200282511 /* ZKHAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZKHAppDelegate.m; sourceTree = "<group>"; };
 		10F7081A19298CF200282511 /* ZheKouHu.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ZheKouHu.xcdatamodel; sourceTree = "<group>"; };
 		10F7086A1929DE0A00282511 /* ZKHMainTabBarController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHMainTabBarController.xib; sourceTree = "<group>"; };
+		10F85AC8193D5B16008B6484 /* ZKHSharePicCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHSharePicCell.h; sourceTree = "<group>"; };
+		10F85AC9193D5B16008B6484 /* ZKHSharePicCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHSharePicCell.m; sourceTree = "<group>"; };
+		10F85ACB193D5B2A008B6484 /* ZKHSharePicCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHSharePicCell.xib; sourceTree = "<group>"; };
+		10F85ACD193D7327008B6484 /* ZKHProcessor+Share.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZKHProcessor+Share.h"; sourceTree = "<group>"; };
+		10F85ACE193D7327008B6484 /* ZKHProcessor+Share.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZKHProcessor+Share.m"; sourceTree = "<group>"; };
+		10F85AD0193D735F008B6484 /* ZKHShareData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShareData.m; sourceTree = "<group>"; };
 		10FCDBDA192C261C005989BA /* ZKHContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHContext.h; sourceTree = "<group>"; };
 		10FCDBDB192C261C005989BA /* ZKHContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHContext.m; sourceTree = "<group>"; };
 		10FCDC12192CB251005989BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -577,6 +587,9 @@
 				101F673519385EB300AE3C97 /* ZKHShareController.h */,
 				101F673619385EB300AE3C97 /* ZKHShareController.m */,
 				101F673719385EB300AE3C97 /* ZKHShareController.xib */,
+				10F85AC8193D5B16008B6484 /* ZKHSharePicCell.h */,
+				10F85AC9193D5B16008B6484 /* ZKHSharePicCell.m */,
+				10F85ACB193D5B2A008B6484 /* ZKHSharePicCell.xib */,
 			);
 			path = "View Share";
 			sourceTree = "<group>";
@@ -680,6 +693,7 @@
 				10F394E1192EE22400629F8F /* ZKHShopData.m */,
 				1002437E193573F700A5047F /* ZKHSaleFavoritData.m */,
 				1002438319357A7700A5047F /* ZKHShopFavoritData.m */,
+				10F85AD0193D735F008B6484 /* ZKHShareData.m */,
 			);
 			path = "Database Datas";
 			sourceTree = "<group>";
@@ -792,6 +806,8 @@
 				10024381193576A200A5047F /* ZKHProcessor+Favorit.m */,
 				1002438A1935AA3200A5047F /* ZKHProcessor+Setting.h */,
 				1002438B1935AA3200A5047F /* ZKHProcessor+Setting.m */,
+				10F85ACD193D7327008B6484 /* ZKHProcessor+Share.h */,
+				10F85ACE193D7327008B6484 /* ZKHProcessor+Share.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1180,6 +1196,7 @@
 				10EDC53319372C51000D0094 /* ZKHSaleDiscussListCell.xib in Resources */,
 				101F673019380B1B00AE3C97 /* b_comment_delete.png in Resources */,
 				101F673919385EB300AE3C97 /* ZKHShareController.xib in Resources */,
+				10F85ACC193D5B2A008B6484 /* ZKHSharePicCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1290,6 +1307,9 @@
 				101F673419385E9700AE3C97 /* ZKHFreindShareListController.m in Sources */,
 				101F673819385EB300AE3C97 /* ZKHShareController.m in Sources */,
 				101F673C19387BAC00AE3C97 /* ZKHTextView.m in Sources */,
+				10F85ACA193D5B16008B6484 /* ZKHSharePicCell.m in Sources */,
+				10F85ACF193D7327008B6484 /* ZKHProcessor+Share.m in Sources */,
+				10F85AD1193D735F008B6484 /* ZKHShareData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

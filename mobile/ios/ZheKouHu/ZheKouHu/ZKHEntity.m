@@ -226,3 +226,7 @@
 @implementation ZKHFavoritEntity
 
 @end
+
+@implementation ZKHShareEntity
+
+@end

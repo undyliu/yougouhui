@@ -19,7 +19,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        
+        self.readonly = true;
     }
     return self;
 }
@@ -35,11 +35,29 @@
     }else if (self.imageFile != nil) {
         [ZKHImageLoader showImageForName:self.imageFile.aliasName imageView:self.imageView];
     }
+    
+    if (!self.readonly) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteImageClick:)];
+    }
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+- (void)deleteImageClick:(id)sender
+{
+    if ([self.images count] > 0) {
+        if (self.image) {
+            [self.images removeObject:self.image];
+            [self.navigationController popViewControllerAnimated:YES];
+        }else if (self.imageFile){
+            [self.images removeObject:self.imageFile];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        
+    }
 }
 
 @end

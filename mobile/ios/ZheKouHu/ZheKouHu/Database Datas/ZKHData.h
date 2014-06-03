@@ -106,3 +106,7 @@
 - (Boolean) isUserFavorie:(NSString *)userId shopId:(NSString *)shopId;
 - (void) deleteFavorit:(NSString *)userId shopId:(NSString *)shopId;
 @end
+
+@interface ZKHShareData : ZKHData<ZKHEntityUpdater>
+
+@end

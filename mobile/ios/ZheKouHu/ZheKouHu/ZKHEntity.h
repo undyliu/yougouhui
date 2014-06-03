@@ -152,3 +152,14 @@
 @property (strong, nonatomic) NSString *image;
 @property (strong, nonatomic) NSString *lastModifyTime;
 @end
+
+//分享
+@interface ZKHShareEntity : ZKHEntity
+@property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) ZKHUserEntity *publisher;
+@property (strong, nonatomic) NSString *publishTime;
+@property (strong, nonatomic) NSString *publishDate;
+@property (strong, nonatomic) ZKHShopEntity *shop;
+@property (strong, nonatomic) NSMutableArray *imageFiles;
+@property (strong, nonatomic) NSString *accessType;
+@end

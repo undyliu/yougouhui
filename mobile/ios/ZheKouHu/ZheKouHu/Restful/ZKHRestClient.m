@@ -22,12 +22,21 @@
 
 - (MKNetworkOperation *) createMKNetworkOperation:(ZKHRestRequest *)request
 {
+    NSArray *files = request.files;
+    NSMutableString *fileNames = [NSMutableString stringWithString:@""];
+    for (ZKHFileEntity *file in files) {
+        [fileNames appendFormat:@"%@|", file.aliasName];
+    }
+    
+    NSMutableDictionary *params = [request.params mutableCopy];
+    [params setObject:fileNames forKey:KEY_FILE_NAME_LIST];
+    
     NSString *urlString = [request.urlString lowercaseString];
     MKNetworkOperation *op = nil;
     if ([urlString hasPrefix:@"http://"] || [urlString hasPrefix:@"https://"]) {
-        op = [self operationWithURLString:request.urlString params:request.params httpMethod:request.method];
+        op = [self operationWithURLString:request.urlString params:params httpMethod:request.method];
     }else{
-        op = [self operationWithPath:request.urlString params:request.params httpMethod:request.method];
+        op = [self operationWithPath:request.urlString params:params httpMethod:request.method];
     }
     
     if (op != nil) {
@@ -35,6 +44,13 @@
         [op addHeaders:[NSDictionary dictionaryWithDictionary:headers]];
     }
     return op;
+}
+
+- (void) addFiles:(MKNetworkOperation *)op NSArray:(NSArray *)files
+{
+    for (ZKHFileEntity *file in files) {
+        [op addFile:file.fileUrl forKey:file.aliasName];
+    }
 }
 
 - (void)executeWithJsonResponse:(ZKHRestRequest *)request completionHandler:(JsonResponseBlock)responseBlock errorHandler:(RestResponseErrorBlock)errorBlock
@@ -53,10 +69,7 @@
             return;
         }
         
-        NSArray *files = request.files;
-        for (ZKHFileEntity *file in files) {
-            [op addFile:file.fileUrl forKey:file.aliasName];
-        }
+        [self addFiles:op NSArray:request.files];
         
         [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
             [completedOperation responseJSONWithCompletionHandler:^(id jsonObject) {
@@ -82,6 +95,8 @@
         if (op == nil) {
             return;
         }
+        
+        [self addFiles:op NSArray:request.files];
         
         [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
             [completedOperation responseJSONWithCompletionHandler:^(id jsonObject) {

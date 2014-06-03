@@ -62,6 +62,8 @@
 #define KEY_LONGITUDE @"longitude"
 #define KEY_FRIEND_ID @"friend_id"
 #define KEY_SALE_ID @"sale_id"
+#define KEY_ACCESS_TYPE @"access_type"
+#define KEY_SHARE_ID @"share_id"
 
 #define KEY_USER_NAME @"user_name"
 #define KEY_USER @"user"
@@ -76,11 +78,16 @@
 #define KEY_OLD_PWD @"old_pwd"
 #define KEY_SEARCH_WORD @"search-word"
 #define KEY_IS_DELETED @"is_deleted"
+#define KEY_IMAGES @"images"
+#define KEY_FILE_NAME_LIST @"fileNameList"
 
 #define KET_SET_COOKIE @"Set-Cookie"
 
 #define VAL_TYPE_USER_APP @"1"
 #define VAL_TYPE_USER_ANONYMOUS @"2"
+
+#define VAL_SHARE_ACCESS_ALL @"1"
+#define VAL_SHARE_ACCESS_FRIENDS @"2"
 
 #define SETTING_CODE_LOGIN @"login"
 #define SETTING_CODE_RADAR @"radar"
