@@ -337,4 +337,31 @@
         errorBlock(error);
     }];
 }
+
+//搜索商铺
+#define SEARCH_SHOPS_URL @"/searchShops"
+- (void)searchShop:(NSString *)searchWord completionHandler:(ShopsResponseBlock)shopsBlock errorHandler:(MKNKErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.method = METHOD_POST;
+    request.urlString = SEARCH_SHOPS_URL;
+    request.params = @{KEY_SEARCH_WORD: searchWord};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSMutableArray *shops = [[NSMutableArray alloc] init];
+        for (id jsonShop in jsonObject) {
+            ZKHShopEntity *shop = [[ZKHShopEntity alloc] init];
+            shop.uuid = jsonShop[KEY_UUID];
+            shop.name = jsonShop[KEY_NAME];
+            shop.shopImg = jsonShop[KEY_SHOP_IMG];
+            shop.owner = jsonShop[KEY_OWNER];
+            shop.barcode = jsonShop[KEY_BARCODE];
+            
+            [shops addObject:shop];
+        }
+        shopsBlock(shops);
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
 @end

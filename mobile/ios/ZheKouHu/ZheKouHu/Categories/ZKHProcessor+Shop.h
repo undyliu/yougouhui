@@ -38,4 +38,7 @@ typedef void (^ShopEmpsResponseBlock)(NSMutableArray *shopEmps);
 - (void) addShopEmps:(NSString *)shopId emps:(NSMutableArray *)emps completionHandler:(BooleanResultResponseBlock) addShopEmpsBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 - (void) deleteShopEmps:(NSString *)shopId emps:(NSMutableArray *)emps completionHandler:(BooleanResultResponseBlock) delShopEmpsBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+
+typedef void (^ShopsResponseBlock)(NSMutableArray *shops);
+- (void) searchShop: (NSString *) searchWord  completionHandler:(ShopsResponseBlock) shopsBlock errorHandler:(MKNKErrorBlock) errorBlock;
 @end

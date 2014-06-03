@@ -16,6 +16,7 @@
 #import "ZKHImageLoader.h"
 #import "NSDate+Utils.h"
 #import "ZKHConst.h"
+#import "ZKHChooseShopController.h"
 
 #define STRING_SHARE_CONTENT_DEFAULT @"请分享下本次购物的体验吧"
 
@@ -46,7 +47,7 @@ static NSString *CellIdentifier = @"SharePicCell";
     
     if (self.shop) {
         self.shopField.text = [NSString stringWithFormat:@"商家：%@", self.shop.name];
-        self.scanShopButton.hidden = true;
+        //self.scanShopButton.hidden = true;
     }
     
     
@@ -63,6 +64,12 @@ static NSString *CellIdentifier = @"SharePicCell";
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)chooseShop:(UIButton *)sender {
+    ZKHChooseShopController *controller = [[ZKHChooseShopController alloc] init];
+    controller.actionDelegate = self;
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)addPicViewClick:(id)sender
@@ -142,6 +149,15 @@ static NSString *CellIdentifier = @"SharePicCell";
 {
     for (ZKHFileEntity *file in files) {
         [ZKHImageLoader removeImageWithName:file.aliasName];
+    }
+}
+
+- (void)confirm:(ZKHShopEntity *)shop viewController:(UIViewController *)viewController
+{
+    if (shop) {
+        self.shop = shop;
+        self.shopField.text = [NSString stringWithFormat:@"商家：%@", self.shop.name];
+        [viewController.navigationController popViewControllerAnimated:YES];
     }
 }
 

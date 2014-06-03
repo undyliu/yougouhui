@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "ZKHEntity.h"
 #import "ZKHTextView.h"
+#import "ZKHChooseShopActionDelegate.h"
 
-@interface ZKHShareController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface ZKHShareController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ZKHChooseShopActionDelegate>
 {
     NSMutableArray *selectedImages;
 }
@@ -23,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *friendSeeSwitch;
 @property (weak, nonatomic) IBOutlet UICollectionView *picViewContainer;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+- (IBAction)chooseShop:(UIButton *)sender;
 
 - (IBAction)addPicViewClick:(id)sender;
 - (IBAction)previewPic:(id)sender;
