@@ -153,6 +153,15 @@
 		10E1B4AA192F49D0008FBF4D /* ZKHRestClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E1B4A9192F49D0008FBF4D /* ZKHRestClient.m */; };
 		10E7731C193EB7F200177BA6 /* ZKHShopEmpPwdController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E7731A193EB7F200177BA6 /* ZKHShopEmpPwdController.m */; };
 		10E7731D193EB7F200177BA6 /* ZKHShopEmpPwdController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10E7731B193EB7F200177BA6 /* ZKHShopEmpPwdController.xib */; };
+		10E77320193EC80800177BA6 /* ZKHShopSaleListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E7731F193EC80800177BA6 /* ZKHShopSaleListController.m */; };
+		10E77324193ECA3400177BA6 /* ZKHSalePublishController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E77322193ECA3400177BA6 /* ZKHSalePublishController.m */; };
+		10E77325193ECA3400177BA6 /* ZKHSalePublishController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10E77323193ECA3400177BA6 /* ZKHSalePublishController.xib */; };
+		10E7732D193EE5D600177BA6 /* QRadioButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E77328193EE5D600177BA6 /* QRadioButton.m */; };
+		10E7732E193EE5D600177BA6 /* radio_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E77329193EE5D600177BA6 /* radio_checked.png */; };
+		10E7732F193EE5D600177BA6 /* radio_checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E7732A193EE5D600177BA6 /* radio_checked@2x.png */; };
+		10E77330193EE5D600177BA6 /* radio_unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E7732B193EE5D600177BA6 /* radio_unchecked.png */; };
+		10E77331193EE5D600177BA6 /* radio_unchecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E7732C193EE5D600177BA6 /* radio_unchecked@2x.png */; };
+		10E77333193EE70E00177BA6 /* b_calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E77332193EE70E00177BA6 /* b_calendar.png */; };
 		10E7E748192E233A00AE6083 /* add_camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E7E732192E233A00AE6083 /* add_camera.png */; };
 		10E7E749192E233A00AE6083 /* contact_list.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E7E733192E233A00AE6083 /* contact_list.png */; };
 		10E7E74A192E233A00AE6083 /* default_pic.png in Resources */ = {isa = PBXBuildFile; fileRef = 10E7E734192E233A00AE6083 /* default_pic.png */; };
@@ -442,6 +451,18 @@
 		10E77319193EB7F200177BA6 /* ZKHShopEmpPwdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHShopEmpPwdController.h; sourceTree = "<group>"; };
 		10E7731A193EB7F200177BA6 /* ZKHShopEmpPwdController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShopEmpPwdController.m; sourceTree = "<group>"; };
 		10E7731B193EB7F200177BA6 /* ZKHShopEmpPwdController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHShopEmpPwdController.xib; sourceTree = "<group>"; };
+		10E7731E193EC80800177BA6 /* ZKHShopSaleListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHShopSaleListController.h; sourceTree = "<group>"; };
+		10E7731F193EC80800177BA6 /* ZKHShopSaleListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShopSaleListController.m; sourceTree = "<group>"; };
+		10E77321193ECA3400177BA6 /* ZKHSalePublishController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHSalePublishController.h; sourceTree = "<group>"; };
+		10E77322193ECA3400177BA6 /* ZKHSalePublishController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHSalePublishController.m; sourceTree = "<group>"; };
+		10E77323193ECA3400177BA6 /* ZKHSalePublishController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHSalePublishController.xib; sourceTree = "<group>"; };
+		10E77327193EE5D600177BA6 /* QRadioButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRadioButton.h; sourceTree = "<group>"; };
+		10E77328193EE5D600177BA6 /* QRadioButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRadioButton.m; sourceTree = "<group>"; };
+		10E77329193EE5D600177BA6 /* radio_checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_checked.png; sourceTree = "<group>"; };
+		10E7732A193EE5D600177BA6 /* radio_checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "radio_checked@2x.png"; sourceTree = "<group>"; };
+		10E7732B193EE5D600177BA6 /* radio_unchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radio_unchecked.png; sourceTree = "<group>"; };
+		10E7732C193EE5D600177BA6 /* radio_unchecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "radio_unchecked@2x.png"; sourceTree = "<group>"; };
+		10E77332193EE70E00177BA6 /* b_calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = b_calendar.png; sourceTree = "<group>"; };
 		10E7E732192E233A00AE6083 /* add_camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_camera.png; sourceTree = "<group>"; };
 		10E7E733192E233A00AE6083 /* contact_list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = contact_list.png; sourceTree = "<group>"; };
 		10E7E734192E233A00AE6083 /* default_pic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_pic.png; sourceTree = "<group>"; };
@@ -614,6 +635,7 @@
 		10456CE1192E28D20061DCC1 /* Thirdparty Libs */ = {
 			isa = PBXGroup;
 			children = (
+				10E77326193EE5D600177BA6 /* QRadioButton */,
 				1002439D1935EDFF00A5047F /* EGOTableViewPullRefresh */,
 				1070ACE919345CEF00AA1AE1 /* PinYin4Objc */,
 				10E1B4A0192F4434008FBF4D /* MBProgressHUD */,
@@ -856,6 +878,11 @@
 				10EDC52F19372C3E000D0094 /* ZKHSaleDiscussListCell.h */,
 				10EDC53019372C3E000D0094 /* ZKHSaleDiscussListCell.m */,
 				10EDC53219372C51000D0094 /* ZKHSaleDiscussListCell.xib */,
+				10E7731E193EC80800177BA6 /* ZKHShopSaleListController.h */,
+				10E7731F193EC80800177BA6 /* ZKHShopSaleListController.m */,
+				10E77321193ECA3400177BA6 /* ZKHSalePublishController.h */,
+				10E77322193ECA3400177BA6 /* ZKHSalePublishController.m */,
+				10E77323193ECA3400177BA6 /* ZKHSalePublishController.xib */,
 			);
 			path = "View Sale";
 			sourceTree = "<group>";
@@ -955,9 +982,23 @@
 			path = Restful;
 			sourceTree = "<group>";
 		};
+		10E77326193EE5D600177BA6 /* QRadioButton */ = {
+			isa = PBXGroup;
+			children = (
+				10E77327193EE5D600177BA6 /* QRadioButton.h */,
+				10E77328193EE5D600177BA6 /* QRadioButton.m */,
+				10E77329193EE5D600177BA6 /* radio_checked.png */,
+				10E7732A193EE5D600177BA6 /* radio_checked@2x.png */,
+				10E7732B193EE5D600177BA6 /* radio_unchecked.png */,
+				10E7732C193EE5D600177BA6 /* radio_unchecked@2x.png */,
+			);
+			path = QRadioButton;
+			sourceTree = "<group>";
+		};
 		10E7E731192E233A00AE6083 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				10E77332193EE70E00177BA6 /* b_calendar.png */,
 				101F672F19380B1B00AE3C97 /* b_comment_delete.png */,
 				10F273001936DF57007B2F9A /* arrow_down.png */,
 				10F273011936DF57007B2F9A /* arrow_up.png */,
@@ -1228,6 +1269,12 @@
 				10F85AD6193DB07B008B6484 /* ZKHShopEmpSettingCell.xib in Resources */,
 				10F85ADC193DF250008B6484 /* ZKHChooseShopController.xib in Resources */,
 				10E7731D193EB7F200177BA6 /* ZKHShopEmpPwdController.xib in Resources */,
+				10E77325193ECA3400177BA6 /* ZKHSalePublishController.xib in Resources */,
+				10E7732E193EE5D600177BA6 /* radio_checked.png in Resources */,
+				10E7732F193EE5D600177BA6 /* radio_checked@2x.png in Resources */,
+				10E77330193EE5D600177BA6 /* radio_unchecked.png in Resources */,
+				10E77331193EE5D600177BA6 /* radio_unchecked@2x.png in Resources */,
+				10E77333193EE70E00177BA6 /* b_calendar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1344,6 +1391,9 @@
 				10F85AD4193DAAEC008B6484 /* ZKHShopEmpSettingController.m in Sources */,
 				10F85ADB193DF250008B6484 /* ZKHChooseShopController.m in Sources */,
 				10E7731C193EB7F200177BA6 /* ZKHShopEmpPwdController.m in Sources */,
+				10E77320193EC80800177BA6 /* ZKHShopSaleListController.m in Sources */,
+				10E77324193ECA3400177BA6 /* ZKHSalePublishController.m in Sources */,
+				10E7732D193EE5D600177BA6 /* QRadioButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

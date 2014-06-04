@@ -17,6 +17,7 @@
 #import "ZKHChangeShopPwdController.h"
 #import "ZKHAppDelegate.h"
 #import "ZKHShopEmpSettingController.h"
+#import "ZKHShopSaleListController.h"
 
 static NSString *CellIdentifier = @"ShopModuleCell";
 
@@ -265,7 +266,9 @@ static NSString *CellIdentifier = @"ShopModuleCell";
          //TODO
         }
     }else if (section == 1 && row == 0){
-        
+        ZKHShopSaleListController *controller = [[ZKHShopSaleListController alloc] init];
+        controller.shop = shop;
+        [self.navigationController pushViewController:controller animated:YES];
     }else if (section == 1 && row == 1){
         
     }
