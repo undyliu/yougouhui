@@ -14,6 +14,9 @@
 #import "ZKHImageLoader.h"
 #import "ZKHViewUtils.h"
 #import "ZKHContactListController.h"
+#import "ZKHShopEmpPwdController.h"
+#import "ZKHChangeShopPwdController.h"
+#import "ZKHContext.h"
 
 #define kHasNotSetLoginPwd @"尚未设置登录密码"
 
@@ -177,13 +180,20 @@ static NSString *CellIdentifier = @"ShopEmpSettingCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    ZKHUserEntity *emp = shopEmps[indexPath.row];
+    
+    if ([emp isEqual:[ZKHContext getInstance].user]) {
+        ZKHChangeShopPwdController *controller = [[ZKHChangeShopPwdController alloc] init];
+        controller.shop = self.shop;
+        [self.navigationController pushViewController:controller animated:YES];
+    }else{
+        ZKHShopEmpPwdController *controller = [[ZKHShopEmpPwdController alloc] init];
+        controller.emp = emp;
+        controller.shop = self.shop;
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+    
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -41,4 +41,7 @@ typedef void (^ShopEmpsResponseBlock)(NSMutableArray *shopEmps);
 
 typedef void (^ShopsResponseBlock)(NSMutableArray *shops);
 - (void) searchShop: (NSString *) searchWord  completionHandler:(ShopsResponseBlock) shopsBlock errorHandler:(MKNKErrorBlock) errorBlock;
+
+- (void) setShopEmpPwd: (NSString *) shopId userId:(NSString *)userId pwd:(NSString *)pwd completionHandler:(BooleanResultResponseBlock) setShopEmpPwdBlock errorHandler:(MKNKErrorBlock) errorBlock;
+
 @end

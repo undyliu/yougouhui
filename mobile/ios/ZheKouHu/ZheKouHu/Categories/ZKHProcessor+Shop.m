@@ -364,4 +364,26 @@
         errorBlock(error);
     }];
 }
+
+//设置职员密码
+#define SET_SHOP_EMP_PWD_URL @"/setShopEmpPwd"
+- (void)setShopEmpPwd:(NSString *)shopId userId:(NSString *)userId pwd:(NSString *)pwd completionHandler:(BooleanResultResponseBlock)setShopEmpPwdBlock errorHandler:(MKNKErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = SET_SHOP_EMP_PWD_URL;
+    request.method = METHOD_PUT;
+    request.params = @{KEY_SHOP_ID: shopId, KEY_USER_ID: userId, KEY_PWD: pwd};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *pwd = jsonObject[KEY_PWD];
+        if ([NSString isNull:pwd]) {
+            setShopEmpPwdBlock(false);
+        }else{
+            setShopEmpPwdBlock(true);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
 @end
