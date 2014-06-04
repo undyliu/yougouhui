@@ -106,17 +106,7 @@ static NSString *CellIdentifier = @"ContactListCell";
     _indexKeys = @[@"@", @"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M"
             , @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z", @"#"];
     _friends = [[NSMutableDictionary alloc] init];
-    
-    if (self.readonly) {
-        ZKHUserEntity *user = [[ZKHUserEntity alloc] init];
-        user.name = @"服务号";
-        user.phone = @"-999";
-        user.photo = [[ZKHFileEntity alloc] init];
-        user.photo.aliasName = @"receptionist.png";
         
-        [_friends setObject:@[user] forKey:@"@"];
-    }
-    
     for (ZKHUserFriendsEntity *userFriend in data) {
         ZKHUserEntity *user = userFriend.friend;
         
@@ -134,7 +124,22 @@ static NSString *CellIdentifier = @"ContactListCell";
         
         [values addObject:[user copy]];
         
-        [_friends setObject:values forKey:key];
+        [_friends setObject:[values sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] forKey:key];
+    }
+    
+    //排序处理
+    _sortedKeys = [[[_friends allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
+    
+    if (self.readonly) {
+        ZKHUserEntity *user = [[ZKHUserEntity alloc] init];
+        user.name = @"服务号";
+        user.phone = @"-999";
+        user.photo = [[ZKHFileEntity alloc] init];
+        user.photo.aliasName = @"receptionist.png";
+        
+        [_friends setObject:@[user] forKey:@"@"];
+        
+        [_sortedKeys insertObject:@"@" atIndex:0];
     }
     
 }
@@ -167,7 +172,7 @@ static NSString *CellIdentifier = @"ContactListCell";
 {
     NSMutableArray *users = [[NSMutableArray alloc] init];
     for (NSIndexPath *indexPath in selectedIndexes) {
-        NSString *key = [_friends allKeys][indexPath.section];
+        NSString *key = _sortedKeys[indexPath.section];
         ZKHUserEntity *friend = [_friends[key][indexPath.row] copy];
         friend.pwd = nil;
         [users addObject:friend];
@@ -211,7 +216,7 @@ static NSString *CellIdentifier = @"ContactListCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSString *key = [_friends allKeys][section];
+    NSString *key = _sortedKeys[section];
     return [_friends[key] count];
 }
 
@@ -220,7 +225,7 @@ static NSString *CellIdentifier = @"ContactListCell";
     ZKHContactListCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     
-    NSString *key = [_friends allKeys][indexPath.section];
+    NSString *key = _sortedKeys[indexPath.section];
     ZKHUserEntity *friend = _friends[key][indexPath.row];
     
     cell.cellLabel.text = friend.name;
@@ -249,14 +254,14 @@ static NSString *CellIdentifier = @"ContactListCell";
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return [_friends allKeys][section];
+    return _sortedKeys[section];
 }
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *key = [_friends allKeys][indexPath.section];
+    NSString *key = _sortedKeys[indexPath.section];
     ZKHUserEntity *friend = _friends[key][indexPath.row];
     
     if ([self isReceptionist:friend]) {

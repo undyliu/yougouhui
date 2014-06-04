@@ -12,6 +12,7 @@
 @interface ZKHContactListController : UITableViewController<UIActionSheetDelegate>
 {
     NSArray *_indexKeys;
+    NSMutableArray *_sortedKeys;
     NSMutableDictionary *_friends;
     UIToolbar *navToolBar;
     NSMutableArray *selectedIndexes;
