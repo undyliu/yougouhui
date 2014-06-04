@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *photoView;
 @property (weak, nonatomic) IBOutlet UIImageView *delPhotoView;
 
+@property (weak, nonatomic) IBOutlet UIScrollView *mainView;
 - (IBAction)backgroupTap:(id)sender;
 
 - (IBAction)photoViewClick:(id)sender;

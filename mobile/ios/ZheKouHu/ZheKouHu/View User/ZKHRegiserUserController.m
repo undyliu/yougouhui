@@ -40,6 +40,8 @@
     self.delPhotoView.userInteractionEnabled = TRUE;
     [self.delPhotoView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(delPhotoViewClick:)]];
     self.delPhotoView.hidden = true;
+    
+    [self.mainView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backgroupTap:)]];
 }
 
 - (void)didReceiveMemoryWarning
