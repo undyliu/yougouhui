@@ -34,14 +34,14 @@
     self.title = self.user.name;
     
     ZKHFileEntity *photo = self.user.photo;
-    if (photo == nil || [photo.aliasName isNull]) {
+    if (photo == nil || [NSString isNull:photo.aliasName]) {
         self.photoView.image = [UIImage imageNamed:@"default_user_photo.png"];
     }else{
         [ZKHImageLoader showImageForName:photo.aliasName imageView:self.photoView];
     }
     
-    delFriendButton = [[UIBarButtonItem alloc] initWithTitle:@"删除朋友" style:UIBarButtonItemStyleDone target:self action:@selector(delFriend:)];
-    addFriendButton = [[UIBarButtonItem alloc] initWithTitle:@"加为朋友" style:UIBarButtonItemStyleDone target:self action:@selector(addFriend:)];
+    delFriendButton = [[UIBarButtonItem alloc] initWithTitle:@"删除朋友" style:UIBarButtonItemStyleBordered target:self action:@selector(delFriend:)];
+    addFriendButton = [[UIBarButtonItem alloc] initWithTitle:@"加为朋友" style:UIBarButtonItemStyleBordered target:self action:@selector(addFriend:)];
     
     if ([[ZKHContext getInstance].user.friends containsObject:self.user]) {
         self.navigationItem.rightBarButtonItem = delFriendButton;

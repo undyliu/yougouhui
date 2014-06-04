@@ -84,15 +84,19 @@
     favoritItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(favoritClick:)];
     cancelFavoritItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(cancelFavoritClick:)];
     
-    [ApplicationDelegate.zkhProcessor isSaleFavorit:[ZKHContext getInstance].user.uuid saleId:self.sale.uuid completionHandler:^(Boolean result) {
-        if (result) {
-            [self updateNavigationItem:@[shareItem, cancelFavoritItem]];
-        }else{
-            [self updateNavigationItem:@[shareItem, favoritItem]];
-        }
-    } errorHandler:^(NSError *error) {
+    if ([[ZKHContext getInstance] isAnonymousUserLogined]) {
+        [self updateNavigationItem:@[shareItem]];
+    }else{
+        [ApplicationDelegate.zkhProcessor isSaleFavorit:[ZKHContext getInstance].user.uuid saleId:self.sale.uuid completionHandler:^(Boolean result) {
+            if (result) {
+                [self updateNavigationItem:@[shareItem, cancelFavoritItem]];
+            }else{
+                [self updateNavigationItem:@[shareItem, favoritItem]];
+            }
+        } errorHandler:^(NSError *error) {
         
-    }];
+        }];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -106,14 +110,17 @@
     navToolbar = [[UIToolbar alloc] init];
     [navToolbar setTintColor:[self.navigationController.navigationBar tintColor]];
     [navToolbar setAlpha:[self.navigationController.navigationBar alpha]];
-    
-    [self updateNavToolBarFrame];
 }
 
 - (void) updateNavToolBarFrame
 {
+    CGFloat width = 40;
+    if ([navToolbar.items count] > 1) {
+        width = 80;
+    }
+    
     CGFloat height = self.navigationController.navigationBar.frame.size.height + 1;
-    navToolbar.frame = CGRectMake(0, 0, 80, height);
+    navToolbar.frame = CGRectMake(0, 0, width, height);
 }
 
 - (void) updateNavigationItem:(NSArray *)items

@@ -11,10 +11,21 @@
 @implementation NSDate (Utils)
 + (NSString *) currentTimeString
 {
-    NSDateFormatter *nsdf2 = [[NSDateFormatter alloc] init];
-    [nsdf2 setDateStyle: NSDateFormatterShortStyle];
-    [nsdf2 setDateFormat: @"YYYYMMddHHmmssSSSS"];
-    return [nsdf2 stringFromDate:[NSDate date]];
+    return [NSDate milliSeconds:[NSDate date]];
+}
+
++ (NSString *)milliSeconds:(NSDate *)datetime
+{
+//    NSDateFormatter *nsdf2 = [[NSDateFormatter alloc] init];
+//    [nsdf2 setDateStyle: NSDateFormatterShortStyle];
+//    [nsdf2 setDateFormat: @"YYYYMMddHHmmssSSSS"];
+//    return [nsdf2 stringFromDate:date];
+    
+     NSTimeInterval interval = [datetime timeIntervalSince1970];
+    //NSLog(@"interval=%f",interval);
+    long long totalMilliseconds = interval*1000 ;
+    //NSLog(@"totalMilliseconds=%llu",totalMilliseconds);
+    return [NSString stringWithFormat:@"%llu", totalMilliseconds];
 }
 
 + (id)dateWithMilliSeconds:(long long)milliSeconds

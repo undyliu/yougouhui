@@ -31,4 +31,17 @@ typedef void (^ShopResponseBlock)(ZKHShopEntity *shop);
 - (void) shop: (NSString *) uuid  completionHandler:(ShopResponseBlock) shopBlock errorHandler:(MKNKErrorBlock) errorBlock;
 
 - (void) checkShopEmp: (NSString *) shopId userId:(NSString *)userId completionHandler:(BooleanResultResponseBlock) checkShopEmpBlock errorHandler:(MKNKErrorBlock) errorBlock;
+
+typedef void (^ShopEmpsResponseBlock)(NSMutableArray *shopEmps);
+- (void) shopEmps: (NSString *) shopId  completionHandler:(ShopEmpsResponseBlock) shopEmpsBlock errorHandler:(MKNKErrorBlock) errorBlock;
+
+- (void) addShopEmps:(NSString *)shopId emps:(NSMutableArray *)emps completionHandler:(BooleanResultResponseBlock) addShopEmpsBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+
+- (void) deleteShopEmps:(NSString *)shopId emps:(NSMutableArray *)emps completionHandler:(BooleanResultResponseBlock) delShopEmpsBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+
+typedef void (^ShopsResponseBlock)(NSMutableArray *shops);
+- (void) searchShop: (NSString *) searchWord  completionHandler:(ShopsResponseBlock) shopsBlock errorHandler:(MKNKErrorBlock) errorBlock;
+
+- (void) setShopEmpPwd: (NSString *) shopId userId:(NSString *)userId pwd:(NSString *)pwd completionHandler:(BooleanResultResponseBlock) setShopEmpPwdBlock errorHandler:(MKNKErrorBlock) errorBlock;
+
 @end

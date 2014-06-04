@@ -300,12 +300,12 @@
 - (void)deleteFriend:(NSString *)userId friendId:(NSString *)friendId completionHander:(BooleanResultResponseBlock)delFriendBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
-    request.urlString = [NSString stringWithFormat:@"%@/%@/%@", DEL_FRIEND_URL, userId, friendId];
+    request.urlString = [NSString stringWithFormat:@"%@/%@/%@", DEL_FRIEND_URL, [userId mk_urlEncodedString], [friendId mk_urlEncodedString]];
     request.method = METHOD_DELETE;
     
     [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
         NSString *uuid = [jsonObject valueForKey:KEY_UUID];
-        if ([uuid isNull]) {
+        if ([NSString isNull:uuid]) {
             delFriendBlock(false);
         }else{
             [[[ZKHUserData alloc] init] deleteFriend:userId friendId:friendId];

@@ -12,6 +12,7 @@
 
 + (NSString *) currentTimeString;
 + (id) dateWithMilliSeconds:(long long)milliSeconds;
++ (NSString *)milliSeconds:(NSDate *)date;
 
 -(NSString *) toyyyyMMddString;
 

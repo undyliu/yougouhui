@@ -16,6 +16,7 @@
 @interface ZKHFileEntity : ZKHEntity<NSCopying>
 @property (strong, nonatomic) NSString *fileUrl;
 @property (strong, nonatomic) NSString *aliasName;
+@property (strong, nonatomic) NSString *ordIndex;
 @end
 
 //功能模块
@@ -53,7 +54,7 @@
 @end
 
 //用户的朋友对象，依附于用户，进行包含有朋友对象
-@interface ZKHUserFriendsEntity : ZKHEntity
+@interface ZKHUserFriendsEntity : ZKHEntity<NSCopying>
 @property (strong, nonatomic) ZKHUserEntity *friend;
 @end
 
@@ -151,4 +152,15 @@
 @property (strong, nonatomic) NSString *userId;
 @property (strong, nonatomic) NSString *image;
 @property (strong, nonatomic) NSString *lastModifyTime;
+@end
+
+//分享
+@interface ZKHShareEntity : ZKHEntity
+@property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) ZKHUserEntity *publisher;
+@property (strong, nonatomic) NSString *publishTime;
+@property (strong, nonatomic) NSString *publishDate;
+@property (strong, nonatomic) ZKHShopEntity *shop;
+@property (strong, nonatomic) NSMutableArray *imageFiles;
+@property (strong, nonatomic) NSString *accessType;
 @end

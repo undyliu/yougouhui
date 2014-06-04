@@ -16,6 +16,8 @@
 #import "ZKHContext.h"
 #import "ZKHChangeShopPwdController.h"
 #import "ZKHAppDelegate.h"
+#import "ZKHShopEmpSettingController.h"
+#import "ZKHShopSaleListController.h"
 
 static NSString *CellIdentifier = @"ShopModuleCell";
 
@@ -247,16 +249,26 @@ static NSString *CellIdentifier = @"ShopModuleCell";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    ZKHShopEntity *shop = self.shops[currentShopIndex];
     int section = indexPath.section;
     int row = indexPath.row;
     if (section == 0 && row == 0) {
         ZKHShopInfoController *controller = [[ZKHShopInfoController alloc] init];
-        controller.shop = self.shops[currentShopIndex];
+        controller.shop = shop;
         [self.navigationController pushViewController:controller animated:YES];
     }else if (section == 0 && row == 1){
-        
+        ZKHUserEntity *user = [ZKHContext getInstance].user;
+        if ([user.uuid isEqualToString:shop.owner]) {
+            ZKHShopEmpSettingController *controller = [[ZKHShopEmpSettingController alloc] init];
+            controller.shop = shop;
+            [self.navigationController pushViewController:controller animated:YES];
+        }else{
+         //TODO
+        }
     }else if (section == 1 && row == 0){
-        
+        ZKHShopSaleListController *controller = [[ZKHShopSaleListController alloc] init];
+        controller.shop = shop;
+        [self.navigationController pushViewController:controller animated:YES];
     }else if (section == 1 && row == 1){
         
     }

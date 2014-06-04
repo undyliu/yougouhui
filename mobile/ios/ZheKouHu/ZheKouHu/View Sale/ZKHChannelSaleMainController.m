@@ -53,8 +53,8 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
         [items addObject:item];
         item.tag = index++;
         
-//        NSDictionary *attr = @{NSFontAttributeName: [UIFont fontWithName:@"Courier" size:14]};
-//        [item setTitleTextAttributes:attr forState:UIControlStateApplication];
+        NSDictionary *attr = @{NSFontAttributeName: [UIFont fontWithName:@"Courier" size:14]};
+        [item setTitleTextAttributes:attr forState:UIControlStateNormal];
     }
     self.channelBar.items = items;
 }

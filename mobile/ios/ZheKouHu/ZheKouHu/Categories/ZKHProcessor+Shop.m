@@ -239,7 +239,7 @@
     
     [restClient execute:request completionHandler:^(NSHTTPURLResponse *response, id jsonObject) {
         NSString *uuid = [jsonObject valueForKey:KEY_UUID];
-        if ([uuid isNull]) {
+        if ([NSString isNull:uuid]) {
             shopBlock(nil);
         }
         shopBlock([[ZKHShopEntity alloc] initWithJsonObject:jsonObject]);
@@ -257,10 +257,129 @@
     
     [restClient execute:request completionHandler:^(NSHTTPURLResponse *response, id jsonObject) {
         NSString *uuid = [jsonObject valueForKey:KEY_UUID];
-        if ([uuid isNull]) {
+        if ([NSString isNull:uuid]) {
             checkShopEmpBlock(false);
         }else{
             checkShopEmpBlock(true);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+//获取商铺职员列表
+#define  GET_SHOP_EMPS_URL(__SHOP_ID__) [NSString stringWithFormat:@"/getShopEmps/%@", __SHOP_ID__]
+- (void)shopEmps:(NSString *)shopId completionHandler:(ShopEmpsResponseBlock)shopEmpsBlock errorHandler:(MKNKErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = GET_SHOP_EMPS_URL(shopId);
+    request.method = METHOD_GET;
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSMutableArray *emps = [[NSMutableArray alloc] init];
+        for (id jsonEmp in jsonObject) {
+            ZKHUserEntity *emp = [[ZKHUserEntity alloc] initWithJsonObject:jsonEmp noPwd:false];
+            [emps addObject:emp];
+        }
+        shopEmpsBlock(emps);
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+//添加商铺职员
+#define ADD_SHOP_EMPS_URL  @"/addShopEmps"
+- (void)addShopEmps:(NSString *)shopId emps:(NSMutableArray *)emps completionHandler:(BooleanResultResponseBlock)addShopEmpsBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    NSMutableString *empIds = [[NSMutableString alloc] init];
+    for (ZKHUserEntity *emp in emps) {
+        [empIds appendFormat:@"|%@", emp.uuid];
+    }
+    
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = ADD_SHOP_EMPS_URL;
+    request.method = METHOD_POST;
+    request.params = @{KEY_SHOP_ID: shopId, KEY_EMPS: [empIds substringFromIndex:1]};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *uuid = jsonObject[KEY_UUID];
+        if ([NSString isNull:uuid]) {
+            addShopEmpsBlock(false);
+        }else{
+            addShopEmpsBlock(true);
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
+
+//删除商铺职员
+#define DEL_SHOP_EMPS_URL(__SHOP_ID__, __EMP_IDS__) [NSString stringWithFormat:@"/deleteShopEmps/%@/%@", __SHOP_ID__, __EMP_IDS__]
+- (void)deleteShopEmps:(NSString *)shopId emps:(NSMutableArray *)emps completionHandler:(BooleanResultResponseBlock)delShopEmpsBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    NSMutableString *empIds = [[NSMutableString alloc] init];
+    for (ZKHUserEntity *emp in emps) {
+        [empIds appendFormat:@"|%@", emp.uuid];
+    }
+    
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = DEL_SHOP_EMPS_URL(shopId, [empIds substringFromIndex:1]);
+    request.method = METHOD_DELETE;
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *uuid = jsonObject[KEY_UUID];
+        if ([NSString isNull:uuid]) {
+            delShopEmpsBlock(false);
+        }else{
+            delShopEmpsBlock(true);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+//搜索商铺
+#define SEARCH_SHOPS_URL @"/searchShops"
+- (void)searchShop:(NSString *)searchWord completionHandler:(ShopsResponseBlock)shopsBlock errorHandler:(MKNKErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.method = METHOD_POST;
+    request.urlString = SEARCH_SHOPS_URL;
+    request.params = @{KEY_SEARCH_WORD: searchWord};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSMutableArray *shops = [[NSMutableArray alloc] init];
+        for (id jsonShop in jsonObject) {
+            ZKHShopEntity *shop = [[ZKHShopEntity alloc] init];
+            shop.uuid = jsonShop[KEY_UUID];
+            shop.name = jsonShop[KEY_NAME];
+            shop.shopImg = jsonShop[KEY_SHOP_IMG];
+            shop.owner = jsonShop[KEY_OWNER];
+            shop.barcode = jsonShop[KEY_BARCODE];
+            
+            [shops addObject:shop];
+        }
+        shopsBlock(shops);
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+//设置职员密码
+#define SET_SHOP_EMP_PWD_URL @"/setShopEmpPwd"
+- (void)setShopEmpPwd:(NSString *)shopId userId:(NSString *)userId pwd:(NSString *)pwd completionHandler:(BooleanResultResponseBlock)setShopEmpPwdBlock errorHandler:(MKNKErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = SET_SHOP_EMP_PWD_URL;
+    request.method = METHOD_PUT;
+    request.params = @{KEY_SHOP_ID: shopId, KEY_USER_ID: userId, KEY_PWD: pwd};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *pwd = jsonObject[KEY_PWD];
+        if ([NSString isNull:pwd]) {
+            setShopEmpPwdBlock(false);
+        }else{
+            setShopEmpPwdBlock(true);
         }
     } errorHandler:^(NSError *error) {
         errorBlock(error);

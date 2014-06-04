@@ -13,6 +13,11 @@
 
 @property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) ZKHFileEntity *imageFile;
+@property (nonatomic) Boolean readonly;
+@property (strong, nonatomic) NSMutableArray *images;
+
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
+- (IBAction)deleteImageClick:(id)sender;
 
 @end

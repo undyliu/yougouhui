@@ -9,6 +9,7 @@
 #import "ZKHProcessor+Sale.h"
 #import "ZKHConst.h"
 #import "ZKHData.h"
+#import "NSString+Utils.h"
 
 @implementation ZKHProcessor (Sale)
 
@@ -160,4 +161,54 @@
     }];
     
 }
+
+//发布活动
+#define ADD_SALE_URL @"/addSale"
+- (void)publishSale:(ZKHSaleEntity *)sale completionHandler:(BooleanResultResponseBlock)publishSaleBlock errorHandler:(MKNKErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = ADD_SALE_URL;
+    request.method = METHOD_POST;
+    request.params = @{KEY_TITLE: sale.title, KEY_CONTENT: sale.content, KEY_SHOP_ID: sale.shop.uuid, KEY_TRADE_ID:sale.tradeId, KEY_START_DATE: sale.startDate, KEY_END_DATE: sale.endDate, KEY_PUBLISHER: sale.publisher.uuid};
+    request.files = sale.images;
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *uuid = jsonObject[KEY_UUID];
+        if ([NSString isNull:uuid]) {
+            publishSaleBlock(false);
+        }else{
+            sale.uuid = uuid;
+            sale.publishTime = jsonObject[KEY_PUBLISH_TIME];
+            sale.publishDate = jsonObject[KEY_PUBLISH_DATE];
+            sale.status = jsonObject[KEY_STATUS];
+            sale.img = jsonObject[KEY_IMG];
+            sale.visitCount = @"0";
+            sale.discussCount = @"0";
+            sale.channelId = jsonObject[KEY_CHANNEL_ID];
+            if (sale.channelId == nil) {
+                sale.channelId = @"";
+            }
+            
+            NSMutableArray *files = [[NSMutableArray alloc] init];
+            id jsonImages = jsonObject[KEY_IMAGES];
+            for (id jsonImage in jsonImages) {
+                ZKHFileEntity *file = [[ZKHFileEntity alloc] init];
+                file.uuid = jsonImage[KEY_UUID];
+                file.aliasName = jsonImage[KEY_IMG];
+                file.ordIndex = jsonImage[KEY_ORD_INDEX];
+                
+                [files addObject:file];
+            }
+            
+            sale.images = files;
+            
+            [[[ZKHSaleData alloc] init] save:@[sale]];
+            
+            publishSaleBlock(true);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
 @end
