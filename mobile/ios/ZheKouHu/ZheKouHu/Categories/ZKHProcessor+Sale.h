@@ -19,4 +19,5 @@ typedef void (^SalesResponseBlock)(NSMutableArray* sales);
 typedef void (^SaleResponseBlock)(ZKHSaleEntity* sale);
 - (void) sale: (NSString *) uuid userId:(NSString *)userId completionHandler:(SaleResponseBlock) saleBlock errorHandler:(MKNKErrorBlock) errorBlock;
 
+- (void) publishSale: (ZKHSaleEntity *) sale completionHandler:(BooleanResultResponseBlock) publishSaleBlock errorHandler:(MKNKErrorBlock) errorBlock;
 @end

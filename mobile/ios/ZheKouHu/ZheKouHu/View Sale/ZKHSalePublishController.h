@@ -10,15 +10,12 @@
 #import "ZKHEntity.h"
 #import "ZKHTextField.h"
 #import "ZKHTextView.h"
-#import "UITableView+DataSourceBlocks.h"
+#import "QRadioButton.h"
 
-@class TableViewWithBlock;
-
-@interface ZKHSalePublishController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface ZKHSalePublishController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, QRadioButtonDelegate>
 {
     NSMutableArray *selectedImages;
-    BOOL isOpened;
-    int selectedTradeIndex;
+    ZKHShopTradeEntity *selectedShopTrade;
 }
 
 @property (strong, nonatomic) ZKHShopEntity *shop;
@@ -32,19 +29,16 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *startDateField;
 @property (weak, nonatomic) IBOutlet UITextField *endDateField;
+@property (weak, nonatomic) IBOutlet UIView *tradesView;
 
-@property (strong, nonatomic) IBOutlet UIButton *openButton;
-@property (strong, nonatomic) IBOutlet UITextField *tradeTextField;
-@property (strong, nonatomic) IBOutlet TableViewWithBlock *tradesTableView;
-
-@property (weak, nonatomic) IBOutlet UICollectionView *picViewContainer;
+@property (retain, nonatomic) IBOutlet UICollectionView *picViewContainer;
 
 @property (nonatomic,strong) UIToolbar * accessoryView;
 @property (nonatomic,strong) UIDatePicker *customInput;
 
-- (IBAction)changeOpenStatus:(id)sender;
-
 - (IBAction)backgroupTap:(id)sender;
+- (IBAction)addPicViewClick:(id)sender;
+- (IBAction)previewPic:(id)sender;
 
 - (IBAction)OnDatePickerDone:(id)sender;
 - (IBAction)dateChanged:(id)sender;

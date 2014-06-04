@@ -50,6 +50,7 @@ static NSString *CellIdentifier = @"SharePicCell";
         //self.scanShopButton.hidden = true;
     }
     
+    [self.scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backgroupTap:)]];
     
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveShare:)];
     self.navigationItem.rightBarButtonItem = saveButton;

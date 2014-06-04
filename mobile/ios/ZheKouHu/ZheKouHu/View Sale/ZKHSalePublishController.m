@@ -11,6 +11,12 @@
 #import "ZKHImagePreviewController.h"
 #import "SelectionCell.h"
 #import "TableViewWithBlock.h"
+#import "NSString+Utils.h"
+#import "ZKHProcessor+Sale.h"
+#import "ZKHAppDelegate.h"
+#import "ZKHContext.h"
+#import "ZKHImageLoader.h"
+#import "NSDate+Utils.h"
 
 static NSString *CellIdentifier = @"SharePicCell";
 
@@ -38,72 +44,76 @@ static NSString *CellIdentifier = @"SharePicCell";
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(publish:)];
     self.navigationItem.rightBarButtonItem = saveButton;
     
-    [self initializeTradesView];
-    [self initializeDatePicker];
+    [self initializeViews];
     
-    //self.startDateField.layer.borderWidth = 1.0;
-    //self.startDateField.layer.borderColor = [UIColor colorWithWhite:209.0 / 255.0 alpha:1.0].CGColor;
-    //self.startDateField.backgroundColor = [UIColor whiteColor];
     self.startDateField.inputAccessoryView = self.accessoryView;
     self.startDateField.inputView = self.customInput;
     
-    //self.endDateField.layer.borderWidth = 1.0;
-    //self.endDateField.layer.borderColor = [UIColor colorWithWhite:209.0 / 255.0 alpha:1.0].CGColor;
-    //self.endDateField.backgroundColor = [UIColor whiteColor];
     self.endDateField.inputAccessoryView = self.accessoryView;
     self.endDateField.inputView = self.customInput;
+    
     
     [self.mainView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backgroupTap:)]];
     
 }
 
+- (void) initializeViews
+{
+    [self initializeTradesView];
+    [self initializeDatePicker];
+    
+}
 - (void)initializeTradesView
 {
-    if ([self.shop.trades count] == 0) {
-        selectedTradeIndex = 0;
-        ZKHShopTradeEntity *shopTrade = self.shop.trades[selectedTradeIndex];
-        self.tradeTextField.text = shopTrade.trade.name;
+    int index = 0;
+    CGFloat offsetX = 0;
+    CGFloat offsetY = 0;
+    CGRect tradesViewFrame = self.tradesView.frame;
+    
+    CGFloat radioWith = 70;
+    CGFloat radioHeight = 30;
+    int rowCount = tradesViewFrame.size.width / 70;
+    
+    for (ZKHShopTradeEntity *shopTrade in self.shop.trades) {
+        QRadioButton *_radio1 = [[QRadioButton alloc] initWithDelegate:self groupId:@"groupId1"];
+        _radio1.frame = CGRectMake(tradesViewFrame.origin.x + offsetX, tradesViewFrame.origin.y + offsetY, radioWith, radioHeight);
+        [_radio1 setTitle:shopTrade.trade.name forState:UIControlStateNormal];
+        [_radio1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_radio1.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0f]];
+        _radio1.userObject = shopTrade;
+        
+        [self.mainView addSubview:_radio1];
+        
+        index++;
+        offsetX = (index % rowCount) * radioWith;
+        offsetY = (index / rowCount) * radioHeight;
+        
+        if ([self.shop.trades count] == 1) {
+            [_radio1 setChecked:TRUE];
+        }
     }
     
-    isOpened = NO;
-    int count = [self.shop.trades count];
-    [self.tradesTableView initTableViewDataSourceAndDelegate:^(UITableView *tableView,NSInteger section){
-        return count;
-        
-    } setCellForIndexPathBlock:^(UITableView *tableView,NSIndexPath *indexPath){
-        SelectionCell *cell=[tableView dequeueReusableCellWithIdentifier:@"SelectionCell"];
-        if (!cell) {
-            cell = [[[NSBundle mainBundle]loadNibNamed:@"SelectionCell" owner:self options:nil]objectAtIndex:0];
-            [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
-        }
-        
-        ZKHShopTradeEntity *shopTrade = self.shop.trades[indexPath.row];
-        cell.lb.text = shopTrade.trade.name;
-        
-        return cell;
-    } setDidSelectRowBlock:^(UITableView *tableView,NSIndexPath *indexPath){
-        selectedTradeIndex = indexPath.row;
-        ZKHShopTradeEntity *shopTrade = self.shop.trades[selectedTradeIndex];
-        self.tradeTextField.text = shopTrade.trade.name;
-        [_openButton sendActionsForControlEvents:UIControlEventTouchUpInside];
-    }];
-    
-    [_tradesTableView.layer setBorderColor:[UIColor lightGrayColor].CGColor];
-    [_tradesTableView.layer setBorderWidth:2];
+    CGRect picViewFrame = self.picViewContainer.frame;
+    self.picViewContainer.frame = CGRectMake(picViewFrame.origin.x, picViewFrame.origin.y + offsetY + 30, picViewFrame.size.width, picViewFrame.size.height);
+    [self.mainView updateConstraints];
+    //[self.mainView addSubview:self.picViewContainer];
 }
 
 - (void)initializeDatePicker
 {
-    self.accessoryView = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
+    self.accessoryView = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 36)];
     UIButton* btnDone = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnDone.frame = CGRectMake(self.accessoryView.frame.size.width-70, 0, 60, 30);
+    btnDone.frame = CGRectMake(self.accessoryView.frame.size.width-70, 3, 60, 30);
     [btnDone setBackgroundColor:[UIColor blueColor]];
     [btnDone setTitle:@"完成" forState:UIControlStateNormal];
     [btnDone.titleLabel setTextColor:[UIColor whiteColor]];
     [self.accessoryView addSubview:btnDone];
     [btnDone addTarget:self action:@selector(OnDatePickerDone:) forControlEvents:UIControlEventTouchUpInside];
     
-    self.customInput = [[UIDatePicker alloc] init];
+    UIDatePicker *datePicker = [[UIDatePicker alloc] init];
+    [datePicker setDatePickerMode:UIDatePickerModeDate];
+    
+    self.customInput = datePicker;
     [self.customInput addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
 }
 
@@ -117,7 +127,71 @@ static NSString *CellIdentifier = @"SharePicCell";
 
 - (void)publish:(id)sender
 {
+    NSString *title = self.titleField.text;
+    NSString *content = self.contentField.text;
+    NSString *startDate = self.startDateField.text;
+    NSString *endDate = self.endDateField.text;
     
+    //TODO进行检查
+    if ([NSString isNull:title] || [NSString isNull:content]
+        || [NSString isNull:startDate] || [NSString isNull:endDate]) {
+        return;
+    }
+    
+    if (selectedShopTrade == nil) {
+        return;
+    }
+    if ([selectedImages count] == 0) {
+        return;
+    }
+    
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setDateFormat:@"yyyy-MM-dd"];
+    
+    ZKHSaleEntity *sale = [[ZKHSaleEntity alloc] init];
+    sale.title = title;
+    sale.content = content;
+    sale.startDate = [NSDate milliSeconds:[df dateFromString:startDate]];
+    sale.endDate = [NSDate milliSeconds:[df dateFromString:endDate]];;
+    sale.tradeId = selectedShopTrade.trade.uuid;
+    sale.publisher = [ZKHContext getInstance].user;
+    sale.shop = self.shop;
+    sale.images = [self getImageFiles];
+    
+    [ApplicationDelegate.zkhProcessor publishSale:sale completionHandler:^(Boolean result) {
+        if (result) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            [self deleteImageFiles:sale.images];
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
+
+- (NSMutableArray *) getImageFiles
+{
+    ZKHUserEntity *user = [ZKHContext getInstance].user;
+    NSMutableArray *files = [[NSMutableArray alloc] init];
+    
+    for (UIImage *image in selectedImages) {
+        NSString *aliasName = [NSString stringWithFormat:@"%@_share_%@.png", user.phone, [NSDate currentTimeString]];
+        NSString *filePath = [ZKHImageLoader saveImage:image fileName:aliasName];
+        
+        ZKHFileEntity *file = [[ZKHFileEntity alloc] init];
+        file.aliasName = aliasName;
+        file.fileUrl = filePath;
+        
+        [files addObject:file];
+    }
+    return files;
+}
+
+- (void) deleteImageFiles:(NSMutableArray *)files
+{
+    for (ZKHFileEntity *file in files) {
+        [ZKHImageLoader removeImageWithName:file.aliasName];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -132,7 +206,7 @@ static NSString *CellIdentifier = @"SharePicCell";
     [super didReceiveMemoryWarning];
 }
 
-- (void)addPic
+- (void)addPicViewClick:(id)sender
 {
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
                                   initWithTitle:nil
@@ -145,36 +219,20 @@ static NSString *CellIdentifier = @"SharePicCell";
     [actionSheet showInView:self.view];
 }
 
-- (IBAction)changeOpenStatus:(id)sender {
-    
-    if (isOpened) {
-        [UIView animateWithDuration:0.3 animations:^{
-            UIImage *closeImage=[UIImage imageNamed:@"dropdown.png"];
-            [_openButton setImage:closeImage forState:UIControlStateNormal];
-            
-            CGRect frame=_tradesTableView.frame;
-            
-            frame.size.height=1;
-            [_tradesTableView setFrame:frame];
-            self.picViewContainer.hidden = false;
-        } completion:^(BOOL finished){
-            
-            isOpened=NO;
-        }];
-    }else{
-        [UIView animateWithDuration:0.3 animations:^{
-            UIImage *openImage=[UIImage imageNamed:@"dropup.png"];
-            [_openButton setImage:openImage forState:UIControlStateNormal];
-            
-            CGRect frame=_tradesTableView.frame;
-            frame.size.height = 35 * [self.shop.trades count];
-            [_tradesTableView setFrame:frame];
-            self.picViewContainer.hidden = true;
-        } completion:^(BOOL finished){
-            
-            isOpened=YES;
-        }];
-        
+- (void)previewPic:(id)sender
+{
+    UITapGestureRecognizer *rec = (UITapGestureRecognizer *)sender;
+    UIView *view = rec.view;
+    if (view) {
+        int tag = view.tag;
+        UIImage *image = tag < [selectedImages count] ? selectedImages[tag] : nil;
+        if (image) {
+            ZKHImagePreviewController *controller = [[ZKHImagePreviewController alloc] init];
+            controller.readonly = false;
+            controller.images = selectedImages;
+            controller.image = image;
+            [self.navigationController pushViewController:controller animated:YES];
+        }
     }
 }
 
@@ -202,6 +260,13 @@ static NSString *CellIdentifier = @"SharePicCell";
     
 }
 
+#pragma mark - QRadioButtonDelegate
+
+- (void)didSelectedRadioButton:(QRadioButton *)radio groupId:(NSString *)groupId {
+    NSLog(@"did selected radio:%@ groupId:%@", radio.titleLabel.text, groupId);
+    selectedShopTrade = radio.userObject;
+}
+
 #pragma mark - collectionView
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -221,27 +286,22 @@ static NSString *CellIdentifier = @"SharePicCell";
     UIImage *image = row < [selectedImages count] ? selectedImages[row] : nil;
     if (image) {
         cell.imageView.image = image;
+        cell.imageView.userInteractionEnabled = true;
+        cell.imageView.tag = row;
+        [cell.imageView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(previewPic:)]];
     }else{
         cell.imageView.image = [UIImage imageNamed:@"add_camera.png"];
+        cell.imageView.userInteractionEnabled = TRUE;
+        [cell.imageView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(addPicViewClick:)]];
     }
     
     return cell;
 }
 
+//collection view的点击时间被阻止了
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    int row = indexPath.row;
-    
-    UIImage *image = row < [selectedImages count] ? selectedImages[row] : nil;
-    if (image) {
-        ZKHImagePreviewController *controller = [[ZKHImagePreviewController alloc] init];
-        controller.readonly = false;
-        controller.images = selectedImages;
-        controller.image = image;
-        [self.navigationController pushViewController:controller animated:YES];
-    }else{
-        [self addPic];
-    }
+
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

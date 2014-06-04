@@ -16,6 +16,7 @@
 @interface ZKHFileEntity : ZKHEntity<NSCopying>
 @property (strong, nonatomic) NSString *fileUrl;
 @property (strong, nonatomic) NSString *aliasName;
+@property (strong, nonatomic) NSString *ordIndex;
 @end
 
 //功能模块
