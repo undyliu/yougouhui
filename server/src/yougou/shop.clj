@@ -215,8 +215,9 @@
     )
    )
 (defn set-shop-emp-pwd [shop-id user-id new-pwd]
-  {:rows (update shop-emps (set-fields {:pwd new-pwd :last_modify_time (str (System/currentTimeMillis))})
-                 (where {:shop_id shop-id :user_id user-id}))}
+   (update shop-emps (set-fields {:pwd new-pwd :last_modify_time (str (System/currentTimeMillis))})
+                 (where {:shop_id shop-id :user_id user-id}))
+  {:pwd new-pwd}
  )
 
 (defn update-shop-emp-pwd [shop-id user-id old-pwd new-pwd]
@@ -253,7 +254,7 @@
     )
   )
 (defn get-shop-emps [shop-id]
-  (select users (fields :uuid :name :photo [:e_shop_emp.pwd :pwd])
+  (select users (fields :uuid :name :photo [:e_shop_emp.pwd :pwd] :type :register_time)
           (join shop-emps (= :e_shop_emp.user_id :uuid))
           (where {:e_shop_emp.shop_id shop-id}))
   )

@@ -132,13 +132,19 @@
      )
     )
  )
+(defn- get-channel-id-by-trade [trade-id]
+  (if-let [channel (first (select channel-trades (fields :channel_id) (where {:trade_id trade-id})))]
+    channel
+    {}
+    )
+  )
 
 (defn save-sale-data [title content start-date end-date shop-id trade-id publisher image-names files]
   (transaction
     (let [sale (save-sale title content start-date end-date shop-id trade-id publisher (first image-names))
         images (save-sale-images (:uuid sale) image-names files)
         ]
-      (assoc sale :images images)
+      (assoc (merge sale (get-channel-id-by-trade trade-id)) :images images)
       )
    )
   )

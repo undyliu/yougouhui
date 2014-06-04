@@ -124,11 +124,13 @@
 			  publisher (:publisher req-params)
         shop-id (:shop_id req-params)
 				current-time (System/currentTimeMillis)
+        access-type (:access_type req-params)
         share {:uuid uuid :publish_time current-time :publish_date (date/formatDate current-time)}
 			]
 
 		  (transaction
-			  (insert shares (values {:uuid uuid :content content :shop_id shop-id :publisher publisher :publish_time current-time :publish_date (date/formatDate current-time) :last_modify_time current-time}))
+			  (insert shares (values {:uuid uuid :content content :shop_id shop-id :publisher publisher :publish_time current-time
+                                :publish_date (date/formatDate current-time) :last_modify_time current-time :access_type access-type}))
 			  (user/inc-user-share-count publisher)
       )
       (if image-names
