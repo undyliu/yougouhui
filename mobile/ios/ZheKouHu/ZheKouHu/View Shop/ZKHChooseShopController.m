@@ -103,7 +103,7 @@ static NSString *CellIdentifier = @"ContactListCell";
     ZKHContactListCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     ZKHShopEntity *shop = result[indexPath.row];
-    [ZKHImageLoader showImageForName:shop.shopImg imageView:cell.cellImageView];
+    [ZKHImageLoader showImageForName:shop.shopImg.aliasName imageView:cell.cellImageView];
     cell.cellLabel.text = shop.name;
     
     cell.cellSwitch.indexPath = indexPath;

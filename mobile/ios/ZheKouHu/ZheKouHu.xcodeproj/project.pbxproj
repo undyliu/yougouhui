@@ -115,6 +115,7 @@
 		10456DA2192E28D20061DCC1 /* ZKHChannelSaleMainController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10456D5A192E28D20061DCC1 /* ZKHChannelSaleMainController.xib */; };
 		10456DA3192E28D20061DCC1 /* ZKHSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10456D5D192E28D20061DCC1 /* ZKHSwitchCell.m */; };
 		10456DA4192E28D20061DCC1 /* ZKHSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10456D5E192E28D20061DCC1 /* ZKHSwitchCell.xib */; };
+		104EC8A31940205400D4EC61 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 104EC8A21940205400D4EC61 /* MapKit.framework */; };
 		105CA8CC192DF70D00D5975A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 105CA8CB192DF70D00D5975A /* QuartzCore.framework */; };
 		1070ACE719345B3F00AA1AE1 /* ZKHContactListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1070ACE519345B3F00AA1AE1 /* ZKHContactListController.m */; };
 		1070ACF519345CEF00AA1AE1 /* ChineseToPinyinResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1070ACEB19345CEF00AA1AE1 /* ChineseToPinyinResource.m */; };
@@ -392,6 +393,7 @@
 		10456D5C192E28D20061DCC1 /* ZKHSwitchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHSwitchCell.h; sourceTree = "<group>"; };
 		10456D5D192E28D20061DCC1 /* ZKHSwitchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHSwitchCell.m; sourceTree = "<group>"; };
 		10456D5E192E28D20061DCC1 /* ZKHSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHSwitchCell.xib; sourceTree = "<group>"; };
+		104EC8A21940205400D4EC61 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		105CA8CB192DF70D00D5975A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1070ACE419345B3F00AA1AE1 /* ZKHContactListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHContactListController.h; sourceTree = "<group>"; };
 		1070ACE519345B3F00AA1AE1 /* ZKHContactListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHContactListController.m; sourceTree = "<group>"; };
@@ -545,6 +547,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				104EC8A31940205400D4EC61 /* MapKit.framework in Frameworks */,
 				1002439C1935D4F600A5047F /* CoreLocation.framework in Frameworks */,
 				105CA8CC192DF70D00D5975A /* QuartzCore.framework in Frameworks */,
 				100CD3DD192AE1B20074DF8E /* libsqlite3.dylib in Frameworks */,
@@ -1046,6 +1049,7 @@
 		10F707F319298CF200282511 = {
 			isa = PBXGroup;
 			children = (
+				104EC8A21940205400D4EC61 /* MapKit.framework */,
 				1002439B1935D4F500A5047F /* CoreLocation.framework */,
 				105CA8CB192DF70D00D5975A /* QuartzCore.framework */,
 				100CD3DC192AE1B20074DF8E /* libsqlite3.dylib */,

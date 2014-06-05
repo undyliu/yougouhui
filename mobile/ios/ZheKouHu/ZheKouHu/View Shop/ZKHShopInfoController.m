@@ -15,6 +15,7 @@
 #import "ZKHProcessor+Shop.h"
 #import "ZKHProcessor+Favorit.h"
 #import "NSDate+Utils.h"
+#import "NSString+Utils.h"
 #import "ZKHContext.h"
 #import "ZKHViewUtils.h"
 #import "ZKHShareController.h"
@@ -169,7 +170,7 @@ static NSString *CellIdentifier = @"ImageLabelCell";
             cell.nameLabel.text = @"店面图片";
             cell.valueLabel.hidden = true;
             cell.photoView.hidden = false;
-            NSString *shopImg = self.shop.shopImg;
+            NSString *shopImg = self.shop.shopImg.aliasName;
             if ([shopImg length] > 0) {
                 [ZKHImageLoader showImageForName:shopImg imageView:cell.photoView];
             }else{
@@ -201,7 +202,7 @@ static NSString *CellIdentifier = @"ImageLabelCell";
             cell.nameLabel.text = @"营业执照";
             cell.valueLabel.hidden = true;
             cell.photoView.hidden = false;
-            NSString *busiLicense = self.shop.busiLicense;
+            NSString *busiLicense = self.shop.busiLicense.aliasName;
             if ([busiLicense length] > 0) {
                 [ZKHImageLoader showImageForName:busiLicense imageView:cell.photoView];
             }else{
@@ -226,8 +227,8 @@ static NSString *CellIdentifier = @"ImageLabelCell";
             cell.nameLabel.text = @"二维码";
             cell.valueLabel.hidden = true;
             cell.photoView.hidden = false;
-            NSString *barcode = self.shop.barcode;
-            if ([barcode length] > 0) {
+            NSString *barcode = self.shop.barcode.aliasName;
+            if (![NSString isNull:barcode]) {
                 [ZKHImageLoader showImageForName:barcode imageView:cell.photoView];
             }else{
                 cell.photoView.image = [UIImage imageNamed:@"default_pic.png"];
@@ -358,9 +359,7 @@ static NSString *CellIdentifier = @"ImageLabelCell";
 
 - (ZKHFileEntity *)getOriginalImageFile
 {
-    ZKHFileEntity *imageFile = [[ZKHFileEntity alloc] init];
-    imageFile.aliasName = self.shop.shopImg;
-    return imageFile;
+    return self.shop.shopImg;
 }
 
 - (void)save:(id)sender
@@ -375,8 +374,8 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     
     [ApplicationDelegate.zkhProcessor changeShopImage:self.shop.uuid shopImage:file completionHandler:^(Boolean result) {
         if (result) {
-            [ZKHImageLoader removeImageWithName:self.shop.shopImg];//删除原有的照片
-            self.shop.shopImg = aliasName;
+            [ZKHImageLoader removeImageWithName:self.shop.shopImg.aliasName];//删除原有的照片
+            self.shop.shopImg = file;
             [self.navigationController popViewControllerAnimated:YES];
         }
     } errorHandler:^(NSError *error) {
@@ -388,9 +387,7 @@ static NSString *CellIdentifier = @"ImageLabelCell";
 @implementation ZKHChangeBusiLicenseController
 - (ZKHFileEntity *)getOriginalImageFile
 {
-    ZKHFileEntity *imageFile = [[ZKHFileEntity alloc] init];
-    imageFile.aliasName = self.shop.busiLicense;
-    return imageFile;
+    return self.shop.busiLicense;
 }
 
 - (void)save:(id)sender{
@@ -404,8 +401,8 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     
     [ApplicationDelegate.zkhProcessor changeBusiLicense:self.shop.uuid busiLicense:file completionHandler:^(Boolean result) {
         if (result) {
-            [ZKHImageLoader removeImageWithName:self.shop.busiLicense];//删除原有的照片
-            self.shop.busiLicense = aliasName;
+            [ZKHImageLoader removeImageWithName:self.shop.busiLicense.aliasName];//删除原有的照片
+            self.shop.busiLicense = file;
             [self.navigationController popViewControllerAnimated:YES];
         }
     } errorHandler:^(NSError *error) {

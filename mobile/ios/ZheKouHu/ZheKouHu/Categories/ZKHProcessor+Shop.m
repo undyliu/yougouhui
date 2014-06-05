@@ -386,4 +386,72 @@
     }];
 }
 
+//注册店铺
+#define REGISTER_SHOP_URL @"/registerShop"
+- (void)registerShop:(ZKHShopEntity *)shop completionHandler:(BooleanResultResponseBlock)registerShopBlock errorHandler:(MKNKErrorBlock)errorBlock
+{    
+    NSMutableString *tradeIds = [[NSMutableString alloc] init];
+    for (ZKHShopTradeEntity *shopTrade in shop.trades) {
+        [tradeIds appendFormat:@"|%@",shopTrade.trade.uuid];
+    }
+    
+    NSMutableDictionary *params = [[NSMutableDictionary alloc]initWithDictionary: @{KEY_NAME: shop.name, KEY_DESC: shop.desc, KEY_ADDR: shop.addr, KEY_SHOP_IMG: shop.shopImg.aliasName, KEY_BUSI_LICENSE: shop.busiLicense.aliasName}];
+    
+    [params setObject:[tradeIds substringFromIndex:1] forKey:KEY_TRADE_LIST];
+    
+    ZKHUserEntity *emp = shop.employees[0];
+    if (shop.owner) {
+        [params setObject:shop.owner forKey:KEY_OWNER];
+        [params setObject:emp.pwd forKey:KEY_PWD];
+    }else{
+        [params setObject:emp.pwd forKey:KEY_PWD];
+        [params setObject:emp.phone forKey:KEY_PHONE];
+        [params setObject:emp.name forKey:KEY_USER_NAME];
+    }
+    
+    [params setObject:[shop.location toString] forKey:KEY_LOCATION];
+    
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = REGISTER_SHOP_URL;
+    request.method = METHOD_POST;
+    request.params = params;
+    request.files = @[shop.shopImg, shop.busiLicense];
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *uuid = jsonObject[KEY_UUID];
+        if ([NSString isNull:uuid]) {
+            registerShopBlock(false);
+        }else{
+            shop.uuid = uuid;
+            shop.registerTime = jsonObject[KEY_REGISTER_TIME];
+            shop.status = jsonObject[KEY_STATUS];
+            
+            shop.barcode = [[ZKHFileEntity alloc] init];
+            shop.barcode.aliasName = jsonObject[KEY_BARCODE];
+            
+            id jsonTrades = jsonObject[KEY_TRADE_LIST];
+            for (id jsonTrade in jsonTrades) {
+                NSString *tradeId = jsonTrade[KEY_TRADE_ID];
+                for (ZKHShopTradeEntity *shopTrade in shop.trades) {
+                    if ([tradeId isEqualToString:shopTrade.trade.uuid]) {
+                        shopTrade.uuid = jsonTrade[KEY_UUID];
+                        break;
+                    }
+                }
+            }
+            
+            id jsonEmps = jsonObject[KEY_EMP_LIST];
+            //for (id jsonEmp in jsonEmps) {
+                shop.owner = jsonEmps[KEY_USER_ID];
+            //}
+            
+            [[[ZKHShopData alloc] init] save:@[shop]];
+            
+            registerShopBlock(true);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
 @end

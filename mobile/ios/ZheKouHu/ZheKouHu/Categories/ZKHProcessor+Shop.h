@@ -44,4 +44,5 @@ typedef void (^ShopsResponseBlock)(NSMutableArray *shops);
 
 - (void) setShopEmpPwd: (NSString *) shopId userId:(NSString *)userId pwd:(NSString *)pwd completionHandler:(BooleanResultResponseBlock) setShopEmpPwdBlock errorHandler:(MKNKErrorBlock) errorBlock;
 
+- (void) registerShop: (ZKHShopEntity *) shop completionHandler:(BooleanResultResponseBlock) registerShopBlock errorHandler:(MKNKErrorBlock) errorBlock;
 @end

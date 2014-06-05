@@ -41,7 +41,7 @@
         }
         
         NSString *location = [NSString stringWithJSONObject:[shop.location toJSONObject]];
-        [self executeUpdate:SHOP_UPDATE_SQL params:@[shop.uuid, shop.name, shop.shopImg, location, shop.addr, shop.desc, shop.busiLicense, shop.owner, shop.registerTime, shop.status, shop.barcode]];
+        [self executeUpdate:SHOP_UPDATE_SQL params:@[shop.uuid, shop.name, shop.shopImg.aliasName, location, shop.addr, shop.desc, shop.busiLicense.aliasName, shop.owner, shop.registerTime, shop.status, shop.barcode.aliasName]];
     }
 }
 
@@ -130,18 +130,25 @@
     int i = 0;
     shop.uuid = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
     shop.name = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
-    shop.shopImg = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    
+    shop.shopImg = [[ZKHFileEntity alloc] init];
+    shop.shopImg.aliasName = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
     
     NSString *location = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
     shop.location = [[ZKHLocationEntity alloc] initWithString:location];
     
     shop.addr = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
     shop.desc = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
-    shop.busiLicense = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    
+    shop.busiLicense = [[ZKHFileEntity alloc] init];
+    shop.busiLicense.aliasName = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    
     shop.owner = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
     shop.registerTime = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
     shop.status = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
-    shop.barcode = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    
+    shop.barcode = [[ZKHFileEntity alloc] init];
+    shop.barcode.aliasName = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
     
     return shop;
 }

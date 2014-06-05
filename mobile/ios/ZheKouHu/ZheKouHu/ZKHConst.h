@@ -81,6 +81,7 @@
 #define KEY_IMAGES @"images"
 #define KEY_FILE_NAME_LIST @"fileNameList"
 #define KEY_EMPS @"emps"
+#define KEY_EMP_LIST @"empList"
 
 #define KET_SET_COOKIE @"Set-Cookie"
 

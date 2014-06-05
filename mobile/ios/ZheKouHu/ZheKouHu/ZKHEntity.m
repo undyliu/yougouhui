@@ -203,12 +203,19 @@
         self.name = [jsonShop valueForKey:KEY_NAME];
         self.addr = [jsonShop valueForKey:KEY_ADDR];
         self.desc = [jsonShop valueForKey:KEY_DESC];
-        self.shopImg = [jsonShop valueForKey:KEY_SHOP_IMG];
-        self.busiLicense = [jsonShop valueForKey:KEY_BUSI_LICENSE];
+        
+        self.shopImg = [[ZKHFileEntity alloc] init];
+        self.shopImg.aliasName = [jsonShop valueForKey:KEY_SHOP_IMG];
+        
+        self.busiLicense = [[ZKHFileEntity alloc] init];
+        self.busiLicense.aliasName = [jsonShop valueForKey:KEY_BUSI_LICENSE];
+        
         self.registerTime = [jsonShop valueForKey:KEY_REGISTER_TIME];
         self.owner = [jsonShop valueForKey:KEY_OWNER];
         self.status = [NSString stringWithFormat:@"%@", [jsonShop valueForKey:KEY_STATUS]];
-        self.barcode = [jsonShop valueForKey:KEY_BARCODE];
+        
+        self.barcode = [[ZKHFileEntity alloc] init];
+        self.barcode.aliasName = [jsonShop valueForKey:KEY_BARCODE];
         
         //处理主营业务
         NSMutableArray *trades = [[NSMutableArray alloc] init];

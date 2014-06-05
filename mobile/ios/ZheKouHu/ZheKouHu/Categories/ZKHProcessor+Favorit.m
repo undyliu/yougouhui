@@ -141,7 +141,7 @@
             favorit.uuid = uuid;
             favorit.code = shop.uuid;
             favorit.title = shop.name;
-            favorit.image = shop.shopImg;
+            favorit.image = shop.shopImg.aliasName;
             favorit.userId = userId;
             favorit.lastModifyTime = [jsonObject valueForKey:KEY_LAST_MODIFY_TIME];
             

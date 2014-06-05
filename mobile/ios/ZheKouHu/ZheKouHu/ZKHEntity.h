@@ -132,12 +132,12 @@
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *addr;
 @property (strong, nonatomic) NSString *desc;
-@property (strong, nonatomic) NSString *shopImg;
-@property (strong, nonatomic) NSString *busiLicense;
+@property (strong, nonatomic) ZKHFileEntity *shopImg;
+@property (strong, nonatomic) ZKHFileEntity *busiLicense;
 @property (strong, nonatomic) NSString *registerTime;
 @property (strong, nonatomic) NSString *owner;
 @property (strong, nonatomic) NSString *status;
-@property (strong, nonatomic) NSString *barcode;
+@property (strong, nonatomic) ZKHFileEntity *barcode;
 @property (strong, nonatomic) ZKHLocationEntity *location;
 @property (strong, nonatomic) NSMutableArray *trades;
 @property (strong, nonatomic) NSMutableArray *employees;
