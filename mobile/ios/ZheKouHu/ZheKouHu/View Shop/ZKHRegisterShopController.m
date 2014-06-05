@@ -102,6 +102,9 @@ static NSString *switchCellIdentifier = @"SwitchCell";
         self.owerNameField.text = user.name;
         self.owerNameField.userInteractionEnabled = false;
     }
+    
+    self.descField.placeholder = @"描述一下你的店铺吧";
+
 }
 
 - (IBAction)backgroupTap:(id)sender

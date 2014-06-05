@@ -90,7 +90,7 @@ static NSString *CellIdentifier = @"FavoritListCell";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 50;
+    return 54;
 }
 
 @end
