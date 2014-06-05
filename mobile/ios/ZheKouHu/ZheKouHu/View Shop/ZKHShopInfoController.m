@@ -60,7 +60,7 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     cancelFavoritItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(cancelFavoritClick:)];
     
     if ([[ZKHContext getInstance] isAnonymousUserLogined]) {
-        [self updateNavigationItem:@[shareItem]];
+        ////[self updateNavigationItem:@[shareItem]];
     }else{
         [ApplicationDelegate.zkhProcessor isShopFavorit:[ZKHContext getInstance].user.uuid shopId:self.shop.uuid completionHandler:^(Boolean result) {
             if (result) {

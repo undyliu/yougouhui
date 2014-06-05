@@ -8,6 +8,7 @@
 
 #import "ZKHFreindShareListController.h"
 #import "ZKHShareController.h"
+#import "ZKHContext.h"
 
 @implementation ZKHFreindShareListController
 
@@ -21,8 +22,10 @@
     self.pullTableView.dataSource = self;
     self.pullTableView.pullDelegate = self;
     
-    UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(shareClick:)];
-    self.navigationItem.rightBarButtonItem = shareButton;
+    if (![[ZKHContext getInstance] isAnonymousUserLogined]) {
+        UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(shareClick:)];
+        self.navigationItem.rightBarButtonItem = shareButton;
+    }
 }
 
 - (void)didReceiveMemoryWarning

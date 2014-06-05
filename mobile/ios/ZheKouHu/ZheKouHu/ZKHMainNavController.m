@@ -88,7 +88,7 @@
                        destructiveButtonTitle:nil
                        otherButtonTitles:NSLocalizedString(@"LABEL_LOGIN", @"login"),
                        NSLocalizedString(@"LABEL_REGISTER_USER", @"register user"),
-                       NSLocalizedString(@"LABEL_BUYING_SHARE", @"share buying"),
+                       //NSLocalizedString(@"LABEL_BUYING_SHARE", @"share buying"),
                        nil];
     }else{
         actionSheet = [[UIActionSheet alloc]
@@ -122,9 +122,9 @@
             case 1://register user
                 controller = [[ZKHRegiserUserController alloc] init];
                 break;
-            case 2://share
-                controller = [[ZKHShareController alloc] init];
-                break;
+//            case 2://share
+//                controller = [[ZKHShareController alloc] init];
+//                break;
             default:
                 break;
         }

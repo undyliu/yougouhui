@@ -61,6 +61,20 @@
 
 - (void)radarSetting:(NSString *)userId withDefaultValue:(Boolean)withDefaultValue completionHandler:(SettingResponseBlock)settingBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
+    if (!userId) {
+        ZKHSettingEntity *setting = [[ZKHSettingEntity alloc] init];
+        setting.code = @"radar";
+        setting.name = @"雷达";
+        if (withDefaultValue) {
+            NSDictionary *tmp = @{RADAR_VAL_FIELD_DISTANCE: @"2000", RADAR_VAL_FIELD_SALE : @"true", RADAR_VAL_FIELD_SHOP: @"true" };
+            setting.value = [NSString stringWithJSONObject:tmp];
+        }else{
+            setting.value = @"";
+        }
+        
+        settingBlock(setting);
+        return;
+    }
     [self setting:SETTING_CODE_RADAR userId:userId completionHandler:^(ZKHSettingEntity *setting) {
         if (setting && withDefaultValue) {
             NSString *value = setting.value;

@@ -217,29 +217,28 @@ static NSString *CellIdentifier = @"ShopModuleCell";
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 2;
+    return 1;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 2;
+    return 4;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ZKHShopModuleCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
-    int section = indexPath.section;
     int row = indexPath.row;
-    if (section == 0 && row == 0) {
+    if (row == 0) {
         cell.mImageView.image = [UIImage imageNamed:@"shop_info.png"];
         cell.mNameLabel.text = @"基本信息";
-    }else if (section == 0 && row == 1){
+    }else if (row == 1){
         cell.mImageView.image = [UIImage imageNamed:@"emp_setting.png"];
         cell.mNameLabel.text = @"职员设置";
-    }else if (section == 1 && row == 0){
+    }else if (row == 2){
         cell.mImageView.image = [UIImage imageNamed:@"sale_info.png"];
         cell.mNameLabel.text = @"促销活动";
-    }else if (section == 1 && row == 1){
+    }else if (row == 3){
         cell.mImageView.image = [UIImage imageNamed:@"share_interact.png"];
         cell.mNameLabel.text = @"分享互动";
     }
@@ -250,13 +249,13 @@ static NSString *CellIdentifier = @"ShopModuleCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ZKHShopEntity *shop = self.shops[currentShopIndex];
-    int section = indexPath.section;
+    
     int row = indexPath.row;
-    if (section == 0 && row == 0) {
+    if (row == 0) {
         ZKHShopInfoController *controller = [[ZKHShopInfoController alloc] init];
         controller.shop = shop;
         [self.navigationController pushViewController:controller animated:YES];
-    }else if (section == 0 && row == 1){
+    }else if (row == 1){
         ZKHUserEntity *user = [ZKHContext getInstance].user;
         if ([user.uuid isEqualToString:shop.owner]) {
             ZKHShopEmpSettingController *controller = [[ZKHShopEmpSettingController alloc] init];
@@ -265,11 +264,11 @@ static NSString *CellIdentifier = @"ShopModuleCell";
         }else{
          //TODO
         }
-    }else if (section == 1 && row == 0){
+    }else if (row == 2){
         ZKHShopSaleListController *controller = [[ZKHShopSaleListController alloc] init];
         controller.shop = shop;
         [self.navigationController pushViewController:controller animated:YES];
-    }else if (section == 1 && row == 1){
+    }else if (row == 3){
         
     }
 }

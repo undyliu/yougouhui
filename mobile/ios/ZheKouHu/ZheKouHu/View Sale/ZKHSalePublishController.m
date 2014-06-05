@@ -46,6 +46,8 @@ static NSString *CellIdentifier = @"SharePicCell";
     
     [self initializeViews];
     
+    self.contentField.placeholder = @"活动内容";
+    
     self.startDateField.inputAccessoryView = self.accessoryView;
     self.startDateField.inputView = self.customInput;
     

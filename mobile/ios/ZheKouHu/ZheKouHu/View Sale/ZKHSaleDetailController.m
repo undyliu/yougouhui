@@ -85,7 +85,7 @@
     cancelFavoritItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(cancelFavoritClick:)];
     
     if ([[ZKHContext getInstance] isAnonymousUserLogined]) {
-        [self updateNavigationItem:@[shareItem]];
+        ////[self updateNavigationItem:@[shareItem]];
     }else{
         [ApplicationDelegate.zkhProcessor isSaleFavorit:[ZKHContext getInstance].user.uuid saleId:self.sale.uuid completionHandler:^(Boolean result) {
             if (result) {
