@@ -100,4 +100,6 @@
 #define RADAR_VAL_FIELD_SHOP @"shop"
 #define RADAR_VAL_FIELD_FRIEND @"friend"
 
+#define DEFAULT_PAGE_SIZE 10
+
 #endif

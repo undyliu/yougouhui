@@ -252,3 +252,7 @@
 @implementation ZKHShareEntity
 
 @end
+
+@implementation ZKHDateIndexedEntity
+
+@end

@@ -20,4 +20,9 @@ typedef void (^SaleResponseBlock)(ZKHSaleEntity* sale);
 - (void) sale: (NSString *) uuid userId:(NSString *)userId completionHandler:(SaleResponseBlock) saleBlock errorHandler:(MKNKErrorBlock) errorBlock;
 
 - (void) publishSale: (ZKHSaleEntity *) sale completionHandler:(BooleanResultResponseBlock) publishSaleBlock errorHandler:(MKNKErrorBlock) errorBlock;
+
+-(void) salesGroupByPublishDate:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset completionHandler:(SalesResponseBlock) salesBlock errorHandler:(MKNKErrorBlock) errorBlock;
+
+- (void) cancelSale: (ZKHSaleEntity *) sale completionHandler:(BooleanResultResponseBlock) cancelSaleBlock errorHandler:(MKNKErrorBlock) errorBlock;
+
 @end

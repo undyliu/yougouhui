@@ -1,6 +1,6 @@
 #import "ZKHData.h"
 #import "ZKHConst.h"
-
+#import "NSDate+Utils.h"
 
 #define SALE_CREATE_SQL [NSString stringWithFormat:@" create table if not exists %@ (%@ text primary key, %@ text, %@ text, %@ text, %@ text, %@ text, %@ text, %@ text, %@ text, %@ text, %@ text, %@ text, %@ text, %@ text, %@ text, %@ text, %@ text) ", SALE_TABLE, KEY_UUID, KEY_TITLE, KEY_CONTENT, KEY_IMG, KEY_SHOP_ID, KEY_SHOP_NAME, KEY_START_DATE, KEY_END_DATE, KEY_PUBLISHER, KEY_PUBLISH_TIME, KEY_PUBLISH_DATE, KEY_TRADE_ID, KEY_STATUS, KEY_DIS_COUNT, KEY_VISIT_COUNT, KEY_CHANNEL_ID, KEY_LOCATION]
 #define SALE_UPDATE_SQL [NSString stringWithFormat:@" insert or replace into %@ (%@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", SALE_TABLE, KEY_UUID, KEY_TITLE, KEY_CONTENT, KEY_IMG, KEY_SHOP_ID, KEY_SHOP_NAME, KEY_START_DATE, KEY_END_DATE, KEY_PUBLISHER, KEY_PUBLISH_TIME, KEY_PUBLISH_DATE, KEY_TRADE_ID, KEY_STATUS, KEY_DIS_COUNT, KEY_VISIT_COUNT, KEY_CHANNEL_ID, KEY_LOCATION]
@@ -96,4 +96,83 @@
     return  [self queryOne:sql params:params];
 }
 
+- (NSMutableArray *)salesGroupByPublishDate:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset
+{
+    NSMutableArray *params = [[NSMutableArray alloc] init];
+    NSMutableString *sql = [NSMutableString stringWithString:@" select publish_date, count(1) from e_sale "];
+    [sql appendString:@" where shop_id = ? "];
+    [params addObject:shopId];
+    
+    if (searchWord) {
+        [sql appendString:@" and content like ? "];
+        [params addObject:[NSString stringWithFormat:@"%%%@%%", searchWord]];
+    }
+    [sql appendString:@" group by publish_date order by publish_date desc "];
+    [sql appendFormat:@" limit %d offset %d ", DEFAULT_PAGE_SIZE, offset];
+    
+    NSMutableArray *result = [[NSMutableArray alloc] init];
+    
+    NSLog(@"sql : %@", sql);
+    sqlite3 *database = nil;
+    @try {
+        database = [self openDatabase];
+        sqlite3_stmt *stmt;
+        
+        @try {
+            stmt = [self prepareStatement:sql params:params database:database];
+            while (sqlite3_step(stmt) == SQLITE_ROW) {
+                ZKHDateIndexedEntity *entity = [[ZKHDateIndexedEntity alloc] init];
+                                
+                int i = 0;
+                NSString *publishDate = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+                entity.date = [NSDate initWithyyyyMMddString:publishDate];
+                entity.count = sqlite3_column_int(stmt, i++);
+                
+                entity.items = [self salesByPublishdate:searchWord shopId: shopId publishDate:publishDate];
+                
+                [result addObject:entity];
+            }
+        }
+        @catch (NSException *exception) {
+            @throw exception;
+        }
+        @finally {
+            sqlite3_finalize(stmt);
+        }
+    }
+    @catch (NSException *exception) {
+        @throw exception;
+    }
+    @finally {
+        [self closeDatabase:database];
+    }
+    return result;
+
+}
+
+- (NSMutableArray *) salesByPublishdate:(NSString *)searchWord shopId:(NSString *)shopId publishDate:(NSString *)publishDate
+{
+    NSMutableString *sql = [NSMutableString stringWithString:SALE_BASE_QUERY_SQL];
+    NSMutableArray *params = [[NSMutableArray alloc] init];
+    [sql appendFormat:@" where publish_date = ? and shop_id = ? "];
+    [params addObject:publishDate];
+    [params addObject:shopId];
+    
+    if (searchWord) {
+        [sql appendString:@" and content like ? "];
+        [params addObject:[NSString stringWithFormat:@"%%%@%%", searchWord]];
+    }
+    
+    [sql appendString:@" order by publish_time desc "];
+    
+    return [self query:sql params:params];
+}
+
+- (void)cancelSale:(NSString *)saleId
+{
+    NSString *sql = @" update e_sale set status = ? where uuid = ? ";
+    NSArray *params = @[@"2", saleId];
+    
+    [self executeUpdate:sql params:params];
+}
 @end

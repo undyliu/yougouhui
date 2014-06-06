@@ -15,5 +15,8 @@
 + (NSString *)milliSeconds:(NSDate *)date;
 
 -(NSString *) toyyyyMMddString;
+-(NSString *) toddMMString;
+
++(id) initWithyyyyMMddString:(NSString *)str;
 
 @end

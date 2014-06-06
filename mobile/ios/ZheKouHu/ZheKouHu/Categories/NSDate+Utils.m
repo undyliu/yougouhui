@@ -39,4 +39,19 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     return [dateFormatter stringFromDate:self];
 }
+
+- (NSString *)toddMMString
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"d日M月"];
+    return [dateFormatter stringFromDate:self];
+}
+
++ (id)initWithyyyyMMddString:(NSString *)str
+{
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setDateFormat:@"yyyy-MM-dd"];
+    return [df dateFromString:str];
+}
+
 @end

@@ -15,6 +15,8 @@
     ZKHRestClient *restClient;
 }
 
+typedef void (^BooleanResultResponseBlock)(Boolean result);
+
 typedef void (^ZKHImageResponseBlock)(UIImage *fetchedImage);
 - (void)imageAtURL:(NSURL *)url completionHandler:(ZKHImageResponseBlock) imageFetchedBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
@@ -26,12 +28,5 @@ typedef void (^ModulesResponseBlock)(NSMutableArray* modules);
 typedef void (^ChannelsResponseBlock)(NSMutableArray* channels);
 - (void) channels: (NSString *)parentId completionHandler:(ChannelsResponseBlock) channelsBlock
      errorHandler:(RestResponseErrorBlock) errorBlock;
-
-//获取主营业务
-typedef void (^TradesResponseBlock)(NSMutableArray* trades);
-- (void) trades:(Boolean)reload completionHandler:(TradesResponseBlock) tradesBlock
-     errorHandler:(RestResponseErrorBlock) errorBlock;
-
-typedef void (^BooleanResultResponseBlock)(Boolean result);
 
 @end

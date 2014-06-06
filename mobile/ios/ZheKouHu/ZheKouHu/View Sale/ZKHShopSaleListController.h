@@ -11,8 +11,14 @@
 
 @interface ZKHShopSaleListController : ZKHPullRefreshTableViewController<UITableViewDelegate>
 
+{
+    NSMutableArray *saleCountList;
+    int offset;
+}
+
 @property (strong, nonatomic) ZKHShopEntity *shop;
 
 - (IBAction)publishSaleClick:(id)sender;
 
 @end
+

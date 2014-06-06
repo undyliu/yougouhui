@@ -74,6 +74,8 @@
 @interface ZKHSaleData : ZKHData<ZKHEntityUpdater>
 - (NSMutableArray *) salesForChannel:(NSString *)channelId;
 - (ZKHSaleEntity *) sale:(NSString *)uuid;
+-(NSMutableArray *) salesGroupByPublishDate:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset;
+-(void) cancelSale:(NSString *)saleId;
 @end
 
 #define SALE_DISC_TABLE @"e_sale_discuss"
@@ -83,6 +85,7 @@
 
 @interface ZKHTradeData : ZKHData<ZKHEntityUpdater>
 - (NSMutableArray *) trades;
+- (ZKHTradeEntity *) trade:(NSString *)tradeId;
 @end
 
 @interface ZKHShopData : ZKHData<ZKHEntityUpdater>

@@ -164,3 +164,10 @@
 @property (strong, nonatomic) NSMutableArray *imageFiles;
 @property (strong, nonatomic) NSString *accessType;
 @end
+
+@interface ZKHDateIndexedEntity : ZKHEntity
+@property (strong, nonatomic) NSDate *date;
+@property (nonatomic) int count;
+@property (strong, nonatomic) NSMutableArray *items;
+
+@end

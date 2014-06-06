@@ -6,7 +6,7 @@
 #define TRADE_TABLE @"e_trade"
 #define TRADE_CREATE_SQL [NSString stringWithFormat:@" create table if not exists %@ (%@ text primary key, %@ text, %@ text, %@ integer) ", TRADE_TABLE, KEY_UUID, KEY_CODE, KEY_NAME,  KEY_ORD_INDEX]
 #define TRADE_UPDATE_SQL [NSString stringWithFormat:@" insert or replace into %@ (%@, %@, %@, %@) values (?, ?, ?, ?)", TRADE_TABLE, KEY_UUID, KEY_CODE, KEY_NAME, KEY_ORD_INDEX]
-#define TRADE_QUERY_SQL [NSString stringWithFormat:@" select %@, %@, %@, %@ from %@ order by %@ ", KEY_UUID, KEY_CODE, KEY_NAME, KEY_ORD_INDEX, TRADE_TABLE, KEY_ORD_INDEX]
+#define TRADE_BASE_QUERY_SQL [NSString stringWithFormat:@" select %@, %@, %@, %@ from %@ ", KEY_UUID, KEY_CODE, KEY_NAME, KEY_ORD_INDEX, TRADE_TABLE]
 
 @implementation ZKHTradeData
 
@@ -43,7 +43,14 @@
 
 - (NSMutableArray *)trades
 {
-    return [self query:TRADE_QUERY_SQL params:nil];
+    NSString *sql = [NSString stringWithFormat:@"%@ order by %@", TRADE_BASE_QUERY_SQL, KEY_ORD_INDEX];
+    return [self query:sql params:nil];
+}
+
+- (ZKHTradeEntity *)trade:(NSString *)tradeId
+{
+    NSString *sql = [NSString stringWithFormat:@"%@ where uuid = ?", TRADE_BASE_QUERY_SQL];
+    return [self queryOne:sql params:@[tradeId]];
 }
 
 @end

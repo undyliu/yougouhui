@@ -50,6 +50,11 @@
 		10272D94192A1C4000103815 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10272D93192A1C4000103815 /* ImageIO.framework */; };
 		10272D9D192A27C100103815 /* ZKHProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 10272D9C192A27C100103815 /* ZKHProcessor.m */; };
 		1029F2671929FC29005F2D61 /* ZKHMainNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1029F2651929FC29005F2D61 /* ZKHMainNavController.m */; };
+		1036F28B19414FFF001FE623 /* ZKHShopSaleListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1036F28A19414FFF001FE623 /* ZKHShopSaleListCell.m */; };
+		1036F28E19415070001FE623 /* ZKHShopSaleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1036F28D19415070001FE623 /* ZKHShopSaleCell.m */; };
+		1036F29219416BAD001FE623 /* ZKHSaleEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1036F29019416BAD001FE623 /* ZKHSaleEditController.m */; };
+		1036F29319416BAD001FE623 /* ZKHSaleEditController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1036F29119416BAD001FE623 /* ZKHSaleEditController.xib */; };
+		1036F29A19418FEF001FE623 /* ZKHProcessor+Trade.m in Sources */ = {isa = PBXBuildFile; fileRef = 1036F29919418FEF001FE623 /* ZKHProcessor+Trade.m */; };
 		10456D5F192E28D20061DCC1 /* SelectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10456CE4192E28D20061DCC1 /* SelectionCell.m */; };
 		10456D60192E28D20061DCC1 /* SelectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10456CE5192E28D20061DCC1 /* SelectionCell.xib */; };
 		10456D61192E28D20061DCC1 /* TableViewWithBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 10456CE7192E28D20061DCC1 /* TableViewWithBlock.m */; };
@@ -117,6 +122,8 @@
 		10456DA4192E28D20061DCC1 /* ZKHSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10456D5E192E28D20061DCC1 /* ZKHSwitchCell.xib */; };
 		104EC8A31940205400D4EC61 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 104EC8A21940205400D4EC61 /* MapKit.framework */; };
 		105CA8CC192DF70D00D5975A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 105CA8CB192DF70D00D5975A /* QuartzCore.framework */; };
+		1063B78C1940853C00AE3BFF /* ZKHShopSaleListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1063B78B1940853C00AE3BFF /* ZKHShopSaleListCell.xib */; };
+		1063B78E1940961F00AE3BFF /* ZKHShopSaleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1063B78D1940961E00AE3BFF /* ZKHShopSaleCell.xib */; };
 		1070ACE719345B3F00AA1AE1 /* ZKHContactListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1070ACE519345B3F00AA1AE1 /* ZKHContactListController.m */; };
 		1070ACF519345CEF00AA1AE1 /* ChineseToPinyinResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1070ACEB19345CEF00AA1AE1 /* ChineseToPinyinResource.m */; };
 		1070ACF619345CEF00AA1AE1 /* HanyuPinyinOutputFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 1070ACED19345CEF00AA1AE1 /* HanyuPinyinOutputFormat.m */; };
@@ -289,6 +296,15 @@
 		1029F25D1929F3F3005F2D61 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		1029F2641929FC29005F2D61 /* ZKHMainNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHMainNavController.h; sourceTree = "<group>"; };
 		1029F2651929FC29005F2D61 /* ZKHMainNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHMainNavController.m; sourceTree = "<group>"; };
+		1036F28919414FFF001FE623 /* ZKHShopSaleListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHShopSaleListCell.h; sourceTree = "<group>"; };
+		1036F28A19414FFF001FE623 /* ZKHShopSaleListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShopSaleListCell.m; sourceTree = "<group>"; };
+		1036F28C19415070001FE623 /* ZKHShopSaleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHShopSaleCell.h; sourceTree = "<group>"; };
+		1036F28D19415070001FE623 /* ZKHShopSaleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShopSaleCell.m; sourceTree = "<group>"; };
+		1036F28F19416BAC001FE623 /* ZKHSaleEditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHSaleEditController.h; sourceTree = "<group>"; };
+		1036F29019416BAD001FE623 /* ZKHSaleEditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHSaleEditController.m; sourceTree = "<group>"; };
+		1036F29119416BAD001FE623 /* ZKHSaleEditController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHSaleEditController.xib; sourceTree = "<group>"; };
+		1036F29819418FEF001FE623 /* ZKHProcessor+Trade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZKHProcessor+Trade.h"; sourceTree = "<group>"; };
+		1036F29919418FEF001FE623 /* ZKHProcessor+Trade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZKHProcessor+Trade.m"; sourceTree = "<group>"; };
 		10456CE3192E28D20061DCC1 /* SelectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectionCell.h; sourceTree = "<group>"; };
 		10456CE4192E28D20061DCC1 /* SelectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectionCell.m; sourceTree = "<group>"; };
 		10456CE5192E28D20061DCC1 /* SelectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectionCell.xib; sourceTree = "<group>"; };
@@ -395,6 +411,8 @@
 		10456D5E192E28D20061DCC1 /* ZKHSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHSwitchCell.xib; sourceTree = "<group>"; };
 		104EC8A21940205400D4EC61 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		105CA8CB192DF70D00D5975A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		1063B78B1940853C00AE3BFF /* ZKHShopSaleListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHShopSaleListCell.xib; sourceTree = "<group>"; };
+		1063B78D1940961E00AE3BFF /* ZKHShopSaleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHShopSaleCell.xib; sourceTree = "<group>"; };
 		1070ACE419345B3F00AA1AE1 /* ZKHContactListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHContactListController.h; sourceTree = "<group>"; };
 		1070ACE519345B3F00AA1AE1 /* ZKHContactListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHContactListController.m; sourceTree = "<group>"; };
 		1070ACEA19345CEF00AA1AE1 /* ChineseToPinyinResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChineseToPinyinResource.h; sourceTree = "<group>"; };
@@ -860,6 +878,8 @@
 				1002438B1935AA3200A5047F /* ZKHProcessor+Setting.m */,
 				10F85ACD193D7327008B6484 /* ZKHProcessor+Share.h */,
 				10F85ACE193D7327008B6484 /* ZKHProcessor+Share.m */,
+				1036F29819418FEF001FE623 /* ZKHProcessor+Trade.h */,
+				1036F29919418FEF001FE623 /* ZKHProcessor+Trade.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -886,6 +906,15 @@
 				10E77321193ECA3400177BA6 /* ZKHSalePublishController.h */,
 				10E77322193ECA3400177BA6 /* ZKHSalePublishController.m */,
 				10E77323193ECA3400177BA6 /* ZKHSalePublishController.xib */,
+				1036F28919414FFF001FE623 /* ZKHShopSaleListCell.h */,
+				1036F28A19414FFF001FE623 /* ZKHShopSaleListCell.m */,
+				1063B78B1940853C00AE3BFF /* ZKHShopSaleListCell.xib */,
+				1063B78D1940961E00AE3BFF /* ZKHShopSaleCell.xib */,
+				1036F28C19415070001FE623 /* ZKHShopSaleCell.h */,
+				1036F28D19415070001FE623 /* ZKHShopSaleCell.m */,
+				1036F28F19416BAC001FE623 /* ZKHSaleEditController.h */,
+				1036F29019416BAD001FE623 /* ZKHSaleEditController.m */,
+				1036F29119416BAD001FE623 /* ZKHSaleEditController.xib */,
 			);
 			path = "View Sale";
 			sourceTree = "<group>";
@@ -1279,6 +1308,9 @@
 				10E77330193EE5D600177BA6 /* radio_unchecked.png in Resources */,
 				10E77331193EE5D600177BA6 /* radio_unchecked@2x.png in Resources */,
 				10E77333193EE70E00177BA6 /* b_calendar.png in Resources */,
+				1063B78C1940853C00AE3BFF /* ZKHShopSaleListCell.xib in Resources */,
+				1063B78E1940961F00AE3BFF /* ZKHShopSaleCell.xib in Resources */,
+				1036F29319416BAD001FE623 /* ZKHSaleEditController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1398,6 +1430,10 @@
 				10E77320193EC80800177BA6 /* ZKHShopSaleListController.m in Sources */,
 				10E77324193ECA3400177BA6 /* ZKHSalePublishController.m in Sources */,
 				10E7732D193EE5D600177BA6 /* QRadioButton.m in Sources */,
+				1036F28B19414FFF001FE623 /* ZKHShopSaleListCell.m in Sources */,
+				1036F28E19415070001FE623 /* ZKHShopSaleCell.m in Sources */,
+				1036F29219416BAD001FE623 /* ZKHSaleEditController.m in Sources */,
+				1036F29A19418FEF001FE623 /* ZKHProcessor+Trade.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

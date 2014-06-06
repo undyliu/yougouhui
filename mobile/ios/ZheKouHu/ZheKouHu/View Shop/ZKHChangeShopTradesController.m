@@ -11,6 +11,7 @@
 #import "ZKHProcessor.h"
 #import "ZKHAppDelegate.h"
 #import "ZKHProcessor+Shop.h"
+#import "ZKHProcessor+Trade.h"
 #import "ZKHViewUtils.h"
 
 static NSString *switchCellIdentifier = @"SwitchCell";

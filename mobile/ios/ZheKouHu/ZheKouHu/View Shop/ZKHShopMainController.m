@@ -5,9 +5,9 @@
 //  Created by undyliu on 14-5-22.
 //  Copyright (c) 2014年 undyliu. All rights reserved.
 //
+#import <QuartzCore/QuartzCore.h>
 
 #import "ZKHShopMainController.h"
-#import <QuartzCore/QuartzCore.h>
 #import "SelectionCell.h"
 #import "UITableView+DataSourceBlocks.h"
 #import "TableViewWithBlock.h"
@@ -18,6 +18,7 @@
 #import "ZKHAppDelegate.h"
 #import "ZKHShopEmpSettingController.h"
 #import "ZKHShopSaleListController.h"
+#import "ZKHProcessor+Trade.h"
 
 static NSString *CellIdentifier = @"ShopModuleCell";
 

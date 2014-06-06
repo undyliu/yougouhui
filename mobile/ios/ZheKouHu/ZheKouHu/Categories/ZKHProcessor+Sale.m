@@ -211,4 +211,38 @@
     }];
 }
 
+//按发布时间分组获取活动列表
+- (void)salesGroupByPublishDate:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset completionHandler:(SalesResponseBlock)salesBlock errorHandler:(MKNKErrorBlock)errorBlock
+{
+    ZKHSaleData *saleData = [[ZKHSaleData alloc] init];
+    NSMutableArray *sales = [saleData salesGroupByPublishDate:searchWord shopId:shopId offset:offset];
+    //if ([sales count] > 0) {
+        salesBlock(sales);
+        return;
+    //}
+}
+
+//作废活动
+#define CANCEL_SALE_URL @"/cancelSale"
+- (void)cancelSale:(ZKHSaleEntity *)sale completionHandler:(BooleanResultResponseBlock)cancelSaleBlock errorHandler:(MKNKErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = CANCEL_SALE_URL;
+    request.method = METHOD_PUT;
+    request.params = @{KEY_SALE_ID: sale.uuid};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *uuid = jsonObject[KEY_UUID];
+        if ([NSString isNull:uuid]) {
+            cancelSaleBlock(false);
+        }else{
+            [[[ZKHSaleData alloc] init] cancelSale:sale.uuid];
+            sale.status = jsonObject[KEY_STATUS];
+            cancelSaleBlock(true);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
 @end

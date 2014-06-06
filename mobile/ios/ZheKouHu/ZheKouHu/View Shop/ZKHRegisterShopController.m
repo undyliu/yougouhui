@@ -15,6 +15,7 @@
 #import "ZKHContext.h"
 #import "NSDate+Utils.h"
 #import "ZKHProcessor+Shop.h"
+#import "ZKHProcessor+Trade.h"
 #import "ZKHAppDelegate.h"
 
 

@@ -65,6 +65,7 @@ static NSString *CellIdentifier = @"SharePicCell";
     [self initializeDatePicker];
     
 }
+
 - (void)initializeTradesView
 {
     int index = 0;
@@ -97,7 +98,7 @@ static NSString *CellIdentifier = @"SharePicCell";
     
     CGRect picViewFrame = self.picViewContainer.frame;
     self.picViewContainer.frame = CGRectMake(picViewFrame.origin.x, picViewFrame.origin.y + offsetY + 30, picViewFrame.size.width, picViewFrame.size.height);
-    [self.mainView updateConstraints];
+    //[self.mainView updateConstraints];
     //[self.mainView addSubview:self.picViewContainer];
 }
 
@@ -147,14 +148,11 @@ static NSString *CellIdentifier = @"SharePicCell";
         return;
     }
     
-    NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    [df setDateFormat:@"yyyy-MM-dd"];
-    
     ZKHSaleEntity *sale = [[ZKHSaleEntity alloc] init];
     sale.title = title;
     sale.content = content;
-    sale.startDate = [NSDate milliSeconds:[df dateFromString:startDate]];
-    sale.endDate = [NSDate milliSeconds:[df dateFromString:endDate]];;
+    sale.startDate = [NSDate milliSeconds:[NSDate initWithyyyyMMddString:startDate]];
+    sale.endDate = [NSDate milliSeconds:[NSDate initWithyyyyMMddString:endDate]];;
     sale.tradeId = selectedShopTrade.trade.uuid;
     sale.publisher = [ZKHContext getInstance].user;
     sale.shop = self.shop;
