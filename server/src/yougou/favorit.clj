@@ -31,12 +31,12 @@
 
 (defn del-sale-favorit [user-id sale-id]
   (delete sale-favorites (where {:user_id user-id :sale_id sale-id}))
-  {:is_deleted 1}
+  {:is_deleted "1"}
  )
 
 (defn del-shop-favorit [user-id shop-id]
   (delete shop-favorites (where {:user_id user-id :shop_id shop-id}))
-  {:is_deleted 1}
+  {:is_deleted "1"}
   )
 
 (defn get-sale-favorites-by-user [user-id]

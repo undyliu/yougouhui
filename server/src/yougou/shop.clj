@@ -112,6 +112,7 @@
         trade-list (save-shop-trades shop-id trades)
         emp-list (save-shop-emp shop-id owner phone user-name pwd)
         ]
+      (update shops (set-fields {:owner (:user_id emp-list)}) (where {:uuid shop-id}))
       (assoc (merge shop (create-shop-barcode shop-id)) :tradeList trade-list :empList emp-list)
      )
    )

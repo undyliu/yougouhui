@@ -111,7 +111,7 @@
         current-time (System/currentTimeMillis)
         ]
     (insert sales (values {:uuid uuid :title title :content content :start_date start-date :end_date end-date :shop_id shop-id :trade_id trade-id :publisher publisher :publish_time current-time :publish_date (date/formatDate current-time) :img image :last_modify_time current-time}))
-    {:uuid uuid :publish_time current-time :publish_date (date/formatDate current-time) :img image :status 0}
+    {:uuid uuid :publish_time current-time :publish_date (date/formatDate current-time) :img image :status "0"}
     )
   )
 
@@ -180,4 +180,5 @@
 
 (defn cancel-sale [sale-id]
   (update sales (set-fields {:status 2 :last_modify_time (System/currentTimeMillis)}) (where {:uuid sale-id}))
+  {:uuid sale-id :status "2"}
   )
