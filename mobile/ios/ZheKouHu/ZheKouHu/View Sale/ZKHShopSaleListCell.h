@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZKHEntity.h"
 
 @interface ZKHShopSaleListCell : UITableViewCell<UITableViewDataSource, UITableViewDelegate>
 {
@@ -18,8 +19,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *countLabel;
 
 @property (weak, nonatomic) IBOutlet UIView *itemTagView;
-//@property (weak, nonatomic) IBOutlet UITableView *itemTableView;
 
+@property (strong, nonatomic) ZKHShopEntity *shop;
 @property (strong, nonatomic) NSMutableArray *saleList;
 @property (strong, nonatomic) UIViewController *parentController;
 

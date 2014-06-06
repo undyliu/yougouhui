@@ -12,20 +12,24 @@
 #import "ZKHChangePwdController.h"
 #import "ZKHChangeImgController.h"
 
-@interface ZKHShopInfoController : UITableViewController
+@interface ZKHShopInfoController : UITableViewController<UIActionSheetDelegate>
 {
-    UIBarButtonItem *shareItem;
-    UIBarButtonItem *favoritItem;
-    UIBarButtonItem *cancelFavoritItem;
+    UIBarButtonItem *saleItem;
+    UIBarButtonItem *moreItem;
+    
     UIToolbar *navToolbar;
+    Boolean isFavorit;
 }
 
 @property (strong, nonatomic) ZKHShopEntity *shop;
 @property (nonatomic) Boolean readonly;
 
-- (IBAction)favoritClick:(id)sender;
-- (IBAction)cancelFavoritClick:(id)sender;
-- (IBAction)shareClick:(id)sender;
+- (void)favoritClick;
+- (void)cancelFavoritClick;
+- (void)shareClick;
+
+- (IBAction)saleItemClick:(id)sender;
+- (IBAction)moreItemClick:(id)sender;
 
 @end
 

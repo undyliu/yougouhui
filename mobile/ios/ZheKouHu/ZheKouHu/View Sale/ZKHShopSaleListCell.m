@@ -11,6 +11,8 @@
 #import "ZKHEntity.h"
 #import "ZKHImageLoader.h"
 #import "ZKHSaleEditController.h"
+#import "ZKHContext.h"
+#import "ZKHSaleDetailController.h"
 
 static NSString *SubCellIdentifier = @"ShopSaleCell";
 
@@ -101,9 +103,19 @@ static NSString *SubCellIdentifier = @"ShopSaleCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ZKHSaleEditController *controller = [[ZKHSaleEditController alloc] init];
-    controller.sale = self.saleList[indexPath.row];
-    [self.parentController.navigationController pushViewController:controller animated:YES];
+    ZKHSaleEntity *sale = self.saleList[indexPath.row];
+    Boolean shopLogined = [ZKHContext getInstance].shopLogined;
+    ZKHUserEntity *user = [ZKHContext getInstance].user;
+    if (shopLogined && ([self.shop.owner isEqualToString:user.uuid] || [sale.publisher.uuid isEqualToString:user.uuid])) {
+        ZKHSaleEditController *controller = [[ZKHSaleEditController alloc] init];
+        controller.sale = sale;
+        [self.parentController.navigationController pushViewController:controller animated:YES];
+    }else{
+        ZKHSaleDetailController *controller = [[ZKHSaleDetailController alloc] init];
+        controller.sale = sale;
+        [self.parentController.navigationController pushViewController:controller animated:YES];
+    }
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

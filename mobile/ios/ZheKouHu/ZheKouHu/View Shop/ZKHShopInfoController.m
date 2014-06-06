@@ -19,6 +19,7 @@
 #import "ZKHContext.h"
 #import "ZKHViewUtils.h"
 #import "ZKHShareController.h"
+#import "ZKHShopSaleListController.h"
 
 static NSString *CellIdentifier = @"ImageLabelCell";
 
@@ -37,7 +38,7 @@ static NSString *CellIdentifier = @"ImageLabelCell";
 {
     [super viewDidLoad];
     
-    self.title = @"店铺-基本信息";
+    self.title = @"店铺信息";
     self.readonly = true;
     
     [self initializeNavToolBar];
@@ -55,19 +56,15 @@ static NSString *CellIdentifier = @"ImageLabelCell";
         
     }];
     
-    shareItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(shareClick:)];
-    favoritItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(favoritClick:)];
-    cancelFavoritItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(cancelFavoritClick:)];
+    saleItem = [[UIBarButtonItem alloc] initWithTitle:@"折扣活动" style:UIBarButtonItemStyleBordered target:self action:@selector(saleItemClick:)];
+    moreItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(moreItemClick:)];
     
     if ([[ZKHContext getInstance] isAnonymousUserLogined]) {
-        ////[self updateNavigationItem:@[shareItem]];
+        [self updateNavigationItem:@[saleItem]];
     }else{
         [ApplicationDelegate.zkhProcessor isShopFavorit:[ZKHContext getInstance].user.uuid shopId:self.shop.uuid completionHandler:^(Boolean result) {
-            if (result) {
-                [self updateNavigationItem:@[shareItem, cancelFavoritItem]];
-            }else{
-                [self updateNavigationItem:@[shareItem, favoritItem]];
-            }
+            isFavorit = result;
+            [self updateNavigationItem:@[moreItem, saleItem]];
         } errorHandler:^(NSError *error) {
         
         }];
@@ -92,9 +89,9 @@ static NSString *CellIdentifier = @"ImageLabelCell";
 
 - (void) updateNavToolBarFrame
 {
-    CGFloat width = 40;
+    CGFloat width = 80;
     if ([navToolbar.items count] > 1) {
-        width = 80;
+        width = 110;
     }
     CGFloat height = self.navigationController.navigationBar.frame.size.height + 1;
     navToolbar.frame = CGRectMake(0, 0, width, height);
@@ -108,29 +105,89 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     self.navigationItem.rightBarButtonItem = myBtn;
 }
 
-- (void)favoritClick:(id)sender
+- (void)saleItemClick:(id)sender
+{
+    ZKHShopSaleListController *controller = [[ZKHShopSaleListController alloc] init];
+    controller.shop = self.shop;
+    [self.navigationController pushViewController:controller animated:YES];
+}
+
+- (void)moreItemClick:(id)sender
+{
+    UIActionSheet *actionSheet;
+    if (isFavorit) {
+        actionSheet = [[UIActionSheet alloc]
+                       initWithTitle:nil
+                       delegate:self
+                       cancelButtonTitle:@"取消"
+                       destructiveButtonTitle:nil
+                       otherButtonTitles:@"晒单", @"取消收藏",
+                       nil];
+    }else{
+        actionSheet = [[UIActionSheet alloc]
+                       initWithTitle:nil
+                       delegate:self
+                       cancelButtonTitle:@"取消"
+                       destructiveButtonTitle:nil
+                       otherButtonTitles:@"晒单", @"收藏",
+                       nil];
+    }
+    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    [actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+   
+    if (isFavorit) {
+        switch (buttonIndex) {
+            case 0://share
+                [self shareClick];
+                break;
+            case 1://cancel favorit
+                [self cancelFavoritClick];
+                break;
+            default:
+                break;
+        }
+    }else{
+        switch (buttonIndex) {
+            case 0://share
+                [self shareClick];
+                break;
+            case 1://favorit
+                [self favoritClick];
+                break;
+            default:
+                break;
+        }
+    }
+    
+}
+
+- (void)favoritClick
 {
     [ApplicationDelegate.zkhProcessor setShopFavorit:[ZKHContext getInstance].user.uuid shop:self.shop completionHandler:^(Boolean result) {
         if (result) {
-            [self updateNavigationItem:@[shareItem, cancelFavoritItem]];
+            isFavorit = true;
         }
     } errorHandler:^(NSError *error) {
         
     }];
 }
 
-- (void)cancelFavoritClick:(id)sender
+- (void)cancelFavoritClick
 {
     [ApplicationDelegate.zkhProcessor delShopFavorit:[ZKHContext getInstance].user.uuid shopId:self.shop.uuid completionHandler:^(Boolean result) {
         if (result) {
-            [self updateNavigationItem:@[shareItem, favoritItem]];
+            isFavorit = false;
         }
     } errorHandler:^(NSError *error) {
         
     }];
 }
 
-- (void)shareClick:(id)sender
+- (void)shareClick
 {
     ZKHShareController *controller = [[ZKHShareController alloc] init];
     controller.shop = self.shop;

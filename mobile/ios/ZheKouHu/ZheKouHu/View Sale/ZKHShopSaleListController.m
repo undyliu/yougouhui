@@ -13,6 +13,7 @@
 #import "ZKHAppDelegate.h"
 #import "ZKHImageLoader.h"
 #import "ZKHShopSaleListCell.h"
+#import "ZKHContext.h"
 
 static NSString *CellIdentifier = @"ShopSaleListCell";
 
@@ -40,8 +41,11 @@ static NSString *CellIdentifier = @"ShopSaleListCell";
     UINib *nib = [UINib nibWithNibName:@"ZKHShopSaleListCell" bundle:nil];
     [self.pullTableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
     
-    UIBarButtonItem *publishButton = [[UIBarButtonItem alloc] initWithTitle:@"发布新活动" style:UIBarButtonItemStyleBordered target:self action:@selector(publishSaleClick:)];
-    self.navigationItem.rightBarButtonItem = publishButton;
+    Boolean shopLogined = [ZKHContext getInstance].shopLogined;
+    if (shopLogined) {
+        UIBarButtonItem *publishButton = [[UIBarButtonItem alloc] initWithTitle:@"发布新活动" style:UIBarButtonItemStyleBordered target:self action:@selector(publishSaleClick:)];
+        self.navigationItem.rightBarButtonItem = publishButton;
+    }
     
     [ApplicationDelegate.zkhProcessor salesGroupByPublishDate:nil shopId:self.shop.uuid offset:offset completionHandler:^(NSMutableArray *sales) {
         saleCountList = sales;
@@ -89,6 +93,7 @@ static NSString *CellIdentifier = @"ShopSaleListCell";
     cell.publishDateLabel.text = [entity.date toddMMString];
     cell.countLabel.text = [NSString stringWithFormat:@"%d笔", entity.count];
     
+    cell.shop = self.shop;
     cell.saleList = entity.items;
     cell.parentController = self;
     
