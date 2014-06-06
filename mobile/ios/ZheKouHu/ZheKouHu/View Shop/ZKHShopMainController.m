@@ -19,6 +19,8 @@
 #import "ZKHShopEmpSettingController.h"
 #import "ZKHShopSaleListController.h"
 #import "ZKHProcessor+Trade.h"
+#import "ZKHSalePublishController.h"
+#import "ZKHShareShopReplyListController.h"
 
 static NSString *CellIdentifier = @"ShopModuleCell";
 
@@ -163,10 +165,11 @@ static NSString *CellIdentifier = @"ShopModuleCell";
         {
             ZKHChangeShopPwdController *controller = [[ZKHChangeShopPwdController alloc] init];
             ((ZKHChangeShopNameController *)controller).shop = self.shops[currentShopIndex];
-            [self.navigationController pushViewController:controller animated:YES];
         }
             break;
         case 1://publish now sale
+            controller = [[ZKHSalePublishController alloc] init];
+            ((ZKHSalePublishController *)controller).shop = self.shops[currentShopIndex];
             break;
         default:
             break;
@@ -270,6 +273,9 @@ static NSString *CellIdentifier = @"ShopModuleCell";
         controller.shop = shop;
         [self.navigationController pushViewController:controller animated:YES];
     }else if (row == 3){
+        ZKHShareShopReplyListController *controller = [[ZKHShareShopReplyListController alloc] init];
+        controller.shop = shop;
+        [self.navigationController pushViewController:controller animated:YES];
         
     }
 }

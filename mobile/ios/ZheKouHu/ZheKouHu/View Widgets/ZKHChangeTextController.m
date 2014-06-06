@@ -68,4 +68,8 @@
     
 }
 
+- (IBAction)backgroupTap:(id)sender {
+    [self.inputTextField resignFirstResponder];
+}
+
 @end

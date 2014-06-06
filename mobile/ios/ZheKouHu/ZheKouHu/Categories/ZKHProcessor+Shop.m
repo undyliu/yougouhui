@@ -353,9 +353,14 @@
             ZKHShopEntity *shop = [[ZKHShopEntity alloc] init];
             shop.uuid = jsonShop[KEY_UUID];
             shop.name = jsonShop[KEY_NAME];
-            shop.shopImg = jsonShop[KEY_SHOP_IMG];
+            
+            shop.shopImg = [[ZKHFileEntity alloc] init];
+            shop.shopImg.aliasName = jsonShop[KEY_SHOP_IMG];
+            
             shop.owner = jsonShop[KEY_OWNER];
-            shop.barcode = jsonShop[KEY_BARCODE];
+            
+            shop.barcode = [[ZKHFileEntity alloc] init];
+            shop.barcode.aliasName = jsonShop[KEY_BARCODE];
             
             [shops addObject:shop];
         }

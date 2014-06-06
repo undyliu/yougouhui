@@ -18,6 +18,7 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *searchWordField;
 @property (weak, nonatomic) IBOutlet UITableView *resultView;
+- (IBAction)backgroupTap:(id)sender;
 
 - (IBAction)search:(id)sender;
 

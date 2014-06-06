@@ -16,6 +16,7 @@
 #import "ZKHConst.h"
 #import "ZKHViewUtils.h"
 #import "ZKHData.h"
+#import "ZKHSaleImageListController.h"
 
 @implementation ZKHSaleEditController
 
@@ -32,7 +33,7 @@
 {
     [super viewDidLoad];
     
-    self.title = @"修改活动";
+    self.title = @"活动详情";
     
     [self initializeViews];
     
@@ -134,7 +135,9 @@
 
 
 - (IBAction)showSaleImages:(id)sender {
-    
+    ZKHSaleImageListController *controller = [[ZKHSaleImageListController alloc] init];
+    [self.navigationController pushViewController:controller
+                                         animated:YES];
 }
 
 - (void)cancelClick:(id)sender

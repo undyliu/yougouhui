@@ -31,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *discusslabel;
 @property (weak, nonatomic) IBOutlet UIImageView *disImageView;
 @property (weak, nonatomic) IBOutlet PullTableView *disTableView;
+@property (weak, nonatomic) IBOutlet UILabel *moreImageLabel;
 
 - (IBAction)shopLabelClick:(id)sender;
 - (IBAction)discussLabelClick:(id)sender;

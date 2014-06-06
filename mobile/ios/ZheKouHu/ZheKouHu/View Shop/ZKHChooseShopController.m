@@ -70,6 +70,10 @@ static NSString *CellIdentifier = @"ContactListCell";
     [super didReceiveMemoryWarning];
 }
 
+- (IBAction)backgroupTap:(id)sender {
+    [self.searchWordField resignFirstResponder];
+}
+
 - (IBAction)search:(id)sender {
     [self.searchWordField resignFirstResponder];
     

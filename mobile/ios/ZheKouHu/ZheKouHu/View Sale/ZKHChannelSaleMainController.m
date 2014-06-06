@@ -49,12 +49,18 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
     int index = 0;
     NSMutableArray *items = [[NSMutableArray alloc] init];
     for (ZKHChannelEntity *channel in self.channels) {
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:channel.name style:UIBarButtonItemStylePlain target:self action:@selector(changeChannel:)];
-        [items addObject:item];
-        item.tag = index++;
         
-        NSDictionary *attr = @{NSFontAttributeName: [UIFont fontWithName:@"Courier" size:14]};
-        [item setTitleTextAttributes:attr forState:UIControlStateNormal];
+        CGRect frame_1= CGRectMake(0, 0, 50, 30);
+        UIButton* channelButton= [[UIButton alloc] initWithFrame:frame_1];
+        [channelButton setTitle:channel.name forState:UIControlStateNormal];
+        [channelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [channelButton setTitleColor:[UIColor blueColor] forState:UIControlStateHighlighted];
+        channelButton.titleLabel.font=[UIFont systemFontOfSize:14];
+        [channelButton addTarget:self action:@selector(changeChannel:) forControlEvents:UIControlEventTouchUpInside];
+        channelButton.tag = index++;
+        
+        UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithCustomView:channelButton];
+        [items addObject:item];
     }
     self.channelBar.items = items;
 }
@@ -62,10 +68,13 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
 - (void) updateToolbarItems:(int)activedItemTag
 {
     for (UIBarButtonItem *item in self.channelBar.items) {
+        //UIButton* channelButton = (UIButton*)[item customView];
         int tag = item.tag;
         if (tag == activedItemTag) {
+            //[channelButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
             [item setStyle:UIBarButtonItemStyleDone];
         }else{
+            //[channelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [item setStyle:UIBarButtonItemStylePlain];
         }
     }

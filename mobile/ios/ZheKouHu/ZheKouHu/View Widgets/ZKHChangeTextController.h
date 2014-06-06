@@ -20,4 +20,6 @@
 - (IBAction)save:(id)sender;
 - (void) doSave:(NSString *) newValue;
 
+- (IBAction)backgroupTap:(id)sender;
+
 @end

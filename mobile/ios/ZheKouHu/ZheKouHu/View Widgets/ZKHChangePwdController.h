@@ -23,5 +23,6 @@
 
 - (IBAction)save:(id)sender;
 - (void) doSave:(NSString *)oldPwd newPwd:(NSString *) newPwd;
+- (IBAction)backgroupTap:(id)sender;
 
 @end

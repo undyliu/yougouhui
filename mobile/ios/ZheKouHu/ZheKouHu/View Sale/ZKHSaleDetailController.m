@@ -20,6 +20,7 @@
 #import "ZKHViewUtils.h"
 #import "ZKHContext.h"
 #import "ZKHShareController.h"
+#import "ZKHSaleImageListController.h"
 
 @implementation ZKHSaleDetailController
 
@@ -51,6 +52,7 @@
     
     [self initializeNavToolBar];
     
+    //初始化值
     self.titleLabel.text = self.sale.title;
     self.contentLabel.text = self.sale.content;
     self.contentLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -67,13 +69,19 @@
     NSString *hitCount = [NSString stringWithFormat:@"共%@次浏览 %@条评论", self.sale.visitCount, self.sale.discussCount];
     self.discusslabel.text = hitCount;
     
+    //设置图片相关
     [ZKHImageLoader showImageForName:self.sale.img imageView:self.saleImageView];
     self.saleImageView.userInteractionEnabled = true;
     [self.saleImageView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imagePreview:)]];
     
+    self.moreImageLabel.userInteractionEnabled = true;
+    [self.moreImageLabel addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(moreImageClick:)]];
+    
+    //设置商铺点击
     self.shopLabel.userInteractionEnabled = TRUE;
     [self.shopLabel addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(shopLabelClick:)]];
     
+    //设置评论相关
     self.disTableView.hidden = true;
     self.discusslabel.userInteractionEnabled = true;
     [self.discusslabel addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(discussLabelClick:)]];
@@ -135,6 +143,12 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) moreImageClick:(id)sender
+{
+    ZKHSaleImageListController *controller = [[ZKHSaleImageListController alloc] init];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)shopLabelClick:(id)sender

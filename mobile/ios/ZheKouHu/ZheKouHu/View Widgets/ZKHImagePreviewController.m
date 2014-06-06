@@ -51,9 +51,11 @@
     if ([self.images count] > 0) {
         if (self.image) {
             [self.images removeObject:self.image];
+            self.image = nil;
             [self.navigationController popViewControllerAnimated:YES];
         }else if (self.imageFile){
             [self.images removeObject:self.imageFile];
+            self.imageFile = nil;
             [self.navigationController popViewControllerAnimated:YES];
         }
         

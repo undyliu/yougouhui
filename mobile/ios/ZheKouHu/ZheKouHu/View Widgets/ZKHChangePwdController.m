@@ -87,4 +87,10 @@
     
 }
 
+- (IBAction)backgroupTap:(id)sender {
+    [self.oldPwdField resignFirstResponder];
+    [self.pwdNewField resignFirstResponder];
+    [self.pwdNewConfField resignFirstResponder];
+}
+
 @end
