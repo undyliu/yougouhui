@@ -2,17 +2,13 @@
 //  ZKHSaleImageListController.m
 //  ZheKouHu
 //
-//  Created by undyliu on 14-6-6.
+//  Created by undyliu on 14-6-9.
 //  Copyright (c) 2014年 undyliu. All rights reserved.
 //
 
 #import "ZKHSaleImageListController.h"
-#import "ZKHPictureCell.h"
-#import "ZKHEntity.h"
-#import "NSString+Utils.h"
-#import "ZKHImageLoader.h"
+#import "ZKHImagePreviewController.h"
 
-static NSString *CellIdentifier = @"DefaultPictureCell";
 
 @implementation ZKHSaleImageListController
 
@@ -31,9 +27,20 @@ static NSString *CellIdentifier = @"DefaultPictureCell";
     
     self.title = @"活动图片";
     
-    UINib *nib = [UINib nibWithNibName:@"ZKHPictureCell" bundle:nil];
-    [self.mainView registerNib:nib forCellWithReuseIdentifier:CellIdentifier];
-    self.mainView.backgroundColor = [UIColor whiteColor];
+    self.pageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+    
+    self.pageController.dataSource = self;
+    [[self.pageController view] setFrame:[[self view] bounds]];
+    
+    ZKHImagePreviewController *initialViewController = [self viewControllerAtIndex:0];
+    
+    NSArray *viewControllers = [NSArray arrayWithObject:initialViewController];
+    
+    [self.pageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    
+    [self addChildViewController:self.pageController];
+    [[self view] addSubview:[self.pageController view]];
+    [self.pageController didMoveToParentViewController:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -42,25 +49,54 @@ static NSString *CellIdentifier = @"DefaultPictureCell";
     // Dispose of any resources that can be recreated.
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
+- (ZKHImagePreviewController *)viewControllerAtIndex:(NSUInteger)index {
+    
+    ZKHImagePreviewController *childViewController = [[ZKHImagePreviewController alloc] initWithNibName:@"ZKHImagePreviewController" bundle:nil];
+    if (index < [self.imageFiles count]) {
+        childViewController.imageFile = self.imageFiles[index];
+    }
+    
+    childViewController.imageView.tag = index;
+    
+    return childViewController;
+    
+}
+
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
+    
+    NSUInteger index = ((ZKHImagePreviewController *)viewController).imageView.tag;
+    if (index == 0) {
+        return nil;
+    }
+    
+    // Decrease the index by 1 to return
+    index--;
+    
+    return [self viewControllerAtIndex:index];
+    
+}
+
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
+    
+   NSUInteger index = ((ZKHImagePreviewController *)viewController).imageView.tag;
+    
+    index++;
+    
+    if (index == [self.imageFiles count]) {
+        return nil;
+    }
+    
+    return [self viewControllerAtIndex:index];
+    
+}
+
+- (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
     return [self.imageFiles count];
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    ZKHPictureCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
-    int row = indexPath.row;
-    ZKHFileEntity *file = self.imageFiles[row];
-    NSString *name = file.aliasName;
-    if (![NSString isNull:name]) {
-        [ZKHImageLoader showImageForName:name imageView:cell.imageView];
-        cell.imageView.userInteractionEnabled = true;
-//        cell.imageView.tag = row;
-//        [cell.imageView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(previewPic:)]];
-    }
-    
-    return cell;
+- (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
+    // The selected item reflected in the page indicator.
+    return 0;
 }
 
 @end
