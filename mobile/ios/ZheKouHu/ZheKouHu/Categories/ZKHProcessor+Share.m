@@ -140,6 +140,7 @@
                     
                     comment.pulisher = [[ZKHUserEntity alloc] init];
                     comment.pulisher.uuid = jsonComment[KEY_PUBLISHER];
+                    comment.pulisher.name = jsonComment[KEY_USER_NAME];
                     
                     [comments addObject:comment];
                 }

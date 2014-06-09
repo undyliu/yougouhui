@@ -34,7 +34,7 @@ static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
 + (CGFloat)cellHeight:(ZKHShareEntity *)share
 {
     CGFloat height =  20 + DEFAULT_GAP_HEIGHT + [ZKHFriendShareListCell contentLabelHeight:share] + DEFAULT_GAP_HEIGHT + [ZKHFriendShareListCell imagesViewHeight:share] + DEFAULT_GAP_HEIGHT
-    + [ZKHFriendShareListCell publishDateHeight] + [ZKHFriendShareListCell commentsViewHeight:share] + 10;
+    + [ZKHFriendShareListCell publishDateHeight] + [ZKHFriendShareListCell commentsViewHeight:share] + 15;
     
     return height;
 }

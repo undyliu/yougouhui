@@ -27,6 +27,10 @@
     
     self.title = @"图片浏览";
     
+    if (!self.imageFiles || [self.imageFiles count] == 0) {
+        return;
+    }
+    
     self.pageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     
     self.pageController.dataSource = self;

@@ -32,7 +32,9 @@ static NSString *CellIdentifier = @"SaleDiscussListCell";
     ZKHSaleDiscussListCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     ZKHShareCommentEntity *comment = self.comments[indexPath.row];
-    cell.contentLabel.text = comment.content;
+    ZKHUserEntity *publisher = comment.pulisher;
+    NSString *content = [NSString stringWithFormat:@"%@ 回复:%@", publisher.name, comment.content];
+    cell.contentLabel.text = content;
     
     if ([comment.pulisher isEqual:[ZKHContext getInstance].user]) {
         cell.delelteImageView.hidden = false;
