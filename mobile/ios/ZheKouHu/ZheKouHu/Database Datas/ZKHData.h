@@ -113,6 +113,6 @@
 
 #define SHARE_TABLE @"e_share"
 @interface ZKHShareData : ZKHData<ZKHEntityUpdater>
-- (NSMutableArray *) friendShares:(NSString *)userId;
+- (NSMutableArray *) friendShares:(NSString *)userId offset:(int)offset;
 
 @end

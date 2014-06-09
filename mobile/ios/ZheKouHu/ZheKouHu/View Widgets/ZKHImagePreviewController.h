@@ -16,6 +16,8 @@
 @property (nonatomic) Boolean readonly;
 @property (strong, nonatomic) NSMutableArray *images;
 
+@property (assign, nonatomic) NSInteger index;
+
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 - (IBAction)deleteImageClick:(id)sender;

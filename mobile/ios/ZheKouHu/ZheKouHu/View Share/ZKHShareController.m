@@ -41,7 +41,7 @@ static NSString *CellIdentifier = @"DefaultPictureCell";
     
     self.contentField.placeholder = STRING_SHARE_CONTENT_DEFAULT;
     
-    UINib *nib = [UINib nibWithNibName:@"ZKHSharePicCell" bundle:nil];
+    UINib *nib = [UINib nibWithNibName:@"ZKHPictureCell" bundle:nil];
     [self.picViewContainer registerNib:nib forCellWithReuseIdentifier:CellIdentifier];
     self.picViewContainer.backgroundColor = [UIColor whiteColor];
     

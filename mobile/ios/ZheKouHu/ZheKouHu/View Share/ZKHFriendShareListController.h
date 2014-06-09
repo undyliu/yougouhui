@@ -8,8 +8,13 @@
 
 #import "ZKHPullRefreshTableViewController.h"
 
-@interface ZKHFreindShareListController : ZKHPullRefreshTableViewController
-
+@interface ZKHFriendShareListController : ZKHPullRefreshTableViewController<UITableViewDelegate>
+{
+    NSMutableArray *shares;
+    NSMutableDictionary *sharePicControllers;
+    NSMutableDictionary *commentControllers;
+    int offset;
+}
 - (IBAction)shareClick:(id)sender;
 
 @end

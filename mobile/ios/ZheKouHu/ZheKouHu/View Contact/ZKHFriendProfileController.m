@@ -40,15 +40,17 @@
         [ZKHImageLoader showImageForName:photo.aliasName imageView:self.photoView];
     }
     
-    delFriendButton = [[UIBarButtonItem alloc] initWithTitle:@"删除朋友" style:UIBarButtonItemStyleBordered target:self action:@selector(delFriend:)];
-    addFriendButton = [[UIBarButtonItem alloc] initWithTitle:@"加为朋友" style:UIBarButtonItemStyleBordered target:self action:@selector(addFriend:)];
-    
-    if ([[ZKHContext getInstance].user.friends containsObject:self.user]) {
-        self.navigationItem.rightBarButtonItem = delFriendButton;
-    }else{
-        self.navigationItem.rightBarButtonItem = addFriendButton;
+    ZKHUserEntity *currentUser = [ZKHContext getInstance].user;
+    if (![currentUser isEqual:self.user]) {
+        delFriendButton = [[UIBarButtonItem alloc] initWithTitle:@"删除朋友" style:UIBarButtonItemStyleBordered target:self action:@selector(delFriend:)];
+        addFriendButton = [[UIBarButtonItem alloc] initWithTitle:@"加为朋友" style:UIBarButtonItemStyleBordered target:self action:@selector(addFriend:)];
+        
+        if ([[ZKHContext getInstance].user.friends containsObject:self.user]) {
+            self.navigationItem.rightBarButtonItem = delFriendButton;
+        }else{
+            self.navigationItem.rightBarButtonItem = addFriendButton;
+        }
     }
-    
 }
 
 - (void)didReceiveMemoryWarning

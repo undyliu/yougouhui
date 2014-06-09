@@ -249,6 +249,10 @@
 
 @end
 
+@implementation ZKHShareCommentEntity
+
+@end
+
 @implementation ZKHShareEntity
 
 @end

@@ -163,7 +163,7 @@ static NSString *CellIdentifier = @"ShopModuleCell";
     switch (buttonIndex) {
         case 0://changge pwd
         {
-            ZKHChangeShopPwdController *controller = [[ZKHChangeShopPwdController alloc] init];
+            controller = [[ZKHChangeShopPwdController alloc] init];
             ((ZKHChangeShopNameController *)controller).shop = self.shops[currentShopIndex];
         }
             break;

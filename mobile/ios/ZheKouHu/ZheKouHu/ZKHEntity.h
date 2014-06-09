@@ -154,6 +154,14 @@
 @property (strong, nonatomic) NSString *lastModifyTime;
 @end
 
+//分享评论
+@interface ZKHShareCommentEntity : ZKHEntity
+@property (strong, nonatomic) NSString *shareId;
+@property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) NSString *publishTime;
+@property (strong, nonatomic) ZKHUserEntity *pulisher;
+@end
+
 //分享
 @interface ZKHShareEntity : ZKHEntity
 @property (strong, nonatomic) NSString *content;
@@ -163,6 +171,7 @@
 @property (strong, nonatomic) ZKHShopEntity *shop;
 @property (strong, nonatomic) NSMutableArray *imageFiles;
 @property (strong, nonatomic) NSString *accessType;
+@property (strong, nonatomic) NSMutableArray *comments;
 @end
 
 @interface ZKHDateIndexedEntity : ZKHEntity

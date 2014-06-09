@@ -44,11 +44,14 @@ static NSString *shareQuery_base = @" select s.uuid, s.content, s.publish_time"
     }
 }
 
-- (NSMutableArray *)friendShares:(NSString *)userId
+- (NSMutableArray *)friendShares:(NSString *)userId offset:(int)offset
 {
     NSMutableString *sql = [NSMutableString stringWithString:shareQuery_base];
     [sql appendString:@" where (s.access_type = 1) "];
     [sql appendString:@" or ((s.access_type = 2 and (u.uuid = ? or u.uuid in (select f.friend_id from e_friend f where f.user_id = ?)))) "];
+    [sql appendString:@" order by s.publish_time desc "];
+    [sql appendFormat:@" limit %d offset %d ", DEFAULT_PAGE_SIZE, offset];
+    
     NSArray *params = @[userId, userId];
     
     return [self query:sql params:params];

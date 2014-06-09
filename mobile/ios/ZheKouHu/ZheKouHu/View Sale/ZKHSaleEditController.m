@@ -16,7 +16,7 @@
 #import "ZKHConst.h"
 #import "ZKHViewUtils.h"
 #import "ZKHData.h"
-#import "ZKHSaleImageListController.h"
+#import "ZKHImageListPreviewController.h"
 
 @implementation ZKHSaleEditController
 
@@ -49,8 +49,8 @@
 
 - (void) initializeViews
 {
-    self.titleField.text = self.sale.title;
-    self.contentField.text = self.sale.content;
+    self.titleField.text = [NSString stringWithFormat:@" 标题:  %@", self.sale.title];
+    self.contentField.text = [NSString stringWithFormat:@"内容:  %@", self.sale.content];
     self.startDateField.text = [[NSDate dateWithMilliSeconds:[self.sale.startDate longLongValue]] toyyyyMMddString];
     self.endDateField.text = [[NSDate dateWithMilliSeconds:[self.sale.endDate longLongValue]] toyyyyMMddString];
     self.countLabel.text = [NSString stringWithFormat:@"共%@次浏览 %@条评论", self.sale.visitCount, self.sale.discussCount];
@@ -61,8 +61,20 @@
     self.disImageView.userInteractionEnabled = true;
     [self.disImageView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(discussLabelClick:)]];
     
+    [self initializeTextFieldsStyle:self.titleField];
+    [self initializeTextFieldsStyle:self.startDateField];
+    [self initializeTextFieldsStyle:self.endDateField];
+    
     [self initializeTradeView];
     [self initializeDiscussView];
+}
+
+- (void) initializeTextFieldsStyle:(UITextField *)field
+{
+    field.layer.cornerRadius = 5.0f;
+    field.layer.masksToBounds = YES;
+    field.layer.borderColor = [[UIColor grayColor] CGColor];
+    field.layer.borderWidth = 1.0f;
 }
 
 - (void) initializeTradeView
@@ -135,7 +147,7 @@
 
 
 - (IBAction)showSaleImages:(id)sender {
-    ZKHSaleImageListController *controller = [[ZKHSaleImageListController alloc] init];
+    ZKHImageListPreviewController *controller = [[ZKHImageListPreviewController alloc] init];
     if ([self.sale.images count] > 0) {
         controller.imageFiles = self.sale.images;
         [self.navigationController pushViewController:controller animated:YES];

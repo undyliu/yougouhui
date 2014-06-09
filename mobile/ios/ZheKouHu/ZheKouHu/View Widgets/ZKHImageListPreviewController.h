@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZKHSaleImageListController : UIViewController <UIPageViewControllerDataSource>
+@interface ZKHImageListPreviewController : UIViewController <UIPageViewControllerDataSource>
+{
+    NSMutableArray *files;
+}
 @property (strong, nonatomic) UIPageViewController *pageController;
 @property (strong, nonatomic) NSMutableArray *imageFiles;
+@property (assign, nonatomic) int currentIndex;
 @end

@@ -37,7 +37,7 @@ static NSString *CellIdentifier = @"DefaultPictureCell";
     
     self.title = @"发布新活动";
     
-    UINib *nib = [UINib nibWithNibName:@"ZKHSharePicCell" bundle:nil];
+    UINib *nib = [UINib nibWithNibName:@"ZKHPictureCell" bundle:nil];
     [self.picViewContainer registerNib:nib forCellWithReuseIdentifier:CellIdentifier];
     self.picViewContainer.backgroundColor = [UIColor whiteColor];
     

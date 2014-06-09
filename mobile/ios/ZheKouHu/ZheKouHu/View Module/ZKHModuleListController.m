@@ -18,7 +18,7 @@
 #import "ZKHContactListController.h"
 #import "ZKHMyFavoritController.h"
 #import "ZKHViewUtils.h"
-#import "ZKHFreindShareListController.h"
+#import "ZKHFriendShareListController.h"
 
 #define kModuleFriends @"friends"
 #define kModuleRadar @"radar"
@@ -148,7 +148,7 @@ static NSString *CellIdentifier = @"ModuleCellIdentifier";
     
     NSString *code = module.code;
     if ([code isEqualToString:kModuleFriends]) {
-        viewController = [[ZKHFreindShareListController alloc] init];
+        viewController = [[ZKHFriendShareListController alloc] init];
     }else if ([code isEqualToString:kModuleRadar]){
         viewController = [[ZKHRaderMainController alloc] init];
     }else if([code isEqualToString:kModuleSettings]){

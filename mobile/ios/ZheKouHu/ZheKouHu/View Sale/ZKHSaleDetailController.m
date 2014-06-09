@@ -20,7 +20,7 @@
 #import "ZKHViewUtils.h"
 #import "ZKHContext.h"
 #import "ZKHShareController.h"
-#import "ZKHSaleImageListController.h"
+#import "ZKHImageListPreviewController.h"
 
 @implementation ZKHSaleDetailController
 
@@ -147,7 +147,8 @@
 
 - (void) moreImageClick:(id)sender
 {
-    ZKHSaleImageListController *controller = [[ZKHSaleImageListController alloc] init];
+    ZKHImageListPreviewController *controller = [[ZKHImageListPreviewController alloc] init];
+    controller.title = @"活动图片";
     if ([self.sale.images count] > 0) {
         controller.imageFiles = self.sale.images;
         [self.navigationController pushViewController:controller animated:YES];

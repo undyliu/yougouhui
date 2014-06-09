@@ -6,11 +6,11 @@
 //  Copyright (c) 2014年 undyliu. All rights reserved.
 //
 
-#import "ZKHSaleImageListController.h"
+#import "ZKHImageListPreviewController.h"
 #import "ZKHImagePreviewController.h"
 
 
-@implementation ZKHSaleImageListController
+@implementation ZKHImageListPreviewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,12 +25,20 @@
 {
     [super viewDidLoad];
     
-    self.title = @"活动图片";
+    self.title = @"图片浏览";
     
     self.pageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     
     self.pageController.dataSource = self;
     [[self.pageController view] setFrame:[[self view] bounds]];
+    
+    files = [[NSMutableArray alloc]initWithArray:self.imageFiles copyItems:YES];
+    if (self.currentIndex > 0) {
+        id file = [files[self.currentIndex] copy];
+        
+        [files removeObjectAtIndex:self.currentIndex];
+        [files insertObject:file atIndex:0];
+    }
     
     ZKHImagePreviewController *initialViewController = [self viewControllerAtIndex:0];
     
@@ -52,11 +60,9 @@
 - (ZKHImagePreviewController *)viewControllerAtIndex:(NSUInteger)index {
     
     ZKHImagePreviewController *childViewController = [[ZKHImagePreviewController alloc] initWithNibName:@"ZKHImagePreviewController" bundle:nil];
-    if (index < [self.imageFiles count]) {
-        childViewController.imageFile = self.imageFiles[index];
-    }
-    
-    childViewController.imageView.tag = index;
+
+    childViewController.imageFile = files[index];
+    childViewController.index = index;
     
     return childViewController;
     
@@ -64,34 +70,32 @@
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
     
-    NSUInteger index = ((ZKHImagePreviewController *)viewController).imageView.tag;
+    NSUInteger index = [(ZKHImagePreviewController *)viewController index];
     if (index == 0) {
         return nil;
     }
     
-    // Decrease the index by 1 to return
     index--;
     
     return [self viewControllerAtIndex:index];
-    
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
     
-   NSUInteger index = ((ZKHImagePreviewController *)viewController).imageView.tag;
+   NSUInteger index = [(ZKHImagePreviewController *)viewController index];
     
     index++;
     
-    if (index == [self.imageFiles count]) {
+    if (index == [files count]) {
         return nil;
     }
-    
+
     return [self viewControllerAtIndex:index];
-    
+
 }
 
 - (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
-    return [self.imageFiles count];
+    return [files count];
 }
 
 - (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
