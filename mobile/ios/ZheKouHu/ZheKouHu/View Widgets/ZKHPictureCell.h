@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZKHSharePicCell : UICollectionViewCell
+@interface ZKHPictureCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 @end

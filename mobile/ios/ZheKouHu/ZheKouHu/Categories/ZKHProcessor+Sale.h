@@ -25,4 +25,6 @@ typedef void (^SaleResponseBlock)(ZKHSaleEntity* sale);
 
 - (void) cancelSale: (ZKHSaleEntity *) sale completionHandler:(BooleanResultResponseBlock) cancelSaleBlock errorHandler:(MKNKErrorBlock) errorBlock;
 
+typedef void (^SaleImagesResponseBlock)(NSMutableArray* saleImages);
+- (void) saleImages: (ZKHSaleEntity *) sale completionHandler:(SaleImagesResponseBlock) saleImagesBlock errorHandler:(MKNKErrorBlock) errorBlock;
 @end

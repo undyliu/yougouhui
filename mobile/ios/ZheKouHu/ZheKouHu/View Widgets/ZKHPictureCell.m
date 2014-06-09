@@ -6,9 +6,9 @@
 //  Copyright (c) 2014年 undyliu. All rights reserved.
 //
 
-#import "ZKHSharePicCell.h"
+#import "ZKHPictureCell.h"
 
-@implementation ZKHSharePicCell
+@implementation ZKHPictureCell
 
 - (id)initWithFrame:(CGRect)frame
 {

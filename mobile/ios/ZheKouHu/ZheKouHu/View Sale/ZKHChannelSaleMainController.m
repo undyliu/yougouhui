@@ -49,12 +49,12 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
     int index = 0;
     NSMutableArray *items = [[NSMutableArray alloc] init];
     for (ZKHChannelEntity *channel in self.channels) {
-        
         CGRect frame_1= CGRectMake(0, 0, 50, 30);
-        UIButton* channelButton= [[UIButton alloc] initWithFrame:frame_1];
+        UIButton* channelButton= [[UIButton alloc] init];
+        channelButton.frame = frame_1;
+        [channelButton setBackgroundColor:[UIColor clearColor]];
         [channelButton setTitle:channel.name forState:UIControlStateNormal];
         [channelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [channelButton setTitleColor:[UIColor blueColor] forState:UIControlStateHighlighted];
         channelButton.titleLabel.font=[UIFont systemFontOfSize:14];
         [channelButton addTarget:self action:@selector(changeChannel:) forControlEvents:UIControlEventTouchUpInside];
         channelButton.tag = index++;
@@ -68,14 +68,16 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
 - (void) updateToolbarItems:(int)activedItemTag
 {
     for (UIBarButtonItem *item in self.channelBar.items) {
-        //UIButton* channelButton = (UIButton*)[item customView];
-        int tag = item.tag;
+        UIButton* channelButton = (UIButton*)[item customView];
+        int tag = channelButton.tag;
         if (tag == activedItemTag) {
+            [channelButton setBackgroundColor:[UIColor darkGrayColor]];
             //[channelButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-            [item setStyle:UIBarButtonItemStyleDone];
+            //channelButton.titleLabel.font=[UIFont systemFontOfSize:16];
         }else{
+            [channelButton setBackgroundColor:[UIColor clearColor]];
             //[channelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [item setStyle:UIBarButtonItemStylePlain];
+            //channelButton.titleLabel.font=[UIFont systemFontOfSize:14];
         }
     }
     

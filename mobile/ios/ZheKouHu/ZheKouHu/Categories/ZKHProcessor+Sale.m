@@ -245,4 +245,10 @@
     }];
 }
 
+- (void)saleImages:(ZKHSaleEntity *)sale completionHandler:(SaleImagesResponseBlock)saleImagesBlock errorHandler:(MKNKErrorBlock)errorBlock
+{
+    ZKHSaleData *saleData = [[ZKHSaleData alloc] init];
+    sale.images = [saleData saleImages:sale.uuid];
+    saleImagesBlock(sale.images);
+}
 @end

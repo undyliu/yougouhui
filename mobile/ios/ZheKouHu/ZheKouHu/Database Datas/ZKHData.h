@@ -76,6 +76,7 @@
 - (ZKHSaleEntity *) sale:(NSString *)uuid;
 -(NSMutableArray *) salesGroupByPublishDate:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset;
 -(void) cancelSale:(NSString *)saleId;
+-(NSMutableArray *) saleImages:(NSString *)saleId;
 @end
 
 #define SALE_DISC_TABLE @"e_sale_discuss"

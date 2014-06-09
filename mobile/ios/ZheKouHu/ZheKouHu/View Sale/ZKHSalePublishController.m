@@ -7,7 +7,7 @@
 //
 #import <QuartzCore/QuartzCore.h>
 #import "ZKHSalePublishController.h"
-#import "ZKHSharePicCell.h"
+#import "ZKHPictureCell.h"
 #import "ZKHImagePreviewController.h"
 #import "SelectionCell.h"
 #import "TableViewWithBlock.h"
@@ -18,7 +18,7 @@
 #import "ZKHImageLoader.h"
 #import "NSDate+Utils.h"
 
-static NSString *CellIdentifier = @"SharePicCell";
+static NSString *CellIdentifier = @"DefaultPictureCell";
 
 @implementation ZKHSalePublishController
 
@@ -280,7 +280,7 @@ static NSString *CellIdentifier = @"SharePicCell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    ZKHSharePicCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+    ZKHPictureCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     int row = indexPath.row;
     
     UIImage *image = row < [selectedImages count] ? selectedImages[row] : nil;

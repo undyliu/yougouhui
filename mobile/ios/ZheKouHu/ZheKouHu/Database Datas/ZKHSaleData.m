@@ -175,4 +175,49 @@
     
     [self executeUpdate:sql params:params];
 }
+
+- (NSMutableArray *)saleImages:(NSString *)saleId
+{
+    NSString *sql = @" select uuid, img, ord_index from e_sale_img where sale_id = ? order by ord_index ";
+    NSMutableArray *params = [[NSMutableArray alloc] init];
+    [params addObject:saleId];
+    
+    NSMutableArray *result = [[NSMutableArray alloc] init];
+    
+    NSLog(@"sql : %@", sql);
+    sqlite3 *database = nil;
+    @try {
+        database = [self openDatabase];
+        sqlite3_stmt *stmt;
+        
+        @try {
+            stmt = [self prepareStatement:sql params:params database:database];
+            while (sqlite3_step(stmt) == SQLITE_ROW) {
+                ZKHFileEntity *file = [[ZKHFileEntity alloc] init];
+                
+                int i = 0;
+                file.uuid = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+                file.aliasName = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+                file.ordIndex = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+                
+                [result addObject:file];
+            }
+        }
+        @catch (NSException *exception) {
+            @throw exception;
+        }
+        @finally {
+            sqlite3_finalize(stmt);
+        }
+    }
+    @catch (NSException *exception) {
+        @throw exception;
+    }
+    @finally {
+        [self closeDatabase:database];
+    }
+    return result;
+
+}
+
 @end

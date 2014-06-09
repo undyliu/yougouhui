@@ -7,7 +7,7 @@
 //
 
 #import "ZKHShareController.h"
-#import "ZKHSharePicCell.h"
+#import "ZKHPictureCell.h"
 #import "ZKHImagePreviewController.h"
 #import "ZKHProcessor+Share.h"
 #import "ZKHAppDelegate.h"
@@ -20,7 +20,7 @@
 
 #define STRING_SHARE_CONTENT_DEFAULT @"请分享下本次购物的体验吧"
 
-static NSString *CellIdentifier = @"SharePicCell";
+static NSString *CellIdentifier = @"DefaultPictureCell";
 
 @implementation ZKHShareController
 
@@ -174,7 +174,7 @@ static NSString *CellIdentifier = @"SharePicCell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    ZKHSharePicCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+    ZKHPictureCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     int row = indexPath.row;
     
     UIImage *image = row < [selectedImages count] ? selectedImages[row] : nil;

@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZKHSaleImageListController : UIViewController
+@interface ZKHSaleImageListController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate>
+
+@property (strong, nonatomic) NSMutableArray *imageFiles;
+
+@property (strong, nonatomic) IBOutlet UICollectionView *mainView;
 
 @end

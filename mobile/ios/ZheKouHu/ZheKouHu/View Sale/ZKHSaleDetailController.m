@@ -148,7 +148,18 @@
 - (void) moreImageClick:(id)sender
 {
     ZKHSaleImageListController *controller = [[ZKHSaleImageListController alloc] init];
-    [self.navigationController pushViewController:controller animated:YES];
+    if ([self.sale.images count] > 0) {
+        controller.imageFiles = self.sale.images;
+        [self.navigationController pushViewController:controller animated:YES];
+    }else{
+        [ApplicationDelegate.zkhProcessor saleImages:self.sale completionHandler:^(NSMutableArray *saleImages) {
+            controller.imageFiles = self.sale.images;
+            [self.navigationController pushViewController:controller animated:YES];
+        } errorHandler:^(NSError *error) {
+            
+        }];
+    }
+    
 }
 
 - (void)shopLabelClick:(id)sender
