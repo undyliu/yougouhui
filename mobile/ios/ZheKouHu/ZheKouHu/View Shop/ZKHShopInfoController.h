@@ -24,13 +24,6 @@
 @property (strong, nonatomic) ZKHShopEntity *shop;
 @property (nonatomic) Boolean readonly;
 
-- (void)favoritClick;
-- (void)cancelFavoritClick;
-- (void)shareClick;
-
-- (IBAction)saleItemClick:(id)sender;
-- (IBAction)moreItemClick:(id)sender;
-
 @end
 
 @interface ZKHChangeShopNameController : ZKHChangeTextController

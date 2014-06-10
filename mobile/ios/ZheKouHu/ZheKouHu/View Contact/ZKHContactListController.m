@@ -16,6 +16,7 @@
 #import "ZKHAddFriendController.h"
 #import "ZKHFriendProfileController.h"
 #import "NSString+Utils.h"
+#import "TSActionSheet.h"
 
 static NSString *CellIdentifier = @"ContactListCell";
 
@@ -88,7 +89,7 @@ static NSString *CellIdentifier = @"ContactListCell";
         [navToolBar setAlpha:[self.navigationController.navigationBar alpha]];
         NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:3];
     
-        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonClick:)];
+        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonClick:forEvent:)];
         UIBarButtonItem *confButton = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStyleBordered target:self action:@selector(confButtonClick:)];
         
         [buttons addObject:addButton];
@@ -155,17 +156,17 @@ static NSString *CellIdentifier = @"ContactListCell";
     [self.navigationController pushViewController:controller animated:YES];
 }
 
-- (void)addButtonClick:(id)sender
+- (void)addButtonClick:(id)sender forEvent:(UIEvent*)event
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                                  initWithTitle:@"请选择"
-                                  delegate:self
-                                  cancelButtonTitle:@"取消"
-                                  destructiveButtonTitle:nil
-                                  otherButtonTitles:@"搜索新朋友",
-                                   nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-    [actionSheet showInView:self.navigationController.view];
+    TSActionSheet *actionSheet = [[TSActionSheet alloc] initWithTitle:nil];
+    [actionSheet addButtonWithTitle:@"搜索新朋友" block:^{
+        [self addFriendClick:nil];
+    }];
+    
+    //[actionSheet cancelButtonWithTitle:@"取消" block:nil];
+    actionSheet.cornerRadius = 5;
+    
+    [actionSheet showWithTouch:event];
 }
 
 - (void)confButtonClick:(id)sender
@@ -194,16 +195,6 @@ static NSString *CellIdentifier = @"ContactListCell";
         [selectedIndexes addObject:NSIndexPath];
     }else{
         [selectedIndexes removeObject:NSIndexPath];
-    }
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    switch (buttonIndex) {
-        case 0://add friend
-            [self addFriendClick:nil];
-        default:
-            break;
     }
 }
 

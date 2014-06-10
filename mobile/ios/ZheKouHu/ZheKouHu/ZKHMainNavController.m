@@ -13,10 +13,7 @@
 #import "ZKHUserProfileController.h"
 #import "ZKHAddFriendController.h"
 #import "ZKHShareController.h"
-
-@interface ZKHMainNavController ()
-
-@end
+#import "TSActionSheet.h"
 
 @implementation ZKHMainNavController
 
@@ -53,7 +50,7 @@
     NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:3];
     
     UIBarButtonItem *searchButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(clickSearch:)];
-    UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(clickMore:)];
+    UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(clickMore:forEvent:)];
     UIBarButtonItem *profileButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(clickProfile:)];
     
     
@@ -77,73 +74,38 @@
    
 }
 
-- (void) clickMore: (id)sender
+- (void) clickMore: (id)sender forEvent:(UIEvent*)event
 {
-    UIActionSheet *actionSheet;
+    TSActionSheet *actionSheet = [[TSActionSheet alloc] initWithTitle:nil];
     if ([[ZKHContext getInstance] isAnonymousUserLogined]) {
-        actionSheet = [[UIActionSheet alloc]
-                       initWithTitle:nil
-                       delegate:self
-                       cancelButtonTitle:@"取消"
-                       destructiveButtonTitle:nil
-                       otherButtonTitles:NSLocalizedString(@"LABEL_LOGIN", @"login"),
-                       NSLocalizedString(@"LABEL_REGISTER_USER", @"register user"),
-                       //NSLocalizedString(@"LABEL_BUYING_SHARE", @"share buying"),
-                       nil];
+        [actionSheet addButtonWithTitle:NSLocalizedString(@"LABEL_LOGIN", @"login") block:^{
+            UIViewController *controller = [[ZKHLoginController alloc] init];
+            [self pushViewController:controller animated:YES];
+        }];
+        [actionSheet addButtonWithTitle:NSLocalizedString(@"LABEL_REGISTER_USER", @"register user") block:^{
+            UIViewController *controller = [[ZKHRegiserUserController alloc] init];
+            [self pushViewController:controller animated:YES];
+        }];
     }else{
-        actionSheet = [[UIActionSheet alloc]
-                       initWithTitle:nil
-                       delegate:self
-                       cancelButtonTitle:@"取消"
-                       destructiveButtonTitle:nil
-                       otherButtonTitles:NSLocalizedString(@"LABEL_ADD_FRIENDS", @"add friends"),
-                       NSLocalizedString(@"LABEL_BUYING_SHARE", @"share buying"),
-                       nil];
+        [actionSheet addButtonWithTitle:NSLocalizedString(@"LABEL_ADD_FRIENDS", @"add friends") block:^{
+            UIViewController *controller = [[ZKHAddFriendController alloc] init];
+            [self pushViewController:controller animated:YES];
+        }];
+        [actionSheet addButtonWithTitle:NSLocalizedString(@"LABEL_BUYING_SHARE", @"share buying") block:^{
+            UIViewController *controller = [[ZKHShareController alloc] init];
+            [self pushViewController:controller animated:YES];
+        }];
     }
-    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-    [actionSheet showInView:self.view];
+    //[actionSheet cancelButtonWithTitle:@"取消" block:nil];
+    actionSheet.cornerRadius = 5;
+    
+    [actionSheet showWithTouch:event];
 }
 
 - (void) clickProfile: (id)sender
 {
     ZKHUserProfileController *controller = [[ZKHUserProfileController alloc] init];
     [self pushViewController:controller animated:YES];
-}
-
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    UIViewController *controller;
-    if ([[ZKHContext getInstance] isAnonymousUserLogined]) {
-        switch (buttonIndex) {
-            case 0://login
-                controller = [[ZKHLoginController alloc] init];
-                break;
-            case 1://register user
-                controller = [[ZKHRegiserUserController alloc] init];
-                break;
-//            case 2://share
-//                controller = [[ZKHShareController alloc] init];
-//                break;
-            default:
-                break;
-        }
-    }else{
-        switch (buttonIndex) {
-            case 0://add friend
-                controller = [[ZKHAddFriendController alloc] init];
-                break;
-            case 1://share
-                controller = [[ZKHShareController alloc] init];
-                break;
-            default:
-                break;
-        }
-    }
-    
-    if (controller != nil) {
-        [self pushViewController:controller animated:YES];
-    }
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration

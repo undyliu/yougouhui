@@ -22,7 +22,7 @@
 @property(strong, nonatomic) UILabel *contentLabel;
 @property(strong, nonatomic) UICollectionView *imagesView;
 @property(strong, nonatomic) UILabel *publishDateLabel;
-@property(strong, nonatomic) UIImageView *commentImageView;
+@property(strong, nonatomic) UIButton *commentImageView;
 @property(strong, nonatomic) UITableView *commentTableView;
 
 @property (strong, nonatomic) UIViewController *parentController;

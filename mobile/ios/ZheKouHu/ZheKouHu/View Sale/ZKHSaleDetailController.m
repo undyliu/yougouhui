@@ -22,6 +22,7 @@
 #import "ZKHShareController.h"
 #import "ZKHImageListPreviewController.h"
 
+
 @implementation ZKHSaleDetailController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -105,12 +106,23 @@
         
         }];
     }
+    
+    //设置输入键盘
+    faceToolBar = [[FaceToolBar alloc]initWithFrame:CGRectMake(0.0f,self.view.frame.size.height - toolBarHeight,self.view.frame.size.width,toolBarHeight) superView:self.view];
+    faceToolBar.fToolBarDelegate = self;
+    [self.view addSubview:faceToolBar];
+    
+    //主视图的点击事件
+    [self.mainView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backgroupTap:)]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self updateNavToolBarFrame];
+    
+    faceToolBar.hidden = true;
+    [faceToolBar resignFirstResponder];
 }
 
 - (void) initializeNavToolBar
@@ -161,6 +173,10 @@
         }];
     }
     
+}
+
+- (IBAction)discuss:(id)sender {
+    faceToolBar.hidden = !faceToolBar.hidden;
 }
 
 - (void)shopLabelClick:(id)sender
@@ -247,5 +263,16 @@
 {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self updateNavToolBarFrame];
+}
+
+- (void)backgroupTap:(id)sender
+{
+    [faceToolBar resignFirstResponder];
+    faceToolBar.hidden = true;
+}
+
+#pragma mark - FaceToolBarDelegate
+-(void)sendTextAction:(NSString *)inputText{
+    NSLog(@"sendTextAction%@",inputText);
 }
 @end

@@ -17,6 +17,7 @@
 #import "NSString+Utils.h"
 #import "ZKHImageLoader.h"
 #import "ZKHFriendProfileController.h"
+#import "TSActionSheet.h"
 
 static NSString *CellIdentifier = @"FriendShareListCell";
 
@@ -56,6 +57,19 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     } errorHandler:^(NSError *error) {
         
     }];
+    
+    //设置输入键盘
+    faceToolBar = [[FaceToolBar alloc]initWithFrame:CGRectMake(0.0f,self.view.frame.size.height - toolBarHeight,self.view.frame.size.width,toolBarHeight) superView:self.view];
+    faceToolBar.fToolBarDelegate = self;
+    [self.view addSubview:faceToolBar];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    faceToolBar.hidden = true;
+    [faceToolBar resignFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
@@ -80,6 +94,27 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     [self.navigationController pushViewController:controller animated:YES];
 }
 
+- (void) commentImageClick:(UIButton *)sender forEvent:(UIEvent*)event
+{
+    int index = sender.tag;
+    ZKHShareEntity *share  = shares[index];
+    
+    TSActionSheet *actionSheet = [[TSActionSheet alloc] initWithTitle:nil];
+    [actionSheet addButtonWithTitle:@"评论" block:^{
+        faceToolBar.hidden = false;
+        [faceToolBar becomeFirstResponder];
+    }];
+    
+    if ([[ZKHContext getInstance].user isEqual:share.publisher]) {
+        [actionSheet addButtonWithTitle:@"删除" block:^{
+    
+        }];
+    }
+    actionSheet.cornerRadius = 5;
+        
+    [actionSheet showWithTouch:event];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -97,6 +132,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     
     ZKHFriendShareListCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     int row = indexPath.row;
+    
     ZKHShareEntity *share = shares[row];
     
     ZKHUserEntity *publisher = share.publisher;
@@ -138,9 +174,13 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     [cell updateViews:share shareListPicController:picController commentsController:commentsController];
     cell.parentController = self;
     
+    cell.commentImageView.tag = indexPath.row;
+    [cell.commentImageView addTarget:self action:@selector(commentImageClick:forEvent:) forControlEvents:UIControlEventTouchUpInside];
+    
     return cell;
 }
 
+#pragma mark - Table view delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return [ZKHFriendShareListCell cellHeight:shares[indexPath.row]];
 }
@@ -149,6 +189,11 @@ static NSString *CellIdentifier = @"FriendShareListCell";
 {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.pullTableView reloadData];
+}
+
+#pragma mark - FaceToolBarDelegate
+-(void)sendTextAction:(NSString *)inputText{
+    NSLog(@"sendTextAction%@",inputText);
 }
 
 @end

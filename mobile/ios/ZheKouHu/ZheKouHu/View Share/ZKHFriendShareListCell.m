@@ -42,7 +42,13 @@ static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
 + (CGFloat) cellRightWidth
 {
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
-    return screenBounds.size.width - 60;
+    UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (currentOrientation == UIInterfaceOrientationPortrait || currentOrientation == UIInterfaceOrientationPortraitUpsideDown){//竖屏
+        return screenBounds.size.width - 60;
+    }else{
+        return screenBounds.size.height - 60;
+    }
+    
 }
 
 + (CGFloat) contentLabelHeight:(ZKHShareEntity *)share
@@ -194,10 +200,11 @@ static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
     CGFloat x = self.tagView.frame.size.width + iFrame.origin.x - 24;
     CGRect frame = CGRectMake(x, iFrame.origin.y + iFrame.size.height + DEFAULT_GAP_HEIGHT, 24, 24);
     if (!self.commentImageView) {
-        self.commentImageView = [[UIImageView alloc] init];
-        self.commentImageView.image = [UIImage imageNamed:@"b_comment.png"];
+        self.commentImageView = [[UIButton alloc] init];
+        [self.commentImageView setBackgroundImage:[UIImage imageNamed:@"b_comment.png"] forState:UIControlStateNormal];
         [self addSubview:self.commentImageView];
     }
+    
     self.commentImageView.frame = frame;
 }
 

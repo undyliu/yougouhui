@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ZKHContactListActionDelegate.h"
 
-@interface ZKHContactListController : UITableViewController<UIActionSheetDelegate>
+@interface ZKHContactListController : UITableViewController
 {
     NSArray *_indexKeys;
     NSMutableArray *_sortedKeys;
@@ -24,7 +24,6 @@
 
 - (IBAction)addFriendClick:(id)sender;
 
-- (IBAction)addButtonClick:(id)sender;
 - (IBAction)confButtonClick:(id)sender;
 - (IBAction)cellSwitchChanged:(id)sender;
 

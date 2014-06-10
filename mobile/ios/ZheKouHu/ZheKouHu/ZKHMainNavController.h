@@ -8,14 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZKHMainNavController : UINavigationController<UIActionSheetDelegate>
+@interface ZKHMainNavController : UINavigationController
 {
     UIViewController * rootController;
     UIToolbar *navToolBar;
 }
-
-- (void) clickSearch: (id)sender;
-- (void) clickMore: (id)sender;
-- (void) clickProfile: (id)sender;
 
 @end

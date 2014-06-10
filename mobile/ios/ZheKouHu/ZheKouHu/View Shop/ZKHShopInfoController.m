@@ -20,6 +20,7 @@
 #import "ZKHViewUtils.h"
 #import "ZKHShareController.h"
 #import "ZKHShopSaleListController.h"
+#import "TSActionSheet.h"
 
 static NSString *CellIdentifier = @"ImageLabelCell";
 
@@ -57,7 +58,7 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     }];
     
     saleItem = [[UIBarButtonItem alloc] initWithTitle:@"折扣活动" style:UIBarButtonItemStyleBordered target:self action:@selector(saleItemClick:)];
-    moreItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(moreItemClick:)];
+    moreItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(moreItemClick:forEvent:)];
     
     if ([[ZKHContext getInstance] isAnonymousUserLogined]) {
         [self updateNavigationItem:@[saleItem]];
@@ -112,57 +113,25 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     [self.navigationController pushViewController:controller animated:YES];
 }
 
-- (void)moreItemClick:(id)sender
+- (void)moreItemClick:(id)sender forEvent:(UIEvent*)event
 {
-    UIActionSheet *actionSheet;
+    TSActionSheet *actionSheet = [[TSActionSheet alloc] initWithTitle:nil];
+    [actionSheet addButtonWithTitle:@"晒单" block:^{
+        [self shareClick];
+    }];
     if (isFavorit) {
-        actionSheet = [[UIActionSheet alloc]
-                       initWithTitle:nil
-                       delegate:self
-                       cancelButtonTitle:@"取消"
-                       destructiveButtonTitle:nil
-                       otherButtonTitles:@"晒单", @"取消收藏",
-                       nil];
+        [actionSheet addButtonWithTitle:@"取消收藏" block:^{
+            [self cancelFavoritClick];
+        }];
     }else{
-        actionSheet = [[UIActionSheet alloc]
-                       initWithTitle:nil
-                       delegate:self
-                       cancelButtonTitle:@"取消"
-                       destructiveButtonTitle:nil
-                       otherButtonTitles:@"晒单", @"收藏",
-                       nil];
+        [actionSheet addButtonWithTitle:@"收藏" block:^{
+            [self favoritClick];
+        }];
     }
-    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-    [actionSheet showInView:self.view];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-   
-    if (isFavorit) {
-        switch (buttonIndex) {
-            case 0://share
-                [self shareClick];
-                break;
-            case 1://cancel favorit
-                [self cancelFavoritClick];
-                break;
-            default:
-                break;
-        }
-    }else{
-        switch (buttonIndex) {
-            case 0://share
-                [self shareClick];
-                break;
-            case 1://favorit
-                [self favoritClick];
-                break;
-            default:
-                break;
-        }
-    }
+    //[actionSheet cancelButtonWithTitle:@"取消" block:nil];
+    actionSheet.cornerRadius = 5;
     
+    [actionSheet showWithTouch:event];
 }
 
 - (void)favoritClick

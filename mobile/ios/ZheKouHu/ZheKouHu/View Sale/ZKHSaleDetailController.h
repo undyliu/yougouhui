@@ -9,20 +9,23 @@
 #import <UIKit/UIKit.h>
 #import "ZKHEntity.h"
 #import "ZKHSaleDiscussListController.h"
+#import "FaceToolBar.h"
 
-@interface ZKHSaleDetailController : UIViewController
+@interface ZKHSaleDetailController : UIViewController<FaceToolBarDelegate>
 {
     ZKHSaleDiscussListController *discussListController;
     UIBarButtonItem *shareItem;
     UIBarButtonItem *favoritItem;
     UIBarButtonItem *cancelFavoritItem;
     UIToolbar *navToolbar;
+    FaceToolBar *faceToolBar;
 }
 
 @property (strong, nonatomic) ZKHSaleEntity *sale;
 
 @property (weak, nonatomic) IBOutlet UIImageView *saleImageView;
 
+@property (strong, nonatomic) IBOutlet UIView *mainView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;
@@ -32,6 +35,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *disImageView;
 @property (weak, nonatomic) IBOutlet PullTableView *disTableView;
 @property (weak, nonatomic) IBOutlet UILabel *moreImageLabel;
+- (IBAction)discuss:(id)sender;
+
 
 - (IBAction)shopLabelClick:(id)sender;
 - (IBAction)discussLabelClick:(id)sender;

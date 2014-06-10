@@ -21,6 +21,7 @@
 #import "ZKHProcessor+Trade.h"
 #import "ZKHSalePublishController.h"
 #import "ZKHShareShopReplyListController.h"
+#import "TSActionSheet.h"
 
 static NSString *CellIdentifier = @"ShopModuleCell";
 
@@ -52,7 +53,7 @@ static NSString *CellIdentifier = @"ShopModuleCell";
         currentShopIndex = 0;
     }
     
-    UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(clickMore:)];
+    UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(clickMore:forEvent:)];
     self.navigationItem.rightBarButtonItem = moreButton;
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"退出店铺" style:UIBarButtonItemStyleBordered target:self action:@selector(shopLogout:)];
@@ -144,40 +145,25 @@ static NSString *CellIdentifier = @"ShopModuleCell";
     }
 }
 
-- (void)clickMore:(id)sender
-{
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                   initWithTitle:nil
-                   delegate:self
-                   cancelButtonTitle:@"取消"
-                   destructiveButtonTitle:nil
-                   otherButtonTitles:@"修改密码",@"发布新活动",
-                   nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-    [actionSheet showInView:self.view];
-}
+- (void)clickMore:(id)sender forEvent:(UIEvent*)event
+{    
+    TSActionSheet *actionSheet = [[TSActionSheet alloc] initWithTitle:nil];
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    UIViewController *controller;
-    switch (buttonIndex) {
-        case 0://changge pwd
-        {
-            controller = [[ZKHChangeShopPwdController alloc] init];
-            ((ZKHChangeShopNameController *)controller).shop = self.shops[currentShopIndex];
-        }
-            break;
-        case 1://publish now sale
-            controller = [[ZKHSalePublishController alloc] init];
-            ((ZKHSalePublishController *)controller).shop = self.shops[currentShopIndex];
-            break;
-        default:
-            break;
-    }
-    
-    if (controller != nil) {
+    [actionSheet addButtonWithTitle:@"修改密码" block:^{
+        ZKHChangeShopPwdController *controller = [[ZKHChangeShopPwdController alloc] init];
+        controller.shop = self.shops[currentShopIndex];
         [self.navigationController pushViewController:controller animated:YES];
-    }
+    }];
+    [actionSheet addButtonWithTitle:@"发布新活动" block:^{
+        ZKHSalePublishController *controller = [[ZKHSalePublishController alloc] init];
+        controller.shop = self.shops[currentShopIndex];
+        [self.navigationController pushViewController:controller animated:YES];
+    }];
+    
+    //[actionSheet cancelButtonWithTitle:@"取消" block:nil];
+    actionSheet.cornerRadius = 5;
+    
+    [actionSheet showWithTouch:event];
 }
 
 - (void)didReceiveMemoryWarning

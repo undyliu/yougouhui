@@ -12,7 +12,7 @@
 
 @class TableViewWithBlock;
 
-@interface ZKHShopMainController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
+@interface ZKHShopMainController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate, UIAlertViewDelegate>
 {
     BOOL isOpened;
     int currentShopIndex;
@@ -29,7 +29,6 @@
 @property (strong, nonatomic) IBOutlet TableViewWithBlock *tb;
 - (IBAction)changeOpenStatus:(id)sender;
 
-- (IBAction)clickMore:(id)sender;
 - (IBAction)shopLogout:(id)sender;
 
 @end
