@@ -13,6 +13,8 @@
 
 - (void) publishShare:(ZKHShareEntity *)share completionHandler:(BooleanResultResponseBlock) publishShareBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
+- (void) deleteShare:(ZKHShareEntity *)share completionHandler:(BooleanResultResponseBlock) deleteShareBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+
 typedef void (^SharesResponseBlock)(NSMutableArray* shares);
 - (void) friendShares:(NSString *)userId offset:(int)offset completionHandler:(SharesResponseBlock) sharesBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 

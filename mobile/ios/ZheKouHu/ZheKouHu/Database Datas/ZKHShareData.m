@@ -162,6 +162,7 @@ static NSString *shareQuery_base = @" select s.uuid, s.content, s.publish_time, 
     [self executeUpdate:sql params:params];
     
     //删除评论
+    [[[ZKHShareCommentData alloc] init] deleteCommentsByShare:uuid];
     
     //删除商家回复
     

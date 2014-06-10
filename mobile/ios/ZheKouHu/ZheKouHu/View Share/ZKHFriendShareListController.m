@@ -117,7 +117,14 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     
     if ([[ZKHContext getInstance].user isEqual:share.publisher]) {
         [actionSheet addButtonWithTitle:@"删除" block:^{
-    
+            [ApplicationDelegate.zkhProcessor deleteShare:share completionHandler:^(Boolean result) {
+                if (result) {
+                    [shares removeObject:share];
+                    [self.pullTableView reloadData];
+                }
+            } errorHandler:^(NSError *error) {
+                
+            }];
         }];
     }
     actionSheet.cornerRadius = 5;

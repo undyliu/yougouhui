@@ -67,4 +67,13 @@
     
     [self executeUpdate:sql params:params];
 }
+
+- (void)deleteCommentsByShare:(NSString *)shareId
+{
+    NSString *sql = @" delete from e_share_comment where share_id = ? ";
+    NSArray *params = @[shareId];
+    
+    [self executeUpdate:sql params:params];
+}
+
 @end

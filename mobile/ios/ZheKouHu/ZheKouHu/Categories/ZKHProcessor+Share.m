@@ -222,4 +222,24 @@
     }];
 }
 
+#define DEL_SHARE(__UUID__) [NSString stringWithFormat:@"/deleteShare/%@", __UUID__]
+- (void)deleteShare:(ZKHShareEntity *)share completionHandler:(BooleanResultResponseBlock)deleteShareBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = DEL_SHARE(share.uuid);
+    request.method = METHOD_DELETE;
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *uuid = jsonObject[KEY_UUID];
+        if ([NSString isNull:uuid]) {
+            deleteShareBlock(false);
+        }else{
+            [[[ZKHShareData alloc] init] deleteShare:share.uuid];
+            deleteShareBlock(true);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
 @end

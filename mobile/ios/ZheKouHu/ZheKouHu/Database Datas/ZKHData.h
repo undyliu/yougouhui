@@ -124,6 +124,7 @@
 @interface ZKHShareCommentData : ZKHData<ZKHEntityUpdater>
 - (NSMutableArray *) commentsForShare:(NSString *)shareId;
 - (void) deleteComment:(NSString *)uuid;
+- (void) deleteCommentsByShare:(NSString *)shareId;
 @end
 
 @interface ZKHShareReplyData : ZKHData
