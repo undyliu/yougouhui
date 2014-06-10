@@ -162,6 +162,11 @@
 @property (strong, nonatomic) ZKHUserEntity *pulisher;
 @end
 
+//分享回复
+@interface ZKHShareReplyEntity : ZKHEntity
+
+@end
+
 //分享
 @interface ZKHShareEntity : ZKHEntity
 @property (strong, nonatomic) NSString *content;

@@ -117,4 +117,15 @@
 @interface ZKHShareData : ZKHData<ZKHEntityUpdater>
 - (NSMutableArray *) friendShares:(NSString *)userId offset:(int)offset;
 - (void) deleteShare:(NSString *)uuid;
+- (NSMutableArray *)shareImages:(NSString *)shareId;
+@end
+
+#define SHARE_COMMENT_TABLE @"e_share_comment"
+@interface ZKHShareCommentData : ZKHData<ZKHEntityUpdater>
+- (NSMutableArray *) commentsForShare:(NSString *)shareId;
+- (void) deleteComment:(NSString *)uuid;
+@end
+
+@interface ZKHShareReplyData : ZKHData
+
 @end

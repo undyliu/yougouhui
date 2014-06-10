@@ -92,6 +92,13 @@
             
             id jsonShares = [jsonObject valueForKey:KEY_DATA];
             for (id jsonShare in jsonShares) {
+                //删除
+                NSNumber *isDel = jsonShare[KEY_IS_DELETED];
+                if ([isDel intValue] == 1) {
+                    [shareData deleteShare:[jsonShare valueForKey:KEY_UUID]];
+                    continue;
+                }
+                
                 ZKHShareEntity *share = [[ZKHShareEntity alloc] init];
                 share.uuid = jsonShare[KEY_UUID];
                 share.content = jsonShare[KEY_CONTENT];
@@ -106,11 +113,12 @@
                 share.publishDate = jsonShare[KEY_PUBLISH_DATE];
         
                 //商铺信息
-                NSString *shopId = jsonShare[KEY_SHOP_ID];
-                if (shopId) {
-                    share.shop = [[ZKHShopEntity alloc] init];
-                    share.shop.uuid = shopId;
-                    share.shop.name = jsonShare[KEY_SHOP_NAME];
+                id jsonShop = jsonShare[KEY_SHOP];
+                if (jsonShop) {
+                    NSString *shopId = jsonShop[KEY_UUID];
+                    if (![NSString isNull:shopId]) {
+                        share.shop = [[ZKHShopEntity alloc] initWithJsonObject:jsonShop];
+                    }
                 }
         
                 share.accessType = jsonShare[KEY_ACCESS_TYPE];
@@ -132,15 +140,22 @@
                 NSMutableArray *comments = [[NSMutableArray alloc] init];
                 id jsonComments = jsonShare[KEY_COMMENTS];
                 for (id jsonComment in jsonComments) {
+                    //删除评论
+                    NSNumber *isDel = jsonComment[KEY_IS_DELETED];
+                    if ([isDel intValue] == 1) {
+                        [[[ZKHShareCommentData alloc] init] deleteComment:jsonComment[KEY_UUID]];
+                        continue;
+                    }
+                    
                     ZKHShareCommentEntity *comment = [[ZKHShareCommentEntity alloc] init];
                     comment.uuid = jsonComment[KEY_UUID];
                     comment.shareId = jsonComment[KEY_SHARE_ID];
                     comment.content = jsonComment[KEY_CONTENT];
                     comment.publishTime = jsonComment[KEY_PUBLISH_TIME];
                     
-                    comment.pulisher = [[ZKHUserEntity alloc] init];
-                    comment.pulisher.uuid = jsonComment[KEY_PUBLISHER];
-                    comment.pulisher.name = jsonComment[KEY_USER_NAME];
+                    NSMutableDictionary *jsonUser = [jsonComment mutableCopy];
+                    [jsonUser setObject:jsonUser[KEY_PUBLISHER] forKey:KEY_UUID];
+                    comment.pulisher = [[ZKHUserEntity alloc] initWithJsonObject:jsonUser noPwd:true];
                     
                     [comments addObject:comment];
                 }
@@ -153,10 +168,55 @@
             
             shareSync.updateTime = updateTime;
             
-            //[[[ZKHShareData alloc] init] save:shares];
+            [[[ZKHShareData alloc] init] save:shares];
             //[[[ZKHSyncData alloc] init] save:@[shareSync]];
         }
         sharesBlock(shares);
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+#define ADD_COMMENT_URL @"saveComment"
+- (void)addComment:(ZKHShareCommentEntity *)comment completionHandler:(BooleanResultResponseBlock)addCommentBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = ADD_COMMENT_URL;
+    request.method = METHOD_POST;
+    request.params = @{KEY_SHARE_ID: comment.shareId, KEY_CONTENT:comment.content, KEY_PUBLISHER:comment.pulisher.uuid};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *uuid = jsonObject[KEY_UUID];
+        if ([NSString isNull:uuid]) {
+            addCommentBlock(false);
+        }else{
+            comment.uuid = uuid;
+            comment.publishTime = jsonObject[KEY_PUBLISH_TIME];
+            
+            [[[ZKHShareCommentData alloc] init] save:@[comment]];
+            
+            addCommentBlock(true);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+#define DEL_COMMENT(__UUID__) [NSString stringWithFormat:@"/deleteComment/%@", __UUID__]
+- (void)deleteComment:(ZKHShareCommentEntity *)comment completionHandler:(BooleanResultResponseBlock)deleteCommentBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = DEL_COMMENT(comment.uuid);
+    request.method = METHOD_DELETE;
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *uuid = jsonObject[KEY_UUID];
+        if ([NSString isNull:uuid]) {
+            deleteCommentBlock(false);
+        }else{
+            [[[ZKHShareCommentData alloc] init] deleteComment:comment.uuid];
+            deleteCommentBlock(true);
+        }
     } errorHandler:^(NSError *error) {
         errorBlock(error);
     }];

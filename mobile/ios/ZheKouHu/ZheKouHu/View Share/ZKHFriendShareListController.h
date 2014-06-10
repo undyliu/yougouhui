@@ -8,8 +8,9 @@
 
 #import "ZKHPullRefreshTableViewController.h"
 #import "FaceToolBar.h"
+#import "ZKHShareListCommentsController.h"
 
-@interface ZKHFriendShareListController : ZKHPullRefreshTableViewController<UITableViewDelegate, FaceToolBarDelegate>
+@interface ZKHFriendShareListController : ZKHPullRefreshTableViewController<UITableViewDelegate, FaceToolBarDelegate, ZKHCommentChangedDelegate>
 {
     NSMutableArray *shares;
     NSMutableDictionary *sharePicControllers;
@@ -17,6 +18,7 @@
     int offset;
     
     FaceToolBar *faceToolBar;
+    int currentProcessShareIndex;
 }
 
 - (IBAction)shareClick:(id)sender;

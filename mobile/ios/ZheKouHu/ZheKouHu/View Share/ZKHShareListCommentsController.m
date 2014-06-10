@@ -10,10 +10,29 @@
 #import "ZKHEntity.h"
 #import "ZKHSaleDiscussListCell.h"
 #import "ZKHContext.h"
+#import "ZKHProcessor+Share.h"
+#import "ZKHAppDelegate.h"
 
 static NSString *CellIdentifier = @"SaleDiscussListCell";
 
 @implementation ZKHShareListCommentsController
+
+- (void) deleteComment:(UITapGestureRecognizer *)tap
+{
+    int index = tap.view.tag;
+    ZKHShareCommentEntity *comment = self.comments[index];
+    [ApplicationDelegate.zkhProcessor deleteComment:comment completionHandler:^(Boolean result) {
+        if (result) {
+            [self.comments removeObject:comment];
+            
+            if (self.commentDelegate) {
+                [self.commentDelegate updateComments:self.comments];
+            }
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
 
 #pragma mark - Table view data source
 
@@ -36,8 +55,12 @@ static NSString *CellIdentifier = @"SaleDiscussListCell";
     NSString *content = [NSString stringWithFormat:@"%@ 回复:%@", publisher.name, comment.content];
     cell.contentLabel.text = content;
     
+    cell.delelteImageView.tag = indexPath.row;
     if ([comment.pulisher isEqual:[ZKHContext getInstance].user]) {
         cell.delelteImageView.hidden = false;
+        
+        cell.delelteImageView.userInteractionEnabled = true;
+        [cell.delelteImageView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(deleteComment:)]];
     }else{
         cell.delelteImageView.hidden = true;
     }

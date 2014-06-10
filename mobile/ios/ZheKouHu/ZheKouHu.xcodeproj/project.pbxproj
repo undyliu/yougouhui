@@ -35,6 +35,8 @@
 		100243BB1935EDFF00A5047F /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 100243AF1935EDFF00A5047F /* whiteArrow@2x.png */; };
 		100243BF1935EF8B00A5047F /* ZKHPullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 100243BD1935EF8B00A5047F /* ZKHPullRefreshTableViewController.m */; };
 		100243C01935EF8B00A5047F /* ZKHPullRefreshTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 100243BE1935EF8B00A5047F /* ZKHPullRefreshTableViewController.xib */; };
+		100459301947137300FCE8C8 /* ZKHShareCommentData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1004592F1947137300FCE8C8 /* ZKHShareCommentData.m */; };
+		100459321947138D00FCE8C8 /* ZKHShareReplyData.m in Resources */ = {isa = PBXBuildFile; fileRef = 100459311947138D00FCE8C8 /* ZKHShareReplyData.m */; };
 		100B40321932CA7C00C51588 /* ZKHRequestSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 100B40311932CA7C00C51588 /* ZKHRequestSigner.m */; };
 		100B403D1932E8F100C51588 /* ZKHTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 100B403C1932E8F100C51588 /* ZKHTextField.m */; };
 		100B40421933051600C51588 /* ZKHChangePwdController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 100B40401933051600C51588 /* ZKHChangePwdController.xib */; };
@@ -311,6 +313,8 @@
 		100243BC1935EF8B00A5047F /* ZKHPullRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHPullRefreshTableViewController.h; sourceTree = "<group>"; };
 		100243BD1935EF8B00A5047F /* ZKHPullRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHPullRefreshTableViewController.m; sourceTree = "<group>"; };
 		100243BE1935EF8B00A5047F /* ZKHPullRefreshTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHPullRefreshTableViewController.xib; sourceTree = "<group>"; };
+		1004592F1947137300FCE8C8 /* ZKHShareCommentData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShareCommentData.m; sourceTree = "<group>"; };
+		100459311947138D00FCE8C8 /* ZKHShareReplyData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShareReplyData.m; sourceTree = "<group>"; };
 		100B40301932CA7C00C51588 /* ZKHRequestSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHRequestSigner.h; sourceTree = "<group>"; };
 		100B40311932CA7C00C51588 /* ZKHRequestSigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHRequestSigner.m; sourceTree = "<group>"; };
 		100B403B1932E8F100C51588 /* ZKHTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHTextField.h; sourceTree = "<group>"; };
@@ -867,6 +871,8 @@
 				1002437E193573F700A5047F /* ZKHSaleFavoritData.m */,
 				1002438319357A7700A5047F /* ZKHShopFavoritData.m */,
 				10F85AD0193D735F008B6484 /* ZKHShareData.m */,
+				1004592F1947137300FCE8C8 /* ZKHShareCommentData.m */,
+				100459311947138D00FCE8C8 /* ZKHShareReplyData.m */,
 			);
 			path = "Database Datas";
 			sourceTree = "<group>";
@@ -1518,6 +1524,7 @@
 				10EB8E9819469C5F0054CE1D /* Text@2x.png in Resources */,
 				10EB8E9919469C5F0054CE1D /* Voice.png in Resources */,
 				10EB8E9A19469C5F0054CE1D /* Voice@2x.png in Resources */,
+				100459321947138D00FCE8C8 /* ZKHShareReplyData.m in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1662,6 +1669,7 @@
 				105EE9E81946B7F400D6F08D /* TSPopoverTouchView.m in Sources */,
 				105EE9E91946B7F400D6F08D /* UIBarButtonItem+WEPopover.m in Sources */,
 				10717BD41946EEF20036FB42 /* ZKHTouchView.m in Sources */,
+				100459301947137300FCE8C8 /* ZKHShareCommentData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,11 +13,11 @@
 #import "ZKHAppDelegate.h"
 #import "ZKHFriendShareListCell.h"
 #import "ZKHShareListPicsController.h"
-#import "ZKHShareListCommentsController.h"
 #import "NSString+Utils.h"
 #import "ZKHImageLoader.h"
 #import "ZKHFriendProfileController.h"
 #import "TSActionSheet.h"
+#import "ZKHEntity.h"
 
 static NSString *CellIdentifier = @"FriendShareListCell";
 
@@ -106,8 +106,8 @@ static NSString *CellIdentifier = @"FriendShareListCell";
 
 - (void) commentImageClick:(UIButton *)sender forEvent:(UIEvent*)event
 {
-    int index = sender.tag;
-    ZKHShareEntity *share  = shares[index];
+    currentProcessShareIndex = sender.tag;
+    ZKHShareEntity *share  = shares[currentProcessShareIndex];
     
     TSActionSheet *actionSheet = [[TSActionSheet alloc] initWithTitle:nil];
     [actionSheet addButtonWithTitle:@"评论" block:^{
@@ -177,6 +177,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
         if (!commentsController) {
             commentsController = [[ZKHShareListCommentsController alloc] init];
             commentsController.comments = share.comments;
+            commentsController.commentDelegate = self;
             
             [commentControllers setObject:commentsController forKey:indexPath];
         }
@@ -203,7 +204,30 @@ static NSString *CellIdentifier = @"FriendShareListCell";
 
 #pragma mark - FaceToolBarDelegate
 -(void)sendTextAction:(NSString *)inputText{
-    NSLog(@"sendTextAction%@",inputText);
+    [faceToolBar resignFirstResponder];
+    faceToolBar.hidden = true;
+    
+    ZKHShareEntity *share = shares[currentProcessShareIndex];
+    
+    ZKHShareCommentEntity *comment = [[ZKHShareCommentEntity alloc] init];
+    comment.content = inputText;
+    comment.shareId = share.uuid;
+    comment.pulisher = [ZKHContext getInstance].user;
+    
+    [ApplicationDelegate.zkhProcessor addComment:comment completionHandler:^(Boolean result) {
+        if (result) {
+            [share.comments addObject:comment];
+            [self.pullTableView reloadData];
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
+
+#pragma mark - ZKHCommentChangedDelegate
+- (void)updateComments:(NSMutableArray *)comments
+{
+    [self.pullTableView reloadData];
 }
 
 @end

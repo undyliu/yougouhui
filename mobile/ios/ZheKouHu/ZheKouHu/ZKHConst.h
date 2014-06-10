@@ -83,6 +83,7 @@
 #define KEY_EMPS @"emps"
 #define KEY_EMP_LIST @"empList"
 #define KEY_COMMENTS @"comments"
+#define KEY_SHOP @"shop"
 
 #define KET_SET_COOKIE @"Set-Cookie"
 

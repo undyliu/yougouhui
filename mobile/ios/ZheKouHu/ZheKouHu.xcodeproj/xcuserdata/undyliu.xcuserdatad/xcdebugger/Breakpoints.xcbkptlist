@@ -2762,11 +2762,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/Database Datas/ZKHShareData.m"
-         timestampString = "423472150.696357"
+         timestampString = "424091958.872777"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "32"
-         endingLineNumber = "32"
+         startingLineNumber = "33"
+         endingLineNumber = "33"
          landmarkName = "-save:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -4153,11 +4153,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/Categories/ZKHProcessor+Share.m"
-         timestampString = "424009504.393873"
+         timestampString = "424091691.243617"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "154"
-         endingLineNumber = "154"
+         startingLineNumber = "169"
+         endingLineNumber = "169"
          landmarkName = "-friendShares:offset:completionHandler:errorHandler:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -4166,11 +4166,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Share/ZKHFriendShareListController.m"
-         timestampString = "424081348.069807"
+         timestampString = "424094016.439381"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "195"
-         endingLineNumber = "195"
+         startingLineNumber = "196"
+         endingLineNumber = "196"
          landmarkName = "-tableView:heightForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -4348,7 +4348,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Share/ZKHFriendShareListController.m"
-         timestampString = "424081348.069807"
+         timestampString = "424094826.982264"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "176"
@@ -4361,11 +4361,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/Categories/ZKHProcessor+Share.m"
-         timestampString = "424006038.257211"
+         timestampString = "424091691.243617"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "135"
-         endingLineNumber = "135"
+         startingLineNumber = "150"
+         endingLineNumber = "150"
          landmarkName = "-friendShares:offset:completionHandler:errorHandler:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -4387,11 +4387,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Share/ZKHShareListCommentsController.m"
-         timestampString = "424007839.009941"
+         timestampString = "424094826.982264"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "32"
-         endingLineNumber = "32"
+         startingLineNumber = "51"
+         endingLineNumber = "51"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -4530,7 +4530,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Share/ZKHFriendShareListController.m"
-         timestampString = "424081348.069807"
+         timestampString = "424094826.982264"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "109"
@@ -4731,6 +4731,292 @@
          startingLineNumber = "114"
          endingLineNumber = "114"
          landmarkName = "-discussesForSale:updateTime:completionHandler:errorHandler:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Categories/ZKHProcessor+Share.m"
+         timestampString = "424091691.243617"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "156"
+         endingLineNumber = "156"
+         landmarkName = "-friendShares:offset:completionHandler:errorHandler:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Categories/ZKHProcessor+Share.m"
+         timestampString = "424090333.738669"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "78"
+         endingLineNumber = "78"
+         landmarkName = "-friendShares:offset:completionHandler:errorHandler:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Database Datas/ZKHShareData.m"
+         timestampString = "424091958.872777"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "34"
+         endingLineNumber = "34"
+         landmarkName = "-save:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Categories/ZKHProcessor+Share.m"
+         timestampString = "424090514.613895"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "90"
+         endingLineNumber = "90"
+         landmarkName = "-friendShares:offset:completionHandler:errorHandler:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Categories/ZKHProcessor+Share.m"
+         timestampString = "424090524.44278"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "98"
+         endingLineNumber = "98"
+         landmarkName = "-friendShares:offset:completionHandler:errorHandler:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Categories/ZKHProcessor+Share.m"
+         timestampString = "424091691.243617"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "144"
+         endingLineNumber = "144"
+         landmarkName = "-friendShares:offset:completionHandler:errorHandler:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Categories/ZKHProcessor+Share.m"
+         timestampString = "424091138.849077"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "116"
+         endingLineNumber = "116"
+         landmarkName = "-friendShares:offset:completionHandler:errorHandler:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Database Datas/ZKHShareData.m"
+         timestampString = "424091958.872777"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "39"
+         endingLineNumber = "39"
+         landmarkName = "-save:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Database Datas/ZKHShareData.m"
+         timestampString = "424091958.872777"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "43"
+         endingLineNumber = "43"
+         landmarkName = "-save:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Database Datas/ZKHShareData.m"
+         timestampString = "424091958.872777"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "49"
+         endingLineNumber = "49"
+         landmarkName = "-save:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Database Datas/ZKHShareData.m"
+         timestampString = "424091958.872777"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "53"
+         endingLineNumber = "53"
+         landmarkName = "-save:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Database Datas/ZKHShareData.m"
+         timestampString = "424091958.872777"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "50"
+         endingLineNumber = "50"
+         landmarkName = "-save:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Categories/ZKHProcessor+Share.m"
+         timestampString = "424091686.479408"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "118"
+         endingLineNumber = "118"
+         landmarkName = "-friendShares:offset:completionHandler:errorHandler:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Categories/ZKHProcessor+Share.m"
+         timestampString = "424091699.990114"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "119"
+         endingLineNumber = "119"
+         landmarkName = "-friendShares:offset:completionHandler:errorHandler:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Database Datas/ZKHShareData.m"
+         timestampString = "424091958.872777"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "36"
+         endingLineNumber = "36"
+         landmarkName = "-save:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Database Datas/ZKHShareData.m"
+         timestampString = "424092882.946169"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "70"
+         endingLineNumber = "70"
+         landmarkName = "-processRow:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Database Datas/ZKHShareData.m"
+         timestampString = "424092882.946169"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "81"
+         endingLineNumber = "81"
+         landmarkName = "-processRow:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Database Datas/ZKHShareData.m"
+         timestampString = "424092882.946169"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "90"
+         endingLineNumber = "90"
+         landmarkName = "-processRow:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Database Datas/ZKHShareCommentData.m"
+         timestampString = "424092344.243673"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "36"
+         endingLineNumber = "36"
+         landmarkName = "-processRow:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/Database Datas/ZKHShareData.m"
+         timestampString = "424092882.946169"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "72"
+         endingLineNumber = "72"
+         landmarkName = "-processRow:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/View Share/ZKHFriendShareListController.m"
+         timestampString = "424094881.754792"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "215"
+         endingLineNumber = "215"
+         landmarkName = "-sendTextAction:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/View Share/ZKHFriendShareListController.m"
+         timestampString = "424094881.754792"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "218"
+         endingLineNumber = "218"
+         landmarkName = "-sendTextAction:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
