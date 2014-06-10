@@ -133,7 +133,7 @@
             sync.itemId = self.sale.uuid;
         }
         
-        [ApplicationDelegate.zkhProcessor discussesForSale:self.sale.uuid updateTime:sync completionHandler:^(NSMutableArray *discusses) {
+        [ApplicationDelegate.zkhProcessor discussesForSale:self.sale updateTime:sync completionHandler:^(NSMutableArray *discusses) {
             discussListController.discusses = discusses;
             [self.disTableView reloadData];
         } errorHandler:^(NSError *error) {

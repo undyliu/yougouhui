@@ -220,4 +220,11 @@
 
 }
 
+- (void)updateSale:(NSString *)uuid fieldName:(NSString *)fieldName fieldValue:(NSString *)fieldValue
+{
+    NSString *sql = [NSString stringWithFormat:@" update e_sale set %@=? where uuid = ?", fieldName];
+    NSArray *params = @[fieldValue, uuid];
+    [self executeUpdate:sql params:params];
+}
+
 @end

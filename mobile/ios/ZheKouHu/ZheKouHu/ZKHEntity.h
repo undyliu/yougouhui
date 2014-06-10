@@ -97,7 +97,7 @@
 
 //活动评论
 @interface ZKHSaleDiscussEntity : ZKHEntity
-@property (strong, nonatomic) NSString *saleId;
+@property (strong, nonatomic) ZKHSaleEntity *sale;
 @property (strong, nonatomic) NSString *content;
 @property (strong, nonatomic) ZKHUserEntity *publisher;
 @property (strong, nonatomic) NSString *publishTime;

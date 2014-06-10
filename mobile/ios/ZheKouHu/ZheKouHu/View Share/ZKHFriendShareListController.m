@@ -61,7 +61,11 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     //设置输入键盘
     faceToolBar = [[FaceToolBar alloc]initWithFrame:CGRectMake(0.0f,self.view.frame.size.height - toolBarHeight,self.view.frame.size.width,toolBarHeight) superView:self.view];
     faceToolBar.fToolBarDelegate = self;
-    [self.view addSubview:faceToolBar];
+    //[self.view addSubview:faceToolBar];
+    
+    //主视图的点击事件
+    [self.pullTableView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backgroupTap:)]];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -76,6 +80,12 @@ static NSString *CellIdentifier = @"FriendShareListCell";
 {
     [super didReceiveMemoryWarning];
     
+}
+
+- (void)backgroupTap:(id)sender
+{
+    [faceToolBar resignFirstResponder];
+    faceToolBar.hidden = true;
 }
 
 - (void)shareClick:(id)sender

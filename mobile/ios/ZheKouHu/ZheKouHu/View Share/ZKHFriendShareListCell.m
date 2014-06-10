@@ -102,7 +102,7 @@ static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
 {
     CGRect userNameFrame = self.userNameLabel.frame;
     
-    CGFloat width = self.tagView.frame.size.width;
+    CGFloat width = [ZKHFriendShareListCell cellRightWidth];//self.tagView.frame.size.width;
     CGFloat height = [ZKHFriendShareListCell contentLabelHeight:share];
     
     //添加content
@@ -197,7 +197,7 @@ static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
         iFrame = self.contentLabel.frame;
     }
     
-    CGFloat x = self.tagView.frame.size.width + iFrame.origin.x - 24;
+    CGFloat x = [ZKHFriendShareListCell cellRightWidth] + iFrame.origin.x - 24;
     CGRect frame = CGRectMake(x, iFrame.origin.y + iFrame.size.height + DEFAULT_GAP_HEIGHT, 24, 24);
     if (!self.commentImageView) {
         self.commentImageView = [[UIButton alloc] init];

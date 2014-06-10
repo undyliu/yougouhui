@@ -32,22 +32,33 @@ static NSString *CellIdentifier = @"ShareListImageCell";
     ZKHShareListImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     ZKHFileEntity *file = self.share.imageFiles[indexPath.row];
     [ZKHImageLoader showImageForName:file.aliasName imageView:cell.imageView];
+    cell.imageView.tag = indexPath.row;
+    
+    cell.imageView.userInteractionEnabled = true;
+    [cell.imageView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showImageView:)]];
     
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    ZKHImageListPreviewController *controller = [[ZKHImageListPreviewController alloc] init];
-    controller.imageFiles = self.share.imageFiles;
-    controller.currentIndex = indexPath.row;
-    [self.parentController.navigationController pushViewController:controller animated:YES];
+    
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CGSize size = CGSizeMake(50, 50);
     return size;
+}
+
+- (void) showImageView:(UITapGestureRecognizer *)tap
+{
+    int row = tap.view.tag;
+    
+    ZKHImageListPreviewController *controller = [[ZKHImageListPreviewController alloc] init];
+    controller.imageFiles = self.share.imageFiles;
+    controller.currentIndex = row;
+    [self.parentController.navigationController pushViewController:controller animated:YES];
 }
 
 @end

@@ -77,11 +77,13 @@
 -(NSMutableArray *) salesGroupByPublishDate:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset;
 -(void) cancelSale:(NSString *)saleId;
 -(NSMutableArray *) saleImages:(NSString *)saleId;
+-(void)updateSale:(NSString *)uuid fieldName:(NSString *)fieldName fieldValue:(NSString *)fieldValue;
 @end
 
 #define SALE_DISC_TABLE @"e_sale_discuss"
 @interface ZKHSaleDiscussData : ZKHData<ZKHEntityUpdater>
 - (NSMutableArray *) discussesForSale:(NSString *)saleId;
+- (void) deleteDiscuss:(NSString *)uuid;
 @end
 
 @interface ZKHTradeData : ZKHData<ZKHEntityUpdater>
@@ -114,5 +116,5 @@
 #define SHARE_TABLE @"e_share"
 @interface ZKHShareData : ZKHData<ZKHEntityUpdater>
 - (NSMutableArray *) friendShares:(NSString *)userId offset:(int)offset;
-
+- (void) deleteShare:(NSString *)uuid;
 @end

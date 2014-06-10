@@ -10,6 +10,8 @@
 #import "ZKHSaleDiscussListCell.h"
 #import "ZKHEntity.h"
 #import "ZKHContext.h"
+#import "ZKHProcessor+Sale.h"
+#import "ZKHAppDelegate.h"
 
 static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
 
@@ -33,6 +35,23 @@ static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
     [self.tableView registerNib:nib forCellReuseIdentifier:SaleDiscussCellIdentifier];
 }
 
+- (void)deleteDidcuss:(UITapGestureRecognizer *)tap
+{
+    int index = tap.view.tag;
+    ZKHSaleDiscussEntity *discuss = self.discusses[index];
+    [ApplicationDelegate.zkhProcessor deleteDiscuss:discuss completionHandler:^(Boolean result) {
+        if (result) {
+            if (self.saleDelegate) {
+                [self.saleDelegate updateSale:discuss.sale];
+            }
+            [self.discusses removeObject:discuss];
+            [self.tableView reloadData];
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -54,8 +73,13 @@ static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
     ZKHUserEntity *publisher = dis.publisher;
     NSString *content = [NSString stringWithFormat:@"%@ 回复:%@", publisher.name, dis.content];
     cell.contentLabel.text = content;
+    
+    cell.delelteImageView.tag = indexPath.row;
     if ([publisher isEqual:[ZKHContext getInstance].user]) {
         cell.delelteImageView.hidden = false;
+        
+        cell.delelteImageView.userInteractionEnabled = true;
+        [cell.delelteImageView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(deleteDidcuss:)]];
     }else{
         cell.delelteImageView.hidden = true;
     }

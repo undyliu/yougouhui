@@ -95,6 +95,7 @@
         scrollView.pagingEnabled=YES;
         scrollView.delegate=self;
         [superView addSubview:scrollView];
+        
         //[scrollView release];
         pageControl=[[UIPageControl alloc]initWithFrame:CGRectMake(98, superView.frame.size.height-120, 150, 30)];
         [pageControl setCurrentPage:0];
@@ -300,10 +301,14 @@
     // Drawing code
 }
 */
+
+
 - (void)setHidden:(BOOL)hidden
 {
     [super setHidden:hidden];
     
+    [scrollView setHidden:hidden];
+    [pageControl setHidden:hidden];
     [toolBar setHidden:hidden];
 }
 
@@ -311,7 +316,8 @@
 {
     //[textView resignFirstResponder];
     [self dismissKeyBoard];
-    return [super resignFirstResponder];
+    //return [super resignFirstResponder];
+    return TRUE;
 }
 
 - (BOOL)becomeFirstResponder

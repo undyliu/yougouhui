@@ -10,8 +10,9 @@
 #import "ZKHEntity.h"
 #import "ZKHSaleDiscussListController.h"
 #import "FaceToolBar.h"
+#import "ZKHSaleValueChangedDelegate.h"
 
-@interface ZKHSaleDetailController : UIViewController<FaceToolBarDelegate>
+@interface ZKHSaleDetailController : UIViewController<FaceToolBarDelegate, ZKHSaleValueChangedDelegate>
 {
     ZKHSaleDiscussListController *discussListController;
     UIBarButtonItem *shareItem;

@@ -291,12 +291,12 @@
 	}
 }
 -(BOOL)becomeFirstResponder{
-    [super becomeFirstResponder];
+    //[super becomeFirstResponder];
     return [internalTextView becomeFirstResponder];
 }
 -(BOOL)resignFirstResponder
 {
-	[super resignFirstResponder];
+	//[super resignFirstResponder];
 	return [internalTextView resignFirstResponder];
 }
 

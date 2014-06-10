@@ -14,7 +14,7 @@
 typedef void (^SalesResponseBlock)(NSMutableArray* sales);
 - (void) salesForChannel: (NSString *) channelId updateTime:(ZKHSyncEntity *) syncEntity completionHandler:(SalesResponseBlock) salesBlock errorHandler:(MKNKErrorBlock) errorBlock;
 
-- (void) discussesForSale: (NSString *) saleId updateTime:(ZKHSyncEntity *) syncEntity completionHandler:(SalesResponseBlock) saleDiscussesBlock errorHandler:(MKNKErrorBlock) errorBlock;
+- (void) discussesForSale: (ZKHSaleEntity *) sale updateTime:(ZKHSyncEntity *) syncEntity completionHandler:(SalesResponseBlock) saleDiscussesBlock errorHandler:(MKNKErrorBlock) errorBlock;
 
 typedef void (^SaleResponseBlock)(ZKHSaleEntity* sale);
 - (void) sale: (NSString *) uuid userId:(NSString *)userId completionHandler:(SaleResponseBlock) saleBlock errorHandler:(MKNKErrorBlock) errorBlock;
@@ -27,4 +27,9 @@ typedef void (^SaleResponseBlock)(ZKHSaleEntity* sale);
 
 typedef void (^SaleImagesResponseBlock)(NSMutableArray* saleImages);
 - (void) saleImages: (ZKHSaleEntity *) sale completionHandler:(SaleImagesResponseBlock) saleImagesBlock errorHandler:(MKNKErrorBlock) errorBlock;
+
+typedef void (^DiscussResponseBlock)(ZKHSaleDiscussEntity* discuss);
+- (void) addDiscuss: (ZKHSaleDiscussEntity *) discuss completionHandler:(DiscussResponseBlock) addDiscussBlock errorHandler:(MKNKErrorBlock) errorBlock;
+
+- (void) deleteDiscuss: (ZKHSaleDiscussEntity *) discuss completionHandler:(BooleanResultResponseBlock) deleteDiscussBlock errorHandler:(MKNKErrorBlock) errorBlock;
 @end

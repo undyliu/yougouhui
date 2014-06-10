@@ -21,7 +21,7 @@
         ZKHUserData *userData = [[ZKHUserData alloc] init];
         for (ZKHSaleDiscussEntity *dis in data) {
             ZKHUserEntity *publisher = dis.publisher;
-            [self executeUpdate:SALE_DISC_UPDATE_SQL params:@[dis.uuid, dis.saleId, dis.content, publisher.uuid, dis.publishTime]];
+            [self executeUpdate:SALE_DISC_UPDATE_SQL params:@[dis.uuid, dis.sale.uuid, dis.content, publisher.uuid, dis.publishTime]];
             [userData saveNoPwd:@[publisher]];
         }
     }
@@ -35,7 +35,8 @@
     int i = 0;
     
     dis.uuid = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
-    dis.saleId = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+    dis.sale = [[ZKHSaleEntity alloc] init];
+    dis.sale.uuid = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
     dis.content = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
     dis.publishTime = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
     
@@ -60,4 +61,10 @@
     return [self query:sql params:params];
 }
 
+- (void)deleteDiscuss:(NSString *)uuid
+{
+    NSString *sql = @" delete from e_sale_discuss where uuid = ? ";
+    NSArray *params = @[uuid];
+    [self executeUpdate:sql params:params];
+}
 @end

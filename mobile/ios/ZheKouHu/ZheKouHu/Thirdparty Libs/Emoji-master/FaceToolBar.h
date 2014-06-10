@@ -20,7 +20,7 @@
 @protocol FaceToolBarDelegate <NSObject>
 -(void)sendTextAction:(NSString *)inputText;
 @end
-@interface FaceToolBar : UIToolbar<facialViewDelegate,UIExpandingTextViewDelegate,UIScrollViewDelegate>
+@interface FaceToolBar : UIView<facialViewDelegate,UIExpandingTextViewDelegate,UIScrollViewDelegate>
 {
     UIToolbar *toolBar;//工具栏
     UIExpandingTextView *textView;//文本输入框
@@ -41,4 +41,5 @@
 @property (assign, nonatomic) NSObject<FaceToolBarDelegate> *fToolBarDelegate;
 -(void)dismissKeyBoard;
 -(id)initWithFrame:(CGRect)frame superView:(UIView *)superView;
+
 @end

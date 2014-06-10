@@ -86,16 +86,19 @@
 }
 
 #define GET_DISCUSSES_BY_SALE_URL @"/getSaleDiscusses"
-- (void)discussesForSale:(NSString *)saleId updateTime:(ZKHSyncEntity *)syncEntity completionHandler:(SalesResponseBlock)saleDiscussesBlock errorHandler:(MKNKErrorBlock)errorBlock
+- (void)discussesForSale:(ZKHSaleEntity *) sale updateTime:(ZKHSyncEntity *)syncEntity completionHandler:(SalesResponseBlock)saleDiscussesBlock errorHandler:(MKNKErrorBlock)errorBlock
 {
     ZKHSaleDiscussData *disData = [[ZKHSaleDiscussData alloc] init];
-    NSMutableArray *discusses = [disData discussesForSale:saleId];
+    NSMutableArray *discusses = [disData discussesForSale:sale.uuid];
     if ([discusses count] > 0) {
+        for (ZKHSaleDiscussEntity *dis in discusses) {
+            dis.sale = sale;
+        }
         saleDiscussesBlock(discusses);
         return;
     }
     
-    NSString *path = [NSString stringWithFormat:@"%@/%@/%@", GET_DISCUSSES_BY_SALE_URL, [saleId mk_urlEncodedString], [syncEntity.updateTime mk_urlEncodedString]];
+    NSString *path = [NSString stringWithFormat:@"%@/%@/%@", GET_DISCUSSES_BY_SALE_URL, [sale.uuid mk_urlEncodedString], [syncEntity.updateTime mk_urlEncodedString]];
     
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = path;
@@ -108,10 +111,16 @@
             
             id disJsons = [jsonObject valueForKey:KEY_DATA];
             for (id jsonDis in disJsons) {
+                NSNumber *isDel = jsonDis[KEY_IS_DELETED];
+                if ([isDel intValue] == 1) {
+                    [disData deleteDiscuss:[jsonDis valueForKey:KEY_UUID]];
+                    continue;
+                }
                 ZKHSaleDiscussEntity *dis = [[ZKHSaleDiscussEntity alloc] init];
                 dis.uuid = [jsonDis valueForKey:KEY_UUID];
                 dis.content = [jsonDis valueForKey:KEY_CONTENT];
-                dis.saleId = [jsonDis valueForKey:KEY_SALE_ID];
+                
+                dis.sale = sale;
                 dis.publishTime = [jsonDis valueForKey:KEY_PUBLISH_TIME];
                 
                 NSMutableDictionary *userJson = [jsonDis mutableCopy];
@@ -125,7 +134,7 @@
             [disData save:discusses];
             
             syncEntity.updateTime = updateTime;
-            //[[[ZKHSyncData alloc] init] save:@[syncEntity]];
+            [[[ZKHSyncData alloc] init] save:@[syncEntity]];
             
         }
         saleDiscussesBlock(discusses);
@@ -250,5 +259,59 @@
     ZKHSaleData *saleData = [[ZKHSaleData alloc] init];
     sale.images = [saleData saleImages:sale.uuid];
     saleImagesBlock(sale.images);
+}
+
+#define ADD_SALE_DISCUSS @"/addSaleDiscuss"
+- (void)addDiscuss:(ZKHSaleDiscussEntity *)discuss completionHandler:(DiscussResponseBlock)addDiscussBlock errorHandler:(MKNKErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = ADD_SALE_DISCUSS;
+    request.method = METHOD_POST;
+    request.params = @{KEY_SALE_ID: discuss.sale.uuid, KEY_PUBLISHER: discuss.publisher.uuid, KEY_CONTENT: discuss.content};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *uuid = jsonObject[KEY_UUID];
+        if ([NSString isNull:uuid]) {
+            //todo:
+            addDiscussBlock(nil);
+        }else{
+            discuss.uuid = uuid;
+            discuss.publishTime = jsonObject[KEY_PUBLISH_TIME];
+            
+            [[[ZKHSaleDiscussData alloc] init] save:@[discuss]];
+            
+            NSString *disCount = [NSString stringWithFormat:@"%d", [discuss.sale.discussCount intValue] + 1];
+            [[[ZKHSaleData alloc] init] updateSale:discuss.sale.uuid fieldName:KEY_DIS_COUNT fieldValue:disCount];
+            discuss.sale.discussCount = disCount;
+            
+            addDiscussBlock(discuss);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
+#define DEL_SALE_DISCUSS(__UUID__) [NSString stringWithFormat:@"/deleteSaleDiscuss/%@", __UUID__]
+- (void)deleteDiscuss:(ZKHSaleDiscussEntity *)discuss completionHandler:(BooleanResultResponseBlock)deleteDiscussBlock errorHandler:(MKNKErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = DEL_SALE_DISCUSS(discuss.uuid);
+    request.method = METHOD_DELETE;
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *uuid = jsonObject[KEY_UUID];
+        if ([NSString isNull:uuid]) {
+            deleteDiscussBlock(false);
+        }else{
+            [[[ZKHSaleDiscussData alloc] init] deleteDiscuss:uuid];
+            NSString *disCount = [NSString stringWithFormat:@"%d", [discuss.sale.discussCount intValue] - 1];
+            [[[ZKHSaleData alloc] init] updateSale:discuss.sale.uuid fieldName:KEY_DIS_COUNT fieldValue:disCount];
+            discuss.sale.discussCount = disCount;
+            
+            deleteDiscussBlock(true);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
 }
 @end

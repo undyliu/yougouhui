@@ -146,6 +146,7 @@
 		1070AD0D193488E300AA1AE1 /* ZKHFriendProfileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1070AD0B193488E200AA1AE1 /* ZKHFriendProfileController.m */; };
 		1070AD0E193488E300AA1AE1 /* ZKHFriendProfileController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1070AD0C193488E200AA1AE1 /* ZKHFriendProfileController.xib */; };
 		1070AD1019348E4C00AA1AE1 /* ZKHAddFriendResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1070AD0F19348E4C00AA1AE1 /* ZKHAddFriendResultCell.xib */; };
+		10717BD41946EEF20036FB42 /* ZKHTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10717BD31946EEF20036FB42 /* ZKHTouchView.m */; };
 		109CA798192E2A1E00A50D49 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 109CA795192E2A1E00A50D49 /* Default-568h@2x.png */; };
 		109CA799192E2A1E00A50D49 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 109CA796192E2A1E00A50D49 /* Default.png */; };
 		109CA79A192E2A1E00A50D49 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 109CA797192E2A1E00A50D49 /* Default@2x.png */; };
@@ -490,6 +491,10 @@
 		1070AD0B193488E200AA1AE1 /* ZKHFriendProfileController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHFriendProfileController.m; sourceTree = "<group>"; };
 		1070AD0C193488E200AA1AE1 /* ZKHFriendProfileController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHFriendProfileController.xib; sourceTree = "<group>"; };
 		1070AD0F19348E4C00AA1AE1 /* ZKHAddFriendResultCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHAddFriendResultCell.xib; sourceTree = "<group>"; };
+		10717BD21946EEF20036FB42 /* ZKHTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHTouchView.h; sourceTree = "<group>"; };
+		10717BD31946EEF20036FB42 /* ZKHTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHTouchView.m; sourceTree = "<group>"; };
+		10717BD51946F1C60036FB42 /* ZKHTouchesDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKHTouchesDelegate.h; sourceTree = "<group>"; };
+		10717BD6194707020036FB42 /* ZKHSaleValueChangedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKHSaleValueChangedDelegate.h; sourceTree = "<group>"; };
 		109CA795192E2A1E00A50D49 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		109CA796192E2A1E00A50D49 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		109CA797192E2A1E00A50D49 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -1023,6 +1028,7 @@
 				1036F28F19416BAC001FE623 /* ZKHSaleEditController.h */,
 				1036F29019416BAD001FE623 /* ZKHSaleEditController.m */,
 				1036F29119416BAD001FE623 /* ZKHSaleEditController.xib */,
+				10717BD6194707020036FB42 /* ZKHSaleValueChangedDelegate.h */,
 			);
 			path = "View Sale";
 			sourceTree = "<group>";
@@ -1063,6 +1069,9 @@
 				100243BE1935EF8B00A5047F /* ZKHPullRefreshTableViewController.xib */,
 				101F673A19387BAC00AE3C97 /* ZKHTextView.h */,
 				101F673B19387BAC00AE3C97 /* ZKHTextView.m */,
+				10717BD21946EEF20036FB42 /* ZKHTouchView.h */,
+				10717BD31946EEF20036FB42 /* ZKHTouchView.m */,
+				10717BD51946F1C60036FB42 /* ZKHTouchesDelegate.h */,
 			);
 			path = "View Widgets";
 			sourceTree = "<group>";
@@ -1652,6 +1661,7 @@
 				105EE9E71946B7F400D6F08D /* TSPopoverPopoverView.m in Sources */,
 				105EE9E81946B7F400D6F08D /* TSPopoverTouchView.m in Sources */,
 				105EE9E91946B7F400D6F08D /* UIBarButtonItem+WEPopover.m in Sources */,
+				10717BD41946EEF20036FB42 /* ZKHTouchView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

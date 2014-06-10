@@ -57,4 +57,19 @@ static NSString *shareQuery_base = @" select s.uuid, s.content, s.publish_time"
     return [self query:sql params:params];
 }
 
+- (void)deleteShare:(NSString *)uuid
+{
+    NSString *sql = @" delete from e_share where uuid = ?";
+    NSArray *params = @[uuid];
+    [self executeUpdate:sql params:params];
+    
+    //删除图片
+    sql = @" delete from e_share_img where share_id = ? ";
+    [self executeUpdate:sql params:params];
+    
+    //删除评论
+    
+    //删除商家回复
+    
+}
 @end
