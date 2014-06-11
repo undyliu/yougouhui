@@ -326,6 +326,7 @@
 		100703811947E86900F0BB14 /* ZKHMyShareListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHMyShareListCell.xib; sourceTree = "<group>"; };
 		10070383194800C600F0BB14 /* ZKHMyShareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHMyShareCell.h; sourceTree = "<group>"; };
 		10070384194800C600F0BB14 /* ZKHMyShareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHMyShareCell.m; sourceTree = "<group>"; };
+		1007038B1948251300F0BB14 /* ZKHShareChangedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKHShareChangedDelegate.h; sourceTree = "<group>"; };
 		100B40301932CA7C00C51588 /* ZKHRequestSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHRequestSigner.h; sourceTree = "<group>"; };
 		100B40311932CA7C00C51588 /* ZKHRequestSigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHRequestSigner.m; sourceTree = "<group>"; };
 		100B403B1932E8F100C51588 /* ZKHTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHTextField.h; sourceTree = "<group>"; };
@@ -782,6 +783,7 @@
 				100703811947E86900F0BB14 /* ZKHMyShareListCell.xib */,
 				10070383194800C600F0BB14 /* ZKHMyShareCell.h */,
 				10070384194800C600F0BB14 /* ZKHMyShareCell.m */,
+				1007038B1948251300F0BB14 /* ZKHShareChangedDelegate.h */,
 			);
 			path = "View Share";
 			sourceTree = "<group>";

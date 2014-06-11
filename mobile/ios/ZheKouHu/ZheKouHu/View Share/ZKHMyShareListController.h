@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "ZKHPullRefreshTableViewController.h"
-
-@interface ZKHMyShareListController : ZKHPullRefreshTableViewController<UITableViewDelegate>
+#import "ZKHShareChangedDelegate.h"
+@interface ZKHMyShareListController : ZKHPullRefreshTableViewController<UITableViewDelegate, ZKHShareChangedDelegate>
 {
     NSMutableArray *shareCountList;
     int offset;

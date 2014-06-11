@@ -9,6 +9,7 @@
 #import "ZKHMyShareListCell.h"
 #import "ZKHMyShareCell.h"
 #import "ZKHEntity.h"
+#import "ZKHFriendShareListController.h"
 
 static NSString *SubCellIdentifier = @"MyShareCell";
 
@@ -96,7 +97,13 @@ static NSString *SubCellIdentifier = @"MyShareCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    ZKHShareEntity *share = self.shareList[indexPath.row];
+    ZKHFriendShareListController *controller = [[ZKHFriendShareListController alloc] init];
+    controller.shares = [[NSMutableArray alloc] initWithObjects:share, nil];
+    controller.popWhenshareDeleted = true;
+    controller.shareChangedDelegate = self.parentController;
+    controller.publishButtonVisible = false;
+    [self.parentController.navigationController pushViewController:controller animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

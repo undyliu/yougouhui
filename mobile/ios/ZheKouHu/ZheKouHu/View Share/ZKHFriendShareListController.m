@@ -26,6 +26,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
 - (id)init
 {
     if (self = [super init]) {
+        self.publishButtonVisible = true;
         offset = 0;
         sharePicControllers = [[NSMutableDictionary alloc] init];
         commentControllers = [[NSMutableDictionary alloc] init];
@@ -43,20 +44,13 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     self.pullTableView.delegate = self;
     self.pullTableView.pullDelegate = self;
     
-    if (![[ZKHContext getInstance] isAnonymousUserLogined]) {
+    if (self.publishButtonVisible && ![[ZKHContext getInstance] isAnonymousUserLogined]) {
         UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(shareClick:)];
         self.navigationItem.rightBarButtonItem = shareButton;
     }
     
     UINib *nib = [UINib nibWithNibName:@"ZKHFriendShareListCell" bundle:nil];
     [self.pullTableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
-    
-    [ApplicationDelegate.zkhProcessor friendShares:[ZKHContext getInstance].user.uuid offset:offset completionHandler:^(NSMutableArray *sharesValue) {
-        shares = sharesValue;
-        [self.pullTableView reloadData];
-    } errorHandler:^(NSError *error) {
-        
-    }];
     
     //设置输入键盘
     faceToolBar = [[FaceToolBar alloc]initWithFrame:CGRectMake(0.0f,self.view.frame.size.height - toolBarHeight,self.view.frame.size.width,toolBarHeight) superView:self.view];
@@ -74,6 +68,15 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     
     faceToolBar.hidden = true;
     [faceToolBar resignFirstResponder];
+    
+    if (!self.shares || [self.shares count] == 0) {
+        [ApplicationDelegate.zkhProcessor friendShares:[ZKHContext getInstance].user.uuid offset:offset completionHandler:^(NSMutableArray *sharesValue) {
+            self.shares = sharesValue;
+            [self.pullTableView reloadData];
+        } errorHandler:^(NSError *error) {
+            
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -97,7 +100,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
 - (void) friendProfileClick:(UITapGestureRecognizer *)sender
 {
     int index = sender.view.tag;
-    ZKHShareEntity *share  = shares[index];
+    ZKHShareEntity *share  = self.shares[index];
     
     ZKHFriendProfileController *controller = [[ZKHFriendProfileController alloc] init];
     controller.user = share.publisher;
@@ -107,7 +110,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
 - (void) commentImageClick:(UIButton *)sender forEvent:(UIEvent*)event
 {
     currentProcessShareIndex = sender.tag;
-    ZKHShareEntity *share  = shares[currentProcessShareIndex];
+    ZKHShareEntity *share  = self.shares[currentProcessShareIndex];
     
     TSActionSheet *actionSheet = [[TSActionSheet alloc] initWithTitle:nil];
     [actionSheet addButtonWithTitle:@"评论" block:^{
@@ -119,7 +122,14 @@ static NSString *CellIdentifier = @"FriendShareListCell";
         [actionSheet addButtonWithTitle:@"删除" block:^{
             [ApplicationDelegate.zkhProcessor deleteShare:share completionHandler:^(Boolean result) {
                 if (result) {
-                    [shares removeObject:share];
+                    if (self.shareChangedDelegate) {
+                        [self.shareChangedDelegate shareDeleted:share];
+                    }
+                    if (self.popWhenshareDeleted) {
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }
+                    
+                    [self.shares removeObject:share];
                     [self.pullTableView reloadData];
                 }
             } errorHandler:^(NSError *error) {
@@ -141,7 +151,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [shares count];
+    return [self.shares count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -150,7 +160,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     ZKHFriendShareListCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     int row = indexPath.row;
     
-    ZKHShareEntity *share = shares[row];
+    ZKHShareEntity *share = self.shares[row];
     
     ZKHUserEntity *publisher = share.publisher;
     if (publisher && publisher.photo && ![NSString isNull:publisher.photo.aliasName]) {
@@ -200,7 +210,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
 
 #pragma mark - Table view delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [ZKHFriendShareListCell cellHeight:shares[indexPath.row]];
+    return [ZKHFriendShareListCell cellHeight:self.shares[indexPath.row]];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -214,7 +224,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     [faceToolBar resignFirstResponder];
     faceToolBar.hidden = true;
     
-    ZKHShareEntity *share = shares[currentProcessShareIndex];
+    ZKHShareEntity *share = self.shares[currentProcessShareIndex];
     
     ZKHShareCommentEntity *comment = [[ZKHShareCommentEntity alloc] init];
     comment.content = inputText;

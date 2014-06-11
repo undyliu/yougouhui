@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZKHShareChangedDelegate.h"
 
 @interface ZKHMyShareListCell : UITableViewCell<UITableViewDataSource, UITableViewDelegate>
 
@@ -16,7 +17,7 @@
 @property (strong, nonatomic) UITableView *subTableView;
 
 @property (strong, nonatomic) NSMutableArray *shareList;
-@property (strong, nonatomic) UIViewController *parentController;
+@property (strong, nonatomic) UIViewController<ZKHShareChangedDelegate> *parentController;
 
 + (CGFloat) cellHeight:(NSMutableArray *)shares;
 

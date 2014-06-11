@@ -31,7 +31,8 @@
         NSString *uuid = jsonObject[KEY_UUID];
         if (![NSString isNull:uuid]) {
             share.uuid = uuid;
-            share.publishTime = jsonObject[KEY_PUBLISH_TIME];
+           
+            share.publishTime = [jsonObject[KEY_PUBLISH_TIME] stringValue];
             share.publishDate = jsonObject[KEY_PUBLISH_DATE];
             
             NSMutableArray *files = [[NSMutableArray alloc] init];
@@ -43,6 +44,17 @@
                 [files addObject:file];
             }
             share.imageFiles = files;
+            
+            //商铺信息
+            id jsonShop = jsonObject[KEY_SHOP];
+            if (jsonShop) {
+                NSString *shopId = jsonShop[KEY_UUID];
+                if (![NSString isNull:shopId]) {
+                    share.shop = [[ZKHShopEntity alloc] initWithJsonObject:jsonShop];
+                }
+            }else{
+                share.shop = nil;
+            }
             
             [[[ZKHShareData alloc] init] save:@[share]];
             
@@ -74,12 +86,14 @@
 - (void)friendShares:(NSString *)userId offset:(int)offset completionHandler:(SharesResponseBlock)sharesBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHShareData *shareData = [[ZKHShareData alloc] init];
-    NSMutableArray *shares = [shareData friendShares:userId offset:offset];
-    if ([shares count] > 0) {
-        sharesBlock(shares);
-        return;
+    if (userId) {
+        NSMutableArray *shares = [shareData friendShares:userId offset:offset];
+        if ([shares count] > 0) {
+            sharesBlock(shares);
+            return;
+        }
     }
- 
+    
     ZKHSyncEntity *shareSync = [self shareSyncEntity];
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = GET_FRIEND_SHARES_URL([ZKHContext getInstance].user.uuid, shareSync.updateTime);

@@ -32,7 +32,7 @@
 #define kModuleMyGrade @"my_grade"
 #define kModuleMyMessage @"my_message"
 
-#define anonymousAccessModules @[kModuleFriends, kModuleRadar, kModuleMyShop]
+#define anonymousAccessModules @[kModuleRadar, kModuleMyShop]
 
 static NSString *CellIdentifier = @"ModuleCellIdentifier";
 

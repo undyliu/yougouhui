@@ -13,6 +13,7 @@
 #import "ZKHAppDelegate.h"
 #import "ZKHContext.h"
 #import "ZKHMyShareListCell.h"
+#import "ZKHShareController.h"
 
 static NSString *CellIdentifier = @"MyShareListCell";
 
@@ -40,6 +41,16 @@ static NSString *CellIdentifier = @"MyShareListCell";
     UINib *nib = [UINib nibWithNibName:@"ZKHMyShareListCell" bundle:nil];
     [self.pullTableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
     
+    if (![[ZKHContext getInstance] isAnonymousUserLogined]) {
+        UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(shareClick:)];
+        self.navigationItem.rightBarButtonItem = shareButton;
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
     [ApplicationDelegate.zkhProcessor sharesGroupByPublishDate:nil userId:[ZKHContext getInstance].user.uuid offset:offset completionHandler:^(NSMutableArray *shares) {
         shareCountList = shares;
         [self.pullTableView reloadData];
@@ -52,6 +63,12 @@ static NSString *CellIdentifier = @"MyShareListCell";
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)shareClick:(id)sender
+{
+    ZKHShareController *controller = [[ZKHShareController alloc] init];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 #pragma mark - Table view data source
@@ -75,6 +92,8 @@ static NSString *CellIdentifier = @"MyShareListCell";
     cell.publishDateLabel.text = [entity.date toddMMString];
     cell.countLabel.text = [NSString stringWithFormat:@"%d笔", entity.count];
     
+    cell.parentController = self;
+    
     [cell updateViews:entity.items];
     
     return cell;
@@ -96,6 +115,25 @@ static NSString *CellIdentifier = @"MyShareListCell";
 {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.pullTableView reloadData];
+}
+
+#pragma mark - share changed delegate
+
+- (void)shareDeleted:(ZKHShareEntity *)share
+{
+    for (ZKHDateIndexedEntity *entity in shareCountList) {
+        for (ZKHShareEntity *iShare in entity.items) {
+            if ([share isEqual:iShare]) {
+                [entity.items removeObject:iShare];
+                entity.count = entity.count - 1;
+                
+                if (entity.count == 0) {
+                    [shareCountList removeObject:entity];
+                }
+                return;
+            }
+        }
+    }
 }
 
 @end

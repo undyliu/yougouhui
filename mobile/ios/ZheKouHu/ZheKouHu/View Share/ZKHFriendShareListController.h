@@ -9,10 +9,10 @@
 #import "ZKHPullRefreshTableViewController.h"
 #import "FaceToolBar.h"
 #import "ZKHShareListCommentsController.h"
+#import "ZKHShareChangedDelegate.h"
 
 @interface ZKHFriendShareListController : ZKHPullRefreshTableViewController<UITableViewDelegate, FaceToolBarDelegate, ZKHCommentChangedDelegate>
 {
-    NSMutableArray *shares;
     NSMutableDictionary *sharePicControllers;
     NSMutableDictionary *commentControllers;
     int offset;
@@ -21,6 +21,11 @@
     int currentProcessShareIndex;
 }
 
+@property (nonatomic) Boolean publishButtonVisible;
+@property (nonatomic) Boolean popWhenshareDeleted;
+@property (strong, nonatomic) id<ZKHShareChangedDelegate> shareChangedDelegate;
+
+@property (strong, nonatomic) NSMutableArray *shares;
 - (IBAction)shareClick:(id)sender;
 
 @end
