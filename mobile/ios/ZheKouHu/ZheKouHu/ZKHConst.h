@@ -64,6 +64,9 @@
 #define KEY_SALE_ID @"sale_id"
 #define KEY_ACCESS_TYPE @"access_type"
 #define KEY_SHARE_ID @"share_id"
+#define KEY_GRADE @"grade"
+#define KEY_REPLIER @"replier"
+#define KEY_REPLY_TIME @"reply_time"
 
 #define KEY_USER_NAME @"user_name"
 #define KEY_USER @"user"
@@ -84,6 +87,7 @@
 #define KEY_EMP_LIST @"empList"
 #define KEY_COMMENTS @"comments"
 #define KEY_SHOP @"shop"
+#define KEY_SHOP_REPLY @"shop_reply"
 
 #define KET_SET_COOKIE @"Set-Cookie"
 

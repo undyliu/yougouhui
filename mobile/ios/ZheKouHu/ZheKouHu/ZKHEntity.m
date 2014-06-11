@@ -253,6 +253,25 @@
 
 @end
 
+@implementation ZKHShareReplyEntity
+
+- (id)initWithJsonObject:(id)jsonShopReply
+{
+    if (self = [super init]) {
+        self.uuid = jsonShopReply[KEY_UUID];
+        self.shopId = jsonShopReply[KEY_SHOP_ID];
+        self.shareId = jsonShopReply[KEY_SHARE_ID];
+        self.content = jsonShopReply[KEY_CONTENT];
+        self.status = jsonShopReply[KEY_STATUS];
+        self.replier = jsonShopReply[KEY_REPLIER];
+        self.replyTime = jsonShopReply[KEY_REPLY_TIME];
+        self.grade = [jsonShopReply[KEY_GRADE] intValue];
+    }
+    return self;
+}
+
+@end
+
 @implementation ZKHShareEntity
 
 @end

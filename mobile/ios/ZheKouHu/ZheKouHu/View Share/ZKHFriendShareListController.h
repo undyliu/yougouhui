@@ -21,6 +21,7 @@
     int currentProcessShareIndex;
 }
 
+@property (nonatomic) Boolean shopReply;
 @property (nonatomic) Boolean publishButtonVisible;
 @property (nonatomic) Boolean popWhenshareDeleted;
 @property (strong, nonatomic) id<ZKHShareChangedDelegate> shareChangedDelegate;

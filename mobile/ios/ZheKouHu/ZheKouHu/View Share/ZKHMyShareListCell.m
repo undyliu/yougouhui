@@ -98,11 +98,14 @@ static NSString *SubCellIdentifier = @"MyShareCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ZKHShareEntity *share = self.shareList[indexPath.row];
+    
     ZKHFriendShareListController *controller = [[ZKHFriendShareListController alloc] init];
     controller.shares = [[NSMutableArray alloc] initWithObjects:share, nil];
     controller.popWhenshareDeleted = true;
     controller.shareChangedDelegate = self.parentController;
     controller.publishButtonVisible = false;
+    controller.title = @"分享详情";
+    
     [self.parentController.navigationController pushViewController:controller animated:YES];
 }
 

@@ -36,11 +36,13 @@
 		100243BF1935EF8B00A5047F /* ZKHPullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 100243BD1935EF8B00A5047F /* ZKHPullRefreshTableViewController.m */; };
 		100243C01935EF8B00A5047F /* ZKHPullRefreshTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 100243BE1935EF8B00A5047F /* ZKHPullRefreshTableViewController.xib */; };
 		100459301947137300FCE8C8 /* ZKHShareCommentData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1004592F1947137300FCE8C8 /* ZKHShareCommentData.m */; };
-		100459321947138D00FCE8C8 /* ZKHShareReplyData.m in Resources */ = {isa = PBXBuildFile; fileRef = 100459311947138D00FCE8C8 /* ZKHShareReplyData.m */; };
 		100703781947D7C300F0BB14 /* ZKHMyShareListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 100703771947D7C300F0BB14 /* ZKHMyShareListController.m */; };
 		100703801947E85D00F0BB14 /* ZKHMyShareListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1007037F1947E85D00F0BB14 /* ZKHMyShareListCell.m */; };
 		100703821947E86900F0BB14 /* ZKHMyShareListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 100703811947E86900F0BB14 /* ZKHMyShareListCell.xib */; };
 		10070385194800C600F0BB14 /* ZKHMyShareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10070384194800C600F0BB14 /* ZKHMyShareCell.m */; };
+		1007038D19484FAD00F0BB14 /* coupon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1007038C19484FAD00F0BB14 /* coupon.png */; };
+		10070390194866C100F0BB14 /* ZKHShareShopReplyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1007038F194866C000F0BB14 /* ZKHShareShopReplyCell.m */; };
+		10070392194866D200F0BB14 /* ZKHShareShopReplyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10070391194866D200F0BB14 /* ZKHShareShopReplyCell.xib */; };
 		100B40321932CA7C00C51588 /* ZKHRequestSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 100B40311932CA7C00C51588 /* ZKHRequestSigner.m */; };
 		100B403D1932E8F100C51588 /* ZKHTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 100B403C1932E8F100C51588 /* ZKHTextField.m */; };
 		100B40421933051600C51588 /* ZKHChangePwdController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 100B40401933051600C51588 /* ZKHChangePwdController.xib */; };
@@ -272,6 +274,7 @@
 		10F85ADC193DF250008B6484 /* ZKHChooseShopController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10F85ADA193DF24F008B6484 /* ZKHChooseShopController.xib */; };
 		10FCDBDC192C261C005989BA /* ZKHContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 10FCDBDB192C261C005989BA /* ZKHContext.m */; };
 		10FCDC11192CB251005989BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 10FCDC13192CB251005989BA /* Localizable.strings */; };
+		10FD03EE1948712F00153133 /* ZKHShopReplyData.m in Sources */ = {isa = PBXBuildFile; fileRef = 10FD03ED1948712F00153133 /* ZKHShopReplyData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -318,7 +321,6 @@
 		100243BD1935EF8B00A5047F /* ZKHPullRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHPullRefreshTableViewController.m; sourceTree = "<group>"; };
 		100243BE1935EF8B00A5047F /* ZKHPullRefreshTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHPullRefreshTableViewController.xib; sourceTree = "<group>"; };
 		1004592F1947137300FCE8C8 /* ZKHShareCommentData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShareCommentData.m; sourceTree = "<group>"; };
-		100459311947138D00FCE8C8 /* ZKHShareReplyData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShareReplyData.m; sourceTree = "<group>"; };
 		100703761947D7C300F0BB14 /* ZKHMyShareListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHMyShareListController.h; sourceTree = "<group>"; };
 		100703771947D7C300F0BB14 /* ZKHMyShareListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHMyShareListController.m; sourceTree = "<group>"; };
 		1007037E1947E85D00F0BB14 /* ZKHMyShareListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHMyShareListCell.h; sourceTree = "<group>"; };
@@ -327,6 +329,10 @@
 		10070383194800C600F0BB14 /* ZKHMyShareCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHMyShareCell.h; sourceTree = "<group>"; };
 		10070384194800C600F0BB14 /* ZKHMyShareCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHMyShareCell.m; sourceTree = "<group>"; };
 		1007038B1948251300F0BB14 /* ZKHShareChangedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZKHShareChangedDelegate.h; sourceTree = "<group>"; };
+		1007038C19484FAD00F0BB14 /* coupon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coupon.png; sourceTree = "<group>"; };
+		1007038E194866C000F0BB14 /* ZKHShareShopReplyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHShareShopReplyCell.h; sourceTree = "<group>"; };
+		1007038F194866C000F0BB14 /* ZKHShareShopReplyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShareShopReplyCell.m; sourceTree = "<group>"; };
+		10070391194866D200F0BB14 /* ZKHShareShopReplyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHShareShopReplyCell.xib; sourceTree = "<group>"; };
 		100B40301932CA7C00C51588 /* ZKHRequestSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHRequestSigner.h; sourceTree = "<group>"; };
 		100B40311932CA7C00C51588 /* ZKHRequestSigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHRequestSigner.m; sourceTree = "<group>"; };
 		100B403B1932E8F100C51588 /* ZKHTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHTextField.h; sourceTree = "<group>"; };
@@ -676,6 +682,7 @@
 		10FCDBDB192C261C005989BA /* ZKHContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHContext.m; sourceTree = "<group>"; };
 		10FCDC12192CB251005989BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		10FCDC14192CB257005989BA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		10FD03ED1948712F00153133 /* ZKHShopReplyData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShopReplyData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -770,8 +777,6 @@
 				101F673519385EB300AE3C97 /* ZKHShareController.h */,
 				101F673619385EB300AE3C97 /* ZKHShareController.m */,
 				101F673719385EB300AE3C97 /* ZKHShareController.xib */,
-				1036F29B1941AFCA001FE623 /* ZKHShareShopReplyListController.h */,
-				1036F29C1941AFCA001FE623 /* ZKHShareShopReplyListController.m */,
 				10F11B1319459A8800A7E5E5 /* ZKHShareListPicsController.h */,
 				10F11B1419459A8800A7E5E5 /* ZKHShareListPicsController.m */,
 				10F11B1B1945C98A00A7E5E5 /* ZKHShareListCommentsController.h */,
@@ -784,6 +789,11 @@
 				10070383194800C600F0BB14 /* ZKHMyShareCell.h */,
 				10070384194800C600F0BB14 /* ZKHMyShareCell.m */,
 				1007038B1948251300F0BB14 /* ZKHShareChangedDelegate.h */,
+				1036F29B1941AFCA001FE623 /* ZKHShareShopReplyListController.h */,
+				1036F29C1941AFCA001FE623 /* ZKHShareShopReplyListController.m */,
+				1007038E194866C000F0BB14 /* ZKHShareShopReplyCell.h */,
+				1007038F194866C000F0BB14 /* ZKHShareShopReplyCell.m */,
+				10070391194866D200F0BB14 /* ZKHShareShopReplyCell.xib */,
 			);
 			path = "View Share";
 			sourceTree = "<group>";
@@ -892,7 +902,7 @@
 				1002438319357A7700A5047F /* ZKHShopFavoritData.m */,
 				10F85AD0193D735F008B6484 /* ZKHShareData.m */,
 				1004592F1947137300FCE8C8 /* ZKHShareCommentData.m */,
-				100459311947138D00FCE8C8 /* ZKHShareReplyData.m */,
+				10FD03ED1948712F00153133 /* ZKHShopReplyData.m */,
 			);
 			path = "Database Datas";
 			sourceTree = "<group>";
@@ -1197,6 +1207,7 @@
 		10E7E731192E233A00AE6083 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				1007038C19484FAD00F0BB14 /* coupon.png */,
 				10F11B231945D8F600A7E5E5 /* b_comment.png */,
 				10E77332193EE70E00177BA6 /* b_calendar.png */,
 				101F672F19380B1B00AE3C97 /* b_comment_delete.png */,
@@ -1544,8 +1555,9 @@
 				10EB8E9819469C5F0054CE1D /* Text@2x.png in Resources */,
 				10EB8E9919469C5F0054CE1D /* Voice.png in Resources */,
 				10EB8E9A19469C5F0054CE1D /* Voice@2x.png in Resources */,
-				100459321947138D00FCE8C8 /* ZKHShareReplyData.m in Resources */,
 				100703821947E86900F0BB14 /* ZKHMyShareListCell.xib in Resources */,
+				1007038D19484FAD00F0BB14 /* coupon.png in Resources */,
+				10070392194866D200F0BB14 /* ZKHShareShopReplyCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1694,6 +1706,8 @@
 				100703781947D7C300F0BB14 /* ZKHMyShareListController.m in Sources */,
 				100703801947E85D00F0BB14 /* ZKHMyShareListCell.m in Sources */,
 				10070385194800C600F0BB14 /* ZKHMyShareCell.m in Sources */,
+				10070390194866C100F0BB14 /* ZKHShareShopReplyCell.m in Sources */,
+				10FD03EE1948712F00153133 /* ZKHShopReplyData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -164,7 +164,15 @@
 
 //分享回复
 @interface ZKHShareReplyEntity : ZKHEntity
+@property (strong, nonatomic) NSString *shareId;
+@property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) NSString *shopId;
+@property (strong, nonatomic) NSString *status;
+@property (strong, nonatomic) NSString *replier;
+@property (strong, nonatomic) NSString *replyTime;
+@property (nonatomic) int grade;
 
+- (id)initWithJsonObject:(id)jsonShopReply;
 @end
 
 //分享
@@ -177,6 +185,7 @@
 @property (strong, nonatomic) NSMutableArray *imageFiles;
 @property (strong, nonatomic) NSString *accessType;
 @property (strong, nonatomic) NSMutableArray *comments;
+@property (strong, nonatomic) ZKHShareReplyEntity *shopReply;
 @end
 
 @interface ZKHDateIndexedEntity : ZKHEntity

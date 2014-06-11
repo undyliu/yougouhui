@@ -176,6 +176,13 @@
                 share.comments = comments;
                 
                 //处理商铺的反馈
+                id shopReply = jsonShare[KEY_SHOP_REPLY];
+                if (shopReply) {
+                    NSString *replyId = shopReply[KEY_UUID];
+                    if (![NSString isNull:replyId]) {
+                        share.shopReply = [[ZKHShareReplyEntity alloc] initWithJsonObject:shopReply];
+                    }
+                }
                 
                 [shares addObject:share];
             }
@@ -263,4 +270,10 @@
     shareBlock(shareCountList);
 }
 
+- (void)sharesByShop:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset completionHandler:(SharesResponseBlock)shareBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHShareData *shareData = [[ZKHShareData alloc] init];
+    NSMutableArray *shares = [shareData sharesByShop:searchWord shopId:shopId offset:offset];
+    shareBlock(shares);
+}
 @end

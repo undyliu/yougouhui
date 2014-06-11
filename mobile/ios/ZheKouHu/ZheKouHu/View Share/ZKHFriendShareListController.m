@@ -37,8 +37,10 @@ static NSString *CellIdentifier = @"FriendShareListCell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-    self.title = @"购物圈";
+    
+	if (!self.title) {
+        self.title = @"购物圈";
+    }
     
     self.pullTableView.dataSource = self;
     self.pullTableView.delegate = self;
@@ -112,6 +114,11 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     currentProcessShareIndex = sender.tag;
     ZKHShareEntity *share  = self.shares[currentProcessShareIndex];
     
+    if (self.shopReply) {
+        [self shopReplyClick:share];
+        return;
+    }
+    
     TSActionSheet *actionSheet = [[TSActionSheet alloc] initWithTitle:nil];
     [actionSheet addButtonWithTitle:@"评论" block:^{
         faceToolBar.hidden = false;
@@ -140,6 +147,11 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     actionSheet.cornerRadius = 5;
         
     [actionSheet showWithTouch:event];
+}
+
+- (void)shopReplyClick:(ZKHShareEntity *)share
+{
+    
 }
 
 #pragma mark - Table view data source

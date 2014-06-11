@@ -56,9 +56,6 @@
     
     //初始化值
     self.titleLabel.text = self.sale.title;
-    self.contentLabel.text = self.sale.content;
-    self.contentLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.contentLabel.numberOfLines = 0;
     
     self.statusLabel.hidden = true;//TODO
     
@@ -68,6 +65,7 @@
     NSDate *endDate = [NSDate dateWithMilliSeconds:[self.sale.endDate longLongValue]];
     self.timeLabel.text = [NSString stringWithFormat:@"%@ 至 %@", [startDate toyyyyMMddString], [endDate toyyyyMMddString]];
     
+    [self updateContentLabel];
     [self updateHitLabel];
     
     //设置图片相关
@@ -114,6 +112,38 @@
     
     //主视图的点击事件
     [self.mainView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backgroupTap:)]];
+}
+
+- (CGFloat) contentLabelWidth
+{
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (currentOrientation == UIInterfaceOrientationPortrait || currentOrientation == UIInterfaceOrientationPortraitUpsideDown){//竖屏
+        return screenBounds.size.width - self.saleImageView.frame.size.width - 10;
+    }else{
+        return screenBounds.size.height - self.saleImageView.frame.size.width -10;
+    }
+}
+
+- (void) updateContentLabel
+{
+    if (!self.contentLabel) {
+        self.contentLabel = [[UILabel alloc] init];
+        self.contentLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        self.contentLabel.numberOfLines = 0;
+        self.contentLabel.font = [UIFont systemFontOfSize:14];
+        
+        [self.view addSubview:self.contentLabel];
+    }
+    
+    CGFloat x = self.titleLabel.frame.origin.x;
+    CGFloat y = self.shopLabel.frame.origin.y + 16;
+    CGFloat height = self.saleImageView.frame.size.height + self.saleImageView.frame.origin.y - y;
+    CGFloat width = [self contentLabelWidth];
+    
+    self.contentLabel.frame = CGRectMake(x, y, width, height);
+    
+    self.contentLabel.text = self.sale.content;
 }
 
 -(void) updateHitLabel
@@ -272,6 +302,7 @@
 {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self updateNavToolBarFrame];
+    [self updateContentLabel];
 }
 
 - (void)backgroupTap:(id)sender

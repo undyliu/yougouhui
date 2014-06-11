@@ -54,6 +54,9 @@ static NSString *shareQuery_base = @" select s.uuid, s.content, s.publish_time, 
         if (shop) {
             [[[ZKHShopData alloc] init] save:@[shop]];
         }
+        if (share.shopReply) {
+            [[[ZKHShareReplyData alloc] init] save:@[share.shopReply]];
+        }
     }
 }
 
@@ -91,6 +94,8 @@ static NSString *shareQuery_base = @" select s.uuid, s.content, s.publish_time, 
     share.comments = [[[ZKHShareCommentData alloc] init] commentsForShare:share.uuid];
     
     share.imageFiles = [self shareImages:share.uuid];
+    
+    share.shopReply = [[[ZKHShareReplyData alloc] init] shopReplyForShare:share.uuid];
     
     return share;
 }
@@ -166,7 +171,7 @@ static NSString *shareQuery_base = @" select s.uuid, s.content, s.publish_time, 
     [[[ZKHShareCommentData alloc] init] deleteCommentsByShare:uuid];
     
     //删除商家回复
-    
+    //TODO:
 }
 
 - (NSMutableArray *)sharesGroupByPublishDate:(NSString *)searchWord userId:(NSString *)userId offset:(int)offset
@@ -239,4 +244,22 @@ static NSString *shareQuery_base = @" select s.uuid, s.content, s.publish_time, 
     
     return [self query:sql params:params];
 }
+
+- (NSMutableArray *)sharesByShop:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset
+{
+    NSMutableString *sql = [NSMutableString stringWithString:shareQuery_base];
+    NSMutableArray *params = [[NSMutableArray alloc] init];
+    [sql appendFormat:@" where shop_id = ? "];
+    [params addObject:shopId];
+    
+    if (searchWord) {
+        [sql appendString:@" and content like ? "];
+        [params addObject:[NSString stringWithFormat:@"%%%@%%", searchWord]];
+    }
+    
+    [sql appendString:@" order by publish_time desc "];
+    
+    return [self query:sql params:params];
+}
+
 @end

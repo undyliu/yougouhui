@@ -29,7 +29,7 @@
 @property (strong, nonatomic) IBOutlet UIView *mainView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
-@property (weak, nonatomic) IBOutlet UILabel *contentLabel;
+@property (strong, nonatomic) UILabel *contentLabel;
 @property (weak, nonatomic) IBOutlet UILabel *shopLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *discusslabel;

@@ -160,7 +160,7 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 90.0;
+    return 95.0;
 }
 
 #pragma mark - Refresh and load more methods

@@ -118,7 +118,8 @@
 - (NSMutableArray *) friendShares:(NSString *)userId offset:(int)offset;
 - (void) deleteShare:(NSString *)uuid;
 - (NSMutableArray *)shareImages:(NSString *)shareId;
--(NSMutableArray *) sharesGroupByPublishDate:(NSString *)searchWord userId:(NSString *)userId offset:(int)offset;
+- (NSMutableArray *) sharesGroupByPublishDate:(NSString *)searchWord userId:(NSString *)userId offset:(int)offset;
+- (NSMutableArray *) sharesByShop:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset;
 @end
 
 #define SHARE_COMMENT_TABLE @"e_share_comment"
@@ -128,6 +129,6 @@
 - (void) deleteCommentsByShare:(NSString *)shareId;
 @end
 
-@interface ZKHShareReplyData : ZKHData
-
+@interface ZKHShareReplyData : ZKHData<ZKHEntityUpdater>
+- (ZKHShareReplyEntity *) shopReplyForShare:(NSString *)shareId;
 @end

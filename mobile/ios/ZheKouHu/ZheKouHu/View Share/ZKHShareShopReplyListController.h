@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "ZKHEntity.h"
+#import "ZKHPullRefreshTableViewController.h"
 
-@interface ZKHShareShopReplyListController : UIViewController
+@interface ZKHShareShopReplyListController : ZKHPullRefreshTableViewController<UITableViewDelegate>
+{
+    NSMutableArray *shares;
+    int offset;
+}
+
 @property (strong, nonatomic) ZKHShopEntity *shop;
 
 @end
