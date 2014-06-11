@@ -21,4 +21,6 @@ typedef void (^SharesResponseBlock)(NSMutableArray* shares);
 - (void) addComment:(ZKHShareCommentEntity *)comment completionHandler:(BooleanResultResponseBlock) addCommentBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 - (void) deleteComment:(ZKHShareCommentEntity *)comment completionHandler:(BooleanResultResponseBlock) deleteCommentBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+
+-(void) sharesGroupByPublishDate:(NSString *)searchWord userId:(NSString *)userId offset:(int)offset completionHandler:(SharesResponseBlock) shareBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 @end

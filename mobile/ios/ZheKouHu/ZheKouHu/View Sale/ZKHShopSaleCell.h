@@ -7,12 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZKHEntity.h"
 
 @interface ZKHShopSaleCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *saleImageView;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
-@property (weak, nonatomic) IBOutlet UILabel *contentLabel;
-@property (weak, nonatomic) IBOutlet UILabel *countLabel;
+@property (strong, nonatomic) IBOutlet UILabel *contentLabel;
+@property (strong, nonatomic) IBOutlet UILabel *countLabel;
 
+- (void) updateViews:(ZKHSaleEntity *)sale;
++ (CGFloat) cellHeight:(ZKHSaleEntity *)sale;
 @end

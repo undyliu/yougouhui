@@ -242,4 +242,11 @@
     }];
 }
 
+- (void)sharesGroupByPublishDate:(NSString *)searchWord userId:(NSString *)userId offset:(int)offset completionHandler:(SharesResponseBlock)shareBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHShareData *shareData = [[ZKHShareData alloc] init];
+    NSMutableArray *shareCountList = [shareData sharesGroupByPublishDate:searchWord userId:userId offset:offset];
+    shareBlock(shareCountList);
+}
+
 @end

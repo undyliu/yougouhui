@@ -109,7 +109,7 @@ static NSString *CellIdentifier = @"ShopSaleListCell";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
      ZKHDateIndexedEntity *entity = saleCountList[indexPath.row];
-    return entity.count * 100;
+    return [ZKHShopSaleListCell cellHeight:entity.items];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration

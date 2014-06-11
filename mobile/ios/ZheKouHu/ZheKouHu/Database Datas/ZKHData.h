@@ -118,6 +118,7 @@
 - (NSMutableArray *) friendShares:(NSString *)userId offset:(int)offset;
 - (void) deleteShare:(NSString *)uuid;
 - (NSMutableArray *)shareImages:(NSString *)shareId;
+-(NSMutableArray *) sharesGroupByPublishDate:(NSString *)searchWord userId:(NSString *)userId offset:(int)offset;
 @end
 
 #define SHARE_COMMENT_TABLE @"e_share_comment"

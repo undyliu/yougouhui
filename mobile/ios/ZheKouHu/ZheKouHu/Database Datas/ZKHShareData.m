@@ -3,6 +3,7 @@
 #import "ZKHConst.h"
 #import "ZKHEntity.h"
 #import "NSString+Utils.h"
+#import "NSDate+Utils.h"
 
 #define SHARE_CREATE_SQL [NSString stringWithFormat:@" create table if not exists %@ (%@ text primary key, %@ text, %@ text, %@ text, %@ text, %@ text, %@ text) ", SHARE_TABLE, KEY_UUID, KEY_CONTENT, KEY_PUBLISHER, KEY_PUBLISH_TIME, KEY_PUBLISH_DATE, KEY_SHOP_ID, KEY_ACCESS_TYPE]
 #define SHARE_UPDATE_SQL [NSString stringWithFormat:@" insert or replace into %@ (%@, %@, %@, %@, %@, %@, %@) values (?, ?, ?, ?, ?, ?, ?)", SHARE_TABLE, KEY_UUID, KEY_CONTENT, KEY_PUBLISHER, KEY_PUBLISH_TIME, KEY_PUBLISH_DATE, KEY_SHOP_ID, KEY_ACCESS_TYPE]
@@ -166,5 +167,76 @@ static NSString *shareQuery_base = @" select s.uuid, s.content, s.publish_time, 
     
     //删除商家回复
     
+}
+
+- (NSMutableArray *)sharesGroupByPublishDate:(NSString *)searchWord userId:(NSString *)userId offset:(int)offset
+{
+    NSMutableArray *params = [[NSMutableArray alloc] init];
+    NSMutableString *sql = [NSMutableString stringWithString:@" select publish_date, count(1) from e_share "];
+    [sql appendString:@" where publisher = ? "];
+    [params addObject:userId];
+    
+    if (searchWord) {
+        [sql appendString:@" and content like ? "];
+        [params addObject:[NSString stringWithFormat:@"%%%@%%", searchWord]];
+    }
+    [sql appendString:@" group by publish_date order by publish_date desc "];
+    [sql appendFormat:@" limit %d offset %d ", DEFAULT_PAGE_SIZE, offset];
+    
+    NSMutableArray *result = [[NSMutableArray alloc] init];
+    
+    NSLog(@"sql : %@", sql);
+    sqlite3 *database = nil;
+    @try {
+        database = [self openDatabase];
+        sqlite3_stmt *stmt;
+        
+        @try {
+            stmt = [self prepareStatement:sql params:params database:database];
+            while (sqlite3_step(stmt) == SQLITE_ROW) {
+                ZKHDateIndexedEntity *entity = [[ZKHDateIndexedEntity alloc] init];
+                
+                int i = 0;
+                NSString *publishDate = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, i++)];
+                entity.date = [NSDate initWithyyyyMMddString:publishDate];
+                entity.count = sqlite3_column_int(stmt, i++);
+                
+                entity.items = [self sharesByPublishdate:searchWord userId: userId publishDate:publishDate];
+                
+                [result addObject:entity];
+            }
+        }
+        @catch (NSException *exception) {
+            @throw exception;
+        }
+        @finally {
+            sqlite3_finalize(stmt);
+        }
+    }
+    @catch (NSException *exception) {
+        @throw exception;
+    }
+    @finally {
+        [self closeDatabase:database];
+    }
+    return result;
+}
+
+- (NSMutableArray *) sharesByPublishdate:(NSString *)searchWord userId:(NSString *)userId publishDate:(NSString *)publishDate
+{
+    NSMutableString *sql = [NSMutableString stringWithString:shareQuery_base];
+    NSMutableArray *params = [[NSMutableArray alloc] init];
+    [sql appendFormat:@" where publish_date = ? and publisher = ? "];
+    [params addObject:publishDate];
+    [params addObject:userId];
+    
+    if (searchWord) {
+        [sql appendString:@" and content like ? "];
+        [params addObject:[NSString stringWithFormat:@"%%%@%%", searchWord]];
+    }
+    
+    [sql appendString:@" order by publish_time desc "];
+    
+    return [self query:sql params:params];
 }
 @end

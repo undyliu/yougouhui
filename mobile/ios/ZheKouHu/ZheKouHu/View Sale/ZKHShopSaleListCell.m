@@ -34,6 +34,26 @@ static NSString *SubCellIdentifier = @"ShopSaleCell";
     // Configure the view for the selected state
 }
 
++ (CGFloat)cellHeight:(NSMutableArray *)saleList
+{
+    CGFloat cellHeight = 0;
+    for (ZKHSaleEntity *sale in saleList) {
+        cellHeight += [ZKHShopSaleCell cellHeight:sale];
+    }
+    return cellHeight;
+}
+
++ (CGFloat) cellRightWidth
+{
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (currentOrientation == UIInterfaceOrientationPortrait || currentOrientation == UIInterfaceOrientationPortraitUpsideDown){//竖屏
+        return screenBounds.size.width - 65;
+    }else{
+        return screenBounds.size.height - 65;
+    }
+}
+
 - (void)setSaleList:(NSMutableArray *)saleList
 {
     if (!shopSaleSubItemNib) {
@@ -42,21 +62,20 @@ static NSString *SubCellIdentifier = @"ShopSaleCell";
     
     _saleList = saleList;
     
-    CGRect frame  = self.itemTagView.frame;
+    CGRect pFrame = self.publishDateLabel.frame;
+    CGFloat width = [ZKHShopSaleListCell cellRightWidth];
+    CGRect frame  = CGRectMake(65, pFrame.origin.y, width, [ZKHShopSaleListCell cellHeight:saleList]);
     if (itemTableView) {
         itemTableView.frame = frame;
     }else{
-        //NSUInteger  l = self.publishDateLabel.text.length;
-        CGFloat offsetW  = 10;//self.publishDateLabel.frame.size.width;//why?
         itemTableView = [[UITableView alloc] init];
-        itemTableView.frame = CGRectMake(frame.origin.x + offsetW, frame.origin.y, frame.size.width - offsetW, frame.size.height);
         [itemTableView registerNib:shopSaleSubItemNib forCellReuseIdentifier:SubCellIdentifier];
         
         [self addSubview:itemTableView];
         itemTableView.delegate = self;
         itemTableView.dataSource = self;
     }
-    
+    itemTableView.frame = frame;
     [itemTableView reloadData];
 }
 
@@ -79,23 +98,21 @@ static NSString *SubCellIdentifier = @"ShopSaleCell";
     ZKHSaleEntity *sale = self.saleList[indexPath.row];
     cell.titleLabel.text = sale.title;
     
+    [ZKHImageLoader showImageForName:sale.img imageView:cell.saleImageView];
+    
     NSString *status = sale.status;
-    if ([status isEqualToString:@"1"]) {
-        cell.statusLabel.text = @"已审核";
+    if ([status isEqualToString:@"0"]) {
+        cell.statusLabel.text = @"未生效";
+    }else if ([status isEqualToString:@"1"]) {
+        cell.statusLabel.text = @"已生效";
     }else if ([status isEqualToString:@"2"]) {
         cell.statusLabel.text = @"已作废";
     }else{
         cell.statusLabel.hidden = true;
     }
     
-    cell.contentLabel.text = sale.content;
-    cell.contentLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    cell.contentLabel.numberOfLines = 0;
-    
-    cell.countLabel.text = [NSString stringWithFormat:@"共%@位浏览 %@条评论", sale.visitCount, sale.discussCount];
-    
-    [ZKHImageLoader showImageForName:sale.img imageView:cell.saleImageView];
-    
+    [cell updateViews:sale];
+ 
     return cell;
 }
 
@@ -119,7 +136,8 @@ static NSString *SubCellIdentifier = @"ShopSaleCell";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 90.0;
+    ZKHSaleEntity *sale = self.saleList[indexPath.row];
+    return [ZKHShopSaleCell cellHeight:sale];
 }
 
 @end
