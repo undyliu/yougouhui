@@ -104,6 +104,7 @@ static NSString *SubCellIdentifier = @"MyShareCell";
     controller.popWhenshareDeleted = true;
     controller.shareChangedDelegate = self.parentController;
     controller.publishButtonVisible = false;
+    controller.showShopReplyInfo = true;
     controller.title = @"分享详情";
     
     [self.parentController.navigationController pushViewController:controller animated:YES];

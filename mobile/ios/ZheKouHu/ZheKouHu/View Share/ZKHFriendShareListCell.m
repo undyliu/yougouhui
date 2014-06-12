@@ -65,8 +65,9 @@ static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
         }
     }
     
-    return rows * 20;
+    return rows * 18;
 }
+
 + (CGFloat) publishDateHeight
 {
     return 24;
@@ -89,12 +90,27 @@ static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
     return [share.comments count] * 32;
 }
 
++ (CGFloat) shopReplyHeight:(ZKHShareEntity *)share
+{
+    CGFloat height = 0;
+    ZKHShareReplyEntity *reply = share.shopReply;
+    if (reply) {
+        return 40;
+    }
+    return height;
+}
+
 - (void)updateViews:(ZKHShareEntity *)share shareListPicController:(id)shareListPicController commentsController:(id)commentsController
 {
     [self updateContentLabel:share];
     [self updateImagesView:share shareListPicController:shareListPicController];
     [self updatePublishDateLabel:share];
     [self updateCommentImageView:share];
+    
+    if (self.showShopReplyInfo) {
+        [self updateShopReplyLabel:share];
+    }
+    
     [self updateCommentTableView:share commentsController:commentsController];
     }
 
@@ -197,6 +213,11 @@ static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
         iFrame = self.contentLabel.frame;
     }
     
+//    if (self.showShopReplyInfo && share.shopReply) {
+//        self.commentImageView.frame = CGRectMake(0, 0, 0, 0);
+//        return;
+//    }
+    
     CGFloat x = [ZKHFriendShareListCell cellRightWidth] + iFrame.origin.x - 24;
     CGRect frame = CGRectMake(x, iFrame.origin.y + iFrame.size.height + DEFAULT_GAP_HEIGHT, 24, 24);
     if (!self.commentImageView) {
@@ -210,7 +231,13 @@ static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
 
 -(void)updateCommentTableView:(ZKHShareEntity *)share commentsController:(id)commentsController
 {
-    CGRect pFrame = self.publishDateLabel.frame;
+    CGRect pFrame ;
+    if (self.showShopReplyInfo && share.shopReply) {
+        pFrame = self.shopReplyLabel.frame;
+    }else{
+        pFrame = self.publishDateLabel.frame;
+    }
+    
     if ([share.comments count] > 0) {
         CGFloat height = [ZKHFriendShareListCell commentsViewHeight:share];
         CGRect frame = CGRectMake(pFrame.origin.x, pFrame.origin.y + pFrame.size.height + DEFAULT_GAP_HEIGHT, [ZKHFriendShareListCell cellRightWidth], height);
@@ -240,5 +267,37 @@ static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
     }
 }
 
+- (void)updateShopReplyLabel:(ZKHShareEntity *)share
+{
+    if (!share.shopReply) {
+        self.shopGradeLabel.frame = CGRectMake(0, 0, 0, 0);
+        self.shopReplyLabel.frame = CGRectMake(0, 0, 0, 0);
+        return;
+    }
+    
+    if (!self.shopGradeLabel) {
+        self.shopGradeLabel = [[UILabel alloc] init];
+        self.shopGradeLabel.font = [UIFont systemFontOfSize:14];
+        
+        [self addSubview:self.shopGradeLabel];
+    }
+    
+    if (!self.shopReplyLabel) {
+        self.shopReplyLabel = [[UILabel alloc] init];
+        self.shopReplyLabel.font = [UIFont systemFontOfSize:14];
+        
+        [self addSubview:self.shopReplyLabel];
+    }
+    
+    ZKHShareReplyEntity *reply = share.shopReply;
+    CGFloat width = [ZKHFriendShareListCell cellRightWidth];
+    CGRect pFrame = self.publishDateLabel.frame;
+    self.shopGradeLabel.frame = CGRectMake(pFrame.origin.x, pFrame.origin.y + [ZKHFriendShareListCell publishDateHeight], width, 20);
+    self.shopGradeLabel.text = [NSString stringWithFormat:@"商户: 奖励 %d 积分", reply.grade];
+    
+    CGRect gFrame = self.shopGradeLabel.frame;
+    self.shopReplyLabel.frame = CGRectMake(gFrame.origin.x, gFrame.origin.y + gFrame.size.height, width, 20);
+    self.shopReplyLabel.text = [NSString stringWithFormat:@"         回复:%@", reply.content];
+}
 @end
 

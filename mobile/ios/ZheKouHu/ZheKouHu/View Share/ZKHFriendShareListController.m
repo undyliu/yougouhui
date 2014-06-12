@@ -18,6 +18,7 @@
 #import "ZKHFriendProfileController.h"
 #import "TSActionSheet.h"
 #import "ZKHEntity.h"
+#import "NSString+Utils.h"
 
 static NSString *CellIdentifier = @"FriendShareListCell";
 
@@ -114,7 +115,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     currentProcessShareIndex = sender.tag;
     ZKHShareEntity *share  = self.shares[currentProcessShareIndex];
     
-    if (self.shopReply) {
+    if (self.doShopReply) {
         [self shopReplyClick:share];
         return;
     }
@@ -151,6 +152,81 @@ static NSString *CellIdentifier = @"FriendShareListCell";
 
 - (void)shopReplyClick:(ZKHShareEntity *)share
 {
+    NSString *message;
+    UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (currentOrientation == UIInterfaceOrientationPortrait || currentOrientation == UIInterfaceOrientationPortraitUpsideDown){//竖屏
+        message = @" \n ";
+    }else{
+        message = @" \n  \n ";
+    }
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请输入" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    
+    UILabel *gradeLabel = [[UILabel alloc] init];
+    gradeLabel.text = @"赠送积分:";
+    gradeLabel.textAlignment = NSTextAlignmentRight;
+    gradeLabel.textColor = [UIColor whiteColor];
+    gradeLabel.font = [UIFont systemFontOfSize:15];
+    gradeLabel.backgroundColor = [UIColor clearColor];
+    
+    gradeLabel.frame = CGRectMake(12, 42, 70, 25);
+    
+    [alert addSubview:gradeLabel];
+    
+    gradeField = [[UITextField alloc]
+                                initWithFrame:CGRectMake(90, 42, 180, 25)];
+    [gradeField setBackgroundColor:[UIColor whiteColor]];
+    [gradeField setKeyboardType:UIKeyboardTypeNumberPad];
+    [gradeField setBorderStyle:UITextBorderStyleRoundedRect];
+    gradeField.font = [UIFont systemFontOfSize:14];
+    gradeField.placeholder = @"0~20积分";
+    
+    [alert addSubview:gradeField];
+    
+    
+    UILabel *contentLabel = [[UILabel alloc] init];
+    contentLabel.text = @"反馈:";
+    contentLabel.textAlignment = NSTextAlignmentRight;
+    contentLabel.textColor = [UIColor whiteColor];
+    contentLabel.font = [UIFont systemFontOfSize:15];
+    contentLabel.backgroundColor = [UIColor clearColor];
+    
+    contentLabel.frame = CGRectMake(12, 70, 70, 25);
+    
+    [alert addSubview:contentLabel];
+    
+    replyContentField = [[UITextField alloc]
+                                  initWithFrame:CGRectMake(90, 72, 180, 25)];
+    [replyContentField setBackgroundColor:[UIColor whiteColor]];
+    [replyContentField setBorderStyle:UITextBorderStyleRoundedRect];
+    replyContentField.font = [UIFont systemFontOfSize:14];
+    
+    [alert addSubview:replyContentField];
+    
+    [alert show];
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 1://确定
+            [self shopReply];
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)shopReply
+{
+    NSString *grade = gradeField.text;
+    NSString *content = replyContentField.text;
+    
+    if ([NSString isNull:grade] || [NSString isNull:content]) {
+        return;
+    }
     
 }
 
@@ -189,6 +265,27 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     cell.userNameLabel.userInteractionEnabled = true;
     [cell.userNameLabel addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(friendProfileClick:)]];
     
+    if (self.showShopReplyInfo) {
+        cell.replyStatusLabel.hidden = false;
+        ZKHShareReplyEntity *reply =  share.shopReply;
+        if (reply) {
+            NSString *status = reply.status;
+            if ([@"0" isEqualToString:status]) {
+                cell.replyStatusLabel.text = @"商户反馈未生效";
+            }else if ([@"1" isEqualToString:status]){
+                cell.replyStatusLabel.text = @"商户反馈已生效";
+            }else{
+                cell.replyStatusLabel.text = @"商户尚未反馈";
+            }
+        }else{
+            cell.replyStatusLabel.text = @"商户尚未反馈";
+        }
+    }else{
+        cell.replyStatusLabel.hidden = true;
+    }
+    
+    cell.showShopReplyInfo = self.showShopReplyInfo;
+    
     ZKHShareListPicsController *picController = nil;
     if ([share.imageFiles count] > 0) {
         picController = sharePicControllers[indexPath];
@@ -222,7 +319,12 @@ static NSString *CellIdentifier = @"FriendShareListCell";
 
 #pragma mark - Table view delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [ZKHFriendShareListCell cellHeight:self.shares[indexPath.row]];
+    ZKHShareEntity *share = self.shares[indexPath.row];
+    CGFloat height = [ZKHFriendShareListCell cellHeight:share];
+    if (self.showShopReplyInfo) {
+        height += [ZKHFriendShareListCell shopReplyHeight:share];
+    }
+    return height;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration

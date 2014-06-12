@@ -11,7 +11,7 @@
 #import "ZKHShareListCommentsController.h"
 #import "ZKHShareChangedDelegate.h"
 
-@interface ZKHFriendShareListController : ZKHPullRefreshTableViewController<UITableViewDelegate, FaceToolBarDelegate, ZKHCommentChangedDelegate>
+@interface ZKHFriendShareListController : ZKHPullRefreshTableViewController<UITableViewDelegate, FaceToolBarDelegate, ZKHCommentChangedDelegate, UIAlertViewDelegate>
 {
     NSMutableDictionary *sharePicControllers;
     NSMutableDictionary *commentControllers;
@@ -19,9 +19,13 @@
     
     FaceToolBar *faceToolBar;
     int currentProcessShareIndex;
+    
+    UITextField *gradeField;
+    UITextField *replyContentField;
 }
 
-@property (nonatomic) Boolean shopReply;
+@property (nonatomic) Boolean showShopReplyInfo;
+@property (nonatomic) Boolean doShopReply;
 @property (nonatomic) Boolean publishButtonVisible;
 @property (nonatomic) Boolean popWhenshareDeleted;
 @property (strong, nonatomic) id<ZKHShareChangedDelegate> shareChangedDelegate;

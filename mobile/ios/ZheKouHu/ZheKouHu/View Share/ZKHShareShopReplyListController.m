@@ -116,7 +116,8 @@ static NSString *CellIdentifier = @"ShareShopReplyCell";
     controller.popWhenshareDeleted = true;
     controller.publishButtonVisible = false;
     controller.title = @"商户反馈";
-    controller.shopReply = true;
+    controller.doShopReply = true;
+    controller.showShopReplyInfo = true;
     
     [self.navigationController pushViewController:controller animated:YES];
 }
