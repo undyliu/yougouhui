@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZKHTextField.h"
 
 @interface ZKHLoginController : UIViewController
-@property (weak, nonatomic) IBOutlet UITextField *phoneText;
-@property (weak, nonatomic) IBOutlet UITextField *pwdText;
+@property (weak, nonatomic) IBOutlet ZKHTextField *phoneText;
+@property (weak, nonatomic) IBOutlet ZKHTextField *pwdText;
 @property (weak, nonatomic) IBOutlet UISwitch *rememberPwdSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *autoLoginSwitch;
 

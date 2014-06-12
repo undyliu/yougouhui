@@ -591,11 +591,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View User/ZKHLoginController.m"
-         timestampString = "422526197.38014"
+         timestampString = "424266492.40121"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "93"
-         endingLineNumber = "93"
+         startingLineNumber = "96"
+         endingLineNumber = "96"
          landmarkName = "-phoneFieldEditingEnd:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -604,11 +604,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View User/ZKHLoginController.m"
-         timestampString = "422526250.881191"
+         timestampString = "424266492.40121"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "94"
-         endingLineNumber = "94"
+         startingLineNumber = "97"
+         endingLineNumber = "97"
          landmarkName = "-phoneFieldEditingEnd:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -721,7 +721,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Widgets/ZKHTextField.m"
-         timestampString = "422768761.528231"
+         timestampString = "424266125.582863"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "28"
@@ -5459,6 +5459,19 @@
          startingLineNumber = "32"
          endingLineNumber = "32"
          landmarkName = "-viewDidLoad"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/View User/ZKHLoginController.m"
+         timestampString = "424266577.938672"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "116"
+         endingLineNumber = "116"
+         landmarkName = "-login"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

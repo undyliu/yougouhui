@@ -57,6 +57,9 @@
             [self login];
         }
     }
+    
+    self.phoneText.popMessageWhenEmptyText = @"手机号不能为空.";
+    self.pwdText.popMessageWhenEmptyText = @"密码不能为空.";
 }
 
 - (void)didReceiveMemoryWarning
@@ -107,20 +110,31 @@
 
 
 - (IBAction)login {
+    [self.phoneText endEditing:true];
+    [self.pwdText endEditing:true];
+    
     NSString *phone = self.phoneText.text;
     NSString *pwd = self.pwdText.text;
     
-    if ([phone length] == 0) {
-        self.phoneText.layer.borderColor = [[UIColor redColor] CGColor];
-        [self.phoneText becomeFirstResponder];
-        return;
-    }
+    Boolean cancel = false;
     
     if ([pwd length] == 0) {
         self.pwdText.layer.borderColor = [[UIColor redColor] CGColor];
-        [self.pwdText becomeFirstResponder];
+        cancel = true;
+        [self.pwdText showTipView];
+    }
+    
+    if ([phone length] == 0) {
+        self.phoneText.layer.borderColor = [[UIColor redColor] CGColor];
+        cancel = true;
+        [self.phoneText showTipView];
+    }
+    
+    if (cancel) {
         return;
     }
+    
+    
     
     [ApplicationDelegate.zkhProcessor login:phone pwd:pwd completionHandler:^(NSMutableDictionary *authObj) {
         NSString *authed = [authObj objectForKey:KEY_AUTHED];

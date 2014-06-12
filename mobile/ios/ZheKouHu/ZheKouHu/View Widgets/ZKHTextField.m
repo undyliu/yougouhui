@@ -37,6 +37,10 @@
         self.layer.masksToBounds = YES;
         self.layer.borderColor = [[UIColor redColor] CGColor];
         self.layer.borderWidth = 2.0f;
+        
+        if ([self.popMessageWhenEmptyText length] > 0) {
+            [self showTipView];
+        }
     }
 }
 
@@ -46,6 +50,10 @@
     self.layer.masksToBounds = YES;
     self.layer.borderColor = [[UIColor grayColor] CGColor];
     self.layer.borderWidth = 2.0f;
+    
+    if (popTipView) {
+        [popTipView dismissAnimated:YES];
+    }
 }
 
 - (void)fieldDoneEditing:(id)sender
@@ -53,4 +61,20 @@
     [self resignFirstResponder];
 }
 
+- (void)showTipView
+{
+    if (popTipView.targetObject) {
+        return;
+    }
+    if (!popTipView) {
+        popTipView = [[CMPopTipView alloc] initWithMessage:self.popMessageWhenEmptyText];
+        popTipView.animation = arc4random() % 2;
+        popTipView.has3DStyle = (BOOL)(arc4random() % 2);
+        //popTipView.dismissTapAnywhere = YES;
+    }else{
+        popTipView.message = self.popMessageWhenEmptyText;
+    }
+    
+    [popTipView presentPointingAtView:self inView:self.superview animated:YES];
+}
 @end

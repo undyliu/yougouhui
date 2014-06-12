@@ -7,6 +7,7 @@
 //
 
 #import "ZKHViewUtils.h"
+#import "CMPopTipView.h"
 
 @implementation ZKHViewUtils
 
@@ -17,4 +18,16 @@
     [tableView setTableFooterView:view];
 }
 
++ (void)showTipView:(UIView *)targetView message:(NSString *)message dismissTapAnywhere:(BOOL) dismissTapAnywhere autoDismissInvertal:(NSTimeInterval)autoDismissInvertal
+{
+    CMPopTipView *popTipView = [[CMPopTipView alloc] initWithMessage:message];
+    popTipView.animation = arc4random() % 2;
+    popTipView.has3DStyle = (BOOL)(arc4random() % 2);
+    popTipView.dismissTapAnywhere = dismissTapAnywhere;
+    if (autoDismissInvertal > 0) {
+        [popTipView autoDismissAnimated:YES atTimeInterval:autoDismissInvertal];
+    }
+    
+    [popTipView presentPointingAtView:targetView inView:targetView.superview animated:YES];
+}
 @end

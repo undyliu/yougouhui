@@ -45,6 +45,7 @@
 		10070392194866D200F0BB14 /* ZKHShareShopReplyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10070391194866D200F0BB14 /* ZKHShareShopReplyCell.xib */; };
 		1008D0D91949A14000574CA1 /* ZKHWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1008D0D71949A14000574CA1 /* ZKHWebViewController.m */; };
 		1008D0DA1949A14000574CA1 /* ZKHWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1008D0D81949A14000574CA1 /* ZKHWebViewController.xib */; };
+		1008D0E61949BE7B00574CA1 /* CMPopTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1008D0E51949BE7B00574CA1 /* CMPopTipView.m */; };
 		100B40321932CA7C00C51588 /* ZKHRequestSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 100B40311932CA7C00C51588 /* ZKHRequestSigner.m */; };
 		100B403D1932E8F100C51588 /* ZKHTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 100B403C1932E8F100C51588 /* ZKHTextField.m */; };
 		100B40421933051600C51588 /* ZKHChangePwdController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 100B40401933051600C51588 /* ZKHChangePwdController.xib */; };
@@ -338,6 +339,8 @@
 		1008D0D61949A14000574CA1 /* ZKHWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHWebViewController.h; sourceTree = "<group>"; };
 		1008D0D71949A14000574CA1 /* ZKHWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHWebViewController.m; sourceTree = "<group>"; };
 		1008D0D81949A14000574CA1 /* ZKHWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHWebViewController.xib; sourceTree = "<group>"; };
+		1008D0E41949BE7B00574CA1 /* CMPopTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMPopTipView.h; sourceTree = "<group>"; };
+		1008D0E51949BE7B00574CA1 /* CMPopTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMPopTipView.m; sourceTree = "<group>"; };
 		100B40301932CA7C00C51588 /* ZKHRequestSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHRequestSigner.h; sourceTree = "<group>"; };
 		100B40311932CA7C00C51588 /* ZKHRequestSigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHRequestSigner.m; sourceTree = "<group>"; };
 		100B403B1932E8F100C51588 /* ZKHTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHTextField.h; sourceTree = "<group>"; };
@@ -768,6 +771,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		1008D0E31949BE7B00574CA1 /* CMPopTipView */ = {
+			isa = PBXGroup;
+			children = (
+				1008D0E41949BE7B00574CA1 /* CMPopTipView.h */,
+				1008D0E51949BE7B00574CA1 /* CMPopTipView.m */,
+			);
+			path = CMPopTipView;
+			sourceTree = "<group>";
+		};
 		101F673119385E5700AE3C97 /* View Share */ = {
 			isa = PBXGroup;
 			children = (
@@ -806,6 +818,7 @@
 		10456CE1192E28D20061DCC1 /* Thirdparty Libs */ = {
 			isa = PBXGroup;
 			children = (
+				1008D0E31949BE7B00574CA1 /* CMPopTipView */,
 				105EE9D91946B7F400D6F08D /* TSPopover */,
 				10EB8E62194697640054CE1D /* Emoji-master */,
 				10E77326193EE5D600177BA6 /* QRadioButton */,
@@ -1718,6 +1731,7 @@
 				10070390194866C100F0BB14 /* ZKHShareShopReplyCell.m in Sources */,
 				10FD03EE1948712F00153133 /* ZKHShopReplyData.m in Sources */,
 				1008D0D91949A14000574CA1 /* ZKHWebViewController.m in Sources */,
+				1008D0E61949BE7B00574CA1 /* CMPopTipView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

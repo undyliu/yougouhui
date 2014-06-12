@@ -7,10 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CMPopTipView.h"
 
 @interface ZKHTextField : UITextField
+{
+    CMPopTipView *popTipView;
+}
+
+@property (strong, nonatomic) NSString *popMessageWhenEmptyText;
 
 - (IBAction)fieldEditingDidDone:(id)sender;
 - (IBAction)fieldEditingDidBegin:(id)sender;
 - (IBAction)fieldDoneEditing:(id)sender;
+- (void)showTipView;
+
 @end
