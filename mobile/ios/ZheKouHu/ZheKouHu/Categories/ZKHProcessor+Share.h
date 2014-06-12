@@ -26,4 +26,5 @@ typedef void (^SharesResponseBlock)(NSMutableArray* shares);
 
 - (void)sharesByShop:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset completionHandler:(SharesResponseBlock) shareBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
+- (void) saveShareShopReply:(ZKHShareShopReplyEntity *)shopReply completionHandler:(BooleanResultResponseBlock) saveShopReplyBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 @end

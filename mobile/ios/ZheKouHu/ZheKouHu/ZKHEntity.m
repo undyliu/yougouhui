@@ -253,7 +253,7 @@
 
 @end
 
-@implementation ZKHShareReplyEntity
+@implementation ZKHShareShopReplyEntity
 
 - (id)initWithJsonObject:(id)jsonShopReply
 {

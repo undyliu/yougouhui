@@ -130,5 +130,5 @@
 @end
 
 @interface ZKHShareReplyData : ZKHData<ZKHEntityUpdater>
-- (ZKHShareReplyEntity *) shopReplyForShare:(NSString *)shareId;
+- (ZKHShareShopReplyEntity *) shopReplyForShare:(NSString *)shareId;
 @end

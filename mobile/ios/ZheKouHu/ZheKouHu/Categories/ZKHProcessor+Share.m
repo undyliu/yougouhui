@@ -180,7 +180,7 @@
                 if (shopReply) {
                     NSString *replyId = shopReply[KEY_UUID];
                     if (![NSString isNull:replyId]) {
-                        share.shopReply = [[ZKHShareReplyEntity alloc] initWithJsonObject:shopReply];
+                        share.shopReply = [[ZKHShareShopReplyEntity alloc] initWithJsonObject:shopReply];
                     }
                 }
                 
@@ -276,4 +276,31 @@
     NSMutableArray *shares = [shareData sharesByShop:searchWord shopId:shopId offset:offset];
     shareBlock(shares);
 }
+
+#define SAVE_SHARE_SHOP_REPLY_URL @"/saveShareReply"
+- (void)saveShareShopReply:(ZKHShareShopReplyEntity *)shopReply completionHandler:(BooleanResultResponseBlock)saveShopReplyBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = SAVE_SHARE_SHOP_REPLY_URL;
+    request.method = METHOD_POST;
+    request.params = @{KEY_SHARE_ID: shopReply.shareId, KEY_SHOP_ID: shopReply.shopId, KEY_CONTENT: shopReply.content, KEY_REPLIER: shopReply.replier, KEY_GRADE:[NSString stringWithFormat:@"%d", shopReply.grade]};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *uuid = jsonObject[KEY_UUID];
+        if ([NSString isNull:uuid]) {
+            saveShopReplyBlock(false);
+        }else{
+            shopReply.uuid = uuid;
+            shopReply.replyTime = jsonObject[KEY_REPLY_TIME];
+            shopReply.status = jsonObject[KEY_STATUS];
+            
+            [[[ZKHShareReplyData alloc] init] save:@[shopReply]];
+            
+            saveShopReplyBlock(true);
+        }
+    } errorHandler:^(NSError *error) {
+        errorBlock(error);
+    }];
+}
+
 @end

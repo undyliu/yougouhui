@@ -20,6 +20,7 @@
     FaceToolBar *faceToolBar;
     int currentProcessShareIndex;
     
+    UIAlertView *shopReplyAlertView;
     UITextField *gradeField;
     UITextField *replyContentField;
 }
@@ -32,5 +33,14 @@
 
 @property (strong, nonatomic) NSMutableArray *shares;
 - (IBAction)shareClick:(id)sender;
+
+@end
+
+typedef enum {
+    AlertViewButtonIndexDismiss = 0,
+    AlertViewButtonIndexSuccess = 10
+} AlertViewButtonIndex;
+
+@interface ZKHShopReplyAlertView : UIAlertView
 
 @end

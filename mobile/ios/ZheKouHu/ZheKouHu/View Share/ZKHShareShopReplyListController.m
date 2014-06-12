@@ -47,6 +47,12 @@ static NSString *CellIdentifier = @"ShareShopReplyCell";
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.pullTableView reloadData];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -83,12 +89,12 @@ static NSString *CellIdentifier = @"ShareShopReplyCell";
     }
     cell.userNameLabel.text = publisher.name;
     
-    ZKHShareReplyEntity *reply = share.shopReply;
+    ZKHShareShopReplyEntity *reply = share.shopReply;
     if (reply) {
         NSString *status = reply.status;
-        if ([@"1" isEqualToString:status]) {
+        if ([@"0" isEqualToString:status]) {
             cell.statusLabel.text = @"反馈未生效";
-        }else if ([@"2" isEqualToString:status]){
+        }else if ([@"1" isEqualToString:status]){
             cell.statusLabel.text = @"反馈已生效";
         }else{
             cell.statusLabel.text = @"尚未反馈";

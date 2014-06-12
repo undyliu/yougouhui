@@ -93,7 +93,7 @@ static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
 + (CGFloat) shopReplyHeight:(ZKHShareEntity *)share
 {
     CGFloat height = 0;
-    ZKHShareReplyEntity *reply = share.shopReply;
+    ZKHShareShopReplyEntity *reply = share.shopReply;
     if (reply) {
         return 40;
     }
@@ -289,7 +289,7 @@ static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
         [self addSubview:self.shopReplyLabel];
     }
     
-    ZKHShareReplyEntity *reply = share.shopReply;
+    ZKHShareShopReplyEntity *reply = share.shopReply;
     CGFloat width = [ZKHFriendShareListCell cellRightWidth];
     CGRect pFrame = self.publishDateLabel.frame;
     self.shopGradeLabel.frame = CGRectMake(pFrame.origin.x, pFrame.origin.y + [ZKHFriendShareListCell publishDateHeight], width, 20);

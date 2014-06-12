@@ -20,7 +20,7 @@
 - (void)save:(NSArray *)data
 {
     if ([data count] > 0) {
-        for (ZKHShareReplyEntity *reply in data) {
+        for (ZKHShareShopReplyEntity *reply in data) {
             NSNumber *grade = [NSNumber numberWithInt:reply.grade];
             [self executeUpdate:SHARE_REPLY_UPDATE_SQL params:@[reply.uuid, reply.shareId, reply.shopId, reply.content, reply.status, reply.replier, grade, reply.replyTime]];
         }
@@ -30,7 +30,7 @@
 
 - (id)processRow:(sqlite3_stmt *)stmt
 {
-    ZKHShareReplyEntity *reply = [[ZKHShareReplyEntity alloc] init];
+    ZKHShareShopReplyEntity *reply = [[ZKHShareShopReplyEntity alloc] init];
     
     int i = 0;
     
@@ -46,7 +46,7 @@
     return reply;
 }
 
-- (ZKHShareReplyEntity *)shopReplyForShare:(NSString *)shareId
+- (ZKHShareShopReplyEntity *)shopReplyForShare:(NSString *)shareId
 {
     NSString *sql = [NSString stringWithFormat:@"%@ where share_id = ?", SHARE_REPLY_BASE_QUERY_SQL];
     NSArray *params = @[shareId];

@@ -163,7 +163,7 @@
 @end
 
 //分享回复
-@interface ZKHShareReplyEntity : ZKHEntity
+@interface ZKHShareShopReplyEntity : ZKHEntity
 @property (strong, nonatomic) NSString *shareId;
 @property (strong, nonatomic) NSString *content;
 @property (strong, nonatomic) NSString *shopId;
@@ -185,7 +185,7 @@
 @property (strong, nonatomic) NSMutableArray *imageFiles;
 @property (strong, nonatomic) NSString *accessType;
 @property (strong, nonatomic) NSMutableArray *comments;
-@property (strong, nonatomic) ZKHShareReplyEntity *shopReply;
+@property (strong, nonatomic) ZKHShareShopReplyEntity *shopReply;
 @end
 
 @interface ZKHDateIndexedEntity : ZKHEntity

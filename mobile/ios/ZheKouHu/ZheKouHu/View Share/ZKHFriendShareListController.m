@@ -152,6 +152,10 @@ static NSString *CellIdentifier = @"FriendShareListCell";
 
 - (void)shopReplyClick:(ZKHShareEntity *)share
 {
+    if (share.shopReply) {
+        return;
+    }
+    
     NSString *message;
     UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (currentOrientation == UIInterfaceOrientationPortrait || currentOrientation == UIInterfaceOrientationPortraitUpsideDown){//竖屏
@@ -160,7 +164,12 @@ static NSString *CellIdentifier = @"FriendShareListCell";
         message = @" \n  \n ";
     }
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请输入" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    if (shopReplyAlertView) {
+        shopReplyAlertView.message = message;
+        gradeField.text = @"";
+        replyContentField.text = @"";
+    }else{
+    shopReplyAlertView = [[ZKHShopReplyAlertView alloc] initWithTitle:@"请输入" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     
     UILabel *gradeLabel = [[UILabel alloc] init];
     gradeLabel.text = @"赠送积分:";
@@ -171,7 +180,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     
     gradeLabel.frame = CGRectMake(12, 42, 70, 25);
     
-    [alert addSubview:gradeLabel];
+    [shopReplyAlertView addSubview:gradeLabel];
     
     gradeField = [[UITextField alloc]
                                 initWithFrame:CGRectMake(90, 42, 180, 25)];
@@ -181,7 +190,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     gradeField.font = [UIFont systemFontOfSize:14];
     gradeField.placeholder = @"0~20积分";
     
-    [alert addSubview:gradeField];
+    [shopReplyAlertView addSubview:gradeField];
     
     
     UILabel *contentLabel = [[UILabel alloc] init];
@@ -193,7 +202,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     
     contentLabel.frame = CGRectMake(12, 70, 70, 25);
     
-    [alert addSubview:contentLabel];
+    [shopReplyAlertView addSubview:contentLabel];
     
     replyContentField = [[UITextField alloc]
                                   initWithFrame:CGRectMake(90, 72, 180, 25)];
@@ -201,9 +210,9 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     [replyContentField setBorderStyle:UITextBorderStyleRoundedRect];
     replyContentField.font = [UIFont systemFontOfSize:14];
     
-    [alert addSubview:replyContentField];
-    
-    [alert show];
+    [shopReplyAlertView addSubview:replyContentField];
+    }
+    [shopReplyAlertView show];
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -227,6 +236,26 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     if ([NSString isNull:grade] || [NSString isNull:content]) {
         return;
     }
+    
+    [shopReplyAlertView dismissWithClickedButtonIndex:AlertViewButtonIndexSuccess animated:YES];
+    
+    ZKHShareEntity *share = self.shares[currentProcessShareIndex];
+    ZKHShareShopReplyEntity *shopReply = [[ZKHShareShopReplyEntity alloc] init];
+    shopReply.shopId = share.shop.uuid;
+    shopReply.shareId = share.uuid;
+    shopReply.content = content;
+    shopReply.grade = [grade intValue];
+    shopReply.replier = [ZKHContext getInstance].user.uuid;
+    
+    [ApplicationDelegate.zkhProcessor saveShareShopReply:shopReply completionHandler:^(Boolean result){
+        if (result) {
+            
+            share.shopReply = shopReply;
+            [self.pullTableView reloadData];
+        }
+    } errorHandler:^(NSError *error) {
+        
+    }];
     
 }
 
@@ -267,7 +296,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     
     if (self.showShopReplyInfo) {
         cell.replyStatusLabel.hidden = false;
-        ZKHShareReplyEntity *reply =  share.shopReply;
+        ZKHShareShopReplyEntity *reply =  share.shopReply;
         if (reply) {
             NSString *status = reply.status;
             if ([@"0" isEqualToString:status]) {
@@ -359,6 +388,26 @@ static NSString *CellIdentifier = @"FriendShareListCell";
 - (void)updateComments:(NSMutableArray *)comments
 {
     [self.pullTableView reloadData];
+}
+
+@end
+
+
+@implementation ZKHShopReplyAlertView
+
+- (void)dismissWithClickedButtonIndex:(NSInteger)buttonIndex animated:(BOOL)animated {
+    
+    switch (buttonIndex) {
+        case AlertViewButtonIndexSuccess:
+            [super dismissWithClickedButtonIndex:AlertViewButtonIndexDismiss animated:animated];
+            break;
+        case AlertViewButtonIndexDismiss:
+            [super dismissWithClickedButtonIndex:AlertViewButtonIndexDismiss animated:animated];
+            break;
+        default:
+            break;
+    }
+    
 }
 
 @end
