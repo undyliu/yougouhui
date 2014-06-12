@@ -391,6 +391,10 @@
         <activity android:name=".activity.message.MessageBoardActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity android:name=".activity.coupon.CouponMainAcitity" 
+            android:label="@string/title_discover_coupon"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

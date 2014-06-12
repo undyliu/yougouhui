@@ -18,7 +18,8 @@ public class ModuleConst implements DataConst {
 
 	public static final String CODE_FRIENDS = "friends";
 	public static final String CODE_RADAR = "radar";
-
+	public static final String CODE_COUPON = "coupon";
+	
 	public static final String CODE_SETTING = "settings";
 	public static final String CODE_MY_SHARE = "my_share";
 	public static final String CODE_MY_SHOP = "my_shop";
@@ -30,9 +31,9 @@ public class ModuleConst implements DataConst {
 	public static List<String> anonymousAccessModelList = new ArrayList<String>();
 
 	static {
-		anonymousAccessModelList.add(ModuleConst.CODE_FRIENDS);
+		//anonymousAccessModelList.add(ModuleConst.CODE_FRIENDS);
 		anonymousAccessModelList.add(ModuleConst.CODE_RADAR);
-		anonymousAccessModelList.add(ModuleConst.CODE_SETTING);
+		anonymousAccessModelList.add(ModuleConst.CODE_COUPON);
 		anonymousAccessModelList.add(ModuleConst.CODE_MY_SHOP);
 	}
 }
