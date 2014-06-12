@@ -55,6 +55,7 @@
                 module.code = [json valueForKey:KEY_CODE];
                 module.name = [json valueForKey:KEY_NAME];
                 module.icon = [json valueForKey:KEY_ICON];
+                module.url = [json valueForKey:KEY_URL];
                 module.type = type;
                 module.ordIndex =[json valueForKey:KEY_ORD_INDEX];
                 

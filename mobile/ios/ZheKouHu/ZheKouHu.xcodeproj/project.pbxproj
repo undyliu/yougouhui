@@ -43,6 +43,8 @@
 		1007038D19484FAD00F0BB14 /* coupon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1007038C19484FAD00F0BB14 /* coupon.png */; };
 		10070390194866C100F0BB14 /* ZKHShareShopReplyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1007038F194866C000F0BB14 /* ZKHShareShopReplyCell.m */; };
 		10070392194866D200F0BB14 /* ZKHShareShopReplyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10070391194866D200F0BB14 /* ZKHShareShopReplyCell.xib */; };
+		1008D0D91949A14000574CA1 /* ZKHWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1008D0D71949A14000574CA1 /* ZKHWebViewController.m */; };
+		1008D0DA1949A14000574CA1 /* ZKHWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1008D0D81949A14000574CA1 /* ZKHWebViewController.xib */; };
 		100B40321932CA7C00C51588 /* ZKHRequestSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 100B40311932CA7C00C51588 /* ZKHRequestSigner.m */; };
 		100B403D1932E8F100C51588 /* ZKHTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 100B403C1932E8F100C51588 /* ZKHTextField.m */; };
 		100B40421933051600C51588 /* ZKHChangePwdController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 100B40401933051600C51588 /* ZKHChangePwdController.xib */; };
@@ -333,6 +335,9 @@
 		1007038E194866C000F0BB14 /* ZKHShareShopReplyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHShareShopReplyCell.h; sourceTree = "<group>"; };
 		1007038F194866C000F0BB14 /* ZKHShareShopReplyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHShareShopReplyCell.m; sourceTree = "<group>"; };
 		10070391194866D200F0BB14 /* ZKHShareShopReplyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHShareShopReplyCell.xib; sourceTree = "<group>"; };
+		1008D0D61949A14000574CA1 /* ZKHWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHWebViewController.h; sourceTree = "<group>"; };
+		1008D0D71949A14000574CA1 /* ZKHWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHWebViewController.m; sourceTree = "<group>"; };
+		1008D0D81949A14000574CA1 /* ZKHWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZKHWebViewController.xib; sourceTree = "<group>"; };
 		100B40301932CA7C00C51588 /* ZKHRequestSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHRequestSigner.h; sourceTree = "<group>"; };
 		100B40311932CA7C00C51588 /* ZKHRequestSigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKHRequestSigner.m; sourceTree = "<group>"; };
 		100B403B1932E8F100C51588 /* ZKHTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKHTextField.h; sourceTree = "<group>"; };
@@ -1108,6 +1113,9 @@
 				10717BD21946EEF20036FB42 /* ZKHTouchView.h */,
 				10717BD31946EEF20036FB42 /* ZKHTouchView.m */,
 				10717BD51946F1C60036FB42 /* ZKHTouchesDelegate.h */,
+				1008D0D61949A14000574CA1 /* ZKHWebViewController.h */,
+				1008D0D71949A14000574CA1 /* ZKHWebViewController.m */,
+				1008D0D81949A14000574CA1 /* ZKHWebViewController.xib */,
 			);
 			path = "View Widgets";
 			sourceTree = "<group>";
@@ -1558,6 +1566,7 @@
 				100703821947E86900F0BB14 /* ZKHMyShareListCell.xib in Resources */,
 				1007038D19484FAD00F0BB14 /* coupon.png in Resources */,
 				10070392194866D200F0BB14 /* ZKHShareShopReplyCell.xib in Resources */,
+				1008D0DA1949A14000574CA1 /* ZKHWebViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1708,6 +1717,7 @@
 				10070385194800C600F0BB14 /* ZKHMyShareCell.m in Sources */,
 				10070390194866C100F0BB14 /* ZKHShareShopReplyCell.m in Sources */,
 				10FD03EE1948712F00153133 /* ZKHShopReplyData.m in Sources */,
+				1008D0D91949A14000574CA1 /* ZKHWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

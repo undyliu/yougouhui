@@ -26,7 +26,7 @@
 @property (strong, nonatomic) NSString *icon;
 @property (strong, nonatomic) NSString *type;
 @property (strong, nonatomic) NSString *ordIndex;
-
+@property (strong, nonatomic) NSString *url;
 @end
 
 //栏目

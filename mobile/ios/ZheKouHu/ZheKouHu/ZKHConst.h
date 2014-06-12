@@ -67,6 +67,7 @@
 #define KEY_GRADE @"grade"
 #define KEY_REPLIER @"replier"
 #define KEY_REPLY_TIME @"reply_time"
+#define KEY_URL @"url"
 
 #define KEY_USER_NAME @"user_name"
 #define KEY_USER @"user"

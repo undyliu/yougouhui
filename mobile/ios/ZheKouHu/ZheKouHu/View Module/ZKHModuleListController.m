@@ -20,6 +20,8 @@
 #import "ZKHViewUtils.h"
 #import "ZKHFriendShareListController.h"
 #import "ZKHMyShareListController.h"
+#import "ZKHWebViewController.h"
+#import "NSString+Utils.h"
 
 #define kModuleFriends @"friends"
 #define kModuleRadar @"radar"
@@ -163,10 +165,13 @@ static NSString *CellIdentifier = @"ModuleCellIdentifier";
         viewController = [[ZKHMyShareListController alloc] init];
     }else if ([code isEqualToString:kModuleMyShop]){
         viewController = [[ZKHShopLoginController alloc] init];
-    }else if ([code isEqualToString:kModuleMyGrade]){
+    //}else if ([code isEqualToString:kModuleMyGrade]){
         
     }else if ([code isEqualToString:kModuleMyMessage]){
         
+    }else if (![NSString isNull:module.url]){
+        viewController = [[ZKHWebViewController alloc] init];
+        ((ZKHWebViewController *) viewController).urlString = module.url;
     }
     
     if (viewController != nil) {
