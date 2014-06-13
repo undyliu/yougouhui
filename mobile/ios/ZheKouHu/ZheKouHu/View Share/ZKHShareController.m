@@ -17,6 +17,7 @@
 #import "NSDate+Utils.h"
 #import "ZKHConst.h"
 #import "ZKHChooseShopController.h"
+#import "NSString+Utils.h"
 
 #define STRING_SHARE_CONTENT_DEFAULT @"请分享下本次购物的体验吧"
 
@@ -54,6 +55,8 @@ static NSString *CellIdentifier = @"DefaultPictureCell";
     
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveShare:)];
     self.navigationItem.rightBarButtonItem = saveButton;
+    
+    self.contentField.popMessageWhenEmptyText = @"分享内容不能为空.";
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -110,8 +113,14 @@ static NSString *CellIdentifier = @"DefaultPictureCell";
 
 - (void)saveShare:(id)sender
 {
+    NSString *content = self.contentField.text;
+    if ([NSString isNull:content]) {
+        [self.contentField showTipView];
+        return;
+    }
+    
     ZKHShareEntity *share = [[ZKHShareEntity alloc] init];
-    share.content = self.contentField.text;
+    share.content = content;
     share.publisher = [ZKHContext getInstance].user;
     share.shop = self.shop;
     share.imageFiles = [self getImageFiles];

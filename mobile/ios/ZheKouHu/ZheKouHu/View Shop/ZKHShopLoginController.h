@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZKHTextField.h"
 
 @interface ZKHShopLoginController : UIViewController
-@property (weak, nonatomic) IBOutlet UITextField *phoneField;
-@property (weak, nonatomic) IBOutlet UITextField *pwdField;
+
+@property (weak, nonatomic) IBOutlet ZKHTextField *phoneField;
+@property (weak, nonatomic) IBOutlet ZKHTextField *pwdField;
+
 - (IBAction)fieldDonEditing:(UITextField *)sender;
 - (IBAction)shopLogin:(UIButton *)sender;
 

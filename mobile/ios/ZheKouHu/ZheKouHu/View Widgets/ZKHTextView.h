@@ -7,15 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CMPopTipView.h"
 
 @interface ZKHTextView : UITextView
 {
     UILabel *placeHolderLabel;
+    CMPopTipView *popTipView;
 }
 
+@property (strong, nonatomic) NSString *popMessageWhenEmptyText;
 @property(nonatomic, retain) NSString *placeholder;
 @property(nonatomic, retain) UIColor *placeholderColor;
 
 -(void)textChanged:(NSNotification*)notification;
+
+- (void)setBorderColor:(UIColor *)color;
+- (void)showTipView;
+- (void)showTipView:(NSString *)message;
 
 @end

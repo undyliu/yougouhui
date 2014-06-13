@@ -40,10 +40,10 @@
 @property (weak, nonatomic) IBOutlet UIImageView *delBusiLicenseView;
 
 @property (weak, nonatomic) IBOutlet UIView *shopOwnerView;
-@property (weak, nonatomic) IBOutlet UITextField *ownerPhoneField;
-@property (weak, nonatomic) IBOutlet UITextField *owerNameField;
-@property (weak, nonatomic) IBOutlet UITextField *ownerPwdField;
-@property (weak, nonatomic) IBOutlet UITextField *ownerPwdConfField;
+@property (weak, nonatomic) IBOutlet ZKHTextField *ownerPhoneField;
+@property (weak, nonatomic) IBOutlet ZKHTextField *owerNameField;
+@property (weak, nonatomic) IBOutlet ZKHTextField *ownerPwdField;
+@property (weak, nonatomic) IBOutlet ZKHTextField *ownerPwdConfField;
 
 
 @property (strong, nonatomic) CLLocationManager *locationManager;

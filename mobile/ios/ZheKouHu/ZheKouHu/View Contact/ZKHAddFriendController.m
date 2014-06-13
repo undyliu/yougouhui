@@ -44,7 +44,8 @@ static NSString *CellIdentifier = @"AddFriendResultCell";
     resultController.navController = self.navigationController;
     self.resultTableVIew.delegate = resultController;
     self.resultTableVIew.dataSource = resultController;
-    
+ 
+    self.searchWordField.popMessageWhenEmptyText = @"请输入手机号或昵称.";
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -66,6 +67,7 @@ static NSString *CellIdentifier = @"AddFriendResultCell";
     [self backgroupTap:nil];
     NSString *searchWord = self.searchWordField.text;
     if ([searchWord length] == 0) {
+        [self.searchWordField showTipView];
         return;
     }
     

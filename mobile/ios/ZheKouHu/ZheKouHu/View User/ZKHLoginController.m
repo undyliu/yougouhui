@@ -15,9 +15,6 @@
 #import "ZKHContext.h"
 #import "NSString+Utils.h"
 
-#define kAuth_user_error @"user-error"
-#define kAuth_pass_error @"pass-error"
-
 @implementation ZKHLoginController
 
 - (id)init
@@ -124,8 +121,6 @@
         return;
     }
     
-    
-    
     [ApplicationDelegate.zkhProcessor login:phone pwd:pwd completionHandler:^(NSMutableDictionary *authObj) {
         NSString *authed = [authObj objectForKey:KEY_AUTHED];
         if ([authed isTrue]) {
@@ -147,7 +142,7 @@
         }else{
             NSString *error = [authObj objectForKey:KEY_ERROR_TYPE];
             if ([error isEqualToString:kAuth_user_error]) {
-                [self.phoneText showTipView:@"不存在此手机号的会员."];
+                [self.phoneText showTipView:@"此手机号还未注册会员."];
             }else if ([error isEqualToString:kAuth_pass_error]){
                 [self.pwdText showTipView:@"密码错误."];
             }

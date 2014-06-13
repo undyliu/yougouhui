@@ -1277,14 +1277,6 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">UICollectionViewLayout</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/UICollectionViewLayout.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">ZKHSalePublishController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
@@ -1323,10 +1315,10 @@
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="contentField">ZKHTextView</string>
-						<string key="endDateField">UITextField</string>
+						<string key="endDateField">ZKHTextField</string>
 						<string key="mainView">UIScrollView</string>
 						<string key="picViewContainer">UICollectionView</string>
-						<string key="startDateField">UITextField</string>
+						<string key="startDateField">ZKHTextField</string>
 						<string key="titleField">ZKHTextField</string>
 						<string key="tradesView">UIView</string>
 					</dictionary>
@@ -1337,7 +1329,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="endDateField">
 							<string key="name">endDateField</string>
-							<string key="candidateClassName">UITextField</string>
+							<string key="candidateClassName">ZKHTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="mainView">
 							<string key="name">mainView</string>
@@ -1349,7 +1341,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="startDateField">
 							<string key="name">startDateField</string>
-							<string key="candidateClassName">UITextField</string>
+							<string key="candidateClassName">ZKHTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="titleField">
 							<string key="name">titleField</string>

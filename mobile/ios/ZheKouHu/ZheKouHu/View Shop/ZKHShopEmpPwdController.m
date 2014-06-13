@@ -30,6 +30,9 @@
     
     self.nameLabel.text = self.emp.name;
     
+    self.pwdField.popMessageWhenEmptyText = @"密码不能为空.";
+    self.pwdConfField.popMessageWhenEmptyText = @"密码确认不能为空.";
+    
     [self.pwdField becomeFirstResponder];
     
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save:)];
@@ -49,13 +52,28 @@
     NSString *pwd = self.pwdField.text;
     NSString *pwdConf = self.pwdConfField.text;
     
-    if ([NSString isNull:pwd] || [NSString isNull:pwdConf]) {
-        return;
+    Boolean cancel = false;
+    if ([NSString isNull:pwd]) {
+        cancel = true;
+        [self.pwdField showTipView];
+    }else if ([pwd length] < 4){
+        cancel = true;
+        [self.pwdField showTipView:@"密码至少4位."];
     }
     
-    if (![pwd isEqualToString:pwdConf]) {
+    if ([NSString isNull:pwdConf]) {
+        cancel = true;
+        [self.pwdConfField showTipView];
+    }
+    else if (![pwd isEqualToString:pwdConf]) {
+        cancel = true;
+        [self.pwdConfField showTipView:@"两次密码不一致."];
+    }
+    
+    if (cancel) {
         return;
     }
+
     
     [ApplicationDelegate.zkhProcessor setShopEmpPwd:self.shop.uuid userId:self.emp.uuid pwd:pwd completionHandler:^(Boolean result) {
         if (result) {

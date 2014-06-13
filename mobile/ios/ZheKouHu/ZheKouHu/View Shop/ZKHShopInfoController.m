@@ -197,7 +197,7 @@ static NSString *CellIdentifier = @"ImageLabelCell";
             cell.valueLabel.hidden = true;
             cell.photoView.hidden = false;
             NSString *shopImg = self.shop.shopImg.aliasName;
-            if ([shopImg length] > 0) {
+            if (![NSString isNull:shopImg]) {
                 [ZKHImageLoader showImageForName:shopImg imageView:cell.photoView];
             }else{
                 cell.photoView.image = [UIImage imageNamed:@"default_pic.png"];
@@ -229,7 +229,7 @@ static NSString *CellIdentifier = @"ImageLabelCell";
             cell.valueLabel.hidden = true;
             cell.photoView.hidden = false;
             NSString *busiLicense = self.shop.busiLicense.aliasName;
-            if ([busiLicense length] > 0) {
+            if (![NSString isNull:busiLicense]) {
                 [ZKHImageLoader showImageForName:busiLicense imageView:cell.photoView];
             }else{
                 cell.photoView.image = [UIImage imageNamed:@"default_pic.png"];

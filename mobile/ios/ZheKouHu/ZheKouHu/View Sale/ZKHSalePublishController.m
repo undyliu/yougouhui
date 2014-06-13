@@ -17,6 +17,7 @@
 #import "ZKHContext.h"
 #import "ZKHImageLoader.h"
 #import "NSDate+Utils.h"
+#import "ZKHViewUtils.h"
 
 static NSString *CellIdentifier = @"DefaultPictureCell";
 
@@ -61,6 +62,9 @@ static NSString *CellIdentifier = @"DefaultPictureCell";
 
 - (void) initializeViews
 {
+    self.titleField.popMessageWhenEmptyText = @"活动标题不能为空.";
+    self.contentField.popMessageWhenEmptyText = @"活动内容不能为空.";
+    
     [self initializeTradesView];
     [self initializeDatePicker];
     
@@ -130,21 +134,44 @@ static NSString *CellIdentifier = @"DefaultPictureCell";
 
 - (void)publish:(id)sender
 {
+    [self backgroupTap:nil];
+    
     NSString *title = self.titleField.text;
     NSString *content = self.contentField.text;
     NSString *startDate = self.startDateField.text;
     NSString *endDate = self.endDateField.text;
     
-    //TODO进行检查
-    if ([NSString isNull:title] || [NSString isNull:content]
-        || [NSString isNull:startDate] || [NSString isNull:endDate]) {
-        return;
+    Boolean cancel = false;
+    if ([NSString isNull:title]) {
+        [self.titleField showTipView];
+        cancel = true;
+    }else if ([title length] > 30){
+        [self.titleField showTipView:@"活动标题最多20个字符."];
+        cancel = true;
+    }
+    
+    if ([NSString isNull:content]) {
+        [self.contentField showTipView];
+        cancel = true;
+    }else if ([content length] > 70){
+        [self.contentField showTipView:@"活动内容最多70个字符."];
+        cancel = true;
+    }
+    
+    if ([NSString isNull:startDate] || [NSString isNull:endDate]) {
+        cancel = true;//TODO:应该支持为空的情况
     }
     
     if (selectedShopTrade == nil) {
-        return;
+        [ZKHViewUtils showTipView:self.tradesView inView:self.view message:@"请至少选择一个主营业务." dismissTapAnywhere:YES autoDismissInvertal:-1];
+        cancel = true;
     }
+    
     if ([selectedImages count] == 0) {
+        [ZKHViewUtils showTipView:self.picViewContainer inView:self.view message:@"请至少选择一张活动图片." dismissTapAnywhere:YES autoDismissInvertal:-1];
+        cancel = true;
+    }
+    if (cancel) {
         return;
     }
     

@@ -31,6 +31,9 @@
 
 - (void)viewDidLoad
 {
+    self.phoneField.popMessageWhenEmptyText = @"手机号不能为空.";
+    self.pwdField.popMessageWhenEmptyText = @"密码不能为空.";
+    
     [super viewDidLoad];
     self.title = @"登录店铺";
     
@@ -61,13 +64,24 @@
     NSString *phone = self.phoneField.text;
     NSString *pwd = self.pwdField.text;
     
+    Boolean cancel = false;
     if ([phone length] == 0) {
-        [self.phoneField becomeFirstResponder];
-        return;
+        [self.phoneField showTipView];
+        cancel = true;
+    }else if ([phone length] != 11) {
+        [self.phoneField showTipView:@"请输入11位手机号."];
+        cancel = true;
     }
     
     if ([pwd length] == 0) {
-        [self.pwdField becomeFirstResponder];
+        [self.pwdField showTipView];
+        cancel = true;
+    }else if([pwd length] < 4){
+        [self.pwdField showTipView:@"密码至少4位."];
+        cancel = true;
+    }
+    
+    if (cancel) {
         return;
     }
     
@@ -78,6 +92,13 @@
             controller.shopUser = [authObj valueForKey:KEY_USER];
             controller.shops = [authObj valueForKey:KEY_SHOP_LIST];
             [self.navigationController pushViewController:controller animated:YES];
+        }else{
+            NSString *error = [authObj objectForKey:KEY_ERROR_TYPE];
+            if ([error isEqualToString:kAuth_user_error]) {
+                [self.phoneField showTipView:@"此手机号还未注册店铺."];
+            }else if ([error isEqualToString:kAuth_pass_error]){
+                [self.pwdField showTipView:@"密码错误."];
+            }
         }
     } errorHandler:^(ZKHErrorEntity *error) {
         

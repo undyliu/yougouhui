@@ -113,4 +113,7 @@
 
 #define DEFAULT_PAGE_SIZE 10
 
+#define kAuth_user_error @"user-error"
+#define kAuth_pass_error @"pass-error"
+
 #endif

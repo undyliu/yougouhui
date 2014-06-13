@@ -135,7 +135,7 @@
     }
     
     if (![pwd isEqualToString:pwdConf]) {
-        [self.pwdConfField showTipView:@"密码不一致."];
+        [self.pwdConfField showTipView:@"两次密码不一致."];
         cancel = true;
     }
     

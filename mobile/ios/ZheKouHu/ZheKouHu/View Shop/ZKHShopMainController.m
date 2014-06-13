@@ -183,7 +183,9 @@ static NSString *CellIdentifier = @"ShopModuleCell";
             
             frame.size.height=1;
             [_tb setFrame:frame];
-            self.modulesView.hidden = false;
+            
+            _tb.alpha = 0;
+            self.modulesView.alpha = 1;
         } completion:^(BOOL finished){
             
             isOpened=NO;
@@ -196,7 +198,9 @@ static NSString *CellIdentifier = @"ShopModuleCell";
             CGRect frame=_tb.frame;
             frame.size.height = 35 * [self.shops count];
             [_tb setFrame:frame];
-            self.modulesView.hidden = true;
+            
+            _tb.alpha = 1;
+            self.modulesView.alpha = 0;
         } completion:^(BOOL finished){
             
             isOpened=YES;

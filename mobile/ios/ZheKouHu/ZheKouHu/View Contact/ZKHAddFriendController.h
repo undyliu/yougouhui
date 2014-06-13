@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZKHTextField.h"
 
 @class ZKHAddFriendResultController;
 @interface ZKHAddFriendController : UIViewController
@@ -14,7 +15,7 @@
     ZKHAddFriendResultController * resultController;
 }
 
-@property (weak, nonatomic) IBOutlet UITextField *searchWordField;
+@property (weak, nonatomic) IBOutlet ZKHTextField *searchWordField;
 @property (weak, nonatomic) IBOutlet UITableView *resultTableVIew;
 
 - (IBAction)doSearch:(id *)sender;

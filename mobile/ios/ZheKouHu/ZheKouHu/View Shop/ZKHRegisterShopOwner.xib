@@ -99,6 +99,7 @@
 							<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
 							<float key="IBUIMinimumFontSize">17</float>
 							<object class="IBUITextInputTraits" key="IBUITextInputTraits">
+								<int key="IBUIKeyboardType">6</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
 							<reference key="IBUIFontDescription" ref="197916492"/>
@@ -127,6 +128,7 @@
 							<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
 							<float key="IBUIMinimumFontSize">17</float>
 							<object class="IBUITextInputTraits" key="IBUITextInputTraits">
+								<int key="IBUIKeyboardType">6</int>
 								<bool key="IBUISecureTextEntry">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
@@ -139,7 +141,6 @@
 							<string key="NSFrame">{{84, 134}, {216, 30}}</string>
 							<reference key="NSSuperview" ref="767017895"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
@@ -156,6 +157,7 @@
 							<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
 							<float key="IBUIMinimumFontSize">17</float>
 							<object class="IBUITextInputTraits" key="IBUITextInputTraits">
+								<int key="IBUIKeyboardType">6</int>
 								<bool key="IBUISecureTextEntry">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
@@ -554,6 +556,38 @@
 								<float key="scoringTypeFloat">29</float>
 								<int key="contentType">3</int>
 							</object>
+							<object class="IBNSLayoutConstraint" id="280144799">
+								<reference key="firstItem" ref="828453266"/>
+								<int key="firstAttribute">5</int>
+								<int key="relation">0</int>
+								<reference key="secondItem" ref="767017895"/>
+								<int key="secondAttribute">5</int>
+								<float key="multiplier">1</float>
+								<object class="IBNSLayoutSymbolicConstant" key="constant">
+									<double key="value">20</double>
+								</object>
+								<float key="priority">1000</float>
+								<reference key="containingView" ref="767017895"/>
+								<int key="scoringType">8</int>
+								<float key="scoringTypeFloat">29</float>
+								<int key="contentType">3</int>
+							</object>
+							<object class="IBNSLayoutConstraint" id="559213212">
+								<reference key="firstItem" ref="828453266"/>
+								<int key="firstAttribute">11</int>
+								<int key="relation">0</int>
+								<reference key="secondItem" ref="808379207"/>
+								<int key="secondAttribute">11</int>
+								<float key="multiplier">1</float>
+								<object class="IBLayoutConstant" key="constant">
+									<double key="value">0.0</double>
+								</object>
+								<float key="priority">1000</float>
+								<reference key="containingView" ref="767017895"/>
+								<int key="scoringType">6</int>
+								<float key="scoringTypeFloat">24</float>
+								<int key="contentType">2</int>
+							</object>
 							<object class="IBNSLayoutConstraint" id="407473243">
 								<reference key="firstItem" ref="723593252"/>
 								<int key="firstAttribute">5</int>
@@ -601,38 +635,6 @@
 								<int key="scoringType">8</int>
 								<float key="scoringTypeFloat">29</float>
 								<int key="contentType">3</int>
-							</object>
-							<object class="IBNSLayoutConstraint" id="280144799">
-								<reference key="firstItem" ref="828453266"/>
-								<int key="firstAttribute">5</int>
-								<int key="relation">0</int>
-								<reference key="secondItem" ref="767017895"/>
-								<int key="secondAttribute">5</int>
-								<float key="multiplier">1</float>
-								<object class="IBNSLayoutSymbolicConstant" key="constant">
-									<double key="value">20</double>
-								</object>
-								<float key="priority">1000</float>
-								<reference key="containingView" ref="767017895"/>
-								<int key="scoringType">8</int>
-								<float key="scoringTypeFloat">29</float>
-								<int key="contentType">3</int>
-							</object>
-							<object class="IBNSLayoutConstraint" id="559213212">
-								<reference key="firstItem" ref="828453266"/>
-								<int key="firstAttribute">11</int>
-								<int key="relation">0</int>
-								<reference key="secondItem" ref="808379207"/>
-								<int key="secondAttribute">11</int>
-								<float key="multiplier">1</float>
-								<object class="IBLayoutConstant" key="constant">
-									<double key="value">0.0</double>
-								</object>
-								<float key="priority">1000</float>
-								<reference key="containingView" ref="767017895"/>
-								<int key="scoringType">6</int>
-								<float key="scoringTypeFloat">24</float>
-								<int key="contentType">2</int>
 							</object>
 							<object class="IBNSLayoutConstraint" id="683280062">
 								<reference key="firstItem" ref="794675410"/>
@@ -1093,7 +1095,7 @@
 				</array>
 				<boolean value="NO" key="29.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<array class="NSMutableArray" key="4.IBViewMetadataConstraints">
+				<array key="4.IBViewMetadataConstraints">
 					<reference ref="179852602"/>
 					<reference ref="828977707"/>
 					<reference ref="899503562"/>
@@ -1102,11 +1104,11 @@
 					<reference ref="446879382"/>
 					<reference ref="928570619"/>
 					<reference ref="683280062"/>
-					<reference ref="559213212"/>
-					<reference ref="280144799"/>
 					<reference ref="88394304"/>
 					<reference ref="319166177"/>
 					<reference ref="407473243"/>
+					<reference ref="559213212"/>
+					<reference ref="280144799"/>
 					<reference ref="280235261"/>
 					<reference ref="950608214"/>
 					<reference ref="56461016"/>
@@ -1197,11 +1199,11 @@
 						<string key="delShopImageView">UIImageView</string>
 						<string key="descField">ZKHTextView</string>
 						<string key="licenseController">UIViewController</string>
-						<string key="owerNameField">UITextField</string>
+						<string key="owerNameField">ZKHTextField</string>
 						<string key="ownerController">UIViewController</string>
-						<string key="ownerPhoneField">UITextField</string>
-						<string key="ownerPwdConfField">UITextField</string>
-						<string key="ownerPwdField">UITextField</string>
+						<string key="ownerPhoneField">ZKHTextField</string>
+						<string key="ownerPwdConfField">ZKHTextField</string>
+						<string key="ownerPwdField">ZKHTextField</string>
 						<string key="shopImageView">UIImageView</string>
 						<string key="shopInfoView">UIScrollView</string>
 						<string key="shopNameField">ZKHTextField</string>
@@ -1239,7 +1241,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="owerNameField">
 							<string key="name">owerNameField</string>
-							<string key="candidateClassName">UITextField</string>
+							<string key="candidateClassName">ZKHTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="ownerController">
 							<string key="name">ownerController</string>
@@ -1247,15 +1249,15 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="ownerPhoneField">
 							<string key="name">ownerPhoneField</string>
-							<string key="candidateClassName">UITextField</string>
+							<string key="candidateClassName">ZKHTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="ownerPwdConfField">
 							<string key="name">ownerPwdConfField</string>
-							<string key="candidateClassName">UITextField</string>
+							<string key="candidateClassName">ZKHTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="ownerPwdField">
 							<string key="name">ownerPwdField</string>
-							<string key="candidateClassName">UITextField</string>
+							<string key="candidateClassName">ZKHTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="shopImageView">
 							<string key="name">shopImageView</string>

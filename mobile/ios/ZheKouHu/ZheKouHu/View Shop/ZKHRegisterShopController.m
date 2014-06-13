@@ -17,7 +17,8 @@
 #import "ZKHProcessor+Shop.h"
 #import "ZKHProcessor+Trade.h"
 #import "ZKHAppDelegate.h"
-
+#import "NSString+Utils.h"
+#import "TSMessage.h"
 
 #define  kTagShopImage 1
 #define  kTagBusiLicense 2
@@ -168,6 +169,8 @@ static NSString *switchCellIdentifier = @"SwitchCell";
 
 - (void)registerShop:(id)sender
 {
+    [self backgroupTap:nil];
+    
     NSString *name = self.shopNameField.text;
     NSString *addr = self.addrField.text;
     NSString *desc = self.descField.text;
@@ -177,13 +180,72 @@ static NSString *switchCellIdentifier = @"SwitchCell";
     NSString *pwd = self.ownerPwdField.text;
     NSString *pwdConf = self.ownerPwdConfField.text;
     
-    //TODO:进行检查
+    Boolean cancel = false;
+    if ([NSString isNull:name]) {
+        cancel = true;
+    }
+    
+    if ([NSString isNull:phone]) {
+        cancel = true;
+    }
+    if ([NSString isNull:ownerName]) {
+        cancel = true;
+    }
+    
+    if ([NSString isNull:pwd]) {
+        cancel = true;
+    }
+    
+    //先对必录项进行检查
+    if (cancel) {
+        [TSMessage showNotificationWithTitle:@"提示" subtitle:@"信息录入不完整，请补充." type:TSMessageNotificationTypeWarning];
+        return;
+    }
+    
+    if ([phone length] != 11) {
+        [self.ownerPhoneField showTipView:@"请输入11位手机号."];
+        cancel = true;
+    }
+    
+    if ([ownerName length] > 30){
+        [self.owerNameField showTipView:@"昵称字数太多啦."];
+        cancel = true;
+    }
+    
+    if ([pwd length] < 4){
+        cancel = true;
+        [self.ownerPwdField showTipView:@"密码至少4位."];
+    }
+    if ([pwdConf length] < 4) {
+        cancel = true;
+        [self.ownerPwdConfField showTipView:@"密码至少4位."];
+    }
+    
     if (![pwd isEqualToString:pwdConf]) {
+        cancel = true;
+        [self.ownerPwdConfField showTipView:@"两次密码不一致."];
+    }
+    
+    if (cancel) {
+        return;
+    }
+
+    NSMutableArray *shopTrades = [[NSMutableArray alloc] init];
+    for (NSNumber *index in selectedTradeIds) {
+        ZKHShopTradeEntity *shopTrade = [[ZKHShopTradeEntity alloc] init];
+        shopTrade.trade = _trades[[index intValue]];
+        [shopTrades addObject:shopTrade];
+    }
+    if ([shopTrades count] == 0) {
+        [TSMessage showNotificationWithTitle:@"提示" subtitle:@"至少选择一项主营业务." type:TSMessageNotificationTypeWarning];
         return;
     }
     
     ZKHShopEntity *shop = [[ZKHShopEntity alloc] init];
-           
+    
+    //设置主营业务
+    shop.trades = shopTrades;
+    
     shop.shopImg = [[ZKHFileEntity alloc] init];
     shop.shopImg.aliasName = [NSString stringWithFormat:@"%@_shop_img_%@.png", phone, [NSDate currentTimeString]];
     shop.shopImg.fileUrl = [ZKHImageLoader saveImage:self.shopImageView.image fileName:shop.shopImg.aliasName];
@@ -216,15 +278,6 @@ static NSString *switchCellIdentifier = @"SwitchCell";
     location.radius = [NSString stringWithFormat:@"%d", 0];
     location.addr = @"";////shop.addr;//需处理中文问题
     shop.location = location;
-    
-    //设置主营业务
-    NSMutableArray *shopTrades = [[NSMutableArray alloc] init];
-    for (NSNumber *index in selectedTradeIds) {
-        ZKHShopTradeEntity *shopTrade = [[ZKHShopTradeEntity alloc] init];
-        shopTrade.trade = _trades[[index intValue]];
-        [shopTrades addObject:shopTrade];
-    }
-    shop.trades = shopTrades;
     
     [ApplicationDelegate.zkhProcessor registerShop:shop completionHandler:^(Boolean result) {
         if (result) {

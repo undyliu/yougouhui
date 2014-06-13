@@ -7,13 +7,13 @@
 //
 #import <QuartzCore/QuartzCore.h>
 #import "ZKHTextView.h"
+#import "NSString+Utils.h"
 
 @implementation ZKHTextView
 
 - (void)awakeFromNib
 
 {
-    
     [super awakeFromNib];
     
     [self setPlaceholder:@""];
@@ -21,7 +21,6 @@
     [self setPlaceholderColor:[UIColor lightGrayColor]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextViewTextDidChangeNotification object:nil];
-    
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -47,9 +46,12 @@
     if([[self text] length] == 0)
     {
         [[self viewWithTag:999] setAlpha:1];
+        [self showTipView];
     }else
     {
         [[self viewWithTag:999] setAlpha:0];
+        
+        [self hideTipView];
     }
 }
 
@@ -61,11 +63,7 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    self.layer.borderColor = [UIColor grayColor].CGColor;
-    
-    self.layer.borderWidth =1.0;
-    
-    self.layer.cornerRadius =5.0;
+    [self setBorderColor:[UIColor grayColor]];
     
     if( [[self placeholder] length] > 0 )
     {
@@ -100,4 +98,57 @@
     [super drawRect:rect];
     
 }
+
+- (void)setBorderColor:(UIColor *)color
+{
+    self.layer.borderColor = color.CGColor;
+    
+    self.layer.borderWidth =1.0;
+    
+    self.layer.cornerRadius =5.0;
+}
+
+- (BOOL)becomeFirstResponder
+{
+    [self hideTipView];
+    return [super becomeFirstResponder];
+}
+
+- (void)hideTipView
+{
+    if (popTipView) {
+        [popTipView dismissAnimated:YES];
+        [self setBorderColor:[UIColor grayColor]];
+    }
+}
+
+- (void)showTipView
+{
+    [self showTipView:self.popMessageWhenEmptyText];
+}
+
+- (void)showTipView:message
+{
+    if (popTipView.targetObject) {
+        return;
+    }
+    if (!popTipView) {
+        popTipView = [[CMPopTipView alloc] initWithMessage:message];
+        popTipView.animation = arc4random() % 2;
+        popTipView.has3DStyle = (BOOL)(arc4random() % 2);
+        //popTipView.dismissTapAnywhere = YES;
+    }else{
+        popTipView.message = message;
+    }
+    
+    [popTipView presentPointingAtView:self inView:self.superview animated:YES];
+    
+    NSString *value = self.text;
+    if ([NSString isNull:value]) {
+        [self setBorderColor:[UIColor redColor]];
+    }else{
+        [self setBorderColor:[UIColor orangeColor]];
+    }
+}
+
 @end

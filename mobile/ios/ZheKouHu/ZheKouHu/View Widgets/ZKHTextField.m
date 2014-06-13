@@ -20,6 +20,8 @@
         [self addTarget:self action:@selector(fieldEditingDidDone:) forControlEvents:UIControlEventEditingDidEnd];
         [self addTarget:self action:@selector(fieldEditingDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
         [self addTarget:self action:@selector(fieldDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
+        
+        self.popMessageWhenEmptyText = @"不能为空";
     }
     return self;
 }
