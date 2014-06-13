@@ -293,11 +293,11 @@ static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
     CGFloat width = [ZKHFriendShareListCell cellRightWidth];
     CGRect pFrame = self.publishDateLabel.frame;
     self.shopGradeLabel.frame = CGRectMake(pFrame.origin.x, pFrame.origin.y + [ZKHFriendShareListCell publishDateHeight], width, 20);
-    self.shopGradeLabel.text = [NSString stringWithFormat:@"商户: 奖励 %d 积分", reply.grade];
+    self.shopGradeLabel.text = [NSString stringWithFormat:@"商户： 奖励 %d 积分", reply.grade];
     
     CGRect gFrame = self.shopGradeLabel.frame;
-    self.shopReplyLabel.frame = CGRectMake(gFrame.origin.x, gFrame.origin.y + gFrame.size.height, width, 20);
-    self.shopReplyLabel.text = [NSString stringWithFormat:@"         回复:%@", reply.content];
+    self.shopReplyLabel.frame = CGRectMake(gFrame.origin.x, gFrame.origin.y + gFrame.size.height, width, 20);  
+    self.shopReplyLabel.text = [NSString stringWithFormat:@"            回复：%@", reply.content];
 }
 @end
 

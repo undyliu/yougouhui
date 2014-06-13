@@ -40,6 +40,7 @@
 - (IBAction)addPicViewClick:(id)sender;
 - (IBAction)previewPic:(id)sender;
 
+- (IBAction)OnDatePickerCancel:(id)sender;
 - (IBAction)OnDatePickerDone:(id)sender;
 - (IBAction)dateChanged:(id)sender;
 

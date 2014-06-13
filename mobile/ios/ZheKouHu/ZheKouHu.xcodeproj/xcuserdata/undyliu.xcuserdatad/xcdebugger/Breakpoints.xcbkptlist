@@ -2970,11 +2970,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Shop/ZKHChooseShopController.m"
-         timestampString = "423493047.290612"
+         timestampString = "424343661.711355"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "49"
-         endingLineNumber = "49"
+         startingLineNumber = "51"
+         endingLineNumber = "51"
          landmarkName = "-confButtonClick:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3022,11 +3022,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Sale/ZKHSalePublishController.m"
-         timestampString = "424339812.895873"
+         timestampString = "424343344.399608"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "129"
-         endingLineNumber = "129"
+         startingLineNumber = "133"
+         endingLineNumber = "133"
          landmarkName = "-backgroupTap:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3035,11 +3035,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Sale/ZKHSalePublishController.m"
-         timestampString = "424339812.895873"
+         timestampString = "424343344.399608"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "291"
-         endingLineNumber = "291"
+         startingLineNumber = "305"
+         endingLineNumber = "305"
          landmarkName = "@implementation ZKHSalePublishController"
          landmarkType = "3">
       </FileBreakpoint>
@@ -3087,11 +3087,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Sale/ZKHSalePublishController.m"
-         timestampString = "424339812.895873"
+         timestampString = "424343344.399608"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "184"
-         endingLineNumber = "184"
+         startingLineNumber = "188"
+         endingLineNumber = "188"
          landmarkName = "-publish:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3542,11 +3542,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Shop/ZKHChooseShopController.m"
-         timestampString = "423737682.22278"
+         timestampString = "424343661.711355"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "80"
-         endingLineNumber = "80"
+         startingLineNumber = "82"
+         endingLineNumber = "82"
          landmarkName = "-search:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -4088,11 +4088,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Share/ZKHFriendShareListController.m"
-         timestampString = "424323927.904027"
+         timestampString = "424343344.399608"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "352"
-         endingLineNumber = "352"
+         startingLineNumber = "354"
+         endingLineNumber = "354"
          landmarkName = "-tableView:heightForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -4270,11 +4270,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Share/ZKHFriendShareListController.m"
-         timestampString = "424323927.904027"
+         timestampString = "424343344.399608"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "331"
-         endingLineNumber = "331"
+         startingLineNumber = "333"
+         endingLineNumber = "333"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -4452,11 +4452,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Share/ZKHFriendShareListController.m"
-         timestampString = "424323927.904027"
+         timestampString = "424343344.399608"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "115"
-         endingLineNumber = "115"
+         startingLineNumber = "116"
+         endingLineNumber = "116"
          landmarkName = "-commentImageClick:forEvent:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -4907,11 +4907,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Share/ZKHFriendShareListController.m"
-         timestampString = "424323927.904027"
+         timestampString = "424343344.399608"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "375"
-         endingLineNumber = "375"
+         startingLineNumber = "377"
+         endingLineNumber = "377"
          landmarkName = "-sendTextAction:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -4920,11 +4920,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Share/ZKHFriendShareListController.m"
-         timestampString = "424323927.904027"
+         timestampString = "424343344.399608"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "378"
-         endingLineNumber = "378"
+         startingLineNumber = "380"
+         endingLineNumber = "380"
          landmarkName = "-sendTextAction:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -5219,11 +5219,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Share/ZKHFriendShareListController.m"
-         timestampString = "424323927.904027"
+         timestampString = "424343344.399608"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "224"
-         endingLineNumber = "224"
+         startingLineNumber = "226"
+         endingLineNumber = "226"
          landmarkName = "-alertView:clickedButtonAtIndex:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -5232,11 +5232,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Share/ZKHFriendShareListController.m"
-         timestampString = "424323927.904027"
+         timestampString = "424343344.399608"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "227"
-         endingLineNumber = "227"
+         startingLineNumber = "229"
+         endingLineNumber = "229"
          landmarkName = "-alertView:clickedButtonAtIndex:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -5245,11 +5245,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Share/ZKHFriendShareListController.m"
-         timestampString = "424323927.904027"
+         timestampString = "424343344.399608"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "221"
-         endingLineNumber = "221"
+         startingLineNumber = "223"
+         endingLineNumber = "223"
          landmarkName = "-alertView:clickedButtonAtIndex:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -5258,11 +5258,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Share/ZKHFriendShareListController.m"
-         timestampString = "424323927.904027"
+         timestampString = "424343344.399608"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "233"
-         endingLineNumber = "233"
+         startingLineNumber = "235"
+         endingLineNumber = "235"
          landmarkName = "-shopReply"
          landmarkType = "5">
       </FileBreakpoint>
@@ -5271,11 +5271,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Share/ZKHFriendShareListController.m"
-         timestampString = "424323927.904027"
+         timestampString = "424343344.399608"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "234"
-         endingLineNumber = "234"
+         startingLineNumber = "236"
+         endingLineNumber = "236"
          landmarkName = "-shopReply"
          landmarkType = "5">
       </FileBreakpoint>
@@ -5284,11 +5284,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Share/ZKHFriendShareListController.m"
-         timestampString = "424323927.904027"
+         timestampString = "424343344.399608"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "159"
-         endingLineNumber = "159"
+         startingLineNumber = "161"
+         endingLineNumber = "161"
          landmarkName = "-shopReplyClick:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -5297,11 +5297,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "ZheKouHu/View Share/ZKHFriendShareListController.m"
-         timestampString = "424323927.904027"
+         timestampString = "424343344.399608"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "251"
-         endingLineNumber = "251"
+         startingLineNumber = "253"
+         endingLineNumber = "253"
          landmarkName = "-shopReply"
          landmarkType = "5">
       </FileBreakpoint>
@@ -5511,6 +5511,45 @@
          startingLineNumber = "167"
          endingLineNumber = "167"
          landmarkName = "-sendAction"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/View Sale/ZKHSalePublishController.m"
+         timestampString = "424343344.399608"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "291"
+         endingLineNumber = "291"
+         landmarkName = "-dateChanged:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/View Sale/ZKHSalePublishController.m"
+         timestampString = "424343344.399608"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "385"
+         endingLineNumber = "385"
+         landmarkName = "-willAnimateRotationToInterfaceOrientation:duration:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "ZheKouHu/View Sale/ZKHSalePublishController.m"
+         timestampString = "424343344.399608"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "110"
+         endingLineNumber = "110"
+         landmarkName = "-initializeDatePicker"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

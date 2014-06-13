@@ -32,6 +32,8 @@ static NSString *CellIdentifier = @"ContactListCell";
 {
     [super viewDidLoad];
     
+    self.searchWordField.popMessageWhenEmptyText = @"请输入商铺名称等关键字.";
+    
     self.resultView.delegate = self;
     self.resultView.dataSource = self;
     
@@ -79,6 +81,7 @@ static NSString *CellIdentifier = @"ContactListCell";
     
     NSString *searchWord = self.searchWordField.text;
     if ([NSString isNull:searchWord]) {
+        [self.searchWordField showTipView];
         return;
     }
     

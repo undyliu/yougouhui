@@ -102,20 +102,24 @@ static NSString *CellIdentifier = @"DefaultPictureCell";
     
     CGRect picViewFrame = self.picViewContainer.frame;
     self.picViewContainer.frame = CGRectMake(picViewFrame.origin.x, picViewFrame.origin.y + offsetY + 30, picViewFrame.size.width, picViewFrame.size.height);
-    //[self.mainView updateConstraints];
-    //[self.mainView addSubview:self.picViewContainer];
 }
 
 - (void)initializeDatePicker
 {
     self.accessoryView = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 36)];
-    UIButton* btnDone = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnDone.frame = CGRectMake(self.accessoryView.frame.size.width-70, 3, 60, 30);
-    [btnDone setBackgroundColor:[UIColor blueColor]];
-    [btnDone setTitle:@"完成" forState:UIControlStateNormal];
-    [btnDone.titleLabel setTextColor:[UIColor whiteColor]];
-    [self.accessoryView addSubview:btnDone];
+    UIButton* btnDone = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    btnDone.frame = CGRectMake(self.accessoryView.frame.size.width - 70, 3, 60, 30);
+    [btnDone setTitle:@"确定" forState:UIControlStateNormal];
+    //[btnDone.titleLabel setTextColor:[UIColor blueColor]];
     [btnDone addTarget:self action:@selector(OnDatePickerDone:) forControlEvents:UIControlEventTouchUpInside];
+    [self.accessoryView addSubview:btnDone];
+    
+    UIButton* btnCancel = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    btnCancel.frame = CGRectMake(10, 3, 60, 30);
+    [btnCancel setTitle:@"取消" forState:UIControlStateNormal];
+    //[btnCancel.titleLabel setTextColor:[UIColor blueColor]];
+    [btnCancel addTarget:self action:@selector(OnDatePickerCancel:) forControlEvents:UIControlEventTouchUpInside];
+    [self.accessoryView addSubview:btnCancel];
     
     UIDatePicker *datePicker = [[UIDatePicker alloc] init];
     [datePicker setDatePickerMode:UIDatePickerModeDate];
@@ -265,12 +269,22 @@ static NSString *CellIdentifier = @"DefaultPictureCell";
 
 #pragma mark datePicker
 -(void)OnDatePickerDone:(id) sender{
+    [self dateChanged:self.customInput];
     if ( [self.startDateField isFirstResponder] ) {
         [self.startDateField resignFirstResponder];
     } else if ( [self.endDateField isFirstResponder] ) {
         [self.endDateField resignFirstResponder];
     }
     
+}
+
+- (void)OnDatePickerCancel:(id)sender
+{
+    if ( [self.startDateField isFirstResponder] ) {
+        [self.startDateField resignFirstResponder];
+    } else if ( [self.endDateField isFirstResponder] ) {
+        [self.endDateField resignFirstResponder];
+    }
 }
 
 -(void)dateChanged:(id) sender{
@@ -365,4 +379,9 @@ static NSString *CellIdentifier = @"DefaultPictureCell";
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    //[self initializeDatePicker];
+}
 @end
