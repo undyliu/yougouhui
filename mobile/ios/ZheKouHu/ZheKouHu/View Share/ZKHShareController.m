@@ -123,7 +123,9 @@ static NSString *CellIdentifier = @"DefaultPictureCell";
         }else{
             [self deleteImageFiles:share.imageFiles];
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 
 - (NSMutableArray *) getImageFiles

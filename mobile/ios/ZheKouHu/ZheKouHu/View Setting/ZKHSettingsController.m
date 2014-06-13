@@ -32,7 +32,9 @@ static NSString *CellIdentifier = @"Cell";
     [ApplicationDelegate.zkhProcessor settings:^(NSMutableArray *settings) {
         settingItems = settings;
         [self.tableView reloadData];
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning

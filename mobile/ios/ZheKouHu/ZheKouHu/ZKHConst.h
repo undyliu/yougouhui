@@ -10,7 +10,7 @@
 #define ZheKouHu_ZKHConst_h
 
 //#define SERVER_BASE_URL  @"www.zhekouhu.com:7072/demo"
-#define SERVER_BASE_URL  @"192.168.253.2:3000"
+#define SERVER_BASE_URL  @"192.168.253.1:3000"
 #define KEY_CACHES @"Caches"
 
 #define METHOD_GET @"GET"
@@ -97,6 +97,10 @@
 
 #define VAL_SHARE_ACCESS_ALL @"1"
 #define VAL_SHARE_ACCESS_FRIENDS @"2"
+
+#define VAL_ERROR_TYPE_NETWORK @"error-network"
+#define VAL_ERROR_TYPE_BUSINESS @"error-business"
+#define VAL_ERROR_TYPE_RUNTIME @"error-runtime"
 
 #define SETTING_CODE_LOGIN @"login"
 #define SETTING_CODE_RADAR @"radar"

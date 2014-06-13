@@ -16,7 +16,7 @@
 
 @implementation ZKHRequestSigner
 
-- (void)authorize:(ZKHRestRequest *)request completionHandler:(authResponseBlock)authorizeBlock
+- (void)authorize:(ZKHRestRequest *)request completionHandler:(authResponseBlock)authorizeBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     NSString *method = request.method;
     NSString *urlString = request.urlString;
@@ -40,8 +40,13 @@
             if (sessionId != nil) {
                 [request addHeader:@"cookie" value:sessionId];
                 authorizeBlock(request);
+            }else{
+                //TODO:
+                errorBlock(nil);
             }
-        } ];
+        } errorHandler:^(ZKHErrorEntity *error) {
+            errorBlock(error);
+        }];
     }else{
         [request addHeader:@"cookie" value:sessionId];
         authorizeBlock(request);

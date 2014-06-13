@@ -85,7 +85,9 @@ static NSString *CellIdentifier = @"ContactListCell";
     [ApplicationDelegate.zkhProcessor searchShop:searchWord completionHandler:^(NSMutableArray *shops) {
         result = shops;
         [self.resultView reloadData];
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 
 #pragma mark - Table view data source
@@ -129,6 +131,8 @@ static NSString *CellIdentifier = @"ContactListCell";
             controller.shop = shop;
             [self.navigationController pushViewController:controller animated:YES];
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 @end

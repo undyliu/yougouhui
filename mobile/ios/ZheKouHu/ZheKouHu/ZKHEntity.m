@@ -20,6 +20,10 @@
 
 @end
 
+@implementation ZKHErrorEntity
+
+@end
+
 @implementation ZKHFileEntity
 
 - (NSString *) aliasName

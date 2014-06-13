@@ -35,7 +35,7 @@
 #define kModuleMyGrade @"my_grade"
 #define kModuleMyMessage @"my_message"
 
-#define anonymousAccessModules @[kModuleRadar, kModuleCoupon, kModuleMyShop]
+#define anonymousAccessModules @[kModuleRadar, kModuleRadar, kModuleMyShop]
 
 static NSString *CellIdentifier = @"ModuleCellIdentifier";
 
@@ -63,22 +63,16 @@ static NSString *CellIdentifier = @"ModuleCellIdentifier";
     
     [ZKHViewUtils setTableViewExtraCellLineHidden:self.tableView];
     
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [self.navigationController viewWillAppear:animated];
-    [self.tableView reloadData];
-    
     NSString *type = [self getModuleType];
     if(type != nil){
         [ApplicationDelegate.zkhProcessor modulesForType:type
-                                       completionHandler:^(NSMutableArray *modules) {
-                                           self.modules = modules;
-                                           [self.tableView reloadData];
-                                       }];
+                               completionHandler:^(NSMutableArray *modules) {
+                                   self.modules = modules;
+                                   [self.tableView reloadData];
+                               }
+                                    errorHandler:^(ZKHErrorEntity *error) {
+                                        
+                                    }];
     }
 }
 
@@ -87,9 +81,18 @@ static NSString *CellIdentifier = @"ModuleCellIdentifier";
     [super didReceiveMemoryWarning];
 }
 
+
+
 - (NSString *)getModuleType
 {
     return nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    NSLog(@"viewWillAppear:");
+    [self.navigationController viewWillAppear:animated];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source

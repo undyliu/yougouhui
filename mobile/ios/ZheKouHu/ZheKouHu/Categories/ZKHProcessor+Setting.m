@@ -16,7 +16,7 @@
 
 //获取设置条目
 #define GET_SETTINS_URL @"/getSettings"
-- (void)settings:(SettingsResponseBlock)settingsBlock 
+- (void)settings:(SettingsResponseBlock)settingsBlock errorHandler:(RestResponseErrorBlock) errorBlock
 {
     
     if (![[ZKHContext getInstance] isAnonymousUserLogined]) {
@@ -54,10 +54,12 @@
         [data save:settings];
         
         settingsBlock(settings);
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
-- (void)radarSetting:(NSString *)userId withDefaultValue:(Boolean)withDefaultValue completionHandler:(SettingResponseBlock)settingBlock 
+- (void)radarSetting:(NSString *)userId withDefaultValue:(Boolean)withDefaultValue completionHandler:(SettingResponseBlock)settingBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     if (!userId) {
         ZKHSettingEntity *setting = [[ZKHSettingEntity alloc] init];
@@ -82,10 +84,12 @@
             }
         }
         settingBlock(setting);
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
--(void)setting:(NSString *)code userId:(NSString *)userId completionHandler:(SettingResponseBlock)settingBlock 
+-(void)setting:(NSString *)code userId:(NSString *)userId completionHandler:(SettingResponseBlock)settingBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHSettingData *settingData = [[ZKHSettingData alloc] init];
     ZKHSettingEntity *setting = [settingData setting:code userId:userId];
@@ -102,10 +106,12 @@
             }
         }
      settingBlock(nil);//TODO:进行错误处理
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
-- (void)saveSetting:(ZKHSettingEntity *)setting completionHandler:(BooleanResultResponseBlock)settingBlock 
+- (void)saveSetting:(ZKHSettingEntity *)setting completionHandler:(BooleanResultResponseBlock)settingBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     @try {
         [[[ZKHSettingData alloc] init] save:@[setting]];

@@ -39,6 +39,8 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
         self.channels = channels;
         [self initializeToolbarItems];
         [self updateToolbarItems:0];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
     }];
 }
 
@@ -94,6 +96,8 @@ static NSString *CellIdentifier = @"ChannelSaleListCell";
         [ApplicationDelegate.zkhProcessor salesForChannel:channel.uuid updateTime:sync completionHandler:^(NSMutableArray *sales) {
             saleList = sales;
             [self.saleListView reloadData];
+            
+        } errorHandler:^(ZKHErrorEntity *error) {
             
         }];
         

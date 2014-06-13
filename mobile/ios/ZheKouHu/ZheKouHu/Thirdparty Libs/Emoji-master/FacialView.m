@@ -53,11 +53,11 @@
 {
     if (bt.tag==10000) {
         NSLog(@"点击删除");
-        [delegate selectedFacialView:@"删除"];
+        [_delegate selectedFacialView:@"删除"];
     }else{
         NSString *str=[faces objectAtIndex:bt.tag];
         NSLog(@"点击其他%@",str);
-        [delegate selectedFacialView:str];
+        [_delegate selectedFacialView:str];
     }	
 }
 /*

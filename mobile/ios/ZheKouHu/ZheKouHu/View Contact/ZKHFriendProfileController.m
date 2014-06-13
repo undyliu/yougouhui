@@ -65,7 +65,9 @@
         if (result) {
             self.navigationItem.rightBarButtonItem = delFriendButton;
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 
 - (void)delFriend:(id)sender
@@ -77,6 +79,8 @@
             self.navigationItem.rightBarButtonItem = addFriendButton;
             
         }
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
     }];
 }
 

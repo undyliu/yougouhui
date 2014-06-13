@@ -14,7 +14,7 @@
 @implementation ZKHProcessor (Favorit)
 
 #define  GET_SALE_FAVORITS_URL(__USER_ID__) [NSString stringWithFormat:@"/getSaleFavoritesByUser/%@", __USER_ID__]
-- (void)saleFavorits:(NSString *)userId completionHandler:(FavoritsResponseBlock)favoritsBlock 
+- (void)saleFavorits:(NSString *)userId completionHandler:(FavoritsResponseBlock)favoritsBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHSaleFavoritData *data = [[ZKHSaleFavoritData alloc] init];
     NSMutableArray *saleFavorits = [data saleFavorits:userId];
@@ -43,11 +43,13 @@
         
         [data save:saleFavorits];
         favoritsBlock(saleFavorits);
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 #define  GET_SHOP_FAVORITS_URL(__USER_ID__) [NSString stringWithFormat:@"/getShopFavoritesByUser/%@", __USER_ID__]
-- (void)shopFavorits:(NSString *)userId completionHandler:(FavoritsResponseBlock)favoritsBlock 
+- (void)shopFavorits:(NSString *)userId completionHandler:(FavoritsResponseBlock)favoritsBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHShopFavoritData *data = [[ZKHShopFavoritData alloc] init];
     NSMutableArray *shopFavorits = [data shopFavorits:userId];
@@ -76,11 +78,13 @@
         
         [data save:shopFavorits];
         favoritsBlock(shopFavorits);
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 
 }
 
-- (void)isShopFavorit:(NSString *)userId shopId:(NSString *)shopId completionHandler:(BooleanResultResponseBlock)favoritBlock 
+- (void)isShopFavorit:(NSString *)userId shopId:(NSString *)shopId completionHandler:(BooleanResultResponseBlock)favoritBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHShopFavoritData *favoritData = [[ZKHShopFavoritData alloc] init];
     Boolean result = [favoritData isUserFavorie:userId shopId:shopId];
@@ -95,10 +99,12 @@
         }else{
             favoritBlock(false);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
-- (void)isSaleFavorit:(NSString *)userId saleId:(NSString *)saleId completionHandler:(BooleanResultResponseBlock)favoritBlock 
+- (void)isSaleFavorit:(NSString *)userId saleId:(NSString *)saleId completionHandler:(BooleanResultResponseBlock)favoritBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHSaleFavoritData *favoritData = [[ZKHSaleFavoritData alloc] init];
     Boolean result = [favoritData isUserFavorie:userId saleId:saleId];
@@ -113,11 +119,13 @@
         }else{
             favoritBlock(false);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 #define ADD_SHOP_FAVORIT @"addShopFavorit"
-- (void)setShopFavorit:(NSString *)userId shop:(ZKHShopEntity *)shop completionHandler:(BooleanResultResponseBlock)favoritBlock 
+- (void)setShopFavorit:(NSString *)userId shop:(ZKHShopEntity *)shop completionHandler:(BooleanResultResponseBlock)favoritBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = ADD_SHOP_FAVORIT;
@@ -141,13 +149,15 @@
             
             favoritBlock(true);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 
 }
 
 //收藏
 #define ADD_SALE_FAVORIT @"addSaleFavorit"
-- (void)setSaleFavorit:(NSString *)userId sale:(ZKHSaleEntity *)sale completionHandler:(BooleanResultResponseBlock)favoritBlock 
+- (void)setSaleFavorit:(NSString *)userId sale:(ZKHSaleEntity *)sale completionHandler:(BooleanResultResponseBlock)favoritBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = ADD_SALE_FAVORIT;
@@ -171,11 +181,13 @@
             
             favoritBlock(true);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 #define  DEL_SHOP_FAVORIT_URL(__USER_ID__, __SHOP_ID__) [NSString stringWithFormat:@"/deleteShopFavorit/%@/%@", __USER_ID__, __SHOP_ID__]
-- (void)delShopFavorit:(NSString *)userId shopId:(NSString *)shopId completionHandler:(BooleanResultResponseBlock)favoritBlock 
+- (void)delShopFavorit:(NSString *)userId shopId:(NSString *)shopId completionHandler:(BooleanResultResponseBlock)favoritBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = DEL_SHOP_FAVORIT_URL(userId, shopId);
@@ -189,11 +201,13 @@
             [[[ZKHShopFavoritData alloc] init] deleteFavorit:userId shopId:shopId];
             favoritBlock(true);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 #define  DEL_SALE_FAVORIT_URL(__USER_ID__, __SALE_ID__) [NSString stringWithFormat:@"/deleteSaleFavorit/%@/%@", __USER_ID__, __SALE_ID__]
-- (void)delSaleFavorit:(NSString *)userId saleId:(NSString *)saleId completionHandler:(BooleanResultResponseBlock)favoritBlock 
+- (void)delSaleFavorit:(NSString *)userId saleId:(NSString *)saleId completionHandler:(BooleanResultResponseBlock)favoritBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = DEL_SALE_FAVORIT_URL(userId, saleId);
@@ -207,7 +221,9 @@
             [[[ZKHSaleFavoritData alloc] init] deleteFavorit:userId saleId:saleId];
             favoritBlock(true);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 @end

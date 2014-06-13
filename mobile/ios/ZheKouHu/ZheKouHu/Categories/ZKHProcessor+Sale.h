@@ -12,24 +12,24 @@
 @interface ZKHProcessor (Sale)
 
 typedef void (^SalesResponseBlock)(NSMutableArray* sales);
-- (void) salesForChannel: (NSString *) channelId updateTime:(ZKHSyncEntity *) syncEntity completionHandler:(SalesResponseBlock) salesBlock ;
+- (void) salesForChannel: (NSString *) channelId updateTime:(ZKHSyncEntity *) syncEntity completionHandler:(SalesResponseBlock) salesBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
-- (void) discussesForSale: (ZKHSaleEntity *) sale updateTime:(ZKHSyncEntity *) syncEntity completionHandler:(SalesResponseBlock) saleDiscussesBlock ;
+- (void) discussesForSale: (ZKHSaleEntity *) sale updateTime:(ZKHSyncEntity *) syncEntity completionHandler:(SalesResponseBlock) saleDiscussesBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 typedef void (^SaleResponseBlock)(ZKHSaleEntity* sale);
-- (void) sale: (NSString *) uuid userId:(NSString *)userId completionHandler:(SaleResponseBlock) saleBlock ;
+- (void) sale: (NSString *) uuid userId:(NSString *)userId completionHandler:(SaleResponseBlock) saleBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
-- (void) publishSale: (ZKHSaleEntity *) sale completionHandler:(BooleanResultResponseBlock) publishSaleBlock ;
+- (void) publishSale: (ZKHSaleEntity *) sale completionHandler:(BooleanResultResponseBlock) publishSaleBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
--(void) salesGroupByPublishDate:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset completionHandler:(SalesResponseBlock) salesBlock ;
+-(void) salesGroupByPublishDate:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset completionHandler:(SalesResponseBlock) salesBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
-- (void) cancelSale: (ZKHSaleEntity *) sale completionHandler:(BooleanResultResponseBlock) cancelSaleBlock ;
+- (void) cancelSale: (ZKHSaleEntity *) sale completionHandler:(BooleanResultResponseBlock) cancelSaleBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 typedef void (^SaleImagesResponseBlock)(NSMutableArray* saleImages);
-- (void) saleImages: (ZKHSaleEntity *) sale completionHandler:(SaleImagesResponseBlock) saleImagesBlock ;
+- (void) saleImages: (ZKHSaleEntity *) sale completionHandler:(SaleImagesResponseBlock) saleImagesBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 typedef void (^DiscussResponseBlock)(ZKHSaleDiscussEntity* discuss);
-- (void) addDiscuss: (ZKHSaleDiscussEntity *) discuss completionHandler:(DiscussResponseBlock) addDiscussBlock ;
+- (void) addDiscuss: (ZKHSaleDiscussEntity *) discuss completionHandler:(DiscussResponseBlock) addDiscussBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
-- (void) deleteDiscuss: (ZKHSaleDiscussEntity *) discuss completionHandler:(BooleanResultResponseBlock) deleteDiscussBlock ;
+- (void) deleteDiscuss: (ZKHSaleDiscussEntity *) discuss completionHandler:(BooleanResultResponseBlock) deleteDiscussBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 @end

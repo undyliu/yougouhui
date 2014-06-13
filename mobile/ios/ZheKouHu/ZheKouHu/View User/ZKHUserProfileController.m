@@ -165,7 +165,9 @@ static NSString *CellIdentifier = @"ImageLabelCell";
             user.name = newValue;
             [self.navigationController popViewControllerAnimated:YES];
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 
 @end
@@ -191,7 +193,9 @@ static NSString *CellIdentifier = @"ImageLabelCell";
             user.pwd = newPwd;
             [self.navigationController popViewControllerAnimated:YES];
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 
 @end
@@ -220,6 +224,8 @@ static NSString *CellIdentifier = @"ImageLabelCell";
             user.photo = file;
             [self.navigationController popViewControllerAnimated:YES];
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        [ZKHImageLoader removeImageWithName:aliasName];
+    }];
 }
 @end

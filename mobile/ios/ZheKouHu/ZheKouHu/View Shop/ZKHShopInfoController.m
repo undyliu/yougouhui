@@ -53,7 +53,9 @@ static NSString *CellIdentifier = @"ImageLabelCell";
         if (result) {
             self.readonly = false;
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
     
     saleItem = [[UIBarButtonItem alloc] initWithTitle:@"折扣活动" style:UIBarButtonItemStyleBordered target:self action:@selector(saleItemClick:)];
     moreItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(moreItemClick:forEvent:)];
@@ -64,7 +66,9 @@ static NSString *CellIdentifier = @"ImageLabelCell";
         [ApplicationDelegate.zkhProcessor isShopFavorit:[ZKHContext getInstance].user.uuid shopId:self.shop.uuid completionHandler:^(Boolean result) {
             isFavorit = result;
             [self updateNavigationItem:@[moreItem, saleItem]];
-        } ];
+        } errorHandler:^(ZKHErrorEntity *error) {
+        
+        }];
     }
 }
 
@@ -136,7 +140,9 @@ static NSString *CellIdentifier = @"ImageLabelCell";
         if (result) {
             isFavorit = true;
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 
 - (void)cancelFavoritClick
@@ -145,7 +151,9 @@ static NSString *CellIdentifier = @"ImageLabelCell";
         if (result) {
             isFavorit = false;
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 
 - (void)shareClick
@@ -339,7 +347,9 @@ static NSString *CellIdentifier = @"ImageLabelCell";
             self.shop.name = newValue;
             [self.navigationController popViewControllerAnimated:YES];
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 
 @end
@@ -365,7 +375,9 @@ static NSString *CellIdentifier = @"ImageLabelCell";
             self.shop.desc = newValue;
             [self.navigationController popViewControllerAnimated:YES];
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 @end
 
@@ -392,7 +404,9 @@ static NSString *CellIdentifier = @"ImageLabelCell";
             self.shop.shopImg = file;
             [self.navigationController popViewControllerAnimated:YES];
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        [ZKHImageLoader removeImageWithName:aliasName];
+    }];
 }
 @end
 
@@ -417,6 +431,8 @@ static NSString *CellIdentifier = @"ImageLabelCell";
             self.shop.busiLicense = file;
             [self.navigationController popViewControllerAnimated:YES];
         }
+    } errorHandler:^(ZKHErrorEntity *error) {
+        [ZKHImageLoader removeImageWithName:aliasName];
     }];
 }
 

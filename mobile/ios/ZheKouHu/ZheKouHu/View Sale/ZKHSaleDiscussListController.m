@@ -47,7 +47,9 @@ static NSString *SaleDiscussCellIdentifier = @"SaleDiscussListCell";
             [self.discusses removeObject:discuss];
             [self.tableView reloadData];
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 
 #pragma mark - Table view data source

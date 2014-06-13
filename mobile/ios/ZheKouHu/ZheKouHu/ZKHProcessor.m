@@ -27,13 +27,16 @@
     [restClient imageAtURL:url completionHandler:^(UIImage *fetchedImage, NSURL *url, BOOL isInCache) {
         imageFetchedBlock(fetchedImage);
     } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-        errorBlock(error);
+        ZKHErrorEntity *entity = [[ZKHErrorEntity alloc] init];
+        entity.type = VAL_ERROR_TYPE_NETWORK;
+        entity.message = error.description;
+        errorBlock(entity);
     }];
 }
 
 //获取module数据
 #define GET_MODULES_URL(__TYPE__) [NSString stringWithFormat:@"/getModules/%@", __TYPE__]
-- (void)modulesForType:(NSString *)type completionHandler:(ModulesResponseBlock)modulesBlock
+- (void)modulesForType:(NSString *)type completionHandler:(ModulesResponseBlock)modulesBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHModuleData *data = [[ZKHModuleData alloc] init];
     NSMutableArray * modules = [data modules:type];
@@ -67,13 +70,15 @@
         [data save:modules];
         
         modulesBlock(modules);
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
     }];
 }
 
 //获取栏目数据
 #define GET_CHANNELS_URL @"/getChannels"
 #define GET_SUB_CHANNELS_URL(__PARENT_ID__) [NSString stringWithFormat:@"%@/%@", GET_CHANNELS_URL, __PARENT_ID__]
-- (void)channels:(NSString *)parentId completionHandler:(ChannelsResponseBlock)channelsBlock
+- (void)channels:(NSString *)parentId completionHandler:(ChannelsResponseBlock)channelsBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHChannelData *data = [[ZKHChannelData alloc] init];
     NSMutableArray *channels = [data channels];
@@ -108,6 +113,8 @@
         [data save:channels];
         
         channelsBlock(channels);
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
     }];
 }
 

@@ -54,17 +54,17 @@
     }
 }
 
-- (void)executeWithJsonResponse:(ZKHRestRequest *)request completionHandler:(JsonResponseBlock)responseBlock 
+- (void)executeWithJsonResponse:(ZKHRestRequest *)request completionHandler:(JsonResponseBlock)responseBlock  errorHandler:(RestResponseErrorBlock)errorBlock
 {
-    [self doExcute:request jsonResponseBlock:responseBlock restResponseBlock:nil];
+    [self doExcute:request jsonResponseBlock:responseBlock restResponseBlock:nil errorHandler:errorBlock];
 }
 
-- (void)execute:(ZKHRestRequest *)request completionHandler:(RestResponseBlock)responseBlock
+- (void)execute:(ZKHRestRequest *)request completionHandler:(RestResponseBlock)responseBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
-    [self doExcute:request jsonResponseBlock:nil restResponseBlock:responseBlock];
+    [self doExcute:request jsonResponseBlock:nil restResponseBlock:responseBlock errorHandler:errorBlock];
 }
 
-- (void) doExcute:(ZKHRestRequest *)request jsonResponseBlock:(JsonResponseBlock)jsonResponseBlock restResponseBlock:(RestResponseBlock)restResponseBlock
+- (void) doExcute:(ZKHRestRequest *)request jsonResponseBlock:(JsonResponseBlock)jsonResponseBlock restResponseBlock:(RestResponseBlock)restResponseBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     [self showHud];
     
@@ -90,10 +90,17 @@
             } errorHandler:^(MKNetworkOperation *errorOp, NSError *error) {
                 [self hideHud];
                 [self showNetworkErrorMessage];
-                //将error放到返回值中
+               
+                ZKHErrorEntity *entity = [[ZKHErrorEntity alloc] init];
+                entity.type = VAL_ERROR_TYPE_NETWORK;
+                entity.message = error.description;
+                
+                errorBlock(entity);
             }];
             
             [self enqueueOperation:op];
+        } errorHandler:^(ZKHErrorEntity *error) {
+            errorBlock(error);
         }];
     }
     @catch (NSException *exception) {

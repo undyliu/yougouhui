@@ -29,7 +29,9 @@ static NSString *CellIdentifier = @"SaleDiscussListCell";
                 [self.commentDelegate updateComments:self.comments];
             }
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 
 #pragma mark - Table view data source

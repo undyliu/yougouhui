@@ -56,7 +56,7 @@
     return [UIImage imageWithContentsOfFile:[ZKHImageLoader getImageFilePath:fileName]];
 }
 
-+ (void)loadImageForName:(NSString *)fileName completionHandler:(ImageResponseBlock)imageBlock errorHandler:(MKNKErrorBlock)errorBlock
++ (void)loadImageForName:(NSString *)fileName completionHandler:(ImageResponseBlock)imageBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     UIImage *image = [ZKHImageLoader loadImageLocal:fileName];
     if (image != nil) {
@@ -68,7 +68,7 @@
     [ApplicationDelegate.zkhProcessor imageAtURL:imageUrl completionHandler:^(UIImage *fetchedImage) {
         [ZKHImageLoader saveImage:fetchedImage fileName:fileName];
         imageBlock(fetchedImage);
-    } errorHandler:^(NSError *error) {
+    } errorHandler:^(ZKHErrorEntity *error) {
         errorBlock(error);
     }];
 }
@@ -77,7 +77,7 @@
 {
     [ZKHImageLoader loadImageForName:fileName completionHandler:^(UIImage *loadedImage) {
         imageView.image = loadedImage;
-    } errorHandler:^(NSError *error) {
+    } errorHandler:^(ZKHErrorEntity *error) {
         
     }];
 }

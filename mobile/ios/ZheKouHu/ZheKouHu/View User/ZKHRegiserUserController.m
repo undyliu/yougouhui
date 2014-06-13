@@ -151,6 +151,8 @@
         }else{
             [ZKHImageLoader removeImageWithName:user.photo.aliasName];
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        [ZKHImageLoader removeImageWithName:user.photo.aliasName];
+    }];
 }
 @end

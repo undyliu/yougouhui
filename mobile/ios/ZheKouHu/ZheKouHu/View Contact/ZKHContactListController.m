@@ -52,6 +52,9 @@ static NSString *CellIdentifier = @"ContactListCell";
             user.friends = friends;
             [self initializeData:friends];
             [self.tableView reloadData];
+        } errorHandler:^(ZKHErrorEntity *error) {
+            [self initializeData:nil];
+            [self.tableView reloadData];
         }];
     }
     

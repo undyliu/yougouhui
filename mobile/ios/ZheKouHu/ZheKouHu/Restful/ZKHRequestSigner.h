@@ -8,11 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "ZKHRestRequest.h"
+#import "ZKHEntity.h"
+
+typedef void (^RestResponseErrorBlock)(ZKHErrorEntity *error);
 
 @interface ZKHRequestSigner : NSObject
 
 typedef void (^authResponseBlock)(ZKHRestRequest *request);
-typedef void (^RestResponseErrorBlock)(NSError* error);
-- (void) authorize:(ZKHRestRequest *)request completionHandler:(authResponseBlock)authorizeBlock;
+- (void) authorize:(ZKHRestRequest *)request completionHandler:(authResponseBlock)authorizeBlock errorHandler:(RestResponseErrorBlock)errorBlock;
 
 @end

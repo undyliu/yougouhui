@@ -12,37 +12,37 @@
 @interface ZKHProcessor (Shop)
 
 typedef void (^LoginResponseBlock)(NSMutableDictionary *authObj);
-- (void) loginShopByPhone: (NSString *) phone pwd:(NSString *)pwd completionHandler:(LoginResponseBlock) loginBlock ;
+- (void) loginShopByPhone: (NSString *) phone pwd:(NSString *)pwd completionHandler:(LoginResponseBlock) loginBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
-- (void) changeShopName:(NSString *)uuid newName:(NSString *)newName completionHandler:(BooleanResultResponseBlock) changeNameBlock ;
+- (void) changeShopName:(NSString *)uuid newName:(NSString *)newName completionHandler:(BooleanResultResponseBlock) changeNameBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
-- (void) changeShopDesc:(NSString *)uuid newDesc:(NSString *)newDesc completionHandler:(BooleanResultResponseBlock) changeDescBlock ;
+- (void) changeShopDesc:(NSString *)uuid newDesc:(NSString *)newDesc completionHandler:(BooleanResultResponseBlock) changeDescBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 typedef void (^ChangeTradesResponseBlock)(NSMutableArray *shopTrades);
-- (void) changeShopTrades:(NSString *)uuid newTrades:(NSArray *)newTrades completionHandler:(ChangeTradesResponseBlock) changeTradesBlock ;
+- (void) changeShopTrades:(NSString *)uuid newTrades:(NSArray *)newTrades completionHandler:(ChangeTradesResponseBlock) changeTradesBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
-- (void) changeShopEmpPwd:(NSString *)uuid userId:(NSString *)userId oldPwd:(NSString *)oldPwd newPwd:(NSString *)newPwd completionHandler:(BooleanResultResponseBlock) changeShopEmpPwdBlock ;
+- (void) changeShopEmpPwd:(NSString *)uuid userId:(NSString *)userId oldPwd:(NSString *)oldPwd newPwd:(NSString *)newPwd completionHandler:(BooleanResultResponseBlock) changeShopEmpPwdBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
-- (void) changeShopImage:(NSString *)uuid shopImage:(ZKHFileEntity *)shopImage completionHandler:(BooleanResultResponseBlock) changeShopImageBlock ;
+- (void) changeShopImage:(NSString *)uuid shopImage:(ZKHFileEntity *)shopImage completionHandler:(BooleanResultResponseBlock) changeShopImageBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
-- (void) changeBusiLicense:(NSString *)uuid busiLicense:(ZKHFileEntity *)busiLicense completionHandler:(BooleanResultResponseBlock) changeBusiLicenseBlock ;
+- (void) changeBusiLicense:(NSString *)uuid busiLicense:(ZKHFileEntity *)busiLicense completionHandler:(BooleanResultResponseBlock) changeBusiLicenseBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 typedef void (^ShopResponseBlock)(ZKHShopEntity *shop);
-- (void) shop: (NSString *) uuid  completionHandler:(ShopResponseBlock) shopBlock ;
+- (void) shop: (NSString *) uuid  completionHandler:(ShopResponseBlock) shopBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
-- (void) checkShopEmp: (NSString *) shopId userId:(NSString *)userId completionHandler:(BooleanResultResponseBlock) checkShopEmpBlock ;
+- (void) checkShopEmp: (NSString *) shopId userId:(NSString *)userId completionHandler:(BooleanResultResponseBlock) checkShopEmpBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 typedef void (^ShopEmpsResponseBlock)(NSMutableArray *shopEmps);
-- (void) shopEmps: (NSString *) shopId  completionHandler:(ShopEmpsResponseBlock) shopEmpsBlock ;
+- (void) shopEmps: (NSString *) shopId  completionHandler:(ShopEmpsResponseBlock) shopEmpsBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
-- (void) addShopEmps:(NSString *)shopId emps:(NSMutableArray *)emps completionHandler:(BooleanResultResponseBlock) addShopEmpsBlock ;
+- (void) addShopEmps:(NSString *)shopId emps:(NSMutableArray *)emps completionHandler:(BooleanResultResponseBlock) addShopEmpsBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
-- (void) deleteShopEmps:(NSString *)shopId emps:(NSMutableArray *)emps completionHandler:(BooleanResultResponseBlock) delShopEmpsBlock ;
+- (void) deleteShopEmps:(NSString *)shopId emps:(NSMutableArray *)emps completionHandler:(BooleanResultResponseBlock) delShopEmpsBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 typedef void (^ShopsResponseBlock)(NSMutableArray *shops);
-- (void) searchShop: (NSString *) searchWord  completionHandler:(ShopsResponseBlock) shopsBlock ;
+- (void) searchShop: (NSString *) searchWord  completionHandler:(ShopsResponseBlock) shopsBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
-- (void) setShopEmpPwd: (NSString *) shopId userId:(NSString *)userId pwd:(NSString *)pwd completionHandler:(BooleanResultResponseBlock) setShopEmpPwdBlock ;
+- (void) setShopEmpPwd: (NSString *) shopId userId:(NSString *)userId pwd:(NSString *)pwd completionHandler:(BooleanResultResponseBlock) setShopEmpPwdBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
-- (void) registerShop: (ZKHShopEntity *) shop completionHandler:(BooleanResultResponseBlock) registerShopBlock ;
+- (void) registerShop: (ZKHShopEntity *) shop completionHandler:(BooleanResultResponseBlock) registerShopBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 @end

@@ -46,7 +46,7 @@
 }
 
 #define GET_SALES_BY_CHANNEL_URL @"/getSalesByChannel"
-- (void)salesForChannel:(NSString *)channelId updateTime:(ZKHSyncEntity *) syncEntity completionHandler:(SalesResponseBlock)salesBlock
+- (void)salesForChannel:(NSString *)channelId updateTime:(ZKHSyncEntity *) syncEntity completionHandler:(SalesResponseBlock)salesBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHSaleData *saleData = [[ZKHSaleData alloc] init];
     NSMutableArray *sales = [saleData salesForChannel:channelId];
@@ -80,11 +80,13 @@
         
         
         salesBlock(sales);
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 #define GET_DISCUSSES_BY_SALE_URL @"/getSaleDiscusses"
-- (void)discussesForSale:(ZKHSaleEntity *) sale updateTime:(ZKHSyncEntity *)syncEntity completionHandler:(SalesResponseBlock)saleDiscussesBlock
+- (void)discussesForSale:(ZKHSaleEntity *) sale updateTime:(ZKHSyncEntity *)syncEntity completionHandler:(SalesResponseBlock)saleDiscussesBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHSaleDiscussData *disData = [[ZKHSaleDiscussData alloc] init];
     NSMutableArray *discusses = [disData discussesForSale:sale.uuid];
@@ -136,11 +138,13 @@
             
         }
         saleDiscussesBlock(discusses);
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 #define  GET_SALE_URL(__UUID__, __USER_ID__) [NSString stringWithFormat:@"/getSaleData/%@/%@", __UUID__, __USER_ID__]
-- (void)sale:(NSString *)uuid userId:(NSString *)userId completionHandler:(SaleResponseBlock)saleBlock 
+- (void)sale:(NSString *)uuid userId:(NSString *)userId completionHandler:(SaleResponseBlock)saleBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHSaleData *saleData = [[ZKHSaleData alloc] init];
     ZKHSaleEntity *sale = [saleData sale:uuid];
@@ -161,13 +165,15 @@
         }else{
             saleBlock(nil);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
     
 }
 
 //发布活动
 #define ADD_SALE_URL @"/addSale"
-- (void)publishSale:(ZKHSaleEntity *)sale completionHandler:(BooleanResultResponseBlock)publishSaleBlock 
+- (void)publishSale:(ZKHSaleEntity *)sale completionHandler:(BooleanResultResponseBlock)publishSaleBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = ADD_SALE_URL;
@@ -209,11 +215,13 @@
             
             publishSaleBlock(true);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 //按发布时间分组获取活动列表
-- (void)salesGroupByPublishDate:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset completionHandler:(SalesResponseBlock)salesBlock 
+- (void)salesGroupByPublishDate:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset completionHandler:(SalesResponseBlock)salesBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHSaleData *saleData = [[ZKHSaleData alloc] init];
     NSMutableArray *sales = [saleData salesGroupByPublishDate:searchWord shopId:shopId offset:offset];
@@ -225,7 +233,7 @@
 
 //作废活动
 #define CANCEL_SALE_URL @"/cancelSale"
-- (void)cancelSale:(ZKHSaleEntity *)sale completionHandler:(BooleanResultResponseBlock)cancelSaleBlock 
+- (void)cancelSale:(ZKHSaleEntity *)sale completionHandler:(BooleanResultResponseBlock)cancelSaleBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = CANCEL_SALE_URL;
@@ -241,10 +249,12 @@
             sale.status = jsonObject[KEY_STATUS];
             cancelSaleBlock(true);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
-- (void)saleImages:(ZKHSaleEntity *)sale completionHandler:(SaleImagesResponseBlock)saleImagesBlock 
+- (void)saleImages:(ZKHSaleEntity *)sale completionHandler:(SaleImagesResponseBlock)saleImagesBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHSaleData *saleData = [[ZKHSaleData alloc] init];
     sale.images = [saleData saleImages:sale.uuid];
@@ -252,44 +262,37 @@
 }
 
 #define ADD_SALE_DISCUSS @"/addSaleDiscuss"
-- (void)addDiscuss:(ZKHSaleDiscussEntity *)discuss completionHandler:(DiscussResponseBlock)addDiscussBlock 
+- (void)addDiscuss:(ZKHSaleDiscussEntity *)discuss completionHandler:(DiscussResponseBlock)addDiscussBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
-    @try {
-        ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
-        request.urlString = ADD_SALE_DISCUSS;
-        request.method = METHOD_POST;
-        request.params = @{KEY_SALE_ID: discuss.sale.uuid, KEY_PUBLISHER: discuss.publisher.uuid, KEY_CONTENT: discuss.content};
-        
-        [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
-            NSString *uuid = jsonObject[KEY_UUID];
-            if ([NSString isNull:uuid]) {
-                //todo:
-                addDiscussBlock(nil);
-            }else{
-                discuss.uuid = uuid;
-                discuss.publishTime = jsonObject[KEY_PUBLISH_TIME];
-                
-                [[[ZKHSaleDiscussData alloc] init] save:@[discuss]];
-                
-                NSString *disCount = [NSString stringWithFormat:@"%d", [discuss.sale.discussCount intValue] + 1];
-                [[[ZKHSaleData alloc] init] updateSale:discuss.sale.uuid fieldName:KEY_DIS_COUNT fieldValue:disCount];
-                discuss.sale.discussCount = disCount;
-                
-                addDiscussBlock(discuss);
-            }
-        } ];
-
-    }
-    @catch (NSException *exception) {
-        NSLog(@"%@", @"出现异常.");
-    }
-    @finally {
-        
-    }
-    }
+    ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
+    request.urlString = ADD_SALE_DISCUSS;
+    request.method = METHOD_POST;
+    request.params = @{KEY_SALE_ID: discuss.sale.uuid, KEY_PUBLISHER: discuss.publisher.uuid, KEY_CONTENT: discuss.content};
+    
+    [restClient executeWithJsonResponse:request completionHandler:^(id jsonObject) {
+        NSString *uuid = jsonObject[KEY_UUID];
+        if ([NSString isNull:uuid]) {
+            //todo:
+            addDiscussBlock(nil);
+        }else{
+            discuss.uuid = uuid;
+            discuss.publishTime = jsonObject[KEY_PUBLISH_TIME];
+            
+            [[[ZKHSaleDiscussData alloc] init] save:@[discuss]];
+            
+            NSString *disCount = [NSString stringWithFormat:@"%d", [discuss.sale.discussCount intValue] + 1];
+            [[[ZKHSaleData alloc] init] updateSale:discuss.sale.uuid fieldName:KEY_DIS_COUNT fieldValue:disCount];
+            discuss.sale.discussCount = disCount;
+            
+            addDiscussBlock(discuss);
+        }
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
+}
 
 #define DEL_SALE_DISCUSS(__UUID__) [NSString stringWithFormat:@"/deleteSaleDiscuss/%@", __UUID__]
-- (void)deleteDiscuss:(ZKHSaleDiscussEntity *)discuss completionHandler:(BooleanResultResponseBlock)deleteDiscussBlock 
+- (void)deleteDiscuss:(ZKHSaleDiscussEntity *)discuss completionHandler:(BooleanResultResponseBlock)deleteDiscussBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = DEL_SALE_DISCUSS(discuss.uuid);
@@ -307,6 +310,8 @@
             
             deleteDiscussBlock(true);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 @end

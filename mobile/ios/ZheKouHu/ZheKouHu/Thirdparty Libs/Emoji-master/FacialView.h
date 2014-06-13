@@ -21,7 +21,7 @@
 
 @interface FacialView : UIView {
 
-	id<facialViewDelegate>delegate;
+	//id<facialViewDelegate>delegate;
 	NSArray *faces;
 }
 @property(nonatomic,assign)id<facialViewDelegate>delegate;

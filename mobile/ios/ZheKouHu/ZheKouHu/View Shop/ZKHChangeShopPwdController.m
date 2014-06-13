@@ -47,6 +47,8 @@
         if (result) {
             [self.navigationController popViewControllerAnimated:YES];
         }
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
     }];
 }
 

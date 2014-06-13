@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MKNetworkOperation.h"
+#import "ZKHProcessor.h"
 
 @interface ZKHImageLoader : NSObject
 
@@ -16,7 +17,7 @@
 + (void) removeImageWithPath:(NSString *)filePath;
 
 typedef void (^ImageResponseBlock)(UIImage* loadedImage);
-+ (void) loadImageForName: (NSString *)fileName completionHandler:(ImageResponseBlock) imageBlock errorHandler:(MKNKErrorBlock) errorBlock;
++ (void) loadImageForName: (NSString *)fileName completionHandler:(ImageResponseBlock) imageBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 + (void) showImageForName: (NSString *)fileName imageView:(UIImageView *)imageView;
 

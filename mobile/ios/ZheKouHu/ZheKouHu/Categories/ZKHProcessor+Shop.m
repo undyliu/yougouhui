@@ -18,7 +18,7 @@
 
 //登录商铺
 #define LOGIN_URL @"/loginShopByPhone"
-- (void)loginShopByPhone:(NSString *)phone pwd:(NSString *)pwd completionHandler:(LoginResponseBlock)loginBlock 
+- (void)loginShopByPhone:(NSString *)phone pwd:(NSString *)pwd completionHandler:(LoginResponseBlock)loginBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     NSDictionary *params = @{KEY_PHONE : phone, KEY_PWD : pwd};
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
@@ -76,12 +76,14 @@
         }
         
         loginBlock(authedObj);
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 //修改商铺简介
 #define UPDATE_SHOP_URL @"/updateShop"
-- (void)changeShopDesc:(NSString *)uuid newDesc:(NSString *)newDesc completionHandler:(BooleanResultResponseBlock)changeDescBlock 
+- (void)changeShopDesc:(NSString *)uuid newDesc:(NSString *)newDesc completionHandler:(BooleanResultResponseBlock)changeDescBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.method = METHOD_POST;
@@ -95,10 +97,12 @@
         }else{
             changeDescBlock(false);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
--(void)changeShopName:(NSString *)uuid newName:(NSString *)newName completionHandler:(BooleanResultResponseBlock)changeNameBlock 
+-(void)changeShopName:(NSString *)uuid newName:(NSString *)newName completionHandler:(BooleanResultResponseBlock)changeNameBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.method = METHOD_POST;
@@ -112,11 +116,13 @@
         }else{
             changeNameBlock(false);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 #define UPDATE_SHOP_TRADES_URL @"/updateShopTrades"
-- (void)changeShopTrades:(NSString *)uuid newTrades:(NSArray *)newTrades completionHandler:(ChangeTradesResponseBlock)changeTradesBlock 
+- (void)changeShopTrades:(NSString *)uuid newTrades:(NSArray *)newTrades completionHandler:(ChangeTradesResponseBlock)changeTradesBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     NSMutableString *tradeString = [NSMutableString stringWithString:@""];
     for (int i = 0; i < [newTrades count]; i++) {
@@ -151,11 +157,13 @@
             
             changeTradesBlock([shopData shopTrades:uuid]);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 #define UPDATE_SHOP_EMP_PWD_URL @"/updateShopEmpPwd"
-- (void)changeShopEmpPwd:(NSString *)uuid userId:(NSString *)userId oldPwd:(NSString *)oldPwd newPwd:(NSString *)newPwd completionHandler:(BooleanResultResponseBlock)changeShopEmpPwdBlock 
+- (void)changeShopEmpPwd:(NSString *)uuid userId:(NSString *)userId oldPwd:(NSString *)oldPwd newPwd:(NSString *)newPwd completionHandler:(BooleanResultResponseBlock)changeShopEmpPwdBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.method = METHOD_PUT;
@@ -169,10 +177,12 @@
         }else{
             changeShopEmpPwdBlock(false);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
-- (void)changeShopImage:(NSString *)uuid shopImage:(ZKHFileEntity *)shopImage completionHandler:(BooleanResultResponseBlock)changeShopImageBlock 
+- (void)changeShopImage:(NSString *)uuid shopImage:(ZKHFileEntity *)shopImage completionHandler:(BooleanResultResponseBlock)changeShopImageBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.method = METHOD_POST;
@@ -187,11 +197,13 @@
         }else{
             changeShopImageBlock(false);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 
 }
 
-- (void)changeBusiLicense:(NSString *)uuid busiLicense:(ZKHFileEntity *)busiLicense completionHandler:(BooleanResultResponseBlock)changeBusiLicenseBlock 
+- (void)changeBusiLicense:(NSString *)uuid busiLicense:(ZKHFileEntity *)busiLicense completionHandler:(BooleanResultResponseBlock)changeBusiLicenseBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.method = METHOD_POST;
@@ -206,11 +218,13 @@
         }else{
             changeBusiLicenseBlock(false);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 #define  GET_SHOP_URL(__SHOP_ID__) [NSString stringWithFormat:@"/getShop/%@", __SHOP_ID__]
-- (void)shop:(NSString *)uuid completionHandler:(ShopResponseBlock)shopBlock
+- (void)shop:(NSString *)uuid completionHandler:(ShopResponseBlock)shopBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHShopData *shopData = [[ZKHShopData alloc] init];
     ZKHShopEntity *shop = [shopData shop:uuid];
@@ -229,11 +243,13 @@
             shopBlock(nil);
         }
         shopBlock([[ZKHShopEntity alloc] initWithJsonObject:jsonObject]);
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 #define  CHECK_SHOP_EMP_URL(__SHOP_ID__,__USER_ID__) [NSString stringWithFormat:@"/checkShopEmp/%@/%@", __SHOP_ID__, __USER_ID__]
-- (void)checkShopEmp:(NSString *)shopId userId:(NSString *)userId completionHandler:(BooleanResultResponseBlock)checkShopEmpBlock 
+- (void)checkShopEmp:(NSString *)shopId userId:(NSString *)userId completionHandler:(BooleanResultResponseBlock)checkShopEmpBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.method = METHOD_GET;
@@ -246,12 +262,14 @@
         }else{
             checkShopEmpBlock(true);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 //获取商铺职员列表
 #define  GET_SHOP_EMPS_URL(__SHOP_ID__) [NSString stringWithFormat:@"/getShopEmps/%@", __SHOP_ID__]
-- (void)shopEmps:(NSString *)shopId completionHandler:(ShopEmpsResponseBlock)shopEmpsBlock 
+- (void)shopEmps:(NSString *)shopId completionHandler:(ShopEmpsResponseBlock)shopEmpsBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = GET_SHOP_EMPS_URL(shopId);
@@ -264,12 +282,14 @@
             [emps addObject:emp];
         }
         shopEmpsBlock(emps);
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 //添加商铺职员
 #define ADD_SHOP_EMPS_URL  @"/addShopEmps"
-- (void)addShopEmps:(NSString *)shopId emps:(NSMutableArray *)emps completionHandler:(BooleanResultResponseBlock)addShopEmpsBlock 
+- (void)addShopEmps:(NSString *)shopId emps:(NSMutableArray *)emps completionHandler:(BooleanResultResponseBlock)addShopEmpsBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     NSMutableString *empIds = [[NSMutableString alloc] init];
     for (ZKHUserEntity *emp in emps) {
@@ -288,12 +308,14 @@
         }else{
             addShopEmpsBlock(true);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 
 //删除商铺职员
 #define DEL_SHOP_EMPS_URL(__SHOP_ID__, __EMP_IDS__) [NSString stringWithFormat:@"/deleteShopEmps/%@/%@", __SHOP_ID__, __EMP_IDS__]
-- (void)deleteShopEmps:(NSString *)shopId emps:(NSMutableArray *)emps completionHandler:(BooleanResultResponseBlock)delShopEmpsBlock 
+- (void)deleteShopEmps:(NSString *)shopId emps:(NSMutableArray *)emps completionHandler:(BooleanResultResponseBlock)delShopEmpsBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     NSMutableString *empIds = [[NSMutableString alloc] init];
     for (ZKHUserEntity *emp in emps) {
@@ -311,12 +333,14 @@
         }else{
             delShopEmpsBlock(true);
         }
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
     }];
 }
 
 //搜索商铺
 #define SEARCH_SHOPS_URL @"/searchShops"
-- (void)searchShop:(NSString *)searchWord completionHandler:(ShopsResponseBlock)shopsBlock 
+- (void)searchShop:(NSString *)searchWord completionHandler:(ShopsResponseBlock)shopsBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.method = METHOD_POST;
@@ -341,12 +365,15 @@
             [shops addObject:shop];
         }
         shopsBlock(shops);
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 //设置职员密码
 #define SET_SHOP_EMP_PWD_URL @"/setShopEmpPwd"
-- (void)setShopEmpPwd:(NSString *)shopId userId:(NSString *)userId pwd:(NSString *)pwd completionHandler:(BooleanResultResponseBlock)setShopEmpPwdBlock {
+- (void)setShopEmpPwd:(NSString *)shopId userId:(NSString *)userId pwd:(NSString *)pwd completionHandler:(BooleanResultResponseBlock)setShopEmpPwdBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = SET_SHOP_EMP_PWD_URL;
     request.method = METHOD_PUT;
@@ -359,12 +386,14 @@
         }else{
             setShopEmpPwdBlock(true);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 //注册店铺
 #define REGISTER_SHOP_URL @"/registerShop"
-- (void)registerShop:(ZKHShopEntity *)shop completionHandler:(BooleanResultResponseBlock)registerShopBlock 
+- (void)registerShop:(ZKHShopEntity *)shop completionHandler:(BooleanResultResponseBlock)registerShopBlock errorHandler:(RestResponseErrorBlock)errorBlock
 {    
     NSMutableString *tradeIds = [[NSMutableString alloc] init];
     for (ZKHShopTradeEntity *shopTrade in shop.trades) {
@@ -425,7 +454,9 @@
             
             registerShopBlock(true);
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
+    }];
 }
 
 @end

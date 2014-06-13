@@ -62,6 +62,8 @@
             self.emp.pwd = pwd;
             [self.navigationController popViewControllerAnimated:YES];
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 @end

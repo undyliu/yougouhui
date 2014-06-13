@@ -23,10 +23,11 @@ typedef void (^ZKHImageResponseBlock)(UIImage *fetchedImage);
 
 //获取功能模块
 typedef void (^ModulesResponseBlock)(NSMutableArray* modules);
-- (void) modulesForType: (NSString *) type completionHandler:(ModulesResponseBlock) modulesBlock;
+- (void) modulesForType: (NSString *) type completionHandler:(ModulesResponseBlock) modulesBlock errorHandler:(RestResponseErrorBlock) errorBlock;
 
 //获取栏目
 typedef void (^ChannelsResponseBlock)(NSMutableArray* channels);
-- (void) channels: (NSString *)parentId completionHandler:(ChannelsResponseBlock) channelsBlock;
+- (void) channels: (NSString *)parentId completionHandler:(ChannelsResponseBlock) channelsBlock
+     errorHandler:(RestResponseErrorBlock) errorBlock;
 
 @end

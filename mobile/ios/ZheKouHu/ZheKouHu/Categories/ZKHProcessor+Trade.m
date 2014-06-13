@@ -13,7 +13,8 @@
 @implementation ZKHProcessor (Trade)
 
 #define GET_TRADES_URL @"/getTrades"
-- (void)trades:(Boolean)reload completionHandler:(TradesResponseBlock)tradesBlock {
+- (void)trades:(Boolean)reload completionHandler:(TradesResponseBlock)tradesBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
     ZKHTradeData *data = [[ZKHTradeData alloc] init];
     if (!reload) {
         NSMutableArray *trades = [data trades];
@@ -43,10 +44,13 @@
         [data save:trades];
         
         tradesBlock(trades);
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
     }];
 }
 
-- (void)trade:(NSString *)uuid completionHandler:(TradeResponseBlock)tradeBlock {
+- (void)trade:(NSString *)uuid completionHandler:(TradeResponseBlock)tradeBlock errorHandler:(RestResponseErrorBlock)errorBlock
+{
     ZKHTradeData *data = [[ZKHTradeData alloc] init];
     ZKHTradeEntity *trade = [data trade:uuid];
     if (trade) {
@@ -56,6 +60,8 @@
     
     [self trades:false completionHandler:^(NSMutableArray *trades) {
         tradeBlock([data trade:uuid]);
+    } errorHandler:^(ZKHErrorEntity *error) {
+        errorBlock(error);
     }];
 }
 @end

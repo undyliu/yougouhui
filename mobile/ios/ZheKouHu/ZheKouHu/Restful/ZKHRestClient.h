@@ -11,9 +11,6 @@
 #import "MBProgressHUD.h"
 #import "ZKHRequestSigner.h"
 
-typedef void (^JsonResponseBlock)(id jsonObject);
-typedef void (^RestResponseBlock)(NSHTTPURLResponse* response, id jsonObject);
-
 @interface ZKHRestClient : MKNetworkEngine
 {
     MBProgressHUD *hud;
@@ -22,10 +19,11 @@ typedef void (^RestResponseBlock)(NSHTTPURLResponse* response, id jsonObject);
 
 - (id)initWithDefaultSettings;
 
-
-- (void) executeWithJsonResponse:(ZKHRestRequest *)request completionHandler:(JsonResponseBlock) responseBlock;
+typedef void (^JsonResponseBlock)(id jsonObject);
+- (void) executeWithJsonResponse:(ZKHRestRequest *)request completionHandler:(JsonResponseBlock) responseBlock errorHandler:(RestResponseErrorBlock)errorBlock;
 
 //带有reponse的远程服务访问，目前主要用于登录
-- (void) execute:(ZKHRestRequest *)request completionHandler:(RestResponseBlock) responseBlock;
+typedef void (^RestResponseBlock)(NSHTTPURLResponse* response, id jsonObject);
+- (void) execute:(ZKHRestRequest *)request completionHandler:(RestResponseBlock) responseBlock errorHandler:(RestResponseErrorBlock)errorBlock;
 
 @end

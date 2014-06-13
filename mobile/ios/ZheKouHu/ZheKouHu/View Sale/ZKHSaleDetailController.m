@@ -102,7 +102,9 @@
             }else{
                 [self updateNavigationItem:@[shareItem, favoritItem]];
             }
-        } ];
+        } errorHandler:^(ZKHErrorEntity *error) {
+        
+        }];
     }
     
     //设置输入键盘
@@ -204,7 +206,9 @@
         [ApplicationDelegate.zkhProcessor saleImages:self.sale completionHandler:^(NSMutableArray *saleImages) {
             controller.imageFiles = self.sale.images;
             [self.navigationController pushViewController:controller animated:YES];
-        } ];
+        } errorHandler:^(ZKHErrorEntity *error) {
+            
+        }];
     }
     
 }
@@ -222,7 +226,9 @@
         ZKHShopInfoController *controller = [[ZKHShopInfoController alloc] init];
         controller.shop = shop;
         [self.navigationController pushViewController:controller animated:YES];
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 
 - (void)discussLabelClick:(id)sender
@@ -248,7 +254,9 @@
         [ApplicationDelegate.zkhProcessor discussesForSale:self.sale updateTime:sync completionHandler:^(NSMutableArray *discusses) {
             discussListController.discusses = discusses;
             [self.disTableView reloadData];
-        } ];
+        } errorHandler:^(ZKHErrorEntity *error) {
+            
+        }];
     }else{
         self.disTableView.hidden = true;
         self.disImageView.image = [UIImage imageNamed:@"arrow_down.png"];
@@ -269,7 +277,9 @@
         if (result) {
             [self updateNavigationItem:@[shareItem, cancelFavoritItem]];
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 
 - (void)cancelFavoritClick:(id)sender
@@ -278,7 +288,9 @@
         if (result) {
             [self updateNavigationItem:@[shareItem, favoritItem]];
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 
 - (void)shareClick:(id)sender
@@ -318,7 +330,9 @@
             [discussListController.discusses addObject:discuss];
             [discussListController.tableView reloadData];
         }
-    } ];
+    } errorHandler:^(ZKHErrorEntity *error) {
+        
+    }];
 }
 
 #pragma mark - ZKHSaleValueChangedDelegat
