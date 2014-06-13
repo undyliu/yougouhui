@@ -8,13 +8,14 @@
 		[yougou.file :as file]
 		[yougou.date :as date]
     [yougou.user :as user]
+    [yougou.shop :as shop]
     [yougou.message :as message]
 	)
 )
 
 (def share-select-base
   (-> (select* shares)
-      (fields :uuid :content :publisher :publish_time :publish_date :sale_id :shop_id [:e_shop.name :shop_name] :is_deleted)
+      (fields :uuid :content :publisher :publish_time :publish_date :sale_id :shop_id [:e_shop.name :shop_name] :is_deleted :access_type)
       (join :left shops (= :e_shop.uuid :shop_id))
   )
 )
@@ -25,7 +26,11 @@
 )
 
 (defn- get-comments [update-time share-id]
-  (select share-comments (where (if update-time {:share_id share-id :last_modify_time [> update-time]} {:share_id share-id}))
+  (select share-comments
+          (fields :uuid :content :is_deleted :last_modify_time :publish_time :share_id
+                  :publisher :e_user.name :e_user.type :e_user.photo :e_user.phone :e_user.register_time)
+          (join users (= :e_user.uuid :publisher))
+          (where (if update-time {:share_id share-id :last_modify_time [> update-time]} {:share_id share-id}))
   )
 )
 
@@ -69,6 +74,7 @@
                            (assoc share :images (get-share-images update-time share-id)
                              :comments (get-comments update-time share-id)
                              :user (user/get-user-without-pwd (:publisher share))
+                             :shop (shop/get-shop (:shop_id share))
                              :shop_reply (get-shop-reply share-id)))
                      )
 					    )
@@ -137,6 +143,9 @@
 				(assoc share :images (save-share-imgs uuid (clojure.string/split image-names #"[|]") req-params))
         share
 			)
+      (if shop-id
+        (assoc share :shop (shop/get-shop shop-id))
+        )
   )
 )
 
