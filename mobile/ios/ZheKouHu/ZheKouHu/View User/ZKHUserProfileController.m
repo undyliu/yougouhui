@@ -147,9 +147,11 @@ static NSString *CellIdentifier = @"ImageLabelCell";
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-	
     self.title = @"修改昵称";
+    self.fieldname = @"昵称";
+    self.maxLength = 30;
+    
+    [super viewDidLoad];
 }
 
 - (NSString *)getOriginalTextFieldValue
@@ -185,7 +187,7 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     self.itemValueLabel.text = [ZKHContext getInstance].user.name;
 }
 
-- (void)doSave:(NSString *)newPwd
+- (void)doSave:(NSString *)oldPwd newPwd:(NSString *)newPwd
 {
     ZKHUserEntity *user = [ZKHContext getInstance].user;
     [ApplicationDelegate.zkhProcessor changeUserPwd:user newPwd:newPwd completionHander:^(Boolean result) {
@@ -207,7 +209,7 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     return [ZKHContext getInstance].user.photo;
 }
 
-- (void)save:(id)sender
+- (void)doSave
 {
     ZKHUserEntity *user = [ZKHContext getInstance].user;
     UIImage *image = self.imageView.image;

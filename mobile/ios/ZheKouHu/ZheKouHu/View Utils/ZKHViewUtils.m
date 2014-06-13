@@ -20,6 +20,11 @@
 
 + (void)showTipView:(UIView *)targetView message:(NSString *)message dismissTapAnywhere:(BOOL) dismissTapAnywhere autoDismissInvertal:(NSTimeInterval)autoDismissInvertal
 {
+    [ZKHViewUtils showTipView:targetView inView:targetView.superview message:message dismissTapAnywhere:dismissTapAnywhere autoDismissInvertal:autoDismissInvertal];
+}
+
++ (void)showTipView:(UIView *)targetView inView:(UIView *)inView message:(NSString *)message dismissTapAnywhere:(BOOL)dismissTapAnywhere autoDismissInvertal:(NSTimeInterval)autoDismissInvertal
+{
     CMPopTipView *popTipView = [[CMPopTipView alloc] initWithMessage:message];
     popTipView.animation = arc4random() % 2;
     popTipView.has3DStyle = (BOOL)(arc4random() % 2);
@@ -28,6 +33,6 @@
         [popTipView autoDismissAnimated:YES atTimeInterval:autoDismissInvertal];
     }
     
-    [popTipView presentPointingAtView:targetView inView:targetView.superview animated:YES];
+    [popTipView presentPointingAtView:targetView inView:inView animated:YES];
 }
 @end

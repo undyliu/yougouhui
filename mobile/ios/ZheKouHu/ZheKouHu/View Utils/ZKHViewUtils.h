@@ -13,4 +13,7 @@
 +(void)setTableViewExtraCellLineHidden: (UITableView *)tableView;
 
 +(void)showTipView:(UIView *)targetView message:(NSString *)message dismissTapAnywhere:(BOOL) dismissTapAnywhere autoDismissInvertal:(NSTimeInterval)autoDismissInvertal;
+
++(void)showTipView:(UIView *)targetView inView:(UIView *)inView message:(NSString *)message dismissTapAnywhere:(BOOL) dismissTapAnywhere autoDismissInvertal:(NSTimeInterval)autoDismissInvertal;
+
 @end

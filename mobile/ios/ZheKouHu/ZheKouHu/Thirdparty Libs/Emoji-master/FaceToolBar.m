@@ -163,7 +163,7 @@
 #pragma mark ActionMethods  发送sendAction 音频 voiceChange  显示表情 disFaceKeyboard
 -(void)sendAction{
     if (textView.text.length>0) {
-        NSLog(@"点击发送");
+        //NSLog(@"点击发送");
         if ([self.fToolBarDelegate respondsToSelector:@selector(sendTextAction:)])
         {
             [self.fToolBarDelegate sendTextAction:textView.text];

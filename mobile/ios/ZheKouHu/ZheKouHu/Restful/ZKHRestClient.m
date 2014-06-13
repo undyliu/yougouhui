@@ -117,7 +117,8 @@
         UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
         hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
         hud.labelText = @"正在处理...";
-    }else if (hud.isHidden){
+    }else //if (hud.isHidden)
+    {
         [hud show:YES];
     }
 }

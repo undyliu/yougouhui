@@ -19,6 +19,8 @@
 - (IBAction)fieldEditingDidDone:(id)sender;
 - (IBAction)fieldEditingDidBegin:(id)sender;
 - (IBAction)fieldDoneEditing:(id)sender;
-- (void)showTipView;
 
+- (void) setBorderColor:(UIColor *)color;
+- (void)showTipView;
+- (void)showTipView:(NSString *)message;
 @end

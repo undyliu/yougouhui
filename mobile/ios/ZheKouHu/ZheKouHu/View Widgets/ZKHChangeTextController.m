@@ -32,6 +32,7 @@
     [[NSBundle mainBundle] loadNibNamed:@"ZKHChangeTextController" owner:self options:nil];
     self.inputTextField.text = orginalValue;
     
+    self.inputTextField.popMessageWhenEmptyText = [NSString stringWithFormat:@"%@不能为空.", self.fieldname];
     [self.inputTextField becomeFirstResponder];
     
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save:)];
@@ -51,12 +52,21 @@
 
 - (void)save:(id)sender
 {
-    UITextField *textField = self.inputTextField;
+    [self.inputTextField resignFirstResponder];
+    
+    ZKHTextField *textField = self.inputTextField;
     [textField resignFirstResponder];
     NSString *newValue = textField.text;
-    if (newValue == nil || [newValue length] == 0
-        || [orginalValue isEqualToString:newValue]) {
-        [textField becomeFirstResponder];
+    if (newValue == nil || [newValue length] == 0){
+        [textField showTipView];
+        //[textField becomeFirstResponder];
+        return;
+    }else if ([newValue length] > self.maxLength){
+        [textField showTipView:[NSString stringWithFormat:@"%@不能超过%d位.", self.fieldname, self.maxLength]];
+        return;
+    }
+    else if([orginalValue isEqualToString:newValue]){
+        [textField showTipView:[NSString stringWithFormat:@"%@未修改，不需要保存.", self.fieldname]];
         return;
     }
     
@@ -70,6 +80,11 @@
 
 - (IBAction)backgroupTap:(id)sender {
     [self.inputTextField resignFirstResponder];
+}
+
+- (IBAction)textEditDone:(id)sender {
+    
+    [self save: nil];
 }
 
 @end

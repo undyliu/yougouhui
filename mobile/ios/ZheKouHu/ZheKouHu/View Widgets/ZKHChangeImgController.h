@@ -15,11 +15,14 @@
 @property (weak, nonatomic) IBOutlet UIImageView *delImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *previewImageView;
 
+@property (nonatomic) Boolean imageSelected;
+
 - (IBAction)imageClick:(UIImage *)sender;
 - (IBAction)delImageClick:(id)sender;
 - (IBAction)previewImageClick:(id)sender;
 
 - (IBAction)save:(id)sender;
+- (void) doSave;
 
 - (ZKHFileEntity *) getOriginalImageFile;
 

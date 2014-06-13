@@ -329,9 +329,11 @@ static NSString *CellIdentifier = @"ImageLabelCell";
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    
     self.title = @"店铺-修改名称";
+    self.fieldname = @"店铺";
+    self.maxLength = 60;
+    
+    [super viewDidLoad];
 }
 
 
@@ -358,8 +360,13 @@ static NSString *CellIdentifier = @"ImageLabelCell";
 
 - (void)viewDidLoad
 {
+    self.title = @"店铺-修改简介";
+    self.fieldname = @"简介";
+    self.maxLength = 200;
+    
     [super viewDidLoad];
-	self.title = @"店铺-修改简介";
+    
+    self.inputTextField.keyboardType = UIKeyboardTypeDefault;
 }
 
 
@@ -388,7 +395,7 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     return self.shop.shopImg;
 }
 
-- (void)save:(id)sender
+- (void)doSave
 {
     UIImage *image = self.imageView.image;
     NSString *aliasName = [NSString stringWithFormat:@"shopImage_%@.png", [NSDate currentTimeString]];
@@ -416,7 +423,8 @@ static NSString *CellIdentifier = @"ImageLabelCell";
     return self.shop.busiLicense;
 }
 
-- (void)save:(id)sender{
+- (void)doSave
+{
     UIImage *image = self.imageView.image;
     NSString *aliasName = [NSString stringWithFormat:@"busiLicense_%@.png", [NSDate currentTimeString]];
     NSString *filePath = [ZKHImageLoader saveImage:image fileName:aliasName];

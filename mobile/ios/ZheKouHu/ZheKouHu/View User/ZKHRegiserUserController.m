@@ -105,23 +105,37 @@
     if ([phone length] == 0) {
         [self.phoneField showTipView];
         cancel = true;
+    }else if ([phone length] != 11) {
+        [self.phoneField showTipView:@"请输入11位手机号."];
+        cancel = true;
     }
+    
     if ([name length] == 0) {
         [self.nameField showTipView];
+        cancel = true;
+    }else if ([name length] > 30){
+        [self.nameField showTipView:@"昵称字数太多啦."];
         cancel = true;
     }
     
     if ([pwd length] == 0) {
         [self.pwdField showTipView];
         cancel = true;
+    }else if([pwd length] < 4){
+        [self.pwdField showTipView:@"密码至少4位."];
+        cancel = true;
     }
     
     if ([pwdConf length] == 0) {
         [self.pwdConfField showTipView];
         cancel = true;
+    }else if([pwdConf length] < 4){
+        [self.pwdConfField showTipView:@"密码至少4位."];
+        cancel = true;
     }
     
     if (![pwd isEqualToString:pwdConf]) {
+        [self.pwdConfField showTipView:@"密码不一致."];
         cancel = true;
     }
     

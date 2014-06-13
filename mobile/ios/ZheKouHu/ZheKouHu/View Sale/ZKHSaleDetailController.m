@@ -21,7 +21,7 @@
 #import "ZKHContext.h"
 #import "ZKHShareController.h"
 #import "ZKHImageListPreviewController.h"
-
+#import "NSString+Utils.h"
 
 @implementation ZKHSaleDetailController
 
@@ -187,6 +187,8 @@
     
     UIBarButtonItem *myBtn = [[UIBarButtonItem alloc] initWithCustomView:navToolbar];
     self.navigationItem.rightBarButtonItem = myBtn;
+    
+    [self updateNavToolBarFrame];
 }
 
 - (void)didReceiveMemoryWarning
@@ -315,6 +317,15 @@
 
 #pragma mark - FaceToolBarDelegate
 -(void)sendTextAction:(NSString *)inputText{
+    NSLog(@"长度：%d", [inputText length]);
+    if ([NSString isNull:inputText]) {
+        [ZKHViewUtils showTipView:faceToolBar message:@"请输入评论." dismissTapAnywhere:YES autoDismissInvertal:2];
+        return;
+    }else if ([inputText length] > 30){
+        [ZKHViewUtils showTipView:faceToolBar message:@"评论最多30个字符." dismissTapAnywhere:YES autoDismissInvertal:2];
+        return;
+    }
+    
     [faceToolBar resignFirstResponder];
     faceToolBar.hidden = true;
     

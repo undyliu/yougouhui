@@ -9,6 +9,7 @@
 #import "ZKHChangeImgController.h"
 #import "ZKHImageLoader.h"
 #import "ZKHImagePreviewController.h"
+#import "ZKHViewUtils.h"
 
 #define kImageViewTag 0
 #define kDelImageViewTag 1
@@ -62,6 +63,16 @@
 
 - (void)save:(id)sender
 {
+    if (!self.imageSelected) {
+        [ZKHViewUtils showTipView:self.imageView message:@"请先选择图片." dismissTapAnywhere:true autoDismissInvertal:false];
+        return;
+    }
+    
+    [self doSave];
+}
+
+- (void)doSave
+{
     
 }
 
@@ -81,6 +92,7 @@
 - (void)delImageClick:(id)sender
 {
     self.imageView.image = [UIImage imageNamed:@"add_camera.png"];
+    self.imageSelected = false;
 }
 
 - (void)previewImageClick:(id)sender
@@ -115,6 +127,7 @@
 {
     UIImage *selectedImage = info[UIImagePickerControllerOriginalImage];
     self.imageView.image = selectedImage;
+    self.imageSelected = true;
     
     [picker dismissViewControllerAnimated:YES completion:nil];
 }

@@ -15,9 +15,8 @@
 #import "ZKHContext.h"
 #import "NSString+Utils.h"
 
-@interface ZKHLoginController ()
-
-@end
+#define kAuth_user_error @"user-error"
+#define kAuth_pass_error @"pass-error"
 
 @implementation ZKHLoginController
 
@@ -92,16 +91,6 @@
     }
 }
 
-- (IBAction)phoneFieldEditingEnd:(id)sender {
-    NSString *phone = self.phoneText.text;
-    if ([phone length] == 0) {
-        self.phoneText.layer.cornerRadius = 8.0f;
-        self.phoneText.layer.masksToBounds = YES;
-        self.phoneText.layer.borderColor = [[UIColor redColor] CGColor];
-        self.phoneText.layer.borderWidth = 2.0f;
-    }
-}
-
 - (IBAction)autoLoginChanged:(UISwitch *)sender {
     if (sender.isOn) {
         [self.rememberPwdSwitch setOn:sender.isOn animated:YES];
@@ -119,13 +108,14 @@
     Boolean cancel = false;
     
     if ([pwd length] == 0) {
-        self.pwdText.layer.borderColor = [[UIColor redColor] CGColor];
         cancel = true;
         [self.pwdText showTipView];
+    }else if ([pwd length] < 4){
+        cancel = true;
+        [self.pwdText showTipView:@"密码至少4位."];
     }
     
     if ([phone length] == 0) {
-        self.phoneText.layer.borderColor = [[UIColor redColor] CGColor];
         cancel = true;
         [self.phoneText showTipView];
     }
@@ -155,7 +145,12 @@
             
             [self.navigationController popToRootViewControllerAnimated:YES];
         }else{
-            //NSString *error = [authObj objectForKey:KEY_ERROR_TYPE];
+            NSString *error = [authObj objectForKey:KEY_ERROR_TYPE];
+            if ([error isEqualToString:kAuth_user_error]) {
+                [self.phoneText showTipView:@"不存在此手机号的会员."];
+            }else if ([error isEqualToString:kAuth_pass_error]){
+                [self.pwdText showTipView:@"密码错误."];
+            }
         }
         
     } errorHandler:^(ZKHErrorEntity *error) {

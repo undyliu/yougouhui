@@ -7,10 +7,7 @@
 //
 
 #import "ZKHChangePwdController.h"
-
-@interface ZKHChangePwdController ()
-
-@end
+#import "NSString+Utils.h"
 
 @implementation ZKHChangePwdController
 
@@ -37,6 +34,10 @@
     
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save:)];
     self.navigationItem.rightBarButtonItem = saveButton;
+    
+    self.oldPwdField.popMessageWhenEmptyText = @"原密码不能为空.";
+    self.pwdNewField.popMessageWhenEmptyText = @"新密码不能为空.";
+    self.pwdNewConfField.popMessageWhenEmptyText = @"新密码确认不能为空.";
 }
 
 - (void)didReceiveMemoryWarning
@@ -59,20 +60,30 @@
     NSString *oldPwd = self.oldPwdField.text;
     if ([oldPwd length] == 0) {
         cancel = true;
-    }
-    
-    if (orginalPwd != nil && ![orginalPwd isEqualToString:oldPwd]) {
+        [self.oldPwdField showTipView];
+    }else if (orginalPwd != nil && ![orginalPwd isEqualToString:oldPwd]) {
         cancel = true;
+        [self.oldPwdField showTipView:@"原密码输入错误."];
     }
     
     NSString *newPwd = self.pwdNewField.text;
     NSString *newConfPwd = self.pwdNewConfField.text;
-    if ([newPwd length] < 4 || [newConfPwd length] < 4) {
+    
+    if ([NSString isNull:newPwd]) {
         cancel = true;
+        [self.pwdNewField showTipView];
+    }else if ([newPwd length] < 4){
+        cancel = true;
+        [self.pwdNewField showTipView:@"密码至少4位."];
     }
     
-    if (![newPwd isEqualToString:newConfPwd]) {
+    if ([NSString isNull:newConfPwd]) {
         cancel = true;
+        [self.pwdNewConfField showTipView];
+    }
+    else if (![newPwd isEqualToString:newConfPwd]) {
+        cancel = true;
+        [self.pwdNewConfField showTipView:@"新密码不一致."];
     }
     
     if (cancel) {

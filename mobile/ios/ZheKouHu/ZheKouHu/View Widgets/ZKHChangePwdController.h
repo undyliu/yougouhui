@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZKHTextField.h"
 
 @interface ZKHChangePwdController : UIViewController
 {
@@ -15,9 +16,9 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *itemNameLable;
 @property (weak, nonatomic) IBOutlet UILabel *itemValueLabel;
-@property (weak, nonatomic) IBOutlet UITextField *oldPwdField;
-@property (weak, nonatomic) IBOutlet UITextField *pwdNewField;
-@property (weak, nonatomic) IBOutlet UITextField *pwdNewConfField;
+@property (weak, nonatomic) IBOutlet ZKHTextField *oldPwdField;
+@property (weak, nonatomic) IBOutlet ZKHTextField *pwdNewField;
+@property (weak, nonatomic) IBOutlet ZKHTextField *pwdNewConfField;
 
 - (NSString *) getOriginalPwd;
 

@@ -111,6 +111,7 @@ static NSString *switchCellIdentifier = @"SwitchCell";
     }
     
     if ([swIds count] == 0) {
+        [ZKHViewUtils showTipView:switches[0] inView: self.tableView message:@"请至少选择一个主营业务." dismissTapAnywhere:YES autoDismissInvertal:-1];
         return;
     }
     

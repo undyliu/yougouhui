@@ -15,11 +15,15 @@
 }
 @property (weak, nonatomic) IBOutlet ZKHTextField *inputTextField;
 
+@property (strong, nonatomic) NSString *fieldname;
+@property (nonatomic) int maxLength;
+
 - (NSString *) getOriginalTextFieldValue;
 
 - (IBAction)save:(id)sender;
 - (void) doSave:(NSString *) newValue;
 
 - (IBAction)backgroupTap:(id)sender;
+- (IBAction)textEditDone:(id)sender;
 
 @end
