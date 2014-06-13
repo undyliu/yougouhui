@@ -52,9 +52,6 @@ static NSString *CellIdentifier = @"ContactListCell";
             user.friends = friends;
             [self initializeData:friends];
             [self.tableView reloadData];
-        } errorHandler:^(NSError *error) {
-            [self initializeData:nil];
-            [self.tableView reloadData];
         }];
     }
     

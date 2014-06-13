@@ -53,8 +53,7 @@ static NSString *pickerCellIdentifier = @"PickerCell";
                 [self checkAndinitializeSettingValue];
                 [self.tableView reloadData];
             }
-        } errorHandler:^(NSError *error) {
-        }];
+        } ];
     }else{
         [self checkAndinitializeSettingValue];
     }
@@ -84,9 +83,7 @@ static NSString *pickerCellIdentifier = @"PickerCell";
     
     [ApplicationDelegate.zkhProcessor saveSetting:self.radarSetting completionHandler:^(Boolean result) {
         
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 #pragma mark - Table view data source

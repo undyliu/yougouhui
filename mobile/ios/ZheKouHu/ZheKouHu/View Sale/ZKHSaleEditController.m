@@ -94,9 +94,7 @@
         
         [self.view addSubview:_radio1];
 
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (void)initializeDiscussView
@@ -136,9 +134,7 @@
         [ApplicationDelegate.zkhProcessor discussesForSale:self.sale updateTime:sync completionHandler:^(NSMutableArray *discusses) {
             discussListController.discusses = discusses;
             [self.disTableView reloadData];
-        } errorHandler:^(NSError *error) {
-            
-        }];
+        } ];
     }else{
         self.disTableView.hidden = true;
         self.disImageView.image = [UIImage imageNamed:@"arrow_down.png"];
@@ -155,8 +151,6 @@
         [ApplicationDelegate.zkhProcessor saleImages:self.sale completionHandler:^(NSMutableArray *saleImages) {
             controller.imageFiles = self.sale.images;
             [self.navigationController pushViewController:controller animated:YES];
-        } errorHandler:^(NSError *error) {
-            
         }];
     }
 }
@@ -168,9 +162,7 @@
             cancelButton.title = @"已作废";
             cancelButton.enabled = false;
         }
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (void)didReceiveMemoryWarning

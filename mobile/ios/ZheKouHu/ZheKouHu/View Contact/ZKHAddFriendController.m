@@ -72,9 +72,7 @@ static NSString *CellIdentifier = @"AddFriendResultCell";
     [ApplicationDelegate.zkhProcessor searchUsers:searchWord completionHandler:^(NSMutableArray *friends) {
         resultController.result = friends;
         [self.resultTableVIew reloadData];
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 @end
@@ -152,8 +150,6 @@ static NSString *CellIdentifier = @"AddFriendResultCell";
             [sender setTitle:@"已是朋友" forState:UIControlStateNormal];
             sender.enabled =false;
         }
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 @end

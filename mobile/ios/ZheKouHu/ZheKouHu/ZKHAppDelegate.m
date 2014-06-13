@@ -47,9 +47,7 @@
                     [[ZKHContext getInstance] setUser:user];
                 }
                 [self initViewControllers];
-            } errorHandler:^(NSError *error) {
-                [self initViewControllers];
-            }];
+            } ];
         }else{
             [self initViewControllers];
         }

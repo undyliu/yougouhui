@@ -40,9 +40,7 @@ static NSString *CellIdentifier = @"FavoritListCell";
     [ApplicationDelegate.zkhProcessor saleFavorits:[ZKHContext getInstance].user.uuid completionHandler:^(NSMutableArray *favorits) {
         self.saleFavorits = favorits;
         [self.pullTableView reloadData];
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (void)didReceiveMemoryWarning
@@ -84,9 +82,7 @@ static NSString *CellIdentifier = @"FavoritListCell";
             controller.sale = sale;
             [self.navigationController pushViewController:controller animated:YES];
         }
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

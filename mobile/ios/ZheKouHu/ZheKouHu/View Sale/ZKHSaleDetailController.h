@@ -36,6 +36,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *disImageView;
 @property (weak, nonatomic) IBOutlet PullTableView *disTableView;
 @property (weak, nonatomic) IBOutlet UILabel *moreImageLabel;
+@property (weak, nonatomic) IBOutlet UIButton *disButton;
+
 - (IBAction)discuss:(id)sender;
 
 

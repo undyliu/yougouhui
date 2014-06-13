@@ -14,13 +14,13 @@
 //获取设置条目
 typedef void (^SettingsResponseBlock)(NSMutableArray* settings);
 - (void) settings: (SettingsResponseBlock) settingsBlock
-     errorHandler:(RestResponseErrorBlock) errorBlock;
+     ;
 
 typedef void (^SettingResponseBlock)(ZKHSettingEntity* setting);
-- (void) setting:(NSString *)code userId:(NSString *)userId completionHandler:(SettingResponseBlock) settingBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) setting:(NSString *)code userId:(NSString *)userId completionHandler:(SettingResponseBlock) settingBlock ;
 
-- (void) radarSetting:(NSString *)userId withDefaultValue:(Boolean)withDefaultValue completionHandler:(SettingResponseBlock) settingBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) radarSetting:(NSString *)userId withDefaultValue:(Boolean)withDefaultValue completionHandler:(SettingResponseBlock) settingBlock ;
 
-- (void) saveSetting:(ZKHSettingEntity *)setting completionHandler:(BooleanResultResponseBlock) settingBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) saveSetting:(ZKHSettingEntity *)setting completionHandler:(BooleanResultResponseBlock) settingBlock ;
 
 @end

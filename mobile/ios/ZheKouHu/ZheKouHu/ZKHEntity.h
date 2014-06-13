@@ -12,6 +12,12 @@
 @property (strong, nonatomic) NSString *uuid;
 @end
 
+//错误
+@interface ZKHErrorEntity : NSObject
+@property (strong, nonatomic) NSString *type;
+@property (strong, nonatomic) NSString *message;
+@end
+
 //文件
 @interface ZKHFileEntity : ZKHEntity<NSCopying>
 @property (strong, nonatomic) NSString *fileUrl;

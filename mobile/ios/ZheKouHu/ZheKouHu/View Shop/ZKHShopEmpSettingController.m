@@ -51,9 +51,7 @@ static NSString *CellIdentifier = @"ShopEmpSettingCell";
     [ApplicationDelegate.zkhProcessor shopEmps:self.shop.uuid completionHandler:^(NSMutableArray *shopEmpsResult) {
         shopEmps = shopEmpsResult;
         [self.tableView reloadData];
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -109,9 +107,7 @@ static NSString *CellIdentifier = @"ShopEmpSettingCell";
                 [shopEmps addObjectsFromArray:users];
                 [viewController.navigationController popViewControllerAnimated:YES];
             }
-        } errorHandler:^(NSError *error) {
-            
-        }];
+        } ];
     }else{
         [viewController.navigationController popViewControllerAnimated:YES];
     }
@@ -163,9 +159,7 @@ static NSString *CellIdentifier = @"ShopEmpSettingCell";
                 [shopEmps removeObject:emp];
                 [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }
-        } errorHandler:^(NSError *error) {
-            
-        }];
+        } ];
         
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {

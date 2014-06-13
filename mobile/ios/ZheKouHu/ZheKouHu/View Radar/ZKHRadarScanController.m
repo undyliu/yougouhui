@@ -51,9 +51,7 @@
         NSDictionary *value = [setting.value toJSONObject];
         NSString *disctance = [value valueForKey:RADAR_VAL_FIELD_DISTANCE];
         self.hitLabel.text = [NSString stringWithFormat:@"附近 %@ 米范围内的:", disctance];
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -66,9 +66,7 @@ static NSString *switchCellIdentifier = @"SwitchCell";
     [ApplicationDelegate.zkhProcessor trades:true completionHandler:^(NSMutableArray *trades) {
         _trades = trades;
         [self.tradesController.tableView reloadData];
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
     
     [ZKHViewUtils setTableViewExtraCellLineHidden:self.tradesController.tableView];
     
@@ -233,9 +231,7 @@ static NSString *switchCellIdentifier = @"SwitchCell";
             [ZKHImageLoader removeImageWithName:shop.shopImg.aliasName];
             [ZKHImageLoader removeImageWithName:shop.busiLicense.aliasName];
         }
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (void)addPicViewClick:(UITapGestureRecognizer *)sender

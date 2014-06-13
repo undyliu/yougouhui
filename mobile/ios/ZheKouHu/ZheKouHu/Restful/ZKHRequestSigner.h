@@ -13,6 +13,6 @@
 
 typedef void (^authResponseBlock)(ZKHRestRequest *request);
 typedef void (^RestResponseErrorBlock)(NSError* error);
-- (void) authorize:(ZKHRestRequest *)request completionHandler:(authResponseBlock)authorizeBlock errorHandler:(RestResponseErrorBlock)errorBlock;
+- (void) authorize:(ZKHRestRequest *)request completionHandler:(authResponseBlock)authorizeBlock;
 
 @end

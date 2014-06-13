@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ZKHEntity.h"
 
 @interface ZKHRestRequest : NSObject
 

@@ -93,6 +93,8 @@
     
     if ([[ZKHContext getInstance] isAnonymousUserLogined]) {
         ////[self updateNavigationItem:@[shareItem]];
+        
+        self.disButton.hidden = true;
     }else{
         [ApplicationDelegate.zkhProcessor isSaleFavorit:[ZKHContext getInstance].user.uuid saleId:self.sale.uuid completionHandler:^(Boolean result) {
             if (result) {
@@ -100,9 +102,7 @@
             }else{
                 [self updateNavigationItem:@[shareItem, favoritItem]];
             }
-        } errorHandler:^(NSError *error) {
-        
-        }];
+        } ];
     }
     
     //设置输入键盘
@@ -204,9 +204,7 @@
         [ApplicationDelegate.zkhProcessor saleImages:self.sale completionHandler:^(NSMutableArray *saleImages) {
             controller.imageFiles = self.sale.images;
             [self.navigationController pushViewController:controller animated:YES];
-        } errorHandler:^(NSError *error) {
-            
-        }];
+        } ];
     }
     
 }
@@ -224,9 +222,7 @@
         ZKHShopInfoController *controller = [[ZKHShopInfoController alloc] init];
         controller.shop = shop;
         [self.navigationController pushViewController:controller animated:YES];
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (void)discussLabelClick:(id)sender
@@ -252,9 +248,7 @@
         [ApplicationDelegate.zkhProcessor discussesForSale:self.sale updateTime:sync completionHandler:^(NSMutableArray *discusses) {
             discussListController.discusses = discusses;
             [self.disTableView reloadData];
-        } errorHandler:^(NSError *error) {
-            
-        }];
+        } ];
     }else{
         self.disTableView.hidden = true;
         self.disImageView.image = [UIImage imageNamed:@"arrow_down.png"];
@@ -275,9 +269,7 @@
         if (result) {
             [self updateNavigationItem:@[shareItem, cancelFavoritItem]];
         }
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (void)cancelFavoritClick:(id)sender
@@ -286,9 +278,7 @@
         if (result) {
             [self updateNavigationItem:@[shareItem, favoritItem]];
         }
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (void)shareClick:(id)sender
@@ -328,9 +318,7 @@
             [discussListController.discusses addObject:discuss];
             [discussListController.tableView reloadData];
         }
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 #pragma mark - ZKHSaleValueChangedDelegat

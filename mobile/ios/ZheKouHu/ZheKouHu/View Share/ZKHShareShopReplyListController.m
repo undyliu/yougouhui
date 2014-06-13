@@ -42,9 +42,7 @@ static NSString *CellIdentifier = @"ShareShopReplyCell";
     [ApplicationDelegate.zkhProcessor sharesByShop:nil shopId:self.shop.uuid offset:offset completionHandler:^(NSMutableArray *shareList) {
         shares = shareList;
         [self.pullTableView reloadData];
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (void)viewWillAppear:(BOOL)animated

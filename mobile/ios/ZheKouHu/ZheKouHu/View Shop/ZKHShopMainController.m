@@ -94,9 +94,7 @@ static NSString *CellIdentifier = @"ShopModuleCell";
     //强制加载所有的主营业务
     [ApplicationDelegate.zkhProcessor trades:true completionHandler:^(NSMutableArray *trades) {
         
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (void) shopSelected:(ZKHShopEntity *) shop

@@ -79,9 +79,7 @@
             controller.shops = [authObj valueForKey:KEY_SHOP_LIST];
             [self.navigationController pushViewController:controller animated:YES];
         }
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (IBAction)registerShop:(UIButton *)sender {

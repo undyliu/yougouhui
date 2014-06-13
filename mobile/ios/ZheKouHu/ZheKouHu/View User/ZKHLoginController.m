@@ -158,9 +158,7 @@
             //NSString *error = [authObj objectForKey:KEY_ERROR_TYPE];
         }
         
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
     
 }
 

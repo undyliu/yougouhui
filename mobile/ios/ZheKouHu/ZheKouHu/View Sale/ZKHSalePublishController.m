@@ -164,9 +164,7 @@ static NSString *CellIdentifier = @"DefaultPictureCell";
         }else{
             [self deleteImageFiles:sale.images];
         }
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (NSMutableArray *) getImageFiles

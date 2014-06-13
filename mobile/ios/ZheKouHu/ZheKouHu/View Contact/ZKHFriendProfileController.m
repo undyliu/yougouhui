@@ -65,9 +65,7 @@
         if (result) {
             self.navigationItem.rightBarButtonItem = delFriendButton;
         }
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (void)delFriend:(id)sender
@@ -79,8 +77,6 @@
             self.navigationItem.rightBarButtonItem = addFriendButton;
             
         }
-    } errorHandler:^(NSError *error) {
-        
     }];
 }
 

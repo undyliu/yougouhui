@@ -15,6 +15,7 @@
     ZKHRestClient *restClient;
 }
 
+//统一的成功与否的返回处理
 typedef void (^BooleanResultResponseBlock)(Boolean result);
 
 typedef void (^ZKHImageResponseBlock)(UIImage *fetchedImage);
@@ -22,11 +23,10 @@ typedef void (^ZKHImageResponseBlock)(UIImage *fetchedImage);
 
 //获取功能模块
 typedef void (^ModulesResponseBlock)(NSMutableArray* modules);
-- (void) modulesForType: (NSString *) type completionHandler:(ModulesResponseBlock) modulesBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) modulesForType: (NSString *) type completionHandler:(ModulesResponseBlock) modulesBlock;
 
 //获取栏目
 typedef void (^ChannelsResponseBlock)(NSMutableArray* channels);
-- (void) channels: (NSString *)parentId completionHandler:(ChannelsResponseBlock) channelsBlock
-     errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) channels: (NSString *)parentId completionHandler:(ChannelsResponseBlock) channelsBlock;
 
 @end

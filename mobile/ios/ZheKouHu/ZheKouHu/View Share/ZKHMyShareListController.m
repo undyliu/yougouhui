@@ -54,9 +54,7 @@ static NSString *CellIdentifier = @"MyShareListCell";
     [ApplicationDelegate.zkhProcessor sharesGroupByPublishDate:nil userId:[ZKHContext getInstance].user.uuid offset:offset completionHandler:^(NSMutableArray *shares) {
         shareCountList = shares;
         [self.pullTableView reloadData];
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (void)didReceiveMemoryWarning

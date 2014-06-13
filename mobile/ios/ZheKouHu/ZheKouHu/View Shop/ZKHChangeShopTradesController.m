@@ -48,9 +48,7 @@ static NSString *switchCellIdentifier = @"SwitchCell";
     [ApplicationDelegate.zkhProcessor trades:false completionHandler:^(NSMutableArray *trades) {
         _trades = trades;
         [self.tableView reloadData];
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (void)didReceiveMemoryWarning
@@ -119,9 +117,7 @@ static NSString *switchCellIdentifier = @"SwitchCell";
             self.shop.trades = shopTrades;
             [self.navigationController popViewControllerAnimated:YES];
         }
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 @end

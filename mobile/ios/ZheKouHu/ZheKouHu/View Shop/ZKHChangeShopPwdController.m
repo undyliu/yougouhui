@@ -47,8 +47,6 @@
         if (result) {
             [self.navigationController popViewControllerAnimated:YES];
         }
-    } errorHandler:^(NSError *error) {
-        
     }];
 }
 

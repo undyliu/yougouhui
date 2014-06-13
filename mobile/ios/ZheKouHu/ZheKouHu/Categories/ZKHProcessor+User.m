@@ -16,15 +16,13 @@
 
 //登录
 #define LOGIN_URL @"/login"
-- (void)login:(NSString *)phone pwd:(NSString *)pwd completionHandler:(LoginResponseBlock)loginBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)login:(NSString *)phone pwd:(NSString *)pwd completionHandler:(LoginResponseBlock)loginBlock
 {
     ZKHUserData *data = [[ZKHUserData alloc] init];
     ZKHUserEntity *user = [data user:phone];
     if ([pwd isEqualToString:user.pwd]) {
         [self friends:user.uuid completionHandler:^(NSMutableArray *friends) {
             user.friends = friends;
-        } errorHandler:^(NSError *error) {
-            
         }];
         
         loginBlock([[NSMutableDictionary alloc] initWithDictionary: @{KEY_USER: user, KEY_AUTHED: @"true"}]);
@@ -33,12 +31,10 @@
     
     [self remoteLogin:phone pwd:pwd completionHandler:^(NSMutableDictionary *authObj) {
         loginBlock(authObj);
-    } errorHandler:^(NSError *error) {
-        errorBlock(error);
     }];
 }
 
-- (void)remoteLogin:(NSString *)phone pwd:(NSString *)pwd completionHandler:(LoginResponseBlock)loginBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)remoteLogin:(NSString *)phone pwd:(NSString *)pwd completionHandler:(LoginResponseBlock)loginBlock
 {
     NSDictionary *params = @{KEY_PHONE : phone, KEY_PWD : pwd};
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
@@ -79,9 +75,7 @@
         }
         
         loginBlock(authedObj);
-    } errorHandler:^(NSError *error) {
-        errorBlock(error);
-    }];
+    } ];
 
 }
 
@@ -107,7 +101,7 @@
 
 //修改昵称
 #define UPDATE_USER_NAME_URL @"/updateUserName"
-- (void)changeUserName:(ZKHUserEntity *)user newName:(NSString *)newName completionHandler:(BooleanResultResponseBlock)changeNameBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)changeUserName:(ZKHUserEntity *)user newName:(NSString *)newName completionHandler:(BooleanResultResponseBlock)changeNameBlock
 {
     NSDictionary *params = @{KEY_UUID : user.uuid, KEY_NAME : newName};
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
@@ -122,14 +116,12 @@
         }else{
             changeNameBlock(false);
         }
-    } errorHandler:^(NSError *error) {
-        errorBlock(error);
     }];
 }
 
 //修改密码
 #define UPDATE_USER_PWD_URL @"/updateUserPwd"
-- (void)changeUserPwd:(ZKHUserEntity *)user newPwd:(NSString *)newPwd completionHander:(BooleanResultResponseBlock)changePwdBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)changeUserPwd:(ZKHUserEntity *)user newPwd:(NSString *)newPwd completionHander:(BooleanResultResponseBlock)changePwdBlock 
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = UPDATE_USER_PWD_URL;
@@ -149,14 +141,12 @@
         }else{
             changePwdBlock(false);
         }
-    } errorHandler:^(NSError *error) {
-        errorBlock(error);
-    }];
+    } ];
 }
 
 //修改头像
 #define UPDATE_USER_PHOTO_URL @"/saveUserPhoto"
-- (void)changeUserPhoto:(ZKHUserEntity *)user newPhoto:(ZKHFileEntity *)newPhoto completionHander:(BooleanResultResponseBlock)changePhotoBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)changeUserPhoto:(ZKHUserEntity *)user newPhoto:(ZKHFileEntity *)newPhoto completionHander:(BooleanResultResponseBlock)changePhotoBlock 
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = UPDATE_USER_PHOTO_URL;
@@ -171,14 +161,12 @@
         }else{
             changePhotoBlock(false);
         }
-    } errorHandler:^(NSError *error) {
-        errorBlock(error);
     }];
 }
 
 //会员注册
 #define REGISTER_USER_URL @"/registerUser"
-- (void)registerUser:(ZKHUserEntity *)user completionHandler:(RegisterUserResponseBlock)resgisterUserBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)registerUser:(ZKHUserEntity *)user completionHandler:(RegisterUserResponseBlock)resgisterUserBlock 
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.method = METHOD_POST;
@@ -202,15 +190,12 @@
         }else{
             resgisterUserBlock(nil);
         }
-    } errorHandler:^(NSError *error) {
-        errorBlock(error);
-    }];
+    } ];
 }
 
 //获取朋友列表
 #define GET_FRIENDS_URL(__USER_ID__) [NSString stringWithFormat:@"/getFriends/%@", __USER_ID__]
-- (void)friends:(NSString *)userId completionHandler:(FriendsResponseBlock) friendsBlock errorHandler:(RestResponseErrorBlock) errorBlock
-{
+- (void)friends:(NSString *)userId completionHandler:(FriendsResponseBlock) friendsBlock {
     ZKHUserData *userData = [[ZKHUserData alloc] init];
     NSMutableArray *friends = [userData friends:userId];
     if ([friends count] > 0) {
@@ -240,14 +225,12 @@
             [userData saveFriends:userId friends:[userFriends copy]];
         }
         friendsBlock(userFriends);
-    } errorHandler:^(NSError *error) {
-        errorBlock(error);
-    }];
+    } ];
 }
 
 //搜索用户
 #define SEARCH_USERS_URL @"/searchUsers"
-- (void)searchUsers:(NSString *)searchWord completionHandler:(FriendsResponseBlock)friendsBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)searchUsers:(NSString *)searchWord completionHandler:(FriendsResponseBlock)friendsBlock 
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = SEARCH_USERS_URL;
@@ -262,14 +245,12 @@
             [users addObject:user];
         }
         friendsBlock(users);
-    } errorHandler:^(NSError *error) {
-        errorBlock(error);
-    }];
+    } ];
 }
 
 //添加朋友
 #define ADD_FRIEND_URL @"/addFriend"
-- (void)addFriend:(ZKHUserEntity *)user uFriend:(ZKHUserEntity *)uFriend completionHander:(BooleanResultResponseBlock)addFriendBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)addFriend:(ZKHUserEntity *)user uFriend:(ZKHUserEntity *)uFriend completionHander:(BooleanResultResponseBlock)addFriendBlock 
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = ADD_FRIEND_URL;
@@ -290,14 +271,12 @@
         }else{
             addFriendBlock(false);
         }
-    } errorHandler:^(NSError *error) {
-        errorBlock(error);
-    }];
+    } ];
 }
 
 //删除朋友
 #define DEL_FRIEND_URL @"/deleteFriend"
-- (void)deleteFriend:(NSString *)userId friendId:(NSString *)friendId completionHander:(BooleanResultResponseBlock)delFriendBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)deleteFriend:(NSString *)userId friendId:(NSString *)friendId completionHander:(BooleanResultResponseBlock)delFriendBlock 
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = [NSString stringWithFormat:@"%@/%@/%@", DEL_FRIEND_URL, [userId mk_urlEncodedString], [friendId mk_urlEncodedString]];
@@ -311,9 +290,7 @@
             [[[ZKHUserData alloc] init] deleteFriend:userId friendId:friendId];
             delFriendBlock(true);
         }
-    } errorHandler:^(NSError *error) {
-        errorBlock(error);
-    }];
+    } ];
 }
 
 @end

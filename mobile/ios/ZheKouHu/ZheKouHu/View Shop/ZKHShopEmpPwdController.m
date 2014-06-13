@@ -62,8 +62,6 @@
             self.emp.pwd = pwd;
             [self.navigationController popViewControllerAnimated:YES];
         }
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 @end

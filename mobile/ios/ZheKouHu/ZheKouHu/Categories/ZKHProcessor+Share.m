@@ -19,7 +19,7 @@
 
 //发布分享
 #define PUBLISH_SHARE_URL @"/saveShare"
-- (void)publishShare:(ZKHShareEntity *)share completionHandler:(BooleanResultResponseBlock)publishShareBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)publishShare:(ZKHShareEntity *)share completionHandler:(BooleanResultResponseBlock)publishShareBlock 
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.method = METHOD_POST;
@@ -62,9 +62,7 @@
         }else{
             publishShareBlock(false);
         }
-    } errorHandler:^(NSError *error) {
-        errorBlock(error);
-    }];
+    } ];
 }
 
 - (ZKHSyncEntity *) shareSyncEntity
@@ -83,7 +81,7 @@
 }
 
 #define  GET_FRIEND_SHARES_URL(__USER_ID__, __UPDATE_TIME__) [NSString stringWithFormat:@"/getFriendShares/%@/%@", __USER_ID__, __UPDATE_TIME__]
-- (void)friendShares:(NSString *)userId offset:(int)offset completionHandler:(SharesResponseBlock)sharesBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)friendShares:(NSString *)userId offset:(int)offset completionHandler:(SharesResponseBlock)sharesBlock 
 {
     ZKHShareData *shareData = [[ZKHShareData alloc] init];
     if (userId) {
@@ -193,13 +191,11 @@
             //[[[ZKHSyncData alloc] init] save:@[shareSync]];
         }
         sharesBlock(shares);
-    } errorHandler:^(NSError *error) {
-        errorBlock(error);
-    }];
+    } ];
 }
 
 #define ADD_COMMENT_URL @"saveComment"
-- (void)addComment:(ZKHShareCommentEntity *)comment completionHandler:(BooleanResultResponseBlock)addCommentBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)addComment:(ZKHShareCommentEntity *)comment completionHandler:(BooleanResultResponseBlock)addCommentBlock 
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = ADD_COMMENT_URL;
@@ -218,13 +214,11 @@
             
             addCommentBlock(true);
         }
-    } errorHandler:^(NSError *error) {
-        errorBlock(error);
-    }];
+    } ];
 }
 
 #define DEL_COMMENT(__UUID__) [NSString stringWithFormat:@"/deleteComment/%@", __UUID__]
-- (void)deleteComment:(ZKHShareCommentEntity *)comment completionHandler:(BooleanResultResponseBlock)deleteCommentBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)deleteComment:(ZKHShareCommentEntity *)comment completionHandler:(BooleanResultResponseBlock)deleteCommentBlock 
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = DEL_COMMENT(comment.uuid);
@@ -238,13 +232,11 @@
             [[[ZKHShareCommentData alloc] init] deleteComment:comment.uuid];
             deleteCommentBlock(true);
         }
-    } errorHandler:^(NSError *error) {
-        errorBlock(error);
-    }];
+    } ];
 }
 
 #define DEL_SHARE(__UUID__) [NSString stringWithFormat:@"/deleteShare/%@", __UUID__]
-- (void)deleteShare:(ZKHShareEntity *)share completionHandler:(BooleanResultResponseBlock)deleteShareBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)deleteShare:(ZKHShareEntity *)share completionHandler:(BooleanResultResponseBlock)deleteShareBlock 
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = DEL_SHARE(share.uuid);
@@ -258,19 +250,17 @@
             [[[ZKHShareData alloc] init] deleteShare:share.uuid];
             deleteShareBlock(true);
         }
-    } errorHandler:^(NSError *error) {
-        errorBlock(error);
-    }];
+    } ];
 }
 
-- (void)sharesGroupByPublishDate:(NSString *)searchWord userId:(NSString *)userId offset:(int)offset completionHandler:(SharesResponseBlock)shareBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)sharesGroupByPublishDate:(NSString *)searchWord userId:(NSString *)userId offset:(int)offset completionHandler:(SharesResponseBlock)shareBlock 
 {
     ZKHShareData *shareData = [[ZKHShareData alloc] init];
     NSMutableArray *shareCountList = [shareData sharesGroupByPublishDate:searchWord userId:userId offset:offset];
     shareBlock(shareCountList);
 }
 
-- (void)sharesByShop:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset completionHandler:(SharesResponseBlock)shareBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)sharesByShop:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset completionHandler:(SharesResponseBlock)shareBlock 
 {
     ZKHShareData *shareData = [[ZKHShareData alloc] init];
     NSMutableArray *shares = [shareData sharesByShop:searchWord shopId:shopId offset:offset];
@@ -278,7 +268,7 @@
 }
 
 #define SAVE_SHARE_SHOP_REPLY_URL @"/saveShareReply"
-- (void)saveShareShopReply:(ZKHShareShopReplyEntity *)shopReply completionHandler:(BooleanResultResponseBlock)saveShopReplyBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)saveShareShopReply:(ZKHShareShopReplyEntity *)shopReply completionHandler:(BooleanResultResponseBlock)saveShopReplyBlock 
 {
     ZKHRestRequest *request = [[ZKHRestRequest alloc] init];
     request.urlString = SAVE_SHARE_SHOP_REPLY_URL;
@@ -298,9 +288,7 @@
             
             saveShopReplyBlock(true);
         }
-    } errorHandler:^(NSError *error) {
-        errorBlock(error);
-    }];
+    } ];
 }
 
 @end

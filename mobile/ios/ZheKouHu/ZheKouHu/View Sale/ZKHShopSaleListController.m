@@ -50,9 +50,7 @@ static NSString *CellIdentifier = @"ShopSaleListCell";
     [ApplicationDelegate.zkhProcessor salesGroupByPublishDate:nil shopId:self.shop.uuid offset:offset completionHandler:^(NSMutableArray *sales) {
         saleCountList = sales;
         [self.pullTableView reloadData];
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 - (void)viewWillAppear:(BOOL)animated

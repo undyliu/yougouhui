@@ -76,9 +76,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
         [ApplicationDelegate.zkhProcessor friendShares:[ZKHContext getInstance].user.uuid offset:offset completionHandler:^(NSMutableArray *sharesValue) {
             self.shares = sharesValue;
             [self.pullTableView reloadData];
-        } errorHandler:^(NSError *error) {
-            
-        }];
+        } ];
     }
 }
 
@@ -140,9 +138,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
                     [self.shares removeObject:share];
                     [self.pullTableView reloadData];
                 }
-            } errorHandler:^(NSError *error) {
-                
-            }];
+            } ];
         }];
     }
     actionSheet.cornerRadius = 5;
@@ -253,9 +249,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
             share.shopReply = shopReply;
             [self.pullTableView reloadData];
         }
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
     
 }
 
@@ -379,9 +373,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
             [share.comments addObject:comment];
             [self.pullTableView reloadData];
         }
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    } ];
 }
 
 #pragma mark - ZKHCommentChangedDelegate

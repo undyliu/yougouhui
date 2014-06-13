@@ -42,6 +42,11 @@
     self.delPhotoView.hidden = true;
     
     [self.mainView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backgroupTap:)]];
+    
+    self.phoneField.popMessageWhenEmptyText = @"手机号不能为空.";
+    self.nameField.popMessageWhenEmptyText = @"昵称不能为空.";
+    self.pwdField.popMessageWhenEmptyText = @"密码不能为空.";
+    self.pwdConfField.popMessageWhenEmptyText = @"密码确认不能为空.";
 }
 
 - (void)didReceiveMemoryWarning
@@ -98,17 +103,21 @@
     Boolean cancel = false;
     
     if ([phone length] == 0) {
+        [self.phoneField showTipView];
         cancel = true;
     }
     if ([name length] == 0) {
+        [self.nameField showTipView];
         cancel = true;
     }
     
     if ([pwd length] == 0) {
+        [self.pwdField showTipView];
         cancel = true;
     }
     
     if ([pwdConf length] == 0) {
+        [self.pwdConfField showTipView];
         cancel = true;
     }
     
@@ -142,8 +151,6 @@
         }else{
             [ZKHImageLoader removeImageWithName:user.photo.aliasName];
         }
-    } errorHandler:^(NSError *error) {
-        [ZKHImageLoader removeImageWithName:user.photo.aliasName];
-    }];
+    } ];
 }
 @end

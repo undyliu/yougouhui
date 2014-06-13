@@ -13,11 +13,9 @@
 
 //获取主营业务
 typedef void (^TradesResponseBlock)(NSMutableArray* trades);
-- (void) trades:(Boolean)reload completionHandler:(TradesResponseBlock) tradesBlock
-   errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) trades:(Boolean)reload completionHandler:(TradesResponseBlock) tradesBlock;
 
 typedef void (^TradeResponseBlock)(ZKHTradeEntity* trade);
-- (void) trade:(NSString *)uuid completionHandler:(TradeResponseBlock) tradeBlock
-  errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) trade:(NSString *)uuid completionHandler:(TradeResponseBlock) tradeBlock;
 
 @end

@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZKHTextField.h"
 
 @interface ZKHRegiserUserController : UIViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
-@property (weak, nonatomic) IBOutlet UITextField *phoneField;
-@property (weak, nonatomic) IBOutlet UITextField *nameField;
-@property (weak, nonatomic) IBOutlet UITextField *pwdField;
-@property (weak, nonatomic) IBOutlet UITextField *pwdConfField;
+@property (weak, nonatomic) IBOutlet ZKHTextField *phoneField;
+@property (weak, nonatomic) IBOutlet ZKHTextField *nameField;
+@property (weak, nonatomic) IBOutlet ZKHTextField *pwdField;
+@property (weak, nonatomic) IBOutlet ZKHTextField *pwdConfField;
 @property (weak, nonatomic) IBOutlet UIImageView *photoView;
 @property (weak, nonatomic) IBOutlet UIImageView *delPhotoView;
 

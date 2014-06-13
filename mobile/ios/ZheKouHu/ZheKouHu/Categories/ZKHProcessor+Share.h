@@ -11,20 +11,20 @@
 
 @interface ZKHProcessor (Share)
 
-- (void) publishShare:(ZKHShareEntity *)share completionHandler:(BooleanResultResponseBlock) publishShareBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) publishShare:(ZKHShareEntity *)share completionHandler:(BooleanResultResponseBlock) publishShareBlock ;
 
-- (void) deleteShare:(ZKHShareEntity *)share completionHandler:(BooleanResultResponseBlock) deleteShareBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) deleteShare:(ZKHShareEntity *)share completionHandler:(BooleanResultResponseBlock) deleteShareBlock ;
 
 typedef void (^SharesResponseBlock)(NSMutableArray* shares);
-- (void) friendShares:(NSString *)userId offset:(int)offset completionHandler:(SharesResponseBlock) sharesBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) friendShares:(NSString *)userId offset:(int)offset completionHandler:(SharesResponseBlock) sharesBlock ;
 
-- (void) addComment:(ZKHShareCommentEntity *)comment completionHandler:(BooleanResultResponseBlock) addCommentBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) addComment:(ZKHShareCommentEntity *)comment completionHandler:(BooleanResultResponseBlock) addCommentBlock ;
 
-- (void) deleteComment:(ZKHShareCommentEntity *)comment completionHandler:(BooleanResultResponseBlock) deleteCommentBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) deleteComment:(ZKHShareCommentEntity *)comment completionHandler:(BooleanResultResponseBlock) deleteCommentBlock ;
 
--(void) sharesGroupByPublishDate:(NSString *)searchWord userId:(NSString *)userId offset:(int)offset completionHandler:(SharesResponseBlock) shareBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+-(void) sharesGroupByPublishDate:(NSString *)searchWord userId:(NSString *)userId offset:(int)offset completionHandler:(SharesResponseBlock) shareBlock ;
 
-- (void)sharesByShop:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset completionHandler:(SharesResponseBlock) shareBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void)sharesByShop:(NSString *)searchWord shopId:(NSString *)shopId offset:(int)offset completionHandler:(SharesResponseBlock) shareBlock ;
 
-- (void) saveShareShopReply:(ZKHShareShopReplyEntity *)shopReply completionHandler:(BooleanResultResponseBlock) saveShopReplyBlock errorHandler:(RestResponseErrorBlock) errorBlock;
+- (void) saveShareShopReply:(ZKHShareShopReplyEntity *)shopReply completionHandler:(BooleanResultResponseBlock) saveShopReplyBlock ;
 @end

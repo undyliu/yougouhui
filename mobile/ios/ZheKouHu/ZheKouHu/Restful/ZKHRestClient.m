@@ -9,6 +9,7 @@
 #import "ZKHRestClient.h"
 #import "ZKHConst.h"
 #import "ZKHEntity.h"
+#import "TSMessage.h"
 
 @implementation ZKHRestClient
 
@@ -53,62 +54,79 @@
     }
 }
 
-- (void)executeWithJsonResponse:(ZKHRestRequest *)request completionHandler:(JsonResponseBlock)responseBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void)executeWithJsonResponse:(ZKHRestRequest *)request completionHandler:(JsonResponseBlock)responseBlock 
+{
+    [self doExcute:request jsonResponseBlock:responseBlock restResponseBlock:nil];
+}
+
+- (void)execute:(ZKHRestRequest *)request completionHandler:(RestResponseBlock)responseBlock
+{
+    [self doExcute:request jsonResponseBlock:nil restResponseBlock:responseBlock];
+}
+
+- (void) doExcute:(ZKHRestRequest *)request jsonResponseBlock:(JsonResponseBlock)jsonResponseBlock restResponseBlock:(RestResponseBlock)restResponseBlock
+{
+    [self showHud];
+    
+    @try {
+        [signer authorize:request completionHandler:^(ZKHRestRequest *request) {
+            MKNetworkOperation *op = [self createMKNetworkOperation:request];
+            if (op == nil) {
+                return;
+            }
+            
+            [self addFiles:op NSArray:request.files];
+            
+            [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+                [self hideHud];
+                
+                [completedOperation responseJSONWithCompletionHandler:^(id jsonObject) {
+                    if (restResponseBlock) {
+                        restResponseBlock([completedOperation readonlyResponse], jsonObject);
+                    }else{
+                        jsonResponseBlock(jsonObject);
+                    }
+                }];
+            } errorHandler:^(MKNetworkOperation *errorOp, NSError *error) {
+                [self hideHud];
+                [self showNetworkErrorMessage];
+                //将error放到返回值中
+            }];
+            
+            [self enqueueOperation:op];
+        }];
+    }
+    @catch (NSException *exception) {
+        [self showRuntimeErrorMessage];//TODO
+        [self hideHud];
+    }
+    @finally {
+    }
+}
+
+- (void) showHud 
 {
     if (hud == nil) {
         UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
         hud = [MBProgressHUD showHUDAddedTo:window animated:YES];
         hud.labelText = @"正在处理...";
-    }else{
+    }else if (hud.isHidden){
         [hud show:YES];
     }
-    
-    [signer authorize:request completionHandler:^(ZKHRestRequest *request) {
-        MKNetworkOperation *op = [self createMKNetworkOperation:request];
-        if (op == nil) {
-            return;
-        }
-        
-        [self addFiles:op NSArray:request.files];
-        
-        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-            [completedOperation responseJSONWithCompletionHandler:^(id jsonObject) {
-                [hud hide:YES];
-                responseBlock(jsonObject);
-            }];
-        } errorHandler:^(MKNetworkOperation *errorOp, NSError *error) {
-            [hud hide:YES];
-            errorBlock(error);
-        }];
-        
-        [self enqueueOperation:op];
-    } errorHandler:^(NSError *error) {
-        
-    }];
-    
 }
 
-- (void)execute:(ZKHRestRequest *)request completionHandler:(RestResponseBlock)responseBlock errorHandler:(RestResponseErrorBlock)errorBlock
+- (void) hideHud
 {
-    [signer authorize:request completionHandler:^(ZKHRestRequest *request) {
-        MKNetworkOperation *op = [self createMKNetworkOperation:request];
-        if (op == nil) {
-            return;
-        }
-        
-        [self addFiles:op NSArray:request.files];
-        
-        [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
-            [completedOperation responseJSONWithCompletionHandler:^(id jsonObject) {
-                responseBlock([completedOperation readonlyResponse], jsonObject);
-            }];
-        } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-            errorBlock(error);
-        }];
-        
-        [self enqueueOperation:op];
-    } errorHandler:^(NSError *error) {
-        
-    }];
+    [hud hide:YES];
+}
+
+- (void) showNetworkErrorMessage
+{
+    [TSMessage showNotificationWithTitle:@"网络错误" subtitle:@"连接远程服务器失败，请检查网络连接." type:TSMessageNotificationTypeError];
+}
+
+- (void) showRuntimeErrorMessage
+{
+    [TSMessage showNotificationWithTitle:@"错误" subtitle:@"系统运行异常." type:TSMessageNotificationTypeError];
 }
 @end

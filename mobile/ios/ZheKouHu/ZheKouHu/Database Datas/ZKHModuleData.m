@@ -6,7 +6,7 @@
 #define MODULE_TABLE @"e_module"
 #define MODULE_CREATE_SQL [NSString stringWithFormat:@" create table if not exists %@ (%@ text primary key, %@ text, %@ text, %@ text, %@ text, %@ text,%@ integer) ", MODULE_TABLE, KEY_UUID, KEY_CODE, KEY_NAME, KEY_ICON, KEY_TYPE, KEY_URL, KEY_ORD_INDEX]
 #define MODULE_UPDATE_SQL [NSString stringWithFormat:@" insert or replace into %@ (%@, %@, %@, %@, %@,%@, %@) values (?, ?, ?, ?, ?, ?, ?)", MODULE_TABLE, KEY_UUID, KEY_CODE, KEY_NAME, KEY_ICON, KEY_TYPE, KEY_URL, KEY_ORD_INDEX]
-#define MODULE_QUERY_SQL [NSString stringWithFormat:@" select %@, %@, %@, %@, %@, %@ from %@ where %@ = ? order by %@ ", KEY_UUID, KEY_CODE, KEY_NAME, KEY_ICON, KEY_TYPE, MODULE_TABLE, KEY_TYPE, KEY_URL, KEY_ORD_INDEX]
+#define MODULE_QUERY_SQL [NSString stringWithFormat:@" select %@, %@, %@, %@, %@, %@ from %@ where %@ = ? order by %@ ", KEY_UUID, KEY_CODE, KEY_NAME, KEY_ICON, KEY_URL, KEY_TYPE, MODULE_TABLE, KEY_TYPE,  KEY_ORD_INDEX]
 
 @implementation ZKHModuleData
 
