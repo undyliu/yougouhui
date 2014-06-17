@@ -1,4 +1,4 @@
-<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="784" measuredH="486" mockupW="320" mockupH="480">
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="974" measuredH="486" mockupW="510" mockupH="480">
   <controls>
     <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="464" y="6" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="-1"/>
     <control controlID="2" controlTypeID="com.balsamiq.mockups::Canvas" x="466" y="7" w="315" h="42" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="-1">
@@ -76,6 +76,11 @@
       <controlProperties>
         <size>14</size>
         <text>5%u5BB6%u95E8%u5E97%u53EF%u7528</text>
+      </controlProperties>
+    </control>
+    <control controlID="33" controlTypeID="com.balsamiq.mockups::VCurly" x="794" y="276" w="-1" h="-1" measuredW="180" measuredH="140" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%u5E97%u94FA%u5217%u8868%u5C55%u793A</text>
       </controlProperties>
     </control>
   </controls>

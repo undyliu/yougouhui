@@ -75,5 +75,10 @@
         <text>5%u5BB6%u95E8%u5E97</text>
       </controlProperties>
     </control>
+    <control controlID="31" controlTypeID="com.balsamiq.mockups::VCurly" x="789" y="222" w="-1" h="-1" measuredW="180" measuredH="140" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%u5E97%u94FA%u5217%u8868%u5C55%u793A</text>
+      </controlProperties>
+    </control>
   </controls>
 </mockup>

@@ -1,4 +1,4 @@
-<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="677" measuredH="519" mockupW="320" mockupH="480">
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1059" measuredH="519" mockupW="702" mockupH="480">
   <controls>
     <control controlID="18" controlTypeID="com.balsamiq.mockups::Canvas" x="359" y="39" w="315" h="42" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
@@ -70,6 +70,21 @@
     <control controlID="60" controlTypeID="com.balsamiq.mockups::Label" x="569" y="193" w="-1" h="-1" measuredW="63" measuredH="21" zOrder="16" locked="false" isInGroup="-1">
       <controlProperties>
         <text>%u7248%u672C%u53F7v1.0</text>
+      </controlProperties>
+    </control>
+    <control controlID="62" controlTypeID="com.balsamiq.mockups::Label" x="384" y="322" w="-1" h="-1" measuredW="52" measuredH="21" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%u5E97%u94FA%u7BA1%u7406</text>
+      </controlProperties>
+    </control>
+    <control controlID="63" controlTypeID="com.balsamiq.mockups::Icon" x="609" y="327" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>GtIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="64" controlTypeID="com.balsamiq.mockups::Tooltip" x="634" y="329" w="425" h="82" measuredW="425" measuredH="154" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%u9ED8%u8BA4%u60C5%u51B5%u4E0B%uFF0C%u5E95%u90E8%u7684%u5BFC%u822A%u680F%u4E2D%u6CA1%u6709%u201C%u5E97%u94FA%u201D%u9875%u7B7E%uFF0C%u53EA%u6709%u6CE8%u518C%u8FC7%u5E97%u94FA%u5219%u5C06%u201C%u5E97%u94FA%u201D%u9875%u7B7E%u663E%u793A%uFF0C%u5426%u5219%u653E%u5728%u66F4%u591A%u91CC</text>
       </controlProperties>
     </control>
   </controls>
