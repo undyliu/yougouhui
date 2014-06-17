@@ -1,0 +1,38 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="761" measuredH="519" mockupW="320" mockupH="480">
+  <controls>
+    <control controlID="18" controlTypeID="com.balsamiq.mockups::Canvas" x="443" y="39" w="315" h="42" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderColor>10066329</borderColor>
+        <color>10066329</color>
+      </controlProperties>
+    </control>
+    <control controlID="19" controlTypeID="com.balsamiq.mockups::Label" x="582" y="50" w="-1" h="-1" measuredW="32" measuredH="24" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>16</size>
+        <text>%u8BBE%u7F6E</text>
+      </controlProperties>
+    </control>
+    <control controlID="27" controlTypeID="__group__" x="441" y="39" w="320" h="480" measuredW="320" measuredH="480" zOrder="0" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="27"/>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="37" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="745" y="81" w="-1" h="411" measuredW="16" measuredH="100" zOrder="3" locked="false" isInGroup="-1"/>
+    <control controlID="49" controlTypeID="com.balsamiq.mockups::Canvas" x="461" y="95" w="271" h="70" measuredW="100" measuredH="70" zOrder="4" locked="false" isInGroup="-1"/>
+    <control controlID="50" controlTypeID="com.balsamiq.mockups::Label" x="473" y="104" w="-1" h="-1" measuredW="52" measuredH="21" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%u9000%u51FA%u5E97%u94FA</text>
+      </controlProperties>
+    </control>
+    <control controlID="51" controlTypeID="com.balsamiq.mockups::Label" x="473" y="132" w="-1" h="-1" measuredW="52" measuredH="21" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%u4FEE%u6539%u5BC6%u7801</text>
+      </controlProperties>
+    </control>
+    <control controlID="53" controlTypeID="com.balsamiq.mockups::Icon" x="693" y="134" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>GtIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

@@ -17,10 +17,10 @@
         <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="27"/>
       </groupChildrenDescriptors>
     </control>
-    <control controlID="29" controlTypeID="com.balsamiq.mockups::ButtonBar" x="443" y="492" w="315" h="27" measuredW="289" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
+    <control controlID="29" controlTypeID="com.balsamiq.mockups::ButtonBar" x="443" y="492" w="315" h="27" measuredW="213" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
       <controlProperties>
         <selectedIndex>1</selectedIndex>
-        <text>%u6D3B%u52A8%2C%20%u4F18%u60E0%u5238%2C%20%u53D1%u73B0%2C%u4E2A%u4EBA%u4E2D%u5FC3%2C%u66F4%u591A</text>
+        <text>%u6D3B%u52A8%2C%20%u4F18%u60E0%u5238%2C%20%u5E97%u94FA%2C%u66F4%u591A</text>
       </controlProperties>
     </control>
     <control controlID="37" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="745" y="81" w="-1" h="411" measuredW="16" measuredH="100" zOrder="4" locked="false" isInGroup="-1"/>
