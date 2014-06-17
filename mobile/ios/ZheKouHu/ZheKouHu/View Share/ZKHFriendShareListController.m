@@ -19,6 +19,7 @@
 #import "TSActionSheet.h"
 #import "ZKHEntity.h"
 #import "NSString+Utils.h"
+#import "ZKHViewUtils.h"
 
 static NSString *CellIdentifier = @"FriendShareListCell";
 
@@ -116,7 +117,7 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     ZKHShareEntity *share  = self.shares[currentProcessShareIndex];
     
     if (self.doShopReply) {
-        [self shopReplyClick:share];
+        [self shopReplyClick:sender share:share];
         return;
     }
     
@@ -150,9 +151,10 @@ static NSString *CellIdentifier = @"FriendShareListCell";
     [actionSheet showWithTouch:event];
 }
 
-- (void)shopReplyClick:(ZKHShareEntity *)share
+- (void)shopReplyClick:(UIButton *)sender share:(ZKHShareEntity *)share
 {
     if (share.shopReply) {
+        [ZKHViewUtils showTipView:sender inView:self.view message:@"此分享已反馈." dismissTapAnywhere:YES autoDismissInvertal:3];
         return;
     }
     

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ZKHChooseShopActionDelegate.h"
+#import "ZKHTextField.h"
 
 @interface ZKHChooseShopController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
@@ -16,7 +17,7 @@
 }
 @property (strong, nonatomic) id<ZKHChooseShopActionDelegate> actionDelegate;
 
-@property (weak, nonatomic) IBOutlet UITextField *searchWordField;
+@property (weak, nonatomic) IBOutlet ZKHTextField *searchWordField;
 @property (weak, nonatomic) IBOutlet UITableView *resultView;
 - (IBAction)backgroupTap:(id)sender;
 
