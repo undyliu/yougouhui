@@ -67,7 +67,7 @@
     </control>
     <control controlID="48" controlTypeID="com.balsamiq.mockups::VCurly" x="771" y="159" w="180" h="160" measuredW="180" measuredH="140" zOrder="14" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>%u5546%u5BB6%u5217%u8868-%u8868%u683C%u5C55%u793A</text>
+        <text>%u5546%u5BB6%u5217%u8868-%u7F51%u683C%u5C55%u793A</text>
       </controlProperties>
     </control>
   </controls>

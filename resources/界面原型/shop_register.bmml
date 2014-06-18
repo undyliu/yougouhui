@@ -35,6 +35,7 @@
     </control>
     <control controlID="18" controlTypeID="com.balsamiq.mockups::Button" x="525" y="193" w="205" h="27" measuredW="48" measuredH="27" zOrder="7" locked="false" isInGroup="-1">
       <controlProperties>
+        <color>2848996</color>
         <text>%u6CE8%u518C</text>
       </controlProperties>
     </control>

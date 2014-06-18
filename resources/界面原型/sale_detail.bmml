@@ -1,4 +1,4 @@
-<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1025" measuredH="486" mockupW="561" mockupH="480">
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1025" measuredH="486" mockupW="751" mockupH="480">
   <controls>
     <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="464" y="6" w="320" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="-1"/>
     <control controlID="2" controlTypeID="com.balsamiq.mockups::Canvas" x="466" y="7" w="315" h="42" measuredW="100" measuredH="70" zOrder="1" locked="false" isInGroup="-1">
@@ -77,7 +77,13 @@
     </control>
     <control controlID="31" controlTypeID="com.balsamiq.mockups::VCurly" x="789" y="222" w="-1" h="-1" measuredW="180" measuredH="140" zOrder="16" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>%u5E97%u94FA%u5217%u8868%u5C55%u793A</text>
+        <text>%u5E97%u94FA%u6309%u8DDD%u79BB%u7531%u8FD1%u5230%u8FDC%u5217%u8868%u5C55%u793A</text>
+      </controlProperties>
+    </control>
+    <control controlID="32" controlTypeID="com.balsamiq.mockups::VCurly" x="274" y="54" w="180" h="417" measuredW="180" measuredH="140" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <direction>right</direction>
+        <text>%u5DE6%u53F3%u6ED1%u52A8%u6D3B%u52A8%u4FE1%u606F%u5207%u6362</text>
       </controlProperties>
     </control>
   </controls>

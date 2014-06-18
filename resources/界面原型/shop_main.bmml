@@ -105,7 +105,7 @@
         <text>%u672A%u767B%u5F55</text>
       </controlProperties>
     </control>
-    <control controlID="54" controlTypeID="com.balsamiq.mockups::VCurly" x="526" y="171" w="-1" h="-1" measuredW="180" measuredH="140" zOrder="27" locked="false" isInGroup="-1">
+    <control controlID="54" controlTypeID="com.balsamiq.mockups::VCurly" x="522" y="211" w="180" h="191" measuredW="180" measuredH="140" zOrder="27" locked="false" isInGroup="-1">
       <controlProperties>
         <text>%u672A%u767B%u5F55%u7684%u60C5%u51B5%u4E0B%uFF0C%u6B64%u533A%u57DF%u7684%u529F%u80FD%u4E0D%u53EF%u7528</text>
       </controlProperties>
@@ -156,6 +156,16 @@
     <control controlID="64" controlTypeID="com.balsamiq.mockups::Label" x="969" y="31" w="-1" h="-1" measuredW="26" measuredH="21" zOrder="37" locked="false" isInGroup="-1">
       <controlProperties>
         <text>%u8BBE%u7F6E</text>
+      </controlProperties>
+    </control>
+    <control controlID="65" controlTypeID="com.balsamiq.mockups::Label" x="959" y="271" w="-1" h="-1" measuredW="29" measuredH="21" zOrder="38" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>30%u6761</text>
+      </controlProperties>
+    </control>
+    <control controlID="66" controlTypeID="com.balsamiq.mockups::Label" x="959" y="313" w="-1" h="-1" measuredW="27" measuredH="21" zOrder="39" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>10%u5F20</text>
       </controlProperties>
     </control>
   </controls>
